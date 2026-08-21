@@ -34,6 +34,9 @@ $streamUrl = trim((string) ($_POST['stream_url'] ?? ''));
 $streamKey = trim((string) ($_POST['stream_key'] ?? ''));
 $destination = rtrim($streamUrl, '/') . '/' . ltrim($streamKey, '/');
 if (empty($streamUrl) || empty($streamKey) || clearCommandURL($destination) === '') {
+    _error_log('Live_restreams/add.json.php: rejected destination for users_id=' . ($_POST['users_id'] ?? '')
+        . ', name=' . ($_POST['name'] ?? '') . ', streamUrlLen=' . strlen($streamUrl)
+        . ', streamKeyLen=' . strlen($streamKey) . ' - see clearCommandURL log line above for the reason');
     $obj->msg = __('Invalid restream URL or stream key');
     die(json_encode($obj));
 }

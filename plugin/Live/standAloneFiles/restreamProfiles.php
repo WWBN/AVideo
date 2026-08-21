@@ -4,9 +4,23 @@
  * Pure destination-profile helpers shared by the standalone restream endpoint and unit tests.
  */
 
+// Redacts a destination URL for logging: keeps scheme/host/path-prefix visible, hides the
+// stream key portion (a secret) except for a short prefix, so support can diagnose format
+// issues (unexpected char, length, etc.) without a full secret ending up in the logs.
+function redactDestinationForLog($url)
+{
+    if (!is_string($url)) {
+        return '(non-string)';
+    }
+    $len = strlen($url);
+    $visible = substr($url, 0, 24);
+    return $visible . (($len > 24) ? '...[REDACTED,total_len=' . $len . ']' : '');
+}
+
 function clearCommandURL($url)
 {
     if (empty($url) || !is_string($url)) {
+        error_log('clearCommandURL: empty or non-string URL');
         return '';
     }
 
@@ -14,15 +28,18 @@ function clearCommandURL($url)
     $parts = parse_url($url);
     $scheme = strtolower($parts['scheme'] ?? '');
     if (!in_array($scheme, array('http', 'https', 'rtmp', 'rtmps'), true) || empty($parts['host'])) {
-        error_log('clearCommandURL: Invalid URL format');
+        error_log('clearCommandURL: Invalid URL format, scheme=' . var_export($scheme, true)
+            . ', host=' . var_export($parts['host'] ?? null, true)
+            . ', value=' . redactDestinationForLog($url));
         return '';
     }
 
     // The URL is interpolated inside a double-quoted shell argument. Reject shell expansion,
     // quoting and control characters, but preserve RFC 3986 characters used by real provider
     // keys/query strings (notably %, + and @), which the old replacement silently removed.
-    if (preg_match('/[\x00-\x20\x7f"`$\\\\|\[\]]/', $url)) {
-        error_log('clearCommandURL: URL contains unsafe characters');
+    if (preg_match('/[\x00-\x20\x7f"`$\\\\|\[\]]/', $url, $m, PREG_OFFSET_CAPTURE)) {
+        error_log('clearCommandURL: URL contains unsafe characters, offendingCharHex='
+            . bin2hex($m[0][0]) . ', offset=' . $m[0][1] . ', value=' . redactDestinationForLog($url));
         return '';
     }
 
