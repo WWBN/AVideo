@@ -33,6 +33,11 @@ $_page->loadBasicCSSAndJS();
                 echo Video::getVideosListItem($_videos_id);
                 //echo Video::getVideoImagewithHoverAnimationFromVideosId($_videos_id);
                 //echo $v->getTitle();
+                // SECURITY REVIEW (2026-08-21): this bare {videos_id} blob was reported as reusable
+                // as an encoder video_id_hash (full owner login). NOT reproducible - Video::getVideoIdFromHash()
+                // requires a timeout+ownerFingerprint that this blob doesn't carry, so it decrypts fine here
+                // but is rejected wherever video_id_hash is used for auth (useVideoHashOrLogin(), canEncoderEdit()).
+                // Do not "fix" by adding those fields here - that would just make this link an auth credential.
                 $obj = new stdClass();
                 $obj->videos_id = $_videos_id;
                 $hash = encryptString($obj);

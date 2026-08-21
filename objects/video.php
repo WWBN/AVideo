@@ -4862,7 +4862,9 @@ if (!class_exists('Video')) {
             if (!empty($string)) {
                 $json = json_decode($string);
                 if (!empty($json) && !empty($json->videos_id)) {
-                    // hashes minted before expiry/owner-binding existed carry no timeout; treat them as expired, not exempt
+                    // hashes minted before expiry/owner-binding existed carry no timeout; treat them as expired, not exempt.
+                    // This also blocks the bare {videos_id} "Share link" hash minted in view/videoViewsInfo.php from
+                    // being replayed here as an encoder credential - see the SECURITY REVIEW comment there.
                     if (empty($json->timeout) || intval($json->timeout) < time()) {
                         return false;
                     }
