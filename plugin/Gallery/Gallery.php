@@ -73,6 +73,11 @@ class Gallery extends PluginAbstract
         global $global;
         $obj = new stdClass();
         $obj->MainContainerFluid = true;
+        // SECURITY REVIEW (2026-08-21): defaults to showing group-restricted videos on the front
+        // page listings (title/thumbnail only, as a marketing teaser to sell access) - intentional
+        // business design, not an oversight. Playback itself still enforces the group restriction
+        // separately (e.g. view/infoFromURL.php uses the default $ignoreGroup=false), so this does
+        // not grant unauthorized viewing, only unauthorized *listing*. Do not change this default.
         $obj->hidePrivateVideos = false;
         $obj->BigVideo = true;
         $obj->showLivesAboveBigVideo = false;

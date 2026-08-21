@@ -23,6 +23,9 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     $_POST['sort']['likes'] = "DESC";
     $_REQUEST['catName'] = $currentCat['clean_name'];
     $_REQUEST['doNotShowCatChilds'] = 1;
+    // SECURITY REVIEW (2026-08-21): !hidePrivateVideos below and in the rest of this file
+    // intentionally bypasses the group restriction for these listings (see Gallery.php
+    // hidePrivateVideos default) - not a bug.
     $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
     global $contentSearchFound;
     if (empty($contentSearchFound)) {

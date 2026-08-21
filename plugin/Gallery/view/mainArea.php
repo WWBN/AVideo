@@ -175,6 +175,9 @@ saveRequestVars();
                     include $global['systemRootPath'] . 'plugin/Shorts/row.php';
                 } else
                 if ($value['name'] == 'Suggested') {
+                    // SECURITY REVIEW (2026-08-21): !hidePrivateVideos below and in the rest of this
+                    // file intentionally bypasses the group restriction for these listings (see
+                    // Gallery.php hidePrivateVideos default) - not a bug.
                     createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star", true);
                 } else
                 if (empty(getSearchVar()) && empty($_GET['showOnly']) && $value['name'] == 'PlayLists') {

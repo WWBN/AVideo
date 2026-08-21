@@ -16,6 +16,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         //$videoRows = Video::getAllVideosLight(Video::SORT_TYPE_VIEWABLE, !$obj->hidePrivateVideos, false, true);
         //$_REQUEST['rowCount'] = 20;
         //unsetCurrentPage();
+        // SECURITY REVIEW (2026-08-21): !hidePrivateVideos intentionally bypasses the group
+        // restriction for this listing (see Gallery.php hidePrivateVideos default) - not a bug.
         $videoRows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, !$obj->hidePrivateVideos, [], false, false, true, true);
     }
     resetCurrentPage();

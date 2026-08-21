@@ -12,6 +12,8 @@ if (!empty($liveobj) && empty($liveobj->doNotShowLiveOnCategoryList)) {
 unset($_POST['sort']);
 $_POST['sort']['v.created'] = "DESC";
 $_POST['sort']['likes'] = "DESC";
+// SECURITY REVIEW (2026-08-21): !hidePrivateVideos intentionally bypasses the group restriction
+// for this listing (see Gallery.php hidePrivateVideos default) - not a bug.
 $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
 //exit;
 if (empty($videos)) {

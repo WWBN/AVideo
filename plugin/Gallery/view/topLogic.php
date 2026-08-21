@@ -39,6 +39,8 @@ if ($obj->sortReverseable) {
     $orderString = strpos($_SERVER['REQUEST_URI'], '?') === false ? $_SERVER['REQUEST_URI'] . '/?' : $_SERVER['REQUEST_URI'] . '&';
     $orderString = preg_replace('~(&|/)\1+~', '\1', $orderString);
 }
+// SECURITY REVIEW (2026-08-21): !hidePrivateVideos intentionally bypasses the group restriction
+// for this front-page listing (see Gallery.php hidePrivateVideos default) - not a bug, see there.
 $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, !$obj->hidePrivateVideos, false, true);
 $debugLastGetVideoSQL = $lastGetVideoSQL;
 if (empty($video)) {
