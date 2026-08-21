@@ -32,8 +32,13 @@ if (empty($_POST['users_id'])) {
 
 $streamUrl = trim((string) ($_POST['stream_url'] ?? ''));
 $streamKey = trim((string) ($_POST['stream_key'] ?? ''));
+// OAuth-based destinations (restream.ypt.me) store the literal sentinel pair
+// stream_url=<provider>, stream_key='Automatic' - the real RTMP URL/key is resolved dynamically
+// at stream-start time via getLiveKey.json.php using the saved OAuth 'parameters', so it must
+// skip the real-URL validation below (see Live_restreams::save()'s own 'Automatic' check).
+$isAutomaticDestination = $streamKey === 'Automatic';
 $destination = rtrim($streamUrl, '/') . '/' . ltrim($streamKey, '/');
-if (empty($streamUrl) || empty($streamKey) || clearCommandURL($destination) === '') {
+if (empty($streamUrl) || empty($streamKey) || (!$isAutomaticDestination && clearCommandURL($destination) === '')) {
     _error_log('Live_restreams/add.json.php: rejected destination for users_id=' . ($_POST['users_id'] ?? '')
         . ', name=' . ($_POST['name'] ?? '') . ', streamUrlLen=' . strlen($streamUrl)
         . ', streamKeyLen=' . strlen($streamKey) . ' - see clearCommandURL log line above for the reason');
