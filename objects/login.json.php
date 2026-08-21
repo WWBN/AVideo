@@ -138,7 +138,7 @@ if (!empty($_GET['type'])) {
         $name = $userProfile->displayName;
         $photoURL = $userProfile->photoURL;
         $email = $userProfile->email;
-        $pass = rand();
+        $pass = bin2hex(random_bytes(32)); // SECURITY: cryptographically random, never typed by the user
         //createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false);
         User::createUserIfNotExists($user, $pass, $name, $email, $photoURL, false, true);
         $userObject = new User(0, $user, $pass);

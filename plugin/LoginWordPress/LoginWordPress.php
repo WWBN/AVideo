@@ -140,12 +140,12 @@ class LoginWordPress extends PluginAbstract {
         $resp = self::auth($user, $pass);
         if (!empty($resp) && !empty($resp->id)) {
             _error_log("LoginWordPresslogin: success {$user}");
-            // create user if need     
+            // create user if need
             $name = $user;
             $photoURL = end($resp->avatar_urls);
             $email = $user;
             if (!$obj->customWordPressSiteSavePassword) {
-                $pass = rand();
+                $pass = bin2hex(random_bytes(32)); // SECURITY: cryptographically random, never typed by the user
             }
             $users_id = User::createUserIfNotExists($user, $pass, $name, $email, $photoURL, false, true);
             // login

@@ -2568,7 +2568,7 @@ if (typeof gtag !== \"function\") {
         $userId = 0;
         if (!$userId = self::userExists($user)) {
             if (empty($pass)) {
-                $pass = uniqid();
+                $pass = bin2hex(random_bytes(32)); // SECURITY: uniqid() is time-derived and predictable, not a real password
             }
             $pass = encryptPassword($pass);
             $userObject = new User(0, $user, $pass);

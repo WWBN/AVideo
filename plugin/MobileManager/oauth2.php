@@ -95,7 +95,7 @@ if (!empty($_GET['type'])) {
         $name = $userProfile->displayName;
         $photoURL = $userProfile->photoURL;
         $email = $userProfile->email;
-        $pass = rand();
+        $pass = bin2hex(random_bytes(32)); // SECURITY: cryptographically random, never typed by the user
         $users_id = User::createUserIfNotExists($user, $pass, $name, $email, $photoURL);
         $userObject = new User($users_id);
         // Log in by user ID and keep credentials out of URLs/logs/history.
