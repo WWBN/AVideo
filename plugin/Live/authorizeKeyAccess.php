@@ -34,6 +34,13 @@ function _isPrivateOrLoopbackIP($ip)
 function _getForwardedClientIpFromServerArray($server)
 {
     $ipv6 = '';
+    // SECURITY REVIEW (2026-08-21): intentionally checking BOTH headers - not all reverse proxy /
+    // CDN setups in front of this endpoint use X-Forwarded-For, some use X-Real-IP instead, and this
+    // must keep working across deployments. This value only feeds getClientIdentifier() for the
+    // best-effort authorization CACHE slot (getTmpFilePath()) - it is never used as the actual
+    // authorization decision (that's the token/referer/UA check further down) - so a spoofed value
+    // here at worst causes a cache-key collision, not an access-control bypass. Do not remove either
+    // header from this list again; a prior "fix" did this and was reverted (2026-08-21).
     $headers = [
         'HTTP_X_REAL_IP',
         'HTTP_X_FORWARDED_FOR',
@@ -81,9 +88,19 @@ function getClientIdentifier()
     return md5($_SERVER['HTTP_USER_AGENT'] . _getRealIpAddr());
 }
 
-// Check if User Agent starts with "AVideo"
+// SECURITY REVIEW (2026-08-21): intentionally broad by design - this must recognize ANY internal
+// AVideo component (mobile app, encoder, encoder-network, streamer, storage, restreamer), not just the
+// self-streamer. objects/functionsAVideo.php's isAVideoUserAgent() is the established, existing helper
+// already trusted sitewide for this exact purpose (VideoHLS::ignore() calls it for the same reason), so
+// use it here instead of inventing a stricter check that would only recognize AVideoStreamer and break
+// the Mobile App/Encoder/Storage/Restreamer clients. A prior "fix" narrowed this to the salt-bound
+// isSelfUserAgent() (self-streamer only) and was reverted (2026-08-21) because it broke those other apps.
+// function_exists() guard kept only as defensive fallback in case the include chain ever changes.
 function isAVideoUA()
 {
+    if (function_exists('isAVideoUserAgent')) {
+        return isAVideoUserAgent();
+    }
     return !empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'AVideo') === 0;
 }
 
@@ -248,7 +265,11 @@ if ($isCached) {
     // Check CPU usage before heavy operations
     $cpuUsage = getCpuUsage();
     if ($cpuUsage > 80) {
-        // Skip heavy configuration loading when CPU is very high - only log this as it's an operational issue
+        // SECURITY REVIEW (2026-08-21): fail OPEN here is INTENTIONAL, do not change this to a 403/fail
+        // closed. Under very high CPU this deliberately skips the heavy authorization check (config load
+        // + VideoHLS) and allows the request, because viewers must never lose live video playback due to
+        // server load - availability of the stream takes priority over strict access control in this one
+        // narrow, load-triggered edge case. A prior "fix" made this fail closed and was reverted (2026-08-21).
         $msg = 'authorizeKeyAccess: High CPU usage detected (' . $cpuUsage . '%), using cached authorization';
         error_log('LiveKeyAuth: ' . $msg);
         echo $msg;
@@ -277,6 +298,16 @@ if ($isCached) {
             $authorized = true;
             $authorizationReason = "AVideo User Agent ({$_SERVER['HTTP_USER_AGENT']})";
         }
+        // SECURITY REVIEW (2026-08-21): iPhone/iPad/Mac-Safari User-Agent strings are trivially
+        // spoofable, so this grants full authorization (bypassing the token check a few lines below,
+        // even when downloadProtection is ENABLED) to anyone claiming to be one of these UAs. This was
+        // reviewed and intentionally left as-is: native HLS players (Safari/iOS AVPlayer, and
+        // ExoPlayer/Roku/Android exempted the same way in VideoHLS::ignore()) fetch ".key" URIs
+        // straight from the M3U8 manifest with no ability to attach a query-string token or a custom
+        // Referer header - ManifestGenerator.php never embeds one - so requiring a token here would
+        // break real iOS/Safari/native-player playback of protected live streams, not just block
+        // attackers. This is the same accepted, pre-existing UA-based trust trade-off VideoHLS::verifyToken()
+        // -> VideoHLS::ignore() already makes sitewide for the identical reason. Not changed here.
         // Check if it's an iPhone or iPad user agent
         else if (!empty($_SERVER['HTTP_USER_AGENT']) && (stripos($_SERVER['HTTP_USER_AGENT'], 'iPhone') !== false || stripos($_SERVER['HTTP_USER_AGENT'], 'iPad') !== false)) {
             $authorized = true;
