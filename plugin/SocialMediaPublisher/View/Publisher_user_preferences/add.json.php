@@ -21,6 +21,13 @@ if(empty($row)){
 }
 
 $o = new Publisher_user_preferences(@$_POST['id']);
+
+// an existing id must belong to the caller, otherwise this overwrites another user's row (IDOR)
+if ($o->getId() && $o->getUsers_id() != User::getId()) {
+    $obj->msg = "You cant do this";
+    die(json_encode($obj));
+}
+
 $o->setPublisher_social_medias_id($row['id']);
 $o->setPreferred_profile($_POST['name']);
 $o->setUsers_id(User::getId());
