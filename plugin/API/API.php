@@ -164,6 +164,9 @@ class API extends PluginAbstract
                 $parameters['encodedPass'] = false;
             }
             if (!empty($parameters['user']) && !empty($parameters['password'])) {
+                // This verifies the password for every APIName, not just signIn, so it must
+                // share signIn's budget - otherwise it's an unthrottled login oracle.
+                $this->checkRateLimit('sign_in', 10, 300);
                 $user = new User("", $parameters['user'], $parameters['password']);
                 $user->login(false, @$parameters['encodedPass']);
             }
@@ -200,6 +203,9 @@ class API extends PluginAbstract
                 if (!empty($parameters['encodedPass']) && strtolower($parameters['encodedPass']) === 'false') {
                     $parameters['encodedPass'] = false;
                 }
+                // This verifies the password for every APIName, not just signIn, so it must
+                // share signIn's budget - otherwise it's an unthrottled login oracle.
+                $this->checkRateLimit('sign_in', 10, 300);
                 $user = new User("", $parameters['user'], $parameters['password']);
                 $user->login(false, @$parameters['encodedPass']);
             }
@@ -493,6 +499,14 @@ class API extends PluginAbstract
         $result = StreamAuthCache::processPreauthorization($username, $password);
 
         $apiResponse = new ApiObject();
+        if (!empty($result->error)) {
+            // Don't let the default users_id/user_age/session_id (reflecting whatever
+            // session the user/password above just logged into, in API::get()/set())
+            // leak whether that credential attempt actually succeeded.
+            $apiResponse->users_id = 0;
+            $apiResponse->user_age = null;
+            $apiResponse->session_id = null;
+        }
         $apiResponse->finalize($result->msg, $result->error, $result);
 
         return $apiResponse;
@@ -6056,6 +6070,14 @@ class ApiObject
         $this->msg = $message;
         $this->message = $message;
         $this->response = $response;
+        // SECURITY REVIEW (2026-08-24): this unconditionally reflects the CURRENT session,
+        // so any endpoint whose own $message/$error says "failed"/"invalid" can still leak
+        // users_id/user_age for a request that logged in via API::get()/set()'s user+password
+        // convenience login. Only the demonstrated instance (get_api_preauthorize) was fixed
+        // locally, by zeroing these fields on error - NOT fixed here, because changing this
+        // shared constructor would alter the response shape of every APIName endpoint (public
+        // API backward-compatibility risk). If another endpoint is reported with the same
+        // leak, apply the same local zero-out pattern there instead of changing this class.
         $this->users_id = User::getId();
         $this->user_age = User::getAge();
         $this->session_id = session_id();
