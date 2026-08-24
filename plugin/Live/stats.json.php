@@ -56,5 +56,16 @@ if (!empty($_REQUEST['name'])) {
     }
     TimeLogEnd($timeName, __LINE__);
 }
+
+// hidden_applications lists streams the current (possibly anonymous) requester
+// isn't authorized to see; it must never leak their source key/HLS URL credentials.
+if (!empty($json['hidden_applications'])) {
+    foreach ($json['hidden_applications'] as &$hiddenApp) {
+        if (is_array($hiddenApp)) {
+            unset($hiddenApp['key'], $hiddenApp['m3u8']);
+        }
+    }
+    unset($hiddenApp);
+}
 //var_dump($json);exit;
 echo json_encode($json);
