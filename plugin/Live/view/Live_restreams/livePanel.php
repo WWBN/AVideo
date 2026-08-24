@@ -41,6 +41,10 @@ if (!Live::canRestream()) {
         modal.showPleaseWait();
         $.ajax({
             url: webSiteRootURL + 'plugin/Live/view/Live_restreams/testRestreamer.json.php',
+            type: 'post',
+            data: {
+                globalToken: '<?php echo getToken(300); ?>'
+            },
             success: function (response) {
                 avideoResponse(response);
                 modal.hidePleaseWait();

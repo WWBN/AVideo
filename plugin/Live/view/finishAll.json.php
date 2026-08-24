@@ -14,6 +14,12 @@ if (empty($objP)) {
     die(json_encode($obj));
 }
 
+if (!isCommandLineInterface()) {
+    // marks lives finished; GET is <img>-reachable and the auto CSRF guard only covers *.json.php POSTs
+    forbidIfNotPost();
+    forbidIfInvalidToken();
+}
+
 if (!User::isAdmin() && !isCommandLineInterface()) {
     $obj->msg = __('Not Admin');
     die(json_encode($obj));

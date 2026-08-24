@@ -12,6 +12,10 @@ if (!AVideoPlugin::isEnabledByName('Live')) {
     forbiddenPage('Plugin is disabled');
 }
 
+// creates a live_transmitions_history row; GET is <img>-reachable and the auto CSRF guard only covers *.json.php POSTs
+forbidIfNotPost();
+forbidIfInvalidToken();
+
 if(!User::canStream()){
     forbiddenPage('You cannot stream');
 }

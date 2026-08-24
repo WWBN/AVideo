@@ -14,6 +14,10 @@ if (empty($objP)) {
     die(json_encode($obj));
 }
 
+// deletes ALL live history rows; GET is <img>-reachable and the auto CSRF guard only covers *.json.php POSTs
+forbidIfNotPost();
+forbidIfInvalidToken();
+
 if (!User::isAdmin()) {
     $obj->msg = __('Not Admin');
     die(json_encode($obj));
