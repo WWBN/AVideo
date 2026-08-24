@@ -10,6 +10,9 @@ $obj->error = true;
 $obj->msg = "";
 $obj->walletBalance = 0;
 
+// this file doesn't match the *.json.php pattern autoCSRFGuard() protects automatically (include_config.php)
+forbidIfIsUntrustedRequest("YPTWallet::saveBalance");
+
 if (!User::isAdmin()) {
     $obj->msg = ("Is not admin");
     die(json_encode($obj));
