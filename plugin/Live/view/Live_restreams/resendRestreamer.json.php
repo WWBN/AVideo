@@ -1,6 +1,7 @@
 <?php
 
 require_once '../../../../videos/configuration.php';
+require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
 
 header('Content-Type: application/json');
 
@@ -36,6 +37,13 @@ if(!User::isAdmin()){
     $users_id = $lth->getUsers_id();
     if($users_id != User::getId()){
         forbiddenPage('You cannot restream this live');
+    }
+
+    // also verify ownership of the destination itself, matching getAction.json.php/delete.json.php
+    $lr = new Live_restreams($live_restreams_id);
+    if ($lr->getUsers_id() != User::getId()) {
+        _error_log("Live_restreams/resendRestreamer.json.php: forbidden, restream owner mismatch. restream_users_id=" . $lr->getUsers_id() . " request_users_id=" . User::getId() . " live_restreams_id={$live_restreams_id}");
+        forbiddenPage('You cannot restream to this destination');
     }
 }
 
