@@ -531,7 +531,8 @@ Best regards,
     }
 
     public static function verifyChallenge($response) {
-        if ($response == $_SESSION['user']['challenge']['text']) {
+        // must reject when no challenge was ever issued, otherwise NULL response == NULL unset text passes
+        if (!empty($_SESSION['user']['challenge']['text']) && is_string($response) && hash_equals($_SESSION['user']['challenge']['text'], $response)) {
             _session_start();
             $_SESSION['user']['challenge']['isComplete'] = true;
             return true;
