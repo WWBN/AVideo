@@ -199,11 +199,11 @@ Best regards,
         return !empty(logincontrol_history::is2FAConfirmed($users_id, getDeviceID()));
     }
 
-    public static function getLastLoginOnDevice($users_id, $uniqidV4 = "") {
+    public static function getLastLoginOnDevice($users_id, $uniqidV4 = "", $refreshCache = false) {
         if (empty($uniqidV4)) {
             $uniqidV4 = getDeviceID();
         }
-        $row = logincontrol_history::getLastLoginAttempt($users_id, $uniqidV4);
+        $row = logincontrol_history::getLastLoginAttempt($users_id, $uniqidV4, $refreshCache);
         if (empty($row)) {
             _error_log("LoginControl::getLastLoginOnDevice Not found $users_id, " . $uniqidV4);
         }
@@ -270,7 +270,9 @@ Best regards,
         $lastLogin = self::getLastLoginOnDevice($users_id);
         if (empty($lastLogin)) {
             if (self::createLog($users_id)) {
-                $lastLogin = self::getLastLoginOnDevice($users_id);
+                // createLog() just wrote this same row; the identical SELECT above is cached
+                // as empty by sqlDAL::readSql for the rest of this request, so force a fresh read.
+                $lastLogin = self::getLastLoginOnDevice($users_id, "", true);
                 if (empty($lastLogin)) {
                     _error_log("LoginControl::getConfirmationCodeHash we could not find the last login for the user {$users_id}");
                     return false;

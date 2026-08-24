@@ -132,7 +132,7 @@ class logincontrol_history extends ObjectYPT
                 $row['type'] = ($row['status']!==logincontrol_history_status::$CONFIRMED) ? __("Failed login attempt") : __("Successfully logged in");
                 $rows[] = $row;
             }
-        } 
+        }
         return $rows;
     }
 
@@ -253,13 +253,15 @@ class logincontrol_history extends ObjectYPT
         return $row;
     }
 
-    public static function getLastLoginAttempt($users_id, $uniqidV4)
+    public static function getLastLoginAttempt($users_id, $uniqidV4, $refreshCache = false)
     {
         global $global;
         $users_id = intval($users_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? AND uniqidV4 = ? ORDER BY modified DESC LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "is", [$users_id, $uniqidV4]);
+        // refreshCache: sqlDAL::readSql caches per request by SQL+values; a caller that just
+        // inserted a matching row (e.g. LoginControl::createLog) must bypass the stale cache.
+        $res = sqlDAL::readSql($sql, "is", [$users_id, $uniqidV4], $refreshCache);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
