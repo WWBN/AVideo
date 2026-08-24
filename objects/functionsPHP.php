@@ -584,12 +584,14 @@ function session_start_preload()
     _setSessionCookieParams($config->getSession_timeout());
 
     // Fix “set SameSite cookie to none” warning and check if cookie already set
-    if (isset($_COOKIE['key'])) {
-        // Cookie 'key' is already set, no need to set it again
+    // named distinctly (not "key") so it can never collide with $_REQUEST['key'] used
+    // by plugin/Live and others when the server's PHP merges cookies into $_REQUEST.
+    if (isset($_COOKIE['avideoCookieTest'])) {
+        // Cookie already set, no need to set it again
         return true;
     }
 
-    _setcookieInternal('key', 'value', time() + $config->getSession_timeout());
+    _setcookieInternal('avideoCookieTest', 'value', time() + $config->getSession_timeout());
 }
 
 
