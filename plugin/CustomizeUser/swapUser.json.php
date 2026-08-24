@@ -2,6 +2,10 @@
 require_once '../../videos/configuration.php';
 header('Content-Type: application/json');
 
+// mutates the logged-in session's active user; GET is <img>-reachable and the auto CSRF guard only covers *.json.php POSTs
+forbidIfNotPost();
+forbidIfInvalidToken();
+
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = '';
@@ -28,7 +32,6 @@ $obj->canAdminUser = Permissions::canAdminUsers();
 
 $obj->error = !(($obj->users_id_now == $obj->users_id) || !empty($obj->new_users_id));
 
-$obj->session_id = session_id();
 if(!$obj->error){
     $obj->msg = __('You are user').': '.User::getNameIdentification();
 }

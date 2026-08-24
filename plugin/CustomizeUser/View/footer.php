@@ -20,10 +20,14 @@ if (Permissions::canAdminUsers() || User::isSwapBackActive()) {
     ?>
         function swapUser(users_id) {
             var url = webSiteRootURL + 'plugin/CustomizeUser/swapUser.json.php';
-            url = addQueryStringParameter(url, 'users_id', users_id);
             modal.showPleaseWait();
             $.ajax({
                 url: url,
+                type: 'post',
+                data: {
+                    users_id: users_id,
+                    globalToken: '<?php echo getToken(300); ?>'
+                },
                 success: function (response) {
                     modal.showPleaseWait();
                     if (response.error) {
