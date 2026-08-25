@@ -27,7 +27,9 @@ if (!isCommandLineInterface()) {
 
 require_once $global['systemRootPath'] . 'plugin/PlayLists/Objects/Playlists_schedules.php';
 _session_write_close();
-header('Content-Type: application/json');
+if (!headers_sent()) {
+    header('Content-Type: application/json');
+}
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
