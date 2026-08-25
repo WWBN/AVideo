@@ -14,6 +14,19 @@ if (!empty($global['stopHeadRequests'])) {
     }
 }
 
+// Scraping/cache-busting bots stuff many ';'-separated pseudo-params (page=, current=, lang=,
+// rowCount=, ...) URL-encoded into a single query key/value to force a full cache-miss render on
+// every hit while spoofing a normal browser User-Agent (bypasses UA-based bot checks). AVideo never
+// generates or relies on ';' as a query separator, so this pattern is never legitimate traffic.
+if (!empty($_SERVER['QUERY_STRING'])) {
+    $queryStringPollutionCount = substr_count($_SERVER['QUERY_STRING'], ';') + substr_count(strtolower($_SERVER['QUERY_STRING']), '%3b');
+    if ($queryStringPollutionCount >= 3) {
+        http_response_code(403);
+        error_log('Blocked query string pollution ip=' . ($_SERVER['REMOTE_ADDR'] ?? '') . ' qs=' . substr($_SERVER['QUERY_STRING'], 0, 300));
+        die('Forbidden');
+    }
+}
+
 /**
  * Global variables.
  *
