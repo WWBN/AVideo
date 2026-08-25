@@ -14,6 +14,15 @@ if (!AVideoPlugin::isEnabledByName('Scheduler')) {
     return die('Scheduler is disabled');
 }
 
+// Prevent overlapping runs (duplicate/overlapping cron entries, a webcron hitting this URL while the
+// system cron also fires, or an admin clicking "Run now" mid-tick) from racing on the claim logic below.
+$schedulerLockFile = $global['systemRootPath'] . 'videos/scheduler_run.lock';
+$schedulerLockHandle = fopen($schedulerLockFile, 'c');
+if (!$schedulerLockHandle || !flock($schedulerLockHandle, LOCK_EX | LOCK_NB)) {
+    _error_log('Scheduler::run skipped - another instance is already running');
+    return die('Scheduler is already running');
+}
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -116,3 +125,6 @@ if ($current_day == '1' && $current_hour == '0' && $current_minute == '00') {
 if (!isCommandLineInterface()) {
     echo '</pre>';
 }
+
+flock($schedulerLockHandle, LOCK_UN);
+fclose($schedulerLockHandle);
