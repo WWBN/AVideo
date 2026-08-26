@@ -67,5 +67,20 @@ if (!empty($json['hidden_applications'])) {
     }
     unset($hiddenApp);
 }
+
+// applications are publicly listed (unlike hidden_applications above), but a password-protected
+// transmission still requires Live::passwordIsGood() before it can actually be watched - strip the
+// raw key/m3u8 here too unless the caller already satisfied that check (or owns/administers it).
+if (!empty($json['applications'])) {
+    foreach ($json['applications'] as &$app) {
+        if (is_array($app) && !empty($app['isPasswordProtected']) && !empty($app['key'])) {
+            $isOwnStream = User::isLogged() && !empty($app['users_id']) && ((int) $app['users_id'] === (int) User::getId());
+            if (!User::isAdmin() && !$isOwnStream && !Live::passwordIsGood($app['key'])) {
+                unset($app['key'], $app['m3u8']);
+            }
+        }
+    }
+    unset($app);
+}
 //var_dump($json);exit;
 echo json_encode($json);

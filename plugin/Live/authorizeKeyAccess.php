@@ -288,6 +288,12 @@ if ($isCached) {
         global $verifyTokenReturnFalseReason;
         $verifyTokenReturnFalseReason = '';
 
+        // SECURITY REVIEW: this endpoint only enforces VideoHLS's downloadProtection token/Referer/UA
+        // checks below - it never checks Live::passwordIsGood($liveKey). A Live transmission's
+        // password-protection feature is not enforced here even when this endpoint is reachable (it
+        // currently isn't by default - see the commented-out auth_request in the shipped nginx
+        // templates). Known gap, not yet fixed - see plugin/Live/stats.json.php for the related fix
+        // to the key/m3u8 disclosure via the public stats endpoint.
         // Store authorization reason for detailed logging
         $authorizationReason = '';
         $protectionStatus = !empty($obj->downloadProtection) ? 'ENABLED' : 'DISABLED';
