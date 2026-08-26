@@ -81,6 +81,12 @@ class API extends PluginAbstract
      * This method centralizes the definition of sensitive fields to ensure consistency
      * across all API endpoints. These fields come from the users table via SQL JOINs.
      *
+     * Note: site owners can opt to publicly show a user's email/username as their public
+     * "identification" (CustomizeUser doNotIdentifyByEmail/doNotIdentifyByName/doNotIdentifyByUserName,
+     * see User::getNameIdentification()/getNameIdentificationBd()). That is unaffected by this list:
+     * the public identification is always served via those computed helpers (e.g. channel_name,
+     * comments[].userName), never via these raw 'user'/'email' joined columns.
+     *
      * @return array List of sensitive field names to remove
      */
     private static function getSensitiveUserFields()
@@ -1752,6 +1758,7 @@ class API extends PluginAbstract
         // Check if we need to sanitize user data from video responses
         $isAPISecretValid = self::isAPISecretValid();
         $isUserLoggedIn = User::isLogged();
+        $currentUserId = User::getId();
 
         foreach ($rows as $key => $value) {
             if (is_object($value)) {
@@ -1761,9 +1768,10 @@ class API extends PluginAbstract
                 continue;
             }
 
-            // Remove sensitive user data from video responses for unauthenticated requests
+            // Remove sensitive user data from video responses unless the caller owns this video's joined user row
             // Video rows include user data from JOIN with users table (u.*)
-            if (!$isAPISecretValid && !$isUserLoggedIn) {
+            $isOwnVideoRow = $isUserLoggedIn && !empty($value['users_id']) && ((int) $value['users_id'] === (int) $currentUserId);
+            if (!$isAPISecretValid && !$isOwnVideoRow) {
                 self::removeSensitiveUserFields($rows[$key]);
             }
             if ($value['type'] == Video::$videoTypeSerie) {
@@ -1883,8 +1891,9 @@ class API extends PluginAbstract
             if (empty($parameters['noRelated'])) {
                 $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
                 foreach ($rows[$key]['relatedVideos'] as $key2 => $value2) {
-                    // Sanitize user data from related videos too
-                    if (!$isAPISecretValid && !$isUserLoggedIn) {
+                    // Sanitize user data from related videos too, unless the caller owns that row
+                    $isOwnRelatedVideoRow = $isUserLoggedIn && !empty($value2['users_id']) && ((int) $value2['users_id'] === (int) $currentUserId);
+                    if (!$isAPISecretValid && !$isOwnRelatedVideoRow) {
                         self::removeSensitiveUserFields($rows[$key]['relatedVideos'][$key2]);
                     }
 

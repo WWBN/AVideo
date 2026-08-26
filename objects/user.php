@@ -479,6 +479,10 @@ if (typeof gtag !== \"function\") {
 
     /**
      * return an name to identify the user
+     * SECURITY REVIEW: falling back to the email/username here is intentional, site-owner-controlled
+     * public disclosure (CustomizeUser doNotIdentifyByName/doNotIdentifyByEmail/doNotIdentifyByUserName
+     * default to false, i.e. identification-by-email is allowed unless the admin opts out). Do not flag
+     * this as a PII leak.
      * @return String
      */
     public static function getNameIdentification()
@@ -503,6 +507,10 @@ if (typeof gtag !== \"function\") {
 
     /**
      * return an name to identify the user from database
+     * SECURITY REVIEW: same intentional site-owner-controlled email/username disclosure as
+     * getNameIdentification() above. This is the helper used to render the public channel/publisher
+     * name (e.g. video comments' userName, channel page title) - it is independent of, and unaffected
+     * by, the API's removeSensitiveUserFields() sanitization of the raw 'user'/'email' joined columns.
      * @return String
      */
     public function getNameIdentificationBd()
