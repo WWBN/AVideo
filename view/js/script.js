@@ -1593,6 +1593,13 @@ function avideoToastError(msg, displayTime = 0) {
 function avideoToastSuccess(msg, displayTime = 0) {
     _avideoToast(msg, 'success', displayTime);
 }
+
+// Returns the per-session CSRF token rendered by view/include/head.php (see isGlobalTokenValid()/
+// getToken() in objects/functionsSecurity.php / objects/functions.php). Use this instead of
+// referencing the `globalToken` variable directly so callers don't break if it's ever unset.
+function getGlobalToken() {
+    return typeof globalToken !== 'undefined' ? globalToken : '';
+}
 function avideoToastWarning(msg, displayTime = 0) {
     _avideoToast(msg, 'warning', displayTime);
 }

@@ -1084,7 +1084,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $('#{$id}').click(function(){
         modal.showPleaseWait();
                 $.ajax({
-                    url: '{$global['webSiteRootURL']}plugin/Live/control.json.php?command=$command&key={$key}&live_servers_id={$live_servers_id}',
+                    url: '{$global['webSiteRootURL']}plugin/Live/control.json.php',
+                    type: 'post',
+                    data: {command: '$command', key: '{$key}', live_servers_id: '{$live_servers_id}', globalToken: '" . getToken(300) . "'},
                     success: function (response) {
                         console.log('getDropButton called');
                         console.log(response);

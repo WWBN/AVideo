@@ -32,6 +32,8 @@ if (!User::canStream()) {
     $obj->msg = __('Permission denied');
     die(json_encode($obj));
 }
+forbidIfNotPost();
+forbidIfInvalidToken();
 
 if (empty($obj->key)) {
     $obj->msg = __("empty key");

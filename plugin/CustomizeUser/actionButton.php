@@ -141,7 +141,8 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         "users_id": <?php echo intval(@$video['users_id']); ?>,
                         "live_transmitions_history_id": <?php echo intval(@$_REQUEST['live_transmitions_history_id']); ?>,
                         "captcha": <?php echo $captcha['captchaText']; ?>,
-                        "message": message
+                        "message": message,
+                        "globalToken": '<?php echo getToken(300); ?>'
                     },
                     type: 'post',
                     success: function(response) {
@@ -172,7 +173,8 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         "users_id": <?php echo intval(@$video['users_id']); ?>,
                         "live_transmitions_history_id": <?php echo intval(@$_REQUEST['live_transmitions_history_id']); ?>,
                         "captcha": <?php echo $captcha['captchaText']; ?>,
-                        "message": message
+                        "message": message,
+                        "globalToken": '<?php echo getToken(300); ?>'
                     },
                     type: 'post',
                     success: function(response) {

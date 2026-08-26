@@ -66,6 +66,12 @@ if (empty($cu->disableCaptchaOnWalletDirectTransferDonation)) {
         die(json_encode($obj));
     }
 }
+
+// transfers wallet balance; captcha alone is not CSRF protection
+// (see SECURITY REVIEW in objects/captcha.php - admin sessions get a fixed, guessable captcha answer)
+forbidIfNotPost();
+forbidIfInvalidToken();
+
 $obj->extraParameters->superChat = 0;
 $obj->extraParameters->message = $_REQUEST['message'];
 
@@ -99,7 +105,7 @@ if (!empty($_REQUEST['videos_id'])) {
         $obj->msg = "User does not exists";
         die(json_encode($obj));
     }
-    
+
     $obj->extraParameters->live_transmitions_history_id = intval(@$_REQUEST['live_transmitions_history_id']);
 
     if (YPTWallet::transferBalance(User::getId(), $users_id, $value, "Donation from " . User::getNameIdentification() . " to Live for  " . $user->getNameIdentificationBd(). " message: {$obj->extraParameters->message}")) {

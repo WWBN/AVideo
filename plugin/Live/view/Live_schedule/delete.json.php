@@ -13,6 +13,8 @@ if (!User::canStream()) {
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
+forbidIfNotPost();
+forbidIfInvalidToken();
 
 $id = intval($_REQUEST['id']);
 $row = new Live_schedule($id);

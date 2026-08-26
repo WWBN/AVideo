@@ -155,7 +155,7 @@ $userCredentials = User::loginFromRequestToGet();
             modal.showPleaseWait();
             $.ajax({
                 url: webSiteRootURL+'plugin/Meet/saveMeet.json.php?<?php echo $userCredentials; ?>',
-                                data: $('#formMeetManager').serialize(),
+                                data: $('#formMeetManager').serialize() + '&globalToken=<?php echo getToken(300); ?>',
                                 type: 'post',
                                 success: function (response) {
                                     if (response.error) {

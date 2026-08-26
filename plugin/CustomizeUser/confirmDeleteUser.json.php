@@ -19,6 +19,11 @@ if (empty($valid)) {
     die(json_encode($obj));
 }
 
+// destructive action (deletes a user + all their videos); captcha alone is not CSRF protection
+// (see SECURITY REVIEW in objects/captcha.php - admin sessions get a fixed, guessable captcha answer)
+forbidIfNotPost();
+forbidIfInvalidToken();
+
 $obj->users_id = intval(@$_REQUEST['users_id']);
 User::loginFromRequest();
 if (empty($obj->users_id) || !Permissions::canAdminUsers()) {
@@ -36,11 +41,11 @@ $user = new User($obj->users_id);
 $videos = Video::getAllVideosLight('', $obj->users_id);
 
 foreach ($videos as $value) {
-    
+
     if($value['users_id'] != $obj->users_id){
         continue;
     }
-    
+
     $video = new Video('', '', $value['id']);
     $video->delete();
 }

@@ -18,6 +18,8 @@ $video = new Video('', '', $videos_id);
 if (!$video->userCanManageVideo()) {
     forbiddenPage('You do not have permission to manage this video');
 }
+forbidIfNotPost();
+forbidIfInvalidToken();
 
 $obj = new stdClass();
 $obj->videos_id = $videos_id;

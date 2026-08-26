@@ -160,9 +160,13 @@ $_page->loadBasicCSSAndJS();
             }).then(function(name) {
                 if (!name)
                     throw null;
-                var url = webSiteRootURL + 'plugin/Meet/saveMeet.json.php?' + userCredentials + '&RoomTopic=' + encodeURI(name);
+                var url = webSiteRootURL + 'plugin/Meet/saveMeet.json.php';
                 console.log('_startMeetNow 2', url);
-                return fetch(url);
+                return fetch(url, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: userCredentials + '&RoomTopic=' + encodeURIComponent(name) + '&globalToken=<?php echo getToken(300); ?>'
+                });
             }).then(function(results) {
                 console.log('_startMeetNow 3', results);
                 return results.json();

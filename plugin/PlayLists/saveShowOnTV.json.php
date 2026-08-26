@@ -17,6 +17,8 @@ if (!User::canStream()) {
     _error_log("playProgramsLive:: {$obj->msg}");
     die(json_encode($obj));
 }
+forbidIfNotPost();
+forbidIfInvalidToken();
 
 $playlistPlugin = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
 

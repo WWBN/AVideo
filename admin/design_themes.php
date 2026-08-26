@@ -90,6 +90,7 @@ $themes = getThemesSeparated();
                 "themeLight": $('.themeSwitch.isLightTheme:checked').val(),
                 "themeDark": $('.themeSwitch.isDarkTheme:checked').val(),
                 "defaultTheme": $('#defaultThemeDark').is(':checked')?'dark':'light',
+                "globalToken": '<?php echo getToken(300); ?>'
             },
             type: 'post',
             success: function(response) {

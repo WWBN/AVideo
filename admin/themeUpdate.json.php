@@ -8,6 +8,8 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
     forbiddenPage('Admin Only');
 }
+forbidIfNotPost();
+forbidIfInvalidToken();
 
 if(empty($_REQUEST['themeLight'])){
     $_REQUEST['themeLight'] = 'default';

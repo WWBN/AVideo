@@ -102,7 +102,9 @@ global $Schedulecount;
                 if (willDelete) {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: webSiteRootURL + "plugin/Live/view/Live_schedule/delete.json.php?id=" + schedule_id
+                        type: "POST",
+                        url: webSiteRootURL + "plugin/Live/view/Live_schedule/delete.json.php",
+                        data: {id: schedule_id, globalToken: '<?php echo getToken(300); ?>'}
                     }).done(function(resposta) {
                         if (resposta.error) {
                             avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");

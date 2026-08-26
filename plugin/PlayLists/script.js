@@ -1,7 +1,9 @@
 function saveShowOnTV(playlists_id, showOnTV) {
     modal.showPleaseWait();
     $.ajax({
-        url: webSiteRootURL + 'plugin/PlayLists/saveShowOnTV.json.php?playlists_id=' + playlists_id + '&showOnTV=' + showOnTV,
+        url: webSiteRootURL + 'plugin/PlayLists/saveShowOnTV.json.php',
+        type: 'post',
+        data: {playlists_id: playlists_id, showOnTV: showOnTV, globalToken: getGlobalToken()},
         success: function (response) {
             if (response.errro) {
                 avideoAlertError(response.msg);

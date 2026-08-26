@@ -111,7 +111,8 @@ $_page = new Page(array('AutoPostOnSocialMedia'));
             url: webSiteRootURL + 'plugin/AutoPostOnSocialMedia/saveSchedule.json.php',
             method: 'POST',
             data: {
-                'checkedItems': getCheckedItems()
+                'checkedItems': getCheckedItems(),
+                'globalToken': '<?php echo getToken(300); ?>'
             },
             success: function(response) {
                 avideoResponse(response);

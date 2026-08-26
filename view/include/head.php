@@ -189,6 +189,7 @@ if (isRTL()) {
     var _serverDBTimeString = "<?php echo date('Y-m-d H:i:s', getDatabaseTime()); ?>";
     var _serverTimezone = "<?php echo (date_default_timezone_get()); ?>";
     var _serverSystemTimezone = "<?php echo (getSystemTimezone()); ?>";
+    var globalToken = "<?php echo getToken(300); ?>";
     var avideoModalIframeFullScreenCloseButton = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 2, 'class="btn btn-default pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
     var avideoModalIframeFullScreenCloseButtonSmall = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 4, 'class="btn btn-default btn-sm pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
 </script>

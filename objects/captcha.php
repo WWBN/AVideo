@@ -39,6 +39,13 @@ class Captcha
             $palavra .= $letters[random_int(0, $len - 1)];
         }
         if (User::isAdmin() && empty($_REQUEST['forceCaptcha'])) {
+            // SECURITY REVIEW: intentional admin convenience, but it makes the expected
+            // answer a fixed, publicly-known literal for any admin session - any
+            // captcha-gated endpoint reachable via GET/$_REQUEST must NOT rely on captcha
+            // alone as CSRF protection (blind cross-site requests can pass "admin" without
+            // ever solving the image). Endpoints must also call forbidIfNotPost()/
+            // forbidIfInvalidToken() - see plugin/CustomizeUser/confirmDeleteUser.json.php
+            // and plugin/CustomizeUser/donate.json.php for the pattern.
             $palavra = "admin";
         }
         _session_start();

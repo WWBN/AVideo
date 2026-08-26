@@ -1,7 +1,7 @@
 <?php
 require_once '../../videos/configuration.php';
 header('Content-Type: application/json');
-        
+
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = '';
@@ -23,6 +23,10 @@ if(!isCommandLineInterface() && !User::isAdmin()){
     $obj->msg = 'Forbbiden';
     die(json_encode($obj));
 }
+if (!isCommandLineInterface()) {
+    forbidIfNotPost();
+    forbidIfInvalidToken();
+}
 
 Scheduler_commands::deleteFromType(AutoPostOnSocialMedia::$scheduleType);
 $obj->callbackURL = "{$global['webSiteRootURL']}plugin/AutoPostOnSocialMedia/autopost.json.php";
@@ -30,12 +34,12 @@ $obj->callbackURL = "{$global['webSiteRootURL']}plugin/AutoPostOnSocialMedia/aut
 $obj->response = array();
 
 foreach ($_REQUEST['checkedItems'] as $key => $value) {
-    
+
     $parts = explode('_', $value);
-    
+
     $repeat_hour = intval($parts[1]);
     $repeat_day_of_week = intval($parts[0]);
-    
+
     $schedule = new Scheduler_commands(0);
     $schedule->setCallbackURL($obj->callbackURL);
     $schedule->setStatus(Scheduler_commands::$statusRepeat);
@@ -44,7 +48,7 @@ foreach ($_REQUEST['checkedItems'] as $key => $value) {
     $schedule->setRepeat_day_of_week($repeat_day_of_week);
     $schedule->setType(AutoPostOnSocialMedia::$scheduleType);
     $id = $schedule->save();
-    
+
     $obj->response[] = array(
         'repeat_hour'=>$repeat_hour,
         'repeat_day_of_week'=>$repeat_day_of_week,

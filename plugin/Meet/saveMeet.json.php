@@ -31,6 +31,13 @@ if (!User::canCreateMeet()) {
     die(json_encode($obj));
 }
 
+// $calledFromTrustedApiInclude is set by plugin/API/API.php::set_api_meet() before including this
+// file, since that request path already authenticated via APISecret/login and has no globalToken.
+if (empty($calledFromTrustedApiInclude)) {
+    forbidIfNotPost();
+    forbidIfInvalidToken();
+}
+
 if (!empty($_REQUEST['id'])) {
     $obj->meet_schedule_id = intval($_REQUEST['id']);
     if (!Meet::canManageSchedule($obj->meet_schedule_id)) {

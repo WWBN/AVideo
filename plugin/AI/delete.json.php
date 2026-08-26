@@ -27,6 +27,8 @@ if(!AI::canUseAI()){
 if (!Video::canEdit($videos_id)) {
     forbiddenPage('You cannot edit this video');
 }
+forbidIfNotPost();
+forbidIfInvalidToken();
 
 $obj = new stdClass();
 $obj->error = true;
@@ -46,7 +48,7 @@ if (!empty($_REQUEST['ai_transcribe_responses_id'])) {
         $filename = $video->getFilename();
         $file = getVideosDir()."{$filename}/{$filename}_Low.mp3";
         unlink($file);
-        
+
         $paths = Ai_transcribe_responses::getVTTPaths($videos_id, $aitr->getLanguage());
         unlink($paths['path']);
 

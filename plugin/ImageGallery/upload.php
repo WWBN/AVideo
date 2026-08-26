@@ -70,7 +70,8 @@ $_page = new Page(array('Edit Gallery'));
         var url = webSiteRootURL + 'plugin/ImageGallery/delete.json.php';
         data = {
             filename: filename,
-            videos_id: <?php echo $videos_id; ?>
+            videos_id: <?php echo $videos_id; ?>,
+            globalToken: '<?php echo getToken(300); ?>'
         }
         $.ajax({
             url: url,

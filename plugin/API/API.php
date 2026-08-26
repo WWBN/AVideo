@@ -5272,6 +5272,7 @@ class API extends PluginAbstract
             if (!User::canCreateMeet()) {
                 return new ApiObject("You cannot create a meet");
             } else {
+                $calledFromTrustedApiInclude = true;
                 include $global['systemRootPath'] . 'plugin/Meet/saveMeet.json.php';
                 exit;
             }

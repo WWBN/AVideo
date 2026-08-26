@@ -83,7 +83,7 @@ $_page = new Page(array('Delete User', $user->getUser()));
             </div>
         </div>
     </div>
-    
+
     <script type="text/javascript">
         function deleteUser() {
             var url = webSiteRootURL + 'plugin/CustomizeUser/confirmDeleteUser.json.php';
@@ -91,7 +91,8 @@ $_page = new Page(array('Delete User', $user->getUser()));
                 captcha: $('#captchaDeleteUser input').val(),
                 users_id: <?php echo $users_id; ?>,
                 user: '<?php echo User::getUserName(); ?>',
-                pass: '<?php echo User::getUserPass(); ?>'
+                pass: '<?php echo User::getUserPass(); ?>',
+                globalToken: '<?php echo getToken(300); ?>'
             };
             avideoAjax(url, data);
         }

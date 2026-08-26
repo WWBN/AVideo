@@ -256,6 +256,7 @@ if (!User::isAdmin()) {
                     .then(function (willDelete) {
                         if (willDelete) {
                             modal.showPleaseWait();
+                            data.globalToken = '<?php echo getToken(300); ?>';
                             $.ajax({
                                 type: "POST",
                                 url: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_schedule/delete.json.php",

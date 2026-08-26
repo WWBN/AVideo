@@ -127,7 +127,7 @@ $delay = 0.5;
                                         success: function (response) {
                                             $.ajax({
                                                 url: webSiteRootURL+'admin/themeUpdate.json.php',
-                                                data: {"theme": 'default'},
+                                                data: {"theme": 'default', "globalToken": '<?php echo getToken(300); ?>'},
                                                 type: 'post',
                                                 success: function (response) {
                                                     modal.hidePleaseWait();
@@ -174,7 +174,7 @@ $delay = 0.5;
                                         success: function (response) {
                                             $.ajax({
                                                 url: webSiteRootURL+'admin/themeUpdate.json.php',
-                                                data: {"theme": 'netflix'},
+                                                data: {"theme": 'netflix', "globalToken": '<?php echo getToken(300); ?>'},
                                                 type: 'post',
                                                 success: function (response) {
                                                     modal.hidePleaseWait();
@@ -221,7 +221,7 @@ $delay = 0.5;
                                         success: function (response) {
                                             $.ajax({
                                                 url: webSiteRootURL+'admin/themeUpdate.json.php',
-                                                data: {"theme": 'default'},
+                                                data: {"theme": 'default', "globalToken": '<?php echo getToken(300); ?>'},
                                                 type: 'post',
                                                 success: function (response) {
                                                     modal.hidePleaseWait();
@@ -268,7 +268,7 @@ $delay = 0.5;
                                         success: function (response) {
                                             $.ajax({
                                                 url: webSiteRootURL+'admin/themeUpdate.json.php',
-                                                data: {"theme": 'default'},
+                                                data: {"theme": 'default', "globalToken": '<?php echo getToken(300); ?>'},
                                                 type: 'post',
                                                 success: function (response) {
                                                     modal.hidePleaseWait();
@@ -317,7 +317,7 @@ $delay = 0.5;
                                         success: function (response) {
                                             $.ajax({
                                                 url: webSiteRootURL+'admin/themeUpdate.json.php',
-                                                data: {"theme": 'default'},
+                                                data: {"theme": 'default', "globalToken": '<?php echo getToken(300); ?>'},
                                                 type: 'post',
                                                 success: function (response) {
                                                     modal.hidePleaseWait();
