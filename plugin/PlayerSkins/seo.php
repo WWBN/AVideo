@@ -29,6 +29,11 @@ function extractKeywords($description) {
 }
 
 $video = new Video('', '', $videos_id);
+// SECURITY (2026-08-26): mirror CustomizeUser::getModeYouTube()'s authorization + video-password checks
+// before exposing a playable source URL to an unauthenticated caller of this directly web-reachable file.
+$canWatchThisVideo = User::canWatchVideoWithAds($videos_id);
+$customizeUserPlugin = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
+$videoPasswordOk = empty($customizeUserPlugin) || $customizeUserPlugin->videoPasswordIsGood($videos_id);
 $keywords = strip_tags($advancedCustom->keywords);
 $relatedVideos = Video::getRelatedMovies($videos_id);
 $keywords2 = extractKeywords(strip_tags($video->getTitle().''.$video->getDescription()));
@@ -61,7 +66,9 @@ $keywords3 = implode(', ', $keywords2);
         <h1><?php echo $video->getTitle(); ?></h1>
         <video controls poster="<?php echo Video::getPoster($video->getId()); ?>" style="width: 100%;">
             <?php
-            echo getSources($video->getFilename());
+            if ($canWatchThisVideo && $videoPasswordOk) {
+                echo getSources($video->getFilename());
+            }
             ?>
             Your browser does not support the video tag.
         </video>
