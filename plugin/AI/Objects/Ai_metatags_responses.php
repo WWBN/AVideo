@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 class Ai_metatags_responses extends ObjectYPT {
 
     protected $id,$videoTitles,$keywords,$professionalDescription,$casualDescription,$shortSummary,$metaDescription,$rrating,$rratingJustification,$prompt_tokens,$completion_tokens,$price_prompt_tokens,$price_completion_tokens,$ai_responses_id;
-    
+
     static function getSearchFieldsNames() {
         return array('videoTitles','keywords','professionalDescription','casualDescription','shortSummary','metaDescription','rrating','rratingJustification');
     }
@@ -13,7 +13,7 @@ class Ai_metatags_responses extends ObjectYPT {
     static function getTableName() {
         return 'ai_metatags_responses';
     }
-    
+
     static function getAllAi_responses() {
         global $global;
         $table = "ai_responses";
@@ -28,129 +28,141 @@ class Ai_metatags_responses extends ObjectYPT {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } 
+        }
         return $rows;
     }
-    
-     
+
+
     function setId($id) {
         $this->id = intval($id);
-    } 
- 
+    }
+
+    // SECURITY: professionalDescription/casualDescription/shortSummary/metaDescription/rratingJustification
+    // (and each videoTitles/keywords array item) are rendered via a raw HTML-injection sink
+    // ($('<div>' + content + '</div>')) in plugin/AI/page.php's processAIResponse(). This content
+    // is AI-generated from the video's own title/description (attacker-controllable via the
+    // uploader, indirect prompt injection), so it is escaped here the same way
+    // VastCampaignsLogs::setType()/Comment::setComment() escape untrusted stored text.
     function setVideoTitles($videoTitles) {
         if(!is_string($videoTitles)){
+            if(is_array($videoTitles)){
+                $videoTitles = array_map('xss_esc', $videoTitles);
+            }
             $videoTitles = json_encode($videoTitles);
         }
         $this->videoTitles = $videoTitles;
-    } 
- 
+    }
+
     function setKeywords($keywords) {
         if(!is_string($keywords)){
+            if(is_array($keywords)){
+                $keywords = array_map('xss_esc', $keywords);
+            }
             $keywords = json_encode($keywords);
         }
         $this->keywords = $keywords;
-    } 
- 
+    }
+
     function setProfessionalDescription($professionalDescription) {
-        $this->professionalDescription = $professionalDescription;
-    } 
- 
+        $this->professionalDescription = xss_esc($professionalDescription);
+    }
+
     function setCasualDescription($casualDescription) {
-        $this->casualDescription = $casualDescription;
-    } 
- 
+        $this->casualDescription = xss_esc($casualDescription);
+    }
+
     function setShortSummary($shortSummary) {
-        $this->shortSummary = $shortSummary;
-    } 
- 
+        $this->shortSummary = xss_esc($shortSummary);
+    }
+
     function setMetaDescription($metaDescription) {
-        $this->metaDescription = $metaDescription;
-    } 
- 
+        $this->metaDescription = xss_esc($metaDescription);
+    }
+
     function setRrating($rrating) {
-        $this->rrating = $rrating;
-    } 
- 
+        $this->rrating = xss_esc($rrating);
+    }
+
     function setRratingJustification($rratingJustification) {
-        $this->rratingJustification = $rratingJustification;
-    } 
- 
+        $this->rratingJustification = xss_esc($rratingJustification);
+    }
+
     function setPrompt_tokens($prompt_tokens) {
         $this->prompt_tokens = intval($prompt_tokens);
-    } 
- 
+    }
+
     function setcompletion_tokens($completion_tokens) {
         $this->completion_tokens = intval($completion_tokens);
-    } 
- 
+    }
+
     function setPrice_prompt_tokens($price_prompt_tokens) {
         $this->price_prompt_tokens = $price_prompt_tokens;
-    } 
- 
+    }
+
     function setPrice_completion_tokens($price_completion_tokens) {
         $this->price_completion_tokens = $price_completion_tokens;
-    } 
- 
+    }
+
     function setAi_responses_id($ai_responses_id) {
         $this->ai_responses_id = intval($ai_responses_id);
-    } 
-    
-     
+    }
+
+
     function getId() {
         return intval($this->id);
-    }  
- 
+    }
+
     function getVideoTitles() {
         return $this->videoTitles;
-    }  
- 
+    }
+
     function getKeywords() {
         return $this->keywords;
-    }  
- 
+    }
+
     function getProfessionalDescription() {
         return $this->professionalDescription;
-    }  
- 
+    }
+
     function getCasualDescription() {
         return $this->casualDescription;
-    }  
- 
+    }
+
     function getShortSummary() {
         return $this->shortSummary;
-    }  
- 
+    }
+
     function getMetaDescription() {
         return $this->metaDescription;
-    }  
- 
+    }
+
     function getRrating() {
         return $this->rrating;
-    }  
- 
+    }
+
     function getRratingJustification() {
         return $this->rratingJustification;
-    }  
- 
+    }
+
     function getPrompt_tokens() {
         return intval($this->prompt_tokens);
-    }  
- 
+    }
+
     function getcompletion_tokens() {
         return intval($this->completion_tokens);
-    }  
- 
+    }
+
     function getPrice_prompt_tokens() {
         return $this->price_prompt_tokens;
-    }  
- 
+    }
+
     function getPrice_completion_tokens() {
         return $this->price_completion_tokens;
-    }  
- 
+    }
+
     function getAi_responses_id() {
         return intval($this->ai_responses_id);
-    }  
+    }
 
     static function getAllFromVideosId($videos_id){
         global $global;
@@ -163,7 +175,7 @@ class Ai_metatags_responses extends ObjectYPT {
         $res = sqlDAL::readSql($sql, 'i', array($videos_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        
+
         return $fullData;
     }
 }
