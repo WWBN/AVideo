@@ -15,6 +15,9 @@ if (!User::isAdmin()) {
     die(json_encode($obj));
 }
 
+forbidIfNotPost();
+forbidIfInvalidToken();
+
 if (empty($obj->users_id)) {
     $obj->msg = "users_id cannot be empty";
     die(json_encode($obj));

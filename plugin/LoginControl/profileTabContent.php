@@ -90,7 +90,8 @@ if ($obj->enablePGP2FA) {
                         url: webSiteRootURL + 'plugin/LoginControl/pgp/savePublicKey.json.php?users_id=<?php echo $users_id; ?>',
                         method: 'POST',
                         data: {
-                            'publicKey': $('#publicKey').val()
+                            'publicKey': $('#publicKey').val(),
+                            'globalToken': '<?php echo getToken(300); ?>'
                         },
                         success: function (response) {
                             if (response.error) {

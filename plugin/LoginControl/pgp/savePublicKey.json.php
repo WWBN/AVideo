@@ -14,6 +14,9 @@ if (!User::isLogged()) {
     die(json_encode($obj));
 }
 
+forbidIfNotPost();
+forbidIfInvalidToken();
+
 if (User::isAdmin() && !empty($_REQUEST['users_id'])) {
     $users_id = intval($_REQUEST['users_id']);
 }

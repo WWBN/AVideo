@@ -599,7 +599,7 @@ Best regards,
             return "";
         }
         if (User::isAdmin()) {
-            $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoAjax(webSiteRootURL+\\\'plugin/LoginControl/pgp/deletePublicKey.json.php?users_id=\'+ row.id + \'\\\', {});" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('This will disable the PGP 2FA') . '"><i class="fas fa-trash"></i> ' . __('Remove PGP Key') . '</button>';
+            $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoAjax(webSiteRootURL+\\\'plugin/LoginControl/pgp/deletePublicKey.json.php?users_id=\'+ row.id + \'\\\', {globalToken: getGlobalToken()});" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('This will disable the PGP 2FA') . '"><i class="fas fa-trash"></i> ' . __('Remove PGP Key') . '</button>';
         }
         return $btn;
     }

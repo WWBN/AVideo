@@ -15,6 +15,8 @@ if (!User::isLogged()) {
     die(json_encode($obj));
 }
 
+forbidIfNotPost();
+forbidIfInvalidToken();
 
 $pass = @$_REQUEST['keyPassword'];
 $name = @$_REQUEST['keyName'];
