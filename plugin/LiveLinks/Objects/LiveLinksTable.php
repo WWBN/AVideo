@@ -77,11 +77,12 @@ class LiveLinksTable extends ObjectYPT {
     }
 
     function setTitle($title) {
-        $this->title = $title;
+        // stored raw title reaches view/Live.php unescaped, so sanitize on write (same pattern as Live_schedule::setTitle)
+        $this->title = xss_esc($title);
     }
 
     function setDescription($description) {
-        $this->description = $description;
+        $this->description = xss_esc($description);
     }
 
     function setLink($link) {
