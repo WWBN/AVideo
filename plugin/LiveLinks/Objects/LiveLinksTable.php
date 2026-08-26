@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveLinksTable extends ObjectYPT {
 
-    protected $id, $title, $description, $link, $start_date, $end_date, $type, $status, $users_id, $categories_id, $timezone, $start_php_time, $end_php_time;    
+    protected $id, $title, $description, $link, $start_date, $end_date, $type, $status, $users_id, $categories_id, $timezone, $start_php_time, $end_php_time;
     protected $isRebroadcast;
 
     static function getSearchFieldsNames() {
@@ -126,7 +126,7 @@ class LiveLinksTable extends ObjectYPT {
     public function setIsRebroadcast($isRebroadcast): void {
         $this->isRebroadcast = !_empty($isRebroadcast)?1:0;
     }
-    
+
     public static function getAll($users_id = 0) {
         global $global;
         if (!static::isTableInstalled()) {
@@ -159,7 +159,7 @@ class LiveLinksTable extends ObjectYPT {
         }
         return $rows;
     }
-    
+
     static public function userGroupsMatch($livelinks_id, $users_id=0){
         $user_groups = self::getUserGorups($livelinks_id);
         $user_groups_ids = array();
@@ -168,7 +168,7 @@ class LiveLinksTable extends ObjectYPT {
         }
         return User::userGroupsMatch($user_groups_ids, $users_id);
     }
-    
+
     public function delete(){
         global $global;
         if(!User::isLogged()){
@@ -177,29 +177,29 @@ class LiveLinksTable extends ObjectYPT {
         if (!empty($this->id)) {
             $sql = "DELETE FROM " . static::getTableName() . " ";
             $sql .= " WHERE id = ?";
-            
+
             if (!User::isAdmin()) {
                 $sql .= " AND users_id = ".User::getId();
             }
-            
+
             $global['lastQuery'] = $sql;
-            
+
             $paths = LiveLinks::getImagesPaths($this->id);
             @unlink($paths['path']);
-            
+
             //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql, "i", array($this->id));
         }
         _error_log("Id for table " . static::getTableName() . " not defined for deletion", AVideoLog::$ERROR);
         return false;
     }
-    
+
     public function deleteAllUserGorups(){
         global $global;
         if (!empty($this->id)) {
             $sql = "DELETE FROM livelinks_has_users_groups ";
             $sql .= " WHERE livelinks_id = ?";
-            
+
             $global['lastQuery'] = $sql;
             //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql, "i", array($this->id));
@@ -207,19 +207,19 @@ class LiveLinksTable extends ObjectYPT {
         _error_log("Id for table " . static::getTableName() . " not defined for deletion", AVideoLog::$ERROR);
         return false;
     }
-    
+
     public function addUserGorups($usergroups_ids){
         global $global;
-        
+
         if(empty($usergroups_ids)){
             return false;
         }
-        
+
         if(empty($this->id)){
             _error_log("Id for table " . static::getTableName() . " not defined for add", AVideoLog::$ERROR);
             return false;
         }
-        
+
         if(!is_array($usergroups_ids)){
             $usergroups_ids = array($usergroups_ids);
         }
@@ -227,11 +227,11 @@ class LiveLinksTable extends ObjectYPT {
             $sql = "INSERT INTO `livelinks_has_users_groups` (`livelinks_id`, `users_groups_id`, `created`, `modified`) VALUES (?, ?, now(), now());";
             sqlDAL::writeSql($sql, "ii", array($this->id, $value));
         }
-        
+
         return true;
     }
-    
-    
+
+
     static function getUserGorups($livelinks_id){
         if(!self::isTableInstalled("livelinks_has_users_groups") || empty($livelinks_id)){
             return array();
@@ -251,7 +251,7 @@ class LiveLinksTable extends ObjectYPT {
         }
         return $rows;
     }
-    
+
     static function getUserGorupsIds($livelinks_id){
         $groups = self::getUserGorups($livelinks_id);
         $rows = array();
@@ -264,7 +264,7 @@ class LiveLinksTable extends ObjectYPT {
     function getTimezone() {
         return $this->timezone;
     }
-    
+
     function setTimezone($timezone) {
         $this->timezone = $timezone;
     }
@@ -272,7 +272,7 @@ class LiveLinksTable extends ObjectYPT {
     function getStart_php_time() {
         return $this->start_php_time;
     }
-    
+
     function setStart_php_time($start_php_time) {
         $this->start_php_time = $start_php_time;
     }
@@ -280,39 +280,39 @@ class LiveLinksTable extends ObjectYPT {
     function getEnd_php_time() {
         return $this->end_php_time;
     }
-    
+
     function setEnd_php_time($end_php_time) {
         $this->end_php_time = $end_php_time;
     }
 
     public static function updatePhpTimestampById($id) {
         global $global;
-    
+
         if (empty($id)) {
             _error_log("ID is required for updating PHP timestamps", AVideoLog::$ERROR);
             return false;
         }
-    
+
         // Fetch the record with the provided id from the livelinks table
         $sql = "SELECT `start_date`, `end_date` FROM `livelinks` WHERE `id` = ?";
         $res = sqlDAL::readSql($sql, "i", array($id));
-        
+
         if ($res) {
             $row = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
-    
+
             if (!empty($row)) {
                 $startDateTime = $row['start_date'];
                 $endDateTime = $row['end_date'];
-    
+
                 // Convert the datetime to Unix timestamps (PHP time)
                 $startPhpTime = !empty($startDateTime) ? strtotime($startDateTime) : null;
                 $endPhpTime = !empty($endDateTime) ? strtotime($endDateTime) : null;
-    
+
                 // Update the record with the converted PHP timestamps
                 $sqlUpdate = "UPDATE `livelinks` SET `start_php_time` = ?, `end_php_time` = ? WHERE `id` = ?";
                 $result = sqlDAL::writeSql($sqlUpdate, "iii", array($startPhpTime, $endPhpTime, $id));
-    
+
                 if ($result) {
                     return true;
                 } else {
@@ -328,7 +328,7 @@ class LiveLinksTable extends ObjectYPT {
             return false;
         }
     }
-    
-    
+
+
 
 }
