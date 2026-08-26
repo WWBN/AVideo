@@ -252,7 +252,9 @@ function getVideoTags($videos_id, $type = '')
         return [];
     }
 
-    $cacheSuffix = "getTags_{$type}";
+    // include the current language so a cache populated in one language (e.g. by a visitor/bot
+    // with a different Accept-Language or locale) can never leak its translated labels/text to viewers of another language
+    $cacheSuffix = "getTags_{$type}_" . getLanguage();
     $videoCache = new VideoCacheHandler('', $videos_id);
     $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
     $getTags_ = $videoCache->getCache($cacheSuffix, $oneToFiveHours);

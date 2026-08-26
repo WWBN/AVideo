@@ -3725,7 +3725,9 @@ if (!class_exists('Video')) {
             global $advancedCustom;
 
             //$name = "getTags_{$video_id}_{$type}";
-            $cacheSuffix = "getTags_{$type}";
+            // include the current language so a cache populated in one language can't leak its
+            // translated labels/text to viewers using another language
+            $cacheSuffix = "getTags_{$type}_" . getLanguage();
             $videoCache = new VideoCacheHandler('', $video_id);
             $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
             $videos_getTags = $videoCache->getCache($cacheSuffix, $oneToFiveHours);
