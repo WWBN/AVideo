@@ -711,7 +711,8 @@ function execAsync($command, $keyword = null)
         } else {
             $commandWithKeyword = "nohup sh -c " . escapeshellarg($command) . " > /dev/null 2>&1 &";
         }
-        _error_log('execAsync Linux: ' . $commandWithKeyword . ' [' . $_SERVER['HTTP_USER_AGENT'] . '] [' . getRealIpAddr() . '] ');
+        $execAsyncUserAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : (isCommandLineInterface() ? 'CLI' : 'unknown');
+        _error_log('execAsync Linux: ' . $commandWithKeyword . ' [' . $execAsyncUserAgent . '] [' . getRealIpAddr() . '] ');
         exec($commandWithKeyword, $output, $retval);
         _error_log('Command output: ' . json_encode($output));
         _error_log('Return value: ' . $retval);

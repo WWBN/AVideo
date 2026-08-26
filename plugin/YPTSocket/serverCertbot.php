@@ -31,6 +31,6 @@ $startCommand = "sudo " . YPTSocket::getStartServerCommand();
 echo "🚀 Starting server with command:\n{$startCommand}\n";
 
 // Executar o comando e capturar saída
-exec($startCommand . ' 2>&1', $output, $return_var);
+exec($startCommand, $output, $return_var);
 echo "📤 Command output:\n" . implode("\n", $output) . "\n";
 echo "🔚 Command finished with exit code: {$return_var}\n";

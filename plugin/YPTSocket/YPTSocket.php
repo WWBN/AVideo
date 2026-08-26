@@ -45,7 +45,7 @@ class YPTSocket extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "2.2";
+        return "2.3";
     }
 
     public static function getServerVersion()
@@ -487,7 +487,11 @@ class YPTSocket extends PluginAbstract
         global $global;
         exec("php {$global['systemRootPath']}plugin/YPTSocket/stopServer.php");
         exec("sleep 1");
-        execAsync(YPTSocket::getStartServerCommand());
+        exec(YPTSocket::getStartServerCommand(), $output, $returnValue);
+        if ($returnValue !== 0) {
+            _error_log('YPTSocket::restart could not launch the detached server returnValue=' . $returnValue . ' output=' . json_encode($output));
+            return false;
+        }
         return true;
     }
 
@@ -501,16 +505,24 @@ class YPTSocket extends PluginAbstract
     {
         global $global;
 
+        $php = escapeshellarg(get_php());
+        $server = escapeshellarg($global['systemRootPath'] . 'plugin/YPTSocket/server.php');
+
         // Check if ulimit is supported
         $ulimitCheck = "bash -c 'ulimit -n 1048576 >/dev/null 2>&1 && echo supported || echo unsupported'";
         $isUlimitSupported = trim(shell_exec($ulimitCheck));
 
-        // Construct command based on ulimit support
+        // Keep the long-running server in the foreground of its own detached shell and place the
+        // background operator outside that shell. Redirect every standard descriptor explicitly:
+        // nohup only redirects automatically when connected to a terminal, not when PHP exec()
+        // gives it a pipe. Without this, exec() waits forever for YPTSocket to close that pipe.
         if ($isUlimitSupported === 'supported') {
-            $command = "nohup bash -c 'ulimit -n 1048576 && php {$global['systemRootPath']}plugin/YPTSocket/server.php &'";
+            $serverCommand = "ulimit -n 1048576 && exec {$php} {$server}";
         } else {
-            $command = "nohup bash -c 'php {$global['systemRootPath']}plugin/YPTSocket/server.php &'";
+            $serverCommand = "exec {$php} {$server}";
         }
+
+        $command = 'nohup bash -c ' . escapeshellarg($serverCommand) . ' </dev/null >/dev/null 2>&1 &';
 
         return $command;
     }

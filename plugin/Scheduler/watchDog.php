@@ -30,26 +30,36 @@ if ($objParam = AVideoPlugin::getDataObjectIfEnabled('Live')) {
         // check live
         $port = Live::getPlayerDestinationPort();
         $address = Live::getPlayerDestinationHost();
+        $livePortOpen = null;
+        $nginxRestartReasons = array();
 
         if ($obj->watchDogLiveServer) {
-            if (!is_port_open($port)) {
-                _error_log("WatchDog: Live port is not opened [{$port}]");
-                exec("{$nginxFile} -s stop");
-                execAsync("{$nginxFile}");
-            } else {
-                //_error_log("WatchDog: Live port is opened [{$port}]");
+            $livePortOpen = is_port_open($port);
+            if (!$livePortOpen) {
+                $nginxRestartReasons[] = "Live port is not opened [{$port}]";
             }
         }
 
         if ($obj->watchDogLiveServerSSL) {
-            // check live ssl
-            if (!is_ssl_certificate_valid($port, $address)) {
-                _error_log("WatchDog: Live SSL is invalid [port=$port, address=$address]");
-                exec("{$nginxFile} -s stop");
-                execAsync("{$nginxFile}");
-            } else {
-                //_error_log("WatchDog: Live SSL is valid [port=$port, address=$address]");
+            // A closed port already requires a restart and cannot pass an SSL check. Avoid the
+            // duplicate failure and, more importantly, a second NGINX restart in the same tick.
+            if ($livePortOpen !== false && !is_ssl_certificate_valid($port, $address)) {
+                $nginxRestartReasons[] = "Live SSL is invalid [port=$port, address=$address]";
             }
+        }
+
+        if (!empty($nginxRestartReasons)) {
+            _error_log('WatchDog: restarting NGINX once; reasons=' . json_encode($nginxRestartReasons));
+            $nginxPidFile = '/usr/local/nginx/logs/nginx.pid';
+            if (is_file($nginxPidFile) && intval(trim(file_get_contents($nginxPidFile))) > 1) {
+                exec(escapeshellarg($nginxFile) . ' -s stop 2>&1', $nginxStopOutput, $nginxStopReturnValue);
+                if ($nginxStopReturnValue !== 0) {
+                    _error_log('WatchDog: NGINX stop returned ' . $nginxStopReturnValue . ' output=' . json_encode($nginxStopOutput));
+                }
+            } else {
+                _error_log('WatchDog: NGINX PID file is missing or invalid; starting without -s stop');
+            }
+            execAsync(escapeshellarg($nginxFile));
         }
     } else {
         //_error_log("WatchDog: nginx file not found {$nginxFile}");
