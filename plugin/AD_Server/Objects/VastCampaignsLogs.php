@@ -80,7 +80,7 @@ class VastCampaignsLogs extends ObjectYPT
 
     public function setType($type)
     {
-        $this->type = $type;
+        $this->type = xss_esc($type);
     }
 
     public function setVast_campaigns_has_videos_id($vast_campaigns_has_videos_id)
