@@ -10,6 +10,8 @@ if (!User::isAdmin()) {
     $obj->msg = ('Must be admin');
     die(json_encode($obj));
 }
+forbidIfNotPost();
+forbidIfInvalidToken();
 $users_id = intval(@$_REQUEST['users_id']);
 if (empty($users_id)) {
     $obj->msg = ('Empty users_id');

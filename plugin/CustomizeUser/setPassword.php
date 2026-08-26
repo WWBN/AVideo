@@ -37,7 +37,8 @@ $_page = new Page(array('Set Password'));
             method: 'POST',
             data: {
                 users_id: <?php echo $users_id; ?>,
-                ProfilePassword: $('#ProfilePassword').val()
+                ProfilePassword: $('#ProfilePassword').val(),
+                globalToken: '<?php echo getToken(300); ?>'
             },
             success: function(response) {
                 modal.hidePleaseWait();
