@@ -324,16 +324,18 @@ if (!empty($_GET['type'])) {
     $metaDescription = " {$_GET['showOnly']}";
 }
 
-// ── Auto CSRF guard ───────────────────────────────────────────────────────────
-// Blocks cross-origin POST to every *.json.php endpoint unless the file is
-// whitelisted.  See objects/functionsSecurity.php → autoCSRFGuard() for the
-// full bypass documentation.
+// ── Auto CSRF guard + Auto rate limit ─────────────────────────────────────────
+// Blocks cross-origin requests (any method, not just POST) and throttles
+// abusive traffic to every *.json.php endpoint by default. Opt-out is always
+// explicit — see objects/functionsSecurity.php → autoCSRFGuard() /
+// autoRateLimitGuard() for the full bypass documentation (exact-name list,
+// fnmatch pattern list, or a $global flag set before configuration.php loads).
 if (
     isset($_SERVER['REQUEST_METHOD']) &&
-    $_SERVER['REQUEST_METHOD'] === 'POST' &&
     substr($baseName, -9) === '.json.php'
 ) {
     autoCSRFGuard($baseName, $_SERVER['SCRIPT_FILENAME']);
+    autoRateLimitGuard($baseName, $_SERVER['SCRIPT_FILENAME']);
 }
 // ─────────────────────────────────────────────────────────────────────────────
 

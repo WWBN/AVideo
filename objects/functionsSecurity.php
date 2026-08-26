@@ -844,8 +844,9 @@ function enforceRateLimit(string $operation = '', int $maxAttempts = 20, int $ti
 }
 
 /**
- * Automatic CSRF guard invoked once by include_config.php for every POST
- * to a *.json.php endpoint.
+ * Automatic CSRF guard invoked once by include_config.php for every request
+ * (GET or POST) to a *.json.php endpoint. Protection is ON by default —
+ * disabling it for a given endpoint must always be an explicit opt-out.
  *
  * Bypass options (pick the one that fits your use-case):
  *
@@ -976,4 +977,83 @@ function autoCSRFGuard($baseName, $scriptPath = '')
     }
 
     forbidIfIsUntrustedRequest("autoCSRF::{$baseName}");
+}
+
+/**
+ * Automatic rate limit invoked once by include_config.php for every request
+ * (GET or POST) to a *.json.php endpoint. Same opt-out model as
+ * autoCSRFGuard() — protection is ON by default, disabling it must always be
+ * an explicit opt-out:
+ *
+ *  1. $global['skipAutoRateLimit'] = true  — disables only this auto-guard
+ *     for the current request. Must be set BEFORE require configuration.php.
+ *
+ *  2. $global['rateLimitBypassFiles'][] = 'myfile.json.php'  — persistent
+ *     per-file opt-out by exact basename; add in videos/configuration.php.
+ *
+ *  3. $global['rateLimitBypassPatterns'][] = 'myprefix*.json.php'  —
+ *     fnmatch-style pattern opt-out; add in videos/configuration.php.
+ *
+ *  4. $global['autoRateLimitMaxAttempts'] / $global['autoRateLimitTimeWindow']
+ *     — tune the default budget (300 requests / 60s per IP per endpoint)
+ *     without touching code.
+ *
+ * This is a generic safety net, not a replacement for endpoint-specific
+ * limits: sensitive operations (login, password reset, etc.) should keep
+ * calling enforceRateLimit() explicitly with a much stricter budget.
+ *
+ * @param string $baseName   basename of the currently executing script
+ * @param string $scriptPath full path of the currently executing script
+ */
+function autoRateLimitGuard($baseName, $scriptPath = '')
+{
+    global $global;
+
+    if (isCommandLineInterface()) {
+        return;
+    }
+
+    // Per-request opt-out — must be set before configuration.php loads
+    if (!empty($global['skipAutoRateLimit'])) {
+        return;
+    }
+
+    // ── Exact-name built-in bypass list ──────────────────────────────────────
+    // High-frequency polling endpoints that legitimately fire every few
+    // seconds per open browser tab (chat, notifications, live status).
+    static $builtinBypass = [
+        'getChat.json.php',
+        'getChatTotalNew.json.php',
+        'getRoom.json.php',
+        'notifications.json.php',
+        'aVideoEncoderLog.json.php',
+    ];
+
+    if (in_array($baseName, $builtinBypass, true)) {
+        return;
+    }
+
+    // ── Operator-defined bypass lists ─────────────────────────────────────────
+    // Exact basenames:  $global['rateLimitBypassFiles'] = ['myfile.json.php'];
+    if (
+        !empty($global['rateLimitBypassFiles']) &&
+        is_array($global['rateLimitBypassFiles']) &&
+        in_array($baseName, $global['rateLimitBypassFiles'], true)
+    ) {
+        return;
+    }
+
+    // fnmatch patterns:  $global['rateLimitBypassPatterns'] = ['poll*.json.php'];
+    if (!empty($global['rateLimitBypassPatterns']) && is_array($global['rateLimitBypassPatterns'])) {
+        foreach ($global['rateLimitBypassPatterns'] as $pattern) {
+            if (fnmatch($pattern, $baseName)) {
+                return;
+            }
+        }
+    }
+
+    $maxAttempts = !empty($global['autoRateLimitMaxAttempts']) ? intval($global['autoRateLimitMaxAttempts']) : 300;
+    $timeWindow  = !empty($global['autoRateLimitTimeWindow']) ? intval($global['autoRateLimitTimeWindow']) : 60;
+
+    enforceRateLimit("autoRateLimit::{$baseName}", $maxAttempts, $timeWindow);
 }
