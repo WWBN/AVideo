@@ -47,7 +47,7 @@ class Scheduler extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "5.1";
+        return "5.2";
     }
 
     public function getEmptyDataObject()
