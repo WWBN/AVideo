@@ -810,55 +810,41 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             . "{outputTail}";
     } else {
         $restreamResolution = (int) $restreamResolution;
-        switch ($restreamResolution) {
-            case 480:
-                $vWidth = 854;  $vHeight = 480;  $vBitrate = '1200k'; $vBufsize = '2400k';
-                break;
-            case 1080:
-                $vWidth = 1920; $vHeight = 1080; $vBitrate = '4500k'; $vBufsize = '9000k';
-                break;
-            default: // 720: common floor for YouTube, Facebook and Twitch at 30 fps
-                $vWidth = 1280; $vHeight = 720;  $vBitrate = '3000k'; $vBufsize = '6000k';
-                break;
-        }
-        error_log("Restreamer.json.php resolution={$restreamResolution}p ({$vWidth}x{$vHeight}) bitrate={$vBitrate}");
-
-        // ===== ENCODER/OUTPUT =====
+        // Video encoding is resolved per destination below. YouTube, Facebook and
+        // Twitch do not recommend the same bitrate/profile for every resolution.
         $FFMPEGComplement =
-            " -vsync cfr "                              // força CFR corretamente
-            . " -max_muxing_queue_size 8192 "             // fila maior p/ picos
+            " -vsync cfr "
+            . " -max_muxing_queue_size 8192 "
             . " {audioConfig}"
-            . " -c:v libx264 -preset superfast -tune zerolatency "
-            . " -pix_fmt yuv420p "
-            . " -r 30 -g 60 -sc_threshold 0 "             // GOP fixo 2s
-            . " -x264-params \"keyint=60:min-keyint=60:scenecut=0:nal-hrd=cbr\" "
-            . " -b:v {$vBitrate} -minrate {$vBitrate} -maxrate {$vBitrate} -bufsize {$vBufsize} "
-            . " -vf \"scale={$vWidth}:{$vHeight}:force_original_aspect_ratio=decrease,"
-            . "pad={$vWidth}:{$vHeight}:(ow-iw)/2:(oh-ih)/2,format=yuv420p\" "
-            . "{outputTail}";   // sug.: append ?rtmp_live=1 na URL
+            . " {videoConfig}"
+            . " {outputTail}";
     }
 
     if (count($restreamsDestinations) > 1) {
         $command = $FFMPEGcommand;
         foreach ($restreamsDestinations as $value) {
-            $audioConfig = $isPassthrough ? '' : getAudioConfiguration($value);
             $value = clearCommandURL($value);
             if (empty($value)) {
                 error_log('Restreamer.json.php startRestream skipping invalid destination URL');
                 continue;
+            }
+            $audioConfig = $isPassthrough ? '' : getAudioConfiguration($value);
+            $videoConfig = $isPassthrough ? '' : getRestreamVideoConfiguration($value, $restreamResolution);
+            if (!$isPassthrough) {
+                $profile = getRestreamVideoProfile($value, $restreamResolution);
+                error_log('Restreamer.json.php destination profile ' . json_encode($profile));
             }
             $tcurl = buildRtmpTcurl($value);
             $tls_verify = preg_match("/^rtmps:/i", $value) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
             $outputTail = getRestreamOutputTail($value, $tls_verify);
 
             $command .= str_replace(
-                array('{audioConfig}', '{outputTail}'),
-                array($audioConfig, $outputTail),
+                array('{audioConfig}', '{videoConfig}', '{outputTail}'),
+                array($audioConfig, $videoConfig, $outputTail),
                 $FFMPEGComplement
             );
         }
     } else {
-        $audioConfig = $isPassthrough ? '' : getAudioConfiguration($restreamsDestinations[0]);
         $dst = clearCommandURL($restreamsDestinations[0]);
         if (empty($dst)) {
             error_log('Restreamer.json.php startRestream ERROR invalid destination URL');
@@ -868,14 +854,21 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             return false;
         }
 
+        $audioConfig = $isPassthrough ? '' : getAudioConfiguration($dst);
+        $videoConfig = $isPassthrough ? '' : getRestreamVideoConfiguration($dst, $restreamResolution);
+        if (!$isPassthrough) {
+            $profile = getRestreamVideoProfile($dst, $restreamResolution);
+            error_log('Restreamer.json.php destination profile ' . json_encode($profile));
+        }
+
         $tcurl = buildRtmpTcurl($dst);
         $tls_verify = preg_match("/^rtmps:/i", $dst) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
         $outputTail = getRestreamOutputTail($dst, $tls_verify);
 
         $command = $FFMPEGcommand;
         $command .= str_replace(
-            array('{audioConfig}', '{outputTail}'),
-            array($audioConfig, $outputTail),
+            array('{audioConfig}', '{videoConfig}', '{outputTail}'),
+            array($audioConfig, $videoConfig, $outputTail),
             $FFMPEGComplement
         );
     }

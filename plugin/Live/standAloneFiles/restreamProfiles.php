@@ -71,6 +71,9 @@ function getRestreamProvider($url)
     if (restreamHostMatches($host, array('twitch.tv', 'live-video.net', 'contribute.video.net'))) {
         return 'twitch';
     }
+    if (restreamHostMatches($host, array('linkedin.com'))) {
+        return 'linkedin';
+    }
     return 'generic';
 }
 
@@ -97,7 +100,75 @@ function getAudioConfiguration($source)
             return '-c:a aac -ac 2 -ar 44100 -b:a 128k -profile:a aac_low ';
         case 'twitch':
             return '-c:a aac -b:a 160k -ar 48000 -ac 2 -profile:a aac_low ';
+        case 'linkedin':
+            return '-c:a aac -b:a 128k -ar 48000 -ac 2 -profile:a aac_low ';
         default:
             return '-c:a aac -b:a 128k -ar 48000 -ac 2 -profile:a aac_low ';
     }
+}
+
+/**
+ * Return a conservative 30 fps ingest profile tailored to the destination.
+ * Each platform transcodes the incoming stream for its viewers, so matching its
+ * ingest recommendations is more useful than forcing one bitrate on every output.
+ */
+function getRestreamVideoProfile($destinationUrl, $resolution = 720)
+{
+    $provider = getRestreamProvider($destinationUrl);
+    $resolution = (int) $resolution;
+    if (!in_array($resolution, array(480, 720, 1080), true)) {
+        $resolution = 720;
+    }
+
+    $dimensions = array(
+        480 => array('width' => 854, 'height' => 480),
+        720 => array('width' => 1280, 'height' => 720),
+        1080 => array('width' => 1920, 'height' => 1080),
+    );
+
+    // Video bitrate in kbit/s for H.264 at 30 fps.
+    $bitrates = array(
+        'youtube' => array(480 => 2500, 720 => 4000, 1080 => 10000),
+        'facebook' => array(480 => 1500, 720 => 3000, 1080 => 6000),
+        'twitch' => array(480 => 1500, 720 => 3000, 1080 => 4500),
+        'linkedin' => array(480 => 1500, 720 => 3500, 1080 => 6000),
+        'generic' => array(480 => 1200, 720 => 2800, 1080 => 4500),
+    );
+
+    $bitrate = $bitrates[$provider][$resolution] ?? $bitrates['generic'][$resolution];
+    if ($provider === 'linkedin') {
+        // LinkedIn explicitly recommends Baseline when Main/High causes ingest issues.
+        $videoProfile = 'baseline';
+    } else {
+        $videoProfile = in_array($provider, array('youtube', 'twitch'), true) ? 'high' : 'main';
+    }
+
+    return array(
+        'provider' => $provider,
+        'resolution' => $resolution,
+        'width' => $dimensions[$resolution]['width'],
+        'height' => $dimensions[$resolution]['height'],
+        'fps' => 30,
+        'gop' => 60,
+        'bitrateKbps' => $bitrate,
+        'bufsizeKbps' => $bitrate * 2,
+        'videoProfile' => $videoProfile,
+        'bframes' => $videoProfile === 'baseline' ? 0 : 2,
+    );
+}
+
+function getRestreamVideoConfiguration($destinationUrl, $resolution = 720)
+{
+    $profile = getRestreamVideoProfile($destinationUrl, $resolution);
+
+    return " -c:v libx264 -preset veryfast"
+        . " -profile:v {$profile['videoProfile']} -level:v 4.0"
+        . " -pix_fmt yuv420p -r {$profile['fps']}"
+        . " -g {$profile['gop']} -keyint_min {$profile['gop']} -sc_threshold 0"
+        . " -bf {$profile['bframes']} -refs 1"
+        . " -x264-params \"nal-hrd=cbr:force-cfr=1\""
+        . " -b:v {$profile['bitrateKbps']}k -minrate {$profile['bitrateKbps']}k"
+        . " -maxrate {$profile['bitrateKbps']}k -bufsize {$profile['bufsizeKbps']}k"
+        . " -vf \"scale={$profile['width']}:{$profile['height']}:force_original_aspect_ratio=decrease,"
+        . "pad={$profile['width']}:{$profile['height']}:(ow-iw)/2:(oh-ih)/2,format=yuv420p\" ";
 }

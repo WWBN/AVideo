@@ -70,7 +70,7 @@ class Live extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "15.1";
+        return "15.2";
     }
 
     public function getLivePanel()
@@ -519,10 +519,15 @@ class Live extends PluginAbstract
         $obj->restreamStandAloneFFMPEG = '';
 
         $o = new stdClass();
-        $o->type = array('passthrough' => 'Passthrough (no transcoding — saves CPU)', '480' => '480p (854×480 — 1.2 Mbps)', '720' => '720p (1280×720 — 2.5 Mbps)', '1080' => '1080p (1920×1080 — 4.5 Mbps)');
+        $o->type = array(
+            'passthrough' => 'Passthrough (no transcoding — saves CPU)',
+            '480' => '480p (854×480 — 1.2–2.5 Mbps by destination)',
+            '720' => '720p (1280×720 — 2.8–4 Mbps by destination)',
+            '1080' => '1080p (1920×1080 — 4.5–10 Mbps by destination)',
+        );
         $o->value = '720';
         $obj->restream_resolution = $o;
-        self::addDataObjectHelper('restream_resolution', 'Restream Output Resolution', 'Resolution and bitrate used when re-encoding the live stream for restream destinations. Choose "Passthrough" to copy the stream without transcoding (lowest CPU usage, recommended when the source resolution already matches the destination).');
+        self::addDataObjectHelper('restream_resolution', 'Restream Output Resolution', 'Resolution used when re-encoding the live stream. Bitrate, H.264 profile and audio are selected individually for YouTube, Facebook, Twitch, LinkedIn or a generic RTMP destination. Choose "Passthrough" only when the source already complies with every destination.');
 
         $obj->enableRestreamWatchdog = true;
         self::addDataObjectHelper('enableRestreamWatchdog', 'Enable Restream Watchdog', 'When enabled, executeEveryMinute() will detect restreams that unexpectedly disconnected from their destination (e.g. Broken pipe, Error muxing a packet, Error writing trailer, unexpected FFmpeg termination) while the source is still live, and will automatically restart them using the existing restream start flow. Enabled by default.');
