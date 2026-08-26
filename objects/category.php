@@ -77,7 +77,8 @@ class Category
 
     public function setName($name)
     {
-        $this->name = _substr($name, 0, 45);
+        // stored raw name reaches modeYoutubeBottom.php/Gallery unescaped, so sanitize on write
+        $this->name = _substr(xss_esc($name), 0, 45);
     }
 
     public function setClean_name($clean_name)
@@ -1058,7 +1059,7 @@ class Category
 
     public function setIconClass($iconClass)
     {
-        $this->iconClass = $iconClass;
+        $this->iconClass = xss_esc($iconClass);
     }
 
     public function getName()
