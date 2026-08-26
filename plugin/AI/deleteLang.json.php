@@ -30,7 +30,7 @@ $obj->error = !unlink($fileToDelete);
 if($obj->error){
     $obj->msg = "Error on delete {$obj->lang['value']}.vtt file";
 }else{
-    $obj->msg = "{$obj->lang['value']}.vtt file deleted"; 
+    $obj->msg = "{$obj->lang['value']}.vtt file deleted";
 }
 
 echo json_encode($obj);

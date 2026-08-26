@@ -6,7 +6,7 @@ require_once $global['systemRootPath'] . 'plugin/Bookmark/Objects/BookmarkTable.
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
-                        
+
 if(empty($_REQUEST['videos_id'])){
     $_REQUEST['videos_id'] = intval($_REQUEST['videoAutocomplete']);
 }

@@ -51,7 +51,7 @@ try {
     $editorNavTabs = [];
     $editorNavContent = [];
     $active = true;
-    
+
     $response['tables'] = array();
 
     // Process each table found in SQL
@@ -61,7 +61,7 @@ try {
 
         $classname = ucwords($tableName);
         $includeTables[] = "require_once \$global['systemRootPath'] . 'plugin/{$pluginName}/Objects/{$classname}.php';";
-        
+
         // HTML for editor navigation
         $editorNavTabs[] = "<li class=\"" . ($active ? "active" : "") . "\"><a data-toggle=\"tab\" href=\"#{$classname}\"><?php echo __(\"{$tableName}\"); ?></a></li>";
         $editorNavContent[] = "<div id=\"{$classname}\" class=\"tab-pane fade " . ($active ? "in active" : "") . "\" style=\"padding: 10px;\">
@@ -101,7 +101,7 @@ try {
             if ($field['name'] != 'id') {
                 $columnsAdd[] = "\$o->set" . ucfirst($field['name']) . "(\$_POST['{$field['name']}']);";
             }
-            
+
             if ($type == 'int' || $type == 'tinyint') {
                 $columnsGet[] = "function get" . ucfirst($field['name']) . "() { return intval(\$this->{$field['name']}); }";
                 $columnsSet[] = "function set" . ucfirst($field['name']) . "(\${$field['name']}) { \$this->{$field['name']} = intval(\${$field['name']}); }";
@@ -208,7 +208,7 @@ try {
     $response['msg'] = "Plugin '{$pluginName}' created successfully.";
 
     $response['zipDirectory'] = zipDirectory( __DIR__."/{$pluginDir}", __DIR__."/{$pluginZip}");
-    
+
     $response['zipDownload'] = "{$global['webSiteRootURL']}CreatePlugin/{$pluginZip}";
 
     rrmdir(__DIR__."/{$pluginDir}");
