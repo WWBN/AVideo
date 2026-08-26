@@ -17,10 +17,52 @@ if (!AVideoPlugin::isEnabledByName('Scheduler')) {
 // Prevent overlapping runs (duplicate/overlapping cron entries, a webcron hitting this URL while the
 // system cron also fires, or an admin clicking "Run now" mid-tick) from racing on the claim logic below.
 $schedulerLockFile = $global['systemRootPath'] . 'videos/scheduler_run.lock';
+$schedulerLockContentionFile = $schedulerLockFile . '.contention';
+$schedulerLockRecoveryFile = $schedulerLockFile . '.recovery';
+$schedulerLockTimeoutSeconds = 300;
 // On POSIX, close this descriptor when exec() starts an asynchronous child (for example FFmpeg).
 // Without close-on-exec, the child inherits the flock and can block every Scheduler tick until
 // the entire broadcast ends, even though this PHP process has already completed.
 $schedulerLockMode = DIRECTORY_SEPARATOR === '/' ? 'c+e' : 'c+';
+$schedulerReadLockState = function ($handle) {
+    rewind($handle);
+    $raw = trim(stream_get_contents($handle));
+    $state = json_decode($raw, true);
+    return array(
+        'raw' => $raw,
+        'state' => is_array($state) ? $state : array(),
+    );
+};
+$schedulerGetLockAge = function ($state) use ($schedulerLockContentionFile) {
+    foreach (array('updatedAt', 'phaseStartedAt', 'startedAt') as $field) {
+        if (!empty($state[$field])) {
+            $timestamp = strtotime($state[$field]);
+            if ($timestamp !== false) {
+                return array('seconds' => max(0, time() - $timestamp), 'source' => $field);
+            }
+        }
+    }
+
+    // Locks created by versions older than 5.2 contain no owner metadata. Start a separate,
+    // atomic contention timer instead of trusting the lock file mtime, which may be months old.
+    $contentionHandle = @fopen($schedulerLockContentionFile, 'x');
+    if ($contentionHandle) {
+        fwrite($contentionHandle, (string) time());
+        fclose($contentionHandle);
+    }
+    $timestamp = intval(@file_get_contents($schedulerLockContentionFile));
+    if ($timestamp <= 0) {
+        $timestamp = time();
+    }
+    return array('seconds' => max(0, time() - $timestamp), 'source' => 'contentionTimer');
+};
+$schedulerGetOwnerPidAlive = function ($state) {
+    if (empty($state['pid']) || DIRECTORY_SEPARATOR !== '/') {
+        return null;
+    }
+    return file_exists('/proc/' . intval($state['pid']));
+};
+
 $schedulerLockHandle = fopen($schedulerLockFile, $schedulerLockMode);
 if (!$schedulerLockHandle) {
     $lastError = error_get_last();
@@ -28,21 +70,97 @@ if (!$schedulerLockHandle) {
     return die('Scheduler lock file could not be opened');
 }
 if (!flock($schedulerLockHandle, LOCK_EX | LOCK_NB)) {
-    rewind($schedulerLockHandle);
-    $schedulerLockOwnerRaw = trim(stream_get_contents($schedulerLockHandle));
-    $schedulerLockOwner = json_decode($schedulerLockOwnerRaw, true);
-    $schedulerOwnerPidAlive = null;
-    if (is_array($schedulerLockOwner) && !empty($schedulerLockOwner['pid']) && DIRECTORY_SEPARATOR === '/') {
-        $schedulerOwnerPidAlive = file_exists('/proc/' . intval($schedulerLockOwner['pid']));
+    $schedulerLockData = $schedulerReadLockState($schedulerLockHandle);
+    $schedulerLockOwner = $schedulerLockData['state'];
+    $schedulerLockAge = $schedulerGetLockAge($schedulerLockOwner);
+    $schedulerOwnerPidAlive = $schedulerGetOwnerPidAlive($schedulerLockOwner);
+    $schedulerLockDescription =
+        ' lockOwner=' . json_encode($schedulerLockOwner ?: array('raw' => substr($schedulerLockData['raw'], 0, 1000))) .
+        ' ownerPidAlive=' . json_encode($schedulerOwnerPidAlive) .
+        ' lockAge=' . intval($schedulerLockAge['seconds']) .
+        ' lockAgeSource=' . $schedulerLockAge['source'] .
+        ' timeout=' . $schedulerLockTimeoutSeconds;
+
+    if ($schedulerLockAge['seconds'] < $schedulerLockTimeoutSeconds || DIRECTORY_SEPARATOR !== '/') {
+        _error_log('Scheduler::run skipped - another instance is already running' . $schedulerLockDescription);
+        fclose($schedulerLockHandle);
+        $retryAfter = max(1, $schedulerLockTimeoutSeconds - intval($schedulerLockAge['seconds']));
+        return die("Scheduler is already running; stale-lock recovery in {$retryAfter}s");
     }
-    _error_log(
-        'Scheduler::run skipped - another instance is already running lockOwner=' .
-        json_encode($schedulerLockOwner ?: array('raw' => substr($schedulerLockOwnerRaw, 0, 1000))) .
-        ' ownerPidAlive=' . json_encode($schedulerOwnerPidAlive)
-    );
+
+    // Serialize stale recovery. Without this guard, two cron processes could both rotate the
+    // expired inode and each believe that it owns the replacement lock.
+    $schedulerRecoveryHandle = fopen($schedulerLockRecoveryFile, $schedulerLockMode);
+    if (!$schedulerRecoveryHandle || !flock($schedulerRecoveryHandle, LOCK_EX | LOCK_NB)) {
+        _error_log('Scheduler::run stale-lock recovery skipped - another recovery is running' . $schedulerLockDescription);
+        if ($schedulerRecoveryHandle) {
+            fclose($schedulerRecoveryHandle);
+        }
+        fclose($schedulerLockHandle);
+        return die('Scheduler stale-lock recovery is already running');
+    }
+
+    // Reopen and retry while holding the recovery guard. The previous owner may have exited
+    // between the first failed flock and this point, in which case no rotation is necessary.
     fclose($schedulerLockHandle);
-    return die('Scheduler is already running');
+    $schedulerLockHandle = fopen($schedulerLockFile, $schedulerLockMode);
+    if (!$schedulerLockHandle) {
+        flock($schedulerRecoveryHandle, LOCK_UN);
+        fclose($schedulerRecoveryHandle);
+        _error_log('Scheduler::run stale-lock recovery ERROR - could not reopen lock file');
+        return die('Scheduler stale-lock recovery could not reopen lock file');
+    }
+
+    if (!flock($schedulerLockHandle, LOCK_EX | LOCK_NB)) {
+        $schedulerLockData = $schedulerReadLockState($schedulerLockHandle);
+        $schedulerLockOwner = $schedulerLockData['state'];
+        $schedulerLockAge = $schedulerGetLockAge($schedulerLockOwner);
+        $schedulerOwnerPidAlive = $schedulerGetOwnerPidAlive($schedulerLockOwner);
+        $schedulerLockDescription =
+            ' lockOwner=' . json_encode($schedulerLockOwner ?: array('raw' => substr($schedulerLockData['raw'], 0, 1000))) .
+            ' ownerPidAlive=' . json_encode($schedulerOwnerPidAlive) .
+            ' lockAge=' . intval($schedulerLockAge['seconds']) .
+            ' lockAgeSource=' . $schedulerLockAge['source'] .
+            ' timeout=' . $schedulerLockTimeoutSeconds;
+
+        if ($schedulerLockAge['seconds'] < $schedulerLockTimeoutSeconds) {
+            _error_log('Scheduler::run stale-lock recovery cancelled - a fresh owner acquired the lock' . $schedulerLockDescription);
+            fclose($schedulerLockHandle);
+            flock($schedulerRecoveryHandle, LOCK_UN);
+            fclose($schedulerRecoveryHandle);
+            return die('Scheduler lock owner changed during stale recovery');
+        }
+
+        $schedulerExpiredLockFile = $schedulerLockFile . '.expired.' . date('YmdHis') . '.' . getmypid();
+        fclose($schedulerLockHandle);
+        if (!@rename($schedulerLockFile, $schedulerExpiredLockFile)) {
+            flock($schedulerRecoveryHandle, LOCK_UN);
+            fclose($schedulerRecoveryHandle);
+            _error_log('Scheduler::run stale-lock recovery ERROR - could not rotate expired lock' . $schedulerLockDescription);
+            return die('Scheduler expired lock could not be rotated');
+        }
+
+        $schedulerLockHandle = fopen($schedulerLockFile, $schedulerLockMode);
+        if (!$schedulerLockHandle || !flock($schedulerLockHandle, LOCK_EX | LOCK_NB)) {
+            if ($schedulerLockHandle) {
+                fclose($schedulerLockHandle);
+            }
+            flock($schedulerRecoveryHandle, LOCK_UN);
+            fclose($schedulerRecoveryHandle);
+            _error_log('Scheduler::run stale-lock recovery ERROR - replacement lock could not be acquired' . $schedulerLockDescription);
+            return die('Scheduler replacement lock could not be acquired');
+        }
+        @unlink($schedulerExpiredLockFile);
+        _error_log('Scheduler::run recovered expired lock and will continue' . $schedulerLockDescription);
+    } else {
+        _error_log('Scheduler::run acquired lock during stale recovery retry; previous owner exited' . $schedulerLockDescription);
+    }
+
+    @unlink($schedulerLockContentionFile);
+    flock($schedulerRecoveryHandle, LOCK_UN);
+    fclose($schedulerRecoveryHandle);
 }
+@unlink($schedulerLockContentionFile);
 
 $schedulerRunStartedAt = microtime(true);
 $schedulerLockState = array(
@@ -51,14 +169,17 @@ $schedulerLockState = array(
     'startedAt' => date('c'),
     'timezone' => date_default_timezone_get(),
     'sapi' => PHP_SAPI,
+    'lockTimeoutSeconds' => $schedulerLockTimeoutSeconds,
     'phase' => 'startup',
     'phaseStartedAt' => date('c'),
     'updatedAt' => date('c'),
+    'expiresAt' => date('c', time() + $schedulerLockTimeoutSeconds),
 );
-$schedulerWriteLockState = function ($phase, $phaseStartedAt = null) use ($schedulerLockHandle, &$schedulerLockState) {
+$schedulerWriteLockState = function ($phase, $phaseStartedAt = null) use ($schedulerLockHandle, &$schedulerLockState, $schedulerLockTimeoutSeconds) {
     $schedulerLockState['phase'] = $phase;
     $schedulerLockState['phaseStartedAt'] = $phaseStartedAt ?: date('c');
     $schedulerLockState['updatedAt'] = date('c');
+    $schedulerLockState['expiresAt'] = date('c', time() + $schedulerLockTimeoutSeconds);
     rewind($schedulerLockHandle);
     ftruncate($schedulerLockHandle, 0);
     fwrite($schedulerLockHandle, json_encode($schedulerLockState));
