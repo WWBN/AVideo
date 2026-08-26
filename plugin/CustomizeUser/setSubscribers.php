@@ -37,7 +37,8 @@ $_page = new Page(array('Set subscribers'));
                 method: 'POST',
                 data: {
                     users_id: <?php echo $users_id; ?>,
-                    ExtraSubscribers: $('#ExtraSubscribers').val()
+                    ExtraSubscribers: $('#ExtraSubscribers').val(),
+                    globalToken: '<?php echo getToken(300); ?>'
                 },
                 success: function(response) {
                     modal.hidePleaseWait();
