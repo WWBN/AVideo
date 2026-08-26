@@ -336,6 +336,8 @@ $outputText .= $collapsibleClose;
                     modal.showPleaseWait();
                     $.ajax({
                         url: webSiteRootURL+'view/logArchive.json.php',
+                        type: 'POST',
+                        data: {globalToken: '<?php echo getToken(300); ?>'},
                         success: function (response) {
                             modal.hidePleaseWait();
                             avideoResponse(response);
