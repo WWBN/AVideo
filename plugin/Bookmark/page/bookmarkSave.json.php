@@ -16,6 +16,7 @@ if(!User::isAdmin() && !Video::canEdit($_REQUEST['videos_id'])){
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
+forbidIfIsUntrustedRequest('Bookmark::bookmarkSave');
 
 $o = new BookmarkTable(@$_REQUEST['id']);
 $o->setName($_REQUEST['name']);

@@ -8,6 +8,7 @@ if (!User::isLogged()) {
     $response['msg'] = 'Not logged in';
     die(json_encode($response));
 }
+forbidIfIsUntrustedRequest('list-images.delete');
 
 $userId = User::getId();
 

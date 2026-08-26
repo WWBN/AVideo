@@ -30,6 +30,10 @@ if ($videoAddNewCrossDomainAuth) {
 if (!User::canUpload()) {
     die('{"error":"1 ' . __("Permission denied") . '"}');
 }
+// Note: bypassSameDomainCheck is already set above for the legitimate encoder
+// cross-domain flow (explicit user/pass credentials), so this only enforces
+// same-origin for the normal browser session-based upload path.
+forbidIfIsUntrustedRequest('videoAddNew');
 
 $msg = '';
 $info = $infoObj = '';

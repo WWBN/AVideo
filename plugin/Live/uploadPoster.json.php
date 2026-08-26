@@ -12,6 +12,7 @@ if (!User::canStream()) {
     $obj->msg = "You cant do this 1";
     die(json_encode($obj));
 }
+forbidIfIsUntrustedRequest('Live::uploadPoster');
 
 
 $ppv_schedule_id = intval($_REQUEST['ppv_schedule_id'] ?? 0);

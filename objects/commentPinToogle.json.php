@@ -6,6 +6,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 allowOrigin();
+forbidIfIsUntrustedRequest('commentPinToogle');
 
 $obj = new stdClass();
 $obj->error = true;

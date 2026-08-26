@@ -27,6 +27,7 @@ if(!AI::canUseAI()){
 if (!Video::canEdit($videos_id)) {
     forbiddenPage('You cannot edit this video');
 }
+forbidIfIsUntrustedRequest('AI::cutVideo');
 
 $objSchedule = AVideoPlugin::getDataObjectIfEnabled('Scheduler');
 

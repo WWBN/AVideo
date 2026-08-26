@@ -13,6 +13,7 @@ if (!PlayLists::canManageAllPlaylists()) {
 if (empty($_REQUEST['playlist_id'])) {
     forbiddenPage('playlist_id is empty', true);
 }
+forbidIfIsUntrustedRequest('playlistAddOnFirstPage');
 
 $obj = new stdClass();
 $obj->playlist_id = $_REQUEST['playlist_id'];

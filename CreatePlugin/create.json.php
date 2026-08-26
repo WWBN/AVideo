@@ -10,6 +10,7 @@ if(!User::isAdmin()){
 if(!empty($global['disableAdvancedConfigurations'])){
     forbiddenPage('Configuration disabled');
 }
+forbidIfIsUntrustedRequest('CreatePlugin::create');
 
 use iamcal\SQLParser;
 

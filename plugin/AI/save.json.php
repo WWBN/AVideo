@@ -23,6 +23,7 @@ if(!AI::canUseAI()){
 if (!Video::canEdit($videos_id)) {
     forbiddenPage('You cannot edit this video');
 }
+forbidIfIsUntrustedRequest('AI::save');
 
 $video = new Video('', '', $videos_id);
 if(!empty($_REQUEST['ai_metatags_responses_id'])){

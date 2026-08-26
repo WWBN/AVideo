@@ -16,6 +16,7 @@ if (empty($obj->users_id)) {
 if (empty($_REQUEST['birth_date'])) {
     forbiddenPage('You need to inform your birth date');
 }
+forbidIfIsUntrustedRequest('userUpdateBirth');
 
 $user = new User(0);
 $user->loadSelfUser();

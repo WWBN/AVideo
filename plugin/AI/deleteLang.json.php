@@ -19,6 +19,7 @@ if(!AI::canUseAI()){
 if (!Video::canEdit($videos_id)) {
     forbiddenPage('You cannot edit this video');
 }
+forbidIfIsUntrustedRequest('AI::deleteLang');
 
 $obj = new stdClass();
 $obj->videos_id = $videos_id;

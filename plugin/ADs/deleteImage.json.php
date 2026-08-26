@@ -15,6 +15,7 @@ if (empty($is_admin) && !ADs::canHaveCustomAds()) {
     gotToLoginAndComeBackHere(__("You can not do this"));
     exit;
 }
+forbidIfIsUntrustedRequest('ADs::deleteImage');
 
 require_once $global['systemRootPath'] . 'plugin/API/API.php';
 $obj = AVideoPlugin::getObjectDataIfEnabled("ADs");

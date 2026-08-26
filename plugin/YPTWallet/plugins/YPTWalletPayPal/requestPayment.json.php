@@ -15,6 +15,12 @@ $objS = $pluginS->getDataObject();
 $obj= new stdClass();
 $obj->error = true;
 
+if (!User::isLogged()) {
+    $obj->msg = "You must be logged in";
+    die(json_encode($obj));
+}
+forbidIfIsUntrustedRequest('YPTWalletPayPal::requestPayment');
+
 if(empty($_POST['value'])){
     $obj->msg = "Invalid Value";
     die(json_encode($obj));
