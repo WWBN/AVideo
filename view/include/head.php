@@ -131,7 +131,7 @@ include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
 TimeLogEnd($timeLogHead, __LINE__);
 if (!empty($theme)) {
 ?>
-    <link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
+    <link href="<?php echo htmlspecialchars(getURL('view/css/custom/' . $theme . '.css'), ENT_QUOTES, 'UTF-8'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
     <script>(function(){var m=document.cookie.match(/(?:^|;\s*)customCSS=([^;]*)/);if(m){var t=decodeURIComponent(m[1]).replace(/[^a-zA-Z0-9_-]/g,'');if(t){var l=document.getElementById('customCSS');if(l)l.href=l.href.replace(/\/[^\/]+\.css(\?.*)?$/,'/'+t+'.css');}}}());</script>
     <?php
     if ($isCurrentThemeDark) {

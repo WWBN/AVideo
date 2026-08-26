@@ -6401,10 +6401,15 @@ function getCurrentTheme()
     }
 
     if (!empty($_COOKIE['themeMode'])) {
-        return $config->getAlternativeTheme();
+        $theme = $config->getAlternativeTheme();
     } else {
-        return  $config->getDefaultTheme();
+        $theme = $config->getDefaultTheme();
     }
+    // SECURITY: the stored theme name is rendered unescaped into a <link href> in head.php, whitelist it the same way as the cookie/request paths above
+    if (!preg_match($customCSSPattern, $theme)) {
+        return 'default';
+    }
+    return $theme;
 }
 
 function isWindowsServer()
