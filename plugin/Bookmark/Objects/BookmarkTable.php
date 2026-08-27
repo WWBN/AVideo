@@ -33,7 +33,8 @@ class BookmarkTable extends ObjectYPT {
     }
 
     function setName($name) {
-        $this->name = $name;
+        // stored raw name reaches the public watch page via Bookmark::generateChaptersHTML(), so sanitize on write
+        $this->name = xss_esc($name);
     }
 
     function setVideos_id($videos_id) {
