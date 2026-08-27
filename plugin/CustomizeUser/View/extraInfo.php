@@ -18,8 +18,9 @@ if (!User::isAdmin()) {
         echo "<b>Email:</b> " . $u->getEmail() . "<br>";
         $rows = Users_extra_info::getAllActive($_REQUEST['users_id']);
         foreach ($rows as $value) {
-            $val = nl2br($value['current_value']);
-            echo "<b>{$value['field_name']}:</b> {$val}<br>";
+            // current_value is user-submitted (User::saveExtraInfo, no sanitization at write time), escape here on the admin-facing render
+            $val = nl2br(xss_esc($value['current_value']));
+            echo "<b>" . xss_esc($value['field_name']) . ":</b> {$val}<br>";
         }
         ?>
     </div>
