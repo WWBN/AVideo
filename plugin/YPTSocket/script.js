@@ -22,6 +22,16 @@ function socketLog() {
     }
 }
 
+// client.browser/os come from get_browser_name()/getOS() (PHP), whose fallback embeds the raw User-Agent header, so they must be escaped before reaching innerHTML
+function socketEscapeHtml(value) {
+    return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 function socketWarn() {
     if (console && console.log) {
         var args = Array.prototype.slice.call(arguments);
@@ -897,7 +907,7 @@ async function updateSocketUserCard(userData, currentResourceID, validAnchorHref
     const client = userData.client;
     var tooltip = '';
     if (client?.browser && client?.os && userData.ip) {
-        tooltip = `(${client.browser} - ${client.os}) ${userData.ip}`;
+        tooltip = `(${socketEscapeHtml(client.browser)} - ${socketEscapeHtml(client.os)}) ${socketEscapeHtml(userData.ip)}`;
     }
 
     const location = userData.location;

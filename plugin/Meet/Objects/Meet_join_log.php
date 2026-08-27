@@ -146,7 +146,8 @@ class Meet_join_log extends ObjectYPT
 
     public function setUser_agent($user_agent)
     {
-        $this->user_agent = $user_agent;
+        // get_browser_name()'s fallback embeds the raw UA string, and the admin DataTable/meet_log.php echo it unescaped
+        $this->user_agent = xss_esc($user_agent);
     }
 
     public function getId()
