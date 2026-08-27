@@ -66,6 +66,7 @@ $videosCounter = 0;
         } else {
             $_REQUEST['rowCount'] = 2;
         }
+        $categoriesRequestedCount = $_REQUEST['rowCount'];
         if (!empty($_REQUEST['catName'])) {
             $hideTitle = 1;
             $categories = array(Category::getCategoryByName($_REQUEST['catName']));
@@ -136,7 +137,14 @@ $videosCounter = 0;
         }
     }
     TimeLogEnd($timeLog, __LINE__);
-    if (empty($videosCounter)) {
+    // Category::getAllCategories()'s "has videos" pre-check does not use the exact same
+    // viewable/group filters as the Video::getAllVideos() call above, so a returned batch of
+    // categories can legitimately render zero videos. Only stop the infinite-scroll (and show
+    // the "not found" message) once there are no more categories left to fetch; otherwise keep
+    // emitting the pagination link below so the front-end infiniteScroll() keeps requesting the
+    // next batch instead of stopping prematurely.
+    $hasMoreCategories = !empty($categories) && count($categories) >= $categoriesRequestedCount;
+    if (empty($videosCounter) && !$hasMoreCategories) {
         include_once __DIR__.'/notFoundHTML.php';
         echo "</div>";
         return false;
