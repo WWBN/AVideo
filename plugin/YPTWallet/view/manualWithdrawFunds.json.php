@@ -68,7 +68,9 @@ if (!empty($dataObj->enableAutoWithdrawFundsPagePaypal)) {
         }
 
         if (!empty($wallet->getCrypto_wallet_address())) {
-            $emailMessage .= "<br><strong>{$dataObj->CryptoWalletName}: </strong> " . $wallet->getCrypto_wallet_address();
+            // this $emailMessage is stored as wallet_log.information and rendered as HTML by
+            // pendingRequests.php/history.php's bootgrid formatters, so the address must be escaped
+            $emailMessage .= "<br><strong>{$dataObj->CryptoWalletName}: </strong> " . htmlspecialchars($wallet->getCrypto_wallet_address(), ENT_QUOTES, 'UTF-8');
         }
 
 
