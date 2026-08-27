@@ -197,6 +197,38 @@ class SecurityHardeningRegressionTest extends TestCase
 
     /**
      * @test
+     * Regression: a user-controlled PGP public key must not be able to break
+     * out of the profile textarea and execute markup in an administrator's page.
+     */
+    public function testLoginControlPgpPublicKeyIsEscapedInTextarea()
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/LoginControl/profileTabContent.php');
+        $payload = '</textarea><img src=x onerror=alert(document.domain)>';
+        $escaped = htmlspecialchars($payload, ENT_QUOTES, 'UTF-8');
+
+        $this->assertStringContainsString(
+            "htmlspecialchars((string) LoginControl::getPGPKey(\$users_id), ENT_QUOTES, 'UTF-8')",
+            $source
+        );
+        $this->assertStringNotContainsString(
+            '<?php echo LoginControl::getPGPKey($users_id); ?>',
+            $source
+        );
+
+        $dom = new \DOMDocument();
+        $previousUseInternalErrors = libxml_use_internal_errors(true);
+        $dom->loadHTML('<!doctype html><html><body><textarea id="publicKey">' . $escaped . '</textarea></body></html>');
+        libxml_clear_errors();
+        libxml_use_internal_errors($previousUseInternalErrors);
+
+        $textarea = $dom->getElementById('publicKey');
+        $this->assertSame(0, $dom->getElementsByTagName('img')->length);
+        $this->assertNotNull($textarea);
+        $this->assertSame($payload, $textarea->textContent);
+    }
+
+    /**
+     * @test
      * Regression: Unicode searches against older latin1 tables must not emit
      * raw LIKE comparisons, otherwise MySQL can fail at prepare time with
      * "Illegal mix of collations".

@@ -58,7 +58,7 @@ if ($obj->enablePGP2FA) {
             <div class="alert alert-info">
                 <?php echo __('If the system finds a valid public key we will challenge you to decrypt a message so that you can log into the system. so make sure you have the private key equivalent to this public key'); ?>
             </div>
-            <textarea class="form-control" rows="10" id="publicKey" placeholder="<?php echo $keys['public']; ?>"><?php echo LoginControl::getPGPKey($users_id); ?></textarea>
+            <textarea class="form-control" rows="10" id="publicKey" placeholder="<?php echo $keys['public']; ?>"><?php echo htmlspecialchars((string) LoginControl::getPGPKey($users_id), ENT_QUOTES, 'UTF-8'); ?></textarea>
         </div>
         <div class="panel-footer">
             <button class="btn btn-block btn-primary" onclick="savePGP();"><?php echo __('Save PGP Key') ?></button>
