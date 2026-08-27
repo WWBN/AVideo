@@ -64,7 +64,8 @@ class logincontrol_history extends ObjectYPT
 
     public function setUser_agent($user_agent)
     {
-        $this->user_agent = $user_agent;
+        // stored raw UA reaches the admin Login History DataTable unescaped, so sanitize on write
+        $this->user_agent = xss_esc($user_agent);
     }
 
     public function setConfirmation_code($confirmation_code)
