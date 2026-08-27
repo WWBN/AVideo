@@ -62,7 +62,7 @@ foreach ($videos as $key => $value) {
                 fclose($fp);
                 exit;
                 break;
-            
+
             default:// seo
                 echo Video::getURLFriendlyFromCleanTitle($videos[$key]['clean_title']);
                 break;
