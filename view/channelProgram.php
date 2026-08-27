@@ -411,7 +411,8 @@ $_page->setExtraStyles(
                             $.ajax({
                                 url: webSiteRootURL+'objects/playlistRemove.php',
                                 data: {
-                                    "playlist_id": playlist_id
+                                    "playlist_id": playlist_id,
+                                    "globalToken": '<?php echo getToken(300); ?>'
                                 },
                                 type: 'post',
                                 success: function(response) {
