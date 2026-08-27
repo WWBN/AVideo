@@ -6,6 +6,7 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+forbidIfIsUntrustedRequest('playlistSort');
 enforceRateLimit('playlist_sort', 40, 60);
 if (!User::isLogged()) {
     forbiddenPage('Permission denied', true);
