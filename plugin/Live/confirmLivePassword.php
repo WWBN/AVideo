@@ -22,7 +22,7 @@ $liveTitle = $livet['title'];
 $liveDescription = $livet['description'];
 $liveUrl = Live::getLinkToLiveFromUsers_id($user_id);
 
-$img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
+$img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u=" . urlencode($_GET['u']) . "&format=jpg";
 if (!empty($_REQUEST['live_schedule'])) {
     $img = addQueryStringParameter($img, 'live_schedule', intval($_REQUEST['live_schedule']));
 }
