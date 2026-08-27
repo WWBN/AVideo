@@ -7,7 +7,7 @@ if ($obj->allowDonationLink && !empty($video['users_id'])) {
     $donationLink = $u->getDonationLink();
     if (!empty($donationLink)) {
 ?>
-        <a class="btn btn-success no-outline" href="<?php echo $donationLink; ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __($obj->donationButtonLabel); ?>">
+        <a class="btn btn-success no-outline" href="<?php echo htmlspecialchars($donationLink, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __($obj->donationButtonLabel); ?>">
             <i class="fas fa-donate faa-tada animated"></i> <small class="hidden-sm hidden-xs"><?php echo __($obj->donationButtonLabel); ?> <i class="fas fa-external-link-alt"></i></small>
         </a>
     <?php

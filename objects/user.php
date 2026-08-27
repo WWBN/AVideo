@@ -3304,6 +3304,10 @@ if (typeof gtag !== \"function\") {
 
     public function setDonationLink($donationLink)
     {
+        // reject quote chars so a malicious value can't break out of the href="" attribute (filter_var(FILTER_VALIDATE_URL) alone allows them)
+        if (strpbrk($donationLink, '"\'') !== false) {
+            $donationLink = '';
+        }
         $this->donationLink = $donationLink;
     }
 
