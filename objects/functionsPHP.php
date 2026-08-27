@@ -494,12 +494,11 @@ function _json_decode($object, $associative = false)
     if (!is_string($object)) {
         return $object;
     }
-    if (isValidURLOrPath($object)) {
-        $content = file_get_contents($object);
-        if (!empty($content)) {
-            $object = $content;
-        }
-    }
+    // SECURITY: do not auto-fetch $object as a URL/local path (CWE-918/CWE-73) — this
+    // function decodes attacker-controlled request bodies/params in many unauthenticated
+    // endpoints (login.json.php, commentAddNew.json.php, PayPalYPT ipnV2.php, etc). Every
+    // legitimate caller that needs remote/file content already fetches it beforehand and
+    // passes the resulting string here.
     $json = json_decode($object, $associative);
     if ($json === null) {
         $object = str_replace(["\r", "\n"], ['\r', '\n'], $object);
