@@ -124,7 +124,7 @@ class WalletExport
         ]);
 
         foreach ($rows as $row) {
-            fputcsv($stream, [
+            fputcsv($stream, csvFormulaEscape([
                 $row['wallet_log_id'],
                 $row['wallet_id'],
                 $row['users_id'],
@@ -141,7 +141,7 @@ class WalletExport
                 $row['current_wallet_balance'],
                 $row['previous_wallet_balance_formatted'],
                 $row['current_wallet_balance_formatted'],
-            ]);
+            ]));
         }
     }
 
@@ -157,14 +157,14 @@ class WalletExport
         ]);
 
         foreach ($rows as $row) {
-            fputcsv($stream, [
+            fputcsv($stream, csvFormulaEscape([
                 $row['wallet_id'],
                 $row['users_id'],
                 @$row['user'],
                 @$row['email'],
                 $row['balance'],
                 $row['balance_formatted'],
-            ]);
+            ]));
         }
     }
 

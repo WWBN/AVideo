@@ -114,7 +114,7 @@ foreach ($allExternalOptionsKeys as $key) {
 
 fputcsv($output, $fields);
 foreach ($rows as $row) {
-    fputcsv($output, $row);
+    fputcsv($output, csvFormulaEscape($row));
 }
 header("Content-Type:application/csv");
 header("Content-Disposition:attachment;filename={$filename}.csv");

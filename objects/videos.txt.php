@@ -56,7 +56,7 @@ foreach ($videos as $key => $value) {
                 fputcsv($fp, array_keys($data[0]));
 
                 foreach ($data as $row) {
-                    fputcsv($fp, $row);
+                    fputcsv($fp, csvFormulaEscape($row));
                 }
 
                 fclose($fp);

@@ -99,7 +99,7 @@ if ($format === 'csv') {
         $videoTitle = $row['video']['title'] ?? '';
         $videoURL   = shortVideoURL($row['videos_id'] ?? ($row['video']['id'] ?? 0));
         $commentTxt = commentToPlainText($row['commentWithLinks'] ?? '', $row['commentPlain'] ?? '');
-        fputcsv($fh, [
+        fputcsv($fh, csvFormulaEscape([
             $row['created']      ?? '',
             strip_tags($row['identification'] ?? ($row['name'] ?? '')),
             $videoTitle,
@@ -109,7 +109,7 @@ if ($format === 'csv') {
             (int)($row['total_replies'] ?? 0),
             (int)($row['likes']    ?? 0),
             (int)($row['dislikes'] ?? 0),
-        ]);
+        ]));
         if (!empty($row['responses'])) {
             foreach ($row['responses'] as $reply) {
                 if (!is_array($reply)) { continue; }

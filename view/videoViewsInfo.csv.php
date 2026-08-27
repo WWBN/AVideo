@@ -34,7 +34,7 @@ foreach ($rows as $row) {
         $statistic[$value] = $row[$value];
     }
     //var_dump($statistic);exit;
-    fputcsv($output, $statistic);
+    fputcsv($output, csvFormulaEscape($statistic));
 }
 header("Content-Type:application/csv");
 header("Content-Disposition:attachment;filename={$filename}.csv");

@@ -272,6 +272,28 @@ function xss_esc_back($text)
     return $text;
 }
 
+if (!function_exists('csvFormulaEscape')) {
+
+    // CWE-1236: prefix cells starting with =+-@ (or tab/CR before them) with a single quote
+    // so spreadsheet apps (Excel/LibreOffice) treat them as text, not a formula
+    function csvFormulaEscape($value)
+    {
+        if (is_array($value)) {
+            foreach ($value as $key => $item) {
+                $value[$key] = csvFormulaEscape($item);
+            }
+            return $value;
+        }
+        if (!is_string($value) || $value === '') {
+            return $value;
+        }
+        if (preg_match('/^[\s]*[=+\-@]/', $value)) {
+            return "'" . $value;
+        }
+        return $value;
+    }
+}
+
 function is_ssl_certificate_valid($port = 443, $domain = '127.0.0.1', $timeout = 5)
 {
     // Create a stream context with SSL options
