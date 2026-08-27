@@ -5761,7 +5761,8 @@ function showAlertMessage()
         unset($_SESSION['YPTalertMessage']);
     } else {
         if (!requestComesFromSafePlace()) {
-            echo PHP_EOL, "/** showAlertMessage !requestComesFromSafePlace [" . getRefferOrOrigin() . "] **/";
+            // avoid embedding raw Referer/Origin in a JS comment (CWE-79, "*/" breakout)
+            echo PHP_EOL, "/** showAlertMessage !requestComesFromSafePlace " . json_encode(getRefferOrOrigin()) . " **/";
             return false;
         }
     }
