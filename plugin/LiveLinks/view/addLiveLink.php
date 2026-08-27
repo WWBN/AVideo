@@ -33,6 +33,10 @@ $obj->start_date_new = $_POST['start_date'];
 $obj->end_date_new = $_POST['end_date'];
 
 $o = new LiveLinksTable(@$_POST['linkId']);
+if (!empty($o->getId()) && !User::isAdmin() && $o->getUsers_id() != User::getId()) {
+    $obj->msg = "You cant edit this link";
+    die(json_encode($obj));
+}
 $o->setDescription($_POST['description']);
 $o->setCategories_id($_POST['categories_id']);
 $o->setEnd_date($_POST['end_date']);
