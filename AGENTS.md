@@ -1,9 +1,16 @@
 # AVideo Agent Instructions
 
-## Mandatory Canonical Security Policy
+## Mandatory Reuse of Copilot Instructions and Prompts
 
-For every task related to security in any way—including security advisories, vulnerability reports, audits, reviews, hardening, authentication, authorization, access control, sensitive-data exposure, secrets, PII, SQL injection, XSS, CSRF, SSRF, command execution, uploads, path traversal, or a proposed security fix—read [`.github/prompts/avideo-security-advisory-triage.prompt.md`](.github/prompts/avideo-security-advisory-triage.prompt.md) completely before analyzing the issue, reaching conclusions, suggesting changes, or modifying code.
+For every task in this repository, before analyzing the request, planning work, suggesting changes, reviewing code, or modifying files:
 
-Treat that prompt as the canonical and authoritative repository policy for security investigation, classification, regression analysis, fix decisions, testing, and reporting. Follow all applicable requirements from it. If another repository instruction conflicts with that prompt on a security matter, the canonical security prompt takes precedence; continue following all non-conflicting repository instructions.
+1. Read [`.github/copilot-instructions.md`](.github/copilot-instructions.md) completely and treat it as the canonical repository-wide guidance.
+2. Enumerate every `.github/prompts/*.prompt.md` file and read the YAML front matter (`name`, `description`, and any usage hint) from each one.
+3. Select every prompt whose `name` or `description` matches the current task, then read each selected prompt completely before continuing. A prompt explicitly named or linked by the user is always selected.
+4. Read and follow the relevant `.github/instructions/*.instructions.md` files referenced by `copilot-instructions.md` when their scope matches the task or the files being inspected or changed.
 
-Do not copy or restate the detailed security policy in this file. Update the canonical prompt only, so GitHub Copilot and Codex use the same source of truth.
+Do not load the full body of prompts that are unrelated to the current task; the prompt front matter is the routing catalog. When multiple prompts apply, follow all non-conflicting requirements and let the most task-specific prompt govern its workflow and output. For any security-related task, `.github/prompts/avideo-security-advisory-triage.prompt.md` is mandatory and takes precedence for security investigation, classification, regression analysis, fix decisions, testing, and reporting.
+
+The files under `.github/` are the source of truth for both GitHub Copilot and Codex. Do not copy or restate their detailed rules in `AGENTS.md`. Update the applicable Copilot instruction or prompt file so both agents receive the same future changes.
+
+If a required instruction or selected prompt cannot be read completely, do not continue the affected work until the missing guidance is available; report the problem explicitly.
