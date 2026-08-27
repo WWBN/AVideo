@@ -119,6 +119,14 @@ Best regards,
         }
     }
 
+    // SECURITY REVIEW: isAVideoEncoder() is a spoofable User-Agent match (any client can send
+    // "User-Agent: AVideoEncoder" and skip 2FA with just a valid password). This is a KNOWN,
+    // DELIBERATE, ACCEPTED RISK, not an oversight — the real Encoder component authenticates
+    // statelessly with no persistent device ID, so is2FAConfirmed() (device-ID keyed) can never
+    // become true for it; removing this exemption permanently locks any 2FA-enabled account out
+    // of the Encoder with no workaround in the current architecture. Do not "fix" this again
+    // without first re-raising the tradeoff with the site maintainer. See repo memory
+    // avideo-encoder-2fa-exemption-accepted-risk.md for the full history/decision record.
     private static function ignore2FA($users_id = "") {
         if ($url = isAVideoEncoder()) {
             _error_log("Login_control::ignore2FA is an Encoder ($url) login 2FA ignored");
@@ -307,6 +315,8 @@ Best regards,
 
     public function getStart() {
         global $global;
+        // SECURITY REVIEW: same accepted-risk UA-based encoder exemption as ignore2FA() above —
+        // see avideo-encoder-2fa-exemption-accepted-risk.md before changing this.
         if (isAVideoEncoder()) {
             _error_log("Login_control::getStart Login from encoder, do not do anything");
             return false;
