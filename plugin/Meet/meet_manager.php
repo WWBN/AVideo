@@ -62,7 +62,7 @@ $userCredentials = User::loginFromRequestToGet();
                                 <div class="form-check" style="white-space: nowrap;">
                                     <input class="form-check-input userGroups" type="checkbox" value="<?php echo $value['id']; ?>" name="userGroups[]" id="userGroupsCheck<?php echo $value['id']; ?>">
                                     <label class="form-check-label" for="defaultCheck<?php echo $value['id']; ?>">
-                                        <?php echo $value['group_name']; ?>
+                                        <?php echo htmlspecialchars($value['group_name'], ENT_QUOTES, 'UTF-8'); ?>
                                     </label>
                                 </div>
                                 <?php

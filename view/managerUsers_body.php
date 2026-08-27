@@ -43,8 +43,9 @@ foreach ($userGroups as $value) {
             $_REQUEST['current'] = $current;
             $items = array();
             foreach ($users_tabs as $value) {
-                $label = "<i class=\"{$value['icon']}\"></i> " . __($value['title']);
-                $items[] = array('href' => "#{$value['selector']}Tab", 'tooltip' => __($value['title']), 'onclick' => "startUserGrid('#{$value['selector']}', '{$value['queryString']}', " . intval($value['userGroupID']) . ");", 'label' => $label);
+                $safeTitle = htmlspecialchars(__($value['title']), ENT_QUOTES, 'UTF-8');
+                $label = "<i class=\"{$value['icon']}\"></i> " . $safeTitle;
+                $items[] = array('href' => "#{$value['selector']}Tab", 'tooltip' => $safeTitle, 'onclick' => "startUserGrid('#{$value['selector']}', '{$value['queryString']}', " . intval($value['userGroupID']) . ");", 'label' => $label);
             }
             generateHorizontalFlickity($items);
             ?>
@@ -236,7 +237,7 @@ foreach ($userGroups as $value) {
                             ?>
                                 <li class="list-group-item usergroupsLi" id="usergroupsLi<?php echo $value['id']; ?>">
                                     <span class="fa fa-unlock"></span>
-                                    <?php echo $value['group_name']; ?>
+                                    <?php echo htmlspecialchars($value['group_name'], ENT_QUOTES, 'UTF-8'); ?>
                                     <span class="label label-info"><?php echo $value['total_videos']; ?> <?php echo __("Videos linked"); ?></span>
                                     <span class="label label-warning dynamicLabel"><i class="fas fa-link"></i> <?php echo __("Dynamic group"); ?></span>
                                     <div class="material-switch pull-right">

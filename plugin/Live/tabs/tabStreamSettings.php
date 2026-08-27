@@ -208,7 +208,7 @@ if (AVideoPlugin::isEnabledByName('WebRTC')) {
                     foreach ($ug as $value) {
                     ?>
                         <div class="form-group">
-                            <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
+                            <span class="fa fa-users"></span> <?php echo htmlspecialchars($value['group_name'], ENT_QUOTES, 'UTF-8'); ?>
                             <div class="material-switch pull-right">
                                 <input id="group<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" <?php echo (in_array($value['id'], $liveGroups) ? "checked" : "") ?> />
                                 <label for="group<?php echo $value['id']; ?>" class="label-success"></label>

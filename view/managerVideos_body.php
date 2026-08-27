@@ -348,7 +348,7 @@ if (empty($advancedCustom)) {
                                         <a href="#" onclick="userGroupSave(<?php echo $value['id']; ?>, 1); return false;">
                                             <span class="fa fa-lock"></span>
                                             <span class="label label-info"><?php echo $value['total_users'] . " "; ?><?php echo __("Users linked"); ?></span>
-                                            <?php echo $value['group_name']; ?>
+                                            <?php echo htmlspecialchars($value['group_name'], ENT_QUOTES, 'UTF-8'); ?>
                                         </a>
                                     </li>
                                 <?php } ?>
@@ -366,7 +366,7 @@ if (empty($advancedCustom)) {
                                         <a href="#" onclick="userGroupSave(<?php echo $value['id']; ?>, 0); return false;">
                                             <span class="fa fa-lock"></span>
                                             <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
-                                            <?php echo $value['group_name']; ?>
+                                            <?php echo htmlspecialchars($value['group_name'], ENT_QUOTES, 'UTF-8'); ?>
                                         </a>
                                     </li>
                                 <?php } ?>
