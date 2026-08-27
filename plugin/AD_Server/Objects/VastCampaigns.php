@@ -130,7 +130,8 @@ class VastCampaigns extends ObjectYPT
 
     public function setName($name)
     {
-        $this->name = $name;
+        // stored raw name reaches the admin DataTable unescaped, so sanitize on write
+        $this->name = xss_esc($name);
     }
 
     public function setType($type)
@@ -321,7 +322,7 @@ class VastCampaigns extends ObjectYPT
                 }
                 $rows[] = $row;
             }
-        } 
+        }
         return $rows;
     }
 

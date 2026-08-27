@@ -59,7 +59,8 @@ class Users_groups_permissions extends ObjectYPT {
     }
 
     function setName($name) {
-        $this->name = $name;
+        // stored raw name reaches the admin DataTable unescaped, so sanitize on write
+        $this->name = xss_esc($name);
     }
 
     function setusers_groups_id($users_groups_id) {
@@ -101,7 +102,7 @@ class Users_groups_permissions extends ObjectYPT {
     function getStatus() {
         return $this->status;
     }
-    
+
     static function deleteAllFromGroup($groups_id){
         global $global;
         if (!self::isTableInstalled()) {
@@ -118,7 +119,7 @@ class Users_groups_permissions extends ObjectYPT {
         _error_log("Id for table " . static::getTableName() . " not defined for deletion", AVideoLog::$ERROR);
         return false;
     }
-    
+
     static function add($pluginName, $users_groups_id, $type){
         if (!self::isTableInstalled()) {
             return false;
@@ -133,8 +134,8 @@ class Users_groups_permissions extends ObjectYPT {
         }
         return false;
     }
-    
-    
+
+
     static function getAllFromUserGorup($users_groups_id, $activeOnly = true) {
         if (!self::isTableInstalled()) {
             return array();
@@ -173,8 +174,8 @@ class Users_groups_permissions extends ObjectYPT {
         $getAllPermissionsFromUserGorup[$users_groups_id] = $rows;
         return $rows;
     }
-    
-    
+
+
     static function getAllFromPluginAndType($plugins_id, $type, $activeOnly = true) {
         if (!self::isTableInstalled()) {
             return array();
@@ -209,7 +210,7 @@ class Users_groups_permissions extends ObjectYPT {
         $getAllPermissionsFromUserGorup[$plugins_id] = $rows;
         return $rows;
     }
-    
+
     static function getAllFromPlugin($plugins_id, $activeOnly = true) {
         if (!self::isTableInstalled()) {
             return array();
@@ -244,7 +245,7 @@ class Users_groups_permissions extends ObjectYPT {
         $getAllPermissionsFromUserGorup[$plugins_id] = $rows;
         return $rows;
     }
-    
+
     static function getFromUserGroupAndPluginAndType($users_groups_id, $plugins_id, $type, $activeOnly = true) {
         if (!self::isTableInstalled()) {
             return array();
@@ -267,7 +268,7 @@ class Users_groups_permissions extends ObjectYPT {
             $sql .= " and status = 'a' ";
         }
         //echo $sql;var_dump($users_groups_id, $plugins_id, $type);
-        $res = sqlDAL::readSql($sql, "iii", array($users_groups_id, $plugins_id, $type));        
+        $res = sqlDAL::readSql($sql, "iii", array($users_groups_id, $plugins_id, $type));
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -278,7 +279,7 @@ class Users_groups_permissions extends ObjectYPT {
         $getFromUserGroupAndPluginAndType[$name] = $row;
         return $row;
     }
-    
+
     public function save() {
         if (!self::isTableInstalled()) {
             return true;

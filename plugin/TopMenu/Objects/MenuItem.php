@@ -66,14 +66,15 @@ class MenuItem extends ObjectYPT {
                 }
                 $rows[] = $row;
             }
-        } 
+        }
         // Desktop and mobile menus request the same items during one page render.
         self::$menuItemsCache[$cacheKey] = $rows;
         return self::$menuItemsCache[$cacheKey];
     }
 
     function setTitle($title) {
-        $this->title = $title;
+        // some menu render sites (actionButtonGallery.php, actionButtonNetflix.php) echo this raw on public pages, so sanitize on write
+        $this->title = xss_esc($title);
     }
 
     function setImage($image) {

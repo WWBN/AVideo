@@ -40,7 +40,8 @@ class WalletLog extends ObjectYPT {
     }
 
     function setDescription($description) {
-        $this->description = $description;
+        // stored raw description reaches the admin wallet log DataTable unescaped, so sanitize on write
+        $this->description = xss_esc($description);
     }
 
     function setWallet_id($wallet_id) {

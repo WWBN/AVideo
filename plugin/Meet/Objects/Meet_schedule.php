@@ -107,7 +107,8 @@ class Meet_schedule extends ObjectYPT
 
     public function setName($name)
     {
-        $this->name = $name;
+        // stored raw name reaches iframe.php's <title> tag unescaped, so sanitize on write
+        $this->name = xss_esc($name);
     }
 
     public function setMeet_code($meet_code)

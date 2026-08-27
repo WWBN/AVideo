@@ -52,12 +52,13 @@ class Playlists_schedules extends ObjectYPT
 
     function setName($name)
     {
-        $this->name = $name;
+        // stored raw name reaches the admin DataTable unescaped, so sanitize on write
+        $this->name = xss_esc($name);
     }
 
     function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = xss_esc($description);
     }
 
     function setStatus($status)

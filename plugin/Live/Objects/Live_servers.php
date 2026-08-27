@@ -36,7 +36,8 @@ class Live_servers extends ObjectYPT
 
     public function setName($name)
     {
-        $this->name = $name;
+        // stored raw name reaches the admin DataTable unescaped, so sanitize on write
+        $this->name = xss_esc($name);
     }
 
     public function setUrl($url)
