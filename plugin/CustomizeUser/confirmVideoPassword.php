@@ -54,7 +54,7 @@ $_page->setIncludeNavbar(false);
                     </div>
                     <div class="col-sm-6">
                         <center>
-                            <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+                            <form method="post" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'); ?>">
                                 <?php
                                 if (!empty($_REQUEST['video_password'])) {
                                 ?>

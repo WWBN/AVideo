@@ -147,7 +147,7 @@ $_page = new Page(array('Confirm Rating'));
                     <a href="<?php echo getHomePageURL(); ?>" class="btn btn-danger">
                         <i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?>
                     </a>
-                    <a href="<?php echo $_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], "?") === false ? "?" : "&"; ?>rrating=1" class="btn btn-success">
+                    <a href="<?php echo htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'), strpos($_SERVER['REQUEST_URI'], "?") === false ? "?" : "&"; ?>rrating=1" class="btn btn-success">
                         <i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?>
                     </a>
                 </div>
