@@ -109,11 +109,11 @@ class Users_extra_info extends ObjectYPT {
 
     public static function typeToHTML($row, $class1 = '', $class2 = '') {
         $required = '';
-        
+
         if(self::isRequiredField($row['status'])){
             $required = 'required';
         }
-        
+
         $html = "";
         if (isset($row['value'])) {
             $row['field_default_value'] = $row['value'];
