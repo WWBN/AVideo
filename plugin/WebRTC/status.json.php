@@ -1,6 +1,10 @@
 <?php
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 
+if (!User::isAdmin()) {
+    forbiddenPage(__("Permission denied"), true);
+}
+
 $objP = AVideoPlugin::getDataObject('WebRTC');
 
 header('Content-Type: application/json');
