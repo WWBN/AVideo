@@ -57,8 +57,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
         $AdTagURI = AVideoPlugin::replacePlaceHolders($AdTagURI, $videos_id);
         ?>
-        <vmap:AdBreak timeOffset="<?php echo $value['timeOffset']; ?>">
-            <vmap:AdSource id="<?php echo $value['idTag']; ?>" allowMultipleAds="true" followRedirects="true" breakId="<?php echo $value['idTag']; ?>-break">
+        <vmap:AdBreak timeOffset="<?php echo htmlspecialchars($value['timeOffset'], ENT_QUOTES | ENT_XML1, 'UTF-8'); ?>">
+            <vmap:AdSource id="<?php echo htmlspecialchars($value['idTag'], ENT_QUOTES | ENT_XML1, 'UTF-8'); ?>" allowMultipleAds="true" followRedirects="true" breakId="<?php echo htmlspecialchars($value['idTag'], ENT_QUOTES | ENT_XML1, 'UTF-8'); ?>-break">
                 <vmap:AdTagURI templateType="vast3"><![CDATA[<?php echo $AdTagURI; ?>]]></vmap:AdTagURI>
             </vmap:AdSource>
         </vmap:AdBreak>
