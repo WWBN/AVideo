@@ -17,12 +17,12 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
             if ((empty($parentCat)) && (($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
                 if (!empty($_REQUEST['catName'])) {
                     $backURL = getBackURL();
-                    if(!empty($_REQUEST['getBackURL'])){
+                    if(!empty($_REQUEST['getBackURL']) && isSafeRedirectURL($_REQUEST['getBackURL'])){
                         $backURL = $_REQUEST['getBackURL'];
                     }
                     ?>
                     <div class="clearfix" style="margin: 10px 0;">
-                        <a class="btn btn-default btn-sm pull-left"  href="<?php echo $backURL; ?>">
+                        <a class="btn btn-default btn-sm pull-left"  href="<?php echo htmlspecialchars($backURL, ENT_QUOTES, 'UTF-8'); ?>">
                             <i class="fa fa-backward"></i>
                             <?php echo __("Back"); ?>
                         </a>
