@@ -45,7 +45,7 @@ if (empty($feed)) {
         xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
         xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
         <channel>
-            <atom:link href="<?php echo $global['webSiteRootURL'] . ltrim($_SERVER["REQUEST_URI"], "/"); ?>" rel="self" type="application/rss+xml" />
+            <atom:link href="<?php echo htmlspecialchars($global['webSiteRootURL'] . ltrim($_SERVER["REQUEST_URI"], "/"), ENT_QUOTES, 'UTF-8'); ?>" rel="self" type="application/rss+xml" />
             <title>
                 <![CDATA[ <?php echo feedText($title); ?> ]]>
             </title>
