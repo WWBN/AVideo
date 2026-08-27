@@ -35,6 +35,14 @@ if (empty($obj->restreams_id)) {
     forbiddenPage('restreams_id is empty');
 }
 
+if (!User::isAdmin()) {
+    require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
+    $lr = new Live_restreams($obj->restreams_id);
+    if ($lr->getUsers_id() !== User::getId()) {
+        forbiddenPage(__("You have no access to this restream"));
+    }
+}
+
 debugLog(__LINE__);
 
 $obj->url = Live_restreams_logs::getURLFromTransmitionAndRestream($obj->live_transmitions_history_id, $obj->restreams_id, 'log');
