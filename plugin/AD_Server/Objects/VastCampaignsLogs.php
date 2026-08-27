@@ -105,6 +105,11 @@ class VastCampaignsLogs extends ObjectYPT
     }
 
 
+    // minimum time between rewards granted to the same viewer for the same
+    // campaign video, so a logged-in viewer can't mint unlimited balance by
+    // simply repeating label=start with no real ad impression in between
+    const REWARD_COOLDOWN_SECONDS = 3600;
+
     public function save()
     {
         //_error_log("ADSLOG {$this->type}" . json_encode(array(debug_backtrace(), User::getId(), $_SERVER)));
@@ -130,10 +135,27 @@ class VastCampaignsLogs extends ObjectYPT
                 // only reward logged users
                 return $vast_campaigns_logs_id;
             }
+            if (self::isRewardOnCooldown($this->users_id, $this->vast_campaigns_has_videos_id)) {
+                return $vast_campaigns_logs_id;
+            }
             self::reward($vast_campaigns_logs_id);
         }
         return $vast_campaigns_logs_id;
     }
+
+    private static function isRewardOnCooldown($users_id, $vast_campaigns_has_videos_id)
+    {
+        if (empty($users_id) || $users_id === 'null' || empty($vast_campaigns_has_videos_id) || $vast_campaigns_has_videos_id === 'null') {
+            return false;
+        }
+        $key = 'adReward_' . $vast_campaigns_has_videos_id . '_' . $users_id;
+        if (ObjectYPT::getCacheGlobal($key, self::REWARD_COOLDOWN_SECONDS, false, true, true)) {
+            return true;
+        }
+        ObjectYPT::setCacheGlobal($key, 1, true, true);
+        return false;
+    }
+
 
     static function reward($vast_campaigns_logs_id)
     {
