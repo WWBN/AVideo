@@ -765,6 +765,10 @@ class API extends PluginAbstract
             $_POST['sort']['created'] = 'DESC';
             $videos = PlayList::getVideosIDFromPlaylistLight(0);
         } else {
+            // matches PlayList::canSee()'s public/unlisted/owner rule used everywhere else playlist visibility is checked
+            if (!PlayList::canSee($parameters['playlists_id'], User::getId())) {
+                forbiddenPage(__("You cannot access this playlist"));
+            }
             $videos = PlayLists::getOnlyVideosAndAudioIDFromPlaylistLight($parameters['playlists_id']);
         }
         if (empty($videos)) {
