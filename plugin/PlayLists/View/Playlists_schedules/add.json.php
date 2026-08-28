@@ -28,6 +28,12 @@ if (!PlayLists::canManagePlaylist($_POST['playlists_id'])) {
     forbiddenPage(__("You cannot manage this playlist"));
 }
 
+// only playlists opted into "Show on TV" may be scheduled, since run.php broadcasts every active
+// schedule unconditionally and the public EPG/calendar feeds only ever filter by showOnTV
+if (!PlayLists::showOnTV($_POST['playlists_id'])) {
+    forbiddenPage(__("This playlist is not enabled to show on TV"));
+}
+
 $o = new Playlists_schedules(@$_POST['id']);
 $o->setPlaylists_id($_POST['playlists_id']);
 $o->setName($_POST['name']);

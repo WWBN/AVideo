@@ -39,7 +39,7 @@ function secondsToDayTime($seconds) {
     #epgTable > thead > tr > th{
         font-size: 0.7em;
     }
-    #epgTable th, 
+    #epgTable th,
     #epgTable td{
         padding: 2px 4px;
     }
@@ -181,14 +181,14 @@ function secondsToDayTime($seconds) {
                                 } else {
                                     $colspan = "";
                                 }
-                                
+
                                 $id = "";
                                 if($firstColumns){
                                     $firstColumns = false;
-                                   $id = "id=\"col{$currentCellTime}\""; 
+                                   $id = "id=\"col{$currentCellTime}\"";
                                 }
-                                 
-                                
+
+
                                 echo '<td scope"col" ' . $colspan . ' class="' . $class . '" ' . $tooltip . ' '.$id.'>' . $content . '</td>';
                             }
                         }
@@ -212,7 +212,7 @@ function secondsToDayTime($seconds) {
         /*
          $('#epgTable th').each(function (i) {
          var remove = 0;
-         
+
          var tds = $(this).parents('table').find('tr td:nth-child(' + (i + 1) + ')')
          tds.each(function (j) {
          if (this.innerHTML == '' || this.innerHTML == '&nbsp;')
@@ -223,7 +223,7 @@ function secondsToDayTime($seconds) {
          tds.hide();
          }
          });
-         * 
+         *
          */
         if ($('#col' + timeNow).length) {
             timeNowPositionLeft = $('#col' + timeNow).position().left;

@@ -16,9 +16,9 @@ header("Content-type: text/xml");
 $domain = get_domain($global['webSiteRootURL']);
 ?><?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE tv SYSTEM "xmltv.dtd">
-<tv source-info-url="<?php echo $global['webSiteRootURL']; ?>" 
-    source-info-name="<?php echo addcslashes($config->getWebSiteTitle(), '"'); ?>" 
-    generator-info-name="<?php echo $domain, " " . date("Y/m/d H:i:s"); ?>" 
+<tv source-info-url="<?php echo $global['webSiteRootURL']; ?>"
+    source-info-name="<?php echo addcslashes($config->getWebSiteTitle(), '"'); ?>"
+    generator-info-name="<?php echo $domain, " " . date("Y/m/d H:i:s"); ?>"
     generator-info-url="<?php echo $global['webSiteRootURL']; ?>">
         <?php
         $channels = PlayLists::getSiteEPGs();
@@ -36,7 +36,7 @@ $domain = get_domain($global['webSiteRootURL']);
                 <channel id="<?php echo $id; ?>">
                     <display-name><?php echo htmlspecialchars(PlayLists::getNameOrSerieTitle($json['playlists_id'])); ?></display-name>
                     <icon src="<?php echo htmlspecialchars(PlayLists::getImage($json['playlists_id'])); ?>" />
-                </channel>    
+                </channel>
                 <?php
                 if (!empty($json['programme'])) {
                     foreach ($json['programme'] as $programme) {
@@ -49,7 +49,7 @@ $domain = get_domain($global['webSiteRootURL']);
                             <audio>
                                 <stereo>stereo</stereo>
                             </audio>
-                        </programme>        
+                        </programme>
                         <?php
                     }
                 }

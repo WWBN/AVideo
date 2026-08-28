@@ -126,10 +126,16 @@ if (AVideoPlugin::isEnabledByName('VideoPlaylistScheduler')) {
 
 // Add Playlists_schedules events
 if (AVideoPlugin::isEnabledByName('PlayLists')) {
+    require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayLists.php';
     $rows = Playlists_schedules::getAllActive();
     //var_dump($rows);exit;
     foreach ($rows as $playlist) {
         try {
+            // run.php broadcasts every active schedule regardless of status, so the calendar must mirror
+            // that exactly (showOnTV only) - adding a status check here would hide events that go live anyway
+            if (empty($playlist['playlists_id']) || !PlayLists::showOnTV($playlist['playlists_id'])) {
+                continue;
+            }
             $id = $playlist['id'];
             $startTimestamp = $playlist['start_datetime'];
             $endTimestamp = $playlist['finish_datetime'];
@@ -170,17 +176,17 @@ foreach ($appArray as $app) {
         $isPlayingNow = empty($app['comingsoon']);
 
         $id = $app['liveLinks_id'] ?? $app['live_schedule_id'] ?? uniqid('live_');
-        
+
         // Determine start and end timestamps
         $startTimestamp = $isPlayingNow ? time() : strtotime($app['start_date'] ?? $app['scheduled_time'] ?? 'now');
         $endTimestamp = $isPlayingNow ? strtotime('+1 hour') : strtotime($app['end_date'] ?? '+1 hour', $startTimestamp);
-        
+
         // Set custom title and styling
         $customTitle = "[app][{$app['type']}] ".str_replace('&zwnj;', '', $app['title'] ?? ($app['description'] ?? ($isPlayingNow ? "Playing Now" : "Live Event"))) ;
         $backgroundColor = $isPlayingNow ? "#00c853" : "#ff5722"; // Green for playing now, orange for scheduled
         $borderColor = $isPlayingNow ? "#009624" : "#e64a19";
         $textColor = "#ffffff";
-        
+
         // Additional properties
         $extendedProps = [
             'description' => $app['description'] ?? '',

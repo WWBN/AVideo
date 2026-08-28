@@ -859,6 +859,14 @@ class PlayLists extends PluginAbstract
         ), $epgTemplate);
     }
 
+    // This IS the sole visibility gate for TV/EPG/calendar features (epg.json.php, epg.xml.php,
+    // iptv.php, epg.day.php, Live/calendar.json.php) - deliberately independent of
+    // `playlists.status`, not a gap: the actual broadcast (plugin/PlayLists/run.php ->
+    // Rebroadcaster::rebroadcastVideo()) goes live regardless of status, so those feeds must
+    // mirror exactly what will air. Do NOT add a `PlayList::canSee()`/status check on top of this
+    // for those features - it would hide entries that are going to broadcast anyway (regression,
+    // already tried and reverted once). Only relevant for genuinely unrelated features would a
+    // separate privacy check ever be needed - it never is here.
     static function showOnTV($playlists_id)
     {
         if (!self::showTVFeatures()) {
