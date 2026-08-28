@@ -3835,8 +3835,17 @@ class API extends PluginAbstract
     {
         global $global;
         require_once $global['systemRootPath'] . 'objects/like.php';
+        require_once $global['systemRootPath'] . 'objects/video.php';
         if (empty($parameters['videos_id'])) {
             return new ApiObject("Videos ID can not be empty");
+        }
+        if (!User::canWatchVideoWithAds($parameters['videos_id'])) {
+            return new ApiObject("You cannot watch this video");
+        }
+        $video = new Video('', '', $parameters['videos_id']);
+        $storedPassword = $video->getVideo_password();
+        if (!empty($storedPassword) && !Video::verifyVideoPassword((string)($parameters['video_password'] ?? ''), $storedPassword)) {
+            return new ApiObject("Video password required");
         }
         return new ApiObject("", false, Like::getLikes($parameters['videos_id']));
     }

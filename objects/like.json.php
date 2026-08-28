@@ -15,5 +15,7 @@ if (empty($_POST['videos_id']) && !empty($_GET['videos_id'])) {
     $_POST['videos_id'] = $_GET['videos_id'];
 }
 
+forbiddenPageIfCannotWatchVideo($_POST['videos_id']);
+
 $like = new Like($_GET['like'], $_POST['videos_id']);
 echo json_encode(Video::getVideoLikes($_POST['videos_id'], true));
