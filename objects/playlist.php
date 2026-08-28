@@ -197,7 +197,8 @@ class PlayList extends ObjectYPT
         //var_dump($sql, $formats, $values, getCurrentPage());exit;
         $TimeLog1 = "playList getAllFromUser 1($userId)";
         TimeLogStart($TimeLog1);
-        $cacheName = md5($sql . json_encode($values));
+        // publicOnly must be part of the cache key so a public (guest/other-user) result can never be served from/poison an owner's cache entry, or vice versa
+        $cacheName = md5($sql . json_encode($values) . '_publicOnly' . intval($publicOnly));
         $cacheHandler = new PlayListUserCacheHandler($userId);
         //playlist cache
         $rows = array();
@@ -258,7 +259,8 @@ class PlayList extends ObjectYPT
                     $return = self::getAllFromUser($userId, $publicOnly, $status, $playlists_id, $try + 1);
                     return $return;
                 }
-                if (empty($_POST['current']) && empty($_GET['current']) && empty($_REQUEST['searchPlaylist']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
+                // Favorite/Watch Later are private playlists; never materialize or expose them on a publicOnly (guest/other-user) request
+                if (empty($publicOnly) && empty($_POST['current']) && empty($_GET['current']) && empty($_REQUEST['searchPlaylist']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
                     if (empty($favorite)) {
                         $pl = new PlayList(0);
                         $pl->setName("Favorite");
