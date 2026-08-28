@@ -2,6 +2,8 @@
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/autoload.php';
+// Security: accept only private/loopback IPs (Docker/local NGINX) or requests with the correct callbackSecret, like the other Live RTMP webhook callbacks.
+Live::assertRtmpCallbackAllowed();
 @header('Content-Type: application/json');
 
 $obj = new stdClass();
