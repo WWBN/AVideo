@@ -103,6 +103,71 @@ function adminSecurityCheck($force = false)
 }
 
 
+/**
+ * List of sensitive user fields that should be removed from any public-facing response
+ * built from a SQL JOIN with the users table (video/live/comment rows, etc).
+ *
+ * Note: site owners can opt to publicly show a user's email/username as their public
+ * "identification" (CustomizeUser doNotIdentifyByEmail/doNotIdentifyByName/doNotIdentifyByUserName,
+ * see User::getNameIdentification()/getNameIdentificationBd()). That is unaffected by this list:
+ * the public identification is always served via those computed helpers (e.g. channel_name,
+ * comments[].userName), never via these raw 'user'/'email' joined columns.
+ *
+ * @return array List of sensitive field names to remove
+ */
+function getSensitiveUserFields()
+{
+    return [
+        'user',                 // Username - prevents account enumeration
+        'email',                // Email address - PII
+        'isAdmin',              // Admin status - security information
+        'lastLogin',            // Last login timestamp - privacy/security
+        'password',             // Should already be unset but ensure it
+        'recoverPass',          // Password recovery token
+        'canStream',            // Permission flag
+        'canUpload',            // Permission flag
+        'canCreateMeet',        // Permission flag
+        'canViewChart',         // Permission flag
+        'analyticsCode',        // Tracking information
+        'first_name',           // PII
+        'last_name',            // PII
+        'address',              // PII
+        'zip_code',             // PII
+        'country',              // PII
+        'region',               // PII
+        'city',                 // PII
+        'phone',                // PII
+        'birth_date',           // PII
+        'donationLink',         // May contain personal info
+        'extra_info',           // May contain sensitive data
+        'userExternalOptions',  // External options may contain sensitive data
+        'status',               // User account status
+        'photoURL',             // Raw photo path (use 'photo' instead)
+        'backgroundURL'         // Raw background path (use 'background' instead)
+    ];
+}
+
+/**
+ * Remove sensitive user fields from a mixed data array (e.g., video row with joined user data).
+ *
+ * This is used when data arrays contain both content data (video/live/etc) and user data
+ * from SQL JOINs. It removes only the sensitive user fields while preserving content fields.
+ *
+ * @param array &$data Reference to data array to sanitize in-place
+ * @return void
+ */
+function removeSensitiveUserFields(&$data)
+{
+    if (empty($data) || !is_array($data)) {
+        return;
+    }
+
+    $sensitiveFields = getSensitiveUserFields();
+    foreach ($sensitiveFields as $field) {
+        unset($data[$field]);
+    }
+}
+
 // same visibility/password rule enforced for the video page itself (CustomizeUser::getModeYouTube)
 function forbiddenPageIfCannotWatchVideo($videos_id)
 {

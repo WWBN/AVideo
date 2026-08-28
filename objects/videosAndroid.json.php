@@ -45,6 +45,8 @@ if (!empty($random)) {
 
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password'], $videos[$key]['recoverPass']);
+    // unauthenticated endpoint - never leak the joined owner's PII (email, lastLogin, etc)
+    removeSensitiveUserFields($videos[$key]);
     $images = Video::getImageFromFilename($videos[$key]['filename'], $videos[$key]['type']);
     $videos[$key]['images'] = $images;
     $videos[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
