@@ -4479,6 +4479,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
 
         $ls = new Live_schedule($live_schedule_id);
+
+        if (empty($ls->getId()) || !$ls->userCanSeeTransmition()) {
+            $obj->msg = __('Permission denied');
+            return $obj;
+        }
+
         $to_users_id = User::getId();
         $users_id = Live_schedule::getUsers_idOrCompany($live_schedule_id);
 
