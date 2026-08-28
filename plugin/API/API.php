@@ -311,8 +311,18 @@ class API extends PluginAbstract
         if (!empty($parameters['users_id'])) {
             $users_id = $parameters['users_id'];
         } else if (!empty($parameters['videos_id'])) {
+            // must not map a video the caller cannot watch (group visibility + password) to its owner/ads
+            if (!User::canWatchVideoWithAds($parameters['videos_id'])) {
+                return new ApiObject("You cannot watch this video");
+            }
+            $video = new Video('', '', $parameters['videos_id']);
+            $storedPassword = $video->getVideo_password();
+            if (!empty($storedPassword) && !Video::verifyVideoPassword((string)($parameters['video_password'] ?? ''), $storedPassword)) {
+                return new ApiObject("Video password required");
+            }
             $users_id = Video::getOwner($parameters['videos_id']);
         } else if (!empty($parameters['live_key']) && AVideoPlugin::isEnabledByName('Live')) {
+            // SECURITY REVIEW: same owner-mapping shape as videos_id above, not in the reported scope of this fix
             $row = LiveTransmition::keyExists($parameters['live_key']);
             $users_id = $row['users_id'];
         }
