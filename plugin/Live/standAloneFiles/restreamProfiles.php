@@ -46,6 +46,118 @@ function clearCommandURL($url)
     return $url;
 }
 
+function buildAutomaticRestreamDestination($streamUrl, $streamKey, $expectedScheme = '')
+{
+    if (!is_string($streamUrl) || !is_string($streamKey)) {
+        return '';
+    }
+
+    $streamUrl = rtrim(trim($streamUrl), '/');
+    $streamKey = ltrim(trim($streamKey), '/');
+    if ($streamUrl === '' || $streamKey === '') {
+        return '';
+    }
+
+    $destination = clearCommandURL("{$streamUrl}/{$streamKey}");
+    if ($destination === '') {
+        return '';
+    }
+
+    if ($expectedScheme !== '' && strtolower((string) parse_url($destination, PHP_URL_SCHEME)) !== strtolower($expectedScheme)) {
+        return '';
+    }
+
+    return $destination;
+}
+
+/**
+ * Convert the automatic-provider response into a preferred destination and an optional
+ * downgrade destination. The legacy stream_url remains the primary value for providers
+ * that do not return the additive rtmps_stream_url field.
+ */
+function getAutomaticRestreamDestinationPair($response)
+{
+    $result = array(
+        'primary' => '',
+        'fallback' => '',
+    );
+
+    if (!is_object($response) && !is_array($response)) {
+        return $result;
+    }
+
+    $values = (array) $response;
+    $streamKey = isset($values['stream_key']) ? $values['stream_key'] : '';
+    $streamUrl = isset($values['stream_url']) ? $values['stream_url'] : '';
+    $rtmpsStreamUrl = isset($values['rtmps_stream_url']) ? $values['rtmps_stream_url'] : '';
+
+    $secureDestination = buildAutomaticRestreamDestination($rtmpsStreamUrl, $streamKey, 'rtmps');
+    $legacyDestination = buildAutomaticRestreamDestination($streamUrl, $streamKey);
+
+    if ($secureDestination !== '') {
+        $result['primary'] = $secureDestination;
+        if (
+            $legacyDestination !== ''
+            && strtolower((string) parse_url($legacyDestination, PHP_URL_SCHEME)) === 'rtmp'
+            && $legacyDestination !== $secureDestination
+        ) {
+            $result['fallback'] = $legacyDestination;
+        }
+    } else {
+        $result['primary'] = $legacyDestination;
+    }
+
+    return $result;
+}
+
+/**
+ * Only allow the secure-to-cleartext downgrade for the matching YouTube destination and
+ * only when the caller has positively identified an initial connection failure.
+ */
+function shouldAttemptAutomaticRestreamFallback($primaryDestination, $fallbackDestination, $initialConnectionFailed)
+{
+    if (!$initialConnectionFailed) {
+        return false;
+    }
+
+    $primary = parse_url((string) $primaryDestination);
+    $fallback = parse_url((string) $fallbackDestination);
+    if (!is_array($primary) || !is_array($fallback)) {
+        return false;
+    }
+    if (empty($primary['scheme']) || empty($fallback['scheme'])) {
+        return false;
+    }
+    if (strtolower($primary['scheme']) !== 'rtmps' || strtolower($fallback['scheme']) !== 'rtmp') {
+        return false;
+    }
+    if (!isYouTubeRestreamDestination($primaryDestination) || !isYouTubeRestreamDestination($fallbackDestination)) {
+        return false;
+    }
+
+    return ($primary['path'] ?? '') === ($fallback['path'] ?? '')
+        && ($primary['query'] ?? '') === ($fallback['query'] ?? '');
+}
+
+function automaticRestreamLaunchSamplesIndicateFailure(array $firstSample, array $secondSample)
+{
+    // An unreachable/ambiguous executor must never cause a cleartext downgrade because the
+    // primary process may still be running even though its status could not be retrieved.
+    if (empty($firstSample['known']) || empty($secondSample['known'])) {
+        return false;
+    }
+    if (empty($secondSample['running'])) {
+        return true;
+    }
+
+    $firstModified = isset($firstSample['modified']) ? intval($firstSample['modified']) : 0;
+    $secondModified = isset($secondSample['modified']) ? intval($secondSample['modified']) : 0;
+
+    // A healthy FFmpeg process continually updates its progress log. A process that remains
+    // alive while its TLS handshake is stuck does not, so unchanged progress is also a failure.
+    return $secondModified <= $firstModified;
+}
+
 function restreamHostMatches($host, array $domains)
 {
     $host = strtolower(rtrim((string) $host, '.'));
@@ -89,6 +201,18 @@ function isYouTubeRestreamDestination($url)
 function getRestreamOutputTail($destinationUrl, $tlsVerify = '')
 {
     return " -flvflags no_duration_filesize -f flv {$tlsVerify} \"{$destinationUrl}\"";
+}
+
+function getRestreamTlsOptions($destinationUrl, $tcurl)
+{
+    if (strtolower((string) parse_url($destinationUrl, PHP_URL_SCHEME)) !== 'rtmps') {
+        return '';
+    }
+
+    // RTMPS without peer verification is encrypted but does not authenticate the server.
+    // Try a fully verified TLS connection first; the automatic YouTube path can still use
+    // its separately returned RTMP endpoint when this initial connection genuinely fails.
+    return "-tls_verify 1 -rtmp_tcurl \"{$tcurl}\" ";
 }
 
 function getAudioConfiguration($source)

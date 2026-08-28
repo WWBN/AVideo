@@ -248,6 +248,7 @@ function _getLiveKey($token)
     $obj->error = true;
     $obj->msg = '';
     $obj->newRestreamsDestination = '';
+    $obj->fallbackRestreamsDestination = '';
     $obj->content = '';
 
     if ($isATest) {
@@ -260,11 +261,17 @@ function _getLiveKey($token)
     if (!empty($obj->content)) {
         $json = json_decode($obj->content);
         if (!empty($json) && $json->error === false) {
-            if (!empty($json->stream_key) && !empty($json->stream_url)) {
-                $newRestreamsDestination = _addLastSlash($json->stream_url) . $json->stream_key;
-                $obj->newRestreamsDestination = $newRestreamsDestination;
-                $obj->live_url = $json->live_url;
-                error_log("Restreamer.json.php _getLiveKey found $newRestreamsDestination live_url={$obj->live_url}");
+            $destinations = getAutomaticRestreamDestinationPair($json);
+            if (!empty($destinations['primary'])) {
+                $obj->newRestreamsDestination = $destinations['primary'];
+                $obj->fallbackRestreamsDestination = $destinations['fallback'];
+                $obj->live_url = isset($json->live_url) ? $json->live_url : '';
+                error_log(
+                    'Restreamer.json.php _getLiveKey found primary='
+                    . redactDestinationForLog($obj->newRestreamsDestination)
+                    . ' fallback=' . redactDestinationForLog($obj->fallbackRestreamsDestination)
+                    . ' live_url=' . $obj->live_url
+                );
                 $obj->error = false;
             }
         } else if (!empty($json->rawData)) {
@@ -310,6 +317,8 @@ if (!$isCommandLine) { // not command line
             //var_dump($robj->restreamsToken, $robj->restreamsDestinations);exit;
             if (empty($isATest)) {
                 foreach ($robj->restreamsToken as $key => $token) {
+                    $newRestreamsDestination = '';
+                    $fallbackRestreamsDestination = '';
 
                     $liveKey = _getLiveKey($token);
                     if (isset($liveKey->live_url)) {
@@ -317,6 +326,7 @@ if (!$isCommandLine) { // not command line
                     }
                     if (empty($liveKey->error)) {
                         $newRestreamsDestination = $liveKey->newRestreamsDestination;
+                        $fallbackRestreamsDestination = $liveKey->fallbackRestreamsDestination;
                     } else {
                         error_log("Restreamer.json.php ERROR try again in 3 seconds " . json_encode($liveKey));
                         sleep(3);
@@ -326,6 +336,7 @@ if (!$isCommandLine) { // not command line
                         }
                         if (empty($liveKey->error)) {
                             $newRestreamsDestination = $liveKey->newRestreamsDestination;
+                            $fallbackRestreamsDestination = $liveKey->fallbackRestreamsDestination;
                         } else {
                             if (!is_string($liveKey->msg)) {
                                 $msg = json_encode($liveKey->msg);
@@ -354,6 +365,9 @@ if (!$isCommandLine) { // not command line
                         unset($robj->restreamsDestinations[$key]);
                     } else {
                         $robj->restreamsDestinations[$key] = $newRestreamsDestination;
+                        if (!empty($fallbackRestreamsDestination)) {
+                            $robj->restreamsFallbackDestinations[$key] = $fallbackRestreamsDestination;
+                        }
                     }
                 }
             }
@@ -499,7 +513,18 @@ function runRestream($robj)
             // destinations from being attempted (see the "Undefined constant" crash that took
             // down every destination in the same run before this try/catch existed).
             try {
-                $pid[] = startRestream($m3u8, [$value], str_replace(".log", "_{$logKey}_{$historyId}_{$host}.log", $logFile), $robj);
+                $fallbackDestination = isset($robj->restreamsFallbackDestinations[$key])
+                    ? $robj->restreamsFallbackDestinations[$key]
+                    : '';
+                $pid[] = startRestream(
+                    $m3u8,
+                    [$value],
+                    str_replace(".log", "_{$logKey}_{$historyId}_{$host}.log", $logFile),
+                    $robj,
+                    1,
+                    null,
+                    $fallbackDestination
+                );
             } catch (\Throwable $th) {
                 error_log("Restreamer.json.php runRestream FATAL while starting destination key={$key} host={$host}: " . $th->getMessage());
                 $pid[] = false;
@@ -685,8 +710,13 @@ function _make_path($path)
 // tying up an Apache worker the whole time).
 const STARTRESTREAM_MAX_TRIES = 6;
 const STARTRESTREAM_MAX_SLEEP_SECONDS = 3;
+// Same synchronous-request constraint as above: the automatic RTMPS->RTMP probe below sleeps
+// this many seconds, so automaticRestreamInitialConnectionFailed() skips it (blocking-probe=false)
+// on the manual "start" path instead of stacking onto the already tight ~60s budget.
+const AUTOMATIC_RESTREAM_INITIAL_WARMUP_SECONDS = 8;
+const AUTOMATIC_RESTREAM_PROGRESS_SAMPLE_SECONDS = 4;
 
-function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1, $startTime = null)
+function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1, $startTime = null, $fallbackDestination = '')
 {
     global $json;
     global $ffmpegBinary, $isATest;
@@ -694,6 +724,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     if ($startTime === null) {
         $startTime = microtime(true);
     }
+    $originalM3u8 = $m3u8;
 
     error_log("Restreamer.json.php startRestream enter " . json_encode(array('tries' => $tries, 'm3u8' => $m3u8, 'destinationsCount' => is_array($restreamsDestinations) ? count($restreamsDestinations) : 0, 'logFile' => $logFile, 'summary' => getRestreamRequestSummary($robj))));
 
@@ -764,7 +795,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         fclose($lockFileHandle);
         @unlink($lockFilePath);
         sleep(min($tries, STARTRESTREAM_MAX_SLEEP_SECONDS));
-        return startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries + 1, $startTime);
+        return startRestream($originalM3u8, $restreamsDestinations, $logFile, $robj, $tries + 1, $startTime, $fallbackDestination);
     }
 
     error_log("Restreamer.json.php startRestream _isURL200 tries= " . json_encode($tries));
@@ -820,6 +851,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             . " {outputTail}";
     }
 
+    $primaryDestinationForFallback = '';
     if (count($restreamsDestinations) > 1) {
         $command = $FFMPEGcommand;
         foreach ($restreamsDestinations as $value) {
@@ -835,7 +867,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
                 error_log('Restreamer.json.php destination profile ' . json_encode($profile));
             }
             $tcurl = buildRtmpTcurl($value);
-            $tls_verify = preg_match("/^rtmps:/i", $value) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
+            $tls_verify = getRestreamTlsOptions($value, $tcurl);
             $outputTail = getRestreamOutputTail($value, $tls_verify);
 
             $command .= str_replace(
@@ -853,6 +885,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             @unlink($lockFilePath);
             return false;
         }
+        $primaryDestinationForFallback = $dst;
 
         $audioConfig = $isPassthrough ? '' : getAudioConfiguration($dst);
         $videoConfig = $isPassthrough ? '' : getRestreamVideoConfiguration($dst, $restreamResolution);
@@ -862,7 +895,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         }
 
         $tcurl = buildRtmpTcurl($dst);
-        $tls_verify = preg_match("/^rtmps:/i", $dst) ? "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" " : "";
+        $tls_verify = getRestreamTlsOptions($dst, $tcurl);
         $outputTail = getRestreamOutputTail($dst, $tls_verify);
 
         $command = $FFMPEGcommand;
@@ -879,19 +912,85 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         error_log("Restreamer.json.php startRestream startRestream, check the file ($logFile) for the log");
         _make_path($logFile);
         file_put_contents($logFile, $command . PHP_EOL);
+        $launch = null;
         if (empty($isATest)) {
             $keyword = 'restream_' . md5(basename($logFile));
             $robj->keyword = $keyword;
             $safeLogFile = escapeshellarg($logFile);
+            $launch = new stdClass();
+            $launch->keyword = $keyword;
+            $launch->accepted = null;
+            $launch->remote = false;
+            $launch->restreamStandAloneFFMPEG = false;
+            $launch->pid = 0;
+            $launch->logFile = $logFile;
             // use remote ffmpeg here
             if (function_exists('execFFMPEGAsyncOrRemote')) {
                 $restreamStandAloneFFMPEG = isset($json->restreamStandAloneFFMPEG) ? $json->restreamStandAloneFFMPEG : false;
+                $launch->restreamStandAloneFFMPEG = $restreamStandAloneFFMPEG;
+                if (function_exists('buildFFMPEGRemoteURL')) {
+                    $launch->remote = buildFFMPEGRemoteURL(
+                        array('log' => 1, 'keyword' => $keyword),
+                        '',
+                        $restreamStandAloneFFMPEG
+                    ) !== false;
+                }
                 $execResponse = execFFMPEGAsyncOrRemote($command . ' > ' . $safeLogFile . ' 2>&1 ', $keyword, '', $restreamStandAloneFFMPEG);
-                error_log("Restreamer.json.php startRestream execFFMPEGAsyncOrRemote response " . json_encode(array('keyword' => $keyword, 'response' => $execResponse)));
+                if ($launch->remote) {
+                    $remoteResponse = json_decode((string) $execResponse);
+                    if (is_object($remoteResponse) && isset($remoteResponse->error)) {
+                        $launch->accepted = empty($remoteResponse->error);
+                    }
+                } else {
+                    $launch->accepted = is_numeric($execResponse) && intval($execResponse) > 0;
+                    $launch->pid = $launch->accepted ? intval($execResponse) : 0;
+                }
+                error_log("Restreamer.json.php startRestream launch response " . json_encode(array(
+                    'keyword' => $keyword,
+                    'remote' => $launch->remote,
+                    'accepted' => $launch->accepted,
+                )));
             } else {
                 // Fallback: execute directly
                 exec($command . ' > ' . $safeLogFile . ' 2>&1 &', $execOutput, $execReturn);
+                $launch->accepted = $execReturn === 0;
                 error_log("Restreamer.json.php startRestream exec fallback response " . json_encode(array('return' => $execReturn, 'output' => $execOutput)));
+            }
+
+            if (
+                !empty($fallbackDestination)
+                && shouldAttemptAutomaticRestreamFallback($primaryDestinationForFallback, $fallbackDestination, true)
+            ) {
+                // The manual "Start" button (getAction.json.php) is a synchronous HTTP request
+                // bound by url_get_contents()'s ~60s default_socket_timeout (see the
+                // STARTRESTREAM_MAX_TRIES comment above) - the normal launch path here already
+                // has a 300s curl timeout (Live::sendRestream()), so only that path can afford the
+                // blocking 8s+4s probe below. The manual-start path still gets the immediate
+                // accept-failure signal, just not the blocking warmup/sample wait.
+                $allowBlockingProbe = (@$robj->type !== 'start');
+                $initialConnectionFailed = automaticRestreamInitialConnectionFailed($launch, $robj, $allowBlockingProbe);
+                if (shouldAttemptAutomaticRestreamFallback($primaryDestinationForFallback, $fallbackDestination, $initialConnectionFailed)) {
+                    error_log(
+                        'Restreamer.json.php startRestream RTMPS failed during the initial connection window; '
+                        . 'retrying the matching YouTube destination over RTMP'
+                    );
+                    stopAutomaticRestreamLaunch($launch, $robj);
+                    $robj->restreamsDestinations[$robj->live_restreams_id] = $fallbackDestination;
+
+                    flock($lockFileHandle, LOCK_UN);
+                    fclose($lockFileHandle);
+                    @unlink($lockFilePath);
+
+                    return startRestream(
+                        $originalM3u8,
+                        array($fallbackDestination),
+                        $logFile,
+                        $robj,
+                        $tries,
+                        $startTime,
+                        ''
+                    );
+                }
             }
         }
         error_log("Restreamer.json.php startRestream finish");
@@ -904,6 +1003,111 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     fclose($lockFileHandle);
     @unlink($lockFilePath);
     return true;
+}
+
+function automaticRestreamInitialConnectionFailed($launch, $robj, $allowBlockingProbe = true)
+{
+    if (!is_object($launch)) {
+        return false;
+    }
+    if ($launch->accepted === false) {
+        return true;
+    }
+    if (!$allowBlockingProbe) {
+        return false;
+    }
+
+    sleep(AUTOMATIC_RESTREAM_INITIAL_WARMUP_SECONDS);
+    $firstSample = getAutomaticRestreamLaunchSample($launch, $robj);
+    sleep(AUTOMATIC_RESTREAM_PROGRESS_SAMPLE_SECONDS);
+    $secondSample = getAutomaticRestreamLaunchSample($launch, $robj);
+
+    return automaticRestreamLaunchSamplesIndicateFailure($firstSample, $secondSample);
+}
+
+function getAutomaticRestreamLaunchSample($launch, $robj)
+{
+    $sample = array(
+        'known' => false,
+        'running' => false,
+        'modified' => 0,
+    );
+
+    if (!empty($launch->remote)) {
+        if (!function_exists('getFFMPEGRemoteLog')) {
+            return $sample;
+        }
+        $status = getFFMPEGRemoteLog($launch->keyword, $launch->restreamStandAloneFFMPEG);
+        if (!is_object($status)) {
+            error_log('Restreamer.json.php RTMPS initial status is unknown because the remote executor did not respond');
+            return $sample;
+        }
+
+        $sample['known'] = true;
+        $sample['running'] = empty($status->error) && !empty($status->isActive);
+        $sample['modified'] = isset($status->modified) ? intval($status->modified) : 0;
+        return $sample;
+    }
+
+    $logFile = isset($launch->logFile) ? $launch->logFile : '';
+    $logExists = !empty($logFile) && file_exists($logFile);
+    $sample['known'] = true;
+    $sample['modified'] = $logExists ? intval(@filemtime($logFile)) : 0;
+
+    if (!empty($launch->pid)) {
+        $sample['running'] = isRestreamProcessIdRunning($launch->pid);
+    } else {
+        $process = getProcess($robj);
+        $logIsFresh = $logExists && (time() - $sample['modified']) < 10;
+        $sample['running'] = !empty($process) || $logIsFresh;
+    }
+
+    return $sample;
+}
+
+function isRestreamProcessIdRunning($pid)
+{
+    $pid = intval($pid);
+    if ($pid <= 0) {
+        return false;
+    }
+
+    $stat = @file_get_contents("/proc/{$pid}/stat");
+    if ($stat !== false) {
+        if (preg_match('/^\d+\s+\(.+\)\s+([A-Z])\s/', $stat, $matches)) {
+            return $matches[1] !== 'Z';
+        }
+        return true;
+    }
+
+    if (function_exists('posix_kill')) {
+        return @posix_kill($pid, 0);
+    }
+
+    return false;
+}
+
+function stopAutomaticRestreamLaunch($launch, $robj)
+{
+    if (!is_object($launch)) {
+        return false;
+    }
+
+    if (!empty($launch->remote)) {
+        if (function_exists('stopFFMPEGRemote')) {
+            stopFFMPEGRemote($launch->keyword, $launch->restreamStandAloneFFMPEG);
+            return true;
+        }
+        return false;
+    }
+
+    if (!empty($launch->pid)) {
+        $pid = intval($launch->pid);
+        exec("kill -9 {$pid} 2>&1", $output, $returnVar);
+        return $returnVar === 0;
+    }
+
+    return killIfIsRunning($robj);
 }
 
 function getRestreamRequestSummary($robj)

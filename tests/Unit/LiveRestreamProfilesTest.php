@@ -37,6 +37,96 @@ class LiveRestreamProfilesTest extends TestCase
         $this->assertSame($url, \clearCommandURL($url));
     }
 
+    public function testAutomaticYouTubeResponsePrefersRtmpsAndKeepsExactRtmpFallback()
+    {
+        $response = (object) [
+            'stream_key' => 'abcd-efgh-ijkl-mnop',
+            'stream_url' => 'rtmp://a.rtmp.youtube.com/live2',
+            'rtmps_stream_url' => 'rtmps://a.rtmps.youtube.com/live2',
+        ];
+
+        $destinations = \getAutomaticRestreamDestinationPair($response);
+
+        $this->assertSame('rtmps://a.rtmps.youtube.com/live2/abcd-efgh-ijkl-mnop', $destinations['primary']);
+        $this->assertSame('rtmp://a.rtmp.youtube.com/live2/abcd-efgh-ijkl-mnop', $destinations['fallback']);
+        $this->assertTrue(\shouldAttemptAutomaticRestreamFallback(
+            $destinations['primary'],
+            $destinations['fallback'],
+            true
+        ));
+        $this->assertFalse(\shouldAttemptAutomaticRestreamFallback(
+            $destinations['primary'],
+            $destinations['fallback'],
+            false
+        ));
+    }
+
+    public function testLegacyAutomaticResponseRemainsCompatibleWithoutFallback()
+    {
+        $response = (object) [
+            'stream_key' => 'legacy-key',
+            'stream_url' => 'rtmp://a.rtmp.youtube.com/live2',
+        ];
+
+        $destinations = \getAutomaticRestreamDestinationPair($response);
+
+        $this->assertSame('rtmp://a.rtmp.youtube.com/live2/legacy-key', $destinations['primary']);
+        $this->assertSame('', $destinations['fallback']);
+    }
+
+    public function testInvalidSecureAutomaticUrlFallsBackToLegacyPrimary()
+    {
+        $response = (object) [
+            'stream_key' => 'key',
+            'stream_url' => 'rtmp://a.rtmp.youtube.com/live2',
+            'rtmps_stream_url' => 'rtmp://a.rtmps.youtube.com/live2',
+        ];
+
+        $destinations = \getAutomaticRestreamDestinationPair($response);
+
+        $this->assertSame('rtmp://a.rtmp.youtube.com/live2/key', $destinations['primary']);
+        $this->assertSame('', $destinations['fallback']);
+    }
+
+    public function testFallbackRequiresMatchingYouTubePathAndKey()
+    {
+        $this->assertFalse(\shouldAttemptAutomaticRestreamFallback(
+            'rtmps://a.rtmps.youtube.com/live2/secure-key',
+            'rtmp://a.rtmp.youtube.com/live2/different-key',
+            true
+        ));
+        $this->assertFalse(\shouldAttemptAutomaticRestreamFallback(
+            'rtmps://stream.example.com/live/key',
+            'rtmp://stream.example.com/live/key',
+            true
+        ));
+    }
+
+    public function testInitialConnectionSamplesRequireAStoppedOrStalledProcessBeforeFallback()
+    {
+        $progressing = \automaticRestreamLaunchSamplesIndicateFailure(
+            ['known' => true, 'running' => true, 'modified' => 100],
+            ['known' => true, 'running' => true, 'modified' => 104]
+        );
+        $stalled = \automaticRestreamLaunchSamplesIndicateFailure(
+            ['known' => true, 'running' => true, 'modified' => 100],
+            ['known' => true, 'running' => true, 'modified' => 100]
+        );
+        $stopped = \automaticRestreamLaunchSamplesIndicateFailure(
+            ['known' => true, 'running' => true, 'modified' => 100],
+            ['known' => true, 'running' => false, 'modified' => 101]
+        );
+        $unknown = \automaticRestreamLaunchSamplesIndicateFailure(
+            ['known' => false, 'running' => false, 'modified' => 0],
+            ['known' => false, 'running' => false, 'modified' => 0]
+        );
+
+        $this->assertFalse($progressing);
+        $this->assertTrue($stalled);
+        $this->assertTrue($stopped);
+        $this->assertFalse($unknown);
+    }
+
     /**
      * @dataProvider unsafeUrls
      */
@@ -67,6 +157,21 @@ class LiveRestreamProfilesTest extends TestCase
             $this->assertStringContainsString('-f flv', $tail);
             $this->assertStringNotContainsString('-f tee', $tail);
         }
+    }
+
+    public function testRtmpsEnablesPeerVerificationAndRtmpDoesNotAddTlsOptions()
+    {
+        $secureOptions = \getRestreamTlsOptions(
+            'rtmps://a.rtmps.youtube.com/live2/key',
+            'rtmps://a.rtmps.youtube.com/live2/'
+        );
+
+        $this->assertStringContainsString('-tls_verify 1', $secureOptions);
+        $this->assertStringContainsString('-rtmp_tcurl "rtmps://a.rtmps.youtube.com/live2/"', $secureOptions);
+        $this->assertSame('', \getRestreamTlsOptions(
+            'rtmp://a.rtmp.youtube.com/live2/key',
+            'rtmp://a.rtmp.youtube.com/live2/'
+        ));
     }
 
     public function testAudioProfilesMatchProviderRequirements()
