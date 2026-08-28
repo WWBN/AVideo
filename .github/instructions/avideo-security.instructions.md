@@ -103,6 +103,27 @@ if (!User::isAdmin() && $videoOwnerId !== User::getId()) {
 }
 ```
 
+**Video visibility/password check**: any endpoint that returns a video's data, metadata, or
+lets a user attach/reference a `videos_id` (comments, likes, bookmarks, gallery images, media
+session, playlists, "favorite", etc.) must verify the caller can actually see that video —
+group restrictions AND password protection — not just that the video exists. Reuse the
+existing helpers in `objects/functionsSecurity.php` instead of re-implementing the check:
+
+```php
+// Endpoint that should die/redirect on failure (most .json.php endpoints)
+forbiddenPageIfCannotWatchVideo($videos_id);
+
+// Function that must return a bool instead of dying (e.g. inside a reusable static helper)
+if (!canWatchVideoIncludingPassword($videos_id)) {
+    return false;
+}
+```
+
+Both wrap `User::canWatchVideoWithAds($videos_id)` (group/plugin-based visibility) plus
+`CustomizeUser::videoPasswordIsGood($videos_id)` (password-protected videos, only when that
+plugin is enabled). Do not call `User::canWatchVideo()`/`canWatchVideoWithAds()` alone when a
+password-protected video is in scope — it does not check `video_password`.
+
 ---
 
 ## Input Validation & Sanitization

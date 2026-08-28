@@ -42,6 +42,8 @@ If you are not sure, **ask or leave a `// TODO: verify this exists` comment** ra
 - `$securityFilter`, `$securityFilterInt`, `$securityRemoveSingleQuotes` — input sanitizers
 - `videosHashToID($hash)` — video hash to integer ID
 - `xss_esc($value)` — XSS output escaping
+- `forbiddenPageIfCannotWatchVideo($videos_id)` — dies/redirects (via `forbiddenPage()`) unless the caller can see the video (group/plugin visibility + password protection)
+- `canWatchVideoIncludingPassword($videos_id)` — same check as above, returns bool instead of dying (use inside a function that itself must return a value)
 - URL validation patterns
 
 ### `objects/functionsFile.php`

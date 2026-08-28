@@ -169,6 +169,21 @@ function removeSensitiveUserFields(&$data)
 }
 
 // same visibility/password rule enforced for the video page itself (CustomizeUser::getModeYouTube)
+function canWatchVideoIncludingPassword($videos_id)
+{
+    if (empty($videos_id)) {
+        return false;
+    }
+    if (!User::canWatchVideoWithAds($videos_id)) {
+        return false;
+    }
+    $customizeUser = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
+    if (!empty($customizeUser) && !CustomizeUser::videoPasswordIsGood($videos_id)) {
+        return false;
+    }
+    return true;
+}
+
 function forbiddenPageIfCannotWatchVideo($videos_id)
 {
     if (empty($videos_id)) {

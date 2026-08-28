@@ -196,6 +196,10 @@ class PlayLists extends PluginAbstract
         if (empty($videos_id)) {
             return false;
         }
+        // must match the visibility/password rule enforced for actually watching the video
+        if (!canWatchVideoIncludingPassword($videos_id)) {
+            return false;
+        }
         $obj = AVideoPlugin::getObjectData("PlayLists");
         if (!PlayLists::canManageAllPlaylists() && $obj->usersCanOnlyCreatePlayListsFromTheirContent) {
             if (User::isLogged()) {
