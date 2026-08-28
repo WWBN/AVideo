@@ -11,6 +11,15 @@ if (!AVideoPlugin::isEnabledByName('ImageGallery')) {
 $videos_id = getVideos_id();
 ImageGallery::dieIfIsInvalid($videos_id);
 
+// same visibility/password rule enforced for the video page itself (CustomizeUser::getModeYouTube)
+if (!User::canWatchVideoWithAds($videos_id)) {
+    forbiddenPage('You cannot access this video');
+}
+$customizeUser = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
+if (!empty($customizeUser) && !CustomizeUser::videoPasswordIsGood($videos_id)) {
+    forbiddenPage('Video password required');
+}
+
 $obj = new stdClass();
 $obj->videos_id = $videos_id;
 $obj->error = false;
