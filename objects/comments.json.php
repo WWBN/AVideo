@@ -17,11 +17,13 @@ if(empty($_REQUEST['id'])){
        //$_POST['sort']['comments_id_pai'] = 'DESC';
        $_POST['sort']['id'] = 'DESC';
     }
+    forbiddenPageIfCannotWatchVideo(@$_REQUEST['video_id']);
     $comments = Comment::getAllComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id'], 0, true);
     $total = Comment::getTotalComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id']);
 }else{
     $comment = Comment::getComment($_REQUEST['id']);
     if(!empty($comment)){
+        forbiddenPageIfCannotWatchVideo($comment['videos_id']);
         $comments = [$comment];
         $total = 1;
     }else{

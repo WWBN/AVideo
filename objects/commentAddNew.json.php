@@ -103,6 +103,8 @@ if (empty($_REQUEST['video']) && !empty($_REQUEST['comments_id'])) {
     $_REQUEST['video'] = $c->getVideos_id();
 }
 
+forbiddenPageIfCannotWatchVideo($_REQUEST['video']);
+
 if (!empty($_REQUEST['id'])) {
     $_REQUEST['id'] = intval($_REQUEST['id']);
     if (Comment::userCanEditComment($_REQUEST['id'])) {

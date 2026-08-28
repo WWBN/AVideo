@@ -5,6 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/like.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/comment.php';
 require_once $global['systemRootPath'] . 'objects/comments_like.php';
 header('Content-Type: application/json');
 
@@ -16,5 +17,9 @@ if (empty($_POST['comments_id']) && !empty($_GET['comments_id'])) {
     $_POST['comments_id'] = $_GET['comments_id'];
 }
 forbidIfIsUntrustedRequest('comments_like');
+
+$c = new Comment('', '', $_POST['comments_id']);
+forbiddenPageIfCannotWatchVideo($c->getVideos_id());
+
 $like = new CommentsLike($_GET['like'], $_POST['comments_id']);
 echo json_encode(CommentsLike::getLikes($_POST['comments_id']));
