@@ -16,6 +16,9 @@ if(!AI::canUseAI()){
     forbiddenPage('You cannot use AI');
 }
 
+if (!Video::canEdit($videos_id)) {
+    forbiddenPage('You cannot edit this video');
+}
 
 setRowCount(100);
 $video = new Video('', '', $videos_id);
