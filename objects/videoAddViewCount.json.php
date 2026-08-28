@@ -37,6 +37,7 @@ if (empty($obj)) {
     $obj2->msg = 'Object not found';
     die(json_encode($obj2));
 }
+forbiddenPageIfCannotWatchVideo($videos_id);
 _session_start();
 if (empty($_SESSION['addViewCount'])) {
     $_SESSION['addViewCount'] = [];
