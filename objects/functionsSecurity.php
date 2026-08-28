@@ -103,6 +103,21 @@ function adminSecurityCheck($force = false)
 }
 
 
+// same visibility/password rule enforced for the video page itself (CustomizeUser::getModeYouTube)
+function forbiddenPageIfCannotWatchVideo($videos_id)
+{
+    if (empty($videos_id)) {
+        return;
+    }
+    if (!User::canWatchVideoWithAds($videos_id)) {
+        forbiddenPage('You cannot access this video');
+    }
+    $customizeUser = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
+    if (!empty($customizeUser) && !CustomizeUser::videoPasswordIsGood($videos_id)) {
+        forbiddenPage('Video password required');
+    }
+}
+
 function forbiddenPageIfCannotEmbed($videos_id)
 {
     global $customizedAdvanced, $advancedCustomUser, $global;
