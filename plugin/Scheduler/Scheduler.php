@@ -174,7 +174,8 @@ class Scheduler extends PluginAbstract
             return false;
         }
         if (empty($_executeSchelude[$callBackURL])) {
-            $callBackURL = addQueryStringParameter($callBackURL, 'token', getToken(60));
+            // purpose-bound salt so no other page's generic getToken() output can be replayed here
+            $callBackURL = addQueryStringParameter($callBackURL, 'token', getToken(60, 'SchedulerCallback'));
             $callBackURL = addQueryStringParameter($callBackURL, 'scheduler_commands_id', $scheduler_commands_id);
             _error_log("Scheduler::run getting callback URL {$callBackURL}");
             $_executeSchelude[$callBackURL] = ssrfPinnedFetch($callBackURL, $resolvedIP_callback, 30);

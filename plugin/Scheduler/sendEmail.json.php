@@ -14,7 +14,9 @@ if(empty($_REQUEST['token'])){
     forbiddenPage('token is empty');
 }
 
-if(!isTokenValid($_REQUEST['token'])){
+// purpose-bound salt: only a token minted by Scheduler::run() for this exact callback is accepted here,
+// never a generic site-wide/page token (e.g. Live/index.php's globalToken)
+if(!isTokenValid($_REQUEST['token'], 'SchedulerCallback')){
     if (!isCommandLineInterface() && !User::isAdmin()) {
         forbiddenPage('token is invalid');
     }
