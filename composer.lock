@@ -4390,16 +4390,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v21.2.0",
+            "version": "v21.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "edf8118f0b96d69f06f372da9168d613d1aed072"
+                "reference": "fe99159b9ee0a74be3c12c0305e5338e0b9905c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/edf8118f0b96d69f06f372da9168d613d1aed072",
-                "reference": "edf8118f0b96d69f06f372da9168d613d1aed072",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/fe99159b9ee0a74be3c12c0305e5338e0b9905c3",
+                "reference": "fe99159b9ee0a74be3c12c0305e5338e0b9905c3",
                 "shasum": ""
             },
             "require": {
@@ -4421,8 +4421,7 @@
             },
             "autoload": {
                 "files": [
-                    "lib/version_check.php",
-                    "lib/agent_plugin_hint.php"
+                    "lib/version_check.php"
                 ],
                 "psr-4": {
                     "Stripe\\": "lib/"
@@ -4447,9 +4446,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v21.2.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v21.3.0"
             },
-            "time": "2026-08-10T22:11:35+00:00"
+            "time": "2026-08-27T04:12:06+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
