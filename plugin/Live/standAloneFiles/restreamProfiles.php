@@ -215,7 +215,7 @@ function getRestreamTlsOptions($destinationUrl, $tcurl, $verifyCert = true)
     // $verifyCert=false (no usable CA bundle found on this host) skips verification instead of
     // hard-failing every RTMPS destination - matches the old pre-hardening behavior.
     if (!$verifyCert) {
-        return "-rtmp_tcurl \"{$tcurl}\" ";
+        return "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" ";
     }
     return "-tls_verify 1 -rtmp_tcurl \"{$tcurl}\" ";
 }
