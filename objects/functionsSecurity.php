@@ -1066,6 +1066,11 @@ function autoCSRFGuard($baseName, $scriptPath = '')
         // Live recording callbacks (cross-origin from recorder agent)
         'recordStart.json.php',
         'recordStop.json.php',
+        // Restream destination lookup / token verification — called cross-origin by the
+        // external restreamer server (plugin/Live/standAloneFiles/restreamer.json.php),
+        // authenticated via the signed 'token' request param, not session.
+        'getLiveKey.json.php',
+        'verifyToken.json.php',
         // Bulk import tool — intentional cross-origin / CLI use
         'import_spreadsheet_videos.json.php',
     ];

@@ -3,6 +3,18 @@
 use Amp\Deferred;
 use Amp\Loop;
 
+// These must stay at the very top of the file: a top-level `const` (unlike a function
+// declaration) is only defined once the interpreter's linear execution reaches this exact
+// line, it is NOT hoisted. Loop::run()/runRestream()/startRestream() below all run before the
+// script reaches its own end, so these constants must be defined before that point, not next
+// to the startRestream() function definition further down the file (where they used to live
+// and were never actually executed before startRestream() needed them, causing an "Undefined
+// constant" fatal error on every restream attempt).
+const STARTRESTREAM_MAX_TRIES = 6;
+const STARTRESTREAM_MAX_SLEEP_SECONDS = 3;
+const AUTOMATIC_RESTREAM_INITIAL_WARMUP_SECONDS = 8;
+const AUTOMATIC_RESTREAM_PROGRESS_SAMPLE_SECONDS = 4;
+
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/restreamProfiles.php';
 
@@ -463,18 +475,27 @@ if (function_exists('_mysql_close')) {
 }
 session_write_close();
 error_log("Restreamer.json.php starting async ");
-Loop::run(function () {
+$runRestreamResult = [];
+Loop::run(function () use (&$runRestreamResult) {
     global $robj;
-    runRestream($robj)->onResolve(function (Throwable $error = null, $result = null) {
+    runRestream($robj)->onResolve(function (Throwable $error = null, $result = null) use (&$runRestreamResult) {
         if ($error) {
             error_log("Restreamer.json.php runRestream: asyncOperation1 fail -> " . $error->getMessage());
         } else {
             error_log("Restreamer.json.php runRestream: asyncOperation1 result -> " . json_encode($result));
+            $runRestreamResult = $result;
         }
     });
 });
 error_log("Restreamer.json.php finish async ");
-$obj->error = false;
+// runRestream() returns false per destination that failed to start (lock held, source not
+// ready, exception, etc.) — surface that instead of always reporting an empty pid array.
+$obj->pid = $runRestreamResult;
+$obj->error = empty($runRestreamResult) || in_array(false, $runRestreamResult, true);
+if ($obj->error) {
+    $errorMessages[] = "FFmpeg did not start for one or more destinations, check the server error log for 'startRestream'";
+    $obj->msg = implode('<br>', $errorMessages);
+}
 die(json_encode($obj));
 
 function runRestream($robj)
@@ -707,14 +728,9 @@ function _make_path($path)
 // instead of hanging the request for minutes (the previous 20-tries/growing-sleep(1..19)
 // ceiling could block for 190+ seconds, well past the default_socket_timeout=60s used by
 // getAction.json.php's url_get_contents() call, causing a blank/"pending forever" response and
-// tying up an Apache worker the whole time).
-const STARTRESTREAM_MAX_TRIES = 6;
-const STARTRESTREAM_MAX_SLEEP_SECONDS = 3;
-// Same synchronous-request constraint as above: the automatic RTMPS->RTMP probe below sleeps
-// this many seconds, so automaticRestreamInitialConnectionFailed() skips it (blocking-probe=false)
-// on the manual "start" path instead of stacking onto the already tight ~60s budget.
-const AUTOMATIC_RESTREAM_INITIAL_WARMUP_SECONDS = 8;
-const AUTOMATIC_RESTREAM_PROGRESS_SAMPLE_SECONDS = 4;
+// tying up an Apache worker the whole time). See the top of the file for the constants used here
+// (STARTRESTREAM_MAX_TRIES, STARTRESTREAM_MAX_SLEEP_SECONDS, AUTOMATIC_RESTREAM_INITIAL_WARMUP_SECONDS,
+// AUTOMATIC_RESTREAM_PROGRESS_SAMPLE_SECONDS).
 
 function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1, $startTime = null, $fallbackDestination = '')
 {
