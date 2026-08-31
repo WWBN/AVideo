@@ -382,7 +382,10 @@ class LiveTransmition extends ObjectYPT {
         //Category::clearCacheCount();
         deleteStatsNotifications(true);
 
-        $socketObj = sendSocketMessageToAll(['stats' => getStatsNotifications(false, false)], "socketLiveONCallback");
+        $liveTransmitionSaveStats = getStatsNotifications(false, false);
+        // this is broadcast to every connected client, never include streams a given recipient may not be authorized to see
+        unset($liveTransmitionSaveStats['hidden_applications']);
+        $socketObj = sendSocketMessageToAll(['stats' => $liveTransmitionSaveStats], "socketLiveONCallback");
 
         return $id;
     }

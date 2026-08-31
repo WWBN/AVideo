@@ -57,16 +57,10 @@ if (!empty($_REQUEST['name'])) {
     TimeLogEnd($timeName, __LINE__);
 }
 
-// hidden_applications lists streams the current (possibly anonymous) requester
-// isn't authorized to see; it must never leak their source key/HLS URL credentials.
-if (!empty($json['hidden_applications'])) {
-    foreach ($json['hidden_applications'] as &$hiddenApp) {
-        if (is_array($hiddenApp)) {
-            unset($hiddenApp['key'], $hiddenApp['m3u8']);
-        }
-    }
-    unset($hiddenApp);
-}
+// hidden_applications is an internal working list of streams the current (possibly anonymous)
+// requester isn't authorized to see - no known JS consumer reads it from this endpoint, so it must
+// not be serialised at all (title/channel/masked-key metadata is still a disclosure otherwise).
+unset($json['hidden_applications']);
 
 // applications are publicly listed (unlike hidden_applications above), but a password-protected
 // transmission still requires Live::passwordIsGood() before it can actually be watched - strip the

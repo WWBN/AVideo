@@ -48,6 +48,8 @@ if(!empty($chat2)){
 }
 
 $objMM->stats = getStatsNotifications();
+// never echo streams the caller isn't authorized to see (same reasoning as plugin/Live/stats.json.php)
+unset($objMM->stats['hidden_applications']);
 
 $notifications = AVideoPlugin::getDataObjectIfEnabled('Notifications');
 if(!empty($notifications)){

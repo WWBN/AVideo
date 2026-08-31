@@ -482,7 +482,10 @@ if (User::canStream()) {
         //var_dump(isLive(),$times,$liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);exit;
         if (AVideoPlugin::isEnabledByName('YPTSocket')) {
             //echo 'console.log(\'YPTSocket processLiveStats\');';
-            echo 'processLiveStats(' . json_encode(getStatsNotifications()) . ');';
+            $_menuRightStats = getStatsNotifications();
+            // this is embedded verbatim into the page HTML for the current viewer, never expose streams they can't see
+            unset($_menuRightStats['hidden_applications']);
+            echo 'processLiveStats(' . json_encode($_menuRightStats) . ');';
         }
         if (isLive()) {
             if ($liveInfo['isLive']) {

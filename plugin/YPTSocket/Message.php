@@ -502,6 +502,8 @@ class Message implements MessageComponentInterface {
         if (!isset($this->totalUsersOnLives) || $this->totalUsersOnLives['updated'] < strtotime('- 1 minute')) {
 
             $stats = getStatsNotifications();
+            // never surface a hidden/restricted stream's key or viewer count to an unauthorized socket client
+            unset($stats['hidden_applications']);
 
             $statsList = array();
 

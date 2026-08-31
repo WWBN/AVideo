@@ -407,6 +407,8 @@ class LiveLinks extends PluginAbstract {
     static function notifySocketToRemoveLiveLinks($liveLinks_id) {
         $array = array();
         $array['stats'] = getStatsNotifications();
+        // this is broadcast to every connected client, never include streams a given recipient may not be authorized to see
+        unset($array['stats']['hidden_applications']);
         $array['autoEvalCodeOnHTML'] = '$(".liveLink_' . $liveLinks_id . '").slideUp();';
         $socketObj = sendSocketMessageToAll($array, 'socketRemoveLiveLinks');
         return $socketObj;

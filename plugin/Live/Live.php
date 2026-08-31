@@ -94,6 +94,12 @@ class Live extends PluginAbstract
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         foreach ($rows as $value) {
             unset($_REQUEST['playlists_id_live']);
+            // group-restricted transmissions must never be published in the public live listing,
+            // but the stream owner must still see their own entry (canSeeLiveFromLiveKey has no owner bypass)
+            $isOwnStream = User::isLogged() && !empty($value['users_id']) && ((int) User::getId() === (int) $value['users_id']);
+            if (!$isOwnStream && !empty($value['key']) && !self::canSeeLiveFromLiveKey($value['key'])) {
+                continue;
+            }
             $isLive = LiveTransmitionHistory::getActiveLiveFromUser($value['users_id'], $value['live_servers_id'], $value['key']);
             if ($isLive) {
                 //var_dump(__LINE__, $isLive);
@@ -159,6 +165,12 @@ class Live extends PluginAbstract
 
         foreach ($rows as $value) {
             unset($_REQUEST['playlists_id_live']);
+            // group-restricted transmissions must never be published in the public live listing,
+            // but the stream owner must still see their own entry (canSeeLiveFromLiveKey has no owner bypass)
+            $isOwnStream = User::isLogged() && !empty($value['users_id']) && ((int) User::getId() === (int) $value['users_id']);
+            if (!$isOwnStream && !empty($value['key']) && !self::canSeeLiveFromLiveKey($value['key'])) {
+                continue;
+            }
             // if key is from schedule, skipp it
             if (!empty($value['key']) && strtotime($value['modified']) > strtotime('-5 minures')) {
                 $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($value['key'], $value['live_servers_id']);
@@ -2413,7 +2425,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 //_error_log('Live::isLiveFromKey:_getStats '. json_encode($_SERVER));
                 if (!self::canSeeLiveFromLiveKey($value->name)) {
                     $obj->hidden_applications[] = [
-                        "key" => $value->name,
+                        "key" => $hiddenName,
                         "name" => $row['channelName'],
                         "user" => $row['channelName'],
                         "title" => "{$row['channelName']} ($hiddenName} is a private live",
@@ -4104,6 +4116,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($array['stats'])) {
             $array['stats'] = getStatsNotifications();
         }
+        // this is broadcast to every connected client, never include streams a given recipient may not be authorized to see
+        unset($array['stats']['hidden_applications']);
         _error_log("NGINX Live::on_publish_socket_notification sendSocketMessageToAll Start {$callBack}");
         $socketObj = sendSocketMessageToAll($array, $callBack);
         _error_log("NGINX Live::on_publish_socket_notification SocketMessageToAll END {$callBack}");

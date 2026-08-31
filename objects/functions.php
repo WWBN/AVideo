@@ -6830,6 +6830,12 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     TimeLogEnd($timeName, __LINE__);
     foreach ($json['applications'] as $key => $value) {
         $isListed = Live::isApplicationListed(@$value['key'], $listItIfIsAdminOrOwner);
+        // isApplicationListed() already lets the stream owner see their own live regardless of the
+        // 'public' column; canSeeLiveFromLiveKey() has no owner bypass, so don't let it override that.
+        $isOwnStream = $listItIfIsAdminOrOwner && User::isLogged() && !empty($value['users_id']) && ((int) User::getId() === (int) $value['users_id']);
+        if ($isListed && !$isOwnStream && !Live::canSeeLiveFromLiveKey(@$value['key'])) {
+            $isListed = false;
+        }
         if (!$isListed) {
             $json['hidden_applications'][] = $value;
             unset($json['applications'][$key]);

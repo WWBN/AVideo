@@ -27,6 +27,8 @@ $obj = new stdClass();
 if (AVideoPlugin::loadPluginIfEnabled("Live")) {
     //$liveStats = url_get_contents("{$global['webSiteRootURL']}plugin/Live/stats.json.php");
     $obj->live = getStatsNotifications();
+    // never echo streams the caller isn't authorized to see (same reasoning as plugin/Live/stats.json.php)
+    unset($obj->live['hidden_applications']);
 }
 
 // remove tags and HTML code from the title, for the mobile app
