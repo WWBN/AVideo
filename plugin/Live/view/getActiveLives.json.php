@@ -20,11 +20,19 @@ if (!User::canStream()) {
 }
 $users_id = User::getId();
 
-// Admins manage restreams for any currently active live, not just their own -
-// same "admin sees all" convention already used by Live_restreams/list.json.php.
-// Restreamer destinations still come from the logged in admin's own account,
-// since that is who owns the configured restream credentials/tokens.
-$liveLookupUsersId = User::isAdmin() ? 0 : $users_id;
+// SECURITY: do NOT pass users_id=0 for admins here - LiveTransmitionHistory::getAllFromUser()
+// treats 0 as "skip the owner filter entirely", which returned literally every account's
+// active live to any isAdmin=1 user. On a multi-tenant install (many unrelated
+// clients/channels, some of them flagged isAdmin so they can self-manage their own
+// account) this leaked other customers' live streams - title, key, and the restream
+// panel's "Open" link straight to their real YouTube/Facebook broadcast - to any admin,
+// not just platform-wide support staff. Fixed by always passing the browsing user's own
+// id: getAllFromUser()/getAllActiveFromUser() already scope by
+// "(users_id = X OR users_id_company = X)" for any non-zero id, so an admin still sees
+// a live streaming under an explicitly linked company sub-account (the original use case
+// this admin-sees-all behavior was added for, see avideo-live-restream-wrong-user-visibility
+// repo memory), just not every unrelated account on the install.
+$liveLookupUsersId = $users_id;
 $lives = LiveTransmitionHistory::getAllActiveFromUser($liveLookupUsersId);
 
 if(empty($lives)){
