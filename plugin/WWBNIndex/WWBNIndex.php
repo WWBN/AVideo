@@ -200,6 +200,10 @@ class WWBNIndex extends PluginAbstract
 
     public function check_site_availability($url) 
     {
+        // SECURITY: this must never be called with request-supplied data (e.g. HTTP_HOST) - always the platform's own webSiteRootURL.
+        if (!isSSRFSafeURL($url)) {
+            return 0;
+        }
         $options = array(
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => false,
