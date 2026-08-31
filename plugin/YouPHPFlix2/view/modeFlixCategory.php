@@ -145,7 +145,13 @@ $videosCounter = 0;
     // next batch instead of stopping prematurely.
     $hasMoreCategories = !empty($categories) && count($categories) >= $categoriesRequestedCount;
     if (empty($videosCounter) && !$hasMoreCategories) {
-        include_once __DIR__.'/notFoundHTML.php';
+        // This is category browsing (infinite scroll), not a search: a batch with zero visible
+        // videos should just stop silently. Only show the "no results found" component when the
+        // user actually typed a search phrase, otherwise every install without a full category
+        // in the last batch renders a bogus "No results found for ()" at the end of the homepage.
+        if (isSearch()) {
+            include_once __DIR__.'/notFoundHTML.php';
+        }
         echo "</div>";
         return false;
     }
