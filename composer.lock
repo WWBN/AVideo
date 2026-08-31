@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e949644ceaad625b0d1d4ac676b74c04",
+    "content-hash": "6aa9bfd0428528515983e8442a360672",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -1285,16 +1285,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.455.0",
+            "version": "v0.456.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "86cecb5443bde01cb6731a650735680b9ab8b4c0"
+                "reference": "51e5065e01dc2b72098cc557d75938cc7925f7a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/86cecb5443bde01cb6731a650735680b9ab8b4c0",
-                "reference": "86cecb5443bde01cb6731a650735680b9ab8b4c0",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/51e5065e01dc2b72098cc557d75938cc7925f7a0",
+                "reference": "51e5065e01dc2b72098cc557d75938cc7925f7a0",
                 "shasum": ""
             },
             "require": {
@@ -1323,9 +1323,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.455.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.456.0"
             },
-            "time": "2026-08-17T01:06:24+00:00"
+            "time": "2026-08-24T01:00:41+00:00"
         },
         {
             "name": "google/auth",
