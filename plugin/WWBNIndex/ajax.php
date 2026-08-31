@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';
@@ -40,8 +40,8 @@ if ($r['action'] == "authAccount") {
     $username = strtolower(preg_replace('/\s+/', "_", trim($configuration->getWebSiteTitle())));
     $data = array(
         "apiName"           => "signupAccount",
-        "username" 			=> $username, 
-        "email" 			=> $email, 
+        "username" 			=> $username,
+        "email" 			=> $email,
         "name"              => $configuration->getWebSiteTitle(),
         "siteacctid"        => 4541, // WWBN account id
         "siteid_fk"         => 152, // WWBN
@@ -53,13 +53,13 @@ if ($r['action'] == "authAccount") {
         "avideo_id"         => $platformID,
         "host"              => parse_url($global['webSiteRootURL'])['host'],
     );
-    
+
     $response = json_decode(postVariables("https://wwbn.com/api/function.php", $data, false));
 
     if ($response->error == false) {
         $new_object_data = array();
         foreach ($object_data as $key => $obj) {
-            $new_object_data[$key] = $obj; 
+            $new_object_data[$key] = $obj;
         }
         $new_object_data["username"] = $username;
         $new_object_data["email"] = $email;
@@ -94,7 +94,7 @@ if ($r['action'] == "authAccount") {
     if (isset($verify_decoded->error) && $verify_decoded->error == false) {
         $new_object_data = array();
         foreach ($object_data as $key => $obj) {
-            $new_object_data[$key] = $obj; 
+            $new_object_data[$key] = $obj;
         }
         $new_object_data['verified'] = true;
         $update = $wwbnIndexModel->updateObjectData(json_encode($new_object_data));
@@ -121,7 +121,7 @@ if ($r['action'] == "authAccount") {
     echo resendCode($configuration->getContactEmail()); die();
 
 } else if ($r['action'] == "submitIndex") {
-    
+
     $validate = json_decode(exchangeKeys());
     if ($validate->error) {
         echo json_encode($validate); die();
@@ -166,14 +166,14 @@ if ($r['action'] == "authAccount") {
         "total_channels"    => Channel::getTotalChannels(),
         "language"		    => $configuration->getLanguage(),
     );
-    
+
     $response = json_decode(postVariables("https://wwbn.com/api/function.php", $data, false));
 
     if (isset($response->error) && $response->error == false) {
         $new_object_data = array();
         $organic = false;
         foreach ($object_data as $key => $obj) {
-            $new_object_data[$key] = $obj; 
+            $new_object_data[$key] = $obj;
             if ($key == "organic") {
                 $organic = true;
             }
@@ -207,7 +207,7 @@ if ($r['action'] == "authAccount") {
     );
 
     echo postVariables("https://wwbn.com/api/function.php", $data, false); die();
-    
+
 } else if ($r['action'] == "reIndex") {
 
     $validate = json_decode(exchangeKeys());
@@ -237,7 +237,7 @@ if ($r['action'] == "authAccount") {
 
     $plugin_data = $wwbnIndexModel->getPluginData();
     $object_data = json_decode($plugin_data[0]['object_data']);
-    
+
     echo unIndex($object_data); die();
 
 } else if ($r['action'] == "changePluginStatus") {
@@ -251,9 +251,9 @@ if ($r['action'] == "authAccount") {
                 $feed_status = getFeedStatus(parse_url($global['webSiteRootURL'])['host']);
                 $validate = json_decode(exchangeKeys($plugin_data));
                 if (!$feed_status->error) {
-                    if ($r['enabled'] == "true") { 
+                    if ($r['enabled'] == "true") {
                         if ($feed_status->indexed == "false" && $feed_status->status == "inactive") {
-                            
+
                             if ($validate->error) {
                                 echo json_encode($validate); die();
                             }
@@ -263,7 +263,7 @@ if ($r['action'] == "authAccount") {
                         }
                     } else {
                         if ($feed_status->indexed == "true" && ($feed_status->status == "active" || $feed_status->status == "review")) {
-                            
+
                             if ($validate->error) {
                                 echo json_encode($validate); die();
                             }
@@ -306,13 +306,13 @@ if ($r['action'] == "authAccount") {
     if (isset($response->error) && $response->error == false) {
         $new_object_data = array();
         foreach ($object_data as $key => $obj) {
-            $new_object_data[$key] = $obj; 
+            $new_object_data[$key] = $obj;
         }
         $new_object_data["keys"]->requestReset = true;
         $wwbnIndexModel->updateObjectData(json_encode($new_object_data));
     }
     echo json_encode($response); die();
-    
+
 }
 
 function reIndex($object_data) {
@@ -327,17 +327,17 @@ function reIndex($object_data) {
         "engine_icon"   => $configuration->getFavicon(true),
         "feed_url"      => $global['webSiteRootURL']. "plugin/API/get.json.php?APIName=video&rowCount=20&search=[TERMS]",
         "detail_url"    => $global['webSiteRootURL']. "plugin/API/get.json.php?APIName=video&videos_id=[LID]",
-        "email"         => $email, //$object_data->email 
-        "acct_email"    => $object_data->email, 
+        "email"         => $email, //$object_data->email
+        "acct_email"    => $object_data->email,
         "host"          => parse_url($global['webSiteRootURL'])['host'],
     );
-    
+
     $response = json_decode(postVariables("https://wwbn.com/api/function.php", $data, false));
 
     if (isset($response->error) && $response->error == false) {
         $new_object_data = array();
         foreach ($object_data as $key => $obj) {
-            $new_object_data[$key] = $obj; 
+            $new_object_data[$key] = $obj;
             if ($key == "engine_name") {
                 $new_object_data[$key] = $title;
             }
@@ -361,10 +361,10 @@ function unIndex($object_data) {
     $email = $configuration->getContactEmail();
     $data = array(
         "apiName"       => "unIndex",
-        // "engine_name"   => $object_data->engine_name, 
+        // "engine_name"   => $object_data->engine_name,
         "avideo_id"     => $platformID,
-        "email"         => $email, //$object_data->email 
-        "acct_email"    => $object_data->email,  
+        "email"         => $email, //$object_data->email
+        "acct_email"    => $object_data->email,
     );
     return postVariables("https://wwbn.com/api/function.php", $data, false);
 }
@@ -481,14 +481,14 @@ function exchangeKeys($plugin_data = null) {
     );
 
     $response = json_decode(postVariables("https://wwbn.com/api/function.php", $data, false));
-    
+
     if (isset($response->error) && $response->error == false) {
 
         $wwbn_pub_key = $response->wwbn_pub_key;
 
         $new_object_data = array();
         foreach ($object_data as $key => $obj) {
-            $new_object_data[$key] = $obj; 
+            $new_object_data[$key] = $obj;
         }
         if (isset($new_object_data["keys"]->wwbnPublicKey) && $new_object_data["keys"]->wwbnPublicKey == $wwbn_pub_key) {
             return json_encode(array(
@@ -504,7 +504,7 @@ function exchangeKeys($plugin_data = null) {
                 $textToEncrypt = "Message from ". $name . " to encrypt";
                 // Encrypt message using WWBN public key
                 $textEncrypted = encryptMessage($textToEncrypt, $wwbn_pub_key); //wwbnIndexEncryptMessage
-                if (empty($textEncrypted["encryptedMessage"])) { // Check if encryption failed  
+                if (empty($textEncrypted["encryptedMessage"])) { // Check if encryption failed
                     return json_encode(array("error" => true, "title" => "Failed to encrypt", "message" => "Ops! Something wrong with WWBN public key. Please refresh the page and try again"));
                 }
 
@@ -516,7 +516,7 @@ function exchangeKeys($plugin_data = null) {
                     $textDecrypted = decryptMessage($wwbnEncryptedText, $priv_key); //wwbnIndexDecryptMessage
                     if (empty($textDecrypted)) {
                         return array("error" => true, "title" => "Failed to decrypt", "message" => "Ops! Something wrong with the WWBN encrypted text or with the AVideo private key. Please refresh the page and try again");
-                    } 
+                    }
 
                     // validation for avideo <-> wwbn is done
                     return json_encode(array(

@@ -8,10 +8,10 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/WWBNIndex/Objects/WWBNIndexModel.php';
 
-class WWBNIndex extends PluginAbstract 
+class WWBNIndex extends PluginAbstract
 {
 
-    public function getTags() 
+    public function getTags()
     {
         return array(
             PluginTags::$RECOMMENDED,
@@ -19,7 +19,7 @@ class WWBNIndex extends PluginAbstract
         );
     }
 
-    public function getDescription() 
+    public function getDescription()
     {
         $desc = "<span class=\"badge badge-danger\">Beta version</span> Index platform into "
                 . "<a href='https://searchtube.com/'>Searchtube</a><br>";
@@ -37,32 +37,32 @@ class WWBNIndex extends PluginAbstract
         return encryptString($obj);
     }
 
-    public function getName() 
+    public function getName()
     {
         return "WWBNIndex";
     }
 
-    public function getUUID() 
+    public function getUUID()
     {
         return "WWBNIndex";
     }
 
-    public function getPluginVersion() 
+    public function getPluginVersion()
     {
         return "1.0";
     }
 
-    // public function getEmptyDataObject() 
+    // public function getEmptyDataObject()
     // {
     //     global $global;
     //     $obj = new stdClass();
     //     return $obj;
     // }
 
-    public function getPluginMenu() 
+    public function getPluginMenu()
     {
         global $global;
-        
+
         // HAS ACCOUNT
         $authenticated_btn = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAuthenticatedBtn"><i class="fas fa-user-check"></i>&nbsp; Authenticated</button>';
 
@@ -95,7 +95,7 @@ class WWBNIndex extends PluginAbstract
                             $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexInReviewBtn" style="display: none;"><i class="fas fa-video"></i>&nbsp; In Review</button>';
                         }
                     } else {
-                        $plugin_menu = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexVerifyBtn"><i class="fas fa-envelope"></i>&nbsp; Verify Email</button>'; 
+                        $plugin_menu = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexVerifyBtn"><i class="fas fa-envelope"></i>&nbsp; Verify Email</button>';
                         $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAcctStatusBtn" style="display:none;"><i class="fas fa-user"></i>&nbsp; Pending Account</button>';
                     }
                     return $reset_keys_btn.$plugin_menu;
@@ -125,7 +125,7 @@ class WWBNIndex extends PluginAbstract
                         $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexInReviewBtn" style="display: none;"><i class="fas fa-video"></i>&nbsp; In Review</button>';
                         $plugin_menu .= '<button type="button" class="btn btn-danger btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexActiveBtn"><i class="fas fa-video"></i>&nbsp; Index Inactive </button>';
                     }
-                } else { 
+                } else {
                     if ($getFeedStatus->status == "active") {
                         $plugin_menu = $authenticated_btn;
                         $plugin_menu .= '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexApproveButNotIndexYetBtn"><i class="fas fa-video"></i>&nbsp; Approved </button>';
@@ -136,7 +136,7 @@ class WWBNIndex extends PluginAbstract
                         $plugin_menu = $authenticated_btn;
                         $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexInReviewBtn" style="display: none;"><i class="fas fa-video"></i>&nbsp; In Review</button>';
                         $plugin_menu .= '<button type="button" class="btn btn-danger btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexActiveBtn"><i class="fas fa-video"></i>&nbsp; Index Inactive </button>';
-                    } 
+                    }
                 }
             } else {
                 if (isset($verified)) {
@@ -149,14 +149,14 @@ class WWBNIndex extends PluginAbstract
                         $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexInReviewBtn" style="display: none;"><i class="fas fa-video"></i>&nbsp; In Review</button>';
                     }
                 } else {
-                    $plugin_menu = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexVerifyBtn"><i class="fas fa-envelope"></i>&nbsp; Verify Email</button>'; 
+                    $plugin_menu = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexVerifyBtn"><i class="fas fa-envelope"></i>&nbsp; Verify Email</button>';
                     $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAcctStatusBtn" style="display:none;"><i class="fas fa-user"></i>&nbsp; Pending Account</button>';
                 }
             }
         } else {
             $plugin_menu = '';
             if (isset($organic)) {
-                $plugin_menu .= '<button type="button" class="btn btn-info btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexOrganicIndexedBtn"><i class="fa fa-check"></i>&nbsp; Organic Indexed</button>';                
+                $plugin_menu .= '<button type="button" class="btn btn-info btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexOrganicIndexedBtn"><i class="fa fa-check"></i>&nbsp; Organic Indexed</button>';
             }
             $plugin_menu .= '<button type="button" class="btn btn-primary btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAuthBtn"><i class="fa fa-user"></i>&nbsp; Authenticate</button>';
             $plugin_menu .= '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexVerifyBtn" style="display:none;"><i class="fas fa-envelope"></i>&nbsp; Verify Email</button>';
@@ -165,7 +165,7 @@ class WWBNIndex extends PluginAbstract
         return $reset_keys_btn.$plugin_menu;
     }
 
-    public function getFooterCode() 
+    public function getFooterCode()
     {
         global $global;
         return getIncludeFileContent($global['systemRootPath'] . 'plugin/WWBNIndex/modal.php');
@@ -184,7 +184,7 @@ class WWBNIndex extends PluginAbstract
         return json_decode(postVariables("https://wwbn.com/api/function.php", $data, false));
     }
 
-    private function getFeedStatus($host) 
+    private function getFeedStatus($host)
     {
         $configuration = new AVideoConf();
 
@@ -198,7 +198,7 @@ class WWBNIndex extends PluginAbstract
         return json_decode(postVariables("https://wwbn.com/api/function.php", $data, false));
     }
 
-    public function check_site_availability($url) 
+    public function check_site_availability($url)
     {
         // SECURITY: this must never be called with request-supplied data (e.g. HTTP_HOST) - always the platform's own webSiteRootURL.
         if (!isSSRFSafeURL($url)) {
@@ -216,7 +216,7 @@ class WWBNIndex extends PluginAbstract
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_SSL_VERIFYHOST => false,
         );
-        
+
         $ch = curl_init($url);
         curl_setopt_array($ch, $options);
         curl_exec($ch);

@@ -36,9 +36,9 @@ if (!empty($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== 'localhost' &
         "total_channels"    => 1,
         "language"		    => $_POST['mainLanguage'],
     );
-    
+
     $response = json_decode(postVariables("https://wwbn.com/api/function.php", $data, false));
-    
+
     if (isset($response->error) && $response->error == false) {
         $object_data = array(
             "engine_name"   => $response->engine_name,
