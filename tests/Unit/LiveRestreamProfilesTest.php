@@ -192,7 +192,7 @@ class LiveRestreamProfilesTest extends TestCase
         $this->assertSame($provider, $profile['provider']);
         $this->assertSame($resolution, $profile['resolution']);
         $this->assertSame($bitrateKbps, $profile['bitrateKbps']);
-        $this->assertSame($bitrateKbps * 2, $profile['bufsizeKbps']);
+        $this->assertSame((int) round($bitrateKbps * 1.5), $profile['bufsizeKbps']);
         $this->assertSame($profileName, $profile['videoProfile']);
         $this->assertSame(60, $profile['gop']);
     }
@@ -200,12 +200,12 @@ class LiveRestreamProfilesTest extends TestCase
     public function videoProfiles()
     {
         return [
-            ['rtmps://a.rtmps.youtube.com/live2/key', 720, 'youtube', 4000, 'high'],
+            ['rtmps://a.rtmps.youtube.com/live2/key', 720, 'youtube', 3000, 'high'],
             ['rtmps://live-api-s.facebook.com:443/rtmp/key', 720, 'facebook', 3000, 'main'],
             ['rtmp://sfo.contribute.live-video.net/app/key', 720, 'twitch', 3000, 'high'],
             ['rtmps://stream.example.com/live/key', 720, 'generic', 2800, 'main'],
-            ['rtmps://live-ingest.linkedin.com:443/live/key', 720, 'linkedin', 3500, 'baseline'],
-            ['rtmps://a.rtmps.youtube.com/live2/key', 1080, 'youtube', 10000, 'high'],
+            ['rtmps://live-ingest.linkedin.com:443/live/key', 720, 'linkedin', 3000, 'baseline'],
+            ['rtmps://a.rtmps.youtube.com/live2/key', 1080, 'youtube', 6000, 'high'],
             ['rtmp://sfo.contribute.live-video.net/app/key', 1080, 'twitch', 4500, 'high'],
         ];
     }
@@ -241,7 +241,7 @@ class LiveRestreamProfilesTest extends TestCase
 
         $this->assertStringContainsString('-profile:v baseline', $config);
         $this->assertStringContainsString('-bf 0', $config);
-        $this->assertStringContainsString('-b:v 3500k', $config);
+        $this->assertStringContainsString('-b:v 3000k', $config);
         $this->assertStringContainsString('-b:a 128k', $audio);
         $this->assertStringContainsString('-ar 48000', $audio);
     }

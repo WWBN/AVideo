@@ -233,8 +233,9 @@ function getAudioConfiguration($source)
 
 /**
  * Return a conservative 30 fps ingest profile tailored to the destination.
- * Each platform transcodes the incoming stream for its viewers, so matching its
- * ingest recommendations is more useful than forcing one bitrate on every output.
+ * Each platform transcodes the incoming stream for its viewers, so matching its own
+ * published ingest recommendation per resolution is what keeps delivery stable, instead of
+ * forcing one bitrate on every output or requiring a manual bitrate per destination.
  */
 function getRestreamVideoProfile($destinationUrl, $resolution = 720)
 {
@@ -250,12 +251,18 @@ function getRestreamVideoProfile($destinationUrl, $resolution = 720)
         1080 => array('width' => 1920, 'height' => 1080),
     );
 
-    // Video bitrate in kbit/s for H.264 at 30 fps.
+    // Video bitrate in kbit/s for H.264 at 30 fps. Each provider is pinned to the SAME value
+    // per resolution (1500/3000/6000) for consistency and to favor smooth delivery over hitting
+    // a platform's documented ceiling (YouTube's own 1080p ceiling is 10000, but its live Stream
+    // Health tool routinely recommends ~6800 for real ingest links, so 6000 is used instead).
+    // Twitch's 1080p is the one deliberate exception, kept at Twitch's own documented CBR spec
+    // (help.twitch.tv/s/article/broadcasting-guidelines: 1080p30 = 4500) rather than raised to
+    // match the rest. "generic" (destination/provider unknown) stays the lowest of all tiers.
     $bitrates = array(
-        'youtube' => array(480 => 2500, 720 => 4000, 1080 => 10000),
+        'youtube' => array(480 => 1500, 720 => 3000, 1080 => 6000),
         'facebook' => array(480 => 1500, 720 => 3000, 1080 => 6000),
         'twitch' => array(480 => 1500, 720 => 3000, 1080 => 4500),
-        'linkedin' => array(480 => 1500, 720 => 3500, 1080 => 6000),
+        'linkedin' => array(480 => 1500, 720 => 3000, 1080 => 6000),
         'generic' => array(480 => 1200, 720 => 2800, 1080 => 4500),
     );
 
@@ -275,7 +282,9 @@ function getRestreamVideoProfile($destinationUrl, $resolution = 720)
         'fps' => 30,
         'gop' => 60,
         'bitrateKbps' => $bitrate,
-        'bufsizeKbps' => $bitrate * 2,
+        // 1.5x (not 2x) keeps the VBV tight so the measured delivered bitrate stays close to
+        // the target instead of bursting well above each platform's recommended ingest rate.
+        'bufsizeKbps' => (int) round($bitrate * 1.5),
         'videoProfile' => $videoProfile,
         'bframes' => $videoProfile === 'baseline' ? 0 : 2,
     );
