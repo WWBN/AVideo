@@ -6112,7 +6112,9 @@ function url_exists($url)
 
 function getHeaderContentTypeFromURL($url)
 {
-    if (isValidURL($url) && $type = get_headers($url, 1)["Content-Type"]) {
+    // SECURITY: isValidURL() only checks format, not destination - require isSSRFSafeURL()
+    // since $url here can be an attacker-controlled videoLink (Video::getIncludeType()).
+    if (isValidURL($url) && isSSRFSafeURL($url) && $type = get_headers($url, 1)["Content-Type"]) {
         return $type;
     }
     return false;
