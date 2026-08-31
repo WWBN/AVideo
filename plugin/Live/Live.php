@@ -543,8 +543,8 @@ class Live extends PluginAbstract
 
         $obj->enableRestreamWatchdog = true;
         self::addDataObjectHelper('enableRestreamWatchdog', 'Enable Restream Watchdog', 'When enabled, executeEveryMinute() will detect restreams that unexpectedly disconnected from their destination (e.g. Broken pipe, Error muxing a packet, Error writing trailer, unexpected FFmpeg termination) while the source is still live, and will automatically restart them using the existing restream start flow. Enabled by default.');
-        $obj->restreamWatchdogCooldownSeconds = 120;
-        self::addDataObjectHelper('restreamWatchdogCooldownSeconds', 'Restream Watchdog Cooldown (seconds)', 'Minimum time to wait between automatic restart attempts for the same restream. Default: 120 seconds (2 minutes).');
+        $obj->restreamWatchdogCooldownSeconds = 30;
+        self::addDataObjectHelper('restreamWatchdogCooldownSeconds', 'Restream Watchdog Cooldown (seconds)', 'Minimum time to wait between automatic restart attempts for the same restream. Default: 30 seconds.');
         $obj->restreamWatchdogMaxAttempts = 3;
         self::addDataObjectHelper('restreamWatchdogMaxAttempts', 'Restream Watchdog Max Attempts', 'Maximum number of automatic restart attempts allowed within the attempts window below before the watchdog stops retrying automatically for that restream. Default: 3.');
         $obj->restreamWatchdogWindowSeconds = 900;
@@ -3589,7 +3589,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         self::saveRestreamReconnectState($key, $live_servers_id, $state);
     }
 
-    private static function canAutoRestreamOnReconnection($key, $live_servers_id, $cooldownSeconds = 120)
+    private static function canAutoRestreamOnReconnection($key, $live_servers_id, $cooldownSeconds = 30)
     {
         $state = self::getRestreamReconnectState($key, $live_servers_id);
         $lastAutoRestreamAt = intval(@$state['last_auto_restream_at']);
