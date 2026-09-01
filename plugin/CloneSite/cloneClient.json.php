@@ -266,9 +266,12 @@ if (empty($objClone->useRsync)) {
     // server-supplied videosDir (already sanitized above) before building the shell command.
     $sshUser = preg_replace('/[^a-z0-9._@\-]/i', '', $objClone->cloneSiteSSHUser);
     $sshIP   = preg_replace('/[^a-z0-9.\-]/i', '', $objClone->cloneSiteSSHIP);
-    $rsync = "sshpass -p '{password}' rsync -av --partial --timeout=300 -e 'ssh -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$sshUser}@{$sshIP}:{$json->videosDir} " . Video::getStoragePath() . " --log-file='{$log->file}' ";
-    $cmd = str_replace("{password}", $objClone->cloneSiteSSHPassword->value, $rsync);
-    $log->add("Clone (4 of {$totalSteps}): execute rsync ({$rsync})");
+    $rsync = "sshpass -p {password} rsync -av --partial --timeout=300 -e 'ssh -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$sshUser}@{$sshIP}:{$json->videosDir} " . Video::getStoragePath() . " --log-file='{$log->file}' ";
+    // Security: the password must be escaped, not just quoted - str_replace-ing it
+    // into an already-single-quoted word let a ' in the password break out into
+    // arbitrary shell.
+    $cmd = str_replace("{password}", escapeshellarg($objClone->cloneSiteSSHPassword->value), $rsync);
+    $log->add("Clone (4 of {$totalSteps}): execute rsync (" . str_replace('{password}', "'***'", $rsync) . ")");
 
     exec($cmd . " 2>&1", $output, $return_val);
     // Log the output and the return value for debugging purposes

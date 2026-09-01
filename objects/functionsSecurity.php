@@ -245,7 +245,13 @@ function isUntrustedRequest($logMsg = '', $approveAVideoUserAgent = true)
         return false;
     }
     $remoteAddr = getRemoteAddrFromServerArray($_SERVER);
-    if (!empty($remoteAddr) && isLoopbackIP($remoteAddr) && isLoopbackIP(getRealIpAddr())) {
+    // A loopback REMOTE_ADDR only proves the TCP connection terminated at 127.0.0.1 -
+    // behind a same-host reverse proxy (e.g. nginx TLS-terminating in front of
+    // Apache/PHP on the same box) EVERY request looks like this, including a
+    // browser-driven CSRF POST relayed by that proxy. A genuine local/internal call
+    // (cron curl, server-to-server webhook) never sets Origin/Referer, so only trust
+    // the loopback signal when neither header is present.
+    if (!empty($remoteAddr) && isLoopbackIP($remoteAddr) && isLoopbackIP(getRealIpAddr()) && empty($_SERVER['HTTP_ORIGIN']) && empty($_SERVER['HTTP_REFERER'])) {
         return false;
     }
     if (!requestComesFromSameDomainAsMyAVideo()) {
