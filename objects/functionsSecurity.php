@@ -1064,6 +1064,19 @@ function enforceRateLimit(string $operation = '', int $maxAttempts = 20, int $ti
  * @param string $baseName   basename of the currently executing script
  * @param string $scriptPath full path of the currently executing script
  */
+// Path relative to systemRootPath (forward-slash normalized), used to match the
+// built-in CSRF bypass list on a full path rather than a collision-prone basename.
+function getCsrfBypassRelativePath($scriptPath)
+{
+    global $global;
+    $root = str_replace('\\', '/', rtrim($global['systemRootPath'], '/\\')) . '/';
+    $script = str_replace('\\', '/', $scriptPath);
+    if (strpos($script, $root) === 0) {
+        return substr($script, strlen($root));
+    }
+    return $script;
+}
+
 function autoCSRFGuard($baseName, $scriptPath = '')
 {
     global $global;
@@ -1099,7 +1112,12 @@ function autoCSRFGuard($baseName, $scriptPath = '')
         return;
     }
 
-    // ── Exact-name built-in bypass list ──────────────────────────────────────
+    // ── Exact-path built-in bypass list ──────────────────────────────────────
+    // Matched on the path relative to systemRootPath, NOT the bare basename -
+    // a basename-only check let any file anywhere in the tree (incl. plugins)
+    // whose filename happened to collide with one of these inherit its
+    // exemption unaudited (e.g. plugin/LoginWordPress/view/login.json.php
+    // inheriting objects/login.json.php's CSRF exemption).
     // Groups:
     //   auth/signup  — accept calls from mobile apps & external clients
     //   public reads — use POST params for filtering, but mutate nothing
@@ -1107,9 +1125,9 @@ function autoCSRFGuard($baseName, $scriptPath = '')
     //   encoder      — authenticated via video-hash token, not session
     static $builtinBypass = [
         // Auth & account management
-        'login.json.php',
-        'userCreate.json.php',
-        'userRecoverPassSave.json.php',
+        'objects/login.json.php',
+        'objects/userCreate.json.php',
+        'objects/userRecoverPassSave.json.php',
         // Public write actions
         // sendEmail.json.php is intentionally NOT here: it lets User::isAdmin()
         // skip the captcha, so exempting it from the origin check would let any
@@ -1117,42 +1135,42 @@ function autoCSRFGuard($baseName, $scriptPath = '')
         // own address to an attacker-chosen recipient. Its two legitimate
         // callers (view/contact.php, admin test-email in
         // view/configurations_body.php) are both same-origin AJAX calls.
-        'subscribe.json.php',
-        'subscribeNotify.json.php',
-        'like.json.php',
-        'videoAddViewCount.json.php',
+        'objects/subscribe.json.php',
+        'objects/subscribeNotify.json.php',
+        'objects/like.json.php',
+        'objects/videoAddViewCount.json.php',
         // Read-only endpoints that accept POST params
-        'categories.json.php',
-        'comments.json.php',
-        'users.json.php',
-        'videos.json.php',
-        'videosAndroid.json.php',
-        'plugins.json.php',
-        'playlistsPublic.json.php',
-        'playlistsVideos.json.php',
-        'playlistsFromUserVideos.json.php',
-        'mention.json.php',
-        'notifications.json.php',
-        'listFiles.json.php',
+        'objects/categories.json.php',
+        'objects/comments.json.php',
+        'objects/users.json.php',
+        'objects/videos.json.php',
+        'objects/videosAndroid.json.php',
+        'objects/plugins.json.php',
+        'objects/playlistsPublic.json.php',
+        'objects/playlistsVideos.json.php',
+        'objects/playlistsFromUserVideos.json.php',
+        'objects/mention.json.php',
+        'objects/notifications.json.php',
+        'objects/listFiles.json.php',
         // Encoder upload callbacks (auth via video-hash, not session)
-        'aVideoEncoder.json.php',
-        'aVideoEncoderLog.json.php',
-        'aVideoEncoderNotifyIsDone.json.php',
-        'aVideoEncoderReceiveImage.json.php',
-        'aVideoQueueEncoder.json.php',
+        'objects/aVideoEncoder.json.php',
+        'objects/aVideoEncoderLog.json.php',
+        'objects/aVideoEncoderNotifyIsDone.json.php',
+        'objects/aVideoEncoderReceiveImage.json.php',
+        'objects/aVideoQueueEncoder.json.php',
         // Live recording callbacks (cross-origin from recorder agent)
-        'recordStart.json.php',
-        'recordStop.json.php',
+        'plugin/SendRecordedToEncoder/recordStart.json.php',
+        'plugin/SendRecordedToEncoder/recordStop.json.php',
         // Restream destination lookup / token verification — called cross-origin by the
         // external restreamer server (plugin/Live/standAloneFiles/restreamer.json.php),
         // authenticated via the signed 'token' request param, not session.
-        'getLiveKey.json.php',
-        'verifyToken.json.php',
+        'plugin/Live/view/Live_restreams/getLiveKey.json.php',
+        'plugin/Live/verifyToken.json.php',
         // Bulk import tool — intentional cross-origin / CLI use
-        'import_spreadsheet_videos.json.php',
+        'plugin/Flixhouse/import_spreadsheet_videos.json.php',
     ];
 
-    if (in_array($baseName, $builtinBypass, true)) {
+    if ($scriptPath !== '' && in_array(getCsrfBypassRelativePath($scriptPath), $builtinBypass, true)) {
         return;
     }
 

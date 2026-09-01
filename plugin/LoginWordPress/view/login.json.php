@@ -2,12 +2,14 @@
 header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
+forbidIfIsUntrustedRequest('LoginWordPress');
+
 $obj = AVideoPlugin::getObjectDataIfEnabled('LoginWordPress');
 
-if(User::isLogged()){
-    User::logoff();
-}
-
+// Do not log the caller off before authenticating (see objects/login.json.php,
+// same intentional omission) - LoginWordPress::login() replaces the session
+// itself on success, and an unauthenticated caller must not be able to
+// destroy a victim's existing session by simply posting bad credentials here.
 $object = new stdClass();
 $object->isLogged = false;
 $object->isAdmin = false;
