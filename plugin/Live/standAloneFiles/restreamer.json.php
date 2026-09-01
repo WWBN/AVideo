@@ -55,20 +55,6 @@ if (!file_exists($ffmpegBinary)) {
     }
 }
 
-// Static/cross-compiled FFmpeg builds (--enable-openssl) ship their own OpenSSL default cert
-// path baked in at compile time, which usually does not match this host - even though the
-// system's own openssl/curl trust the destination fine. SSL_CERT_FILE is read by OpenSSL at
-// runtime and overrides that compiled-in default, fixing "certificate verify failed" on
-// rtmps:// destinations (e.g. Facebook) without disabling verification. Kept separate from
-// $ffmpegBinary (used elsewhere for `which` comparison and ps-based process matching).
-$ffmpegSslCertFileEnvPrefix = '';
-foreach (array('/etc/ssl/certs/ca-certificates.crt', '/etc/pki/tls/certs/ca-bundle.crt', '/etc/ssl/cert.pem') as $candidateCaFile) {
-    if (file_exists($candidateCaFile)) {
-        $ffmpegSslCertFileEnvPrefix = 'SSL_CERT_FILE=' . escapeshellarg($candidateCaFile) . ' ';
-        break;
-    }
-}
-
 $global_timeLimit = 300;
 
 ini_set("memory_limit", "4G");
@@ -749,7 +735,7 @@ function _make_path($path)
 function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1, $startTime = null, $fallbackDestination = '')
 {
     global $json;
-    global $ffmpegBinary, $isATest, $ffmpegSslCertFileEnvPrefix;
+    global $ffmpegBinary, $isATest;
 
     if ($startTime === null) {
         $startTime = microtime(true);
@@ -832,7 +818,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
     // Check FFmpeg version
     $ffmpegVersionOutput = [];
-    exec("{$ffmpegSslCertFileEnvPrefix}$ffmpegBinary -version", $ffmpegVersionOutput);
+    exec("$ffmpegBinary -version", $ffmpegVersionOutput);
     preg_match('/ffmpeg version ([0-9]+)\./', $ffmpegVersionOutput[0] ?? '', $matches);
     $ffmpegMajorVersion = isset($matches[1]) ? (int)$matches[1] : 0;
 
@@ -840,7 +826,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     $disableReconnectOnNetworkError = ($ffmpegMajorVersion < 6);
     $userAgent = 'AVideoRestreamer';
 
-    $FFMPEGcommand = "{$ffmpegSslCertFileEnvPrefix}{$ffmpegBinary} -hide_banner -y -v info "
+    $FFMPEGcommand = "{$ffmpegBinary} -hide_banner -y -v info "
         // . "-re "
         . "-rw_timeout 120000000 "                 // 120s em microssegundos
         . "-timeout 120000000 "                    // pode ser ignorado por alguns protocolos
@@ -897,7 +883,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
                 error_log('Restreamer.json.php destination profile ' . json_encode($profile));
             }
             $tcurl = buildRtmpTcurl($value);
-            $tls_verify = getRestreamTlsOptions($value, $tcurl, !empty($ffmpegSslCertFileEnvPrefix));
+            $tls_verify = getRestreamTlsOptions($value, $tcurl);
             $outputTail = getRestreamOutputTail($value, $tls_verify);
 
             $command .= str_replace(
@@ -925,7 +911,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         }
 
         $tcurl = buildRtmpTcurl($dst);
-        $tls_verify = getRestreamTlsOptions($dst, $tcurl, !empty($ffmpegSslCertFileEnvPrefix));
+        $tls_verify = getRestreamTlsOptions($dst, $tcurl);
         $outputTail = getRestreamOutputTail($dst, $tls_verify);
 
         $command = $FFMPEGcommand;

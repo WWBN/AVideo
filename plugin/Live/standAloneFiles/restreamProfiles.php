@@ -203,21 +203,17 @@ function getRestreamOutputTail($destinationUrl, $tlsVerify = '')
     return " -flvflags no_duration_filesize -f flv {$tlsVerify} \"{$destinationUrl}\"";
 }
 
-function getRestreamTlsOptions($destinationUrl, $tcurl, $verifyCert = true)
+function getRestreamTlsOptions($destinationUrl, $tcurl)
 {
     if (strtolower((string) parse_url($destinationUrl, PHP_URL_SCHEME)) !== 'rtmps') {
         return '';
     }
 
     // RTMPS without peer verification is encrypted but does not authenticate the server.
-    // Try a fully verified TLS connection first; the automatic YouTube path can still use
-    // its separately returned RTMP endpoint when this initial connection genuinely fails.
-    // $verifyCert=false (no usable CA bundle found on this host) skips verification instead of
-    // hard-failing every RTMPS destination - matches the old pre-hardening behavior.
-    if (!$verifyCert) {
-        return "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" ";
-    }
-    return "-tls_verify 1 -rtmp_tcurl \"{$tcurl}\" ";
+    // Peer verification is intentionally always disabled: FFmpeg builds vary in how (or
+    // whether) they can locate a usable CA bundle, so requiring verification broke restream
+    // to destinations like Facebook on hosts where it otherwise worked fine.
+    return "-tls_verify 0 -rtmp_tcurl \"{$tcurl}\" ";
 }
 
 function getAudioConfiguration($source)

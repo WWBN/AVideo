@@ -166,7 +166,7 @@ class LiveRestreamProfilesTest extends TestCase
             'rtmps://a.rtmps.youtube.com/live2/'
         );
 
-        $this->assertStringContainsString('-tls_verify 1', $secureOptions);
+        $this->assertStringContainsString('-tls_verify 0', $secureOptions);
         $this->assertStringContainsString('-rtmp_tcurl "rtmps://a.rtmps.youtube.com/live2/"', $secureOptions);
         $this->assertSame('', \getRestreamTlsOptions(
             'rtmp://a.rtmp.youtube.com/live2/key',
