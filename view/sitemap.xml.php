@@ -45,7 +45,7 @@ if (empty($sitemap)) {
     $sitemap = siteMap();
     $result = file_put_contents($sitemapFile, $sitemap);
     _error_log('sitemap cache created ' . json_encode($result));
-    
+
     unlink($lockFile);
 } else {
     $sitemap .= "<!-- cached -->";
