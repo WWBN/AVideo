@@ -22,8 +22,15 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 allowOrigin(true);
 require_once $global['systemRootPath'] . 'objects/user.php';
 if ($videoAddNewCrossDomainAuth) {
+    // A session that already existed before this request (e.g. a victim's own
+    // cookie riding along on a cross-site CSRF request) must NOT be treated as
+    // proof that the user/pass supplied in THIS request are valid - only a
+    // fresh login established by those credentials may bypass same-domain
+    // checks below, otherwise attacker-chosen junk credentials plus a victim's
+    // pre-existing session would silently disable the CSRF protection.
+    $wasAlreadyLoggedInBeforeThisRequest = User::isLogged();
     User::loginFromRequestIfNotLogged();
-    if (User::isLogged()) {
+    if (!$wasAlreadyLoggedInBeforeThisRequest && User::isLogged()) {
         $global['bypassSameDomainCheck'] = 1;
     }
 }
