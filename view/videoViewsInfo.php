@@ -159,10 +159,9 @@ $_page->loadBasicCSSAndJS();
                     }
                 },
                 {
+                    // app is derived from the client User-Agent and is not sanitized on write, escape on render
                     data: 'app',
-                    render: function(data, type, row) {
-                        return row.app
-                    }
+                    render: $.fn.dataTable.render.text()
                 }
             ],
             select: true,
