@@ -650,6 +650,17 @@ CREATE TABLE IF NOT EXISTS `users_extra_info` (
   INDEX `ordersortusers_extra_info` USING BTREE (`order`))
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `rate_limits`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `rate_limits` (
+  `ratelimit_key` BINARY(32) NOT NULL,
+  `attempts` INT(11) NOT NULL DEFAULT 1,
+  `expires_at` DATETIME NOT NULL,
+  PRIMARY KEY (`ratelimit_key`),
+  KEY `rate_limits_expires_at` (`expires_at`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
 ALTER TABLE `category_type_cache`
   ADD UNIQUE KEY `categoryId` (`categoryId`);
 

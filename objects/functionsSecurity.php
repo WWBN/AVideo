@@ -921,10 +921,81 @@ function getBearerToken()
 }
 
 /**
+ * Atomically increments the `rate_limits` counter for $key and returns the
+ * new count (resetting to 1 if the previous window already expired).
+ *
+ * This uses a single INSERT ... ON DUPLICATE KEY UPDATE so the increment,
+ * the window-expiry check and the read of the resulting value all happen as
+ * one atomic row-level-locked statement on the DB server - concurrent callers
+ * can never read-then-write the same stale value (which is what made the
+ * previous ObjectYPT::getCacheGlobal()/setCacheGlobal() pair non-atomic and
+ * let most increments get lost under concurrent load).
+ *
+ * LAST_INSERT_ID(expr) is a standard MySQL trick: it sets the value returned
+ * by mysqli's insert_id (what sqlDAL::writeSql() returns) to $expr, even
+ * though this table has no AUTO_INCREMENT column.
+ *
+ * The primary key is a raw sha256 hash of $key (BINARY(32)), not the plain
+ * string, to keep the index compact/fixed-size - the row is no longer
+ * human-readable via a plain SELECT, but $key itself is still what gets
+ * logged on a block (see enforceRateLimit()), so debuggability isn't lost.
+ *
+ * @param string $key        Unique bucket name (already includes IP/operation).
+ * @param int    $timeWindow Window duration in seconds.
+ * @return int The attempt count after this increment, or 0 if even the
+ *             legacy cache fallback failed.
+ */
+function rateLimitIncrementAndGet(string $key, int $timeWindow): int
+{
+    $hashedKey = hash('sha256', $key, true);
+    $sql = "INSERT INTO rate_limits (ratelimit_key, attempts, expires_at)
+            VALUES (?, LAST_INSERT_ID(1), DATE_ADD(NOW(), INTERVAL ? SECOND))
+            ON DUPLICATE KEY UPDATE
+                attempts = IF(expires_at > NOW(), LAST_INSERT_ID(attempts + 1), LAST_INSERT_ID(1)),
+                expires_at = IF(expires_at > NOW(), expires_at, DATE_ADD(NOW(), INTERVAL ? SECOND))";
+    $result = sqlDAL::writeSql($sql, 'sii', [$hashedKey, $timeWindow, $timeWindow]);
+    if (!is_numeric($result)) {
+        // This branch fires on EVERY call while the table/DB is unavailable
+        // (e.g. mid-upgrade, before install/updatedb.php has run, or a
+        // transient DB hiccup) - log at most once every 5 minutes site-wide
+        // instead of once per request, then fall back to the old racy
+        // read-then-write cache counter so rate limiting degrades instead of
+        // fully disabling itself.
+        if (!ObjectYPT::getCacheGlobal('rate_limits_fallback_logged', 300, false, true, true)) {
+            ObjectYPT::setCacheGlobal('rate_limits_fallback_logged', 1, true, true);
+            _error_log("rateLimitIncrementAndGet: rate_limits table write failed, falling back to legacy cache counter (key={$key})", AVideoLog::$ERROR);
+        }
+        $attempts = intval(ObjectYPT::getCacheGlobal($key, $timeWindow, false, true, true)) + 1;
+        ObjectYPT::setCacheGlobal($key, $attempts, true, true);
+        return $attempts;
+    }
+    // Small batch + short lease: bounds per-request latency while still
+    // outrunning realistic attack growth rates between lease renewals.
+    if (mt_rand(1, 500) === 1) {
+        $leaseKey = hash('sha256', 'rate_limits_cleanup_lease', true);
+        $leaseSql = "INSERT INTO rate_limits (ratelimit_key, attempts, expires_at)
+                VALUES (?, LAST_INSERT_ID(1), DATE_ADD(NOW(), INTERVAL 5 SECOND))
+                ON DUPLICATE KEY UPDATE
+                    attempts = IF(expires_at <= NOW(), LAST_INSERT_ID(1), LAST_INSERT_ID(2)),
+                    expires_at = IF(expires_at <= NOW(), DATE_ADD(NOW(), INTERVAL 5 SECOND), expires_at)";
+        if (sqlDAL::writeSql($leaseSql, 's', [$leaseKey]) === 1) {
+            sqlDAL::writeSql("DELETE FROM rate_limits WHERE expires_at < NOW() LIMIT 2000");
+        }
+    }
+    return (int) $result;
+}
+
+/**
  * Enforce a rate limit for the current endpoint.
  *
  * Kills the request with HTTP 429 + JSON body if the caller has exceeded
  * the allowed number of attempts within the time window.
+ *
+ * Fixed-window algorithm (not sliding): the window boundary is set once per
+ * key and every attempt within it shares that boundary - the standard
+ * trade-off for an atomic single-statement counter. The usual ~2x-at-the-
+ * boundary edge case applies here too, including to 'login', which is
+ * additionally backstopped by LoginControl's captcha/lockout.
  *
  * Usage examples:
  *   enforceRateLimit();                        // 20 req / 5 min, key = script + IP
@@ -945,10 +1016,11 @@ function enforceRateLimit(string $operation = '', int $maxAttempts = 20, int $ti
         $operation = basename($_SERVER['SCRIPT_FILENAME'] ?? 'unknown');
     }
     $key      = 'ratelimit_' . $operation . '_' . getRealIpAddr();
-    // ignoreBot=true: this is a security counter, not a page cache, so it must
-    // still be written/expired for bot-classified clients (e.g. no User-Agent, curl).
-    $attempts = intval(ObjectYPT::getCacheGlobal($key, $timeWindow, false, true, true));
-    if ($attempts >= $maxAttempts) {
+    // SECURITY (2026-09-01): must be an atomic increment, not read-then-write -
+    // see rateLimitIncrementAndGet(). A non-atomic counter here is bypassable by
+    // an arbitrary factor simply by issuing requests concurrently.
+    $attempts = rateLimitIncrementAndGet($key, $timeWindow);
+    if ($attempts > $maxAttempts) {
         _error_log("enforceRateLimit blocked operation={$operation} ip=" . getRealIpAddr() . " attempts={$attempts} window={$timeWindow}", AVideoLog::$SECURITY);
         http_response_code(429);
         header('Content-Type: application/json');
@@ -957,7 +1029,6 @@ function enforceRateLimit(string $operation = '', int $maxAttempts = 20, int $ti
         $obj->msg   = __('Too many requests. Try again later.');
         die(json_encode($obj));
     }
-    ObjectYPT::setCacheGlobal($key, $attempts + 1, true, true);
 }
 
 /**
@@ -1140,6 +1211,25 @@ function autoRateLimitGuard($baseName, $scriptPath = '')
         return;
     }
 
+    // ── Path-specific bypass ──────────────────────────────────────────────────
+    // Both basenames below already self-limit via enforceRateLimit(), but the
+    // basename alone isn't safe to bypass on (login.json.php collides with
+    // LoginWordPress/LoginLDAP/the encoder copy; getToken.json.php could
+    // collide with any third-party plugin using the same name) - so each is
+    // exempted only when the FULL path matches. isset() gates the basename
+    // first so realpath() only runs for these two files.
+    static $pathScopedBypass = [
+        'login.json.php'    => 'objects/login.json.php',
+        'getToken.json.php' => 'plugin/VideoHLS/getToken.json.php',
+    ];
+    if (isset($pathScopedBypass[$baseName]) && $scriptPath !== '' && !empty($global['systemRootPath'])) {
+        $exemptPath = realpath($global['systemRootPath'] . $pathScopedBypass[$baseName]);
+        $currentPath = realpath($scriptPath);
+        if ($exemptPath !== false && $currentPath !== false && $exemptPath === $currentPath) {
+            return;
+        }
+    }
+
     // ── Exact-name built-in bypass list ──────────────────────────────────────
     // High-frequency polling endpoints that legitimately fire every few
     // seconds per open browser tab (chat, notifications, live status).
@@ -1149,6 +1239,22 @@ function autoRateLimitGuard($baseName, $scriptPath = '')
         'getRoom.json.php',
         'notifications.json.php',
         'aVideoEncoderLog.json.php',
+        // Endpoints below already call enforceRateLimit() themselves with a
+        // purpose-built, stricter-or-equal budget - the generic 300/60s net
+        // would just be a second redundant write to the rate_limits table on
+        // every single request. Only exact-basename-unique files are listed
+        // here (verified via testAutoRateLimitBypassBasenamesAreUniqueOrSelfLimiting,
+        // which fails the build if a listed basename is shared by another file
+        // that doesn't call enforceRateLimit() itself). 'login.json.php' and
+        // 'getToken.json.php' are deliberately NOT included here - see the
+        // path-scoped bypass above instead. 'download.json.php' is also NOT
+        // included - shared with CDN/VideoOffline files that don't self-limit.
+        'encryptPass.json.php',
+        'playlistAddNew.json.php',
+        'playlistAddOnFirstPage.json.php',
+        'playListAddVideo.json.php',
+        'videoAddViewCount.json.php',
+        'getNotifications.json.php',
     ];
 
     if (in_array($baseName, $builtinBypass, true)) {

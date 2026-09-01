@@ -122,7 +122,9 @@ class sqlDAL
         // (the old debug_backtrace()[2]==='AuditTable' check never matches here because frame 2 is
         // 'Audit' (Audit::exec), not 'AuditTable' - that caused unbounded recursion / OOM.)
         static $isLoggingAudit = false;
-        if (!$isLoggingAudit && strpos($preparedStatement, 'CachesInDB')===false){
+        // rate_limits is written on nearly every request (see enforceRateLimit()); auditing it
+        // would be pure noise, same reasoning as the existing CachesInDB exclusion below.
+        if (!$isLoggingAudit && strpos($preparedStatement, 'CachesInDB')===false && strpos($preparedStatement, 'rate_limits')===false){
             $debug = debug_backtrace();
             if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable" && class_exists('AVideoPlugin')) {
                 $audit = AVideoPlugin::loadPluginIfEnabled('Audit');
@@ -155,6 +157,11 @@ class sqlDAL
         try {
             $stmt = $global['mysqli']->prepare($preparedStatement);
         } catch (mysqli_sql_exception $e) {
+            if (preg_match('/Table .*rate_limits.* doesn\'t exist/i', $e->getMessage())) {
+                // Silent - rateLimitIncrementAndGet() already logs this condition
+                // itself, throttled to once per 5 minutes.
+                return false;
+            }
             if (preg_match('/Table .*CachesInDB.* doesn\'t exist/i', $e->getMessage())) {
                 _error_log("writeSql: Skipping missing table 'CachesInDB'");
                 return true;
