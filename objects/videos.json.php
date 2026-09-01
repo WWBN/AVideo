@@ -113,6 +113,10 @@ foreach ($videos as $key => $value) {
         TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
     }
     unset($videos[$key]['password'], $videos[$key]['recoverPass']);
+    // defense-in-depth: moderators are trusted staff and may see the joined owner's PII, but a non-moderator must not, regardless of the showOnlyLoggedUserVideos scoping above
+    if (!Permissions::canModerateVideos()) {
+        removeSensitiveUserFields($videos[$key]);
+    }
 }
 
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
