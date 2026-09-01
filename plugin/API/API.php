@@ -4283,6 +4283,10 @@ class API extends PluginAbstract
         if (!User::isLogged()) {
             return new ApiObject("User must be logged");
         }
+        // same visibility/password rule the non-API like endpoint (objects/like.json.php) already enforces
+        if (!canWatchVideoIncludingPassword($parameters['videos_id'])) {
+            return new ApiObject("Cannot watch video");
+        }
         new Like($like, $parameters['videos_id']);
 
         $obj = Like::getLikes($parameters['videos_id']);
