@@ -1845,15 +1845,10 @@ if (typeof gtag !== \"function\") {
             $sql .= " AND status = 'a' ";
         }
         if ($pass !== false) {
-            if (!$encodedPass || $encodedPass === 'false') {
-                $passEncoded = md5($pass);
-                _error_log("Password check Old not encoded pass");
-                //_error_log("Password check Old not encoded pass passEncoded={$passEncoded}");
-            } else {
-                $passEncoded = $pass;
-                _error_log("Password check Old encoded pass");
-                //_error_log("Password check Old encoded pass passEncoded={$passEncoded}");
-            }
+            // SECURITY: always hash $pass here, never compare a caller-supplied value
+            // to the stored legacy hash verbatim - that was pass-the-hash for legacy
+            // plain-MD5 accounts (encodedPass=1 with a leaked password value).
+            $passEncoded = md5($pass);
             $sql .= " AND password = ? ";
             $formats .= "s";
             $values[] = $passEncoded;
@@ -3380,20 +3375,18 @@ if (typeof gtag !== \"function\") {
             }
             unset($_SESSION['user']);
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
-            $response = $user->login(false, !empty($_REQUEST['encodedPass']));
+            // SECURITY: do not retry with the opposite encodedPass flag on failure -
+            // that tried every submitted password as a pre-hashed value too, so
+            // submitting a stolen password hash as "pass" (no encodedPass needed)
+            // logged the attacker in directly.
+            // Pass the raw value through (not !empty()) so login()'s own
+            // strtolower($encodedPass) === 'false' normalization can still treat
+            // the literal string "false" as false - !empty('false') would be true.
+            $response = $user->login(false, $_REQUEST['encodedPass'] ?? false);
             if ($isEncoderRequest) {
                 _error_log('loginFromRequest: encoder first attempt result=' . json_encode($response)
                     . ' encodedPassFlag=' . (int)!empty($_REQUEST['encodedPass'])
                     . ' user=' . ($_REQUEST['user'] ?? 'empty'));
-            }
-            if ($response !== self::USER_LOGGED) {
-                //_error_log("loginFromRequest trying again");
-                $response = $user->login(false, empty($_REQUEST['encodedPass']));
-                if ($isEncoderRequest) {
-                    _error_log('loginFromRequest: encoder fallback attempt result=' . json_encode($response)
-                        . ' fallbackEncodedPassFlag=' . (int)empty($_REQUEST['encodedPass'])
-                        . ' user=' . ($_REQUEST['user'] ?? 'empty'));
-                }
             }
             if ($response) {
                 switch ($response) {

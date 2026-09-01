@@ -4032,24 +4032,31 @@ class API extends PluginAbstract
     /**
      * Authenticate a user and return a session token or error.
      *
+     * SECURITY: encodedPass=true no longer accepts an arbitrary pre-computed password
+     * hash compared directly against the stored hash (that was pass-the-hash - anyone
+     * who obtained a leaked users.password value could authenticate with it directly).
+     * It now only accepts the _user_hash_... token returned in a prior login response's
+     * "pass" field. Third-party clients must send the real password with encodedPass
+     * omitted/false, or reuse a previously issued _user_hash_ token.
+     *
      * @param array $parameters
      * @param string $parameters['user'] The username of the user.
-     * @param string $parameters['pass'] The user's password (either raw or encrypted).
-     * @param bool [$parameters['encodedPass']] Optional. Set to true if the password is already encrypted.
+     * @param string $parameters['pass'] The user's real password, or a previously issued _user_hash_ token.
+     * @param bool [$parameters['encodedPass']] Optional. Set to true only when pass is a _user_hash_ token.
      *
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=YourRealPassword
      *
      * @return string JSON encoded authentication response or error message.
      */
     #[OA\Get(
         path: "/api/signIn",
         summary: "Authenticate user and return session",
-        description: "Authenticates a user using username and password (raw or encoded). Returns session token or error.",
+        description: "Authenticates a user using username and real password. encodedPass=true is only for reusing a _user_hash_ token from a prior login response, not an arbitrary pre-hashed password. Returns session token or error.",
         tags: ["Users"],
         parameters: [
             new OA\Parameter(name: "user", in: "query", required: true, schema: new OA\Schema(type: "string"), description: "Username of the user."),
-            new OA\Parameter(name: "pass", in: "query", required: true, schema: new OA\Schema(type: "string"), description: "Password of the user."),
-            new OA\Parameter(name: "encodedPass", in: "query", required: false, schema: new OA\Schema(type: "boolean"), description: "Set to true if password is already encrypted.")
+            new OA\Parameter(name: "pass", in: "query", required: true, schema: new OA\Schema(type: "string"), description: "The real password, or a previously issued _user_hash_ token."),
+            new OA\Parameter(name: "encodedPass", in: "query", required: false, schema: new OA\Schema(type: "boolean"), description: "Set to true only when pass is a _user_hash_ token from a prior login response.")
         ],
         responses: [
             new OA\Response(
@@ -4084,7 +4091,7 @@ class API extends PluginAbstract
     #[OA\Post(
         path: "/api/signIn",
         summary: "Authenticate user and return session (POST)",
-        description: "Authenticates a user using username and password (raw or encoded). Returns session token or error.",
+        description: "Authenticates a user using username and real password. encodedPass=true is only for reusing a _user_hash_ token from a prior login response, not an arbitrary pre-hashed password. Returns session token or error.",
         tags: ["Users"],
         requestBody: new OA\RequestBody(
             required: true,
@@ -4092,8 +4099,8 @@ class API extends PluginAbstract
                 type: "object",
                 properties: [
                     new OA\Property(property: "user", type: "string", description: "Username of the user."),
-                    new OA\Property(property: "pass", type: "string", description: "Password of the user."),
-                    new OA\Property(property: "encodedPass", type: "boolean", description: "Set to true if password is already encrypted.")
+                    new OA\Property(property: "pass", type: "string", description: "The real password, or a previously issued _user_hash_ token."),
+                    new OA\Property(property: "encodedPass", type: "boolean", description: "Set to true only when pass is a _user_hash_ token from a prior login response.")
                 ]
             )
         ),

@@ -2359,18 +2359,15 @@ function encryptPasswordVerify(
     $encodedPass = false
 ) {
     global $advancedCustom, $global;
-    if (!$encodedPass || $encodedPass === 'false') {
-        //_error_log("encryptPasswordVerify: encrypt");
-        $passwordSalted = encryptPassword($password);
-        // in case you enable the salt later
-        $passwordUnSalted = encryptPassword($password, true);
-    } else {
-        //_error_log("encryptPasswordVerify: do not encrypt");
-        $passwordSalted = $password;
-        // in case you enable the salt later
-        $passwordUnSalted = $password;
-    }
-    //_error_log("passwordSalted = $passwordSalted,  hash=$hash, passwordUnSalted=$passwordUnSalted");
+    // SECURITY: $encodedPass no longer makes $password get compared to $hash verbatim -
+    // that was pass-the-hash: anyone who obtained a leaked users.password value could
+    // authenticate directly with encodedPass=1, for any account. The submitted value is
+    // always re-derived/hashed here; the only accepted "already encoded" credential is a
+    // genuine _user_hash_ token (time-limited, revoked on password change), checked below
+    // independently of $encodedPass. $encodedPass is kept only for signature/back-compat.
+    $passwordSalted = encryptPassword($password);
+    // in case you enable the salt later
+    $passwordUnSalted = encryptPassword($password, true);
     $isValid = $passwordSalted === $hash || $passwordUnSalted === $hash;
 
     if (!$isValid) {
@@ -2378,12 +2375,6 @@ function encryptPasswordVerify(
         $isValid = $passwordFromHash === $hash;
     }
 
-    if (!$isValid) {
-        if ($password === $hash) {
-            _error_log('encryptPasswordVerify: this is a deprecated password, this will stop to work soon ' . json_encode(debug_backtrace()), AVideoLog::$SECURITY);
-            return true;
-        }
-    }
     return $isValid;
 }
 
