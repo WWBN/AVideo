@@ -364,6 +364,11 @@ Best regards,
             }
         }
         if (self::challengeThisPage()) {
+            // JSON/API callers get a clean JSON rejection instead of the HTML challenge page
+            if (preg_match('/.json/i', $_SERVER["REQUEST_URI"]) || preg_match('/plugin\/API/', $_SERVER["REQUEST_URI"])) {
+                header('Content-Type: application/json');
+                die(json_encode(['error' => true, 'msg' => 'Please complete your pending Two-Factor (PGP) challenge']));
+            }
             include_once $global['systemRootPath'] . 'plugin/LoginControl/pgp/challenge.php';
             exit;
             header("Loation: {$global['webSiteRootURL']}plugin/LoginControl/pgp/challenge.php?redirectUri=" . urlencode(getRedirectUri()));
@@ -543,10 +548,13 @@ Best regards,
     }
 
     public static function verifyChallenge($response) {
+        // SECURITY FIX (2026-09-01): was a loose `==` against an unset session value, which let
+        // response=null/"" pass when no challenge had ever been issued. Do not revert to `==`.
         // must reject when no challenge was ever issued, otherwise NULL response == NULL unset text passes
         if (!empty($_SESSION['user']['challenge']['text']) && is_string($response) && hash_equals($_SESSION['user']['challenge']['text'], $response)) {
             _session_start();
             $_SESSION['user']['challenge']['isComplete'] = true;
+            unset($_SESSION['user']['challenge']['text']); // single-use, prevent replay of a captured response
             return true;
         }
         return false;
@@ -582,16 +590,33 @@ Best regards,
             if (isVideo()) {
                 return true;
             }
+            // SECURITY FIX (2026-09-01): .json/plugin\API used to be exempt for ALL methods, so a
+            // password-only session (PGP challenge still pending) could reach every mutating JSON/API
+            // endpoint - the 2FA only ever gated HTML page renders. Now split below: GET stays exempt,
+            // POST/mutating requests are blocked until the challenge is completed. Do not restore an
+            // unconditional .json/plugin\API exemption without re-introducing that gap.
+            // always exempt: the challenge flow itself, sockets, and external (non-browser) webhooks
             $pattersToWhitelist = [];
-            $pattersToWhitelist[] = '/.json/i';
             $pattersToWhitelist[] = '/WebSocket/i';
             $pattersToWhitelist[] = '/LoginControl\/pgp/i';
-            $pattersToWhitelist[] = '/plugin\/API/';
             $pattersToWhitelist[] = '/plugin\/Live/on_';
 
             foreach ($pattersToWhitelist as $value) {
                 if (preg_match($value, $_SERVER["REQUEST_URI"])) {
                     return false;
+                }
+            }
+
+            // read-only JSON/API GET requests stay exempt (mobile app/AJAX compatibility);
+            // POST/mutating requests must still complete the pending PGP challenge
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $pattersToWhitelistGetOnly = [];
+                $pattersToWhitelistGetOnly[] = '/.json/i';
+                $pattersToWhitelistGetOnly[] = '/plugin\/API/';
+                foreach ($pattersToWhitelistGetOnly as $value) {
+                    if (preg_match($value, $_SERVER["REQUEST_URI"])) {
+                        return false;
+                    }
                 }
             }
 

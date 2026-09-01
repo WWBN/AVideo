@@ -28,6 +28,13 @@ if (empty($users_id)) {
     die(json_encode($obj));
 }
 
+// SECURITY FIX (2026-09-01): a password-only attacker (PGP challenge still pending) could
+// previously overwrite the victim's registered key with their own, then pass the challenge
+// legitimately. Do not remove without re-checking LoginControl::userNeedsToChallengePGP().
+if ($users_id == User::getId() && LoginControl::userNeedsToChallengePGP()) {
+    $obj->msg = "Please complete your current PGP challenge before changing your key";
+    die(json_encode($obj));
+}
 
 $obj->id = LoginControl::setPGPKey($users_id, @$_REQUEST['publicKey']);
 
