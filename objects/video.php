@@ -7490,7 +7490,7 @@ if (!class_exists('Video')) {
                 $sql .= " {$type} = {$type}+{$value} ";
             } elseif (preg_match('/-([0-9]+)/', $value, $matches)) {
                 $value = intval($matches[1]);
-                $sql .= " {$type} = {$type}-{$value} ";
+                $sql .= " {$type} = GREATEST(0, {$type}-{$value}) ";
             } else {
                 $value = intval($value);
                 $sql .= " {$type} = {$value} ";

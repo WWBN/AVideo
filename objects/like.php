@@ -20,6 +20,11 @@ class Like
             header('Content-Type: application/json');
             die('{"error":"'.__("Permission denied").'"}');
         }
+        // normalize before any decision below relies on it (e.g. like[]=1 must not desync the vote from the counters)
+        $like = intval($like);
+        if (!in_array($like, [0, 1, -1], true)) {
+            $like = 0;
+        }
         $this->videos_id = intval($videos_id);
         $this->users_id = User::getId();
         $this->load();
