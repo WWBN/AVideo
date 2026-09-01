@@ -1647,8 +1647,13 @@ class API extends PluginAbstract
             $rows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true);
             $totalRows = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, true);
         } elseif (!empty($parameters['clean_title'])) {
-            $rows = Video::getVideoFromCleanTitle($parameters['clean_title']);
-            $totalRows = empty($rows) ? 0 : 1;
+            // SECURITY: getVideoFromCleanTitle() ignores status/group ACL by design for its other
+            // (metadata-only) callers - re-resolve through the same ACL'd getVideo() the videos_id
+            // branch above uses (isAPISecretValid() is always false here, already handled above).
+            $videoFromTitle = Video::getVideoFromCleanTitle($parameters['clean_title']);
+            $row = empty($videoFromTitle['id']) ? false : Video::getVideo($videoFromTitle['id'], Video::SORT_TYPE_VIEWABLE, false, false, false, true);
+            $rows = empty($row) ? [] : [$row];
+            $totalRows = empty($row) ? 0 : 1;
         } else {
             if(empty($_GET['sort']) && empty($_REQUEST['sort']) && empty($_POST['sort'])){
                 $_POST['sort'] = array('created' => 'desc');
@@ -3224,8 +3229,13 @@ class API extends PluginAbstract
             $rows = [Video::getVideo($parameters['videos_id'])];
             $totalRows = empty($rows) ? 0 : 1;
         } elseif (!empty($parameters['clean_title'])) {
-            $rows = Video::getVideoFromCleanTitle($parameters['clean_title']);
-            $totalRows = empty($rows) ? 0 : 1;
+            // SECURITY: getVideoFromCleanTitle() ignores status/group ACL by design - re-resolve
+            // through getVideo()'s default (viewable, group-checked) status, and wrap in an array
+            // so the loop below iterates the row itself, not its column values.
+            $videoFromTitle = Video::getVideoFromCleanTitle($parameters['clean_title']);
+            $row = empty($videoFromTitle['id']) ? false : Video::getVideo($videoFromTitle['id']);
+            $rows = empty($row) ? [] : [$row];
+            $totalRows = empty($row) ? 0 : 1;
         } else {
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
