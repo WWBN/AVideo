@@ -2030,10 +2030,6 @@ function url_get_response($url)
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false, $requireSSRFSafe = true)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-    if (isDocker() && str_starts_with($url, $global['webSiteRootURL'])) {
-        // this is a docker and it is pointing to the local host, so we need to change
-        $url = str_replace($global['webSiteRootURL'], 'http://localhost/', $url);
-    }
     if (!isValidURLOrPath($url)) {
         _error_log('url_get_contents Cannot download ' . $url);
         return false;
@@ -2043,9 +2039,19 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
     // accepted those as non-network reads, so there is nothing for SSRF to protect.
     // Callers that must reach a trusted-but-private-network destination (Encoder,
     // Live server, Storage backend, ...) pass $requireSSRFSafe = false explicitly.
+    // IMPORTANT: this check must run BEFORE the isDocker() same-host rewrite below --
+    // that rewrite intentionally points same-origin URLs at http://localhost/, which
+    // isSSRFSafeURL() always blocks (hardcoded localhost blocklist), so checking the
+    // already-rewritten URL broke every self-request (e.g. Encoder login) when running
+    // in Docker. The original $url is still same-origin, so isSSRFSafeURL()'s own
+    // webSiteRootURL same-origin shortcut correctly allows it here.
     if ($requireSSRFSafe && isValidURL($url) && !isSSRFSafeURL($url)) {
         _error_log('url_get_contents blocked by SSRF protection ' . $url);
         return false;
+    }
+    if (isDocker() && str_starts_with($url, $global['webSiteRootURL'])) {
+        // this is a docker and it is pointing to the local host, so we need to change
+        $url = str_replace($global['webSiteRootURL'], 'http://localhost/', $url);
     }
     if ($debug) {
         _error_log("url_get_contents: Start $url, $ctx, $timeout " . getSelfURI() . " " . getRealIpAddr() . " " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
