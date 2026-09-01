@@ -3043,8 +3043,10 @@ if (typeof gtag !== \"function\") {
             return true;
         }
         $_sendVerificationLink_sent[$users_id] = 1;
-        //Only send the verification email each 30 minutes
-        if (!empty($_SESSION["sendVerificationLink"][$users_id]) && (time() - $_SESSION["sendVerificationLink"][$users_id]) < 1800) {
+        //Only send the verification email each 30 minutes, keyed server-side (per
+        //account) so the throttle survives a caller that discards cookies
+        $verificationThrottleKey = 'sendVerificationLink_' . $users_id;
+        if (!empty(ObjectYPT::getCacheGlobal($verificationThrottleKey, 1800))) {
             _error_log("sendVerificationLink: Email already sent, we will wait 30 min  {$users_id}");
             return true;
         }
@@ -3081,8 +3083,7 @@ if (typeof gtag !== \"function\") {
                 _error_log("sendVerificationLink Error");
             } else {
                 _error_log("sendVerificationLink: SUCCESS {$users_id} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-                _session_start();
-                $_SESSION["sendVerificationLink"][$users_id] = time();
+                ObjectYPT::setCacheGlobal($verificationThrottleKey, time());
             }
             return $resp;
         } catch (Exception $e) {
