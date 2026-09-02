@@ -141,7 +141,6 @@ function getSensitiveUserFields()
         'donationLink',         // May contain personal info
         'extra_info',           // May contain sensitive data
         'userExternalOptions',  // External options may contain sensitive data
-        'status',               // User account status
         'photoURL',             // Raw photo path (use 'photo' instead)
         'backgroundURL'         // Raw background path (use 'background' instead)
     ];

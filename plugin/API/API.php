@@ -1727,10 +1727,7 @@ class API extends PluginAbstract
             // Video rows include user data from JOIN with users table (u.*)
             $isOwnVideoRow = $isUserLoggedIn && !empty($value['users_id']) && ((int) $value['users_id'] === (int) $currentUserId);
             if (!$isAPISecretValid && !$isOwnVideoRow) {
-                // 'status' is ambiguous between the joined u.status and v.status; the video's own status wins the SQL column collision, preserve it
-                $videoStatus = $rows[$key]['status'];
                 removeSensitiveUserFields($rows[$key]);
-                $rows[$key]['status'] = $videoStatus;
             }
             if ($value['type'] == Video::$videoTypeSerie) {
                 require_once $global['systemRootPath'] . 'objects/playlist.php';
@@ -1853,10 +1850,7 @@ class API extends PluginAbstract
                     // Sanitize user data from related videos too, unless the caller owns that row
                     $isOwnRelatedVideoRow = $isUserLoggedIn && !empty($value2['users_id']) && ((int) $value2['users_id'] === (int) $currentUserId);
                     if (!$isAPISecretValid && !$isOwnRelatedVideoRow) {
-                        // 'status' is ambiguous between the joined u.status and v.status; the video's own status wins the SQL column collision, preserve it
-                        $videoStatus = $rows[$key]['relatedVideos'][$key2]['status'];
                         removeSensitiveUserFields($rows[$key]['relatedVideos'][$key2]);
-                        $rows[$key]['relatedVideos'][$key2]['status'] = $videoStatus;
                     }
 
                     $rows[$key]['relatedVideos'][$key2]['tags'] = Video::getTags($value2['id']);
