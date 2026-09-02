@@ -115,7 +115,10 @@ foreach ($videos as $key => $value) {
     unset($videos[$key]['password'], $videos[$key]['recoverPass']);
     // defense-in-depth: moderators are trusted staff and may see the joined owner's PII, but a non-moderator must not, regardless of the showOnlyLoggedUserVideos scoping above
     if (!Permissions::canModerateVideos()) {
+        // 'status' is ambiguous between the joined u.status and v.status; the video's own status wins the SQL column collision, preserve it
+        $videoStatus = $videos[$key]['status'];
         removeSensitiveUserFields($videos[$key]);
+        $videos[$key]['status'] = $videoStatus;
     }
 }
 

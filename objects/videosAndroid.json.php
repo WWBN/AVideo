@@ -46,7 +46,10 @@ if (!empty($random)) {
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password'], $videos[$key]['recoverPass']);
     // unauthenticated endpoint - never leak the joined owner's PII (email, lastLogin, etc)
+    // 'status' is ambiguous between the joined u.status and v.status; the video's own status wins the SQL column collision, preserve it
+    $videoStatus = $videos[$key]['status'];
     removeSensitiveUserFields($videos[$key]);
+    $videos[$key]['status'] = $videoStatus;
     $images = Video::getImageFromFilename($videos[$key]['filename'], $videos[$key]['type']);
     $videos[$key]['images'] = $images;
     $videos[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;

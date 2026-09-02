@@ -1759,6 +1759,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             formatters: {
                 "commands": function(column, row) {
                     var embedBtn = '';
+                    var menuDebug = [];
                     <?php
                     if (empty($advancedCustom->disableCopyEmbed)) {
                     ?>
@@ -1767,6 +1768,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 
                         embedBtn += '<button type="button" class="btn btn-xs btn-default command-embed" id="embedBtn' + row.id + '"  onclick="getEmbedCode(' + row.id + ')" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Copy embed code")); ?>"><i class="fa-solid fa-code"></i> <span id="copied' + row.id + '" style="display:none;"><?php echo str_replace("'", "\\'", __("Copied")); ?></span></button>'
                         embedBtn += '<input type="hidden" id="embedInput' + row.id + '" value=\'<?php echo str_replace(array("{embedURL}", "{videoLengthInSeconds}"), array("{$global['webSiteRootURL']}vEmbed/' + row.id + '", "' + row.duration_in_seconds + '"), str_replace("'", "\"", $advancedCustom->embedCodeTemplate)); ?>\'/>';
+                    <?php
+                    } else {
+                    ?>
+                        menuDebug.push("embedBtn hidden: advancedCustom->disableCopyEmbed is enabled");
                     <?php
                     }
                     ?>
@@ -1792,7 +1797,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     ?>
 
                     var status;
-                    var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
+                    <?php $pluginsButtonsHtml = AVideoPlugin::getVideosManagerListButton(); ?>
+                    var pluginsButtons = '<?php echo $pluginsButtonsHtml; ?>';
+                    <?php if (empty($pluginsButtonsHtml)) { ?>
+                        menuDebug.push("pluginsButtons hidden: no enabled plugin returned a manager-list button for this user");
+                    <?php } ?>
                     var download = '';
                     var downloadhighest = '';
                     <?php
@@ -1839,6 +1848,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                             }
                         }
                     <?php
+                    } else {
+                    ?>
+                        menuDebug.push("download hidden: CustomizeUser::canDownloadVideos() is false for this user");
+                    <?php
                     }
                     if (Permissions::canAdminVideos()) {
                     ?>
@@ -1857,7 +1870,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     if (<?php echo $ifCondition; ?>) {
                         eval('if(typeof statusBtn_' + row.status + ' !== "undefined"){status = statusBtn_' + row.status + ';}else if("h"=="' + row.status + '"){status = \'<button type="button" class="btn btn-danger btn-xs command-releaseNow" data-row-id="' + row.id + '" data-toggle="tooltip" title="Release now"><i class="fas fa-check"></i></button>\';}else{status = ""}');
                     } else {
-                        return editBtn + deleteBtn;
+                        return editBtn + deleteBtn + '<!-- Complete menu hidden: video status "' + row.status + '" is not in statusThatShowTheCompleteMenu (<?php echo implode(",", $statusThatShowTheCompleteMenu); ?>) -->';
                     }
 
                     var nextIsSet = '';
@@ -1887,6 +1900,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                             suggestBtn = suggest;
                         }
                     <?php
+                    } else {
+                    ?>
+                        menuDebug.push("editLikes/suggestBtn hidden: Permissions::canAdminVideos() is false for this user");
+                    <?php
                     }
                     ?>
                     var playBtn = '<button type="button" class="btn btn-default btn-xs"  onclick="avideoModalIframe(\'' + row.embedlink + '\')"  data-toggle="tooltip" title="<?php echo __('Play'); ?>"><span class="fas fa-play" aria-hidden="true"></span></button>';
@@ -1900,7 +1917,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 
                     var bigButtons = _edit + _thumbnail + _download;
 
-                    return '<div class="scrollIfCompact">' + playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + editLikes + bigButtons + pluginsButtons + download + nextIsSet + '<div>';
+                    var menuDebugComment = menuDebug.length ? ('<!-- ' + menuDebug.join(' | ') + ' -->') : '';
+                    return '<div class="scrollIfCompact">' + playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + editLikes + bigButtons + pluginsButtons + download + nextIsSet + menuDebugComment + '<div>';
                 },
                 "tags": function(column, row) {
                     var tags = '';
