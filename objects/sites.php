@@ -64,7 +64,7 @@ class Sites extends ObjectYPT
     public function save()
     {
         if (empty($this->getSecret())) {
-            $this->setSecret(md5(uniqid()));
+            $this->setSecret(_uniqid()); // SECURITY: CSPRNG value, not clock-based uniqid()
         }
 
         $siteURL = $this->getUrl();

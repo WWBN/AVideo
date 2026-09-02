@@ -82,7 +82,7 @@ $o->setPassword(@$_REQUEST['RoomPasswordNew']);
 $o->setTopic(@$_REQUEST['RoomTopic']);
 $o->setStarts($_REQUEST['starts']);
 $o->setName($obj->roomName);
-$o->setMeet_code(uniqid());
+$o->setMeet_code(_uniqid()); // SECURITY: CSPRNG value, not clock-based uniqid()
 $meet_schedule_id = $o->save();
 if ($meet_schedule_id) {
     Meet_schedule_has_users_groups::saveUsergroupsToMeet($meet_schedule_id, $_REQUEST['userGroups']);
