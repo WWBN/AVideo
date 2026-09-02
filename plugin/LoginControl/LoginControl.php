@@ -190,7 +190,7 @@ Best regards,
                 _error_log("LoginControl::getConfirmationCode wrong modification is too old [{$row['modified']}] ");
             }
         }
-        return uniqid();
+        return _uniqid(); // SECURITY: CSPRNG value, not clock-based uniqid()
     }
 
     public static function is2FAEnabled($users_id) {

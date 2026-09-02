@@ -6,6 +6,9 @@ if (empty($obj)) {
     forbiddenPage("Plugin disabled");
 }
 
+// SECURITY: this endpoint is not *.json.php, so the default autoRateLimitGuard() never covers it.
+enforceRateLimit('logincontrol_confirm', 20, 300);
+
 if (!empty($_REQUEST['confirmation'])) {
     if (LoginControl::validateConfirmationCodeHash($_REQUEST['confirmation'])) {
         header("Location: {$global['webSiteRootURL']}user?msg=". urlencode(__("Your device is confirmed")));
