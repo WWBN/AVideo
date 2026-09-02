@@ -8312,17 +8312,17 @@ function canAdminUsers()
 
 function getRandomCode()
 {
+    // SECURITY: previously derived from uniqid()/rand() (predictable, clock-based, CWE-330);
+    // now drawn from a CSPRNG (random_int) so the XXXX-XXXX shape carries real entropy.
     $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $max = strlen($characters) - 1;
-    $char1 = $characters[rand(0, $max)];
-    $char2 = $characters[rand(0, $max)];
-    $char3 = $characters[rand(0, $max)];
-    $uniqueId = uniqid();
-    $uniquePart1 = str_pad(base_convert(substr($uniqueId, -5), 16, 36), 4, $char1, STR_PAD_LEFT);
-    $uniquePart2 = str_pad(base_convert(substr($uniqueId, 4, 4), 16, 36), 4, $char2, STR_PAD_LEFT);
-    $uniquePart3 = str_pad(base_convert(substr($uniqueId, 0, 4), 16, 36), 4, $char3, STR_PAD_LEFT);
-    $code = strtoupper("{$uniquePart2}-{$uniquePart1}");
-    return $code;
+    $part1 = '';
+    $part2 = '';
+    for ($i = 0; $i < 4; $i++) {
+        $part1 .= $characters[random_int(0, $max)];
+        $part2 .= $characters[random_int(0, $max)];
+    }
+    return "{$part1}-{$part2}";
 }
 
 function getActivationCode()
