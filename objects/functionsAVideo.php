@@ -109,7 +109,9 @@ function isAVideoStreamer($user_agent = "")
         return false;
     }
     global $AVideoStreamer_UA, $global;
-    $md5 = md5($global['salt']);
+    // SECURITY: prefer saltV2 (CSPRNG) over legacy salt (uniqid-derived, brute-forceable)
+    $activeSalt = !empty($global['saltV2']) ? $global['saltV2'] : $global['salt'];
+    $md5 = md5($activeSalt);
     if (preg_match("/{$AVideoStreamer_UA}_{$md5}/", $_SERVER["HTTP_USER_AGENT"])) {
         return true;
     }
@@ -171,7 +173,9 @@ function getSelfUserAgent()
         $AVideoStreamer_UA = 'AVideoStreamer';
     }
     $agent = $AVideoStreamer_UA . "_";
-    $agent .= md5($global['salt'].date('i'));
+    // SECURITY: prefer saltV2 (CSPRNG) over legacy salt (uniqid-derived, brute-forceable)
+    $activeSalt = !empty($global['saltV2']) ? $global['saltV2'] : $global['salt'];
+    $agent .= md5($activeSalt.date('i'));
     return $agent;
 }
 
@@ -183,9 +187,12 @@ function isSelfUserAgent()
         return true;
     }
 
+    // SECURITY: prefer saltV2 (CSPRNG) over legacy salt (uniqid-derived, brute-forceable)
+    $activeSalt = !empty($global['saltV2']) ? $global['saltV2'] : $global['salt'];
+
     // Generate the current and 1-minute previous user agent strings
-    $currentAgent = $AVideoStreamer_UA . "_" . md5($global['salt'] . date('i'));
-    $previousAgent = $AVideoStreamer_UA . "_" . md5($global['salt'] . date('i', strtotime('-1 minute')));
+    $currentAgent = $AVideoStreamer_UA . "_" . md5($activeSalt . date('i'));
+    $previousAgent = $AVideoStreamer_UA . "_" . md5($activeSalt . date('i', strtotime('-1 minute')));
 
     // Check if the provided user agent matches either the current or previous
     if ($_SERVER['HTTP_USER_AGENT'] === $currentAgent || $_SERVER['HTTP_USER_AGENT'] === $previousAgent) {

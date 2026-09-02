@@ -127,7 +127,7 @@ function loadStandaloneConfiguration()
             $content .= "\$doNotIncludeConfig = 1;" . PHP_EOL;
             $content .= "\$doNotConnectDatabaseIncludeConfig = 1;" . PHP_EOL;
             $content .= "\$doNotStartSessionIncludeConfig = 1;" . PHP_EOL;
-            $content .= "\$global['salt'] = '" . uniqid() . "';" . PHP_EOL;
+            $content .= "\$global['salt'] = '" . bin2hex(random_bytes(16)) . "';" . PHP_EOL; // SECURITY: CSPRNG value, not clock-based uniqid() (_uniqid() isn't loaded yet at this point)
             $content .= "\$global['webSiteRootURL'] = '{$global['webSiteRootURL']}';" . PHP_EOL;
             $content .= "\$global['systemRootPath'] = '{$global['systemRootPath']}';" . PHP_EOL;
             $content .= "require_once \$global['systemRootPath'] . 'objects/include_config.php';" . PHP_EOL;
