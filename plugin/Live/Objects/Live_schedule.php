@@ -434,7 +434,7 @@ class Live_schedule extends ObjectYPT
         }
 
         if (empty($this->key)) {
-            $this->key = uniqid();
+            $this->key = _uniqid(); // SECURITY: same RTMP publish credential class as LiveTransmition::key, must be a CSPRNG value
         }
 
         $this->_setTimeZone(date_default_timezone_get());
