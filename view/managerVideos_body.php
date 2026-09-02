@@ -1638,31 +1638,47 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         if (empty($advancedCustom->disableVideoSwap) && (empty($advancedCustom->makeSwapVideosOnlyForAdmin) || Permissions::canAdminVideos())) {
         ?>
 
-            $("#swapBtn").click(function() {
-                var vals = getSelectedVideos();
-                if (vals.length !== 2) {
-                    avideoAlertError(__("You MUST select 2 videos to swap"));
-                    return false;
-                }
+            function swapVideos(vals, forceSwap) {
                 modal.showPleaseWait();
                 $.ajax({
                     url: webSiteRootURL + 'objects/videoSwap.json.php',
                     data: {
                         "users_id": <?php echo User::getId(); ?>,
                         "videos_id_1": vals[0],
-                        "videos_id_2": vals[1]
+                        "videos_id_2": vals[1],
+                        "forceSwap": forceSwap ? 1 : 0,
+                        "globalToken": globalToken
                     },
                     type: 'post',
                     success: function(response) {
                         modal.hidePleaseWait();
-                        if (response.error) {
-                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
+                        if (response.confirmationRequired) {
+                            avideoConfirm(response.msg).then(function(confirmed) {
+                                if (confirmed) {
+                                    swapVideos(vals, true);
+                                }
+                            });
+                        } else if (response.error) {
+                            avideoAlertError(response.msg || __("Error on swap video"));
                         } else {
                             avideoAlert("<?php echo __("Success!"); ?>", "<?php echo __("Video swapped!"); ?>", "success");
                             $("#grid").bootgrid("reload");
                         }
+                    },
+                    error: function() {
+                        modal.hidePleaseWait();
+                        avideoAlertError(__("Error on swap video"));
                     }
                 });
+            }
+
+            $("#swapBtn").click(function() {
+                var vals = getSelectedVideos();
+                if (vals.length !== 2) {
+                    avideoAlertError(__("You MUST select 2 videos to swap"));
+                    return false;
+                }
+                swapVideos(vals, false);
             });
         <?php
         }
