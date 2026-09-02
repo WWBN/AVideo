@@ -109,11 +109,12 @@ if ($contentLength > $maxBytes) {
 //   &chunk=<0-based index>    — which piece this is
 //   &total=<total pieces>     — how many pieces in total
 //
-// chunk=0 creates/truncates the destination file.
-// chunk>0 appends to it.
-// After the last chunk the response includes complete=true so the encoder
-// knows the assembled file is ready to be registered via sendFile().
+// The actual idempotent/crash-safe commit logic lives in EncoderChunkAssembler so it can
+// be unit-tested directly (see tests/Unit/EncoderChunkAssemblerTest.php) without an HTTP
+// round-trip; this endpoint only translates its result into an HTTP response.
 // -----------------------------------------------------------------------
+require_once __DIR__ . '/EncoderChunkAssembler.php';
+
 $fileId = isset($_GET['file_id']) ? $_GET['file_id'] : '';
 if (!empty($fileId)) {
     // Validate file_id to prevent path traversal (only hex chars allowed).
@@ -125,48 +126,32 @@ if (!empty($fileId)) {
 
     $chunkIndex  = isset($_GET['chunk']) ? (int) $_GET['chunk'] : 0;
     $totalChunks = isset($_GET['total']) ? max(1, (int) $_GET['total']) : 1;
-    $destFile    = $tmpDir . DIRECTORY_SEPARATOR . 'YTPChunk_' . $fileId;
 
-    // Bytes already assembled from previous chunks (chunk 0 starts a fresh file).
-    $existingBytes = ($chunkIndex === 0 || !file_exists($destFile)) ? 0 : (int) filesize($destFile);
-
-    // Reject early, before reading the body, when the declared size would blow the total cap.
-    if (($existingBytes + $contentLength) > $maxTotalBytes) {
-        http_response_code(413);
-        error_log("aVideoEncoderChunk.json.php: assembled file would exceed {$maxTotalBytes} bytes (existing={$existingBytes}, incoming={$contentLength}), rejecting");
-        die(json_encode(['error' => true, 'msg' => 'Payload too large']));
-    }
-
-    // chunk 0 → create/truncate; subsequent chunks → append.
-    $mode    = ($chunkIndex === 0) ? 'w' : 'a';
     $putdata = fopen('php://input', 'r');
-    $fp      = fopen($destFile, $mode);
-
-    $written = 0;
-    while (($data = fread($putdata, 1024 * 1024)) !== false && $data !== '') {
-        $written += strlen($data);
-        if ($written > $maxBytes || ($existingBytes + $written) > $maxTotalBytes) {
-            fclose($fp);
-            fclose($putdata);
-            @unlink($destFile); // drop the partial so the rejected upload does not linger on disk
-            http_response_code(413);
-            error_log("aVideoEncoderChunk.json.php: stream exceeded limit (chunk={$written}, total=" . ($existingBytes + $written) . "), aborting");
-            die(json_encode(['error' => true, 'msg' => 'Payload too large']));
-        }
-        fwrite($fp, $data);
-    }
-    fclose($fp);
+    $result = EncoderChunkAssembler::commitChunk($tmpDir, $fileId, $chunkIndex, $totalChunks, $putdata, $contentLength, $maxBytes, $maxTotalBytes);
     fclose($putdata);
 
-    $obj           = new stdClass();
-    $obj->file     = $destFile;
-    $obj->filesize = filesize($destFile);
-    $obj->chunk    = $chunkIndex;
-    $obj->total    = $totalChunks;
-    $obj->complete = ($chunkIndex + 1 >= $totalChunks);
+    if ($result->status === EncoderChunkAssembler::STATUS_OK) {
+        error_log("aVideoEncoderChunk.json.php: chunk " . ($result->chunk + 1) . "/{$result->total} file={$result->file} filesize={$result->filesize} complete=" . ($result->complete ? 'yes' : 'no') . (!empty($result->replay) ? ' (replay)' : ''));
+        die(json_encode([
+            'file' => $result->file,
+            'filesize' => $result->filesize,
+            'chunk' => $result->chunk,
+            'total' => $result->total,
+            'complete' => $result->complete,
+        ]));
+    }
 
-    error_log("aVideoEncoderChunk.json.php: chunk " . ($chunkIndex + 1) . "/{$totalChunks} written={$written} total_so_far={$obj->filesize} file={$destFile} complete=" . ($obj->complete ? 'yes' : 'no'));
-    die(json_encode($obj));
+    $httpCodeByStatus = [
+        EncoderChunkAssembler::STATUS_OUT_OF_ORDER => 409,
+        EncoderChunkAssembler::STATUS_STATE_CORRUPT => 409,
+        EncoderChunkAssembler::STATUS_TOO_LARGE => 413,
+        EncoderChunkAssembler::STATUS_SIZE_MISMATCH => 400,
+        EncoderChunkAssembler::STATUS_COMMIT_FAILED => 500,
+    ];
+    http_response_code($httpCodeByStatus[$result->status] ?? 500);
+    error_log("aVideoEncoderChunk.json.php: {$result->status} - {$result->msg}");
+    die(json_encode(['error' => true, 'msg' => $result->msg]));
 }
 
 // -----------------------------------------------------------------------
