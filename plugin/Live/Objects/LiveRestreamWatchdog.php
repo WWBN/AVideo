@@ -31,6 +31,17 @@ class LiveRestreamWatchdog
     const RECHECK_RUNNING = 'running';
     const RECHECK_STILL_DOWN = 'still_down';
 
+    // computeRestreamPhase() - persisted (state['phase']) diagnostic state machine, purely for
+    // operator/log visibility into what the watchdog currently believes about a restream. Note
+    // PHASE_HEALTHY also covers the FIFO output layer's own internal recovery window: FIFO
+    // recovery keeps the same OS process alive by design (see isProcessConsideredRunning()), so
+    // it is structurally indistinguishable from "healthy" at this layer - the watchdog is
+    // intentionally never the thing that detects/reacts to a FIFO-internal reconnect attempt.
+    const PHASE_HEALTHY = 'healthy';
+    const PHASE_DOWN = 'down';
+    const PHASE_RESTARTING = 'restarting';
+    const PHASE_BLOCKED = 'blocked';
+
     // Patterns that classify a destination/output disconnection (diagnostics only, never the
     // sole trigger for a restart while the process is still running).
     private static $outputErrorPatterns = [
@@ -138,7 +149,7 @@ class LiveRestreamWatchdog
         }
 
         $localProcess = self::getLocalProcess($live_restreams_id, $liveTransmitionHistory_id);
-        $processRunning = ($localProcess !== false) || !empty($status->isActive);
+        $processRunning = self::isProcessConsideredRunning($localProcess, $status);
 
         $state = self::getState($live_restreams_id, $liveTransmitionHistory_id);
 
@@ -150,13 +161,35 @@ class LiveRestreamWatchdog
         self::handleNotRunning($live, $restream, $status, $state, $objLive, $label);
     }
 
+    /**
+     * Pure liveness decision, extracted from checkRestream() so it is directly unit-testable.
+     *
+     * Deliberately PID/process-existence based, never log-content based: while the opt-in FIFO
+     * output-recovery layer (restreamProfiles.php) is internally reconnecting a destination
+     * (a transient TCP/TLS hiccup), the FFmpeg OS process never exits and keeps the exact same
+     * pid - so this always evaluates to "running" for that whole internal-recovery window, and
+     * the watchdog correctly never treats FIFO's own recovery attempts as a failure requiring a
+     * full process restart. Only once FIFO's own bounded max_recovery_attempts is exhausted and
+     * FFmpeg actually exits does this evaluate to "not running", handing off to the watchdog as
+     * the second, unconditional layer of protection (see restreamProfiles.php's module docblock).
+     *
+     * @param array|false $localProcess getLocalProcess() result
+     * @param stdClass|false $status fetchLogStatus() result
+     */
+    private static function isProcessConsideredRunning($localProcess, $status)
+    {
+        return ($localProcess !== false) || !empty(@$status->isActive);
+    }
+
     private static function handleHealthy($live_restreams_id, $liveTransmitionHistory_id, $state, $localProcess, $objLive, $label)
     {
         $now = time();
         $pid = !empty($localProcess['pid']) ? intval($localProcess['pid']) : null;
 
+        $pidChanged = !empty($pid) && !empty($state['last_known_pid']) && $pid != $state['last_known_pid'];
+
         if (!empty($state['pending_validation'])) {
-            if (!empty($pid) && !empty($state['last_known_pid']) && $pid != $state['last_known_pid']) {
+            if ($pidChanged) {
                 _error_log(self::LOG_PREFIX . " restart validated: new process pid={$pid} previous pid={$state['last_known_pid']} {$label}");
             } else {
                 _error_log(self::LOG_PREFIX . " restart validated: restream is running again {$label}");
@@ -166,13 +199,30 @@ class LiveRestreamWatchdog
                 'live_restreams_id' => $live_restreams_id,
                 'pid' => $pid,
             ));
+            rl_logEvent('watchdog_restart_succeeded', array(
+                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                'live_restreams_id' => $live_restreams_id,
+                'pid' => $pid,
+            ));
             $state['pending_validation'] = false;
             $state['last_success_start_at'] = $now;
         }
 
-        if (empty($state['healthy_since'])) {
-            $state['healthy_since'] = $now;
-        }
+        // healthy_since must reflect THIS process's own uptime, not merely "the last time this
+        // function saw anything running" - otherwise a restart that lands within the same
+        // executeEveryMinute() minute as the previous (crashed) process's last healthy
+        // observation inherits its now-stale healthy_since, and the restart-attempt counter can
+        // reach restreamWatchdogHealthyResetSeconds and reset to zero while the NEW process has
+        // itself only been running a few seconds - silently discarding the failure history that
+        // restreamWatchdogMaxAttempts is supposed to be counting against.
+        $pidStartedAt = !empty($localProcess['startedAt']) ? intval($localProcess['startedAt']) : null;
+        $state['healthy_since'] = self::computeHealthySinceOnObservation(
+            @$state['healthy_since'],
+            @$state['last_known_pid'],
+            $pid,
+            $pidStartedAt,
+            $now
+        );
         if (!empty($pid)) {
             $state['last_known_pid'] = $pid;
         }
@@ -184,7 +234,39 @@ class LiveRestreamWatchdog
             $state['last_failure_reason'] = null;
         }
 
+        $state['phase'] = self::computeRestreamPhase($state, true, false);
         self::saveState($live_restreams_id, $liveTransmitionHistory_id, $state);
+    }
+
+    /**
+     * Pure decision for handleHealthy()'s healthy_since bookkeeping - see the call site comment
+     * for why this must be PID-identity based rather than "was the previous observation down".
+     *
+     * @param int|null $previousHealthySince state['healthy_since'] before this observation
+     * @param int|null $previousKnownPid state['last_known_pid'] before this observation
+     * @param int|null $currentPid the pid observed THIS cycle (null if unknown, e.g. remote-only)
+     * @param int|null $currentPidStartedAt the observed process's own start time, when known
+     * @param int $now
+     * @return int the healthy_since value to persist
+     */
+    private static function computeHealthySinceOnObservation($previousHealthySince, $previousKnownPid, $currentPid, $currentPidStartedAt, $now)
+    {
+        $previousHealthySince = empty($previousHealthySince) ? null : intval($previousHealthySince);
+        $previousKnownPid = empty($previousKnownPid) ? null : intval($previousKnownPid);
+        $currentPid = empty($currentPid) ? null : intval($currentPid);
+
+        $isFirstObservation = ($previousHealthySince === null);
+        $pidChanged = ($currentPid !== null) && ($previousKnownPid !== null) && ($currentPid !== $previousKnownPid);
+
+        if ($isFirstObservation || $pidChanged) {
+            // Prefer the OS-reported process start time when available (accurate even across a
+            // crash+restart landing within the same executeEveryMinute() cycle); fall back to
+            // "now" only when the pid/start time could not be determined (e.g. a remote executor,
+            // where liveness is known only via status->isActive with no local pid at all).
+            return $currentPidStartedAt !== null ? $currentPidStartedAt : $now;
+        }
+
+        return $previousHealthySince;
     }
 
     private static function handleNotRunning($live, $restream, $status, $state, $objLive, $label)
@@ -195,7 +277,6 @@ class LiveRestreamWatchdog
 
         if (!empty($state['pending_validation'])) {
             _error_log(self::LOG_PREFIX . " restart attempt did not recover the restream (still not running) {$label}");
-            $state['pending_validation'] = false;
         }
 
         // Fetch the heavier log content only now, to classify the failure reason for diagnostics.
@@ -210,9 +291,22 @@ class LiveRestreamWatchdog
             array('intentionalStop' => false)
         );
 
-        $state['healthy_since'] = null;
-        $state['last_failure_at'] = $now;
-        $state['last_failure_reason'] = $failureReason;
+        // NOTE: $state here is a diagnostic-only snapshot read BEFORE this function acquired any
+        // lock - it is only ever used below for the human-readable diagnostic snapshot log, never
+        // saved. The failure observation (healthy_since=null/last_failure_at/last_failure_reason/
+        // phase) and every attempt-window/max-attempts/cooldown decision are computed and
+        // persisted EXCLUSIVELY inside attemptRestart(), merged onto a freshly re-read copy of the
+        // state while the per-restream lock is held (see mergeFailureObservationIntoState()).
+        // Saving a locally-mutated copy of this pre-lock $state here (as a previous revision did)
+        // is exactly the race this refactor fixes: a concurrently running, lock-holding cycle for
+        // the same restream could have already persisted newer restart_attempts/
+        // last_restart_attempt_at/pending_validation, and an unprotected save from this function
+        // would silently clobber them, defeating restreamWatchdogMaxAttempts and permitting
+        // duplicate/excessive restarts.
+        $diagnosticState = $state;
+        $diagnosticState['healthy_since'] = null;
+        $diagnosticState['last_failure_at'] = $now;
+        $diagnosticState['last_failure_reason'] = $failureReason;
 
         _error_log(self::LOG_PREFIX . " restream disconnected from destination, reason=\"{$failureReason}\" {$label}");
         rl_logEvent('destination_unhealthy_detected', array(
@@ -222,53 +316,33 @@ class LiveRestreamWatchdog
             'failureReason' => $failureReason,
             'failureClassification' => $failureClassification,
         ));
-        self::logDiagnosticSnapshot($live, $restream, $contentStatus, $state, $label, $objLive);
+        self::logDiagnosticSnapshot($live, $restream, $contentStatus, $diagnosticState, $label, $objLive);
 
-        $windowSeconds = self::getConfigInt($objLive, 'restreamWatchdogWindowSeconds', 900);
-        $attempts = self::pruneAttempts(@$state['restart_attempts'], $windowSeconds, $now);
-        $state['restart_attempts'] = $attempts;
-
-        $maxAttempts = self::getConfigInt($objLive, 'restreamWatchdogMaxAttempts', 3);
-        if (count($attempts) >= $maxAttempts) {
-            _error_log(self::LOG_PREFIX . " maximum restart attempts reached ({$maxAttempts} within {$windowSeconds}s), will not restart automatically {$label}");
-            rl_logEvent('restart_skipped_max_attempts', array(
-                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
-                'live_restreams_id' => $live_restreams_id,
-                'maxAttempts' => $maxAttempts,
-                'windowSeconds' => $windowSeconds,
-            ));
-            self::saveState($live_restreams_id, $liveTransmitionHistory_id, $state);
-            return;
-        }
-
-        // Backoff floor: restreamWatchdogCooldownSeconds stays a hard minimum (backward
-        // compatible with any existing configuration), while
-        // computeRestreamBackoffDelaySeconds() grows the delay for each successive attempt within
-        // the same failure window, with optional jitter so multiple restreams recovering from the
-        // same outage do not all retry at the exact same instant.
-        $configuredCooldownSeconds = self::getConfigInt($objLive, 'restreamWatchdogCooldownSeconds', 120);
-        $attemptNumber = count($attempts) + 1;
-        $backoffSequence = self::getBackoffSequence($objLive);
-        $jitterPercent = self::getConfigInt($objLive, 'restreamWatchdogBackoffJitterPercent', 20);
-        $computedBackoffSeconds = computeRestreamBackoffDelaySeconds($attemptNumber, $backoffSequence, $jitterPercent);
-        $cooldownSeconds = max($configuredCooldownSeconds, $computedBackoffSeconds);
-
-        if (!empty($state['last_restart_attempt_at']) && ($now - $state['last_restart_attempt_at']) < $cooldownSeconds) {
-            _error_log(self::LOG_PREFIX . " cooldown active ({$cooldownSeconds}s, attempt #{$attemptNumber}), skipping restart attempt this cycle {$label}");
-            rl_logEvent('restart_skipped_cooldown', array(
-                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
-                'live_restreams_id' => $live_restreams_id,
-                'attemptNumber' => $attemptNumber,
-                'cooldownSeconds' => $cooldownSeconds,
-            ));
-            self::saveState($live_restreams_id, $liveTransmitionHistory_id, $state);
-            return;
-        }
-
-        self::attemptRestart($live, $restream, $objLive, $label);
+        self::attemptRestart($live, $restream, $objLive, $label, $failureReason);
     }
 
-    private static function attemptRestart($live, $restream, $objLive, $label)
+    /**
+     * Pure merge of a freshly-observed "destination is not running" failure onto a state that
+     * MUST already have been re-read from disk AFTER the per-restream lock was acquired (see
+     * attemptRestart()) - never call this with the state handleNotRunning() read before any lock
+     * existed, since that copy can be stale relative to a concurrently running, lock-holding cycle
+     * for the same restream: saving it would silently clobber that cycle's newer
+     * restart_attempts/last_restart_attempt_at/pending_validation, defeating
+     * restreamWatchdogMaxAttempts and permitting duplicate/excessive restarts. Only the
+     * failure-observation fields are overwritten; every attempt-bookkeeping field already present
+     * in $freshState (restart_attempts, last_restart_attempt_at, last_known_pid, ...) is left
+     * untouched here.
+     */
+    private static function mergeFailureObservationIntoState(array $freshState, $now, $failureReason)
+    {
+        $freshState['healthy_since'] = null;
+        $freshState['last_failure_at'] = $now;
+        $freshState['last_failure_reason'] = $failureReason;
+        $freshState['pending_validation'] = false;
+        return $freshState;
+    }
+
+    private static function attemptRestart($live, $restream, $objLive, $label, $failureReason = '')
     {
         $liveTransmitionHistory_id = intval($live['id']);
         $live_restreams_id = intval($restream['id']);
@@ -289,6 +363,11 @@ class LiveRestreamWatchdog
             // stale data and both restart the same destination, exceeding the configured limits.
             $state = self::getState($live_restreams_id, $liveTransmitionHistory_id);
 
+            // Merge THIS cycle's failure observation onto the state we just re-read (never onto
+            // the pre-lock copy handleNotRunning() read before this lock existed - see
+            // mergeFailureObservationIntoState()'s own docblock for the exact race this avoids).
+            $state = self::mergeFailureObservationIntoState($state, $now, $failureReason);
+
             $windowSeconds = self::getConfigInt($objLive, 'restreamWatchdogWindowSeconds', 900);
             $attempts = self::pruneAttempts(@$state['restart_attempts'], $windowSeconds, $now);
             $state['restart_attempts'] = $attempts;
@@ -296,6 +375,13 @@ class LiveRestreamWatchdog
             $maxAttempts = self::getConfigInt($objLive, 'restreamWatchdogMaxAttempts', 3);
             if (count($attempts) >= $maxAttempts) {
                 _error_log(self::LOG_PREFIX . " maximum restart attempts reached ({$maxAttempts} within {$windowSeconds}s) after acquiring lock, will not restart {$label}");
+                rl_logEvent('restart_skipped_max_attempts', array(
+                    'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                    'live_restreams_id' => $live_restreams_id,
+                    'maxAttempts' => $maxAttempts,
+                    'windowSeconds' => $windowSeconds,
+                ));
+                $state['phase'] = self::computeRestreamPhase($state, false, true);
                 self::saveState($live_restreams_id, $liveTransmitionHistory_id, $state);
                 return;
             }
@@ -308,6 +394,13 @@ class LiveRestreamWatchdog
             $cooldownSeconds = max($configuredCooldownSeconds, $computedBackoffSeconds);
             if (!empty($state['last_restart_attempt_at']) && ($now - $state['last_restart_attempt_at']) < $cooldownSeconds) {
                 _error_log(self::LOG_PREFIX . " cooldown active after acquiring lock, another execution just restarted this restream {$label}");
+                rl_logEvent('restart_skipped_cooldown', array(
+                    'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                    'live_restreams_id' => $live_restreams_id,
+                    'attemptNumber' => $attemptNumber,
+                    'cooldownSeconds' => $cooldownSeconds,
+                ));
+                $state['phase'] = self::computeRestreamPhase($state, false, false);
                 self::saveState($live_restreams_id, $liveTransmitionHistory_id, $state);
                 return;
             }
@@ -343,6 +436,11 @@ class LiveRestreamWatchdog
                 if (!empty($recheckProcess['pid'])) {
                     $state['last_known_pid'] = intval($recheckProcess['pid']);
                 }
+                // The recheck just confirmed the process IS running again - reflect that in the
+                // diagnostic phase too, instead of leaving it at the "down" value computed by
+                // mergeFailureObservationIntoState() a moment ago (that value described this
+                // cycle's ORIGINAL observation, now superseded by this locked recheck).
+                $state['phase'] = self::computeRestreamPhase($state, true, false);
                 self::saveState($live_restreams_id, $liveTransmitionHistory_id, $state);
                 return;
             }
@@ -350,6 +448,7 @@ class LiveRestreamWatchdog
             $state['last_restart_attempt_at'] = $now;
             $state['restart_attempts'][] = $now;
             $state['pending_validation'] = true;
+            $state['phase'] = self::computeRestreamPhase($state, false, false);
             self::saveState($live_restreams_id, $liveTransmitionHistory_id, $state);
 
             $attemptCount = count($state['restart_attempts']);
@@ -360,8 +459,22 @@ class LiveRestreamWatchdog
                 'attemptNumber' => $attemptCount,
                 'destinationHost' => parse_url(@$restream['stream_url'], PHP_URL_HOST),
             ));
+            rl_logEvent('watchdog_restart_started', array(
+                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                'live_restreams_id' => $live_restreams_id,
+                'attemptNumber' => $attemptCount,
+                'reason' => $failureReason,
+            ));
 
-            $result = Live::restream($liveTransmitionHistory_id, $live_restreams_id);
+            // recoveryMode=true is the hard invariant: this call is only ever allowed to resume
+            // the ONE existing destination that just failed (Live::restream()/
+            // isValidRecoveryRestreamRequest() refuse a recovery call with an empty
+            // live_restreams_id), and never creates a new destination/broadcast - see
+            // Live::restream()'s own docblock for the full policy.
+            $result = Live::restream($liveTransmitionHistory_id, $live_restreams_id, false, array(
+                'recoveryMode' => true,
+                'reason' => $failureReason,
+            ));
 
             _error_log(self::LOG_PREFIX . " restart attempt #{$attemptCount} requested, result=" . json_encode(!empty($result)) . " {$label}");
             rl_logEvent('restart_attempt_result', array(
@@ -433,11 +546,76 @@ class LiveRestreamWatchdog
         foreach ($output as $line) {
             if (strpos($line, $needle1) !== false && strpos($line, $needle2) !== false) {
                 if (preg_match('/^\s*(\d+)/', $line, $m)) {
-                    return ['pid' => intval($m[1]), 'line' => $line];
+                    $pid = intval($m[1]);
+                    return ['pid' => $pid, 'line' => $line, 'startedAt' => self::getProcessStartUnixTime($pid)];
                 }
             }
         }
         return false;
+    }
+
+    /**
+     * Best-effort process start time (unix timestamp) via /proc, Linux-only - returns null on
+     * any failure (non-Linux host, unreadable /proc, unexpected format) rather than guessing.
+     * The two pure parsing/computation steps are split out below so they stay unit-testable
+     * without real /proc access (this dev environment is Windows).
+     */
+    private static function getProcessStartUnixTime($pid)
+    {
+        if (stripos(PHP_OS, 'WIN') !== false || empty($pid)) {
+            return null;
+        }
+        $statContent = @file_get_contents("/proc/{$pid}/stat");
+        $uptimeContent = @file_get_contents('/proc/uptime');
+        if ($statContent === false || $uptimeContent === false) {
+            return null;
+        }
+        $startTicks = self::parseProcStatStartTicks($statContent);
+        if ($startTicks === null) {
+            return null;
+        }
+        $uptimeParts = explode(' ', trim($uptimeContent));
+        if (empty($uptimeParts[0]) || !is_numeric($uptimeParts[0])) {
+            return null;
+        }
+        return self::computeProcessStartUnixTimeFromTicks(time(), (float) $uptimeParts[0], $startTicks);
+    }
+
+    /**
+     * Parses field 22 (starttime, in clock ticks since boot) of /proc/[pid]/stat. The process
+     * name field (2nd, parenthesized) may itself contain spaces/parentheses, so fields are
+     * counted from the LAST ')' rather than by naive whitespace-splitting from the start.
+     */
+    private static function parseProcStatStartTicks($statContent)
+    {
+        if (!is_string($statContent) || $statContent === '') {
+            return null;
+        }
+        $lastParen = strrpos($statContent, ')');
+        if ($lastParen === false) {
+            return null;
+        }
+        $rest = trim(substr($statContent, $lastParen + 1));
+        $fields = preg_split('/\s+/', $rest);
+        // Field 3 in $fields (state) is stat's field #3; starttime is stat's field #22, i.e.
+        // index 22 - 3 = 19 in this zero-based $fields array (which starts at stat's field #3).
+        $index = 22 - 3;
+        if (!isset($fields[$index]) || !is_numeric($fields[$index])) {
+            return null;
+        }
+        return (int) $fields[$index];
+    }
+
+    /**
+     * Pure conversion of /proc/[pid]/stat's starttime (clock ticks since boot) + /proc/uptime
+     * (seconds since boot) into a unix timestamp. $ticksPerSecond is sysconf(_SC_CLK_TCK), 100 on
+     * effectively every modern Linux distribution/kernel.
+     */
+    private static function computeProcessStartUnixTimeFromTicks($nowUnix, $uptimeSeconds, $startTicks, $ticksPerSecond = 100)
+    {
+        $ticksPerSecond = $ticksPerSecond > 0 ? $ticksPerSecond : 100;
+        $bootUnix = $nowUnix - $uptimeSeconds;
+        return (int) round($bootUnix + ($startTicks / $ticksPerSecond));
     }
 
     /**
@@ -461,6 +639,26 @@ class LiveRestreamWatchdog
 
         $stillDown = ($recheckProcess === false) && ($recheckStatus === false || empty($recheckStatus->isActive));
         return $stillDown ? self::RECHECK_STILL_DOWN : self::RECHECK_RUNNING;
+    }
+
+    /**
+     * Pure computation of the diagnostic state['phase'] field - see the PHASE_* constants'
+     * docblock. $maxAttemptsReached takes priority (a destination that has exhausted its restart
+     * budget for the current window is reported as blocked/terminal even if $state still shows a
+     * pending_validation from a much earlier cycle).
+     */
+    private static function computeRestreamPhase(array $state, $processRunning, $maxAttemptsReached)
+    {
+        if (!empty($maxAttemptsReached)) {
+            return self::PHASE_BLOCKED;
+        }
+        if (!empty($state['pending_validation'])) {
+            return self::PHASE_RESTARTING;
+        }
+        if (!empty($processRunning)) {
+            return self::PHASE_HEALTHY;
+        }
+        return self::PHASE_DOWN;
     }
 
     private static function classifyFailure($contentStatus)
@@ -511,6 +709,7 @@ class LiveRestreamWatchdog
             'last_failure_reason' => null,
             'healthy_since' => null,
             'pending_validation' => false,
+            'phase' => null,
         ];
     }
 

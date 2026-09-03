@@ -4,17 +4,32 @@
  * Pure destination-profile helpers shared by the standalone restream endpoint and unit tests.
  */
 
-// Redacts a destination URL for logging: keeps scheme/host/path-prefix visible, hides the
-// stream key portion (a secret) except for a short prefix, so support can diagnose format
-// issues (unexpected char, length, etc.) without a full secret ending up in the logs.
+// Redacts a destination URL for logging: keeps only scheme/host/port visible (useful to
+// diagnose which provider/host is involved), always redacts everything else (path, query,
+// fragment - where the actual stream key/token lives) regardless of the URL's total length, and
+// always appends a marker so a redacted value can never be mistaken for a fully-logged one.
+//
+// Deliberately does NOT reveal a raw fixed-length prefix of the original string (a previous
+// revision did: substr($url, 0, 24)) - for any URL whose scheme+host portion is 24 characters
+// or shorter (e.g. a short custom RTMP host with the stream key immediately after the host in
+// the path), that prefix could itself already include part or all of the secret, and shorter
+// URLs overall were returned completely unredacted with no marker at all once the previous
+// length check (`$len > 24`) failed to trigger.
 function redactDestinationForLog($url)
 {
     if (!is_string($url)) {
         return '(non-string)';
     }
     $len = strlen($url);
-    $visible = substr($url, 0, 24);
-    return $visible . (($len > 24) ? '...[REDACTED,total_len=' . $len . ']' : '');
+    $parts = @parse_url($url);
+    if (is_array($parts) && !empty($parts['scheme']) && !empty($parts['host'])) {
+        $visible = $parts['scheme'] . '://' . $parts['host'] . (!empty($parts['port']) ? ':' . $parts['port'] : '');
+    } else {
+        // Not a recognizable scheme://host URL at all (e.g. a bare key/path fragment) - never
+        // fall back to revealing a raw prefix of an unrecognized string.
+        $visible = '';
+    }
+    return $visible . '...[REDACTED,total_len=' . $len . ']';
 }
 
 function clearCommandURL($url)
@@ -366,6 +381,13 @@ function redactSecretsInText($text)
         return '(non-string)';
     }
 
+    // JSON-encoded payloads (e.g. json_encode() of a restream request object) escape "/" as
+    // "\/", which defeats the scheme://host URL matcher below (it requires a literal "://").
+    // Normalize escaped slashes back to real slashes BEFORE running any of the matchers, so a
+    // JSON-encoded URL is still recognized and redacted. This only affects the redacted LOG
+    // text returned here, never the original data the caller is logging from.
+    $text = str_replace('\\/', '/', $text);
+
     // Any rtmp(s)/http(s) URL: keep scheme+host, redact everything from the path onward, since
     // the stream key/token normally lives in the path or query string.
     $text = preg_replace_callback(
@@ -383,6 +405,32 @@ function redactSecretsInText($text)
         '$1[REDACTED]',
         $text
     );
+
+    // JSON-quoted "key":"value" pairs (json_encode() output, e.g. {"token":"abc"}). The plain
+    // key=value/key: value regex above cannot match these - JSON always quotes both the key
+    // name and any string value, and that regex's value-capture group stops at a literal quote
+    // character it never expects to see wrapping the whole value. Handles backslash-escaped
+    // characters inside the value (e.g. an escaped quote) so it does not stop early.
+    $text = preg_replace_callback(
+        '/"(key|token|secret|password|pass|auth|apisecret|access_token|restreamsToken|responseToken)"\s*:\s*"((?:\\\\.|[^"\\\\])*)"/i',
+        function ($m) {
+            return '"' . $m[1] . '":"[REDACTED]"';
+        },
+        $text
+    );
+
+    // JSON object-valued containers whose per-entry VALUES are themselves secrets, keyed by an
+    // unrelated index rather than by one of the recognized key names above (e.g. Live.php's
+    // restreamsToken map: {"restreamsToken":{"3":"<token>","5":"<token>"}}, keyed by destination
+    // id). Neither regex above can reach into these - the value isn't a URL and isn't directly
+    // preceded by a recognized key name - so redact the whole container instead. Only matches
+    // one level of nesting (no further "{"/"}" inside), which is the actual shape produced here.
+    $text = preg_replace(
+        '/"(restreamsToken)"\s*:\s*\{[^{}]*\}/i',
+        '"$1":"[REDACTED]"',
+        $text
+    );
+
     $text = preg_replace('/(Authorization:\s*Bearer\s+)\S+/i', '$1[REDACTED]', $text);
 
     return $text;
@@ -556,7 +604,17 @@ function getRestreamFifoConfigBounds()
     return array(
         'recoveryWaitTime' => array('min' => 0.1, 'max' => 30, 'default' => 2),
         'queueSize' => array('min' => 8, 'max' => 20000, 'default' => 8192),
-        'maxRecoveryAttempts' => array('min' => 0, 'max' => 50, 'default' => 5),
+        // Default of 30 paired with the default 2s recoveryWaitTime gives FFmpeg's own fifo
+        // muxer at least a 60 second internal recovery window (30 * 2s of WAIT time between
+        // attempts) before it gives up and exits the process - matching the documented target
+        // for a "transient destination hiccup" (a TCP reset, a brief TLS renegotiation stall) to
+        // be absorbed internally without the Restream Watchdog ever having to detect a process
+        // exit/restart at all. This is a FLOOR, not a reliable upper bound: recovery_wait_time
+        // only measures the pause BETWEEN attempts, not the time each reconnect attempt itself
+        // takes (a slow/hanging TCP or TLS handshake adds directly on top, per attempt, with no
+        // cap enforced by this layer) - the real worst case can run well past 60s if the
+        // destination is slow to respond rather than cleanly refusing/resetting the connection.
+        'maxRecoveryAttempts' => array('min' => 0, 'max' => 50, 'default' => 30),
     );
 }
 
@@ -736,4 +794,28 @@ function shouldUseRestreamFifoForDestination($destinationUrl, array $fifoConfig,
     // Any other scheme (should not normally reach here - clearCommandURL() only allows
     // http/https/rtmp/rtmps) is not a validated FIFO target.
     return false;
+}
+
+/**
+ * Guards Live::restream()'s optional recoveryMode flag: a recovery restart (triggered by
+ * LiveRestreamWatchdog, or any other automated caller) must always target ONE specific,
+ * already-existing restream destination row (a non-empty $live_restreams_id) and must never be
+ * allowed to fall back to the broad "(re)start every one of this user's restream destinations"
+ * behavior that Live::restream()/Live::getRestreamObject() use when $live_restreams_id is empty.
+ *
+ * This is deliberately a pure, framework-independent function (no DB/class access) so it stays
+ * unit-testable without loading Live.php - Live::restream() calls it as its very first check.
+ *
+ * Note: this codebase has no YouTube/3rd-party Data API integration that creates or manages a
+ * remote "broadcast" - every restream destination (Live_restreams row) is a static,
+ * admin-configured RTMP(S) URL with a persistent stream key. A "recovery restart" therefore
+ * never creates anything new; it can only ever resume pushing to the exact same destination
+ * that was already configured. This guard is the enforcement point for that invariant.
+ */
+function isValidRecoveryRestreamRequest($live_restreams_id, $recoveryMode)
+{
+    if (empty($recoveryMode)) {
+        return true;
+    }
+    return !empty($live_restreams_id);
 }

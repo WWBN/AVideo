@@ -222,4 +222,297 @@ class LiveRestreamWatchdogTest extends TestCase
         $objLive = (object) ['x' => 'configured-value'];
         $this->assertSame('configured-value', $this->invokePrivateMethod($this->watchdog, 'getConfigString', [$objLive, 'x', 'default']));
     }
+
+    // -----------------------------------------------------------------------------------------
+    // Regression tests for the "restream healthy for 600s, resetting restart attempt counter"
+    // bug: healthy_since must be tied to the OBSERVED PROCESS's identity (pid), never merely to
+    // "the last time this function saw anything running" - otherwise a brand new process
+    // (restarted by the watchdog itself, or externally) that happens to be observed within the
+    // same window as a much older healthy_since silently inherits it, letting the restart-attempt
+    // counter reset to zero long before restreamWatchdogHealthyResetSeconds of REAL uptime has
+    // actually elapsed for that process.
+    // -----------------------------------------------------------------------------------------
+
+    /**
+     * @test
+     */
+    public function testIsProcessConsideredRunningTrueWhenLocalProcessFound()
+    {
+        $localProcess = ['pid' => 123, 'line' => 'irrelevant'];
+        $status = (object) ['isActive' => false];
+        $this->assertTrue($this->invokePrivateMethod($this->watchdog, 'isProcessConsideredRunning', [$localProcess, $status]));
+    }
+
+    /**
+     * @test
+     */
+    public function testIsProcessConsideredRunningTrueWhenRemoteStatusActiveWithNoLocalProcess()
+    {
+        // No local ps match (e.g. the restreamer runs on a different host) but the remote status
+        // reports isActive=true - this is also the exact shape observed while FIFO's own
+        // output-recovery layer is internally reconnecting: the FFmpeg process (local or remote)
+        // never exits during that window, so this must resolve to "running", never "not running".
+        $status = (object) ['isActive' => true];
+        $this->assertTrue($this->invokePrivateMethod($this->watchdog, 'isProcessConsideredRunning', [false, $status]));
+    }
+
+    /**
+     * @test
+     */
+    public function testIsProcessConsideredRunningFalseWhenNeitherSignalConfirmsIt()
+    {
+        $status = (object) ['isActive' => false];
+        $this->assertFalse($this->invokePrivateMethod($this->watchdog, 'isProcessConsideredRunning', [false, $status]));
+        $this->assertFalse($this->invokePrivateMethod($this->watchdog, 'isProcessConsideredRunning', [false, false]));
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeHealthySinceOnObservationStartsFreshOnFirstObservation()
+    {
+        $now = 1000000;
+        $result = $this->invokePrivateMethod($this->watchdog, 'computeHealthySinceOnObservation', [null, null, 555, null, $now]);
+        $this->assertSame($now, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeHealthySinceOnObservationPrefersRealProcessStartTimeOnFirstObservation()
+    {
+        $now = 1000000;
+        $startedAt = 999950;
+        $result = $this->invokePrivateMethod($this->watchdog, 'computeHealthySinceOnObservation', [null, null, 555, $startedAt, $now]);
+        $this->assertSame($startedAt, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeHealthySinceOnObservationKeepsExistingValueWhenSamePidStillRunning()
+    {
+        $previousHealthySince = 900000;
+        $now = 1000000;
+        $result = $this->invokePrivateMethod($this->watchdog, 'computeHealthySinceOnObservation', [$previousHealthySince, 555, 555, null, $now]);
+        $this->assertSame($previousHealthySince, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeHealthySinceOnObservationResetsWhenPidChanges()
+    {
+        // This is the exact regression scenario: a stale healthy_since from a previous (now dead)
+        // process must never survive once a DIFFERENT pid is observed - it must reset to the new
+        // process's own start time, not silently keep counting from the old process's uptime.
+        $staleHealthySince = 100; // a very old value, would already be past any healthy-reset window
+        $now = 1000000;
+        $newPidStartedAt = 999990;
+        $result = $this->invokePrivateMethod(
+            $this->watchdog,
+            'computeHealthySinceOnObservation',
+            [$staleHealthySince, 555, 777, $newPidStartedAt, $now]
+        );
+        $this->assertSame($newPidStartedAt, $result);
+        $this->assertNotSame($staleHealthySince, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeHealthySinceOnObservationFallsBackToNowWhenPidChangedButStartTimeUnknown()
+    {
+        $now = 1000000;
+        $result = $this->invokePrivateMethod(
+            $this->watchdog,
+            'computeHealthySinceOnObservation',
+            [100, 555, 777, null, $now]
+        );
+        $this->assertSame($now, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeRestreamPhaseReturnsBlockedWhenMaxAttemptsReachedRegardlessOfOtherState()
+    {
+        $state = ['pending_validation' => true];
+        $this->assertSame('blocked', $this->invokePrivateMethod($this->watchdog, 'computeRestreamPhase', [$state, true, true]));
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeRestreamPhaseReturnsRestartingWhenPendingValidation()
+    {
+        $state = ['pending_validation' => true];
+        $this->assertSame('restarting', $this->invokePrivateMethod($this->watchdog, 'computeRestreamPhase', [$state, false, false]));
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeRestreamPhaseReturnsHealthyWhenProcessRunningAndNotPendingValidation()
+    {
+        $state = ['pending_validation' => false];
+        $this->assertSame('healthy', $this->invokePrivateMethod($this->watchdog, 'computeRestreamPhase', [$state, true, false]));
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeRestreamPhaseReturnsDownAsFallback()
+    {
+        $state = ['pending_validation' => false];
+        $this->assertSame('down', $this->invokePrivateMethod($this->watchdog, 'computeRestreamPhase', [$state, false, false]));
+    }
+
+    // -----------------------------------------------------------------------------------------
+    // mergeFailureObservationIntoState() - models the exact race the lock-ordering fix prevents:
+    // callers MUST pass in a freshly-under-lock-re-read state, and only the failure-observation
+    // fields get overwritten; any attempt-bookkeeping fields another (overlapping, earlier)
+    // locked cycle already wrote must survive untouched.
+    // -----------------------------------------------------------------------------------------
+
+    /**
+     * @test
+     */
+    public function testMergeFailureObservationIntoStatePreservesAttemptBookkeepingFromFreshState()
+    {
+        $freshState = [
+            'restart_attempts' => [100, 200, 300],
+            'last_restart_attempt_at' => 300,
+            'last_known_pid' => 4321,
+            'pending_validation' => true,
+            'healthy_since' => 250,
+            'last_failure_at' => 90,
+            'last_failure_reason' => 'stale reason from an earlier cycle',
+        ];
+
+        $result = $this->invokePrivateMethod(
+            $this->watchdog,
+            'mergeFailureObservationIntoState',
+            [$freshState, 500, 'Broken pipe']
+        );
+
+        // Attempt bookkeeping written by a concurrent, already-locked cycle must survive.
+        $this->assertSame([100, 200, 300], $result['restart_attempts']);
+        $this->assertSame(300, $result['last_restart_attempt_at']);
+        $this->assertSame(4321, $result['last_known_pid']);
+
+        // Failure-observation fields must be overwritten with the newly observed values.
+        $this->assertNull($result['healthy_since']);
+        $this->assertSame(500, $result['last_failure_at']);
+        $this->assertSame('Broken pipe', $result['last_failure_reason']);
+        $this->assertFalse($result['pending_validation']);
+    }
+
+    /**
+     * @test
+     */
+    public function testMergeFailureObservationIntoStateWorksOnEmptyFreshState()
+    {
+        $result = $this->invokePrivateMethod(
+            $this->watchdog,
+            'mergeFailureObservationIntoState',
+            [[], 111, 'Error muxing a packet']
+        );
+
+        $this->assertNull($result['healthy_since']);
+        $this->assertSame(111, $result['last_failure_at']);
+        $this->assertSame('Error muxing a packet', $result['last_failure_reason']);
+        $this->assertFalse($result['pending_validation']);
+    }
+
+    // -----------------------------------------------------------------------------------------
+    // Pure /proc/[pid]/stat parsing helpers (getProcessStartUnixTime() itself does real file I/O
+    // and is Linux-only; these two pieces are split out specifically so they stay unit-testable
+    // on any platform, including this Windows dev environment).
+    // -----------------------------------------------------------------------------------------
+
+    /**
+     * @test
+     */
+    public function testParseProcStatStartTicksReadsField22AfterTheLastCloseParen()
+    {
+        // Minimal realistic /proc/[pid]/stat line: pid (comm) state ppid pgrp session tty_nr
+        // tpgid flags minflt cminflt majflt cmajflt utime stime cutime cstime priority nice
+        // num_threads itrealvalue starttime ...
+        // Fields after ')': state=R ppid=1 pgrp=100 session=100 tty_nr=0 tpgid=-1 flags=4194560
+        // minflt=100 cminflt=0 majflt=0 cmajflt=0 utime=1 stime=1 cutime=0 cstime=0 priority=20
+        // nice=0 num_threads=1 itrealvalue=0 starttime=123456
+        $stat = '4321 (ffmpeg -re -i) R 1 100 100 0 -1 4194560 100 0 0 0 1 1 0 0 20 0 1 0 123456 0 0';
+        $this->assertSame(123456, $this->invokePrivateMethod($this->watchdog, 'parseProcStatStartTicks', [$stat]));
+    }
+
+    /**
+     * @test
+     */
+    public function testParseProcStatStartTicksHandlesParenthesesInsideTheCommandName()
+    {
+        // The process name field can itself contain '(' and ')' (e.g. a renamed/wrapped command);
+        // parsing must anchor on the LAST ')' in the line, not the first.
+        $stat = '4321 (ffmpeg (restream)) S 1 100 100 0 -1 4194560 100 0 0 0 1 1 0 0 20 0 1 0 999 0 0';
+        $this->assertSame(999, $this->invokePrivateMethod($this->watchdog, 'parseProcStatStartTicks', [$stat]));
+    }
+
+    /**
+     * @test
+     */
+    public function testParseProcStatStartTicksReturnsNullForMalformedContent()
+    {
+        $this->assertNull($this->invokePrivateMethod($this->watchdog, 'parseProcStatStartTicks', ['']));
+        $this->assertNull($this->invokePrivateMethod($this->watchdog, 'parseProcStatStartTicks', ['no parens here']));
+        $this->assertNull($this->invokePrivateMethod($this->watchdog, 'parseProcStatStartTicks', ['4321 (ffmpeg) R']));
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeProcessStartUnixTimeFromTicksConvertsTicksSinceBootToUnixTime()
+    {
+        // Boot was 500 real seconds ago; the process started 100 ticks (at 100 ticks/sec = 1
+        // second) after boot, i.e. 499 seconds ago.
+        $now = 1000000;
+        $uptimeSeconds = 500.0;
+        $startTicks = 100;
+        $result = $this->invokePrivateMethod(
+            $this->watchdog,
+            'computeProcessStartUnixTimeFromTicks',
+            [$now, $uptimeSeconds, $startTicks, 100]
+        );
+        $this->assertSame($now - 499, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function testComputeProcessStartUnixTimeFromTicksDefaultsToOneHundredTicksPerSecondWhenInvalid()
+    {
+        $now = 1000000;
+        $withDefault = $this->invokePrivateMethod($this->watchdog, 'computeProcessStartUnixTimeFromTicks', [$now, 500.0, 100, 100]);
+        $withInvalidTicksPerSecond = $this->invokePrivateMethod($this->watchdog, 'computeProcessStartUnixTimeFromTicks', [$now, 500.0, 100, 0]);
+        $this->assertSame($withDefault, $withInvalidTicksPerSecond);
+    }
+
+    /**
+     * @test
+     */
+    public function testGetProcessStartUnixTimeReturnsNullOnWindows()
+    {
+        if (stripos(PHP_OS, 'WIN') === false) {
+            $this->markTestSkipped('This assertion only applies on Windows; getProcessStartUnixTime() is Linux/proc-only by design.');
+        }
+        $this->assertNull($this->invokePrivateMethod($this->watchdog, 'getProcessStartUnixTime', [12345]));
+    }
+
+    /**
+     * @test
+     */
+    public function testGetProcessStartUnixTimeReturnsNullForEmptyPid()
+    {
+        $this->assertNull($this->invokePrivateMethod($this->watchdog, 'getProcessStartUnixTime', [null]));
+        $this->assertNull($this->invokePrivateMethod($this->watchdog, 'getProcessStartUnixTime', [0]));
+    }
 }

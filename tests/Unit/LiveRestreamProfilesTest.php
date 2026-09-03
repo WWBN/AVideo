@@ -332,6 +332,61 @@ class LiveRestreamProfilesTest extends TestCase
         $this->assertSame('(non-string)', \redactSecretsInText(array('x')));
     }
 
+    public function testRedactDestinationForLogAlwaysRedactsRegardlessOfUrlLength()
+    {
+        // A previous revision only appended the redaction marker when strlen($url) > 24, which
+        // meant any URL 24 characters or shorter (short host, or the key living immediately
+        // after the host) was returned 100% unredacted with no marker at all.
+        $short = 'rtmp://a.co/k';
+        $this->assertSame(13, strlen($short));
+        $redacted = \redactDestinationForLog($short);
+
+        $this->assertStringNotContainsString('/k', $redacted);
+        $this->assertStringContainsString('rtmp://a.co', $redacted);
+        $this->assertStringContainsString('[REDACTED,total_len=13]', $redacted);
+    }
+
+    public function testRedactDestinationForLogNeverRevealsRawPrefixOfUnrecognizedString()
+    {
+        // A bare secret (no recognizable scheme://host) must never fall back to showing a raw
+        // prefix of the original value.
+        $bareSecret = 'super-secret-stream-key-value';
+        $redacted = \redactDestinationForLog($bareSecret);
+
+        $this->assertStringNotContainsString($bareSecret, $redacted);
+        $this->assertStringNotContainsString('super-secret', $redacted);
+        $this->assertStringContainsString('[REDACTED,total_len=' . strlen($bareSecret) . ']', $redacted);
+    }
+
+    public function testRedactSecretsInTextRedactsExactJsonEncodedRestreamPayloadShape()
+    {
+        // Reproduces the exact shape Live.php's sendRestream() builds (json_encode($obj)) before
+        // this fix routed the actual log line through the structural, allow-listed $summary
+        // instead. json_encode() escapes "/" as "\/" and quotes every "key":"value" pair, both
+        // of which defeated the original regex-only redactSecretsInText() implementation - this
+        // is a defense-in-depth regression test for any OTHER caller that still passes raw JSON
+        // text through this generic text redactor.
+        $obj = array(
+            'key' => 'SOURCE-SECRET-KEY-123',
+            'm3u8' => 'https://cdn.example.com/hls/SOURCE-SECRET-KEY-123.m3u8',
+            'restreamsToken' => array('3' => 'DEST-TOKEN-ABC', '5' => 'DEST-TOKEN-XYZ'),
+            'restreamsDestinations' => array('3' => 'rtmps://a.rtmps.youtube.com/live2/super-secret-key'),
+            'responseToken' => 'RESPONSE-TOKEN-VALUE',
+            'users_id' => 42,
+        );
+        $json = json_encode($obj);
+        // Sanity check this actually reproduces the vulnerable shape (escaped slashes present).
+        $this->assertStringContainsString('\\/', $json);
+
+        $redacted = \redactSecretsInText($json);
+
+        $this->assertStringNotContainsString('SOURCE-SECRET-KEY-123', $redacted);
+        $this->assertStringNotContainsString('DEST-TOKEN-ABC', $redacted);
+        $this->assertStringNotContainsString('DEST-TOKEN-XYZ', $redacted);
+        $this->assertStringNotContainsString('super-secret-key', $redacted);
+        $this->assertStringNotContainsString('RESPONSE-TOKEN-VALUE', $redacted);
+    }
+
     public function testParseFfmpegProgressLineExtractsAllFieldsFromLastMatchingLine()
     {
         $text = "frame=  100 fps= 25 q=-1.0 size=    512kB time=00:00:04.00 bitrate=1024.5kbits/s speed=1.0x drop=1 dup=2\n"
@@ -429,5 +484,37 @@ class LiveRestreamProfilesTest extends TestCase
     {
         $this->assertSame(2, \computeRestreamBackoffDelaySeconds(1, array(), 0));
         $this->assertSame(30, \computeRestreamBackoffDelaySeconds(99, array(), 0));
+    }
+
+    /**
+     * Regression test: the FIFO output-recovery layer's default max_recovery_attempts must give
+     * FFmpeg a realistic (~60s) internal recovery window before giving up and exiting the
+     * process, so that a transient destination hiccup is absorbed by FIFO alone in the common
+     * case, without ever needing LiveRestreamWatchdog's own (much slower) detect+restart cycle.
+     */
+    public function testMaxRecoveryAttemptsDefaultsToThirtyForARoughlySixtySecondRecoveryWindow()
+    {
+        $bounds = \getRestreamFifoConfigBounds();
+        $this->assertSame(30, $bounds['maxRecoveryAttempts']['default']);
+        $this->assertSame(2, $bounds['recoveryWaitTime']['default']);
+    }
+
+    public function testIsValidRecoveryRestreamRequestAllowsAnyValueWhenNotRecoveryMode()
+    {
+        $this->assertTrue(\isValidRecoveryRestreamRequest(0, false));
+        $this->assertTrue(\isValidRecoveryRestreamRequest(null, false));
+        $this->assertTrue(\isValidRecoveryRestreamRequest(5, false));
+    }
+
+    public function testIsValidRecoveryRestreamRequestRequiresASpecificDestinationWhenRecoveryMode()
+    {
+        // The hard invariant: an automated recovery must never be allowed to fall back to
+        // "(re)start every destination" - only Live::restream()'s $live_restreams_id=0 broad
+        // behavior is refused, never a specific existing destination id.
+        $this->assertFalse(\isValidRecoveryRestreamRequest(0, true));
+        $this->assertFalse(\isValidRecoveryRestreamRequest(null, true));
+        $this->assertFalse(\isValidRecoveryRestreamRequest('', true));
+        $this->assertTrue(\isValidRecoveryRestreamRequest(5, true));
+        $this->assertTrue(\isValidRecoveryRestreamRequest('5', true));
     }
 }

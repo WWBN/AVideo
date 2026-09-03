@@ -9,6 +9,13 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams_logs.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_schedule.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveRestreamWatchdog.php';
+// Framework-independent pure helpers (destination/FIFO profiles, isValidRecoveryRestreamRequest)
+// and secret-safe structured logging, shared with the standalone restreamer.json.php and the
+// watchdog. Both files declare their functions unconditionally (no function_exists guard), but
+// require_once already de-duplicates by resolved path, so it is always safe to require them here
+// too regardless of whether LiveRestreamWatchdog::run() also requires them later in the request.
+require_once $global['systemRootPath'] . 'plugin/Live/standAloneFiles/restreamProfiles.php';
+require_once $global['systemRootPath'] . 'plugin/Live/standAloneFiles/restreamLogging.php';
 
 $getStatsObject = [];
 $_getStats = [];
@@ -70,7 +77,7 @@ class Live extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "15.2";
+        return "15.3";
     }
 
     public function getLivePanel()
@@ -596,8 +603,8 @@ class Live extends PluginAbstract
         self::addDataObjectHelper('restreamFifoRecoveryWaitStreamtime', 'Restream: FIFO Recovery Wait Streamtime', 'Maps to FFmpeg\'s fifo muxer "recovery_wait_streamtime" option: measure the recovery wait time above using stream time instead of real (wall-clock) time. Default: Off (wall-clock).');
         $obj->restreamFifoQueueSize = 8192;
         self::addDataObjectHelper('restreamFifoQueueSize', 'Restream: FIFO Queue Size', 'Maps to FFmpeg\'s fifo muxer "queue_size" option: number of packets buffered while a reconnect is attempted. Allowed range: 8-20000. Default: 8192 (matches this codebase\'s existing -thread_queue_size input buffering).');
-        $obj->restreamFifoMaxRecoveryAttempts = 5;
-        self::addDataObjectHelper('restreamFifoMaxRecoveryAttempts', 'Restream: FIFO Max Recovery Attempts', 'Maps to FFmpeg\'s fifo muxer "max_recovery_attempts" option: how many consecutive output-recovery attempts FFmpeg itself makes before giving up and exiting the process. Allowed range: 0-50 (0 = FFmpeg\'s own unlimited default - not recommended, prefer a bounded value so a permanently-unreachable destination still exits promptly into the Restream Watchdog\'s own backoff/attempt-limit logic instead of retrying forever inside a single FFmpeg process). Default: 5.');
+        $obj->restreamFifoMaxRecoveryAttempts = 30;
+        self::addDataObjectHelper('restreamFifoMaxRecoveryAttempts', 'Restream: FIFO Max Recovery Attempts', 'Maps to FFmpeg\'s fifo muxer "max_recovery_attempts" option: how many consecutive output-recovery attempts FFmpeg itself makes before giving up and exiting the process. Allowed range: 0-50 (0 = FFmpeg\'s own unlimited default - not recommended, prefer a bounded value so a permanently-unreachable destination still exits promptly into the Restream Watchdog\'s own backoff/attempt-limit logic instead of retrying forever inside a single FFmpeg process). Default: 30, paired with the 2 second Recovery Wait Time default - this is a FLOOR of at least 60 seconds of internal recovery WAIT time before FFmpeg exits, not a reliable upper bound: each reconnect attempt\'s own TCP/TLS connect time adds on top with no cap, so a slow-to-respond (rather than cleanly refusing) destination can take substantially longer before the Restream Watchdog takes over.');
 
         $obj->disableDVR = false;
         self::addDataObjectHelper('disableDVR', 'Disable DVR', 'Enable or disable the DVR Feature, you can control the DVR length in your nginx.conf on the parameter hls_playlist_length');
@@ -3825,16 +3832,67 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return self::sendRestream($obj);
     }
 
-    public static function restream($liveTransmitionHistory_id, $live_restreams_id = 0, $test = false)
+    /**
+     * @param array $options Optional. Supported keys:
+     *   - 'recoveryMode' (bool): marks this call as an automated recovery restart of an
+     *     ALREADY EXISTING restream destination (used by LiveRestreamWatchdog and any other
+     *     automated caller), as opposed to an operator-initiated (re)start. When true:
+     *       - $live_restreams_id MUST be a specific, non-empty destination id - the broad
+     *         "(re)start every one of this user's restream destinations" behavior used when
+     *         $live_restreams_id is 0 is refused outright (isValidRecoveryRestreamRequest()),
+     *         since a recovery must only ever touch the one destination that actually failed.
+     *       - No new destination/broadcast/key is ever created: getRestreamObject() loads the
+     *         existing Live_restreams row strictly by id and reuses its stored stream_url/
+     *         stream_key verbatim (this codebase has no YouTube/3rd-party Data API integration
+     *         that creates or manages a remote "broadcast" - restream destinations are static,
+     *         admin-configured RTMP(S) URLs). A structured 'existing_broadcast_reused' event is
+     *         emitted on success and a 'recovery_requires_new_broadcast' event is emitted when
+     *         the destination cannot be resumed (row missing or deliberately deactivated by the
+     *         admin, status != 'a') - the operator must then reconfigure/re-enable the
+     *         destination manually; this method never (re)creates one automatically.
+     *   - 'reason' (string): best-effort failure classification for the recovery, purely for
+     *     structured-log correlation (see restreamProfiles.php's classifyFfmpegFailure()).
+     */
+    public static function restream($liveTransmitionHistory_id, $live_restreams_id = 0, $test = false, $options = [])
     {
-        _error_log("Live:restream requested liveTransmitionHistory_id={$liveTransmitionHistory_id} live_restreams_id={$live_restreams_id} test=" . json_encode($test));
+        // Deliberately untyped (not "array $options = []"): a typed parameter throws a fatal
+        // TypeError for any legacy/third-party caller still passing an ignored scalar 4th
+        // argument from before this parameter existed - silently ignore a non-array value instead
+        // of breaking that caller.
+        $options = is_array($options) ? $options : [];
+        $recoveryMode = !empty($options['recoveryMode']);
+        $reason = isset($options['reason']) ? (string) $options['reason'] : '';
+
+        _error_log("Live:restream requested liveTransmitionHistory_id={$liveTransmitionHistory_id} live_restreams_id={$live_restreams_id} test=" . json_encode($test) . " recoveryMode=" . json_encode($recoveryMode));
+
+        if (!isValidRecoveryRestreamRequest($live_restreams_id, $recoveryMode)) {
+            _error_log("Live:restream refused: recoveryMode requires a specific, already-existing live_restreams_id (never restart 'all destinations' as a recovery) liveTransmitionHistory_id={$liveTransmitionHistory_id}");
+            return false;
+        }
+
         if (empty($test)) {
             _error_log("Live:restream sending response before background execution liveTransmitionHistory_id={$liveTransmitionHistory_id}");
             outputAndContinueInBackground();
         }
         $obj = self::getRestreamObject($liveTransmitionHistory_id, $live_restreams_id);
         if (empty($obj)) {
-            _error_log("Live:restream failed: could not build restream object liveTransmitionHistory_id={$liveTransmitionHistory_id}");
+            _error_log("Live:restream failed: could not build restream object liveTransmitionHistory_id={$liveTransmitionHistory_id} recoveryMode=" . json_encode($recoveryMode));
+            if ($recoveryMode && !empty($live_restreams_id)) {
+                // Distinguish "can be retried later" (transient: e.g. source not ready yet) from
+                // "this destination can never be resumed as-is" (the admin disabled/removed the
+                // row) - only the latter is reported as recovery_requires_new_broadcast, since
+                // that is the one case a future broadcast-API integration would need to react to
+                // by requiring a brand-new broadcast instead of silently retrying forever.
+                $lr = new Live_restreams($live_restreams_id);
+                if (empty($lr->getId()) || $lr->getStatus() !== 'a') {
+                    _error_log("Live:restream recoveryMode: destination live_restreams_id={$live_restreams_id} is permanently unavailable (missing or inactive), will NOT auto-create a replacement");
+                    rl_logEvent('recovery_requires_new_broadcast', array(
+                        'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                        'live_restreams_id' => $live_restreams_id,
+                        'reason' => $reason,
+                    ));
+                }
+            }
             return false;
         }
         $obj->live_restreams_id = $live_restreams_id;
@@ -3842,7 +3900,22 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $obj->test = 1;
         }
         _error_log("Live:restream sending object " . json_encode(self::getRestreamLogSummary($obj)));
-        return self::sendRestream($obj);
+        $result = self::sendRestream($obj);
+        if ($recoveryMode && !empty($result)) {
+            // Emitted only AFTER sendRestream() actually succeeds: this event's whole meaning is
+            // "an existing destination was successfully reused, no new broadcast was created" -
+            // emitting it unconditionally (as a previous revision did, right before calling
+            // sendRestream()) produced misleading telemetry on failure (a send that errored out
+            // would still be reported as a successful reuse). The object built above always
+            // points at the SAME Live_restreams row's stored stream_url/stream_key (see
+            // getRestreamObject()) - nothing new was created either way.
+            rl_logEvent('existing_broadcast_reused', array(
+                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                'live_restreams_id' => $live_restreams_id,
+                'reason' => $reason,
+            ));
+        }
+        return $result;
     }
 
 
@@ -3870,8 +3943,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $summary->liveTransmitionHistory_id = intval(@$obj->liveTransmitionHistory_id);
         $summary->users_id = intval(@$obj->users_id);
-        $summary->key = @$obj->key;
-        $summary->m3u8 = @$obj->m3u8;
+        // Never log the raw source stream key or the raw m3u8 URL: the m3u8 path embeds that
+        // same key (see getM3U8File()), so both are secret material, not diagnostic metadata -
+        // redactDestinationForLog() keeps scheme+host visible (useful for troubleshooting which
+        // provider/host is involved) while always redacting the path/query.
+        $summary->hasKey = !empty($obj->key);
+        $summary->m3u8 = redactDestinationForLog(@$obj->m3u8);
         $summary->m3u8IsValidURL = isValidURL(@$obj->m3u8);
         $summary->restreamerURL = @$obj->restreamerURL;
         $summary->restreamerURLIsValidURL = isValidURL(@$obj->restreamerURL);
@@ -3908,7 +3985,16 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $obj->doNotNotifyStreamer = $doNotNotifyStreamer;
 
             $data_string = json_encode($obj);
-            _error_log("Live:sendRestream ({$obj->restreamerURL}) timeout={$curlTimeout} {$data_string} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
+            // Never log the raw POST body: it embeds restreamsDestinations (stream keys),
+            // restreamsToken/responseToken and the source live key. redactSecretsInText() is a
+            // generic TEXT regex redactor - it cannot reliably scrub a JSON-encoded payload
+            // (json_encode() escapes "/" as "\/", which defeats the scheme://host URL matcher,
+            // and JSON quotes its "key":"value" pairs, which the key=value/key: value matcher
+            // does not recognize either) - see restreamProfiles.php's own tests for the exact
+            // json_encode() shape this must never leak. Log the already-allow-listed, structural
+            // $summary (built above, field-by-field, with no secret values) instead of any
+            // encoding/regex-based scrub of the actual object.
+            _error_log("Live:sendRestream ({$obj->restreamerURL}) timeout={$curlTimeout} " . json_encode($summary) . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
             //open connection
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
