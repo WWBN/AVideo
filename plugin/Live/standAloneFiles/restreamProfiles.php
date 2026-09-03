@@ -473,6 +473,9 @@ function classifyFfmpegFailure($stderrTail, array $context = array())
     if (preg_match('/Connection timed out|Operation timed out|rw_timeout|I\/O timeout/i', $text)) {
         return 'timeout';
     }
+    if (preg_match('/\[fifo\s*@|fifo_transcoding|Thread message queue blocking|Failed to recover|max_recovery_attempts|recovery attempts? exhausted/i', $text)) {
+        return 'fifo_recovery_exhausted';
+    }
     if (preg_match('/Broken pipe|Error muxing a packet|Error writing trailer|Error submitting a packet to the muxer|Error in the push function|Error closing file/i', $text)) {
         return 'output_broken_pipe';
     }
@@ -514,4 +517,223 @@ function computeRestreamBackoffDelaySeconds($attemptNumber, array $sequence, $ji
     }
 
     return max(1, (int) $base);
+}
+
+// =====================================================================================
+// Restream FIFO passthrough resiliency layer (opt-in, off by default)
+//
+// FFmpeg's "fifo" pseudo-muxer wraps the real output muxer (flv) in its own thread with a
+// packet queue between the encoder and the network write, so a transient destination
+// disconnect (a TCP hiccup, a brief TLS renegotiation stall) can be retried internally by
+// FFmpeg itself - reconnecting and resuming - without the whole FFmpeg process exiting and
+// without ever touching the running source read/decode/encode pipeline. This is strictly an
+// additive resiliency layer on top of the EXISTING destination-failure recovery path
+// (LiveRestreamWatchdog, unchanged): FIFO only ever avoids some of the process
+// exits/restarts the watchdog would otherwise have to detect and recover from; once its own
+// bounded max_recovery_attempts is exhausted, FFmpeg still exits and the watchdog remains the
+// second, unconditional layer of protection.
+//
+// This layer is only ever attempted when ALL of the following hold:
+//   1. Explicitly enabled via the Live plugin admin setting (restreamFifoEnabled), default OFF.
+//   2. The destination's detected provider (getRestreamProvider()) is in the configured
+//      allow-list (default: youtube only - the only ingest validated against this so far).
+//   3. A real capability probe (ffmpegDetectCapabilities(), see ffmpegCapabilities.php)
+//      positively confirms every FIFO-muxer AVOption this layer sends is supported by the
+//      exact FFmpeg build about to run the command. Capability that cannot be positively
+//      confirmed (detector unavailable, ffmpeg not runnable, option missing) is always treated
+//      as ABSENT - this layer never guesses from a bare `ffmpeg -version` number alone.
+// Any other destination, or any host whose FFmpeg build lacks a required option, silently and
+// automatically keeps using the existing, unmodified getRestreamOutputTail() legacy path.
+// =====================================================================================
+
+/**
+ * Bounds and defaults for every admin-configurable FIFO tuning knob. Centralized here so the
+ * Live plugin settings UI (Live.php), the sanitizer below, and the tests all share one source
+ * of truth - a limit changed here automatically applies everywhere.
+ */
+function getRestreamFifoConfigBounds()
+{
+    return array(
+        'recoveryWaitTime' => array('min' => 0.1, 'max' => 30, 'default' => 2),
+        'queueSize' => array('min' => 8, 'max' => 20000, 'default' => 8192),
+        'maxRecoveryAttempts' => array('min' => 0, 'max' => 50, 'default' => 5),
+    );
+}
+
+/**
+ * Providers allowed to use the FIFO passthrough layer by default. Kept as an explicit,
+ * admin-overridable allow-list (opt-in per destination, not just per FFmpeg capability) since
+ * only YouTube's ingest behavior has been validated against the fifo muxer's automatic
+ * reconnect so far - see the module docblock above.
+ */
+function getRestreamFifoDefaultAllowedProviders()
+{
+    return array('youtube');
+}
+
+/**
+ * Pure sanitizer: clamps every numeric option to its bounds and normalizes booleans/the
+ * provider allow-list, regardless of what a caller (admin setting, or the verifyToken.json.php
+ * response consumed by the standalone restreamer.json.php) supplied. Never trusts input as
+ * already-safe - this is re-applied on the consuming side too, not only where the value is set.
+ */
+function sanitizeRestreamFifoConfig($raw)
+{
+    $bounds = getRestreamFifoConfigBounds();
+    $raw = (array) $raw;
+
+    $clampFloat = function ($value, $min, $max, $default) {
+        if (!is_numeric($value)) {
+            return $default;
+        }
+        $value = (float) $value;
+        return max($min, min($max, $value));
+    };
+    $clampInt = function ($value, $min, $max, $default) use ($clampFloat) {
+        return (int) $clampFloat($value, $min, $max, $default);
+    };
+
+    $providers = isset($raw['allowedProviders']) ? $raw['allowedProviders'] : getRestreamFifoDefaultAllowedProviders();
+    if (is_string($providers)) {
+        $providers = array_filter(array_map('trim', explode(',', $providers)));
+    }
+    if (!is_array($providers)) {
+        $providers = getRestreamFifoDefaultAllowedProviders();
+    }
+    $providers = array_values(array_unique(array_map('strtolower', array_map('strval', $providers))));
+
+    return array(
+        'enabled' => !empty($raw['enabled']),
+        'allowedProviders' => $providers,
+        'attemptRecovery' => array_key_exists('attemptRecovery', $raw) ? !empty($raw['attemptRecovery']) : true,
+        'recoverAnyError' => !empty($raw['recoverAnyError']),
+        'restartWithKeyframe' => array_key_exists('restartWithKeyframe', $raw) ? !empty($raw['restartWithKeyframe']) : true,
+        'recoveryWaitStreamtime' => !empty($raw['recoveryWaitStreamtime']),
+        'dropPktsOnOverflow' => array_key_exists('dropPktsOnOverflow', $raw) ? !empty($raw['dropPktsOnOverflow']) : true,
+        'recoveryWaitTime' => $clampFloat(
+            isset($raw['recoveryWaitTime']) ? $raw['recoveryWaitTime'] : null,
+            $bounds['recoveryWaitTime']['min'],
+            $bounds['recoveryWaitTime']['max'],
+            $bounds['recoveryWaitTime']['default']
+        ),
+        'queueSize' => $clampInt(
+            isset($raw['queueSize']) ? $raw['queueSize'] : null,
+            $bounds['queueSize']['min'],
+            $bounds['queueSize']['max'],
+            $bounds['queueSize']['default']
+        ),
+        'maxRecoveryAttempts' => $clampInt(
+            isset($raw['maxRecoveryAttempts']) ? $raw['maxRecoveryAttempts'] : null,
+            $bounds['maxRecoveryAttempts']['min'],
+            $bounds['maxRecoveryAttempts']['max'],
+            $bounds['maxRecoveryAttempts']['default']
+        ),
+    );
+}
+
+/**
+ * Escapes a value for embedding inside FFmpeg's colon-separated -format_opts nested AVOption
+ * list (per FFmpeg's documented option-string escaping: backslash, colon and single-quote must
+ * be backslash-escaped so the value cannot be misparsed as an option separator).
+ *
+ * SECURITY REVIEW (best-effort, not executed against a real FFmpeg binary in this environment):
+ * this escaping has been implemented per FFmpeg's documented AVOption escaping rules but has
+ * NOT been verified end-to-end against a real ffmpeg -f fifo -format_opts invocation on a live
+ * RTMPS destination. Manual verification on a Linux host with real destinations is required
+ * before enabling restreamFifoEnabled in production - see the FFmpeg/HLS manual-testing policy
+ * in copilot-instructions.md.
+ */
+function ffmpegEscapeFormatOptValue($value)
+{
+    return str_replace(array('\\', ':', "'"), array('\\\\', '\\:', "\\'"), (string) $value);
+}
+
+/**
+ * Builds the -format_opts value passed to the fifo muxer's inner "flv" muxer, carrying over
+ * every option the legacy path applies directly (getRestreamOutputTail()'s "-flvflags
+ * no_duration_filesize", getRestreamTlsOptions()'s "-tls_verify 0 -rtmp_tcurl") - the fifo
+ * muxer opens the real output in its own nested AVFormatContext, so these can no longer be
+ * passed as top-level output options.
+ */
+function getRestreamFifoFormatOpts($destinationUrl, $tcurl)
+{
+    $opts = array('flvflags=no_duration_filesize');
+    if (strtolower((string) parse_url((string) $destinationUrl, PHP_URL_SCHEME)) === 'rtmps') {
+        // Peer verification is intentionally always disabled here too, for the exact same
+        // reason documented on getRestreamTlsOptions(): FFmpeg builds vary in how (or whether)
+        // they can locate a usable CA bundle.
+        $opts[] = 'tls_verify=0';
+        $opts[] = 'rtmp_tcurl=' . ffmpegEscapeFormatOptValue($tcurl);
+    }
+    return implode(':', $opts);
+}
+
+/**
+ * Builds the FIFO-wrapped output tail: "-map 0 -f fifo -fifo_format flv" plus every configured
+ * recovery/queue AVOption, replacing getRestreamOutputTail() for one destination when
+ * shouldUseRestreamFifoForDestination() returned true. $fifoConfig MUST already be the output
+ * of sanitizeRestreamFifoConfig() (bounded/normalized), never raw admin input.
+ */
+function getRestreamFifoOutputTail($destinationUrl, $tcurl, array $fifoConfig)
+{
+    $formatOpts = getRestreamFifoFormatOpts($destinationUrl, $tcurl);
+
+    $queueSize = (int) $fifoConfig['queueSize'];
+    $dropPktsOnOverflow = !empty($fifoConfig['dropPktsOnOverflow']) ? 1 : 0;
+    $attemptRecovery = !empty($fifoConfig['attemptRecovery']) ? 1 : 0;
+    $recoveryWaitTime = (float) $fifoConfig['recoveryWaitTime'];
+    $recoveryWaitStreamtime = !empty($fifoConfig['recoveryWaitStreamtime']) ? 1 : 0;
+    $recoverAnyError = !empty($fifoConfig['recoverAnyError']) ? 1 : 0;
+    $restartWithKeyframe = !empty($fifoConfig['restartWithKeyframe']) ? 1 : 0;
+    $maxRecoveryAttempts = (int) $fifoConfig['maxRecoveryAttempts'];
+
+    return " -map 0 -f fifo -fifo_format flv"
+        . " -queue_size {$queueSize}"
+        . " -drop_pkts_on_overflow {$dropPktsOnOverflow}"
+        . " -attempt_recovery {$attemptRecovery}"
+        . " -recovery_wait_time {$recoveryWaitTime}"
+        . " -recovery_wait_streamtime {$recoveryWaitStreamtime}"
+        . " -recover_any_error {$recoverAnyError}"
+        . " -restart_with_keyframe {$restartWithKeyframe}"
+        . " -max_recovery_attempts {$maxRecoveryAttempts}"
+        . " -format_opts \"{$formatOpts}\""
+        . " \"{$destinationUrl}\"";
+}
+
+/**
+ * The single eligibility gate for one destination: feature flag + provider allow-list +
+ * positively-confirmed FFmpeg capability. $capabilities must be the array returned by
+ * ffmpegDetectCapabilities() (or null when detection could not run at all, e.g. proc_open
+ * disabled) - null/incomplete capability data always resolves to false (never guess).
+ */
+function shouldUseRestreamFifoForDestination($destinationUrl, array $fifoConfig, $capabilities)
+{
+    if (empty($fifoConfig['enabled'])) {
+        return false;
+    }
+    if ($capabilities === null || $capabilities === false) {
+        return false;
+    }
+
+    $provider = getRestreamProvider($destinationUrl);
+    if (!in_array($provider, $fifoConfig['allowedProviders'], true)) {
+        return false;
+    }
+
+    if (!ffmpegFifoMuxerFullySupported($capabilities)) {
+        return false;
+    }
+
+    $capabilities = (array) $capabilities;
+    $scheme = strtolower((string) parse_url((string) $destinationUrl, PHP_URL_SCHEME));
+    if ($scheme === 'rtmps') {
+        return !empty($capabilities['hasRtmpsProtocol']) && !empty($capabilities['tlsBackends']);
+    }
+    if ($scheme === 'rtmp') {
+        return !empty($capabilities['hasRtmpProtocol']);
+    }
+
+    // Any other scheme (should not normally reach here - clearCommandURL() only allows
+    // http/https/rtmp/rtmps) is not a validated FIFO target.
+    return false;
 }

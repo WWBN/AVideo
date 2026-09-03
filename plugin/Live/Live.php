@@ -457,6 +457,16 @@ class Live extends PluginAbstract
             'restreamWatchdogBackoffJitterPercent',
             'restreamDiagnosticSnapshotIntervalSeconds',
             'restreamForceProtocolForYouTubeTest',
+            'restreamFifoEnabled',
+            'restreamFifoAllowedProviders',
+            'restreamFifoAttemptRecovery',
+            'restreamFifoRecoverAnyError',
+            'restreamFifoRestartWithKeyframe',
+            'restreamFifoDropPktsOnOverflow',
+            'restreamFifoRecoveryWaitTime',
+            'restreamFifoRecoveryWaitStreamtime',
+            'restreamFifoQueueSize',
+            'restreamFifoMaxRecoveryAttempts',
         );
     }
 
@@ -567,6 +577,27 @@ class Live extends PluginAbstract
         $o->value = '';
         $obj->restreamForceProtocolForYouTubeTest = $o;
         self::addDataObjectHelper('restreamForceProtocolForYouTubeTest', 'Restream: Force Protocol for YouTube (testing only)', 'DIAGNOSTIC USE ONLY, leave "Off" for normal operation. Forces every YouTube restream destination configured via the "Local" provider to use RTMP or RTMPS regardless of what was configured, without changing any encoding parameter or affecting Facebook/Twitch/other destinations. Use this temporarily to isolate whether disconnects are specific to RTMPS, then set back to Off.');
+
+        $obj->restreamFifoEnabled = false;
+        self::addDataObjectHelper('restreamFifoEnabled', 'Restream: Enable FIFO Output Recovery (beta)', 'When enabled, restream output uses FFmpeg\'s "fifo" muxer to automatically recover the OUTPUT connection to the destination (e.g. a brief network hiccup or TLS stall) without restarting the whole FFmpeg process, in addition to the existing Restream Watchdog which remains a second, unconditional recovery layer for anything the FIFO layer cannot recover on its own. Only used for destinations whose provider is in the allow-list below, and only when this host\'s FFmpeg build is confirmed (via a real capability probe, not just a version number) to support every option this feature needs; every other destination silently keeps using the previous, unmodified output path. Disabled by default: enable for one provider at a time and monitor before wider rollout.');
+        $obj->restreamFifoAllowedProviders = 'youtube';
+        self::addDataObjectHelper('restreamFifoAllowedProviders', 'Restream: FIFO Allowed Providers', 'Comma-separated list of destination providers allowed to use the FIFO output recovery layer above (detected from the destination URL, e.g. "youtube", "facebook", "twitch", "linkedin", "generic"). Default: youtube only, the only provider validated against this feature so far. Ignored while the setting above is Off.');
+        $obj->restreamFifoAttemptRecovery = true;
+        self::addDataObjectHelper('restreamFifoAttemptRecovery', 'Restream: FIFO Attempt Recovery', 'Maps to FFmpeg\'s fifo muxer "attempt_recovery" option: when the output connection drops, try to reopen and resume it instead of ending the stream. Default: enabled.');
+        $obj->restreamFifoRecoverAnyError = false;
+        self::addDataObjectHelper('restreamFifoRecoverAnyError', 'Restream: FIFO Recover Any Error', 'Maps to FFmpeg\'s fifo muxer "recover_any_error" option: also attempt recovery for error types FFmpeg does not classify as a connection failure. More aggressive; keep Off unless a specific destination needs it.');
+        $obj->restreamFifoRestartWithKeyframe = true;
+        self::addDataObjectHelper('restreamFifoRestartWithKeyframe', 'Restream: FIFO Restart With Keyframe', 'Maps to FFmpeg\'s fifo muxer "restart_with_keyframe" option: after a recovered reconnect, resume output starting at the next keyframe instead of a mid-GOP frame, avoiding a visibly broken/green segment on the destination. Default: enabled.');
+        $obj->restreamFifoDropPktsOnOverflow = true;
+        self::addDataObjectHelper('restreamFifoDropPktsOnOverflow', 'Restream: FIFO Drop Packets on Overflow', 'Maps to FFmpeg\'s fifo muxer "drop_pkts_on_overflow" option: if the internal recovery queue fills up faster than the destination can accept data, drop the oldest queued packets instead of blocking/crashing the encoder. Default: enabled.');
+        $obj->restreamFifoRecoveryWaitTime = 2;
+        self::addDataObjectHelper('restreamFifoRecoveryWaitTime', 'Restream: FIFO Recovery Wait Time (seconds)', 'Maps to FFmpeg\'s fifo muxer "recovery_wait_time" option: how long to wait before each reconnect attempt. Allowed range: 0.1-30. Default: 2 seconds.');
+        $obj->restreamFifoRecoveryWaitStreamtime = false;
+        self::addDataObjectHelper('restreamFifoRecoveryWaitStreamtime', 'Restream: FIFO Recovery Wait Streamtime', 'Maps to FFmpeg\'s fifo muxer "recovery_wait_streamtime" option: measure the recovery wait time above using stream time instead of real (wall-clock) time. Default: Off (wall-clock).');
+        $obj->restreamFifoQueueSize = 8192;
+        self::addDataObjectHelper('restreamFifoQueueSize', 'Restream: FIFO Queue Size', 'Maps to FFmpeg\'s fifo muxer "queue_size" option: number of packets buffered while a reconnect is attempted. Allowed range: 8-20000. Default: 8192 (matches this codebase\'s existing -thread_queue_size input buffering).');
+        $obj->restreamFifoMaxRecoveryAttempts = 5;
+        self::addDataObjectHelper('restreamFifoMaxRecoveryAttempts', 'Restream: FIFO Max Recovery Attempts', 'Maps to FFmpeg\'s fifo muxer "max_recovery_attempts" option: how many consecutive output-recovery attempts FFmpeg itself makes before giving up and exiting the process. Allowed range: 0-50 (0 = FFmpeg\'s own unlimited default - not recommended, prefer a bounded value so a permanently-unreachable destination still exits promptly into the Restream Watchdog\'s own backoff/attempt-limit logic instead of retrying forever inside a single FFmpeg process). Default: 5.');
 
         $obj->disableDVR = false;
         self::addDataObjectHelper('disableDVR', 'Disable DVR', 'Enable or disable the DVR Feature, you can control the DVR length in your nginx.conf on the parameter hls_playlist_length');

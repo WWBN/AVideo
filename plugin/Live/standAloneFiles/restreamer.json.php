@@ -18,6 +18,27 @@ const AUTOMATIC_RESTREAM_PROGRESS_SAMPLE_SECONDS = 4;
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/restreamProfiles.php';
 require_once __DIR__ . '/restreamLogging.php';
+require_once __DIR__ . '/ffmpegCapabilities.php';
+
+/**
+ * ffmpegDetectCapabilities() runs several short subprocesses (-version/-buildconf/-muxers/
+ * -protocols/-encoders/-h muxer=fifo); the FFmpeg build never changes between destinations or
+ * retries within the same process, so cache the result per binary path instead of re-probing
+ * once per destination.
+ */
+function getFfmpegCapabilitiesCached($ffmpegBinary)
+{
+    static $cache = array();
+    if (!array_key_exists($ffmpegBinary, $cache)) {
+        $cache[$ffmpegBinary] = ffmpegDetectCapabilities($ffmpegBinary);
+        rl_logEvent('ffmpeg_capabilities', array(
+            'ffmpegBinary' => $ffmpegBinary,
+            'summary' => ffmpegCapabilitiesSummaryText($cache[$ffmpegBinary]),
+            'fifoFullySupported' => ffmpegFifoMuxerFullySupported($cache[$ffmpegBinary]),
+        ));
+    }
+    return $cache[$ffmpegBinary];
+}
 
 //pkill -9 -f "rw_timeout.*6196bac40f89f" //When -f is set, the full command line is used for pattern matching.
 /**
@@ -865,6 +886,21 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     $disableReconnectOnNetworkError = ($ffmpegMajorVersion < 6);
     $userAgent = 'AVideoRestreamer';
 
+    // Restream FIFO passthrough resiliency layer (opt-in, see restreamProfiles.php's own
+    // module docblock for the full eligibility policy). Config always comes from the sanitized
+    // verifyToken.json.php response (global $json, already fetched above), re-sanitized here
+    // defensively rather than trusted as-is.
+    $restreamFifoConfig = sanitizeRestreamFifoConfig(isset($json->restreamFifo) ? (array) $json->restreamFifo : array());
+    // Capability detection only reflects the FFmpeg build on THIS (local) host. When this
+    // request is configured to dispatch to a separate remote FFMPEG executor host, the actual
+    // process may run on a different, unprobed build - so FIFO is skipped there and the legacy
+    // output path is used unconditionally. Documented residual limitation, not a bug: extending
+    // capability detection to a remote executor host is future work.
+    $restreamFifoRemoteExecConfigured = !empty($json->restreamStandAloneFFMPEG);
+    $ffmpegCapabilities = ($restreamFifoConfig['enabled'] && !$restreamFifoRemoteExecConfigured)
+        ? getFfmpegCapabilitiesCached($ffmpegBinary)
+        : null;
+
     $FFMPEGcommand = "{$ffmpegBinary} -hide_banner -y -v info "
         // . "-re "
         . "-rw_timeout 120000000 "                 // 120s em microssegundos
@@ -923,7 +959,13 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             }
             $tcurl = buildRtmpTcurl($value);
             $tls_verify = getRestreamTlsOptions($value, $tcurl);
-            $outputTail = getRestreamOutputTail($value, $tls_verify);
+            if (shouldUseRestreamFifoForDestination($value, $restreamFifoConfig, $ffmpegCapabilities)) {
+                $destInfoForFifoLog = getDestinationHostPort($value);
+                $outputTail = getRestreamFifoOutputTail($value, $tcurl, $restreamFifoConfig);
+                rl_logEvent('fifo_output_enabled', array('destinationHost' => $destInfoForFifoLog['host']));
+            } else {
+                $outputTail = getRestreamOutputTail($value, $tls_verify);
+            }
 
             $command .= str_replace(
                 array('{audioConfig}', '{videoConfig}', '{outputTail}'),
@@ -951,7 +993,13 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
         $tcurl = buildRtmpTcurl($dst);
         $tls_verify = getRestreamTlsOptions($dst, $tcurl);
-        $outputTail = getRestreamOutputTail($dst, $tls_verify);
+        if (shouldUseRestreamFifoForDestination($dst, $restreamFifoConfig, $ffmpegCapabilities)) {
+            $destInfoForFifoLog = getDestinationHostPort($dst);
+            $outputTail = getRestreamFifoOutputTail($dst, $tcurl, $restreamFifoConfig);
+            rl_logEvent('fifo_output_enabled', array('destinationHost' => $destInfoForFifoLog['host']));
+        } else {
+            $outputTail = getRestreamOutputTail($dst, $tls_verify);
+        }
 
         $command = $FFMPEGcommand;
         $command .= str_replace(
@@ -961,7 +1009,11 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         );
     }
 
-    if (empty($command) || !preg_match("/-f flv/i", $command)) {
+    // Accepts either the legacy "-f flv" output or the FIFO-wrapped "-f fifo -fifo_format flv"
+    // output (see getRestreamFifoOutputTail()) - a command matching neither shape never reached
+    // a valid output tail builder and must not be launched.
+    $isFifoCommand = preg_match('/-f fifo\b/i', (string) $command) && preg_match('/-fifo_format flv\b/i', (string) $command);
+    if (empty($command) || (!preg_match("/-f flv/i", $command) && !$isFifoCommand)) {
         error_log("Restreamer.json.php startRestream ERROR command is empty ");
     } else {
         error_log("Restreamer.json.php startRestream startRestream, check the file ($logFile) for the log");
