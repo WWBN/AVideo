@@ -306,3 +306,212 @@ function getRestreamVideoConfiguration($destinationUrl, $resolution = 720)
         . " -vf \"scale={$profile['width']}:{$profile['height']}:force_original_aspect_ratio=decrease,"
         . "pad={$profile['width']}:{$profile['height']}:(ow-iw)/2:(oh-ih)/2,format=yuv420p\" ";
 }
+
+/**
+ * Applies an explicit, reversible RTMP/RTMPS override coming from the (optional) admin-only
+ * "restreamForceProtocolForYouTubeTest" Live plugin setting. Only ever narrows the pair that
+ * getAutomaticRestreamDestinationPair() already computed - never invents a destination, never
+ * touches encoding parameters, and is a no-op ($forceProtocol === '') by default.
+ */
+function applyRestreamProtocolTestOverride(array $destinations, $forceProtocol)
+{
+    $forceProtocol = strtolower((string) $forceProtocol);
+    if ($forceProtocol !== 'rtmp' && $forceProtocol !== 'rtmps') {
+        return $destinations;
+    }
+
+    $primaryScheme = strtolower((string) parse_url((string) $destinations['primary'], PHP_URL_SCHEME));
+    if ($forceProtocol === $primaryScheme) {
+        return $destinations;
+    }
+
+    if ($forceProtocol === 'rtmp' && !empty($destinations['fallback'])
+        && strtolower((string) parse_url($destinations['fallback'], PHP_URL_SCHEME)) === 'rtmp') {
+        return array('primary' => $destinations['fallback'], 'fallback' => '');
+    }
+
+    // Requested rtmps but only an rtmp destination is available (or vice versa): nothing safe
+    // to switch to, keep the original pair rather than guessing a URL.
+    return $destinations;
+}
+
+/**
+ * Central redaction for destination host:port (never the path/stream key). Used by structured
+ * lifecycle logging so log lines can name the destination without ever containing a credential.
+ */
+function getDestinationHostPort($url)
+{
+    $parts = is_string($url) ? parse_url($url) : false;
+    $scheme = strtolower($parts['scheme'] ?? '');
+    $host = $parts['host'] ?? '';
+    $defaultPorts = array('rtmp' => 1935, 'rtmps' => 443, 'http' => 80, 'https' => 443);
+    $port = $parts['port'] ?? ($defaultPorts[$scheme] ?? null);
+
+    return array(
+        'protocol' => $scheme,
+        'host' => $host,
+        'port' => $port,
+    );
+}
+
+/**
+ * Centralized secret redaction for arbitrary free text (a full FFmpeg command line, a raw
+ * stderr snippet, etc.) - as opposed to redactDestinationForLog(), which redacts a single known
+ * destination URL. Used everywhere a string that MIGHT embed a stream key/token/password/
+ * Authorization header is about to be written to a log.
+ */
+function redactSecretsInText($text)
+{
+    if (!is_string($text)) {
+        return '(non-string)';
+    }
+
+    // Any rtmp(s)/http(s) URL: keep scheme+host, redact everything from the path onward, since
+    // the stream key/token normally lives in the path or query string.
+    $text = preg_replace_callback(
+        '#(rtmps?|https?)://[^\s"\'\\\\]+#i',
+        function ($m) {
+            return redactDestinationForLog($m[0]);
+        },
+        $text
+    );
+
+    // Query-string style secrets that may appear outside of a URL match above (e.g. logged
+    // separately), and Authorization headers.
+    $text = preg_replace(
+        '/((?:^|[?&\s])(?:key|token|secret|password|pass|auth|apisecret|access_token)\s*[=:]\s*)([^&\s"\']+)/i',
+        '$1[REDACTED]',
+        $text
+    );
+    $text = preg_replace('/(Authorization:\s*Bearer\s+)\S+/i', '$1[REDACTED]', $text);
+
+    return $text;
+}
+
+/**
+ * Parses the LAST FFmpeg periodic progress line found in $text (frame=/fps=/bitrate=/time=/
+ * speed=/drop=/dup=). Fields are matched independently since their presence/order varies by
+ * FFmpeg version and by whether stream-copy or re-encoding is used. Returns null when no
+ * progress line is found at all (as opposed to a line with some fields missing).
+ */
+function parseFfmpegProgressLine($text)
+{
+    if (!is_string($text) || $text === '') {
+        return null;
+    }
+
+    $lines = explode("\n", $text);
+    for ($i = count($lines) - 1; $i >= 0; $i--) {
+        $line = $lines[$i];
+        if (strpos($line, 'frame=') === false || strpos($line, 'time=') === false) {
+            continue;
+        }
+
+        $result = array(
+            'frame' => null,
+            'fps' => null,
+            'bitrateKbps' => null,
+            'time' => null,
+            'speed' => null,
+            'drop' => null,
+            'dup' => null,
+        );
+        if (preg_match('/frame=\s*(\d+)/', $line, $m)) {
+            $result['frame'] = (int) $m[1];
+        }
+        if (preg_match('/fps=\s*([\d.]+)/', $line, $m)) {
+            $result['fps'] = (float) $m[1];
+        }
+        if (preg_match('/bitrate=\s*([\d.]+)kbits\/s/i', $line, $m)) {
+            $result['bitrateKbps'] = (float) $m[1];
+        }
+        if (preg_match('/time=(\S+)/', $line, $m)) {
+            $result['time'] = $m[1];
+        }
+        if (preg_match('/speed=\s*([\d.]+)x/i', $line, $m)) {
+            $result['speed'] = (float) $m[1];
+        }
+        if (preg_match('/drop=\s*(\d+)/', $line, $m)) {
+            $result['drop'] = (int) $m[1];
+        }
+        if (preg_match('/dup=\s*(\d+)/', $line, $m)) {
+            $result['dup'] = (int) $m[1];
+        }
+        return $result;
+    }
+    return null;
+}
+
+/**
+ * Best-effort failure taxonomy for a destination disconnection, from already-collected
+ * evidence only (no I/O here, so this stays a pure/unit-testable function). $context flags,
+ * when known, always take priority over guessing from stderr text:
+ *   - intentionalStop: the application itself issued the stop/kill (never a real failure)
+ *   - oomEvidence: the diagnostic snapshot found an OOM-killer hit for this process
+ *   - dnsFailed: a live DNS check for the destination host failed
+ */
+function classifyFfmpegFailure($stderrTail, array $context = array())
+{
+    if (!empty($context['intentionalStop'])) {
+        return 'killed_by_application';
+    }
+    if (!empty($context['oomEvidence'])) {
+        return 'resource_exhaustion';
+    }
+    if (!empty($context['dnsFailed'])) {
+        return 'dns_failure';
+    }
+
+    $text = is_string($stderrTail) ? $stderrTail : '';
+
+    if (preg_match('/Could not resolve host|Name or service not known|Temporary failure in name resolution|nodename nor servname/i', $text)) {
+        return 'dns_failure';
+    }
+    if (preg_match('/session has been invalidated|SSL_read|SSL_write|SSL error|TLS.{0,20}(error|failed|handshake)|certificate verify failed|tls_verify/i', $text)) {
+        return 'tls_failure';
+    }
+    if (preg_match('/Connection timed out|Operation timed out|rw_timeout|I\/O timeout/i', $text)) {
+        return 'timeout';
+    }
+    if (preg_match('/Broken pipe|Error muxing a packet|Error writing trailer|Error submitting a packet to the muxer|Error in the push function|Error closing file/i', $text)) {
+        return 'output_broken_pipe';
+    }
+    if (preg_match('/(Invalid data found when processing input|Server returned 404|Server returned 403|error reading header).{0,80}(m3u8|\.ts)/i', $text)) {
+        return 'input_failure';
+    }
+    if (preg_match('/Killed process|Out of memory|oom-killer/i', $text)) {
+        return 'resource_exhaustion';
+    }
+
+    return 'unknown';
+}
+
+/**
+ * Exponential backoff with jitter for the watchdog's reconnect delay, e.g. 2,5,10,20,30s.
+ * $attemptNumber is 1-based: the attempt about to be made (count(pastAttempts) + 1).
+ * $randomFn defaults to mt_rand and is injectable so tests can be deterministic.
+ */
+function computeRestreamBackoffDelaySeconds($attemptNumber, array $sequence, $jitterPercent = 0, $randomFn = null)
+{
+    $sequence = array_values(array_filter(array_map('intval', $sequence), function ($v) {
+        return $v > 0;
+    }));
+    if (empty($sequence)) {
+        $sequence = array(2, 5, 10, 20, 30);
+    }
+
+    $attemptNumber = max(1, (int) $attemptNumber);
+    $index = min($attemptNumber, count($sequence)) - 1;
+    $base = $sequence[$index];
+
+    $jitterPercent = max(0, (int) $jitterPercent);
+    if ($jitterPercent > 0) {
+        $randomFn = $randomFn ?: 'mt_rand';
+        $jitterRange = (int) round($base * $jitterPercent / 100);
+        if ($jitterRange > 0) {
+            $base += call_user_func($randomFn, -$jitterRange, $jitterRange);
+        }
+    }
+
+    return max(1, (int) $base);
+}

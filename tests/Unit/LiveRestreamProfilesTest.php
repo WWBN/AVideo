@@ -245,4 +245,189 @@ class LiveRestreamProfilesTest extends TestCase
         $this->assertStringContainsString('-b:a 128k', $audio);
         $this->assertStringContainsString('-ar 48000', $audio);
     }
+
+    public function testProtocolOverrideIgnoredWhenNotRtmpOrRtmps()
+    {
+        $destinations = array('primary' => 'rtmps://a.rtmps.youtube.com/live2/key', 'fallback' => 'rtmp://a.rtmp.youtube.com/live2/key');
+        $this->assertSame($destinations, \applyRestreamProtocolTestOverride($destinations, ''));
+        $this->assertSame($destinations, \applyRestreamProtocolTestOverride($destinations, 'bogus'));
+    }
+
+    public function testProtocolOverrideNoOpWhenPrimaryAlreadyMatchesRequestedProtocol()
+    {
+        $destinations = array('primary' => 'rtmps://a.rtmps.youtube.com/live2/key', 'fallback' => 'rtmp://a.rtmp.youtube.com/live2/key');
+        $this->assertSame($destinations, \applyRestreamProtocolTestOverride($destinations, 'rtmps'));
+    }
+
+    public function testProtocolOverrideSwapsToRtmpFallbackWhenForced()
+    {
+        $destinations = array('primary' => 'rtmps://a.rtmps.youtube.com/live2/key', 'fallback' => 'rtmp://a.rtmp.youtube.com/live2/key');
+        $result = \applyRestreamProtocolTestOverride($destinations, 'rtmp');
+
+        $this->assertSame('rtmp://a.rtmp.youtube.com/live2/key', $result['primary']);
+        $this->assertSame('', $result['fallback']);
+    }
+
+    public function testProtocolOverrideKeepsOriginalWhenNoMatchingFallbackAvailable()
+    {
+        $destinations = array('primary' => 'rtmp://a.rtmp.youtube.com/live2/key', 'fallback' => '');
+        $result = \applyRestreamProtocolTestOverride($destinations, 'rtmps');
+
+        $this->assertSame($destinations, $result);
+    }
+
+    public function testGetDestinationHostPortExtractsHostPortAndDefaultsPortByScheme()
+    {
+        $this->assertSame(
+            array('protocol' => 'rtmps', 'host' => 'a.rtmps.youtube.com', 'port' => 443),
+            \getDestinationHostPort('rtmps://a.rtmps.youtube.com/live2/secret-key')
+        );
+        $this->assertSame(
+            array('protocol' => 'rtmp', 'host' => 'sfo.contribute.live-video.net', 'port' => 1935),
+            \getDestinationHostPort('rtmp://sfo.contribute.live-video.net/app/secret-key')
+        );
+        $this->assertSame(
+            array('protocol' => 'rtmp', 'host' => 'example.com', 'port' => 1942),
+            \getDestinationHostPort('rtmp://example.com:1942/app/secret-key')
+        );
+    }
+
+    public function testGetDestinationHostPortNeverReturnsPathOrKey()
+    {
+        $result = \getDestinationHostPort('rtmps://a.rtmps.youtube.com/live2/super-secret-stream-key');
+        $this->assertArrayNotHasKey('path', $result);
+        foreach ($result as $value) {
+            $this->assertStringNotContainsString('super-secret-stream-key', (string) $value);
+        }
+    }
+
+    public function testRedactSecretsInTextRedactsUrlPathButKeepsSchemeAndHost()
+    {
+        $command = 'ffmpeg -i "rtmp://source.example.com/live/inputkey" -c copy -f flv "rtmps://a.rtmps.youtube.com/live2/super-secret-key"';
+        $redacted = \redactSecretsInText($command);
+
+        $this->assertStringNotContainsString('super-secret-key', $redacted);
+        $this->assertStringNotContainsString('inputkey', $redacted);
+        // redactDestinationForLog() only ever keeps a short visible prefix of the URL (see its
+        // own doc comment) - assert on that prefix + the redaction marker, not the full host.
+        $this->assertStringContainsString('rtmps://a.rtmps.youtube', $redacted);
+        $this->assertStringContainsString('[REDACTED,total_len=', $redacted);
+        $this->assertStringContainsString('ffmpeg -i', $redacted);
+    }
+
+    public function testRedactSecretsInTextRedactsKeyValuePairsAndAuthHeaders()
+    {
+        $text = "token=abc123XYZ posted with Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.secret&password=hunter2";
+        $redacted = \redactSecretsInText($text);
+
+        $this->assertStringNotContainsString('abc123XYZ', $redacted);
+        $this->assertStringNotContainsString('hunter2', $redacted);
+        $this->assertStringNotContainsString('eyJhbGciOiJIUzI1NiJ9.secret', $redacted);
+        $this->assertStringContainsString('[REDACTED]', $redacted);
+    }
+
+    public function testRedactSecretsInTextHandlesNonStringGracefully()
+    {
+        $this->assertSame('(non-string)', \redactSecretsInText(null));
+        $this->assertSame('(non-string)', \redactSecretsInText(array('x')));
+    }
+
+    public function testParseFfmpegProgressLineExtractsAllFieldsFromLastMatchingLine()
+    {
+        $text = "frame=  100 fps= 25 q=-1.0 size=    512kB time=00:00:04.00 bitrate=1024.5kbits/s speed=1.0x drop=1 dup=2\n"
+            . "frame=  200 fps= 30 q=-1.0 size=   1024kB time=00:00:08.00 bitrate=2048.0kbits/s speed=1.1x drop=3 dup=4";
+
+        $result = \parseFfmpegProgressLine($text);
+
+        $this->assertSame(200, $result['frame']);
+        $this->assertSame(30.0, $result['fps']);
+        $this->assertSame(2048.0, $result['bitrateKbps']);
+        $this->assertSame('00:00:08.00', $result['time']);
+        $this->assertSame(1.1, $result['speed']);
+        $this->assertSame(3, $result['drop']);
+        $this->assertSame(4, $result['dup']);
+    }
+
+    public function testParseFfmpegProgressLineReturnsNullWhenNoProgressLineFound()
+    {
+        $this->assertNull(\parseFfmpegProgressLine(''));
+        $this->assertNull(\parseFfmpegProgressLine(null));
+        $this->assertNull(\parseFfmpegProgressLine("Connecting to server...\nStream mapping:\n"));
+    }
+
+    /**
+     * @dataProvider ffmpegFailureSamples
+     */
+    public function testClassifyFfmpegFailureMapsKnownStderrPatternsToTaxonomy($expected, $stderr, $context = array())
+    {
+        $this->assertSame($expected, \classifyFfmpegFailure($stderr, $context));
+    }
+
+    public function ffmpegFailureSamples()
+    {
+        return [
+            'dns' => ['dns_failure', 'Could not resolve host: a.rtmps.youtube.com'],
+            'tls' => ['tls_failure', 'error:1416F086:SSL routines:tls_process_server_certificate:certificate verify failed'],
+            'timeout' => ['timeout', 'Connection timed out'],
+            'broken_pipe' => ['output_broken_pipe', 'av_interleaved_write_frame(): Broken pipe'],
+            'muxing_error' => ['output_broken_pipe', 'Error muxing a packet'],
+            'trailer_error' => ['output_broken_pipe', 'Error writing trailer of rtmp://...: Broken pipe'],
+            'input_failure' => ['input_failure', 'Server returned 404 Not Found for m3u8 playlist'],
+            'oom_text' => ['resource_exhaustion', 'Killed process 1234 (ffmpeg)'],
+            'unknown' => ['unknown', 'some unrelated ffmpeg chatter'],
+            'intentional_stop_overrides_text' => ['killed_by_application', 'Broken pipe', array('intentionalStop' => true)],
+            'oom_context_overrides_text' => ['resource_exhaustion', 'some unrelated chatter', array('oomEvidence' => true)],
+            'dns_context_overrides_text' => ['dns_failure', 'some unrelated chatter', array('dnsFailed' => true)],
+        ];
+    }
+
+    public function testComputeRestreamBackoffDelaySecondsFollowsSequenceWithoutJitter()
+    {
+        $sequence = array(2, 5, 10, 20, 30);
+
+        $this->assertSame(2, \computeRestreamBackoffDelaySeconds(1, $sequence, 0));
+        $this->assertSame(5, \computeRestreamBackoffDelaySeconds(2, $sequence, 0));
+        $this->assertSame(10, \computeRestreamBackoffDelaySeconds(3, $sequence, 0));
+        $this->assertSame(30, \computeRestreamBackoffDelaySeconds(5, $sequence, 0));
+    }
+
+    public function testComputeRestreamBackoffDelaySecondsClampsToLastSequenceValueBeyondItsLength()
+    {
+        $sequence = array(2, 5, 10);
+
+        $this->assertSame(10, \computeRestreamBackoffDelaySeconds(3, $sequence, 0));
+        $this->assertSame(10, \computeRestreamBackoffDelaySeconds(10, $sequence, 0));
+    }
+
+    public function testComputeRestreamBackoffDelaySecondsAppliesDeterministicInjectedJitter()
+    {
+        $sequence = array(10);
+        // Injected random function always returns its max bound, so the result is fully
+        // deterministic: base=10, jitterPercent=20% -> jitterRange=2 -> 10+2=12.
+        $alwaysMax = function ($min, $max) {
+            return $max;
+        };
+        $this->assertSame(12, \computeRestreamBackoffDelaySeconds(1, $sequence, 20, $alwaysMax));
+
+        $alwaysMin = function ($min, $max) {
+            return $min;
+        };
+        $this->assertSame(8, \computeRestreamBackoffDelaySeconds(1, $sequence, 20, $alwaysMin));
+    }
+
+    public function testComputeRestreamBackoffDelaySecondsNeverReturnsLessThanOne()
+    {
+        $sequence = array(1);
+        $alwaysMin = function ($min, $max) {
+            return $min;
+        };
+        // base=1, jitterPercent=100% -> jitterRange=1 -> could go to 0, must clamp to >= 1.
+        $this->assertGreaterThanOrEqual(1, \computeRestreamBackoffDelaySeconds(1, $sequence, 100, $alwaysMin));
+    }
+
+    public function testComputeRestreamBackoffDelaySecondsFallsBackToDefaultSequenceWhenEmpty()
+    {
+        $this->assertSame(2, \computeRestreamBackoffDelaySeconds(1, array(), 0));
+        $this->assertSame(30, \computeRestreamBackoffDelaySeconds(99, array(), 0));
+    }
 }

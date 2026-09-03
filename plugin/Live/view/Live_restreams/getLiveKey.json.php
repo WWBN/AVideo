@@ -49,6 +49,21 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
     $response->provider = 'Local';
     $response->subtitle = $Live_restreams->getName();
     $response->http_code = 200;
+
+    // Optional, reversible, admin-only diagnostic toggle to isolate whether a YouTube
+    // destination's disconnects are specific to RTMPS vs RTMP, without touching encoding
+    // parameters or any other destination. Off by default (empty string = no change).
+    // Only wired into this "Local" (manually configured) provider branch: the automatic
+    // restream.ypt.me-proxied branch below echoes a third-party response verbatim and is
+    // intentionally left untouched here.
+    require_once __DIR__ . '/../../standAloneFiles/restreamProfiles.php';
+    if (getRestreamProvider($response->stream_url) === 'youtube') {
+        $liveObj = AVideoPlugin::getObjectData('Live');
+        if (!empty($liveObj->restreamForceProtocolForYouTubeTest)) {
+            $response->forceProtocol = $liveObj->restreamForceProtocolForYouTubeTest;
+        }
+    }
+
     $json = json_encode($response);
     _error_log('Restreamer get live keys 1 ' . $json);
     echo $json;

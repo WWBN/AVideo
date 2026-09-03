@@ -56,6 +56,8 @@ class LiveRestreamWatchdog
         }
 
         require_once __DIR__ . '/../standAloneFiles/functions.php';
+        require_once __DIR__ . '/../standAloneFiles/restreamProfiles.php';
+        require_once __DIR__ . '/../standAloneFiles/restreamLogging.php';
 
         $activeLives = LiveTransmitionHistory::getActiveLives('', false);
         if (empty($activeLives) || !is_array($activeLives)) {
@@ -159,6 +161,11 @@ class LiveRestreamWatchdog
             } else {
                 _error_log(self::LOG_PREFIX . " restart validated: restream is running again {$label}");
             }
+            rl_logEvent('destination_recovered', array(
+                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                'live_restreams_id' => $live_restreams_id,
+                'pid' => $pid,
+            ));
             $state['pending_validation'] = false;
             $state['last_success_start_at'] = $now;
         }
@@ -195,12 +202,27 @@ class LiveRestreamWatchdog
         $contentStatus = self::fetchLogStatus($liveTransmitionHistory_id, $live_restreams_id, null, 'logContent');
         $failureReason = self::classifyFailure($contentStatus);
 
+        // Additional, richer taxonomy (dns_failure/tls_failure/timeout/resource_exhaustion/...)
+        // purely for structured-log correlation with restreamer.json.php's own events; does not
+        // replace $failureReason (kept as-is for state/back-compat, see classifyFailure() above).
+        $failureClassification = classifyFfmpegFailure(
+            !empty($contentStatus->content) ? $contentStatus->content : '',
+            array('intentionalStop' => false)
+        );
+
         $state['healthy_since'] = null;
         $state['last_failure_at'] = $now;
         $state['last_failure_reason'] = $failureReason;
 
         _error_log(self::LOG_PREFIX . " restream disconnected from destination, reason=\"{$failureReason}\" {$label}");
-        self::logDiagnosticSnapshot($live, $restream, $contentStatus, $state, $label);
+        rl_logEvent('destination_unhealthy_detected', array(
+            'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+            'live_restreams_id' => $live_restreams_id,
+            'destinationHost' => parse_url(@$restream['stream_url'], PHP_URL_HOST),
+            'failureReason' => $failureReason,
+            'failureClassification' => $failureClassification,
+        ));
+        self::logDiagnosticSnapshot($live, $restream, $contentStatus, $state, $label, $objLive);
 
         $windowSeconds = self::getConfigInt($objLive, 'restreamWatchdogWindowSeconds', 900);
         $attempts = self::pruneAttempts(@$state['restart_attempts'], $windowSeconds, $now);
@@ -209,13 +231,36 @@ class LiveRestreamWatchdog
         $maxAttempts = self::getConfigInt($objLive, 'restreamWatchdogMaxAttempts', 3);
         if (count($attempts) >= $maxAttempts) {
             _error_log(self::LOG_PREFIX . " maximum restart attempts reached ({$maxAttempts} within {$windowSeconds}s), will not restart automatically {$label}");
+            rl_logEvent('restart_skipped_max_attempts', array(
+                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                'live_restreams_id' => $live_restreams_id,
+                'maxAttempts' => $maxAttempts,
+                'windowSeconds' => $windowSeconds,
+            ));
             self::saveState($live_restreams_id, $liveTransmitionHistory_id, $state);
             return;
         }
 
-        $cooldownSeconds = self::getConfigInt($objLive, 'restreamWatchdogCooldownSeconds', 120);
+        // Backoff floor: restreamWatchdogCooldownSeconds stays a hard minimum (backward
+        // compatible with any existing configuration), while
+        // computeRestreamBackoffDelaySeconds() grows the delay for each successive attempt within
+        // the same failure window, with optional jitter so multiple restreams recovering from the
+        // same outage do not all retry at the exact same instant.
+        $configuredCooldownSeconds = self::getConfigInt($objLive, 'restreamWatchdogCooldownSeconds', 120);
+        $attemptNumber = count($attempts) + 1;
+        $backoffSequence = self::getBackoffSequence($objLive);
+        $jitterPercent = self::getConfigInt($objLive, 'restreamWatchdogBackoffJitterPercent', 20);
+        $computedBackoffSeconds = computeRestreamBackoffDelaySeconds($attemptNumber, $backoffSequence, $jitterPercent);
+        $cooldownSeconds = max($configuredCooldownSeconds, $computedBackoffSeconds);
+
         if (!empty($state['last_restart_attempt_at']) && ($now - $state['last_restart_attempt_at']) < $cooldownSeconds) {
-            _error_log(self::LOG_PREFIX . " cooldown active, skipping restart attempt this cycle {$label}");
+            _error_log(self::LOG_PREFIX . " cooldown active ({$cooldownSeconds}s, attempt #{$attemptNumber}), skipping restart attempt this cycle {$label}");
+            rl_logEvent('restart_skipped_cooldown', array(
+                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                'live_restreams_id' => $live_restreams_id,
+                'attemptNumber' => $attemptNumber,
+                'cooldownSeconds' => $cooldownSeconds,
+            ));
             self::saveState($live_restreams_id, $liveTransmitionHistory_id, $state);
             return;
         }
@@ -255,7 +300,12 @@ class LiveRestreamWatchdog
                 return;
             }
 
-            $cooldownSeconds = self::getConfigInt($objLive, 'restreamWatchdogCooldownSeconds', 120);
+            $configuredCooldownSeconds = self::getConfigInt($objLive, 'restreamWatchdogCooldownSeconds', 120);
+            $attemptNumber = count($attempts) + 1;
+            $backoffSequence = self::getBackoffSequence($objLive);
+            $jitterPercent = self::getConfigInt($objLive, 'restreamWatchdogBackoffJitterPercent', 20);
+            $computedBackoffSeconds = computeRestreamBackoffDelaySeconds($attemptNumber, $backoffSequence, $jitterPercent);
+            $cooldownSeconds = max($configuredCooldownSeconds, $computedBackoffSeconds);
             if (!empty($state['last_restart_attempt_at']) && ($now - $state['last_restart_attempt_at']) < $cooldownSeconds) {
                 _error_log(self::LOG_PREFIX . " cooldown active after acquiring lock, another execution just restarted this restream {$label}");
                 self::saveState($live_restreams_id, $liveTransmitionHistory_id, $state);
@@ -285,6 +335,10 @@ class LiveRestreamWatchdog
 
             if ($recheckDecision === self::RECHECK_RUNNING) {
                 _error_log(self::LOG_PREFIX . " restart skipped: restream is running again before the watchdog acted {$label}");
+                rl_logEvent('restart_recheck_running_again', array(
+                    'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                    'live_restreams_id' => $live_restreams_id,
+                ));
                 $state['pending_validation'] = false;
                 if (!empty($recheckProcess['pid'])) {
                     $state['last_known_pid'] = intval($recheckProcess['pid']);
@@ -300,10 +354,22 @@ class LiveRestreamWatchdog
 
             $attemptCount = count($state['restart_attempts']);
             _error_log(self::LOG_PREFIX . " restart attempt #{$attemptCount} started, reusing Live::restream() {$label}");
+            rl_logEvent('restart_attempt_started', array(
+                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                'live_restreams_id' => $live_restreams_id,
+                'attemptNumber' => $attemptCount,
+                'destinationHost' => parse_url(@$restream['stream_url'], PHP_URL_HOST),
+            ));
 
             $result = Live::restream($liveTransmitionHistory_id, $live_restreams_id);
 
             _error_log(self::LOG_PREFIX . " restart attempt #{$attemptCount} requested, result=" . json_encode(!empty($result)) . " {$label}");
+            rl_logEvent('restart_attempt_result', array(
+                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                'live_restreams_id' => $live_restreams_id,
+                'attemptNumber' => $attemptCount,
+                'result' => !empty($result),
+            ));
         } finally {
             self::releaseLock($lock);
         }
@@ -514,13 +580,16 @@ class LiveRestreamWatchdog
     // Lightweight, diagnostic-only resource snapshot. Never used to trigger a restart by itself.
     // ---------------------------------------------------------------------
 
-    private static function logDiagnosticSnapshot($live, $restream, $contentStatus, $state, $label)
+    private static function logDiagnosticSnapshot($live, $restream, $contentStatus, $state, $label, $objLive = null)
     {
         global $global;
 
+        $liveTransmitionHistory_id = intval($live['id']);
+        $live_restreams_id = intval($restream['id']);
+
         $snapshot = [
-            'restream_id' => intval($restream['id']),
-            'liveTransmitionHistory_id' => intval($live['id']),
+            'restream_id' => $live_restreams_id,
+            'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
             'sourceHost' => self::getSourceHost($live),
             'destinationHost' => parse_url(@$restream['stream_url'], PHP_URL_HOST),
             'lastKnownPid' => !empty($state['last_known_pid']) ? intval($state['last_known_pid']) : null,
@@ -532,7 +601,25 @@ class LiveRestreamWatchdog
         ];
 
         _error_log(self::LOG_PREFIX . ' diagnostic snapshot ' . $label . ' ' . json_encode($snapshot));
+
+        // Heavier, more complete snapshot (DNS, TLS reachability, disk/inode/container limits),
+        // rate limited independently per-destination so repeated failures for the same restream
+        // don't spam it, but a different destination failing at the same time still gets its own.
+        $snapshotKey = "watchdog_{$live_restreams_id}_{$liveTransmitionHistory_id}";
+        $intervalSeconds = self::getConfigInt($objLive, 'restreamDiagnosticSnapshotIntervalSeconds', 300);
+        if (function_exists('rl_shouldEmitSnapshot') && rl_shouldEmitSnapshot($snapshotKey, $intervalSeconds)) {
+            $richSnapshot = rl_getDiagnosticSnapshot(array(
+                'pid' => !empty($state['last_known_pid']) ? intval($state['last_known_pid']) : null,
+                'destinationHost' => parse_url(@$restream['stream_url'], PHP_URL_HOST),
+            ));
+            rl_logEvent('diagnostic_snapshot', array_merge($richSnapshot, array(
+                'liveTransmitionHistory_id' => $liveTransmitionHistory_id,
+                'live_restreams_id' => $live_restreams_id,
+                'source' => 'watchdog',
+            )));
+        }
     }
+
 
     private static function getSourceHost($live)
     {
@@ -600,6 +687,29 @@ class LiveRestreamWatchdog
             return $default;
         }
         return intval($objLive->{$field});
+    }
+
+    private static function getConfigString($objLive, $field, $default)
+    {
+        if (empty($objLive) || !isset($objLive->{$field}) || $objLive->{$field} === '') {
+            return $default;
+        }
+        return (string) $objLive->{$field};
+    }
+
+    /**
+     * Parses the admin-configured "N,N,N..." backoff sequence (restreamWatchdogBackoffSequenceSeconds)
+     * into an int array for computeRestreamBackoffDelaySeconds(). Falls back to the built-in
+     * default sequence when the configured value is empty/malformed (never an empty array, which
+     * would make the pure function's behavior undefined for the caller).
+     */
+    private static function getBackoffSequence($objLive)
+    {
+        $raw = self::getConfigString($objLive, 'restreamWatchdogBackoffSequenceSeconds', '2,5,10,20,30');
+        $sequence = array_values(array_filter(array_map('intval', explode(',', $raw)), function ($v) {
+            return $v > 0;
+        }));
+        return !empty($sequence) ? $sequence : [2, 5, 10, 20, 30];
     }
 
     /**

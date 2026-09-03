@@ -174,4 +174,52 @@ class LiveRestreamWatchdogTest extends TestCase
             $this->invokePrivateMethod($this->watchdog, 'evaluateRecheckedProcessState', [['pid' => 123], false])
         );
     }
+
+    /**
+     * Tests for the backoff-sequence config parsing added alongside exponential backoff wiring:
+     * getBackoffSequence() must never return an empty array (computeRestreamBackoffDelaySeconds()
+     * has no well-defined attempt-1 delay for an empty sequence from the caller's perspective),
+     * and must gracefully fall back to the built-in default on missing/malformed config.
+     *
+     * @test
+     */
+    public function testGetBackoffSequenceParsesCommaSeparatedConfigIntoIntArray()
+    {
+        $objLive = (object) ['restreamWatchdogBackoffSequenceSeconds' => '3,7,15'];
+        $this->assertSame([3, 7, 15], $this->invokePrivateMethod($this->watchdog, 'getBackoffSequence', [$objLive]));
+    }
+
+    /**
+     * @test
+     */
+    public function testGetBackoffSequenceFallsBackToDefaultWhenConfigMissingOrEmpty()
+    {
+        $this->assertSame([2, 5, 10, 20, 30], $this->invokePrivateMethod($this->watchdog, 'getBackoffSequence', [null]));
+
+        $objLive = (object) ['restreamWatchdogBackoffSequenceSeconds' => ''];
+        $this->assertSame([2, 5, 10, 20, 30], $this->invokePrivateMethod($this->watchdog, 'getBackoffSequence', [$objLive]));
+    }
+
+    /**
+     * @test
+     */
+    public function testGetBackoffSequenceIgnoresNonPositiveOrMalformedEntries()
+    {
+        $objLive = (object) ['restreamWatchdogBackoffSequenceSeconds' => '3,0,-5,abc,7'];
+        $this->assertSame([3, 7], $this->invokePrivateMethod($this->watchdog, 'getBackoffSequence', [$objLive]));
+    }
+
+    /**
+     * @test
+     */
+    public function testGetConfigStringReturnsDefaultWhenMissingOrEmpty()
+    {
+        $this->assertSame('default', $this->invokePrivateMethod($this->watchdog, 'getConfigString', [null, 'x', 'default']));
+
+        $objLive = (object) ['x' => ''];
+        $this->assertSame('default', $this->invokePrivateMethod($this->watchdog, 'getConfigString', [$objLive, 'x', 'default']));
+
+        $objLive = (object) ['x' => 'configured-value'];
+        $this->assertSame('configured-value', $this->invokePrivateMethod($this->watchdog, 'getConfigString', [$objLive, 'x', 'default']));
+    }
 }

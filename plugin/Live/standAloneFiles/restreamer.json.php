@@ -17,6 +17,7 @@ const AUTOMATIC_RESTREAM_PROGRESS_SAMPLE_SECONDS = 4;
 
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/restreamProfiles.php';
+require_once __DIR__ . '/restreamLogging.php';
 
 //pkill -9 -f "rw_timeout.*6196bac40f89f" //When -f is set, the full command line is used for pattern matching.
 /**
@@ -195,6 +196,23 @@ if (!empty($_REQUEST['tokenForAction'])) {
                     } else if (!file_exists($completedLogFile)) {
                         @touch($completedLogFile);
                     }
+
+                    // Structured event: an application-issued stop must never be classified as
+                    // an unexpected failure downstream (watchdog/incident tooling). Recover the
+                    // correlationId/destination info from the session sidecar file written at
+                    // launch time, when available, so this event still correlates with
+                    // 'command_prepared'/'launch_result' for the same destination.
+                    $sessionInfo = @json_decode((string) @file_get_contents($logFile . '.session.json'));
+                    rl_logEvent('destination_stopped', array(
+                        'reason' => 'intentional_stop',
+                        'classification' => 'killed_by_application',
+                        'correlationId' => is_object($sessionInfo) ? ($sessionInfo->correlationId ?? null) : null,
+                        'destinationHost' => is_object($sessionInfo) ? ($sessionInfo->destinationHost ?? null) : null,
+                        'destinationProtocol' => is_object($sessionInfo) ? ($sessionInfo->destinationProtocol ?? null) : null,
+                        'live_restreams_id' => $json->live_restreams_id ?? null,
+                        'liveTransmitionHistory_id' => $json->liveTransmitionHistory_id ?? null,
+                        'logName' => $obj->logName,
+                    ));
                 }
 
                 error_log("Restreamer.json.php STATUS OK logName={$obj->logName} stop requested, killed=" . (!empty($obj->remoteKill) || !empty($obj->killIfIsRunning) ? 'yes' : 'no (already stopped)') . " remoteKill=" . ($obj->remoteKill ? 'yes' : 'no'));
@@ -274,6 +292,11 @@ function _getLiveKey($token)
         $json = json_decode($obj->content);
         if (!empty($json) && $json->error === false) {
             $destinations = getAutomaticRestreamDestinationPair($json);
+            // Optional, reversible, admin-only diagnostic override (Live plugin setting
+            // "restreamForceProtocolForYouTubeTest") to isolate whether a destination's
+            // disconnects are specific to RTMPS vs RTMP without touching encoding parameters.
+            // No-op unless the admin explicitly set it; see getLiveKey.json.php.
+            $destinations = applyRestreamProtocolTestOverride($destinations, $json->forceProtocol ?? '');
             if (!empty($destinations['primary'])) {
                 $obj->newRestreamsDestination = $destinations['primary'];
                 $obj->fallbackRestreamsDestination = $destinations['fallback'];
@@ -514,6 +537,7 @@ function runRestream($robj)
     if (empty($separateRestreams)) {
         error_log("Restreamer.json.php runRestream all in one command ");
         try {
+            $robj->correlationId = rl_newCorrelationId();
             $pid[] = startRestream($m3u8, $restreamsDestinations, $logFile, $robj);
         } catch (\Throwable $th) {
             error_log("Restreamer.json.php runRestream FATAL while starting all destinations in one command: " . $th->getMessage());
@@ -523,6 +547,7 @@ function runRestream($robj)
         foreach ($restreamsDestinations as $key => $value) {
             sleep(5);
             $robj->live_restreams_id = $key;
+            $robj->correlationId = rl_newCorrelationId();
             $logKey = sanitizeLogFileComponent($key, '0');
             $historyId = sanitizeLogFileComponent($robj->liveTransmitionHistory_id, '0');
             // clearCommandURL() now requires a full scheme+host URL and would reject a bare
@@ -822,6 +847,20 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     preg_match('/ffmpeg version ([0-9]+)\./', $ffmpegVersionOutput[0] ?? '', $matches);
     $ffmpegMajorVersion = isset($matches[1]) ? (int)$matches[1] : 0;
 
+    // Structured, rate-limited version/build diagnostics: captured once per marker window (not
+    // once per destination) since the FFmpeg/OpenSSL build is the same for every destination on
+    // this host and does not change between restream attempts.
+    if (rl_shouldEmitSnapshot('ffmpeg_build_info', 3600)) {
+        $opensslVersionOutput = rl_safeExec('openssl version');
+        rl_logEvent('ffmpeg_build_info', array(
+            'ffmpegVersionLine' => $ffmpegVersionOutput[0] ?? 'unavailable',
+            'ffmpegMajorVersion' => $ffmpegMajorVersion,
+            'ffmpegHasOpenssl' => stripos(implode(' ', $ffmpegVersionOutput), 'openssl') !== false,
+            'ffmpegHasGnutls' => stripos(implode(' ', $ffmpegVersionOutput), 'gnutls') !== false,
+            'opensslVersion' => $opensslVersionOutput !== null ? $opensslVersionOutput : 'unavailable',
+        ));
+    }
+
     // Disable reconnect_on_network_error for FFmpeg versions below 6
     $disableReconnectOnNetworkError = ($ffmpegMajorVersion < 6);
     $userAgent = 'AVideoRestreamer';
@@ -927,7 +966,51 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     } else {
         error_log("Restreamer.json.php startRestream startRestream, check the file ($logFile) for the log");
         _make_path($logFile);
-        file_put_contents($logFile, $command . PHP_EOL);
+
+        // Never persist a raw credential (stream key/token) to disk: the log file is servable
+        // via the 'logContent' action, so redact before writing, not after.
+        $redactedCommand = redactSecretsInText($command);
+        file_put_contents($logFile, $redactedCommand . PHP_EOL);
+
+        $destinationForDiagnostics = !empty($primaryDestinationForFallback)
+            ? $primaryDestinationForFallback
+            : (is_array($restreamsDestinations) && !empty($restreamsDestinations) ? array_values($restreamsDestinations)[0] : '');
+        $destInfo = getDestinationHostPort($destinationForDiagnostics);
+        $correlationId = !empty($robj->correlationId) ? $robj->correlationId : rl_newCorrelationId();
+
+        // Persist a small sidecar with the correlation id + destination host/port so a later,
+        // separate HTTP request ('stop', or LiveRestreamWatchdog's next poll cycle) can recover
+        // it and keep every lifecycle event for this destination correlated together.
+        @file_put_contents($logFile . '.session.json', json_encode(array(
+            'correlationId' => $correlationId,
+            'destinationHost' => $destInfo['host'],
+            'destinationProtocol' => $destInfo['protocol'],
+            'live_restreams_id' => $robj->live_restreams_id ?? null,
+            'liveTransmitionHistory_id' => $robj->liveTransmitionHistory_id ?? null,
+        )));
+
+        rl_logEvent('command_prepared', array(
+            'correlationId' => $correlationId,
+            'live_restreams_id' => $robj->live_restreams_id ?? null,
+            'liveTransmitionHistory_id' => $robj->liveTransmitionHistory_id ?? null,
+            'destinationHost' => $destInfo['host'],
+            'destinationPort' => $destInfo['port'],
+            'destinationProtocol' => $destInfo['protocol'],
+            'destinationCount' => is_array($restreamsDestinations) ? count($restreamsDestinations) : 1,
+            'resolution' => $restreamResolution,
+            'commandRedacted' => $redactedCommand,
+        ));
+
+        if (!empty($destInfo['host'])) {
+            $resolvedIp = @gethostbyname($destInfo['host']);
+            rl_logEvent('dns_lookup', array(
+                'correlationId' => $correlationId,
+                'destinationHost' => $destInfo['host'],
+                'resolvedIp' => ($resolvedIp !== $destInfo['host']) ? $resolvedIp : null,
+                'resolutionFailed' => ($resolvedIp === $destInfo['host']),
+            ));
+        }
+
         $launch = null;
         if (empty($isATest)) {
             $keyword = 'restream_' . md5(basename($logFile));
@@ -940,6 +1023,12 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             $launch->restreamStandAloneFFMPEG = false;
             $launch->pid = 0;
             $launch->logFile = $logFile;
+            rl_logEvent('connection_starting', array(
+                'correlationId' => $correlationId,
+                'destinationHost' => $destInfo['host'],
+                'destinationProtocol' => $destInfo['protocol'],
+                'keyword' => $keyword,
+            ));
             // use remote ffmpeg here
             if (function_exists('execFFMPEGAsyncOrRemote')) {
                 $restreamStandAloneFFMPEG = isset($json->restreamStandAloneFFMPEG) ? $json->restreamStandAloneFFMPEG : false;
@@ -966,12 +1055,29 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
                     'remote' => $launch->remote,
                     'accepted' => $launch->accepted,
                 )));
+                rl_logEvent('launch_result', array(
+                    'correlationId' => $correlationId,
+                    'destinationHost' => $destInfo['host'],
+                    'destinationProtocol' => $destInfo['protocol'],
+                    'keyword' => $keyword,
+                    'remote' => $launch->remote,
+                    'accepted' => $launch->accepted,
+                    'pid' => $launch->pid,
+                ));
             } else {
                 // Fallback: execute directly
                 exec($command . ' > ' . $safeLogFile . ' 2>&1 &', $execOutput, $execReturn);
                 $launch->accepted = $execReturn === 0;
                 error_log("Restreamer.json.php startRestream exec fallback response " . json_encode(array('return' => $execReturn, 'output' => $execOutput)));
+                rl_logEvent('launch_result', array(
+                    'correlationId' => $correlationId,
+                    'destinationHost' => $destInfo['host'],
+                    'destinationProtocol' => $destInfo['protocol'],
+                    'remote' => false,
+                    'accepted' => $launch->accepted,
+                ));
             }
+
 
             if (
                 !empty($fallbackDestination)

@@ -453,6 +453,10 @@ class Live extends PluginAbstract
             'restreamWatchdogMaxAttempts',
             'restreamWatchdogWindowSeconds',
             'restreamWatchdogHealthyResetSeconds',
+            'restreamWatchdogBackoffSequenceSeconds',
+            'restreamWatchdogBackoffJitterPercent',
+            'restreamDiagnosticSnapshotIntervalSeconds',
+            'restreamForceProtocolForYouTubeTest',
         );
     }
 
@@ -551,6 +555,18 @@ class Live extends PluginAbstract
         self::addDataObjectHelper('restreamWatchdogWindowSeconds', 'Restream Watchdog Attempts Window (seconds)', 'Time window used to count automatic restart attempts towards the max attempts limit above. Default: 900 seconds (15 minutes).');
         $obj->restreamWatchdogHealthyResetSeconds = 600;
         self::addDataObjectHelper('restreamWatchdogHealthyResetSeconds', 'Restream Watchdog Healthy Reset (seconds)', 'How long a restream must stay healthy (running) before the automatic restart attempt counter is reset to zero. Default: 600 seconds (10 minutes).');
+        $obj->restreamWatchdogBackoffSequenceSeconds = '2,5,10,20,30';
+        self::addDataObjectHelper('restreamWatchdogBackoffSequenceSeconds', 'Restream Watchdog Backoff Sequence (seconds)', 'Comma-separated reconnect delay for the 1st, 2nd, 3rd... automatic restart attempt (the last value repeats for any further attempt). Applied on top of "Restream Watchdog Cooldown" as a floor. Default: 2,5,10,20,30.');
+        $obj->restreamWatchdogBackoffJitterPercent = 20;
+        self::addDataObjectHelper('restreamWatchdogBackoffJitterPercent', 'Restream Watchdog Backoff Jitter (%)', 'Random +/- percentage applied to each backoff delay above, so multiple restreams reconnecting after the same outage do not all retry at the exact same instant. Default: 20.');
+        $obj->restreamDiagnosticSnapshotIntervalSeconds = 300;
+        self::addDataObjectHelper('restreamDiagnosticSnapshotIntervalSeconds', 'Restream Diagnostic Snapshot Interval (seconds)', 'Minimum time between best-effort system diagnostic snapshots (CPU/memory/disk/network/DNS/container limits) captured when a restream disconnects unexpectedly. Rate limited to avoid overhead on repeated failures. Default: 300 seconds (5 minutes).');
+        $obj->restreamForceProtocolForYouTubeTest = '';
+        $o = new stdClass();
+        $o->type = array('' => 'Off (normal behavior)', 'rtmp' => 'Force RTMP', 'rtmps' => 'Force RTMPS');
+        $o->value = '';
+        $obj->restreamForceProtocolForYouTubeTest = $o;
+        self::addDataObjectHelper('restreamForceProtocolForYouTubeTest', 'Restream: Force Protocol for YouTube (testing only)', 'DIAGNOSTIC USE ONLY, leave "Off" for normal operation. Forces every YouTube restream destination configured via the "Local" provider to use RTMP or RTMPS regardless of what was configured, without changing any encoding parameter or affecting Facebook/Twitch/other destinations. Use this temporarily to isolate whether disconnects are specific to RTMPS, then set back to Off.');
 
         $obj->disableDVR = false;
         self::addDataObjectHelper('disableDVR', 'Disable DVR', 'Enable or disable the DVR Feature, you can control the DVR length in your nginx.conf on the parameter hls_playlist_length');
