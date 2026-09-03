@@ -20,10 +20,9 @@ class LoginControl extends PluginAbstract {
         $desc .= "<br><strong>Protect your account with 2-Factor Authentication</strong>: With 2-Factor Authentication, you add an extra layer of security to your account in case your password is stolen. After you set up 2-Step Verification, you'll sign in to your account in two steps using:
 
         <br> - Something you know, like your password
-        <br> - Something you have,access to your email";
+        <br> - Something you have, access to your email";
 
-        $desc .= "<br><strong>Single Device Login Limitation</strong>: If you are logged in on one device and then go to log in on another, your first session will expire and you will be logged out automatically. Only admins users are ignored on this rule";
-        //$desc .= $this->isReadyLabel(array('YPTWallet'));
+        $desc .= "<br><strong>Single Device Login Limitation</strong>: If enabled, logging in on a new device or browser will automatically log out any other active session for that same user. The disconnected session will see a message explaining which device/IP/location triggered it. Admin users are exempt from this rule.";
         return $desc;
     }
 
@@ -43,7 +42,11 @@ class LoginControl extends PluginAbstract {
         $obj = new stdClass();
 
         $obj->singleDeviceLogin = false; // will disconnect other devices
+        self::addDataObjectHelper('singleDeviceLogin', 'Allow login from a single device only', 'When a user logs in from a new device/browser, any other active session for that user is automatically logged out (except admin users). The disconnected user sees which device/IP/location triggered it.');
+
         $obj->enable2FA = false;
+        self::addDataObjectHelper('enable2FA', 'Enable e-mail 2FA', 'Require users to confirm a new device via a confirmation link sent to their e-mail before they can finish logging in.');
+
         $o = new stdClass();
         $obj->textFor2FASubject = "Confirm {siteName} log in from a new browser";
         $o->type = "textarea";
@@ -57,18 +60,6 @@ Best regards,
 
 {siteName}";
         $obj->textFor2FABody = $o;
-
-        /*
-          $obj->textSample = "text";
-          $obj->checkboxSample = true;
-          $obj->numberSample = 5;
-
-          $o = new stdClass();
-          $o->type = array(0=>__("Default"))+array(1,2,3);
-          $o->value = 0;
-          $obj->selectBoxSample = $o;
-
-         */
 
         $obj->enablePGP2FA = false;
         self::addDataObjectHelper('enablePGP2FA', 'Enable PGP 2FA, please <a target=\'_blank\' href=\'https://github.com/WWBN/AVideo/wiki/PGP-2FA-Login\'>read this</a>', '2-Factor-Authentication with a Pretty Good Privacy (PGP) challenge');
@@ -91,7 +82,7 @@ Best regards,
         // check if the user confirmed this device before
         if (!self::ignore2FA($users_id) && self::is2FAEnabled($users_id) && !self::is2FAConfirmed($users_id)) {
             header('Content-Type: application/json');
-            _error_log("Login_control::onUserSignIn 2FA is required for user ({$users_id}) (" . get_browser_name() . ") (" . getDeviceID() . ") (" . $_SERVER['HTTP_USER_AGENT'] . ")");
+            _error_log("LoginControl::onUserSignIn 2FA is required for user ({$users_id}) (" . get_browser_name() . ") (" . getDeviceID() . ") (" . $_SERVER['HTTP_USER_AGENT'] . ")");
             if (self::send2FAEmail($users_id)) {
                 User::logoff();
                 $object = new stdClass();
@@ -102,7 +93,7 @@ Best regards,
                 die(json_encode($object));
             } else {
                 // fail closed: do not leave the session authenticated if 2FA cannot be delivered
-                _error_log("Login_control::onUserSignIn 2FA your email could not be sent ({$users_id})", AVideoLog::$ERROR);
+                _error_log("LoginControl::onUserSignIn 2FA your email could not be sent ({$users_id})", AVideoLog::$ERROR);
                 User::logoff();
                 $object = new stdClass();
                 $object->error = __("2FA is required but the confirmation email could not be sent, please contact the site administrator");
@@ -129,7 +120,7 @@ Best regards,
     // avideo-encoder-2fa-exemption-accepted-risk.md for the full history/decision record.
     private static function ignore2FA($users_id = "") {
         if ($url = isAVideoEncoder()) {
-            _error_log("Login_control::ignore2FA is an Encoder ($url) login 2FA ignored");
+            _error_log("LoginControl::ignore2FA is an Encoder ($url) login 2FA ignored");
             return true;
         }
         return false;
@@ -318,49 +309,24 @@ Best regards,
         // SECURITY REVIEW: same accepted-risk UA-based encoder exemption as ignore2FA() above —
         // see avideo-encoder-2fa-exemption-accepted-risk.md before changing this.
         if (isAVideoEncoder()) {
-            _error_log("Login_control::getStart Login from encoder, do not do anything");
+            _error_log("LoginControl::getStart Login from encoder, do not do anything");
             return false;
         }
         $obj = $this->getDataObject();
-        if ($obj->singleDeviceLogin) {
-            if (!AVideoPlugin::isEnabledByName('YPTSocket')) {
-                $ignoreScriptList = ['/plugin/Live/stats.json.php'];
-                if (in_array($_SERVER['SCRIPT_NAME'], $ignoreScriptList)) {
-                    return false;
-                }
+        if ($obj->singleDeviceLogin && !AVideoPlugin::isEnabledByName('YPTSocket')) {
+            $ignoreScriptList = ['/plugin/Live/stats.json.php'];
+            if (in_array($_SERVER['SCRIPT_NAME'], $ignoreScriptList)) {
+                return false;
+            }
 
-                //_error_log("LoginControl::getStart singleDeviceLogin is enabled");
-                // check if the user is logged somewhere else and log him off
-                if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
-                    User::logoff();
-                    //$msg = "You were disconected by ({$row['device']}) <br>IP: {$row['ip']} <br>{$loc} <br>{$row['ago']}";
-                    $msg = "You were disconected";
-                    //setAlertMessage($msg);
-                    gotToLoginAndComeBackHere($msg);
-                    /*
-                      //_error_log("LoginControl::getStart the user logged somewhere else");
-                      if(self::isUser2FAEnabled(User::getId())){
-                      $row = self::getLastConfirmedLogin(User::getId());
-                      ///_error_log("LoginControl::getStart isUser2FAEnabled=true ". json_encode($row));
-                      }else{
-                      $row = self::getLastLogin(User::getId());
-                      //_error_log("LoginControl::getStart isUser2FAEnabled=false ". json_encode($row));
-                      }
-                      if (!empty($row)) {
-                      AVideoPlugin::loadPlugin('User_Location');
-                      $location = IP2Location::getLocation($row['ip']);
-                      $loc = "";
-                      if (!empty($location)) {
-                      $loc = "$location[country_name], $location[region_name], $location[city_name]";
-                      }
-                      if(!empty($row['created'])){
-                      $msg = "You were disconected by ({$row['device']}) <br>IP: {$row['ip']} <br>{$loc} <br>{$row['ago']}";
-                      setAlertMessage($msg);
-                      }
-                      }
-                     *
-                     */
-                }
+            // check if the user is logged somewhere else and log him off
+            if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
+                $users_id = User::getId();
+                // build the explanation BEFORE logoff(), it needs the still-authenticated user id
+                $msg = self::getSingleDeviceLogoutMessage($users_id);
+                _error_log("LoginControl::getStart disconnecting user ({$users_id}): singleDeviceLogin is enabled and a login from a different device was detected");
+                User::logoff();
+                gotToLoginAndComeBackHere($msg);
             }
         }
         if (self::challengeThisPage()) {
@@ -371,9 +337,39 @@ Best regards,
             }
             include_once $global['systemRootPath'] . 'plugin/LoginControl/pgp/challenge.php';
             exit;
-            header("Loation: {$global['webSiteRootURL']}plugin/LoginControl/pgp/challenge.php?redirectUri=" . urlencode(getRedirectUri()));
-            exit;
         }
+    }
+
+    /**
+     * User-facing explanation for a singleDeviceLogin logout, so it doesn't look like a random
+     * session drop — tells the user which device/IP/location/time triggered the disconnect.
+     */
+    public static function getSingleDeviceLogoutMessage($users_id) {
+        $msg = __("You were disconnected because your account was used to log in from another device or location");
+        $row = self::isUser2FAEnabled($users_id) ? self::getLastConfirmedLogin($users_id) : self::getLastLogin($users_id);
+        if (empty($row)) {
+            return $msg;
+        }
+        $details = [];
+        if (!empty($row['device'])) {
+            $details[] = $row['device'];
+        }
+        if (!empty($row['ip'])) {
+            $details[] = "IP: {$row['ip']}";
+        }
+        if (AVideoPlugin::loadPluginIfEnabled('User_Location')) {
+            $location = IP2Location::getLocation($row['ip']);
+            if (!empty($location)) {
+                $details[] = "{$location['country_name']}, {$location['region_name']}, {$location['city_name']}";
+            }
+        }
+        if (!empty($row['ago'])) {
+            $details[] = $row['ago'];
+        }
+        if (!empty($details)) {
+            $msg .= '<br>' . implode(' &bull; ', $details);
+        }
+        return $msg;
     }
 
     public static function getLastLogin($users_id) {
