@@ -8,6 +8,37 @@ class SecurityHardeningRegressionTest extends TestCase
 {
     /**
      * @test
+     * Regression: remember-me restoration must pass the signed, time-limited
+     * _user_hash_ token to encryptPasswordVerify() without unwrapping it into
+     * the database password hash first. Arbitrary password hashes must remain
+     * rejected by the hardened verifier.
+     */
+    public function testRememberMeKeepsSignedTokenIntactForValidation()
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/objects/user.php');
+        $start = strpos($source, 'private static function recreateLoginFromCookie()');
+        $end = strpos($source, 'public static function isLogged(', $start);
+        $method = substr($source, $start, $end - $start);
+
+        $this->assertStringContainsString(
+            'new User(0, $userCookie->user, $userCookie->pass)',
+            $method
+        );
+        $this->assertStringNotContainsString(
+            '$user->setPassword($userCookie->pass, true)',
+            $method
+        );
+
+        $verifier = file_get_contents(dirname(__DIR__, 2) . '/objects/functions.php');
+        $this->assertStringContainsString(
+            'User::getPasswordFromUserHashIfTheItIsValid($password)',
+            $verifier
+        );
+        $this->assertStringNotContainsString('$password === $hash', $verifier);
+    }
+
+    /**
+     * @test
      */
     public function testVideoNotFoundEscapesHtmlBeforeEmbeddingInJavascript()
     {

@@ -359,6 +359,25 @@ function _setSessionCookieParams($lifetime, $domain = null, $path = '/')
     );
 }
 
+function _setcookieWithExpiration($cookieName, $value, $expires)
+{
+    // Clear any stale host-only cookie before writing the fresh value. Normal
+    // domains use domain-scoped cookies; IP/local hosts fall back to host-only.
+    _setcookieInternal($cookieName, '', strtotime('-10 years'), '/', null);
+
+    $set = false;
+    $domains = _getCookieTargetDomains();
+    if (empty($domains)) {
+        $set = _setcookieInternal($cookieName, $value, $expires, '/', null);
+    } else {
+        foreach ($domains as $domain) {
+            $set = _setcookieInternal($cookieName, $value, $expires, '/', $domain) || $set;
+        }
+    }
+    $_COOKIE[$cookieName] = $value;
+    return $set;
+}
+
 function _setcookie($cookieName, $value, $expires = 0)
 {
     if ($cookieName === 'pass') {
@@ -377,21 +396,12 @@ function _setcookie($cookieName, $value, $expires = 0)
         }
     }
 
-    // Clear any stale host-only cookie before writing the fresh value. Normal
-    // domains use domain-scoped cookies; IP/local hosts fall back to host-only.
-    _setcookieInternal($cookieName, '', strtotime('-10 years'), '/', null);
+    return _setcookieWithExpiration($cookieName, $value, $expires);
+}
 
-    $set = false;
-    $domains = _getCookieTargetDomains();
-    if (empty($domains)) {
-        $set = _setcookieInternal($cookieName, $value, $expires, '/', null);
-    } else {
-        foreach ($domains as $domain) {
-            $set = _setcookieInternal($cookieName, $value, $expires, '/', $domain) || $set;
-        }
-    }
-    $_COOKIE[$cookieName] = $value;
-    return $set;
+function _setSessionCookie($cookieName, $value)
+{
+    return _setcookieWithExpiration($cookieName, $value, 0);
 }
 
 function _unsetcookie($cookieName)
@@ -411,6 +421,12 @@ function _resetcookie($cookieName, $value)
 {
     _unsetcookie($cookieName);
     _setcookie($cookieName, $value);
+}
+
+function _resetSessionCookie($cookieName, $value)
+{
+    _unsetcookie($cookieName);
+    _setSessionCookie($cookieName, $value);
 }
 
 // this will make sure the strring will fits in the database field
@@ -579,8 +595,9 @@ function session_start_preload()
     // server should keep session data for AT LEAST 1 hour
     ini_set('session.gc_maxlifetime', $config->getSession_timeout());
 
-    // The real PHP session cookie must also be cross-site compatible for embeds.
-    _setSessionCookieParams($config->getSession_timeout());
+    // Keep the PHP session cookie until the browser closes. Persistent login is
+    // handled separately by the encrypted credentials cookie when remember-me is enabled.
+    _setSessionCookieParams(0);
 
     // Fix “set SameSite cookie to none” warning and check if cookie already set
     // named distinctly (not "key") so it can never collide with $_REQUEST['key'] used
@@ -742,8 +759,8 @@ function _session_regenerate_id()
     $session = $_SESSION;
     session_regenerate_id(true);
     _error_log('[SESSION_DEBUG] _session_regenerate_id: old=' . $oldId . ' new=' . session_id() . ' script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' ip=' . getRealIpAddr() . ' trace=' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 6)));
-    _resetcookie('PHPSESSID', session_id());
-    _resetcookie(session_name(), session_id());
+    _resetSessionCookie('PHPSESSID', session_id());
+    _resetSessionCookie(session_name(), session_id());
     $_SESSION = $session;
 }
 

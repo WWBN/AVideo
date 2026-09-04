@@ -1543,8 +1543,10 @@ if (typeof gtag !== \"function\") {
                 $_REQUEST['rememberme'] = 1;
                 //_error_log("user::recreateLoginFromCookie: SCRIPT_NAME ".json_encode($_SERVER["SCRIPT_NAME"]));
                 //_error_log("user::recreateLoginFromCookie: user cookie found: {$userCookie->user} result: " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-                $user = new User(0, $userCookie->user, false);
-                $user->setPassword($userCookie->pass, true);
+                // Keep the signed _user_hash_ token intact so encryptPasswordVerify()
+                // can validate its expiry and password binding. setPassword(..., true)
+                // unwraps it too early and makes the hardened verifier hash it again.
+                $user = new User(0, $userCookie->user, $userCookie->pass);
                 $resp = $user->login(false, true);
                 //_error_log("user::recreateLoginFromCookie: resp=$resp");
 

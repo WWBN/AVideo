@@ -164,4 +164,40 @@ class CookiePolicyTest extends TestCase
         ];
         $this->assertSame('/; SameSite=Lax', \_getLegacySameSitePath($config));
     }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testSessionStartUsesBrowserSessionCookie()
+    {
+        if (!class_exists('AVideoConf')) {
+            eval('class AVideoConf { public function getSession_timeout() { return 3600; } }');
+        }
+        if (!function_exists('getDomain')) {
+            eval('function getDomain() { return "example.com"; }');
+        }
+
+        global $_session_start_preload, $global;
+        unset($_session_start_preload);
+        $global['systemRootPath'] = \APP_ROOT . '/';
+
+        \session_start_preload();
+
+        $params = session_get_cookie_params();
+        $this->assertSame(0, $params['lifetime']);
+        $this->assertSame('3600', ini_get('session.gc_maxlifetime'));
+    }
+
+    /**
+     * @test
+     */
+    public function testRegeneratedSessionCookiesRemainBrowserScoped()
+    {
+        $source = file_get_contents(\APP_ROOT . '/objects/functionsPHP.php');
+
+        $this->assertStringContainsString("_resetSessionCookie('PHPSESSID', session_id())", $source);
+        $this->assertStringContainsString('_resetSessionCookie(session_name(), session_id())', $source);
+    }
 }
