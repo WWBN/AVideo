@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
             options: {
                 responsive: true,
                 animation: {
-                    duration: updateDuration, 
+                    duration: updateDuration,
                     easing: 'easeInOutQuart' // Easing effect for the animation
                 }
             }
@@ -312,7 +312,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pid'], $_POST['csrf_t
                     }, updateDuration);
                 },
                 error: function() {
-                    alert('Failed to fetch process data.');
+                    // avoid alert(): with updateDuration=1000 a persistent failure would otherwise
+                    // pop a blocking dialog every second forever
+                    console.error('Failed to fetch process data.');
+                    setTimeout(() => {
+                        fetchCPUProcesses();
+                    }, updateDuration);
                 }
             });
         }

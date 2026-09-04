@@ -128,6 +128,7 @@ async function addViewFromCookie() {
         !addView_videos_id || addView_videos_id === 'false' ||
         !addView_playerCurrentTime || addView_playerCurrentTime === 'false' ||
         !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
+        _addViewFromCookie_addingtime = false;
         return false;
     }
 

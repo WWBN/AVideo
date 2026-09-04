@@ -385,7 +385,7 @@ class PlayList extends ObjectYPT
             $status = str_replace("'", "", $status);
             $sql .= " AND pl.status = '{$status}' ";
         } elseif ($publicOnly) {
-            if (User::getId() !== $userId) {
+            if (User::getId() != $userId) {
                 $sql .= " AND pl.status = 'public' ";
             }
         }

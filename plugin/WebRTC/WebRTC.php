@@ -32,7 +32,7 @@ class WebRTC extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "1.0";
+        return "1.1";
     }
 
     public function getEmptyDataObject()
@@ -54,7 +54,8 @@ class WebRTC extends PluginAbstract
     function executeEveryMinute()
     {
         self::checkAndUpdate();
-        if (empty($obj->autoStartServerIfIsInactive)) {
+        $obj = AVideoPlugin::getDataObject('WebRTC');
+        if (!empty($obj->autoStartServerIfIsInactive)) {
             self::startIfIsInactive();
         }
     }

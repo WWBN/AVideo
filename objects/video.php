@@ -2303,7 +2303,8 @@ if (!class_exists('Video')) {
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             //$name = "_getVideoInfo_{$row['id']}";
             $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
-            $cacheSuffix = 'getVideoInfo';
+            // include language so a cache populated in one language can't leak translated tag labels to other viewers
+            $cacheSuffix = 'getVideoInfo_' . getLanguage();
             //var_dump($row['filename']);
             $videoCache = new VideoCacheHandler($row['filename']);
             $cache = $videoCache->getCache($cacheSuffix, $oneToFiveHours);

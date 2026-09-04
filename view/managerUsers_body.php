@@ -528,7 +528,7 @@ foreach ($userGroups as $value) {
                 },
                 "user": function(column, row) {
                     var photo = '';
-                    if (row.photoURL) {
+                    if (row.photo) {
                         photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:100px;'/>";
                     }
                     return row.user + photo;

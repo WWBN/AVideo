@@ -164,11 +164,12 @@ function get_browser_name($user_agent = "")
     $t = " " . $t;
 
     // Humans / Regular Users
-    if (isAVideoStreamer($t)) {
+    // These detectors match case-sensitively against the real UA, so pass $user_agent (not the lowercased $t)
+    if (isAVideoMobileApp($user_agent)) {
         return 'AVideo Mobile App';
-    } elseif ($url = isAVideoEncoder($t)) {
+    } elseif ($url = isAVideoEncoder($user_agent)) {
         return 'AVideo Encoder ' . $url;
-    } elseif ($url = isAVideoStreamer($t)) {
+    } elseif ($url = isAVideoStreamer($user_agent)) {
         return 'AVideo Streamer ' . $url;
     } elseif (strpos($t, 'crkey')) {
         return 'Chromecast';
@@ -305,7 +306,7 @@ function getOS($user_agent = "")
             '/tizen/i' => 'Tizen',
             '/webos tv/i' => 'WebOS TV'
         ];
-        
+
 
         foreach ($os_array as $regex => $value) {
             if (preg_match($regex, $user_agent)) {

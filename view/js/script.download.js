@@ -64,7 +64,7 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
                 avideoResponse(response);
             }
 
-            //downloadURLOrAlertModal.hidePleaseWait();
+            downloadURLOrAlertModalHideShow(false);
         }
     });
 }

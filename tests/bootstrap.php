@@ -156,3 +156,13 @@ if (!function_exists('cleanString')) {
         return trim($text);
     }
 }
+
+// Stub for isCommandLineInterface() - mirrors objects/functions.php's real implementation
+// (empty($_GET['ignoreCommandLineInterface']) && php_sapi_name() === 'cli') so tests can
+// exercise CLI-guarded code paths by setting $_GET['ignoreCommandLineInterface'] = 1.
+if (!function_exists('isCommandLineInterface')) {
+    function isCommandLineInterface()
+    {
+        return (empty($_GET['ignoreCommandLineInterface']) && php_sapi_name() === 'cli');
+    }
+}

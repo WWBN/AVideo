@@ -227,6 +227,9 @@ if (!$searchForVideosNow) {
             avideoSocket();
             loadVideosListPageTransformLinks();
             modal.hidePleaseWait();
+        }).fail(function () {
+            loadVideosListPageIsLoading = false;
+            modal.hidePleaseWait();
         });
     }
     function loadVideosListPageTransformLinks() {

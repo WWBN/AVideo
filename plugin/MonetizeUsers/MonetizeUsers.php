@@ -31,7 +31,7 @@ class MonetizeUsers extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "3.1";
+        return "3.2";
     }
 
     public function getEmptyDataObject() {
@@ -100,7 +100,10 @@ class MonetizeUsers extends PluginAbstract {
                 $rows = VideosStatistics::getVideosToReward($percentage_watched, $only_logged_users, $users_id);
                 //_error_log("Checking rewardMinimumViewPercentage {$percentage_watched}% ");
                 //var_dump($percentage_watched);
-                $ids_array = array();
+                // flush setRewarded() in small batches instead of once per row: bounds the re-pay-on-crash
+                // window without turning every reward into its own extra write + audit event
+                $rewardedBatchSize = 25;
+                $rewardedBatch = array();
                 foreach ($rows as $value) {
                     if ($value['video_owner_users_id'] == $value['users_id']) {
                         continue; // Prevent exploitation of free money; Don't award money if viewer is uploader
@@ -108,7 +111,6 @@ class MonetizeUsers extends PluginAbstract {
                     if (is_null($value['percentage_watched'])) {
                         continue; // Prevent exploitation of free money; Don't award money if viewer is uploader
                     }
-                    $ids_array[] = $value['id'];
                     //var_dump($value);
                     //var_dump("seconds_watching_video={$value["seconds_watching_video"]} duration_in_seconds={$value["duration_in_seconds"]} {$value["percentage_watched"]}%");
                     $this->rewardAndSaveLog(
@@ -118,8 +120,15 @@ class MonetizeUsers extends PluginAbstract {
                             $value['seconds_watching_video'],
                             $value['created'],
                             $value['users_id']);
+                    $rewardedBatch[] = $value['id'];
+                    if (count($rewardedBatch) >= $rewardedBatchSize) {
+                        VideosStatistics::setRewarded($rewardedBatch);
+                        $rewardedBatch = array();
+                    }
                 }
-                VideosStatistics::setRewarded($ids_array);
+                if (!empty($rewardedBatch)) {
+                    VideosStatistics::setRewarded($rewardedBatch);
+                }
             }else{
                 _error_log("VideosStatistics is disabled ");
             }

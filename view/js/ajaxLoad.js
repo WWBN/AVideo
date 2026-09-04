@@ -6,7 +6,7 @@ function queryAndProcessURL(url) {
         $('body').addClass('_avideoPageContentLoading');
         console.log('a.ajaxLoad _avideoPageContent is present locally');
         var urlA = addQueryStringParameter(url, 'avideoIframe', 1);
-        var urlA = addQueryStringParameter(url, 'ajaxLoad', 1);
+        urlA = addQueryStringParameter(urlA, 'ajaxLoad', 1);
         $.ajax({
             url: urlA,
             type: 'GET',
@@ -33,7 +33,7 @@ function queryAndProcessURL(url) {
 
                             // Replace all <meta> tags
                             replaceMetaTags(tempDiv);
-                            
+
                             addNewScriptFiles(tempDiv);
 
                             replaceInlineCSS(tempDiv);
@@ -74,7 +74,7 @@ function addNewCSSFiles(tempDiv) {
     // Check each CSS link in tempDiv
     tempDiv.find('link[rel="stylesheet"]').each(function () {
         const tempHref = getBaseURL($(this).attr('href'));
-        
+
         // Find the corresponding CSS link in <head> (ignoring parameters)
         let existsInHead = false;
         $('head link[rel="stylesheet"]').each(function () {

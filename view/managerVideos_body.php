@@ -1248,6 +1248,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 setTimeout(function() {
                     waitToSubmit = false;
                 }, 3000);
+            },
+            error: function() {
+                avideoAlertError(__("Your video has NOT been saved!"));
+                modalSaveVideo.hidePleaseWait();
+                waitToSubmit = false;
             }
         });
         return false;

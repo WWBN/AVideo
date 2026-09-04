@@ -17,7 +17,7 @@ function isAVideoMobileApp($user_agent = "")
         return false;
     }
     global $AVideoMobileAPP_UA;
-    if (preg_match("/{$AVideoMobileAPP_UA}(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)) {
+    if (preg_match("/{$AVideoMobileAPP_UA}(.*)/", $user_agent, $match)) {
         $url = trim($match[1]);
         if (!empty($url)) {
             return $url;
@@ -71,7 +71,7 @@ function isAVideo($user_agent = "")
         return false;
     }
     global $AVideoEncoder_UA;
-    if (preg_match("/AVideo(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)) {
+    if (preg_match("/AVideo(.*)/", $user_agent, $match)) {
         $url = trim($match[1]);
         if (!empty($url)) {
             return $url;
@@ -112,7 +112,7 @@ function isAVideoStreamer($user_agent = "")
     // SECURITY: prefer saltV2 (CSPRNG) over legacy salt (uniqid-derived, brute-forceable)
     $activeSalt = !empty($global['saltV2']) ? $global['saltV2'] : $global['salt'];
     $md5 = md5($activeSalt);
-    if (preg_match("/{$AVideoStreamer_UA}_{$md5}/", $_SERVER["HTTP_USER_AGENT"])) {
+    if (preg_match("/{$AVideoStreamer_UA}_{$md5}/", $user_agent)) {
         return true;
     }
     return false;
@@ -155,7 +155,7 @@ function isAVideoStorage($user_agent = "")
         return false;
     }
     global $AVideoStorage_UA;
-    if (preg_match("/{$AVideoStorage_UA}(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)) {
+    if (preg_match("/{$AVideoStorage_UA}(.*)/", $user_agent, $match)) {
         $url = trim($match[1]);
         if (!empty($url)) {
             return $url;
