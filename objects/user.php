@@ -1377,6 +1377,7 @@ if (typeof gtag !== \"function\") {
             $string = decryptString($_COOKIE['credentials']);
             $array = json_decode($string);
             if (empty($array) || !is_object($array)) {
+                _error_log("getUserCookieCredentials: cookie could not be decrypted/decoded, cookieLen=" . strlen($_COOKIE['credentials']));
                 self::unsetUserCookie();
                 return false;
             }
@@ -1400,6 +1401,7 @@ if (typeof gtag !== \"function\") {
             }
 
             if (empty($array->users_id) || empty($array->user) || empty($array->pass) || empty($array->ip)) {
+                _error_log("getUserCookieCredentials: missing required field(s) users_id=" . (empty($array->users_id) ? 'MISSING' : $array->users_id) . " user=" . (empty($array->user) ? 'MISSING' : 'ok') . " pass=" . (empty($array->pass) ? 'MISSING' : 'ok') . " ip=" . (empty($array->ip) ? 'MISSING' : $array->ip));
                 self::unsetUserCookie();
                 return false;
             }
@@ -1551,14 +1553,19 @@ if (typeof gtag !== \"function\") {
                 //_error_log("user::recreateLoginFromCookie: resp=$resp");
 
                 $userCookie = User::getUserCookieCredentials();
-                if (!empty($userCookie) && $user->id != $userCookie->users_id) {
+                // Compare against the session id login() actually set, not $user->id: the
+                // constructor (new User(0, ...)) and login() never populate the object's own
+                // $id property, so $user->id was always empty and this check used to fire on
+                // every successful cookie-login too, immediately undoing it via logoff().
+                $loggedInUserId = $_SESSION['user']['id'] ?? null;
+                if (!empty($userCookie) && $loggedInUserId != $userCookie->users_id) {
                     _error_log("user::recreateLoginFromCookie: do logoff because the cookie users_id does not match: {$userCookie->user} result: " . $resp);
                     self::logoff();
                 } else {
                     if (User::USER_LOGGED == $resp) {
                         _error_log("user::recreateLoginFromCookie: do cookie-login: {$userCookie->user} [{$userCookie->id}]  id: " . $_SESSION['user']['id']);
                     } else {
-                        //_error_log("user::recreateLoginFromCookie: do cookie-login: user={$userCookie->user} [{$userCookie->id}]  pass={$userCookie->pass} login does not match resp=$resp");
+                        _error_log("user::recreateLoginFromCookie: cookie login failed for user={$userCookie->user} resp=$resp, logging off");
                         if ($resp != User::SYSTEM_ERROR) {
                             self::logoff();
                         }
@@ -1568,9 +1575,25 @@ if (typeof gtag !== \"function\") {
         }
     }
 
+    // Logs a trace if a user was logged in earlier THIS request and is now gone with no
+    // logoff() in between - helps root-cause a future "logged out with no explanation" report.
+    private static function warnIfSessionUnexpectedlyEmptied($context)
+    {
+        global $justLogoff, $sessionHadLoggedUserThisRequest;
+        $currentUserId = $_SESSION['user']['id'] ?? null;
+        if (!empty($currentUserId)) {
+            $sessionHadLoggedUserThisRequest = $currentUserId;
+            return;
+        }
+        if (!empty($sessionHadLoggedUserThisRequest) && empty($justLogoff)) {
+            _error_log("[SESSION_DEBUG] {$context}: session unexpectedly empty this request, had users_id={$sessionHadLoggedUserThisRequest} now=empty sessionId=" . session_id() . " sessionStatus=" . session_status() . " script=" . ($_SERVER['SCRIPT_NAME'] ?? '') . " trace=" . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 8)));
+        }
+    }
+
     public static function isLogged($checkForRequestLogin = false)
     {
         self::recreateLoginFromCookie();
+        self::warnIfSessionUnexpectedlyEmptied('isLogged');
         $isLogged = !empty($_SESSION['user']['id']);
         if (empty($isLogged) && $checkForRequestLogin) {
             self::loginFromRequest();
@@ -1583,6 +1606,7 @@ if (typeof gtag !== \"function\") {
     public static function isVerified()
     {
         self::recreateLoginFromCookie();
+        self::warnIfSessionUnexpectedlyEmptied('isVerified');
         return !empty($_SESSION['user']['emailVerified']);
     }
 
@@ -1594,6 +1618,7 @@ if (typeof gtag !== \"function\") {
         }
 
         self::recreateLoginFromCookie();
+        self::warnIfSessionUnexpectedlyEmptied('isAdmin');
         return !empty($_SESSION['user']['isAdmin']);
     }
 
