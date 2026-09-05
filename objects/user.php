@@ -857,6 +857,15 @@ if (typeof gtag !== \"function\") {
 
         $user = ($this->user);
         $password = ($this->password);
+        // SECURITY: last line of defense - this column must only ever hold the app's
+        // hash (32 lowercase-hex chars, md5(whirlpool(sha1(...)))). If any caller ever
+        // reaches save() with a raw/unencrypted value (whatever the cause), hash it now
+        // instead of persisting plaintext, and alert so the real caller can be traced.
+        if (!empty($password) && !preg_match('/^[a-f0-9]{32}$/', $password)) {
+            _error_log("SECURITY: User:save blocked a non-hash password for user={$user}, auto-encrypting instead of storing it raw. " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10)), AVideoLog::$SECURITY);
+            $password = encryptPassword($password);
+            $this->password = $password;
+        }
         $name = ($this->name);
         $status = ($this->status);
         $this->about = preg_replace("/(\\\)+n/", "\n", "{$this->about}");
@@ -1826,7 +1835,16 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if (!empty($result)) {
             if ($pass !== false) {
-                if (!encryptPasswordVerify($pass, $result['password'], $encodedPass)) {
+                // SECURITY self-heal: the password column must always be a 32-hex-char hash.
+                // If it is not, and the submitted value matches it byte-for-byte, a since-fixed
+                // bug previously stored the real password here as plaintext (see the hash-shape
+                // guard in save()). Re-hash it now instead of permanently locking the account out
+                // and leaving the plaintext sitting in the DB.
+                if (!preg_match('/^[a-f0-9]{32}$/', (string) $result['password']) && $pass !== '' && hash_equals((string) $result['password'], (string) $pass)) {
+                    _error_log("SECURITY: User::find repairing a plaintext password found for user={$result['user']} (id={$result['id']})", AVideoLog::$SECURITY);
+                    $result['password'] = encryptPassword($pass);
+                    sqlDAL::writeSql("UPDATE users SET password = ? WHERE id = ?", "si", [$result['password'], $result['id']]);
+                } elseif (!encryptPasswordVerify($pass, $result['password'], $encodedPass)) {
                     if (!empty($advancedCustom) && $advancedCustom->enableOldPassHashCheck) {
                         //_error_log("Password check new hash pass does not match, trying MD5");
                         return ($this->find_Old($user, $pass, $mustBeactive, $encodedPass));
@@ -2198,7 +2216,11 @@ if (typeof gtag !== \"function\") {
         if (strpos($password, "_user_hash_") === 0) {
             $passwordFromHash = User::getPasswordFromUserHashIfTheItIsValid($password);
             if (!empty($passwordFromHash)) {
+                // getPasswordFromUserHashIfTheItIsValid() already returns the stored,
+                // already-hashed DB value - hashing it again here would silently change
+                // the account's real password to an unrelated value on the next save().
                 $password = $passwordFromHash;
+                $doNotEncrypt = true;
             }
         }
         if (!empty($password)) {
