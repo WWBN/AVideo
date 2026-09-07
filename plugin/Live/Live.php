@@ -1366,6 +1366,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
      * OR if it presents the correct callbackSecret configured in the Live plugin settings.
      * On rejection, logs IP/method/agent for identification and explains how to fix the config.
      * Call this at the very top of each callback file, before any parse_str() overwrites $_GET.
+     *
+     * NOTE: pointing your NGINX/RTMP domain to a loopback/private address via /etc/hosts is
+     * NOT a supported fix — it only works because it makes REMOTE_ADDR look private/loopback
+     * to this check. Use the "RTMP Callback Secret" setting instead (see log message below).
      */
     public static function assertRtmpCallbackAllowed()
     {
@@ -1384,10 +1388,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $remoteIP  = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
         $userAgent = preg_replace('/[\r\n]+/', ' ', $_SERVER['HTTP_USER_AGENT'] ?? 'unknown');
         $method    = $_SERVER['REQUEST_METHOD'] ?? 'unknown';
-        _error_log("{$callerFile}: rejected external request — ip={$remoteIP} method={$method} agent={$userAgent}", AVideoLog::$SECURITY);
+        $impact = [
+            'on_publish.php'      => 'the live stream will be REJECTED and will not start playing',
+            'on_publish_done.php' => 'the live stream will not be marked as finished/offline',
+            'on_record_done.php'  => 'the finished recording will NOT be sent to SendRecordedToEncoder and the video will NOT be saved',
+        ][$callerFile] ?? 'this RTMP callback will be blocked';
+        _error_log("{$callerFile}: BLOCKED an RTMP callback because it did not come from a private/loopback IP and no valid callbackSecret was presented — impact: {$impact}. ip={$remoteIP} method={$method} agent={$userAgent}", AVideoLog::$SECURITY);
 
         if (empty($secretConfigured)) {
-            _error_log("{$callerFile}: callbackSecret is not set. If your NGINX is external, go to Admin > Plugins > Live > Settings, set a strong \"RTMP Callback Secret\", then add ?secret=YOUR_SECRET to {$callerFile} in nginx.conf", AVideoLog::$SECURITY);
+            _error_log("{$callerFile}: callbackSecret is not set. If your NGINX/Live Server runs on a different host than this app (so REMOTE_ADDR={$remoteIP} is not private/loopback), go to Admin > Plugins > Live > Settings, set a strong \"RTMP Callback Secret\", then add ?secret=YOUR_SECRET to the on_publish/on_publish_done/on_record_done URLs in nginx.conf. Do NOT try to work around this via /etc/hosts — that only masks the real IP seen by this check.", AVideoLog::$SECURITY);
         } else {
             _error_log("{$callerFile}: callbackSecret is configured but the request did not present the correct secret. Check that ?secret=YOUR_SECRET is appended to {$callerFile} in nginx.conf", AVideoLog::$SECURITY);
         }
