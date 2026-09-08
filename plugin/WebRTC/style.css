@@ -11,21 +11,36 @@ video {
     background: black;
 }
 
+/* Wraps the 3 status indicators; positions them as a group (video.php) */
+.webrtc-topbar {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 20;
+}
+
 .indicator {
     font-family: Arial, Helvetica, sans-serif;
-    position: absolute;
-    bottom: 25px;
-    left: 25px;
     color: white;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
-    padding: 2px 4px;
-    border-radius: 50%;
-    z-index: 10;
-    display: flex;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding: 6px 12px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, .25);
+}
+
+.indicator-icon {
+    position: relative;
+    display: inline-flex;
+    width: 14px;
+    height: 14px;
     align-items: center;
     justify-content: center;
-    border: 2px solid transparent;
 }
 
 /* Offline Indicator */
@@ -70,14 +85,6 @@ video {
     display: block !important;
 }
 
-.isLive .showWhenIsLive {
-    display: block !important;
-}
-
-.isLive .showWhenIsNotLive {
-    display: none !important;
-}
-
 .showWhenWebRTCIsConnected,
 .showWhenWebRTCIsNotConnected,
 .webCamIsOn .showWhenWebCamIsOff,
@@ -97,7 +104,41 @@ video {
     display: block !important;
 }
 
-#webcamMediaControls, #webcamMediaControlsMessage {
+/* Must come after the WebcamServerConnected/NotConnected rules above (equal specificity, both
+   !important) so live state correctly overrides "connected" for elements combining both classes
+   (e.g. #onLineIndicator = showWhenWebRTCIsConnected + showWhenIsNotLive). */
+.isLive .showWhenIsLive {
+    display: block !important;
+}
+
+.isLive .showWhenIsNotLive {
+    display: none !important;
+}
+
+/* The generic show/hide rules above hard-code display:block, which breaks the indicator's
+   icon+label row layout. An ID selector outweighs the class-only rules above (even with
+   !important) so these win regardless of source order; the isLive one still needs to come
+   after the WebcamServerConnected one so "live" correctly hides the "ready" pill. */
+.WebcamServerConnected #onLineIndicator.showWhenWebRTCIsConnected,
+.WebcamServerNotConnected #offLineIndicator.showWhenWebRTCIsNotConnected {
+    display: inline-flex !important;
+}
+
+.isLive #liveIndicator.showWhenIsLive {
+    display: inline-flex !important;
+}
+
+.isLive #onLineIndicator.showWhenIsNotLive {
+    display: none !important;
+}
+
+/* Quick Go Live: keep the Start button hidden until the user confirms camera/microphone setup.
+   Scoped to body.quickGoLiveMode so the manual Webcam tab is unaffected. */
+body.quickGoLiveMode.webCamIsOn:not(.webrtcSetupConfirmed) #startLive {
+    display: none !important;
+}
+
+#webcamMediaControlsMessage {
     position: fixed;
     bottom: 10px;
     width: 100%;

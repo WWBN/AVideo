@@ -16,7 +16,7 @@
         title="<?php echo __('Stop your webcam'); ?>" data-toggle="tooltip" >
         <div>
             <i class="fa-solid fa-camera"></i>
-            <i class="fa-solid fa-slash" style="position: absolute; left: 10px; top: 8px;"></i>
+            <i class="fa-solid fa-slash" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
         </div>
     </button>
 
@@ -31,6 +31,7 @@
 
     <button 
         type="button" 
+        id="toggleMediaSelectorButton"
         class="btn btn-default oval-menu animate__animated animate__bounceIn" 
         onclick="toggleMediaSelector();" 
         style="-webkit-animation-delay: .4s; animation-delay: .4s;" 
