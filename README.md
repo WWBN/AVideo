@@ -1,3 +1,5 @@
+[فارسی](README.fa.md)
+
 # First thing...
 
 I thank God for graciously, through His mercy, giving me all the necessary knowledge acquired throughout my life and throughout the development of this project. It is only through His grace and provision that this was possible, and I am truly grateful for His presence every step of the way.
