@@ -14,10 +14,10 @@ $key = Live::getKeyFromUser(User::getId());
 </script>
 <link href="<?php echo getURL('plugin/WebRTC/style.css'); ?>" rel="stylesheet" type="text/css" />
 <div id="webrtcTopBar" class="webrtc-topbar">
-    <div id="offLineIndicator" 
-         class="showWhenWebRTCIsNotConnected indicator" 
-         style="display: none;" 
-         title="<?php echo __('You are offline. Please check your connection.'); ?>" 
+    <div id="offLineIndicator"
+         class="showWhenWebRTCIsNotConnected indicator"
+         style="display: none;"
+         title="<?php echo __('You are offline. Please check your connection.'); ?>"
          data-toggle="tooltip">
         <div class="indicator-icon">
             <i class="fa-solid fa-wifi"></i>
@@ -25,20 +25,20 @@ $key = Live::getKeyFromUser(User::getId());
         </div>
         <span class="indicator-label"><?php echo __('Offline'); ?></span>
     </div>
-    <div id="onLineIndicator" 
-         class="showWhenWebRTCIsConnected showWhenIsNotLive indicator" 
-         style="display: none;" 
-         title="<?php echo __('You are online and ready to go live.'); ?>" 
+    <div id="onLineIndicator"
+         class="showWhenWebRTCIsConnected showWhenIsNotLive indicator"
+         style="display: none;"
+         title="<?php echo __('You are online and ready to go live.'); ?>"
          data-toggle="tooltip">
         <div class="indicator-icon">
             <i class="fa-solid fa-wifi"></i>
         </div>
         <span class="indicator-label"><?php echo __('Ready'); ?></span>
     </div>
-    <div id="liveIndicator" 
-         class="showWhenIsLive indicator" 
-         style="display: none;" 
-         title="<?php echo __('You are live now.'); ?>" 
+    <div id="liveIndicator"
+         class="showWhenIsLive indicator"
+         style="display: none;"
+         title="<?php echo __('You are live now.'); ?>"
          data-toggle="tooltip">
         <div class="indicator-icon">
             <i class="fa-solid fa-circle"></i>
