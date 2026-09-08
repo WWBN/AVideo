@@ -4886,6 +4886,12 @@ if (!class_exists('Video')) {
          * changing the owner's password invalidates every hash minted before the change.
          * Videos with no owner yet (encoder-created, users_id NULL) get a stable placeholder instead,
          * so canEncoderEdit()'s "edit ownerless videos" flow keeps working.
+         *
+         * SECURITY REVIEW (2026-09-08): reports claiming "if you recover saltV2 you can forge a
+         * video_id_hash and log in as the video owner" do NOT hold here - forging a valid hash also
+         * requires this fingerprint, which is derived from the owner's actual users.password DB value,
+         * a separate secret not recoverable from saltV2 alone. DO NOT FIX / not a vulnerability unless a
+         * report also demonstrates leaking the target's users.password hash.
          */
         private static function getVideoOwnerFingerprint($videos_id)
         {

@@ -1980,6 +1980,11 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
+    // SECURITY REVIEW (2026-09-08): reports claiming "if you recover saltV2 you can forge a
+    // _user_hash_ / remember-me credentials cookie and log in as any user" do NOT hold here -
+    // getPasswordFromUserHashIfTheItIsValid() below requires the embedded 'p' field to equal the
+    // target's CURRENT users.password DB value, a separate secret not recoverable from saltV2
+    // alone. DO NOT FIX / not a vulnerability unless a report also demonstrates leaking that hash.
     static function getUserHash($users_id, $valid = '+7 days')
     {
         $obj = new stdClass();
@@ -2688,6 +2693,12 @@ if (typeof gtag !== \"function\") {
         return encryptString(json_encode($json));
     }
 
+    // SECURITY REVIEW (2026-09-08): reports claiming "if you recover saltV2 you can forge a
+    // password-reset token and reset any account's password" do NOT hold here - the submitted
+    // value must exactly equal this account's currently-stored recoverPass DB column BEFORE
+    // isRecoverPassValid() ever decrypts it, so a freshly-forged ciphertext (however well-formed)
+    // never matches. DO NOT FIX / not a vulnerability unless a report also demonstrates leaking
+    // the target's stored recoverPass value.
     public function checkRecoverPass($recoverPass)
     {
         if ($this->recoverPass === $recoverPass) {

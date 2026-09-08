@@ -2,21 +2,12 @@
 require_once __DIR__ . '/../vendor/erusev/parsedown/Parsedown.php';
 /*
 secure salt in PHP using standard characters and numbers.
-This code will generate a 10 to 32-character string
+This code generates a full 32-character (128-bit) hex string.
 */
 function _uniqid() {
-    // Generate 16 bytes of random data
-    $randomBytes = random_bytes(16);
-
-    // Convert the binary data to a hexadecimal string
-    $hex = bin2hex($randomBytes);
-
-    // If you want a variable length output, you can truncate the MD5 hash
-    // For example, to get a random length between 10 and 32 characters:
-    $randomLength = rand(10, 32);
-    $randomString = substr($hex, 0, $randomLength);
-
-    return $randomString;
+    // SECURITY: return the full hex string - truncating it to a random 10-32
+    // char length (as this used to do) throws away up to 88 bits of entropy.
+    return bin2hex(random_bytes(16));
 }
 
 /**
