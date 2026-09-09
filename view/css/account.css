@@ -27,6 +27,12 @@
 .accountSave > hr { display: none; }
 .accountSave > div { padding: 0; }
 .accountSave center { text-align: right; }
+.accountForm > .accountDocument { grid-column: 1 / -1; min-width: 0; padding-top: 10px; }
+.accountDocument > .col-md-12 { width: 100%; min-width: 0; padding: 0; }
+.accountDocument #documentImage { max-width: 100%; }
+.accountDocument .cr-boundary { max-width: 100%; border-radius: 10px; }
+.accountDocument .cr-slider-wrap { max-width: 100%; }
+.accountDocument #upload-btnDocument { white-space: normal; }
 .accountPanel .btn:focus-visible, .accountTabs a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 @container (max-width: 700px) {
     .accountForm { grid-template-columns: minmax(0, 1fr); }
