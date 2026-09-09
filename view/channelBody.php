@@ -176,7 +176,7 @@ function tabContentClass(string $tab): string
 <div class="clearfix"></div>
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="gallery">
+        <div class="gallery galleryLayout">
             <div class="row clearfix">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <center style="margin:5px;">
