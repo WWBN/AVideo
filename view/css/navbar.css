@@ -551,11 +551,19 @@ li.navsub-toggle a+ul {
 .searchFilterFooter { display: flex; justify-content: flex-end; }
 .searchFilterFooter .btn { border-radius: 8px; min-width: 120px; }
 
-/* Reusable action dropdown, including plugin-provided upload entries. */
-#mainNavBar .actionMenu { width: 320px; min-width: 0; max-width: calc(100vw - 16px); padding: 8px; border-radius: 14px; }
-#mainNavBar .actionMenu > .dropdown-header { padding: 8px 10px 12px; white-space: normal; font-size: 14px; font-weight: 600; color: inherit; }
-#mainNavBar .actionMenu > li > a,
-#mainNavBar .actionMenu > li > button { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 9px; white-space: normal; overflow-wrap: anywhere; line-height: 1.45; }
-#mainNavBar .actionMenu > li > a > :is(i, svg, .fa, .fas, .far) { flex: 0 0 24px; width: 24px; text-align: center; font-size: 18px; }
-#mainNavBar .actionMenu > li > a:focus-visible,
-#mainNavBar .actionMenu > li > button:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+/* Shared topbar action menus. Panels retain their own content layouts. */
+#mainNavBar :is(.actionMenu, .items-container .dropdown-menu:where(:not(.panel, .notificationMenu))) { width: 320px; min-width: 0; max-width: calc(100vw - 16px); padding: 8px; border-radius: 14px; }
+#mainNavBar :is(.actionMenu, .items-container .dropdown-menu:where(:not(.panel, .notificationMenu))) > .dropdown-header { padding: 8px 10px 12px; white-space: normal; font-size: 14px; font-weight: 600; color: inherit; }
+#mainNavBar :is(.actionMenu, .items-container .dropdown-menu:where(:not(.panel, .notificationMenu))) > li > a,
+#mainNavBar :is(.actionMenu, .items-container .dropdown-menu:where(:not(.panel, .notificationMenu))) > li > button { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 9px; white-space: normal; overflow-wrap: anywhere; line-height: 1.45; }
+#mainNavBar :is(.actionMenu, .items-container .dropdown-menu:where(:not(.panel, .notificationMenu))) > li > :is(a, button) > :is(i, svg, .fa, .fas, .far, .fa-solid, .fa-regular) { flex: 0 0 24px; width: 24px; text-align: center; font-size: 18px; }
+#mainNavBar :is(.actionMenu, .items-container .dropdown-menu:where(:not(.panel, .notificationMenu))) > li > a:focus-visible,
+#mainNavBar :is(.actionMenu, .items-container .dropdown-menu:where(:not(.panel, .notificationMenu))) > li > button:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+
+#mainNavBar .items-container .dropdown-menu { border-radius: 14px; }
+#mainNavBar .items-container .dropdown-menu > li { flex: none; display: block; }
+#mainNavBar .items-container .dropdown-menu > .divider { margin: 6px 4px; }
+#mainNavBar .items-container .dropdown-menu-arrow::before,
+#mainNavBar .items-container .dropdown-menu-arrow::after { display: none; }
+
+#mainNavBar .items-container .dropdown-menu > li > button { width: 100%; text-align: left; }
