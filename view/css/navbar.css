@@ -550,3 +550,12 @@ li.navsub-toggle a+ul {
 .searchFilterPanel .form-check-label:focus-within { outline: 2px solid currentColor; outline-offset: -2px; }
 .searchFilterFooter { display: flex; justify-content: flex-end; }
 .searchFilterFooter .btn { border-radius: 8px; min-width: 120px; }
+
+/* Reusable action dropdown, including plugin-provided upload entries. */
+#mainNavBar .actionMenu { width: 320px; min-width: 0; max-width: calc(100vw - 16px); padding: 8px; border-radius: 14px; }
+#mainNavBar .actionMenu > .dropdown-header { padding: 8px 10px 12px; white-space: normal; font-size: 14px; font-weight: 600; color: inherit; }
+#mainNavBar .actionMenu > li > a,
+#mainNavBar .actionMenu > li > button { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 9px; white-space: normal; overflow-wrap: anywhere; line-height: 1.45; }
+#mainNavBar .actionMenu > li > a > :is(i, svg, .fa, .fas, .far) { flex: 0 0 24px; width: 24px; text-align: center; font-size: 18px; }
+#mainNavBar .actionMenu > li > a:focus-visible,
+#mainNavBar .actionMenu > li > button:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }

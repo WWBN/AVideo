@@ -1,16 +1,18 @@
 <!-- right menu start -->
 <li class="dropdown hasNothingToDelete hasNothingToShow" id="topMenuUserNotifications">    
-    <a href="#" class="faa-parent animated-hover btn btn-default btn-light navbar-btn hideWhenHasNothingToShow" data-toggle="dropdown" >
+    <a href="#" class="faa-parent animated-hover btn btn-default btn-light navbar-btn hideWhenHasNothingToShow" data-toggle="dropdown" data-target="#topMenuUserNotifications" aria-expanded="false" aria-label="<?php echo __('Notifications'); ?>">
         <i class="fas fa-bell faa-ring" data-toggle="tooltip" title="<?php echo __('Notifications'); ?>" data-placement="bottom" ></i>
         <span class="badge animate_animated animate__bounceIn">0</span>
     </a>
     <div class="hideWhenHasSomethingToShow">
-        <a href="#" class="btn btn-default btn-light navbar-btn" data-toggle="dropdown" >
+        <a href="#" class="btn btn-default btn-light navbar-btn" data-toggle="dropdown" data-target="#topMenuUserNotifications" aria-expanded="false" aria-label="<?php echo __('Notifications'); ?>">
             <i class="fas fa-bell-slash text-muted" data-toggle="tooltip" title="<?php echo __('There are no notifications'); ?>" data-placement="bottom" ></i>
         </a>
     </div>
-    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-arrow hideWhenHasNothingToShow">
-        <div class="btn-group btn-group-justified">
+    <ul class="dropdown-menu dropdown-menu-right notificationMenu">
+        <li class="dropdown-header notificationHeading"><?php echo __('Notifications'); ?></li>
+        <li class="notificationEmpty hideWhenHasSomethingToShow text-muted text-center"><?php echo __('There are no notifications'); ?></li>
+        <div class="btn-group btn-group-justified hideWhenHasNothingToShow">
             <?php
             echo AVideoPlugin::getUserNotificationButton();
             ?>

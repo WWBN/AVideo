@@ -8,7 +8,8 @@
         if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
             echo '<!-- navbar line ' . __LINE__ . '-->';
             ?>
-            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-arrow " role="menu" id="uploadMenu">
+            <ul class="dropdown-menu dropdown-menu-right actionMenu " role="menu" id="uploadMenu">
+                <li class="dropdown-header"><?php echo __("Submit your videos"); ?></li>
                 <?php
                 include $global['systemRootPath'] . 'view/include/navbarEncoder.php';
                 //var_dump(CustomizeAdvanced::showDirectUploadButton());exit;
@@ -57,7 +58,8 @@
         } else {
             echo '<!-- navbar line ' . __LINE__ . '-->';
             ?>
-            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-arrow " role="menu" id="uploadMenu">
+            <ul class="dropdown-menu dropdown-menu-right actionMenu " role="menu" id="uploadMenu">
+                <li class="dropdown-header"><?php echo __("Submit your videos"); ?></li>
                 <li>
                     <a  href="" >
                         <span class="fa fa-exclamation faa-flash animated"></span> <?php echo __("Only verified users can upload"); ?>

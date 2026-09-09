@@ -12,7 +12,8 @@ if (!empty($getUploadMenuButton)) {
                 <i class="<?php echo $advancedCustom->uploadButtonDropdownIcon ?? "fas fa-video"; ?>"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? __($advancedCustom->uploadButtonDropdownText) : ""; ?> <span class="caret"></span>
             </button>
             <?php echo '<!-- navbar line ' . __LINE__ . '-->'; ?>
-            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-arrow " role="menu" id="uploadMenu">
+            <ul class="dropdown-menu dropdown-menu-right actionMenu " role="menu" id="uploadMenu">
+                <li class="dropdown-header"><?php echo __("Submit your videos"); ?></li>
                 <?php echo $getUploadMenuButton; ?>
             </ul>
         </div>

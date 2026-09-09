@@ -338,10 +338,14 @@ $(function () {
         $menu.data('navbarScrollAnchor', anchor);
         var rect = anchor.getBoundingClientRect();
         var bounds = strip.getBoundingClientRect();
-        var width = Math.min($menu.outerWidth() || $menu.find('.select2-dropdown').outerWidth() || rect.width, window.innerWidth - 16);
-        var left = Math.max(8, Math.min(rect.left, bounds.right - width, window.innerWidth - width - 8));
+        var navbarBounds = document.getElementById('mainNavBar').getBoundingClientRect();
+        var availableLeft = Math.max(0, navbarBounds.left) + 8;
+        var availableRight = Math.min(window.innerWidth, navbarBounds.right) - 8;
+        var availableWidth = Math.max(0, availableRight - availableLeft);
+        var width = Math.min($menu.outerWidth() || $menu.find('.select2-dropdown').outerWidth() || rect.width, availableWidth);
+        var left = Math.max(availableLeft, Math.min(rect.left, bounds.right - width, availableRight - width));
         $menu.css({position: 'fixed', left: left, right: 'auto', top: rect.bottom + 4, bottom: 'auto',
-            maxWidth: window.innerWidth - 16, maxHeight: Math.max(80, window.innerHeight - rect.bottom - 12)});
+            maxWidth: availableWidth, maxHeight: Math.max(0, window.innerHeight - rect.bottom - 12)});
     }
     function syncDropdowns() {
         $strip.find('.dropdown-menu').each(function () {
@@ -351,7 +355,8 @@ $(function () {
                 if (!$menu.hasClass('navbarScrollDropdown')) {
                     $menu.data('navbarOriginalStyle', $menu.attr('style') || '').addClass('navbarScrollDropdown');
                 }
-                positionMenu($menu, $parent.children('[data-toggle="dropdown"]')[0] || $parent[0]);
+                var $toggle = $parent.find('[data-toggle="dropdown"]').filter(':visible').first();
+                positionMenu($menu, $toggle[0] || $parent[0]);
             } else if ($menu.hasClass('navbarScrollDropdown')) {
                 $menu.removeClass('navbarScrollDropdown').attr('style', $menu.data('navbarOriginalStyle'));
             }
