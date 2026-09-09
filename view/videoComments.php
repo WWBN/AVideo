@@ -10,6 +10,7 @@ if (User::canSeeCommentTextarea()) {
     if (!empty($advancedCustom->commentsNoIndex)) {
         echo "<!-- advancedCustom->commentsNoIndex-->";
     }
+    echo '<link rel="stylesheet" href="' . getURL('view/css/comments.css') . '">';
     include $global['systemRootPath'] . 'view/videoComments_textarea.php';
     $commentTemplate = json_encode(file_get_contents($global['systemRootPath'] . 'view/videoComments_template.php'));
 
@@ -33,90 +34,11 @@ if (User::canSeeCommentTextarea()) {
         $class .= ' withVideosId';
     }
 ?>
-    <style>
-        #commentsArea {
-            margin-top: 15px;
-        }
 
-        #commentsArea .media {
-            background-color: #88888808;
-            padding: 0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        #commentsArea .media:hover {
-            background-color: #88888810;
-        }
-
-        #commentsArea .media .media-left {
-            margin-left: 5px;
-        }
-
-        #commentsArea.removeThumbsUpAndDown .hideIfremoveThumbsUpAndDown,
-        #commentsArea.canNotComment .hideIfCanNotComment,
-        #commentsArea.canComment .hideIfcanComment,
-        #commentsArea .userCanNotAdminComment .hideIfUserCanNotAdminComment,
-        #commentsArea .userCanNotEditComment .hideIfUserCanNotEditComment,
-        #commentsArea.userNotLogged .hideIfUserNotLogged,
-        #commentsArea.userLogged .hideIfUserLogged,
-        #commentsArea .isNotPinned .hideIfIsUnpinned,
-        #commentsArea .isPinned .hideIfIsPinned,
-        #commentsArea .isResponse .hideIfIsResponse,
-        #commentsArea .totalLikes0,
-        #commentsArea .totalDislikes0,
-        #commentsArea .isOpen>.hideIfIsOpen,
-        #commentsArea .isNotOpen>.hideIfIsNotOpen,
-        #commentsArea.noVideosId .hideIfNoVideosId,
-        #commentsArea.withVideosId .hideIfHasVideosId {
-            display: none;
-        }
-
-        #commentsArea>.media>div.media-body .repliesArea {
-            margin-left: -60px;
-            padding-left: 5px;
-        }
-
-        #commentsArea>.media>div.media-body>div.repliesArea .repliesArea .repliesArea {
-            margin-left: -70px;
-            padding-left: 0;
-        }
-
-        #commentsArea>.media div.media-body {
-            overflow: visible;
-        }
-
-        #commentsArea>.media div.media-left>img {
-            width: 60px;
-        }
-
-        #commentsArea>.media .commentsButtonsGroup {
-            opacity: 0.5;
-        }
-
-        #commentsArea>.media .media-body:hover>.commentsButtonsGroup {
-            opacity: 1;
-        }
-
-        #commentsArea .isAResponse {
-            margin-left: 20px;
-        }
-
-        #commentsArea>.media .media .isAResponse {
-            margin-left: 10px;
-        }
-
-        #commentsArea>.media .media .media .isAResponse {
-            margin-left: 5px;
-        }
-
-        #commentsArea .repliesArea div.media-body h3.media-heading {
-            display: none;
-        }
-    </style>
-    <div id="commentsArea" class="<?php echo $class; ?>"></div>
+    <div id="commentsArea" class="commentsList <?php echo $class; ?>"></div>
     <div class="text-center">
-        <button class="btn btn-link" onclick="getComments(0, lastLoadedPage+1);" id="commentLoadMoreBtn"> <?php echo __('Load More'); ?></button>
+        <div id="commentStatus" class="commentStatus text-muted" role="status" aria-live="polite"></div>
+        <button type="button" class="btn btn-default commentLoadMore" onclick="getComments(0, lastLoadedPage+1);" id="commentLoadMoreBtn"> <?php echo __('Load More'); ?></button>
     </div>
     <script>
         var commentTemplate = <?php echo $commentTemplate; ?>;
@@ -162,13 +84,13 @@ if (User::canSeeCommentTextarea()) {
             var span = document.createElement("span");
             var commentTextArea = $('#comment').clone();
             $(commentTextArea).attr('id', 'popupCommentTextarea');
-            $(commentTextArea).html(html);
+            $(commentTextArea).val(html || '');
 
             // Add image upload button and input
             var uploadButton = $('<button class="btn btn-primary" id="uploadImageBtnPopup" style="margin-top: 10px;"><i class="fas fa-image"></i> ' + __('Upload Image') + '</button>');
             var fileInput = $('<input type="file" id="commentImageInputPopup" accept="image/jpeg, image/png, image/gif" style="display: none;">');
 
-            $(span).append($('<div>').append(commentTextArea).html());
+            $(span).append(commentTextArea);
             $(span).append(fileInput);
             $(span).append(uploadButton);
 
@@ -337,6 +259,7 @@ if (User::canSeeCommentTextarea()) {
             template = $(template);
             var repliesAreaSelector = '> div.media-body > div.repliesArea';
             if (typeof itemsArray.responses != 'undefined' && itemsArray.responses.length > 0) {
+                template.find('> .media-body > .commentsButtonsGroup > .allReplies').removeClass('isNotOpen').addClass('isOpen');
                 for (var i in itemsArray.responses) {
                     var row = itemsArray.responses[i];
                     if (typeof row === 'function') {
@@ -347,7 +270,7 @@ if (User::canSeeCommentTextarea()) {
                     template.find(repliesAreaSelector).removeClass('isNotOpen').addClass('isOpen').append(templateRow);
                 }
             } else {
-                var selector = '#comment_' + itemsArray.id + ' > div.media-body > p';
+                var selector = '#comment_' + itemsArray.id + ' > div.media-body > .commentText';
                 $(selector).html(itemsArray.commentHTML);
                 console.log(selector, itemsArray.commentHTML);
             }
@@ -366,9 +289,7 @@ if (User::canSeeCommentTextarea()) {
 
             var element = '#comment_' + itemsArray.id;
             if ($(element).length) {
-                var object = $('<div/>').append(template);
-                var html = $(object).find(element).html();
-                $(element).html(html);
+                $(element).replaceWith(template);
             } else {
                 if (append) {
                     $(selector).append(template);
@@ -397,59 +318,56 @@ if (User::canSeeCommentTextarea()) {
             }
         }
 
-        var lastLoadedPage;
+        var lastLoadedPage = 0;
+        var commentRequests = {};
 
         function getComments(comments_id, page) {
+            var key = comments_id || 0;
+            if (commentRequests[key]) return;
+            commentRequests[key] = true;
+            var selector = comments_id ? '#comment_' + comments_id + ' > .media-body > .repliesArea' : '#commentsArea';
             var url = webSiteRootURL + 'objects/comments.json.php';
-            if (typeof commentVideos_id == 'undefined') {
-                commentVideos_id = 0;
-            }
-            url = addQueryStringParameter(url, 'video_id', commentVideos_id);
+            url = addQueryStringParameter(url, 'video_id', typeof commentVideos_id === 'undefined' ? 0 : commentVideos_id);
             url = addQueryStringParameter(url, 'comments_id', comments_id);
             url = addQueryStringParameter(url, 'current', page);
-            lastLoadedPage = page;
-            if (empty(comments_id) && page <= 1 && typeof avideoSetContainerLoading === 'function') {
-                avideoSetContainerLoading('commentsArea', true, {
-                    clear: true,
-                    items: 3
-                });
+            if (!comments_id) {
+                $('#commentLoadMoreBtn').prop('disabled', true);
+                $('#commentStatus').text(<?php printJSString('Loading'); ?>);
+                if (page <= 1 && typeof avideoSetContainerLoading === 'function') {
+                    avideoSetContainerLoading('commentsArea', true, {clear: true, items: 3});
+                }
+            }
+            function failed() {
+                if (!comments_id) {
+                    $('#commentStatus').text(<?php printJSString('An error occurred'); ?>);
+                    $('#commentLoadMoreBtn').show();
+                } else {
+                    $('#comment_' + comments_id + ' > .media-body > .commentsButtonsGroup > .allReplies').removeClass('isOpen').addClass('isNotOpen');
+                    avideoToastError(<?php printJSString('An error occurred'); ?>);
+                }
             }
             $.ajax({
                 url: url,
+                dataType: 'json',
                 success: function(response) {
-                    if (empty(comments_id) && typeof avideoSetContainerLoading === 'function') {
+                    if (!comments_id && typeof avideoSetContainerLoading === 'function') {
                         avideoSetContainerLoading('commentsArea', false);
                     }
-                    if (response.error) {
-                        avideoAlertError(response.msg);
-                    } else {
-                        var selector = '#commentsArea ';
-                        if (!empty(comments_id)) {
-                            selector = '#comment_' + comments_id + ' > div.media-body > div.repliesArea ';
-                        } else {
-                            if (empty(response.rows) || response.total < response.rowCount) {
-                                if (page > 1) {
-                                    avideoToastInfo('Finished');
-                                }
-                                $('#commentLoadMoreBtn').fadeOut();
-                            }
-                        }
-                        if (page <= 1) {
-                            $(selector).empty();
-                        }
-                        for (var i in response.rows) {
-                            var row = response.rows[i];
-                            if (typeof row === 'function') {
-                                continue;
-                            }
-                            //console.log('getComments', comments_id, page, typeof row);
-                            addComment(row, comments_id, true);
-                        }
+                    if (response.error || !Array.isArray(response.rows)) { failed(); return; }
+                    if (page <= 1) $(selector).empty();
+                    response.rows.forEach(function(row) { addComment(row, comments_id, true); });
+                    if (!comments_id) {
+                        lastLoadedPage = page;
+                        $('#commentStatus').text(response.total == 0 ? <?php printJSString('No comments yet'); ?> : '');
+                        $('#commentLoadMoreBtn').toggle(response.rows.length > 0 && page * response.rowCount < response.total);
                     }
                 },
-                error: function() {
-                    if (empty(comments_id) && typeof avideoSetContainerLoading === 'function') {
-                        avideoSetContainerLoading('commentsArea', false);
+                error: failed,
+                complete: function() {
+                    delete commentRequests[key];
+                    if (!comments_id) {
+                        $('#commentLoadMoreBtn').prop('disabled', false);
+                        if (typeof avideoSetContainerLoading === 'function') avideoSetContainerLoading('commentsArea', false);
                     }
                 }
             });
@@ -485,6 +403,10 @@ if (User::canSeeCommentTextarea()) {
                             }
                             avideoResponse(response);
                             modal.hidePleaseWait();
+                        },
+                        error: function() {
+                            modal.hidePleaseWait();
+                            avideoToastError(<?php printJSString('An error occurred'); ?>);
                         }
                     });
                 }
@@ -509,6 +431,10 @@ if (User::canSeeCommentTextarea()) {
                             popupCommentTextarea(id, response.rows[0].commentPlain);
                         }
                     }
+                },
+                error: function() {
+                    modal.hidePleaseWait();
+                    avideoToastError(<?php printJSString('An error occurred'); ?>);
                 }
             });
 
@@ -522,8 +448,12 @@ if (User::canSeeCommentTextarea()) {
             return _saveComment($('#popupCommentTextarea').val(), commentVideos_id, comments_id, 0);
         }
 
+        var commentSavePending = false;
         function _saveComment(comment, video, comments_id, id) {
-            if (comment.length > 5) {
+            if (commentSavePending) return;
+            if (comment.trim().length > 5) {
+                commentSavePending = true;
+                $('#saveCommentBtn').prop('disabled', true);
                 modal.showPleaseWait();
                 $.ajax({
                     url: webSiteRootURL + 'objects/commentAddNew.json.php',
@@ -541,10 +471,14 @@ if (User::canSeeCommentTextarea()) {
                             if (!empty(response.comment)) {
                                 addComment(response.comment, response.replyed_to, false);
                             }
+                            $(comments_id || id ? '#popupCommentTextarea' : '#comment').val('');
                         }
+                    },
+                    error: function() { avideoToastError(<?php printJSString('An error occurred'); ?>); },
+                    complete: function() {
+                        commentSavePending = false;
+                        $('#saveCommentBtn').prop('disabled', false);
                         modal.hidePleaseWait();
-                        $('#comment, #popupCommentTextarea').html('');
-                        $('#comment, #popupCommentTextarea').val('');
                     }
                 });
             } else {
@@ -564,6 +498,10 @@ if (User::canSeeCommentTextarea()) {
                         getComments(0, 1);
                     }
                     modal.hidePleaseWait();
+                },
+                error: function() {
+                    modal.hidePleaseWait();
+                    avideoToastError(<?php printJSString('An error occurred'); ?>);
                 }
             });
         }
@@ -579,20 +517,20 @@ if (User::canSeeCommentTextarea()) {
                     var selector = '#comment_' + comments_id;
                     $(selector).removeClass("myVote0 myVote1 myVote-1");
                     $(selector).addClass('myVote' + response.myVote);
-                    $(selector + " .commentLikeBtn > small").attr('class', '');
-                    $(selector + " .commentDislikeBtn > small").attr('class', '');
+                    $(selector + " > .media-body > .commentsButtonsGroup > .commentLikeBtn > small").attr('class', '');
+                    $(selector + " > .media-body > .commentsButtonsGroup > .commentDislikeBtn > small").attr('class', '');
 
-                    $(selector + " .commentLikeBtn > small").addClass('totalLikes' + response.likes);
-                    $(selector + " .commentDislikeBtn > small").addClass('totalDislikes' + response.dislikes);
+                    $(selector + " > .media-body > .commentsButtonsGroup > .commentLikeBtn > small").addClass('totalLikes' + response.likes);
+                    $(selector + " > .media-body > .commentsButtonsGroup > .commentDislikeBtn > small").addClass('totalDislikes' + response.dislikes);
 
-                    $(selector + " .commentLikeBtn > small").text(response.likes);
-                    $(selector + " .commentDislikeBtn > small").text(response.dislikes);
+                    $(selector + " > .media-body > .commentsButtonsGroup > .commentLikeBtn > small").text(response.likes);
+                    $(selector + " > .media-body > .commentsButtonsGroup > .commentDislikeBtn > small").text(response.dislikes);
                 }
             });
         }
 
         function addCommentCount(comments_id, total) {
-            var selector = '.comment_' + comments_id + ' .total_replies';
+            var selector = '#comment_' + comments_id + ' > .media-body > .commentsButtonsGroup .total_replies';
             $(selector).text(parseInt($(selector).text()) + total);
         }
 

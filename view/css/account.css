@@ -1,0 +1,40 @@
+.accountPanel { border-radius: 16px; box-shadow: none; min-width: 0; container-type: inline-size; }
+.accountPanel > .accountHeader { padding: 20px; border-radius: 16px 16px 0 0; }
+.accountPanel > .panel-body { padding: 24px; }
+.accountStatus { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.accountStatus .label { width: auto; padding: 6px 10px; border-radius: 12px; white-space: normal; }
+.accountTabs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.accountTabs::before, .accountTabs::after { display: none; }
+.accountTabs > li { float: none; margin: 0; max-width: 100%; }
+.accountTabs > li > a { border-radius: 10px; padding: 10px 14px; overflow-wrap: anywhere; }
+.accountForm { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; margin: 0; padding: 0; container-type: inline-size; }
+.accountSectionTitle { grid-column: 1 / -1; margin: 10px 0 0; padding: 0 0 12px; border-bottom: 1px solid color-mix(in srgb, currentColor 14%, transparent); font-size: 18px; font-weight: 600; line-height: 1.4; }
+.accountForm > .form-group { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px 0; margin: 0; min-width: 0; }
+.accountForm > .form-group > .control-label { flex: 0 0 100%; width: 100%; padding: 0; text-align: left; }
+.accountForm > .form-group > .inputGroupContainer { flex: 1 1 60%; width: auto; min-width: 0; padding: 0; }
+.accountForm > .form-group::before, .accountForm > .form-group::after { display: none; }
+.accountForm > .form-group > .col-md-3 { width: auto; max-width: 100%; padding: 0 0 0 10px; }
+.accountForm .verifyEmailBtn, .accountForm > .form-group > .col-md-3 > .btn { font-size: 12px; padding: 10px; white-space: normal; }
+.accountForm .input-group { width: 100%; }
+.accountForm .form-control { min-width: 0; max-width: 100%; }
+.accountForm textarea.form-control { min-height: 100px; resize: vertical; line-height: 1.6; }
+.accountForm .form-group:has(#textAbout), .accountForm .form-group:has(#textAreaEmbed), .accountForm > .accountImages, .accountForm > .accountSave { grid-column: 1 / -1; }
+.accountForm > .accountImages { margin: 4px 0 0; padding: 20px 4px; border: 1px solid color-mix(in srgb, currentColor 14%, transparent); border-radius: 14px; min-width: 0; }
+.accountImages > div { min-width: 0; }
+.accountImages .form-group { margin-left: 0; margin-right: 0; }
+.accountForm .btn { border-radius: 12px; }
+.accountForm > .accountSave { margin-top: 8px; padding-top: 20px; border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent); }
+.accountSave > hr { display: none; }
+.accountSave > div { padding: 0; }
+.accountSave center { text-align: right; }
+.accountPanel .btn:focus-visible, .accountTabs a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@container (max-width: 700px) {
+    .accountForm { grid-template-columns: minmax(0, 1fr); }
+    .accountImages > .col-sm-3, .accountImages > .col-sm-9 { width: 100%; float: none; margin-bottom: 20px; }
+}
+@media (max-width: 991px) {
+    .accountForm { grid-template-columns: minmax(0, 1fr); }
+    .accountPanel > .panel-body { padding: 16px; }
+    .accountPanel > .accountHeader { padding: 16px; }
+    .accountImages > .col-sm-3, .accountImages > .col-sm-9 { width: 100%; float: none; margin-bottom: 20px; }
+}

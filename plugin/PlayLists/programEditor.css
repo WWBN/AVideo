@@ -1,0 +1,26 @@
+.programEditor { padding-top: 10px; }
+.programEditor .program { border-radius: 10px; box-shadow: none; margin-bottom: 12px; }
+.programEditor .programHeading { padding: 10px; border-radius: 9px 9px 0 0; }
+.programEditor .playlistName { overflow-wrap: anywhere; }
+.programEditor .programHeading > br { display: none; }
+.programEditor .programActions { clear: both; display: flex; flex-wrap: wrap; align-items: center; gap: 5px; padding-top: 8px; }
+.programEditor .programActions > .btn-group { float: none !important; flex-wrap: wrap; gap: 5px; }
+.programEditor .programActions .btn { border-radius: 6px !important; margin: 0; padding: 5px 8px; white-space: normal; }
+.programEditor .programActions .dropdown-menu { border-radius: 9px; max-width: calc(100vw - 48px); }
+.programEditor .programActions .dropdown-menu a { white-space: normal; padding: 7px 12px; }
+.programEditor .program > .panel-body { padding: 8px; }
+.programEditor .programVideoGrid { display: flex; flex-wrap: wrap; align-items: stretch; list-style: none; }
+.programEditor .programVideoGrid > .clearfix { display: none !important; }
+.programEditor .programVideoGrid > .galleryVideo { padding: 4px !important; min-width: 0; }
+.programEditor .galleryVideo > .panel { height: 100%; margin: 0; border: 1px solid color-mix(in srgb, currentColor 14%, transparent); border-radius: 8px; }
+.programEditor .galleryVideo > .panel:hover,
+.programEditor .galleryVideo > .panel:focus-within { border-color: currentColor; }
+.programEditor .galleryVideo .galleryLink { display: block; margin: 7px 0; line-height: 1.4; min-height: 2.8em; white-space: normal; overflow-wrap: anywhere; }
+.programEditor .galleryVideo .galleryLink .title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.programEditor .galeryDetails { font-size: 12px; line-height: 1.5; }
+.programEditor .galeryDetails > div { margin-top: 3px; overflow-wrap: anywhere; }
+.programEditor .video_order { border: 1px solid color-mix(in srgb, currentColor 25%, transparent); border-radius: 5px; background: transparent; color: inherit; padding: 3px; }
+.programEditor .program > .panel-footer { padding: 7px 10px; border-radius: 0 0 9px 9px; }
+@media (max-width: 480px) {
+    .programEditor .programVideoGrid > .galleryVideo { width: 100%; }
+}

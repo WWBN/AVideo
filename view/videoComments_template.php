@@ -1,5 +1,4 @@
-<div class="clearfix"></div>
-<div class="animate__animated animate__flipInX media {isAResponse} {userCanAdminComment} {userCanEditComment} {myVote} {pin} {isResponse}" id="comment_{id}">
+<div class="commentCard media {isAResponse} {userCanAdminComment} {userCanEditComment} {myVote} {pin} {isResponse}" id="comment_{id}">
     <div class="media-left">
         <img src="{photo}" class="media-object">
     </div>
@@ -12,8 +11,8 @@
             <small><i>{humanTiming}</i></small>
             <i class="fas fa-thumbtack pull-right hideIfIsUnpinned" onclick="pinComment({id});" style="cursor: pointer;"></i>
         </h4>
-        <p>{commentWithLinks}</p>
-        <div class="btn-group pull-right commentsButtonsGroup">
+        <div class="commentText">{commentWithLinks}</div>
+        <div class="commentsButtonsGroup">
             <button class="btn btn-default no-outline reply btn-xs hideIfCanNotComment" onclick="popupCommentTextarea({id}, '');"><i class="fas fa-reply"></i> {replyText}</button>
             <button onclick="saveCommentLikeDislike({id}, 1);"
                     class="faa-parent animated-hover btn btn-default no-outline btn-xs commentLikeDislikeBtn commentLikeBtn hideIfremoveThumbsUpAndDown hideIfUserNotLogged">
@@ -34,7 +33,7 @@
                 <i class="fas fa-thumbs-down"></i>
                 <small>{dislikes}</small>
             </button>
-            <button class="btn btn-default no-outline allReplies btn-xs isOpen hideIfNoVideosId" onclick="toogleReplies({id}, this);">
+            <button class="btn btn-default no-outline allReplies btn-xs isNotOpen totalReplies{total_replies} hideIfNoVideosId" onclick="toogleReplies({id}, this);">
                 <span class="hideIfIsOpen">
                     {viewAllRepliesText} <span class="total_replies badge">{total_replies}</span> <i class="fa fa-chevron-down" aria-hidden="true"></i>
                 </span>

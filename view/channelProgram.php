@@ -43,7 +43,8 @@ $_page = new Page(array("Program"));
 $_page->setExtraStyles(
     array(
         'node_modules/video.js/dist/video-js.min.css',
-        'plugin/Gallery/style.css'
+        'plugin/Gallery/style.css',
+        'plugin/PlayLists/programEditor.css'
     )
 );
 
@@ -58,7 +59,7 @@ $_page->setExtraStyles(
         padding: 5px;
     }
 </style>
-<div class="container-fluid gallery">
+<div class="container-fluid gallery programEditor">
     <?php
     $channelName = @$_GET['channelName'];
     unset($_GET['channelName']);
@@ -96,10 +97,9 @@ $_page->setExtraStyles(
             $checked = ' checked="checked" ';
         }
     ?>
-        <br>
         <!-- channelProgram -->
         <div class="panel panel-default program" playListId="<?php echo $program['id']; ?>">
-            <div class="panel-heading clearfix" style="padding-left: 10px;">
+            <div class="panel-heading clearfix programHeading">
                 <span class="badge pull-right"><?php echo $totalVideos; ?> <?php echo __('Videos'); ?></span>
                 <div class="pull-left">
                     <strong style="font-size: 1.1em;" class="playlistName">
@@ -111,7 +111,11 @@ $_page->setExtraStyles(
                     </small>
                 </div>
                 <?php
-                PlayLists::getPLButtons($program['id'], false);
+                ?>
+                <div class="programActions">
+                <?php PlayLists::getPLButtons($program['id'], false); ?>
+                </div>
+                <?php
                 if (PlayLists::canManageAllPlaylists()) {
                 ?>
                     <br>
@@ -139,7 +143,7 @@ $_page->setExtraStyles(
                     $_REQUEST['playlists_id'] = $program['id'];
                     include $global['systemRootPath'] . 'plugin/PlayLists/epg.html.php';
                     ?>
-                    <div id="sortable<?php echo $program['id']; ?>" style="list-style: none;">
+                    <div id="sortable<?php echo $program['id']; ?>" class="programVideoGrid">
                         <?php
                         $count = 0;
                         $realCount = 0;
@@ -154,13 +158,13 @@ $_page->setExtraStyles(
 
                             $class = '';
                             $style = '';
-                            if ($count > 6) {
+                            if ($count > 6 && count($programs) > 1 && empty($playListsObj->expandPlayListOnChannels)) {
                                 $class = "showMoreLess{$program['id']}";
                                 $style = "display: none;";
                             }
                         ?>
                             <li class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo showMoreLess <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;  <?php echo $style; ?>">
-                                <div class="panel panel-default" playListId="<?php echo $program['id']; ?>" style="min-height: 215px;">
+                                <div class="panel panel-default" playListId="<?php echo $program['id']; ?>" >
                                     <div class="panel-body" style="overflow: hidden;">
                                         <?php
                                         echo Video::getVideoImagewithHoverAnimationFromVideosId($value);
@@ -168,7 +172,7 @@ $_page->setExtraStyles(
                                         <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo getSEOTitle($value['title']); ?>">
                                             <strong class="title"><?php echo Video::$statusIcons[$value['status']]; ?> <?php echo getSEOTitle($value['title']); ?></strong>
                                         </a>
-                                        <div class="galeryDetails" style="min-height: 60px;">
+                                        <div class="galeryDetails" >
                                             <div class="galleryTags">
                                                 <?php
                                                 $value['tags'] = Video::getTags($value['id']);
@@ -227,15 +231,15 @@ $_page->setExtraStyles(
                                             if ($isMyChannel) {
                                             ?>
                                                 <div>
-                                                    <span style=" cursor: pointer;" class="btn-link text-primary removeVideo" playlist_id="<?php echo $program['id']; ?>" video_id="<?php echo $value['id']; ?>">
+                                                    <button type="button" class="btn btn-default btn-xs removeVideo" playlist_id="<?php echo $program['id']; ?>" video_id="<?php echo $value['id']; ?>">
                                                         <i class="fa fa-trash"></i> <?php echo __("Remove"); ?>
-                                                    </span>
+                                                    </button>
                                                 </div>
                                                 <div>
                                                     <span playlist_id="<?php echo $program['id']; ?>" video_id="<?php echo $value['id']; ?>">
                                                         <i class="fas fa-sort-numeric-down"></i> <?php echo __("Sort"); ?>
-                                                        <input type="number" step="1" class="video_order" value="<?php echo empty($program['videos'][$count - 1]) ? 0 : intval(@$program['videos'][$count - 1]['video_order']); ?>" style="max-width: 50px;">
-                                                        <button class="btn btn-sm btn-xs sortNow"><i class="fas fa-check-square"></i></button>
+                                                        <input type="number" min="1" step="1" aria-label="<?php echo __('Sort'); ?>" class="video_order" value="<?php echo $realCount; ?>" style="max-width: 50px;">
+                                                        <button type="button" class="btn btn-default btn-xs sortNow" title="<?php echo __('Sort'); ?>"><i class="fas fa-check-square"></i></button>
                                                     </span>
                                                 </div>
                                             <?php }
@@ -296,49 +300,57 @@ $_page->setExtraStyles(
             }, 3000);
         }
 
+        function setTextGalleryCopied() {
+            avideoToastSuccess(__('Copied!'));
+        }
+
         function saveSortable($sortableObject, playlist_id) {
-            var list = $($sortableObject).sortable("toArray");
-            $.ajax({
-                url: webSiteRootURL+'objects/playlistSort.php',
-                data: {
-                    "list": list,
-                    "playlist_id": playlist_id
-                },
+            var $grid = $($sortableObject);
+            var list = $grid.children('li.galleryVideo').map(function() { return this.id; }).get();
+            modal.showPleaseWait();
+            return $.ajax({
+                url: webSiteRootURL + 'objects/playlistSort.php',
+                data: {list: list, playlist_id: playlist_id},
                 type: 'post',
                 success: function(response) {
-                    //$("#channelPlaylists").load(webSiteRootURL + "view/channelPlaylist.php?channelName=" + channelName);
-                    modal.hidePleaseWait();
-                }
+                    if (!response || !response.status) {
+                        avideoToastError(__('An error occurred'));
+                        return;
+                    }
+                    $grid.children('li.galleryVideo').each(function(index) {
+                        $(this).find('.video_order').val(index + 1);
+                    });
+                },
+                error: function() { avideoToastError(__('An error occurred')); },
+                complete: function() { modal.hidePleaseWait(); }
             });
         }
 
-        function sortNow($t, position) {
-            var $this = $($t).closest('.galleryVideo');
-            var $uiDiv = $($t).closest('.ui-sortable');
-            var $playListId = $($t).closest('.panel').attr('playListId');
-            var $list = $($t).closest('.ui-sortable').find('li');
-            if (position < 0) {
+        function sortNow(t, position) {
+            var $item = $(t).closest('.galleryVideo');
+            var $grid = $item.closest('.programVideoGrid');
+            var $items = $grid.children('li.galleryVideo');
+            position = Number(position);
+            if (!Number.isInteger(position) || position < 1 || position > $items.length) {
+                avideoToastError(__('Invalid value'));
                 return false;
             }
-            if (position === 0) {
-                $this.slideUp(500, function() {
-                    $this.insertBefore($this.siblings(':eq(0)'));
-                    saveSortable($uiDiv, $playListId);
-                }).slideDown(500);
-            } else if ($list.length - 1 > position) {
-                $this.slideUp(500, function() {
-                    $this.insertBefore($this.siblings(':eq(' + position + ')'));
-                    saveSortable($uiDiv, $playListId);
-                }).slideDown(500);
-            } else {
-                $this.slideUp(500, function() {
-                    $this.insertAfter($this.siblings(':eq(' + ($list.length - 2) + ')'));
-                    saveSortable($uiDiv, $playListId);
-                }).slideDown(500);
-            }
+            var oldIndex = $items.index($item);
+            var newIndex = position - 1;
+            if (oldIndex === newIndex) { return false; }
+            var $target = $items.eq(newIndex);
+            if (newIndex < oldIndex) { $item.insertBefore($target); }
+            else { $item.insertAfter($target); }
+            var restore = function() {
+                if (newIndex < oldIndex) { $item.insertAfter($items.eq(oldIndex - 1)); }
+                else { $item.insertBefore($items.eq(oldIndex + 1)); }
+            };
+            saveSortable($grid, $item.closest('.program').attr('playListId'))
+                .done(function(response) { if (!response || !response.status) { restore(); } })
+                .fail(restore);
         }
 
-        var currentObject;
+
         $(function() {
             $('.addOnFirstPage').on('change', function() {
                 url = webSiteRootURL + 'objects/playlistAddOnFirstPage.json.php';
@@ -350,15 +362,15 @@ $_page->setExtraStyles(
                 });
             });
             <?php
-            if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
+            if (count($programs) <= 1 || !empty($playListsObj->expandPlayListOnChannels)) {
             ?>
-                $('.showMoreLess').slideDown();
+                $('.showMoreLess').show();
                 $('.showMoreLessBtn').toggle();
             <?php
             }
             ?>
             $('.removeVideo').click(function() {
-                currentObject = this;
+                var currentObject = this;
 
                 swal({
                         title: "<?php echo __("Are you sure?"); ?>",
@@ -381,11 +393,16 @@ $_page->setExtraStyles(
                                 },
                                 type: 'post',
                                 success: function(response) {
+                                    if (!response || Number(response.status) <= 0 || !response.status) {
+                                        avideoToastError(__('An error occurred'));
+                                        return;
+                                    }
                                     reloadPlayLists();
                                     $(".playListsIds" + video_id).prop("checked", false);
-                                    $(currentObject).closest('.galleryVideo').fadeOut();
-                                    modal.hidePleaseWait();
-                                }
+                                    $(currentObject).closest('.galleryVideo').remove();
+                                },
+                                error: function() { avideoToastError(__('An error occurred')); },
+                                complete: function() { modal.hidePleaseWait(); }
                             });
                         }
                     });
@@ -393,7 +410,7 @@ $_page->setExtraStyles(
             });
 
             $('.deletePlaylist').click(function() {
-                currentObject = this;
+                var currentObject = this;
 
                 swal({
                         title: "<?php echo __("Are you sure?"); ?>",
@@ -416,9 +433,14 @@ $_page->setExtraStyles(
                                 },
                                 type: 'post',
                                 success: function(response) {
-                                    $(currentObject).closest('.panel').slideUp();
-                                    modal.hidePleaseWait();
-                                }
+                                    if (!response || Number(response.status) <= 0 || !response.status) {
+                                        avideoToastError(__('An error occurred'));
+                                        return;
+                                    }
+                                    $(currentObject).closest('.program').remove();
+                                },
+                                error: function() { avideoToastError(__('An error occurred')); },
+                                complete: function() { modal.hidePleaseWait(); }
                             });
                         }
                     });
@@ -459,7 +481,7 @@ $_page->setExtraStyles(
             });
 
             $('.renamePlaylist').click(function() {
-                currentObject = this;
+                var currentObject = this;
                 swal({
                     text: "<?php echo __("Change Playlist Name"); ?>!",
                     content: "input",
@@ -468,12 +490,13 @@ $_page->setExtraStyles(
                         closeModal: false,
                     },
                 }).then(function(name) {
-                    if (!name)
+                    if (typeof name !== 'string' || !name.trim())
                         throw null;
+                    name = name.trim();
                     modal.showPleaseWait();
                     var playlist_id = $(currentObject).attr('playlist_id');
                     console.log(playlist_id);
-                    return fetch('<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php?playlist_id=' + playlist_id + '&name=' + encodeURI(name));
+                    return fetch('<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php?playlist_id=' + playlist_id + '&name=' + encodeURIComponent(name));
                 }).then(function(results) {
                     return results.json();
                 }).then(function(response) {

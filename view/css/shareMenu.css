@@ -1,0 +1,49 @@
+.shareMenu { min-width: 0; container-type: inline-size; }
+.shareTabs > .nav { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 20px; padding: 6px; border-radius: 14px; background: color-mix(in srgb, currentColor 5%, transparent); }
+.shareTabs > .nav::before,
+.shareTabs > .nav::after { display: none; }
+.shareTabs > .nav > li { float: none; margin: 0; }
+.shareTabs > .nav > li > a { border: 0; border-radius: 10px; padding: 10px 14px; line-height: 1.4; }
+.shareTabs > .nav > li > a > span { margin-right: 5px; }
+.shareTabs > .tab-content { padding: 0; border: 0; }
+.shareMenu .tab-pane { min-width: 0; overflow-wrap: anywhere; }
+.shareMenu .social-network { display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0 0 20px; }
+.shareMenu .social-network > li { margin: 0; }
+.shareMenu .social-network > li > a { display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; width: 44px; height: 44px; border: 0; }
+.shareMenu .social-network > li > a i { line-height: 1; }
+/* These legacy share widgets ship inline colors and delayed animations. */
+.shareMenu .animate__animated { animation: none !important; visibility: visible !important; opacity: 1 !important; }
+.shareMenu .social-copy-container .form-control { background-color: inherit !important; color: inherit !important; border-color: color-mix(in srgb, currentColor 20%, transparent) !important; }
+.shareMenu .form-control { border-radius: 8px; max-width: 100%; }
+.shareMenu .input-group .form-control { border-radius: 0 8px 8px 0; }
+.shareMenu .social-copy-container { clear: both; width: 100%; min-width: 0; }
+.shareMenu .social-copy-container > .input-group { display: flex; align-items: stretch; width: 100%; }
+.shareMenu .social-copy-container .input-group > .form-control { flex: 1; min-width: 0; width: 0; height: auto; min-height: 42px; float: none; margin: 0; border-radius: 8px 0 0 8px; }
+.shareMenu .social-copy-container .input-group > .input-group-addon { display: flex; align-items: center; justify-content: center; flex: 0 0 44px; width: auto; margin: 0; padding: 10px; border-radius: 0 8px 8px 0; }
+.shareMenu textarea.form-control { resize: vertical; line-height: 1.6; }
+.shareMenu .shareCode { margin: 10px 0 22px; font-family: monospace; font-size: 12px; }
+.shareFieldCard { padding: 18px; margin: 0 0 20px; border: 1px solid color-mix(in srgb, currentColor 14%, transparent); border-radius: 12px; }
+.shareFieldCard:last-child { margin-bottom: 0; }
+.shareFieldHeader { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-bottom: 14px; }
+.shareFieldHeader > label { margin: 0; font-size: 14px; line-height: 1.5; }
+.shareFieldHeader > .btn { max-width: 100%; white-space: normal; }
+.shareMenu .shareFieldCard .shareCode { margin: 0; padding: 12px; }
+.shareMenu .shareLink { height: auto; padding: 12px; font-family: monospace; font-size: 13px; }
+@container (max-width: 420px) {
+    .shareFieldCard { padding: 12px; }
+    .shareFieldHeader { align-items: flex-start; }
+}
+.shareMenu .btn { border-radius: 16px; }
+.shareMenu .panel { border-radius: 12px; box-shadow: none; }
+.shareMenu .panel-heading { border-radius: 12px 12px 0 0; }
+.shareMenu .panel-title a { display: block; padding: 4px 0; }
+.shareMenu .well { border-radius: 12px; box-shadow: none; margin: 0; }
+.shareMenu .form-group:last-child { margin-bottom: 0; }
+.shareMenu a:focus-visible,
+.shareMenu button:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@container (max-width: 540px) {
+    .shareMenu .form-horizontal .control-label { text-align: left; margin-bottom: 6px; }
+    .shareMenu .form-horizontal [class*="col-"],
+    .shareMenu .panel-body .row > [class*="col-"] { width: 100%; float: none; }
+    .shareTabs > .nav > li > a { padding: 9px 10px; }
+}

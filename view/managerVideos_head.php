@@ -59,7 +59,7 @@ if (AVideoPlugin::isEnabledByName("VideoTags")) {
     body.edit_video .hideIfIsVideo,
     body.edit_directUpload .hideIfIsDirectUpload,
     body.is_editing .hideIfIsEditing ,
-    body.edit_image .hideIfIsImage
+    body.edit_image .hideIfIsImage,
     body.edit_gallery .hideIfIsImage,
     .showIfIsArticle, 
     .showIfIsEmbedLink, 

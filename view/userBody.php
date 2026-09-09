@@ -1,5 +1,6 @@
 <?php
 if (User::isLogged()) {
+    ?><link href="<?php echo getURL('view/css/account.css'); ?>" rel="stylesheet" type="text/css" /><?php
     $tags = User::getTags(User::getId());
     $tagsStr = '';
     foreach ($tags as $value) {
@@ -13,13 +14,13 @@ if (User::isLogged()) {
         ?>
         <div class="row">
             <div>
-                <div class="panel panel-default" id="userTabsPanel">
-                    <div class="panel-heading tabbable-line">
-                        <div class="pull-right hidden-md hidden-sm hidden-xs">
+                <div class="panel panel-default accountPanel" id="userTabsPanel">
+                    <div class="panel-heading accountHeader">
+                        <div class="accountStatus">
                             <?php echo $tagsStr; ?>
                         </div>
                         <div class="clearfix"></div>
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-pills accountTabs">
                             <li class="active"><a data-toggle="tab" href="#basicInfo" id="aBasicInfo"><?php echo __("Basic Info") ?></a></li>
 
                             <?php if (empty($advancedCustomUser->disablePersonalInfo)) { ?>

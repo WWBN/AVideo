@@ -4998,7 +4998,17 @@ function callFunctionOrLoadScript(funcName, jsUrl, ...args) {
 
 function actionButtonPlaylistClick(t, videos_id) {
     console.log('actionButtonPlaylistClick', videos_id);
-    $(t).webuiPopover();
+    var $button = $(t);
+    // Bootstrap may insert a tooltip between the button and its playlist form.
+    var $content = $button.nextAll('.webui-popover-content').first();
+    $button.tooltip('hide');
+    $button.webuiPopover({
+        content: function () { return $content; },
+        trigger: 'manual',
+        container: 'body',
+        width: Math.min(340, window.innerWidth - 24),
+        closeable: true
+    }).webuiPopover('toggle');
     callFunctionOrLoadScript('loadPlayLists', webSiteRootURL + 'plugin/PlayLists/script.js', videos_id);
 }
 

@@ -4,12 +4,13 @@ $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
 $search = ['{permaLink}', '{imgSRC}', '{title}', '{embedURL}', '{videoLengthInSeconds}'];
 $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
 ?>
-<div class="<?php echo $class; ?>" id="shareDiv">
+<link href="<?php echo getURL('view/css/shareMenu.css'); ?>" rel="stylesheet" type="text/css" />
+<div class="<?php echo $class; ?> shareMenu" id="shareDiv">
     <div class="tabbable-panel">
-        <div class="tabbable-line">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link " href="#tabShare" data-toggle="tab">
+        <div class="shareTabs">
+            <ul class="nav nav-pills" role="tablist">
+                <li class="nav-item active">
+                    <a class="nav-link " href="#tabShare" data-toggle="tab" role="tab">
                         <span class="fa fa-share"></span>
                         <?php echo __("Share"); ?>
                     </a>
@@ -19,7 +20,7 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
                 if (empty($objSecure->disableEmbedMode)) {
                 ?>
                     <li class="nav-item">
-                        <a class="nav-link " href="#tabEmbed" data-toggle="tab">
+                        <a class="nav-link " href="#tabEmbed" data-toggle="tab" role="tab">
                             <span class="fa fa-code"></span>
                             <?php echo __("Share Code"); ?>
                         </a>
@@ -30,7 +31,7 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
                 ?>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#tabEmail" data-toggle="tab">
+                        <a class="nav-link" href="#tabEmail" data-toggle="tab" role="tab">
                             <span class="fa fa-envelope"></span>
                             <?php echo __("E-mail"); ?>
                         </a>
@@ -40,7 +41,7 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
                 if (!empty($permaLink) && $permaLink !== $URLFriendly) {
                 ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#tabPermaLink" data-toggle="tab">
+                        <a class="nav-link" href="#tabPermaLink" data-toggle="tab" role="tab">
                             <span class="fa fa-link"></span>
                             <?php echo __("Permanent Link"); ?>
                         </a>
@@ -217,32 +218,42 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
                         </div>
                     </div>
 
-                    <strong><i class="fas fa-share-square"></i> <?php echo __("Embed"); ?> (Iframe): <?php getButtontCopyToClipboard('textAreaEmbedIframe'); ?></strong>
-                    <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%; margin: 10px 0 20px 0;" rows="5" id="textAreaEmbedIframe" readonly="readonly"><?php
+                    <section class="shareFieldCard">
+                        <div class="shareFieldHeader"><label for="textAreaEmbedIframe"><i class="fas fa-share-square"></i> <?php echo __("Embed"); ?> (Iframe)</label><?php getButtontCopyToClipboard('textAreaEmbedIframe', 'type="button" class="btn btn-default btn-sm"'); ?></div>
+                        <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> shareCode" rows="5" id="textAreaEmbedIframe" readonly="readonly"><?php
                                                                                                                                                                                                                     $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
                                                                                                                                                                                                                     echo htmlentities($code);
                                                                                                                                                                                                                     ?>
                     </textarea>
-                    <strong><i class="fas fa-share-square"></i> <?php echo __("Embed"); ?> (Object): <?php getButtontCopyToClipboard('textAreaEmbedObject'); ?></strong>
-                    <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%; margin: 10px 0 20px 0;" rows="5" id="textAreaEmbedObject" readonly="readonly"><?php
+                    </section>
+                    <section class="shareFieldCard">
+                        <div class="shareFieldHeader"><label for="textAreaEmbedObject"><i class="fas fa-share-square"></i> <?php echo __("Embed"); ?> (Object)</label><?php getButtontCopyToClipboard('textAreaEmbedObject', 'type="button" class="btn btn-default btn-sm"'); ?></div>
+                        <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> shareCode" rows="5" id="textAreaEmbedObject" readonly="readonly"><?php
                                                                                                                                                                                                                             $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplateObject);
                                                                                                                                                                                                                             echo htmlentities($code);
                                                                                                                                                                                                                             ?>
                     </textarea>
-                    <strong><i class="fas fa-share-square"></i> <?php echo __("Link"); ?> (HTML): <?php getButtontCopyToClipboard('textAreaHTML'); ?></strong>
-                    <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%; margin: 10px 0 20px 0;" rows="5" id="textAreaHTML" readonly="readonly"><?php
+                    </section>
+                    <section class="shareFieldCard">
+                        <div class="shareFieldHeader"><label for="textAreaHTML"><i class="fas fa-share-square"></i> <?php echo __("Link"); ?> (HTML)</label><?php getButtontCopyToClipboard('textAreaHTML', 'type="button" class="btn btn-default btn-sm"'); ?></div>
+                        <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> shareCode" rows="5" id="textAreaHTML" readonly="readonly"><?php
                                                                                                                                                                                                                     $code = str_replace($search, $replace, $advancedCustom->htmlCodeTemplate);
                                                                                                                                                                                                                     echo htmlentities($code);
                                                                                                                                                                                                                     ?>
                     </textarea>
-                    <strong><i class="fas fa-share-square"></i> <?php echo __("Link"); ?> (BBCode): <?php getButtontCopyToClipboard('textAreaBBCode'); ?></strong>
-                    <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%; margin: 10px 0 20px 0;" rows="5" id="textAreaBBCode" readonly="readonly"><?php
+                    </section>
+                    <section class="shareFieldCard">
+                        <div class="shareFieldHeader"><label for="textAreaBBCode"><i class="fas fa-share-square"></i> <?php echo __("Link"); ?> (BBCode)</label><?php getButtontCopyToClipboard('textAreaBBCode', 'type="button" class="btn btn-default btn-sm"'); ?></div>
+                        <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> shareCode" rows="5" id="textAreaBBCode" readonly="readonly"><?php
                                                                                                                                                                                                                     $code = str_replace($search, $replace, $advancedCustom->BBCodeTemplate);
                                                                                                                                                                                                                     echo htmlentities($code);
                                                                                                                                                                                                                     ?>
                     </textarea>
-                    <strong><i class="fas fa-link"></i> <?php echo __("Embed URL"); ?>: <?php getButtontCopyToClipboard('textAreaEmbedURL'); ?></strong>
-                    <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%; margin: 10px 0 20px 0;" rows="2" id="textAreaEmbedURL" readonly="readonly"><?php echo $embedURL; ?></textarea>
+                    </section>
+                    <section class="shareFieldCard">
+                        <div class="shareFieldHeader"><label for="textAreaEmbedURL"><i class="fas fa-link"></i> <?php echo __("Embed URL"); ?></label><?php getButtontCopyToClipboard('textAreaEmbedURL', 'type="button" class="btn btn-default btn-sm"'); ?></div>
+                        <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> shareCode" rows="2" id="textAreaEmbedURL" readonly="readonly"><?php echo $embedURL; ?></textarea>
+                    </section>
                 </div>
                 <?php
                 if (empty($advancedCustom->disableEmailSharing)) {
@@ -329,25 +340,25 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
                     $loaderSequenceName = uniqid();
                 ?>
                     <div class="tab-pane" id="tabPermaLink">
-                        <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
-                            <label class="control-label"><?php echo __("Permanent Link") ?></label>
-                            <?php getInputCopyToClipboard('linkPermanent', $permaLink); ?>
-                        </div>
-                        <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
-                            <label class="control-label"><?php echo __("URL Friendly") ?> (SEO)</label>
-                            <?php getInputCopyToClipboard('linkFriendly', $URLFriendly); ?>
-                        </div>
-                        <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
-                            <label class="control-label"><?php echo __("Current Time") ?> (SEO)</label>
-                            <?php getInputCopyToClipboard('linkCurrentTime', $URLFriendly); ?>
-                        </div>
+                        <section class="shareFieldCard">
+                            <div class="shareFieldHeader"><label for="linkPermanent"><?php echo __("Permanent Link") ?></label><?php getButtontCopyToClipboard('linkPermanent', 'type="button" class="btn btn-default btn-sm"'); ?></div>
+                            <input id="linkPermanent" class="form-control shareLink" type="text" readonly="readonly" value="<?php echo htmlspecialchars($permaLink, ENT_QUOTES, 'UTF-8'); ?>">
+                        </section>
+                        <section class="shareFieldCard">
+                            <div class="shareFieldHeader"><label for="linkFriendly"><?php echo __("URL Friendly") ?> (SEO)</label><?php getButtontCopyToClipboard('linkFriendly', 'type="button" class="btn btn-default btn-sm"'); ?></div>
+                            <input id="linkFriendly" class="form-control shareLink" type="text" readonly="readonly" value="<?php echo htmlspecialchars($URLFriendly, ENT_QUOTES, 'UTF-8'); ?>">
+                        </section>
+                        <section class="shareFieldCard">
+                            <div class="shareFieldHeader"><label for="linkCurrentTime"><?php echo __("Current Time") ?> (SEO)</label><?php getButtontCopyToClipboard('linkCurrentTime', 'type="button" class="btn btn-default btn-sm"'); ?></div>
+                            <input id="linkCurrentTime" class="form-control shareLink" type="text" readonly="readonly" value="<?php echo htmlspecialchars($URLFriendly, ENT_QUOTES, 'UTF-8'); ?>">
+                        </section>
                         <?php
                         if (!empty($bitLyLink)) {
                         ?>
-                            <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
-                                <label class="control-label"><?php echo __("Bit.Ly") ?></label>
-                                <?php getInputCopyToClipboard('bitLyLink', $bitLyLink); ?>
-                            </div>
+                            <section class="shareFieldCard">
+                            <div class="shareFieldHeader"><label for="bitLyLink"><?php echo __("Bit.Ly") ?></label><?php getButtontCopyToClipboard('bitLyLink', 'type="button" class="btn btn-default btn-sm"'); ?></div>
+                            <input id="bitLyLink" class="form-control shareLink" type="text" readonly="readonly" value="<?php echo htmlspecialchars($bitLyLink, ENT_QUOTES, 'UTF-8'); ?>">
+                        </section>
                         <?php
                         }
                         ?>
@@ -364,6 +375,10 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
     $(document).ready(function() {
         var COOKIE_NAME = 'embedOptions';
         var COOKIE_DAYS = 365;
+
+        $('.shareMenu .shareLink').on('focus click', function() {
+            $(this).select();
+        });
 
         // Cookie utilities
         var CookieManager = {

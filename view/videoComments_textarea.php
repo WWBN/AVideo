@@ -8,10 +8,10 @@ $maxLen = empty($advancedCustom->commentsMaxLength) ? 200 : $advancedCustom->com
 
 $disabled = '';
 $content = '';
-$commentButtonText = '<i class="fas fa-comment fa-2x"></i><span class="hidden-md hidden-sm hidden-xs " ><br>' . __("Comment") . '</span>';
-$button  = '<button class="btn btn-success " id="saveCommentBtn" style="height: 72px;" onclick="saveComment();">' . $commentButtonText . '</button>';
+$commentButtonText = '<i class="fas fa-comment"></i><span class="hidden-md hidden-sm hidden-xs " > ' . __("Comment") . '</span>';
+$button  = '<button class="btn btn-success " id="saveCommentBtn" type="button" onclick="saveComment();">' . $commentButtonText . '</button>';
 $button .= '<input type="file" id="commentImageInput" accept="image/jpeg, image/png, image/gif" style="display: none;">';
-$button .= '<button class="btn btn-primary" id="uploadImageBtn" style="height: 72px;"><i class="fas fa-image fa-2x"></i></button>';
+$button .= '<button class="btn btn-primary" id="uploadImageBtn" type="button"><i class="fas fa-image"></i></button>';
 $js = "setupFormElement('#comment', 5, commentsmaxlen, true, true);";
 if (!User::canComment()) {
     $js = "";
@@ -19,15 +19,15 @@ if (!User::canComment()) {
     if (User::isLogged()) {
         $commentButtonText = '<i class="fas fa-comment-slash"></i> <span class="hidden-md hidden-sm hidden-xs">' . __("Verify") . '</span>';
         $content = __("Verify your email to be able to comment");
-        $button = '<button class="btn btn-warning " style="height: 72px;" onclick="document.location=\'' . $global['webSiteRootURL'] . 'user\';" data-toggle="tooltip" title="' . __("Verify your email to be able to comment") . '">' . $commentButtonText . '</a>';
+        $button = '<button class="btn btn-warning " type="button" onclick="document.location=\'' . $global['webSiteRootURL'] . 'user\';" data-toggle="tooltip" title="' . __("Verify your email to be able to comment") . '">' . $commentButtonText . '</button>';
     } else {
         $commentButtonText = '<i class="fas fa-sign-in-alt"></i> <span class="hidden-md hidden-sm hidden-xs">' . __("Login") . '</span>';
         $content = __("You must login to be able to comment on videos");
-        $button = '<button class="btn btn-warning " style="height: 72px;" onclick="document.location=\'' . $global['webSiteRootURL'] . 'user\';" data-toggle="tooltip" title="' . __("Login") . '">' . $commentButtonText . '</a>';
+        $button = '<button class="btn btn-warning " type="button" onclick="document.location=\'' . $global['webSiteRootURL'] . 'user\';" data-toggle="tooltip" title="' . __("Login") . '">' . $commentButtonText . '</button>';
     }
 }
 ?>
-<div class="row <?php echo $className; ?>">
+<div class="row commentComposer <?php echo $className; ?>">
     <?php
     if (User::isAdmin()) {
     ?>
@@ -38,14 +38,14 @@ if (!User::canComment()) {
         $users_autocomplete = Layout::getUserAutocomplete(0, 'comment_users_id');
     }
     ?>
-    <div class="col-xs-8" style="padding-right: 1px;">
-        <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment"
+    <div class="col-xs-12">
+        <textarea class="form-control custom-control" rows="3" id="comment" aria-label="<?php echo __('Comment'); ?>"
             <?php echo $disabled; ?>><?php
                                         echo $content;
                                         ?></textarea>
     </div>
-    <div class="col-xs-4" style="padding-left: 1px;">
-        <div class="btn-group btn-group-justified" role="group">
+    <div class="col-xs-12">
+        <div class="commentComposerActions" role="group">
             <?php echo $button; ?>
         </div>
     </div>

@@ -315,7 +315,7 @@ function addVideoToPlayList(videos_id, isChecked, playlists_id) {
     //console.log('addVideoToPlayList');
     modal.showPleaseWait();
 
-    $.ajax({
+    return $.ajax({
         url: webSiteRootURL + 'objects/playListAddVideo.json.php',
         method: 'POST',
         data: {
@@ -342,6 +342,13 @@ function addVideoToPlayList(videos_id, isChecked, playlists_id) {
             setTimeout(function () {
                 playListsAdding = false
             }, 500);
+        },
+        error: function () {
+            avideoToastError(__('Error on playlist'));
+        },
+        complete: function () {
+            modal.hidePleaseWait();
+            playListsAdding = false;
         }
     });
 }

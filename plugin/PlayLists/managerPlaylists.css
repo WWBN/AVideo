@@ -1,0 +1,35 @@
+.playlistManager > .panel { border-radius: 10px; box-shadow: none; }
+.playlistManagerToolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.playlistManagerToolbar::before, .playlistManagerToolbar::after { display: none; }
+.playlistManagerToolbar > li { float: none !important; margin: 0; max-width: 100%; }
+.playlistManagerToolbar > li > a { padding: 7px 9px; border-radius: 7px; }
+.playlistManagerToolbar .label { background: transparent; color: inherit; padding: 0; font-size: inherit; font-weight: inherit; }
+.playlistManager #searchFormPlaylist { margin: 0; padding: 0; max-width: 100%; }
+.playlistManager #searchPlaylist { min-width: 0; }
+.playlistManagerGrid { display: flex; flex-wrap: wrap; align-items: flex-start; margin: 0 -6px; }
+.playlistManagerGrid::before, .playlistManagerGrid::after,
+.playlistManagerGrid > .clearfix { display: none !important; }
+.playlistManagerGrid > .pl { padding: 0 6px; min-width: 0; }
+.playlistManager .pl > .panel { border-radius: 9px; margin-bottom: 12px; box-shadow: none; }
+.playlistCardHeading { padding: 8px 10px; border-radius: 8px 8px 0 0; }
+.playlistCardTitle { font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; margin-bottom: 6px; }
+.playlistManager .playlistCardActions { display: flex; flex-wrap: wrap; gap: 4px; float: none !important; }
+.playlistManager .playlistCardActions > .btn { float: none; margin: 0; border-radius: 5px !important; min-width: 27px; padding: 4px 7px; }
+.playlistManager .playLists { padding: 8px 10px; }
+.playlistManager .playLists:not(:has(.tab-pane)) { display: none; }
+.playlistManager .playLists .nav > li > a { padding: 5px 8px; font-size: 12px; border-radius: 6px; }
+.playlistManager .playLists .list-group { margin: 6px 0 0; max-height: 230px; overflow: auto; }
+.playlistManager .playLists .list-group-item { display: flex; align-items: center; gap: 3px; padding: 7px 6px; min-height: 34px; }
+.playlistManager .playLists .list-group-item:hover,
+.playlistManager .playLists .list-group-item:focus-within { background: color-mix(in srgb, currentColor 7%, transparent); }
+.playlistManager .videoTitle.ellipsis { flex: 1; min-width: 0; width: auto; float: none; white-space: normal; overflow-wrap: anywhere; line-height: 1.35; font-size: 12px; }
+.playlistManager .list-group-item > .btn { flex-shrink: 0; float: none !important; border-radius: 5px; padding: 3px 5px; }
+.playlistManager .pl .panel-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 4px; padding: 7px 10px; border-radius: 0 0 8px 8px; }
+.playlistManager .panel-footer .label { white-space: normal; overflow-wrap: anywhere; line-height: 1.4; }
+@media (max-width: 767px) {
+    .playlistManagerGrid > .pl { width: 100%; }
+    .playlistManager > .panel > .panel-body { padding: 10px; }
+    .playlistManager #searchFormPlaylist { display: flex; }
+    .playlistManager #searchPlaylist { width: 100%; }
+    .playlistManager #searchFormPlaylist .input-group-btn { width: auto; }
+}

@@ -34,7 +34,7 @@ function getVerifyEmailButton($emailVerified, $class=''){
         <?php
         } else {
         ?>
-            <button class="btn btn-warning btn-lg btn-block verifyEmailBtn"><i class="fa fa-envelope"></i> <?php echo __("Verify e-mail"); ?></button>
+            <button type="button" class="btn btn-warning btn-lg btn-block verifyEmailBtn"><i class="fa fa-envelope"></i> <?php echo __("Verify e-mail"); ?></button>
         <?php
         }
         ?>
@@ -74,7 +74,7 @@ function getVerifyEmailButton($emailVerified, $class=''){
         <?php
         if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
         ?>
-            $('#inputUser').on('keyup', function() {
+            $('#inputUser').on('input', function() {
                 $('#inputEmail').val($(this).val());
             });
         <?php
@@ -89,6 +89,9 @@ function getVerifyEmailButton($emailVerified, $class=''){
                     url: webSiteRootURL+"objects/userVerifyEmail.php?users_id=<?php echo $users_id; ?>"
                 }).done(function(response) {
                     avideoResponse(response);
+                }).fail(function() {
+                    avideoToastError(__('An error occurred'));
+                }).always(function() {
                     modal.hidePleaseWait();
                 });
             });

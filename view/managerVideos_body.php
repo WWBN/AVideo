@@ -435,7 +435,7 @@ if (empty($advancedCustom)) {
             <!-- jQuery to filter the list -->
             <script>
                 $(document).ready(function() {
-                    $("#searchCategory").on("keyup", function() {
+                    $("#searchCategory").on("input", function() {
                         var value = $(this).val().toLowerCase();
                         $(".categoryItem").filter(function() {
                             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
@@ -512,7 +512,7 @@ if (empty($advancedCustom)) {
                                 $checked = Video::$searchFieldsNames[$key] == 'v.id' ? 'checked' : '';
                             }
                         ?>
-                            <li onclick="$('#grid').bootgrid('reload');event.stopPropagation();">
+                            <li onclick="event.stopPropagation();">
                                 <div class="form-check" style="padding-left: 5px;">
                                     <input class="form-check-input searchFieldsNames" type="checkbox" value="<?php echo Video::$searchFieldsNames[$key]; ?>" id="searchFieldsNames<?php echo $key; ?>" <?php echo $checked; ?>>
                                     <label class="form-check-label" for="searchFieldsNames<?php echo $key; ?>">
@@ -554,7 +554,10 @@ if (empty($advancedCustom)) {
             </script>
         </div>
         <div class="panel-body">
-
+            <div id="managerLoadError" class="alert alert-warning hidden" role="alert">
+                <?php echo __('An error occurred'); ?>
+                <button type="button" class="btn btn-default btn-sm" onclick="$('#grid').bootgrid('reload');"><?php echo __('Try again'); ?></button>
+            </div>
             <table id="grid" class="table table-condensed table-hover table-striped videosManager">
                 <thead>
                     <tr>
@@ -1607,18 +1610,21 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#embedVideoLinkButton').click(function() {
             newVideoLink();
         });
-        $("#checkBtn").click(function() {
-            var chk = $("#chk").hasClass('fa-check-square');
-            $(".checkboxVideo").each(function(index) {
-                if (chk) {
-                    $("#chk").removeClass('fa-check-square');
-                    $("#chk").addClass('fa-square');
-                } else {
-                    $("#chk").removeClass('fa-square');
-                    $("#chk").addClass('fa-check-square');
-                }
-                $(this).prop('checked', !chk);
-            });
+        function updateManagerSelection() {
+            var boxes = $('#grid .checkboxVideo');
+            var checked = boxes.filter(':checked').length;
+            var all = boxes.length > 0 && checked === boxes.length;
+            $('#chk').toggleClass('fa-check-square', all).toggleClass('fa-square', !all);
+            $('#checkBtn').attr('aria-pressed', all ? 'true' : 'false');
+        }
+        $('#checkBtn').attr('title', __('Select All')).on('click', function() {
+            var boxes = $('#grid .checkboxVideo');
+            boxes.prop('checked', boxes.filter(':checked').length !== boxes.length);
+            updateManagerSelection();
+        });
+        $('#grid').on('change', '.checkboxVideo', updateManagerSelection);
+        $('.searchFieldsNames').on('change', function() {
+            $('#grid').bootgrid('reload');
         });
         $("#deleteBtn").click(function() {
             swal({
@@ -1748,6 +1754,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         }
 
 
+        var managerInitialSearchDone = false;
+        $('#grid').on('load.rs.jquery.bootgrid', function() {
+            $('#managerLoadError').addClass('hidden');
+        });
         var grid = $("#grid").bootgrid({
             padding: 4,
             labels: {
@@ -1760,6 +1770,13 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             },
             rowCount: <?php echo $advancedCustom->videosManegerRowCount; ?>,
             ajax: true,
+            ajaxSettings: {
+                complete: function(xhr, status) {
+                    if (status !== 'abort' && status !== 'success' && status !== 'notmodified') {
+                        $('#managerLoadError').removeClass('hidden');
+                    }
+                }
+            },
             url: getGridURL,
             formatters: {
                 "commands": function(column, row) {
@@ -2088,6 +2105,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 return ret;
             },
         }).on("loaded.rs.jquery.bootgrid", function() {
+            updateManagerSelection();
             $(".tooltip").tooltip("hide");
             if ($('.videoPlaylist').length > 50) {
                 console.log("You are listing too many videos we will not process the playlist");
@@ -2099,7 +2117,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     //$(this).html($(this).attr('videos_id'));
                 });
             }
-            if (!empty(_editVideo)) {
+            if (!empty(_editVideo) && !managerInitialSearchDone) {
+                managerInitialSearchDone = true;
                 $(".bootgrid-header .search-field").val(_editVideo.id);
                 // Opcional: Execute uma busca automaticamente com o valor padrão
                 grid.bootgrid("search", _editVideo.id);
@@ -2275,10 +2294,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             mode: "range",
             dateFormat: "Y-m-d",
             allowInput: true,
-            onClose: function(selectedDates, dateStr) {
+            onClose: function(selectedDates, dateStr, instance) {
                 if (selectedDates.length === 2) {
-                    const start = selectedDates[0].toISOString().split('T')[0];
-                    const end = selectedDates[1].toISOString().split('T')[0];
+                    const start = instance.formatDate(selectedDates[0], 'Y-m-d');
+                    const end = instance.formatDate(selectedDates[1], 'Y-m-d');
                     filterDateRange = `${start}|${end}`;
                     $('#grid').bootgrid('reload');
                 } else if (selectedDates.length === 0) {
