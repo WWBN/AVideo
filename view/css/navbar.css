@@ -185,6 +185,9 @@ body.youtube.compressedMenu #sideBarContainer li a{
     display: none;
 }
 
+/* Hints must never intercept clicks on neighboring actions or dropdown items. */
+.navbarTooltip { pointer-events: none; }
+
 #mysearch.in,
 #mysearch.collapsing {
     display: block !important;

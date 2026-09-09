@@ -399,7 +399,7 @@ $(function () {
     updateArrows();
 });
 
-// Top-bar tooltips always open below their trigger and outside the scroll container.
+// Dropdown tooltips open to the side so their menus remain unobstructed.
 $(function () {
     var navbar = document.getElementById('mainNavBar');
     if (!navbar) return;
@@ -407,12 +407,21 @@ $(function () {
         var trigger = event.target.closest('[data-toggle="tooltip"]');
         if (!trigger || !navbar.contains(trigger) || trigger.closest('#sidebar')) return;
         var $trigger = $(trigger);
-        $trigger.attr('data-placement', 'bottom').attr('data-container', 'body');
+        var toggle = trigger.closest('[data-toggle="dropdown"]') || trigger.querySelector('[data-toggle="dropdown"]');
+        var placement = 'bottom';
+        if (toggle && !trigger.closest('.dropdown-menu')) {
+            var rect = toggle.getBoundingClientRect();
+            var bounds = navbar.getBoundingClientRect();
+            placement = bounds.right - rect.right >= rect.left - bounds.left ? 'right' : 'left';
+        }
+        $trigger.attr('data-placement', placement).attr('data-container', 'body');
+        $trigger.data('placement', placement).data('container', 'body');
         var tooltip = $trigger.data('bs.tooltip');
         if (tooltip) {
-            tooltip.options.placement = 'bottom';
+            tooltip.options.placement = placement;
             tooltip.options.container = 'body';
             tooltip.options.viewport = {selector: 'body', padding: 8};
+            tooltip.tip().addClass('navbarTooltip');
         }
     }
     navbar.addEventListener('mouseover', prepareTooltip, true);
