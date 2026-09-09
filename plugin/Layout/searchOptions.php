@@ -28,7 +28,9 @@ $global['doNotSearch'] = 0;
 
     #searchFieldsNamesBelowNavbar-dropdown,
     #catNameBelowNavbar-dropdown,
-    #tagNameBelowNavbar-dropdown {
+    #tagNameBelowNavbar-dropdown,
+    #dateBelowNavbar-dropdown,
+    #viewsBelowNavbar-dropdown {
         min-width: 150px;
         white-space: nowrap;
         overflow: hidden;
@@ -42,7 +44,9 @@ $global['doNotSearch'] = 0;
     }
 
     #catNameBelowNavbar-dropdown,
-    #tagNameBelowNavbar-dropdown {
+    #tagNameBelowNavbar-dropdown,
+    #dateBelowNavbar-dropdown,
+    #viewsBelowNavbar-dropdown {
         border-left-width: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -89,7 +93,9 @@ $global['doNotSearch'] = 0;
 
         #searchFieldsNamesBelowNavbar-dropdown,
         #catNameBelowNavbar-dropdown,
-        #tagNameBelowNavbar-dropdown {
+        #tagNameBelowNavbar-dropdown,
+        #dateBelowNavbar-dropdown,
+        #viewsBelowNavbar-dropdown {
             min-width: auto;
         }
 
@@ -111,9 +117,8 @@ $global['doNotSearch'] = 0;
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="searchFieldsNamesBelowNavbar-dropdown">
                 <span class="hidden-sm hidden-xs">
                     <?php echo __('Search in'); ?>:</span>
-                </span>
-                <span class="badge">0
-                    <span class="caret"></span></button>
+                <span class="badge">0</span>
+                <span class="caret"></span></button>
             <div class="dropdown-menu dropdown-menu-right">
                 <?php
                 TimeLogEnd($timeLogName, __LINE__);
@@ -126,7 +131,7 @@ $global['doNotSearch'] = 0;
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="catNameBelowNavbar-dropdown">
                 <i class="fas fa-list"></i>
                 <span class="hidden-sm hidden-xs">
-                    <?php echo __('All Categories'); ?>
+                    <span class="searchOptionLabel"><?php echo __('All Categories'); ?></span>
                     <span class="caret"></span>
                 </span>
             </button>
@@ -142,7 +147,7 @@ $global['doNotSearch'] = 0;
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="tagNameBelowNavbar-dropdown">
                 <i class="fas fa-tags"></i>
                 <span class="hidden-sm hidden-xs">
-                    <?php echo __('Tags'); ?>
+                    <span class="searchOptionLabel"><?php echo __('Tags'); ?></span>
                     <span class="caret"></span>
                 </span>
             </button>
@@ -155,7 +160,7 @@ $global['doNotSearch'] = 0;
             </div>
         </div>
         <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="tagNameBelowNavbar-dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="dateBelowNavbar-dropdown">
                 <i class="far fa-calendar-alt"></i>
                 <span class="hidden-sm hidden-xs">
                     <?php echo __('Date within'); ?>
@@ -171,7 +176,7 @@ $global['doNotSearch'] = 0;
             </div>
         </div>
         <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="tagNameBelowNavbar-dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="viewsBelowNavbar-dropdown">
                 <i class="fas fa-eye"></i>
                 <span class="hidden-sm hidden-xs">
                     <?php echo __('Views'); ?>
@@ -199,9 +204,9 @@ $global['doNotSearch'] = 0;
             if (userInput !== null) {
                 $('#searchFormInput').val(userInput);
                 $('#searchForm').submit();
+            } else {
+                avideoToastInfo(<?php echo json_encode(__('Keyword required')); ?>);
             }
-
-            avideoToastInfo('Keyword required');
             return;
         }
 

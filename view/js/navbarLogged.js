@@ -428,3 +428,71 @@ $(function () {
     navbar.addEventListener('focusin', prepareTooltip, true);
     $(navbar).on('show.bs.tooltip', '[data-toggle="tooltip"]', prepareTooltip);
 });
+
+$(function () {
+    var button = document.getElementById('filterButton');
+    var panel = document.getElementById('searchFilterPanel');
+    if (!button || !panel) return;
+    var $panel = $(panel);
+    var $dropdown = $('#filterDropdown');
+    var $tabs = $panel.find('.filterTabs [data-toggle="tab"]');
+    $tabs.on('shown.bs.tab', function() {
+        $tabs.attr({'aria-selected': 'false', tabindex: '-1'});
+        $(this).attr({'aria-selected': 'true', tabindex: '0'});
+        $panel.find('.searchFilterBody').scrollTop(0);
+    }).on('keydown', function(event) {
+        var index = $tabs.index(this);
+        if (event.key === 'ArrowRight') index++;
+        else if (event.key === 'ArrowLeft') index--;
+        else if (event.key === 'Home') index = 0;
+        else if (event.key === 'End') index = $tabs.length - 1;
+        else return;
+        event.preventDefault();
+        var tab = $tabs.get((index + $tabs.length) % $tabs.length);
+        $(tab).tab('show');
+        tab.focus();
+    });
+    function positionFilters() {
+        if (!$dropdown.hasClass('show')) return;
+        var rect = button.getBoundingClientRect();
+        var bounds = document.getElementById('mainNavBar').getBoundingClientRect();
+        var right = Math.min(window.innerWidth, bounds.right) - 8;
+        var width = Math.min(560, right - Math.max(8, bounds.left + 8));
+        var top = Math.max(rect.bottom, bounds.bottom) + 8;
+        $(panel).css({width: width, left: Math.max(8, Math.min(rect.left, right - width)),
+            right: 'auto', top: top, maxHeight: Math.max(0, Math.min(640, window.innerHeight - top - 8))});
+    }
+    function closeFilters(restoreFocus) {
+        $dropdown.removeClass('show');
+        button.setAttribute('aria-expanded', 'false');
+        panel.setAttribute('aria-hidden', 'true');
+        if (restoreFocus) button.focus();
+    }
+    $(button).on('click.searchFilters', function (event) {
+        event.preventDefault();
+        if ($dropdown.hasClass('show')) {
+            closeFilters(false);
+        } else {
+            $dropdown.addClass('show');
+            button.setAttribute('aria-expanded', 'true');
+            panel.setAttribute('aria-hidden', 'false');
+            positionFilters();
+        }
+    });
+    $(panel).find('.searchFilterClose').on('click', function () { closeFilters(true); });
+    document.addEventListener('click', function (event) {
+        if ($dropdown.hasClass('show') && !panel.contains(event.target) && !button.contains(event.target)) {
+            closeFilters(false);
+        }
+    }, true);
+    $(document).on('keydown.searchFilters', function (event) {
+        if (!$dropdown.hasClass('show')) return;
+        if (event.key === 'Escape') { event.preventDefault(); closeFilters(true); }
+    });
+    $(window).on('resize.searchFilters', positionFilters);
+    $('#mysearch').on('hide.bs.collapse', function () { closeFilters(false); });
+    if (typeof ResizeObserver !== 'undefined') {
+        var observer = new ResizeObserver(positionFilters);
+        observer.observe(document.getElementById('mainNavBar'));
+    }
+});

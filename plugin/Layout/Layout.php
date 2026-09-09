@@ -933,7 +933,7 @@ class Layout extends PluginAbstract
                         <input class="form-check-input" type="radio" name="' . $name . '" value="1"> 
                         1 ' . __('Day') . '
                     </label></div>';
-        for ($i = 5; $i <= 30; $i += 5) {
+        for ($i = 5; $i < 30; $i += 5) {
             $divs[] = '<div class="form-check">
                             <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="' . $name . '" value="' . $i . '"> 
@@ -960,9 +960,10 @@ class Layout extends PluginAbstract
     {
         global $global;
         $video = Video::getVideoWithMoreViews();
+        $viewsCount = intval($video['views_count'] ?? 0);
 
-        if ($video['views_count'] > 10) {
-            $step = $video['views_count'] / 10;
+        if ($viewsCount > 10) {
+            $step = $viewsCount / 10;
         } else {
             $step = 1;
         }
@@ -983,7 +984,7 @@ class Layout extends PluginAbstract
                         <input class="form-check-input" type="radio" name="' . $name . '" checked value="0"> 
                         ' . __('All') . ' 
                     </label></div>';
-        for ($i = $step; $i <= $video['views_count']; $i += $step) {
+        for ($i = $step; $i <= $viewsCount; $i += $step) {
             $count = intval($i);
             $divs[] = '<div class="form-check">
                             <label class="form-check-label">
@@ -1036,11 +1037,22 @@ class Layout extends PluginAbstract
             <div class="panel-body <?php echo $id; ?>">
                 <?php echo implode('', $elements); ?>
             </div>
+            <p class="text-muted text-center hidden searchFilterEmpty" role="status"><?php echo __('No results found!'); ?></p>
         </div>
         <script>
             $(document).ready(function() {
                 searchInList('#<?php echo $id; ?>-search', '.<?php echo $id; ?> .form-check');
+                $('#<?php echo $id; ?>-search').on('input', function() {
+                    var hasResults = $('.<?php echo $id; ?> .form-check').filter(function() {
+                        return this.style.display !== 'none';
+                    }).length > 0;
+                    $('#<?php echo $id; ?>-panel .searchFilterEmpty').toggleClass('hidden', hasResults);
+                });
                 $('#<?php echo $id; ?>-panel .form-check-input').on('change', function() {
+                    // The backend searches all fields when none are submitted; keep at least one selected.
+                    if (this.type === 'checkbox' && !$('#<?php echo $id; ?>-panel .form-check-input:checked').length) {
+                        this.checked = true;
+                    }
                     var checked = $(this).prop('checked');
                     var value = $(this).val();
                     $('.<?php echo $class; ?> input[type="checkbox"], .<?php echo $class; ?> input[type="radio"]').each(function() {
@@ -1053,7 +1065,6 @@ class Layout extends PluginAbstract
                         return this.value;
                     }).get();
 
-                    console.log('#<?php echo $id; ?>-panel .form-check-input', checkedValues, JSON.stringify(checkedValues));
                     Cookies.set('<?php echo $name; ?>', JSON.stringify(checkedValues), {
                         expires: 365,
                         path: '/'
@@ -1061,12 +1072,31 @@ class Layout extends PluginAbstract
                     setSearchFilterIcon();
                 });
 
-                var savedCookies = Cookies.get('<?php echo $name; ?>');
-                if (savedCookies) {
-                    var checkedValues = JSON.parse(savedCookies);
-                    $('#<?php echo $id; ?>-panel .form-check-input').each(function() {
-                        this.checked = checkedValues.includes(this.value);
-                    });
+                var name = <?php echo json_encode($name); ?>;
+                var params = new URLSearchParams(window.location.search);
+                var values = null;
+                var paramName = params.has(name) ? name : name.replace('[]', '');
+                if (params.has(paramName)) {
+                    values = params.getAll(paramName);
+                } else if (!params.has('search')) {
+                    var savedCookies = Cookies.get(name);
+                    if (savedCookies) {
+                        try {
+                            values = JSON.parse(savedCookies);
+                        } catch (error) {
+                            Cookies.remove(name, {path: '/'});
+                        }
+                    }
+                }
+                if (Array.isArray(values)) {
+                    values = values.map(String);
+                    var $inputs = $('#<?php echo $id; ?>-panel .form-check-input');
+                    // Obsolete choices fall back to the defaults, as the search backend does.
+                    if ($inputs.filter(function() { return values.indexOf(this.value) !== -1; }).length) {
+                        $inputs.each(function() {
+                            this.checked = values.indexOf(this.value) !== -1;
+                        });
+                    }
                 }
                 setSearchFilterIcon();
             });

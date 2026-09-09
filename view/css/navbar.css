@@ -512,3 +512,41 @@ li.navsub-toggle a+ul {
     #mainNavBar #mainNavbarLogo { max-width: 60px; }
     #mainNavBar .navbarScrollArrow { padding: 6px 3px; margin: 0; }
 }
+
+/* Search filters are anchored to the search button and retain theme panel colors. */
+#filterDropdown { position: static; }
+#filterDropdown > .searchFilterPanel {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    white-space: normal;
+    z-index: 1040;
+}
+#filterDropdown.show > .searchFilterPanel { display: flex; flex-direction: column; }
+.searchFilterPanel > .panel-heading,
+.searchFilterPanel > .panel-footer { flex: 0 0 auto; }
+.searchFilterHeading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.filterTabs { display: flex; flex-wrap: wrap; gap: 6px; }
+#mainNavBar .filterTabs > li { display: block; flex: 1 1 auto; margin: 0; }
+.filterTabs > li > a { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; margin: 0; border-radius: 9px; text-align: center; white-space: normal; }
+.filterTabs > li > a > i { flex: 0 0 auto; }
+.filterTabCount[hidden] { display: none; }
+.filterTabs > li > a:focus-visible { outline: 2px solid currentColor; outline-offset: -3px; }
+.searchFilterBody { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 12px; }
+.searchFilterPanel .searchHTML { border: 0; box-shadow: none; background: transparent; }
+.searchFilterPanel .searchHTML > .panel-heading { padding: 0 0 10px; border: 0; background: transparent; }
+.searchFilterPanel .searchHTML > .panel-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 8px; padding: 0; }
+.searchFilterPanel .searchHTML > .panel-body::before,
+.searchFilterPanel .searchHTML > .panel-body::after { display: none; }
+.searchFilterPanel .form-check { min-width: 0; }
+#filterDropdown .form-control { width: 100%; border-radius: 8px; }
+.searchFilterPanel .form-check-label { display: flex; align-items: baseline; gap: 8px; width: 100%; height: 100%; padding: 12px; margin: 0; border: 1px solid color-mix(in srgb, currentColor 18%, transparent); border-radius: 8px; font-weight: 400; overflow-wrap: anywhere; cursor: pointer; }
+.searchFilterPanel .form-check-input { flex: 0 0 auto; margin: 0; }
+.searchFilterPanel .form-check-label:has(:checked) { border-color: currentColor; background: color-mix(in srgb, currentColor 8%, transparent); font-weight: 600; }
+.searchFilterPanel .form-check-label:hover { background: color-mix(in srgb, currentColor 6%, transparent); }
+.searchFilterPanel .form-check-label:focus-within { outline: 2px solid currentColor; outline-offset: -2px; }
+.searchFilterFooter { display: flex; justify-content: flex-end; }
+.searchFilterFooter .btn { border-radius: 8px; min-width: 120px; }

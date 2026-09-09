@@ -2543,7 +2543,7 @@ function checkMoment() {
 }
 
 function searchInList(inputSelector, filterElementSelector) {
-    $(inputSelector).on('keyup', function () {
+    $(inputSelector).on('input', function () {
         var searchText = $(this).val().toLowerCase();
         $(filterElementSelector).each(function () {
             var categoryText = $(this).text().toLowerCase();

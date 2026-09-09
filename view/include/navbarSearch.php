@@ -11,7 +11,7 @@
                 <span class="input-group-prepend">
                     <button type="button" id="filterButton"
                             class="btn btn-default navbar-btn dropdown-toggle"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            aria-controls="searchFilterPanel" aria-label="<?php echo __('Filters'); ?>" aria-expanded="false">
                         <i class="fas fa-sliders-h"></i>
                     </button>
                 </span>
@@ -43,30 +43,31 @@
         searchTotalSelectedSearchIn = $('#search-tab .form-check-input:checked').length;
         searchSelectedCategoryVal = $('#filter-tab .form-check-input:checked').val();
         searchSelectedTagVal = $('#filter-tags-tab .form-check-input:checked').val();
-        searchSelectedCategory = $('#filter-tab .form-check-input:checked').parent().find('.form-check-label').html();
-        searchSelectedTag = $('#filter-tags-tab .form-check-input:checked').parent().find('.form-check-label').html();
+        searchSelectedCategory = $('#filter-tab .form-check-input:checked').closest('.form-check-label').text().trim();
+        searchSelectedTag = $('#filter-tags-tab .form-check-input:checked').closest('.form-check-label').text().trim();
     }
 
     $(document).ready(function () {
-        $('#filterButton').click(function () {
-            $('#filterDropdown').toggleClass('show');
-        });
         setSearchFilterIcon();
         $("#searchFormInput").val(getSearchParam("search"));
     });
     function setSearchFilterIcon() {
         updateSearchSelectedValues();
         $('#searchFieldsNamesBelowNavbar-dropdown .badge').text(searchTotalSelectedSearchIn);
-        $('#catNameBelowNavbar-dropdown').html(searchSelectedCategory);
-        $('#tagNameBelowNavbar-dropdown').html(searchSelectedTag);
-        // check if no filter checkboxes are checked and search_category0 is checked and search_tag0 is checked
-        if (searchTotalSelectedSearchIn === 0 && empty(searchSelectedCategoryVal) && empty(searchSelectedTagVal)) {
-            // add the text-muted icon to the filterButton
-            $('#filterButton').removeClass('active');
-        } else {
-            // remove the text-muted icon from the filterButton
-            $('#filterButton').addClass('active');
-        }
+        $('#catNameBelowNavbar-dropdown .searchOptionLabel').text(searchSelectedCategory);
+        $('#tagNameBelowNavbar-dropdown .searchOptionLabel').text(searchSelectedTag);
+        var active = false;
+        $('#searchFilterPanel .tab-pane').each(function() {
+            var $inputs = $(this).find('.form-check-input');
+            var count = $inputs.filter(':checked').length;
+            var changed = $inputs.filter(function() {
+                return this.checked !== this.defaultChecked;
+            }).length > 0;
+            active = active || changed;
+            $('.filterTabs a[href="#' + this.id + '"] .filterTabCount')
+                .text(count).prop('hidden', !changed || !count);
+        });
+        $('#filterButton').toggleClass('active', active);
     }
 
 </script>
