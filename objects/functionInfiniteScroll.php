@@ -134,8 +134,10 @@ function getPagination($total, $link = "", $maxVisible = 10, $infinityScrollGetF
     if ($isInfiniteScroll) {
         $content = file_get_contents($global['systemRootPath'] . 'objects/functiongetPagination.php');
         $pag .= str_replace(
-            ['$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector', '$loadMore', '$loadOnScroll'],
-            [$uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector,  __('Load More'), (!empty($loadOnScroll) ? 'true' : 'false')],
+            ['$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector', '$loadMore', '$loadOnScroll', '$totalPages', '$loadingLabel', '$retryLabel', '$errorLabel', '$endLabel'],
+            [$uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector, htmlspecialchars(__('Load More'), ENT_QUOTES, 'UTF-8'), (!empty($loadOnScroll) ? 'true' : 'false'), (int) $total,
+                htmlspecialchars(__('Loading...'), ENT_QUOTES, 'UTF-8'), htmlspecialchars(__('Please try again'), ENT_QUOTES, 'UTF-8'),
+                htmlspecialchars(__('Error') . '. ' . __('Please try again'), ENT_QUOTES, 'UTF-8'), htmlspecialchars(__('No more pages to load'), ENT_QUOTES, 'UTF-8')],
             $content
         );
     }

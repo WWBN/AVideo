@@ -1,0 +1,192 @@
+/* Related videos: keep Bootstrap/theme colors and existing thumbnail actions. */
+.videosListToolbar {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    clear: both;
+    padding: 8px 0;
+}
+.videosListToolbar label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+.videosListSort { flex: 1; min-width: 0; position: relative; z-index: 10; }
+/* main.css assigns z-index: 1 to every div inside #videosList. Keep the
+   Select2 dropdown above the entire list, including an open card menu. */
+#videosList .videosListToolbar { position: relative; z-index: 4; }
+#videosList .videosListSort { z-index: 2; }
+.videosListCount { flex: 0 1 90px; min-width: 68px; }
+.videosListToolbar .form-control,
+.videosListToolbar .btn { border-radius: 8px; }
+.videosListToolbar .form-control,
+.videosListToolbar .select2-selection--single { height: 38px; border-radius: 8px; }
+.videosListToolbar .select2-selection--single .select2-selection__rendered { line-height: 36px; }
+.videosListToolbar .select2-selection--single .select2-selection__arrow { height: 36px; }
+#videosListStatus {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 28px;
+    font-size: 12px;
+}
+#videosListStatus [hidden] { display: none; }
+#videosListItems { clear: both; display: flow-root; }
+#videosListItems > .videoListItem {
+    display: grid;
+    grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    float: none;
+    width: 100%;
+    padding: 10px;
+    margin: 0 0 6px;
+    border-radius: 12px;
+    font-size: 13px;
+    overflow: visible;
+    position: relative;
+    z-index: 0;
+    border-bottom: 0;
+}
+/* Raise the whole card: the animated thumbnail controls form their own layer. */
+#videosListItems > .videoListItem:focus-within { z-index: 1; }
+#videosListItems > .videoListItem:has(.dropdown.open) { z-index: 2; }
+#videosListItems .videoListItem > .videoLink:has(.dropdown.open) { z-index: 3; }
+#videosListItems .galleryVideo:focus-within .galleryVideoButtons,
+#videosListItems .galleryVideoButtons:focus-within,
+#videosListItems .galleryVideoButtons:has(.dropdown.open) { display: block; }
+#videosListItems > .videoListItem::before,
+#videosListItems > .videoListItem::after { content: none; }
+/* Use the theme's foreground as a translucent highlight, without creating
+   transforms or clipping the thumbnail's dropdown menus. */
+#videosListItems > .videoListItem:not(.loadingVideosList)::before {
+    content: "";
+    display: block;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: currentColor;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+    transition: opacity .15s ease-out;
+}
+#videosListItems > .videoListItem:not(.loadingVideosList):focus-within::before,
+#videosListItems > .videoListItem:has(.dropdown.open)::before { opacity: .07; }
+@media (hover: hover) {
+    #videosListItems > .videoListItem:not(.loadingVideosList):hover::before { opacity: .07; }
+    #videosListItems > .videoListItem:hover .galleryVideoButtons { display: block; }
+}
+#videosListItems .videoListItem a:focus-visible,
+#videosListItems .videoListItem button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+#videosListItems .videosDetails > a:hover,
+#videosListItems .videosDetails > a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+#videosListItems .videoListItem > .videoLink,
+#videosListItems .videoListItem > .videosDetails {
+    float: none;
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+}
+#videosListItems .videoLink .galleryVideo {
+    border-radius: 10px;
+    margin: 0;
+}
+#videosListItems .thumbsImage,
+#videosListItems .thumbsJPG,
+#videosListItems .thumbsGIF { border-radius: 10px; }
+#videosListItems .videosDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+#videosListItems .videosDetails .row { margin: 0; }
+#videosListItems .videosDetails > a { color: inherit; }
+#videosListItems .videosDetails .text-uppercase { text-transform: none; }
+#videosListItems .videosDetails .title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    min-height: 2.8em;
+}
+#videosListItems .videosDetails > .details { order: 3; }
+#videosListItems .videosDetails .details,
+#videosListItems .videosDetails .details > div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    float: none;
+    min-width: 0;
+}
+#videosListItems .details .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 4px 6px;
+    border-radius: 5px;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+#videosListItems .videoCreatorSmall {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+}
+#videosListItems .videoCreatorSmall::before,
+#videosListItems .videoCreatorSmall::after { content: none; }
+#videosListItems .videoCreatorSmall > a { flex: 0 0 24px; }
+#videosListItems .videoCreatorSmall img { max-width: 24px; height: 24px; object-fit: cover; border-radius: 50%; }
+#videosListItems .videoCreatorSmall > div { min-width: 0; }
+#videosListItems .videoCreatorSmall .btn-link {
+    display: block;
+    max-width: 100%;
+    padding: 0;
+    font-size: 12px;
+    text-align: left;
+    text-transform: none;
+    font-weight: 400;
+    line-height: 1.35;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+#videosListItems > nav { clear: both; text-align: center; }
+#videosListItems .videosListSkeletonThumb { aspect-ratio: 16 / 9; border-radius: 10px; }
+#videosListItems .videosListSkeletonDetails { display: grid; gap: 12px; padding-top: 3px; }
+#videosListItems .videosListSkeletonDetails > div { height: 14px; }
+#videosListItems .videosListSkeletonDetails > div:nth-child(2) { width: 80%; }
+#videosListItems .videosListSkeletonDetails > div:nth-child(3) { width: 55%; margin-top: 10px; }
+#videosListItems .videosListSkeletonBlock { position: relative; overflow: hidden; background: currentColor; opacity: .1; }
+#videosListItems .videosListSkeletonBlock::after {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    background-size: 300% 100%;
+}
+#videosListItems[aria-busy="true"] > .videoListItem:not(.loadingVideosList) { opacity: .55; }
+#videosListItems .videosListEmpty { padding: 36px 12px; text-align: center; }
+#videosListItems .videosListEmpty > i { font-size: 28px; margin-bottom: 12px; }
+@media (prefers-reduced-motion: reduce) {
+    #videosListItems .loading-background::after { animation: none; }
+    #videosListItems > .videoListItem::before { transition: none; }
+}

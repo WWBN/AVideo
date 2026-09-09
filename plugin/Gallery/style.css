@@ -341,3 +341,277 @@ a.h6.galleryLink > strong{
 .galeryDetailsContent{
     margin: 5px 0 15px 0;
 }
+
+.galleryDownload {
+    position: relative;
+    overflow: visible;
+    z-index: 3;
+    display: inline-flex;
+    width: 100%;
+}
+
+.galleryDownloadIcon,
+.galleryDownloadQuality {
+    display: none;
+}
+
+/* Gallery page only: retain Bootstrap 3 column widths and theme colors. */
+.galleryLayout .galleryGrid {
+    clear: both;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.galleryLayout .galleryGrid::before,
+.galleryLayout .galleryGrid::after,
+.galleryLayout .galleryGrid > .clearfix {
+    display: none;
+}
+
+.galleryLayout .galleryGrid > .galleryVideo {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    min-width: 0;
+    margin-bottom: 20px;
+    padding: 0 8px 12px;
+}
+
+.galleryLayout .galleryVideo .aspectRatio16_9 {
+    border-radius: 12px;
+}
+
+.galleryLayout .galleryVideo .title {
+    font-size: 1.1em;
+    font-weight: 600;
+    line-height: 1.35;
+    min-height: 2.7em;
+    max-height: 2.7em;
+    margin: 10px 0 0;
+    overflow-wrap: anywhere;
+}
+
+.galleryLayout .galleryVideo .galeryDetailsContent {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    /* Reserve the action row even when this video has no download button. */
+    grid-template-rows: 1fr minmax(40px, auto);
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+    margin: 10px 0 0;
+}
+
+.galleryLayout .galeryDetailsContent::before,
+.galleryLayout .galeryDetailsContent::after,
+.galleryLayout .galeryDetailsContent > .clearfix {
+    display: none;
+}
+
+.galleryLayout .galeryDetailsContent > a {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.galleryLayout .galeryDetailsContent > .dropdown {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: start;
+}
+
+.galleryLayout .galeryDetailsContent > .channelPhotoDescription {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    min-width: 0;
+    overflow: visible;
+}
+
+.galleryLayout .galeryDetailsContent > .dropup {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    align-self: end;
+}
+
+.galleryLayout .galleryDownload > .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: auto;
+    max-width: 100%;
+    min-height: 36px;
+    padding: 8px 14px;
+    border-radius: 18px;
+    background-image: none;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 18px;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.galleryLayout .galleryDownloadLabel {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.galleryLayout .galleryDownload > .btn > .fa,
+.galleryLayout .galleryDownload > .btn > .caret {
+    flex-shrink: 0;
+}
+
+.galleryLayout .galleryDownload > .btn:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+
+.galleryLayout .galleryDownload > .dropdown-menu {
+    min-width: 0;
+    width: 100%;
+    max-height: 240px;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    padding: 6px;
+    border-radius: 12px;
+}
+
+.galleryLayout .galleryDownload > .dropdown-menu > li > a {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px;
+    border-radius: 7px;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.galleryLayout .galleryDownload.open > .dropdown-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 96px), 1fr));
+    gap: 4px;
+}
+
+.galleryLayout .galleryDownloadIcon {
+    display: inline-block;
+    font-size: 20px;
+}
+
+.galleryLayout .galleryDownload .galleryDownloadQuality {
+    display: inline-block;
+    flex-shrink: 0;
+    padding: 3px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.galleryLayout .galleryDownloadOptionLabel {
+    display: none;
+}
+
+.galleryLayout .galleryVideo .channelPhoto {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0;
+    filter: none;
+    opacity: 1;
+}
+
+.galleryLayout .channelPhotoDescription > .videoChannel {
+    order: -1;
+    min-width: 0;
+    min-height: 1.5em;
+    line-height: 1.5;
+}
+
+.galleryLayout .videoChannel a {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.galleryLayout .channelPhotoDescription > .galeryDetails {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: 0;
+    min-height: 1.8em;
+    line-height: 1.5;
+}
+
+.galleryLayout .galleryVideo .galleryTags {
+    flex-wrap: wrap;
+    max-width: 100%;
+    gap: 2px;
+}
+
+.galleryLayout .galleryVideo .galleryTags .label {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+    border-radius: 4px;
+}
+
+.galleryLayout .channelPhotoDescription > .videoHumanTime {
+    margin-top: auto;
+    padding-top: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.5;
+}
+
+.galleryLayout .galeryDetailsContent > .dropdown > .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+.galleryLayout .galeryDetailsContent > .dropdown > .dropdown-toggle {
+    min-width: 28px;
+    min-height: 28px;
+    border-radius: 50%;
+}
+
+.galleryLayout .galleryVideo:focus-within .galleryVideoButtons {
+    display: block;
+}
+
+.galleryLayout h3.galleryTitle {
+    margin: 12px 0 16px;
+    padding: 12px 8px;
+    font-weight: 600;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.galleryLayout .galleryTitle a {
+    white-space: normal;
+}
+
+@media (max-width: 767px) {
+    .galleryLayout .mainArea {
+        padding: 5px;
+    }
+
+    .galleryLayout .galleryGrid > .galleryVideo {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+}

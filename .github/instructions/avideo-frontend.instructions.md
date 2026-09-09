@@ -178,6 +178,55 @@ AVideo's default UI is Bootstrap 3.4.1 from `view/bootstrap/`. Match the file yo
 
 ---
 
+## Cross-Theme Compatibility (`view/css/custom/`)
+
+AVideo ships ~20 swappable full Bootswatch 3.3.7 themes in `view/css/custom/` (`default.css`, `cerulean.css`, `cosmo.css`, `cyborg.css`, `darkly.css`, `flatly.css`, `journal.css`, `lumen.css`, `netflix.css`, `paper.css`, `readable.css`, `simplex.css`, `slate.css`, `solar.css`, `spacelab.css`, `standstone.css`, `superhero.css`, `united.css`, `yeti.css`, plus custom user themes), selected per-site/per-user (see `admin/design_colors.php`, `view/css/custom/theme.php`). Each is a complete Bootstrap 3 rebuild with its own color palette, including several dark themes (`cyborg`, `darkly`, `slate`, `solar`, `superhero`).
+
+When adding or changing CSS/markup:
+
+- Never hardcode a color, background, or border that only looks correct on the `default` theme (e.g. a light-gray panel background, black text, white card). Use existing Bootstrap classes (`panel`, `panel-default`, `bg-*`, `text-*`, `well`) or CSS variables so the active theme's palette applies automatically.
+- If a custom color is unavoidable, define it once as a CSS custom property with a sensible fallback and let per-theme overrides (if any already exist in `view/css/custom/`) adjust it — do not inline a fixed hex value in a view/plugin file.
+- Mentally (or actually) check new UI against at least one light theme and one dark theme (e.g. `default` and `cyborg`/`darkly`) before considering the change done — text-on-background contrast is the most common regression.
+- Do not duplicate a theme's CSS rules into a plugin/view stylesheet to "fix" one theme; that breaks the other 19. Fix contrast/spacing with theme-agnostic classes instead.
+
+## Responsive Layout Requirements
+
+Every layout/CSS change must work across Bootstrap 3 breakpoints (`xs`/`sm`/`md`/`lg`):
+
+- Use the Bootstrap 3 grid (`row`, `col-xs-*`, `col-sm-*`, `col-md-*`, `col-lg-*`) and responsive utilities (`hidden-xs`, `visible-xs-*`, `img-responsive`, `table-responsive`) instead of fixed pixel widths.
+- Avoid fixed `width`/`height` in `px` on containers that hold text or a variable number of items; prefer `%`, `max-width`, `flex`, or Bootstrap's grid instead.
+- Test/consider mobile (`xs`), tablet (`sm`/`md`), and desktop (`lg`) — AVideo has a large mobile-web and in-app-webview audience.
+- Reuse existing responsive patterns already in the file/plugin you're editing before inventing a new breakpoint strategy.
+
+## Homepage/First-Page Mode Compatibility
+
+The site's homepage is one of several interchangeable plugins, each with its own markup for listing videos/categories — a site owner can switch between them at any time:
+
+- `plugin/Gallery/` — classic grid/category homepage
+- `plugin/YouPHPFlix2/` — Netflix-style "Flix" homepage (rows/carousels per category)
+- `plugin/FirstPageChannelList/` — channel-list style homepage
+- `plugin/Layout/` — configurable layout/navbar wrapper used across modes
+
+Any CSS/JS change to shared components (navbar, video card/thumbnail, category row, modals, player skin, search results, footer) must keep working in **all** homepage modes the change can reach, not just the one you tested in. Before finishing:
+
+- Check whether the class/component you're touching is rendered from a shared `view/` file (used by multiple modes) or from a mode-specific file under `plugin/Gallery/view/`, `plugin/YouPHPFlix2/view/`, etc. — grep for the class name to find every consumer.
+- If a component is shared, verify (or explicitly note as needing manual verification) that the change looks correct in both Gallery's grid layout and YouPHPFlix2's carousel/row layout — their container widths, spacing, and overflow behavior differ significantly.
+- Do not scope a fix with a mode-specific class hack (e.g. `.modeFlix .my-widget { ... }`) unless the visual difference between modes is genuinely intentional; prefer a fix that works identically in both.
+
+---
+
+## Reusable CSS/JS Classes (Required)
+
+Before adding a new class, ID, or inline style, search for an existing equivalent and reuse it:
+
+- Grep the relevant CSS files (`view/css/main.css`, the plugin's own CSS, or the nearest existing view) and `view/js/script.js` for an existing class/selector that already does what you need.
+- Never write component styling as inline `style="..."` attributes on new markup — add or reuse a CSS class in the appropriate stylesheet (`view/css/main.css` for global/shared UI, the plugin's own CSS file for plugin-specific UI). Inline styles cannot be overridden per-theme and are the most common source of theme/responsive regressions.
+- When a new visual pattern is genuinely needed, design it as a **reusable, generically-named class** (e.g. `.video-card`, `.category-row`, `.avideo-badge`) rather than a one-off ID-scoped or page-scoped rule — so the same class can be reused by other views/plugins/homepage modes later instead of being re-invented.
+- Prefer composing existing Bootstrap 3 utility classes (`pull-right`, `text-center`, `margin-top-10`, `hidden-xs`, etc.) over writing new CSS for something Bootstrap already solves.
+- Keep selectors low-specificity and theme-agnostic (avoid deep nesting, `!important`, or hardcoded colors) so the class keeps working when reused in a different theme or homepage mode.
+
+---
+
 ## jQuery Patterns
 
 ```javascript
@@ -285,6 +334,7 @@ AVideo uses server-side locale files in `locale/`. For frontend strings:
 - Add custom CSS only in the correct plugin or view CSS file — do not embed `<style>` blocks inline in PHP views
 - Use CSS custom properties (`--var`) where theming is needed
 - Avoid `!important` unless overriding a third-party library
+- Every new class must be responsive (see "Responsive Layout Requirements"), theme-agnostic across all `view/css/custom/` themes including dark themes (see "Cross-Theme Compatibility"), reusable rather than one-off (see "Reusable CSS/JS Classes"), and — if it styles a shared component — verified against every homepage/first-page mode that renders it (see "Homepage/First-Page Mode Compatibility")
 
 ---
 
@@ -296,6 +346,9 @@ AVideo uses server-side locale files in `locale/`. For frontend strings:
 - Use `webSiteRootURL` for AJAX endpoint URLs
 - Use current jQuery patterns (no deprecated methods)
 - Reuse existing JS utilities from `view/js/` before writing new ones
+- Make every layout/CSS change responsive (Bootstrap 3 grid/breakpoints) and verify it against both light and dark themes in `view/css/custom/`
+- Verify shared-component CSS/JS changes across every homepage/first-page mode (Gallery, YouPHPFlix2, FirstPageChannelList, Layout) that renders them
+- Reuse an existing CSS class/selector before adding a new one; when a new one is genuinely needed, make it generically named and reusable
 
 ## Do Not
 
@@ -306,3 +359,5 @@ AVideo uses server-side locale files in `locale/`. For frontend strings:
 - Use jQuery deprecated methods (`.live()`, `.die()`, `$.parseJSON`)
 - Initialize a new Video.js player on a page that already has one
 - Import CDN resources — all libraries are bundled locally
+- Hardcode colors/spacing that only work correctly on the `default` theme, or on one homepage mode's layout
+- Add inline `style="..."` attributes or one-off IDs for new component styling instead of a reusable CSS class

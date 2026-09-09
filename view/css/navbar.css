@@ -9,6 +9,7 @@
 
 
 #sidebar {
+    display: none;
     width: 100px;
     position: absolute;
     top: 0;
@@ -17,6 +18,29 @@
     -webkit-transition: all 0.25s ease-in-out;
     -moz-transition: all 0.25s ease-in-out;
     transition: all 0.25s ease-in-out;
+}
+
+/* Layout restoration is static. Motion is enabled only by a menu interaction. */
+body.sidebarLayout,
+body.sidebarLayout #sidebar,
+body.sidebarLayout #sideBarContainer {
+    transition: none;
+    animation: none;
+}
+
+body.sidebarLayout.sidebarAnimating {
+    transition: margin-left 0.2s ease-out;
+}
+
+body.sidebarLayout.sidebarAnimating #sidebar {
+    transition: width 0.2s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.sidebarLayout.sidebarAnimating,
+    body.sidebarLayout.sidebarAnimating #sidebar {
+        transition: none;
+    }
 }
 
 #menuBackButton,
@@ -59,6 +83,7 @@ body.youtube.compressedMenu .compressMenu .compress{
 }
 
 body.youtube #sidebar {
+    display: block;
     width: 300px;
 }
 body.youtube.compressedMenu #sidebar {
@@ -428,4 +453,59 @@ li.navsub-toggle a+ul {
     body.youtube.compressedMenu {
         margin-left: 100px;
     }
+}
+
+/* Scroll only the configurable actions; navigation and account remain reachable. */
+#mainNavBar > .items-container { align-items: center; justify-content: space-between; }
+#mainNavBar > .items-container > li:first-child { flex: 0 0 auto; }
+#mainNavBar .left-side { padding-left: 8px; margin-bottom: 0; }
+#mainNavBar .left-side > li:first-child { flex: 0 0 auto; }
+#mainNavBar #searchNavItem { flex: 0 1 280px; min-width: 100px; }
+#mainNavBar #searchNavItem > .navbar-header { width: 100%; }
+#mainNavBar #searchForm { display: flex; align-items: center; width: auto; }
+#mainNavBar #searchFormInput { width: 100%; min-width: 0; flex: 1 1 auto; }
+#mainNavBar #lastItemOnMenu { flex: 0 1 auto; min-width: 0; padding-right: 8px; }
+#mainNavBar #myNavbar {
+    display: block !important; /* Override the legacy mobile collapse and its inline hide. */
+    position: static;
+    float: none !important;
+    min-width: 0;
+    width: auto;
+    padding: 0;
+    background: transparent;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+}
+#mainNavBar #myNavbar > ul.right-menus {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: max-content;
+    margin: 0;
+}
+#mainNavBar #myNavbar > ul.right-menus > li { flex: 0 0 auto; }
+#mainNavBar #myNavbar > ul.right-menus > li > .btn,
+#mainNavBar #myNavbar > ul.right-menus > li > .btn-group { width: auto; }
+#mainNavBar #buttonMyNavbar { display: none; }
+#mainNavBar #rightProfileButton,
+#mainNavBar .navbarScrollArrow { flex: 0 0 auto; }
+#mainNavBar .navbarScrollArrow { padding: 6px; margin: 0 2px; border-radius: 50%; }
+#mainNavBar .navbarScrollArrow[hidden] { display: none; }
+#mainNavBar #myNavbar .navbarScrollDropdown {
+    position: fixed;
+    margin: 0;
+    z-index: 1040;
+}
+#mainNavBar #myNavbar .dropdown-menu.navbarScrollDropdown { overflow-y: auto; }
+@media (max-width: 767px) {
+    #mainNavBar #searchNavItem { flex: 0 0 42px; min-width: 0; }
+    #mainNavBar #mainNavbarLogo { max-width: 95px; padding-left: 5px; padding-right: 5px; }
+    #mainNavBar #mainNavbarLogo img { max-width: 100%; object-fit: contain; }
+    #mainNavBar #myNavbar > ul.right-menus > li { margin-left: 4px; }
+    #mainNavBar #myNavbar .btn { width: auto; }
+}
+@media (max-width: 400px) {
+    #mainNavBar #mainNavbarLogo { max-width: 60px; }
+    #mainNavBar .navbarScrollArrow { padding: 6px 3px; margin: 0; }
 }

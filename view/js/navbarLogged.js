@@ -2,6 +2,7 @@
 var seachFormIsRunning = 0;
 var youTubeMenuIsOpened = false;
 var youTubeMenuIsCompressed = false;
+var sidebarAnimationTimeout;
 
 $(document).ready(function () {
     setTimeout(function () {
@@ -63,6 +64,7 @@ $(document).ready(function () {
 
     $('#buttonMenu').on("click.sidebar", function (event) {
         event.stopPropagation();
+        YPTSidebarBeginInteraction();
         YPTSidebarToggle();
     });
     $("#sidebar").on("click", function (event) {
@@ -121,13 +123,11 @@ function isScreeWidthCollapseSize() {
 }
 
 async function closeLeftMenu() {
-    console.log('closeLeftMenu');
     var selector = '#buttonMenu svg';
     $(selector).removeClass('active');
     YPTSidebarClose();
 }
 async function openLeftMenu() {
-    console.log('openLeftMenu');
     if (isScreeWidthCollapseSize()) {
         closeRightMenu();
         closeSearchMenu();
@@ -209,20 +209,25 @@ async function YPTSidebarToggle() {
 function YPTSidebarIsOpen() {
     return $('body').hasClass('youtube');
 }
+
+function YPTSidebarBeginInteraction() {
+    clearTimeout(sidebarAnimationTimeout);
+    $('body').addClass('sidebarAnimating');
+    sidebarAnimationTimeout = setTimeout(function () {
+        $('body').removeClass('sidebarAnimating');
+        flickityReload();
+    }, 250);
+}
+
 async function YPTSidebarOpen() {
-    console.debug('YPTSidebarOpen');
     var selector = '#buttonMenu svg';
     $(selector).addClass('active');
+    $('#buttonMenu').attr('aria-expanded', 'true');
     $('body').addClass('youtube');
-    $("#sidebar").removeClass('animate__bounceOutLeft');
+    $("#sidebar").removeClass('animate__animated animate__bounceInLeft animate__bounceOutLeft');
     $("#sidebar").show();
-    $("#sidebar").addClass('animate__animated animate__bounceInLeft');
-    Cookies.set("menuOpen", true, { expires: 365, path: '/' });
-    setTimeout(function () {
-        setTimeout(function () {
-            flickityReload();
-        }, 500);
-    }, 500);
+    Cookies.set("menuOpen", true, avideoCookieOptions(365));
+    flickityReload();
     youTubeMenuIsOpened = true;
 }
 
@@ -235,38 +240,27 @@ async function flickityReload() {
 }
 
 async function YPTSidebarClose() {
-    console.debug('YPTSidebarClose');
-    $("#sidebar").removeClass('animate__bounceInLeft');
-    $("#sidebar").addClass('animate__bounceOutLeft');
-    Cookies.set("menuOpen", false, { expires: 365, path: '/' });
-    setTimeout(function () {
-        YPTSidebarUncompress();
-        $('body').removeClass('youtube');
-        $("#sidebar").hide();
-        setTimeout(function () {
-            flickityReload();
-        }, 500);
-    }, 500);
+    $('#buttonMenu').attr('aria-expanded', 'false');
+    $('#buttonMenu svg').removeClass('active');
+    $("#sidebar").removeClass('animate__animated animate__bounceInLeft animate__bounceOutLeft');
+    Cookies.set("menuOpen", false, avideoCookieOptions(365));
+    $('body').removeClass('youtube');
+    $("#sidebar").hide();
+    YPTSidebarUncompress();
     youTubeMenuIsOpened = false;
 }
 
 
 async function YPTSidebarCompress() {
-    console.debug('YPTSidebarCompress');
-    Cookies.set("menuCompressed", true, { expires: 365, path: '/' });
+    Cookies.set("menuCompressed", true, avideoCookieOptions(365));
     $('body').addClass('compressedMenu');
-    setTimeout(function () {
-        flickityReload();
-    }, 500);
+    flickityReload();
     youTubeMenuIsCompressed = true;
 }
 async function YPTSidebarUncompress() {
-    console.debug('YPTSidebarUncompress');
-    Cookies.set("menuCompressed", false, { expires: 365, path: '/' });
+    Cookies.set("menuCompressed", false, avideoCookieOptions(365));
     $('body').removeClass('compressedMenu');
-    setTimeout(function () {
-        flickityReload();
-    }, 500);
+    flickityReload();
     youTubeMenuIsCompressed = false;
 }
 
@@ -275,6 +269,7 @@ function YPTSidebarIsCompressed() {
 }
 
 async function YPTSidebarCompressToggle() {
+    YPTSidebarBeginInteraction();
     if (YPTSidebarIsCompressed()) {
         YPTSidebarUncompress();
     } else {
@@ -296,21 +291,131 @@ async function YPTHidenavbar() {
 }
 
 $(document).ready(function () {
-    var menuCompressed = Cookies.get("menuCompressed");
-    if (menuCompressed === "true" && !inIframe()) {
-        YPTSidebarCompress();
-    } else {
-        YPTSidebarUncompress();
-    }
-
-    var menuOpen = Cookies.get("menuOpen");
-    if (menuOpen === "true" && !inIframe()) {
-        YPTSidebarOpen();
-    } else {
-        YPTSidebarClose();
-    }
+    // Initialization must not animate, schedule a close, or overwrite preferences.
+    var restored = $('body').hasClass('sidebarLayout');
+    youTubeMenuIsOpened = restored ? YPTSidebarIsOpen() : Cookies.get("menuOpen") === "true" && !inIframe();
+    youTubeMenuIsCompressed = youTubeMenuIsOpened && (restored ? YPTSidebarIsCompressed() : Cookies.get("menuCompressed") === "true");
+    $('body').addClass('sidebarLayout').removeClass('sidebarAnimating');
+    $('#sidebar').removeClass('animate__animated animate__bounceInLeft animate__bounceOutLeft');
+    $('body').toggleClass('youtube', youTubeMenuIsOpened);
+    $('body').toggleClass('compressedMenu', youTubeMenuIsCompressed);
+    $('#sidebar').toggle(youTubeMenuIsOpened);
+    $('#buttonMenu svg').toggleClass('active', youTubeMenuIsOpened);
+    $('#buttonMenu').attr('aria-expanded', String(youTubeMenuIsOpened));
 
     setTimeout(function () {
         flickityReload();
     }, 5000);
+});
+
+// Native horizontal scrolling keeps plugin buttons intact, including text-only actions.
+$(function () {
+    var strip = document.getElementById('myNavbar');
+    if (!strip) return;
+    var $strip = $(strip);
+    var $previous = $('#lastItemOnMenu > .navbarScrollPrevious');
+    var $next = $('#lastItemOnMenu > .navbarScrollNext');
+    var frame;
+    function updateArrows() {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(function () {
+            // Include arrow widths when deciding whether overflow has actually disappeared.
+            var arrowWidth = ($previous.is(':visible') ? $previous.outerWidth(true) : 0) +
+                ($next.is(':visible') ? $next.outerWidth(true) : 0);
+            var overflowing = strip.scrollWidth > strip.clientWidth + arrowWidth + 1;
+            $previous.add($next).prop('hidden', !overflowing);
+            $previous.prop('disabled', strip.scrollLeft <= 1);
+            $next.prop('disabled', strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 1);
+        });
+    }
+    $previous.add($next).on('click', function () {
+        closePopups();
+        strip.scrollBy({left: (this === $previous[0] ? -1 : 1) * Math.max(120, strip.clientWidth * .7),
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+    });
+    // Fixed positioning escapes overflow clipping without moving plugin menu elements.
+    function positionMenu($menu, anchor) {
+        $menu.data('navbarScrollAnchor', anchor);
+        var rect = anchor.getBoundingClientRect();
+        var bounds = strip.getBoundingClientRect();
+        var width = Math.min($menu.outerWidth() || $menu.find('.select2-dropdown').outerWidth() || rect.width, window.innerWidth - 16);
+        var left = Math.max(8, Math.min(rect.left, bounds.right - width, window.innerWidth - width - 8));
+        $menu.css({position: 'fixed', left: left, right: 'auto', top: rect.bottom + 4, bottom: 'auto',
+            maxWidth: window.innerWidth - 16, maxHeight: Math.max(80, window.innerHeight - rect.bottom - 12)});
+    }
+    function syncDropdowns() {
+        $strip.find('.dropdown-menu').each(function () {
+            var $menu = $(this);
+            var $parent = $menu.parent();
+            if ($parent.hasClass('open')) {
+                if (!$menu.hasClass('navbarScrollDropdown')) {
+                    $menu.data('navbarOriginalStyle', $menu.attr('style') || '').addClass('navbarScrollDropdown');
+                }
+                positionMenu($menu, $parent.children('[data-toggle="dropdown"]')[0] || $parent[0]);
+            } else if ($menu.hasClass('navbarScrollDropdown')) {
+                $menu.removeClass('navbarScrollDropdown').attr('style', $menu.data('navbarOriginalStyle'));
+            }
+        });
+    }
+    $strip.on('shown.bs.dropdown hidden.bs.dropdown', syncDropdowns);
+    // Plugins can toggle .open directly or consume Bootstrap events on their wrappers.
+    var dropdownObserver = new MutationObserver(function (records) {
+        if (records.some(function (record) {
+            return record.type === 'childList' || (record.target.matches('.btn-group, .dropdown, .dropup') &&
+                !record.target.matches('.dropdown-menu'));
+        })) syncDropdowns();
+    });
+    dropdownObserver.observe(strip, {subtree: true, childList: true, attributes: true, attributeFilter: ['class']});
+    syncDropdowns();
+    function closePopups() {
+        $strip.find('.open > [data-toggle="dropdown"]').dropdown('toggle');
+        $strip.find('select.select2-hidden-accessible').each(function () { $(this).select2('close'); });
+    }
+    $strip.on('scroll', function () {
+        $strip.find('.navbarScrollDropdown:visible').each(function () {
+            var anchor = $(this).data('navbarScrollAnchor');
+            if (anchor) positionMenu($(this), anchor);
+        });
+        updateArrows();
+    });
+    // Select2's default dropdown parent may be inside the scroller, too.
+    $strip.on('select2:open', 'select', function () {
+        var select = this;
+        requestAnimationFrame(function () {
+            var $popup = $(select).parent().children('.select2-container--open').filter(function () {
+                return $(this).find('.select2-dropdown').length;
+            });
+            $popup.addClass('navbarScrollDropdown');
+            positionMenu($popup, $(select).next('.select2-container')[0] || select);
+        });
+    });
+    $(window).on('resize.navbarScroll', function () { closePopups(); updateArrows(); });
+    if (typeof ResizeObserver !== 'undefined') {
+        var observer = new ResizeObserver(updateArrows);
+        observer.observe(strip);
+        if (strip.firstElementChild) observer.observe(strip.firstElementChild);
+        observer.observe(document.getElementById('lastItemOnMenu'));
+    }
+    updateArrows();
+});
+
+// Top-bar tooltips always open below their trigger and outside the scroll container.
+$(function () {
+    var navbar = document.getElementById('mainNavBar');
+    if (!navbar) return;
+    function prepareTooltip(event) {
+        var trigger = event.target.closest('[data-toggle="tooltip"]');
+        if (!trigger || !navbar.contains(trigger) || trigger.closest('#sidebar')) return;
+        var $trigger = $(trigger);
+        $trigger.attr('data-placement', 'bottom').attr('data-container', 'body');
+        var tooltip = $trigger.data('bs.tooltip');
+        if (tooltip) {
+            tooltip.options.placement = 'bottom';
+            tooltip.options.container = 'body';
+            tooltip.options.viewport = {selector: 'body', padding: 8};
+        }
+    }
+    navbar.addEventListener('mouseover', prepareTooltip, true);
+    navbar.addEventListener('focusin', prepareTooltip, true);
+    $(navbar).on('show.bs.tooltip', '[data-toggle="tooltip"]', prepareTooltip);
 });

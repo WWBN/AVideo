@@ -6,7 +6,7 @@ if (empty($_REQUEST['catName'])) {
 }
 $_page = new Page(array($siteTitle), 'mainPage');
 ?>
-<div class="<?php echo Gallery::getContaierClass('avideoLoadPage'); ?>">
+<div class="<?php echo Gallery::getContaierClass('avideoLoadPage galleryLayout'); ?>">
     <?php
     if (!empty($leaderBoardTop)) {
         echo '<!-- leaderBoardTop start --><div class="row text-center" style="padding: 10px;">' . $leaderBoardTop . '</div><!-- leaderBoardTop end -->';

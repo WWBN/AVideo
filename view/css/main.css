@@ -2084,12 +2084,49 @@ body.ypt-is-compressed #videoCol {
     margin-bottom: 50px;
 }
 
-.loadInfiniteScrollButton .scroller-status {
+.infiniteScrollControls {
+    clear: both;
+    padding: 12px 0;
+    text-align: center;
+}
+
+.infiniteScrollControls .loadInfiniteScrollButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: auto;
+    min-width: 220px;
+    max-width: 100%;
+    min-height: 46px;
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-weight: 600;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.infiniteScrollControls .infiniteScrollBusyIcon,
+.infiniteScrollControls.is-loading .infiniteScrollIdleIcon {
     display: none;
 }
 
-.loadInfiniteScrollButton:disabled .fas.fa-angle-double-down {
-    display: none;
+.infiniteScrollControls.is-loading .infiniteScrollBusyIcon {
+    display: inline-block;
+}
+
+.infiniteScrollControls .infiniteScrollStatus {
+    margin-top: 8px;
+    font-size: .9em;
+}
+
+.infiniteScrollControls .loadInfiniteScrollButton:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .infiniteScrollControls .fa-spin { animation: none; }
 }
 
 .displayJsonAsHtml .panel {
@@ -2195,4 +2232,24 @@ body>div.jq-toast-wrap {
     100% {
         background-position: 0 0;
     }
+}
+
+/* Shared pagination: retain each theme's active, disabled and hover colors. */
+.pagination {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    max-width: 100%;
+}
+.pagination > li > a,
+.pagination > li > span,
+.pagination > li:first-child > a,
+.pagination > li:first-child > span,
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+    border-radius: 7px;
+    margin: 0;
+    min-width: 34px;
+    text-align: center;
 }

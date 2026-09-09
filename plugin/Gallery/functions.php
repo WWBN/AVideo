@@ -97,7 +97,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
                 $infinityScrollGetFromSelector = "";
                 $infinityScrollAppendIntoSelector = "";
                 if ($infinityScroll) {
-                    $infinityScrollGetFromSelector = ".gallerySectionContent{$getName}";
+                    $infinityScrollGetFromSelector = ".gallerySectionContent{$getName} > *";
                     $infinityScrollAppendIntoSelector = ".gallerySectionContent{$getName}";
                 }
                 echo getPagination($totalPages, $url, 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector, false, $getName);
@@ -184,10 +184,7 @@ function createGallerySection($videos, $showChannel = true, $ignoreAds = false, 
         return '';
     }
     $videoCount = count($videos);
-    $screenColsLarge = 0;
-    $screenColsMedium = 0;
-    $screenColsSmall = 0;
-    $screenColsXSmall = 0;
+    $requestedCols = array($screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
     if ($videoCount < 5) {
         switch ($videoCount) {
             case 4:
@@ -216,7 +213,12 @@ function createGallerySection($videos, $showChannel = true, $ignoreAds = false, 
                 break;
         }
     }
-    //var_dump($screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
+    // Explicit per-breakpoint overrides take precedence over the small-section defaults.
+    $screenColsLarge = !empty($requestedCols[0]) ? $requestedCols[0] : $screenColsLarge;
+    $screenColsMedium = !empty($requestedCols[1]) ? $requestedCols[1] : $screenColsMedium;
+    $screenColsSmall = !empty($requestedCols[2]) ? $requestedCols[2] : $screenColsSmall;
+    $screenColsXSmall = !empty($requestedCols[3]) ? $requestedCols[3] : $screenColsXSmall;
+    echo '<div class="galleryGrid clearfix">';
     foreach ($videos as $video) {
         if (!empty($video['isLive'])) {
             createGalleryLiveSectionVideo($video, $zindex, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
@@ -227,21 +229,22 @@ function createGallerySection($videos, $showChannel = true, $ignoreAds = false, 
         $countCols++;
         $zindex--;
         if ($countCols > 1) {
-            if ($countCols % $obj->screenColsLarge === 0) {
+            if ($countCols % ($screenColsLarge ?: $obj->screenColsLarge) === 0) {
                 echo "<div class='clearfix hidden-md hidden-sm hidden-xs'></div>";
             }
-            if ($countCols % $obj->screenColsMedium === 0) {
+            if ($countCols % ($screenColsMedium ?: $obj->screenColsMedium) === 0) {
                 echo "<div class='clearfix hidden-lg hidden-sm hidden-xs'></div>";
             }
-            if ($countCols % $obj->screenColsSmall === 0) {
+            if ($countCols % ($screenColsSmall ?: $obj->screenColsSmall) === 0) {
                 echo "<div class='clearfix hidden-lg hidden-md hidden-xs'></div>";
             }
-            if ($countCols % $obj->screenColsXSmall === 0) {
+            if ($countCols % ($screenColsXSmall ?: $obj->screenColsXSmall) === 0) {
                 echo "<div class='clearfix hidden-lg hidden-md hidden-sm'></div>";
             }
         }
     }
     ?>
+    </div>
     <div class="col-xs-12  text-center clear clearfix" style="padding: 10px;">
         <?php
         if (empty($ignoreAds)) {
@@ -420,9 +423,9 @@ function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge
                     $files = getVideosURL($video['filename']);
                     if (!empty($files['mp4']) || !empty($files['mp3'])) {
                 ?>
-                        <div style="position: relative; overflow: visible; z-index: 3;display: inline-flex;width: 100%;" class="dropup">
-                            <button type="button" class="btn btn-default btn-sm btn-xs btn-block" data-toggle="dropdown">
-                                <i class="fa fa-download"></i> <?php echo __('Download'); ?> <span class="caret"></span>
+                        <div class="dropup galleryDownload">
+                            <button type="button" class="btn btn-default btn-xs btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-download" aria-hidden="true"></i> <span class="galleryDownloadLabel"><?php echo __('Download'); ?></span> <span class="caret" aria-hidden="true"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                 <?php
@@ -432,10 +435,23 @@ function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge
                                         continue;
                                     }
                                     $path_parts = pathinfo($theLink['filename']);
+                                    $downloadFormat = strtoupper($path_parts['extension']);
+                                    $downloadQuality = $downloadFormat;
+                                    $downloadLabel = __('Download') . ' ' . strtoupper(str_replace('_', ' ', $key));
+                                    if ($theLink['type'] === 'video' && preg_match('/^[a-z0-9]+_([1-9][0-9]*)p?$/i', $key, $resolutionMatch)) {
+                                        $downloadQuality = $resolutionMatch[1] . 'p';
+                                        $resolutionText = getResolutionText($resolutionMatch[1]);
+                                        $downloadLabel = __('Download') . ' ' . $downloadFormat . ' - ' . $downloadQuality;
+                                        if (!empty($resolutionText)) {
+                                            $downloadLabel .= ' (' . $resolutionText . ')';
+                                        }
+                                    }
                                 ?>
                                     <li>
-                                        <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
-                                            <?php echo __("Download"); ?> <?php echo $key; ?>
+                                        <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.{$path_parts['extension']}"); ?>" data-toggle="tooltip" data-placement="top" data-container="body" title="<?php echo htmlspecialchars($downloadLabel, ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($downloadLabel, ENT_QUOTES, 'UTF-8'); ?>">
+                                            <i class="fas <?php echo $theLink['type'] === 'audio' ? 'fa-music' : 'fa-film'; ?> fa-fw galleryDownloadIcon" aria-hidden="true"></i>
+                                            <span class="galleryDownloadQuality label label-default" aria-hidden="true"><?php echo htmlspecialchars($downloadQuality, ENT_QUOTES, 'UTF-8'); ?></span>
+                                            <span class="galleryDownloadOptionLabel"><?php echo htmlspecialchars($downloadLabel, ENT_QUOTES, 'UTF-8'); ?></span>
                                         </a>
                                     </li>
                                 <?php }

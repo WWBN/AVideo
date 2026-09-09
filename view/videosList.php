@@ -65,10 +65,6 @@ $searchForVideosNow = preg_match('/videosList.php$/', $_SERVER['PHP_SELF']);
 //var_dump($_POST['sort']);
 if ($searchForVideosNow) {
     $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED);
-    if (empty($videos)) {
-        //echo '<div id="videosList"></div>';
-        exit;
-    }
     $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED);
     $totalPages = ceil($total / getRowCount());
     if (empty($totalPages)) {
@@ -90,7 +86,10 @@ if (!empty($_REQUEST['channelName']) && empty($advancedCustomUser->hideRemoveCha
 
 $objGallery = AVideoPlugin::getObjectData("Gallery");
 ?>
-<div class="col-md-8 col-sm-12 " style="position: relative; z-index: 10;" >
+<link rel="stylesheet" href="<?php echo getURL('view/css/videosList.css'); ?>">
+<div class="videosListToolbar">
+<div class="videosListSort">
+    <label for="sortBy" class="text-muted"><?php echo __('Sort by'); ?></label>
     <?php
     $optionsArray = [];
     $selected = false;
@@ -105,13 +104,14 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
     echo Layout::getSelectSearchableHTML($optionsArray, 'sortBy', $selected);
     ?>
 </div>
-<div class="col-md-4 col-sm-12" style="position: relative; z-index: 2;">
+<div class="videosListCount">
+    <label for="rowCount" class="text-muted"><?php echo __('Videos'); ?></label>
     <select class="form-control" id="rowCount">
         <?php
         foreach ($jsonRowCountArray as $item) {
             if ($item == -1) {
                 ?>
-                <option <?php echo (!empty($_REQUEST['rowCount']) && $_REQUEST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo __("All"); ?></option>
+                <option value="-1" <?php echo (!empty($_REQUEST['rowCount']) && $_REQUEST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo __("All"); ?></option>
                 <?php
             } else {
                 ?>
@@ -122,7 +122,13 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
         ?>
     </select>
 </div>
-<div id="videosListItems">
+</div>
+<div id="videosListStatus" class="text-muted" role="status" aria-live="polite">
+    <span class="videosListLoadingText"><?php echo __('Loading...'); ?></span>
+    <span class="videosListErrorText" hidden><?php echo __('Could not load videos. Please try again.'); ?></span>
+    <button type="button" class="btn btn-default btn-xs videosListRetry" hidden><?php echo __('Retry'); ?></button>
+</div>
+<div id="videosListItems" aria-busy="<?php echo $searchForVideosNow ? 'false' : 'true'; ?>">
     <?php
     $link = "{$global['webSiteRootURL']}view/videosList.php";
     $link = addQueryStringParameter($link, 'videos_id', $videos_id);
@@ -138,38 +144,22 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
             }
             $getVideosListItem .= Video::getVideosListItem($value['id']);
         }
-        echo $getVideosListItem;
+        if ($getVideosListItem === '') {
+            echo '<div class="videosListEmpty text-muted"><i class="fas fa-film" aria-hidden="true"></i><p>' . __('No videos found') . '</p></div>';
+        } else {
+            echo $getVideosListItem;
+        }
         //var_dump(getRowCount(), $totalPages, getCurrentPage(), $link);
         echo getPagination($totalPages, $link, 5);
     } else {
-        for($i=0;$i<1;$i++){
+        for ($i = 0; $i < 3; $i++) {
         ?>
-        <div class="loadingVideosList col-lg-12 col-sm-12 col-xs-12 bottom-border videoListItem videoList-PHP ">
-            <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage videoLink h6">
-                <div class="galleryVideo loading-background">
-                    <img src="<?php echo ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL); ?>" alt="Loading"  class="thumbsJPG img-responsive text-center" height="130" />
-                </div>
-            </div>
-            <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
-                <div class="row" ><strong class="title">...</strong></div>
-                <div class="details row">
-                    <div class="text-muted pull-right" style="display:flex;">
-                        <div class="label label-default alreadyTooltip" data-toggle="tooltip" title="" style="" data-original-title="Watching Now">
-                            <i class="fa fa-eye"></i>
-                            <b class=""><i class="fas fa-circle-notch fa-spin"></i></b>
-                        </div>
-                        <div class="label label-default alreadyTooltip" data-toggle="tooltip" title="" data-original-title="Total Views">
-                            <i class="fa fa-user"></i>
-                            <b class=""><i class="fas fa-circle-notch fa-spin"></i></b>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 5px;">
-                    <div class="videoCreatorSmall">
-                        <img src="<?php echo ImagesPlaceHolders::getUserIcon(ImagesPlaceHolders::$RETURN_URL); ?>" alt="Loading" class="img img-responsive img-circle zoom" />
-                            ...
-                    </div>
-                </div>
+        <div class="loadingVideosList videoListItem" aria-hidden="true">
+            <div class="videosListSkeletonThumb videosListSkeletonBlock loading-background"></div>
+            <div class="videosListSkeletonDetails">
+                <div class="videosListSkeletonBlock loading-background"></div>
+                <div class="videosListSkeletonBlock loading-background"></div>
+                <div class="videosListSkeletonBlock loading-background"></div>
             </div>
         </div>
         <?php
@@ -180,6 +170,10 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
 <script>
     $(function () {
         loadVideosListPageTransformLinks();
+        $('#videosListStatus .videosListRetry').on('click', function () {
+            loadVideosListPage(loadVideosListLastPage);
+        });
+        $('#videosListStatus .videosListLoadingText').prop('hidden', $('#videosListItems').attr('aria-busy') !== 'true');
         $('#sortBy, #rowCount').change(function () {
             loadVideosListPage(1);
         });
@@ -194,19 +188,26 @@ if (!$searchForVideosNow) {
     var loadVideosListPagesortBy = 'loadVideosListPagesortBy<?php User::getId(); ?>';
     var loadVideosListPageTimeout;
     var loadVideosListPageIsLoading = false;
+    var loadVideosListPendingPage = null;
+    var loadVideosListLastPage = 1;
 
     function loadVideosListPage(page) {
         clearTimeout(loadVideosListPageTimeout);
         if (typeof modal === 'undefined') {
-            setTimeout(function () {
-                loadVideosListPageTimeout = loadVideosListPage(page);
+            loadVideosListPageTimeout = setTimeout(function () {
+                loadVideosListPage(page);
             }, 500);
             return false;
         }
-        if(loadVideosListPageIsLoading){
+        if (loadVideosListPageIsLoading) {
+            loadVideosListPendingPage = page;
             return false;
         }
+        loadVideosListLastPage = page;
         loadVideosListPageIsLoading = true;
+        $('#videosListItems').attr('aria-busy', 'true');
+        $('#videosListStatus .videosListLoadingText').prop('hidden', false);
+        $('#videosListStatus .videosListErrorText, #videosListStatus .videosListRetry').prop('hidden', true);
         var url = '<?php echo $link; ?>';
 
         var rowCount = $('#rowCount').val();
@@ -218,23 +219,46 @@ if (!$searchForVideosNow) {
         url = addQueryStringParameter(url, 'rowCount', rowCount);
         url = addQueryStringParameter(url, 'sortBy', sortBy);
         url = addQueryStringParameter(url, 'current', page);
-        $.get(url, function (response) {
-            var videosList = $($.parseHTML(response)).filter("#videosListItems").html();
-            loadVideosListPageIsLoading = false;
-            $('#videosListItems').html(videosList);
-            //animateChilds('#videosListItems', 'animate__flipInX', 0.2);
+        $.ajax({url: url, timeout: 30000}).done(function (response) {
+            if (loadVideosListPendingPage !== null) {
+                return;
+            }
+            var videosList = $($.parseHTML(response)).filter('#videosListItems');
+            if (!videosList.length) {
+                videosListLoadFailed();
+                return;
+            }
+            $('#videosListItems').html(videosList.html());
             lazyImage();
             avideoSocket();
             loadVideosListPageTransformLinks();
-            modal.hidePleaseWait();
         }).fail(function () {
+            if (loadVideosListPendingPage === null) {
+                videosListLoadFailed();
+            }
+        }).always(function () {
             loadVideosListPageIsLoading = false;
-            modal.hidePleaseWait();
+            if (loadVideosListPendingPage !== null) {
+                var nextPage = loadVideosListPendingPage;
+                loadVideosListPendingPage = null;
+                loadVideosListPage(nextPage);
+                return;
+            }
+            $('#videosListItems').attr('aria-busy', 'false');
+            $('#videosListStatus .videosListLoadingText').prop('hidden', true);
         });
     }
+    function videosListLoadFailed() {
+        $('#videosListItems .loadingVideosList').remove();
+        $('#videosListStatus .videosListErrorText, #videosListStatus .videosListRetry').prop('hidden', false);
+    }
+
     function loadVideosListPageTransformLinks() {
-        $('#videosListItems > nav a').click(function (event) {
+        // Pagination's default inline handler opens a blocking modal for navigation.
+        // This list loads in place and owns its local loading indicator instead.
+        $('#videosListItems > nav a').removeAttr('onclick').off('click.videosList').on('click.videosList', function (event) {
             event.preventDefault();
+            event.stopPropagation();
             loadVideosListPage($(this).attr('pageNum'));
         });
     }
@@ -245,7 +269,7 @@ if (!$searchForVideosNow) {
         }
         var sortBy = Cookies.get(loadVideosListPagesortBy);
         if(!empty(sortBy)){
-            $('#sortBy').val(sortBy).trigger('change');
+            $('#sortBy').val(sortBy).trigger('change.select2');
         }
         loadVideosListPage(1);
     }
