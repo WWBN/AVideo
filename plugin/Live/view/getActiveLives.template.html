@@ -1,12 +1,19 @@
-<tr class="liveHistoryLog liveHistoryLog_{id}">
-    <td>{id}</td>
-    <td>{title}</td>
-    <td>{activeStatus}</td>
-    <td>{key}</td>
-    <td>{created}</td>
-    <td>{max_viewers_sametime}</td>
-    <td>{total_viewers}</td>
-    <td>
-        {restream}
-    </td>
-</tr>
+<article class="panel panel-default restream-live-card liveHistoryLog liveHistoryLog_{id}">
+    <div class="panel-heading restream-toolbar">
+        <h2 class="panel-title restream-live-title">{title} <small>#{id}</small></h2>
+        <span class="label {statusClass}">{activeStatus}</span>
+    </div>
+    <div class="panel-body">
+        <dl class="restream-metrics">
+            <div><dt>{label_started}</dt><dd>{created}</dd></div>
+            <div><dt>{label_key}</dt><dd class="restream-key">{key}</dd></div>
+            <div><dt><i class="fas fa-users" aria-hidden="true"></i> {label_max}</dt><dd class="restream-count">{max_viewers_sametime}</dd></div>
+            <div><dt><i class="fas fa-eye" aria-hidden="true"></i> {label_total}</dt><dd class="restream-count">{total_viewers}</dd></div>
+        </dl>
+    </div>
+    <div class="panel-footer">
+        <h3 class="restream-section-title">{label_restream}</h3>
+        <div class="restream-destinations">{restream}</div>
+        <p class="text-muted {noDestinationsClass}">{label_no_destinations}</p>
+    </div>
+</article>

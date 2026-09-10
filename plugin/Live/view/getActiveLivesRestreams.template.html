@@ -1,29 +1,28 @@
-<div class="loading livesRestreamStatus livesRestreamStatus_{live_restream_id} {class}"
+<div class="loading restream-destination livesRestreamStatus livesRestreamStatus_{live_restream_id} {class}"
     live_restreams_logs_id="{log_id}" restreams_id="{id}" live_transmitions_history_id="{live_transmitions_history_id}">
-    <div class="btn-group btn-group-justified" role="group">
-        <button class="btn btn-default  hideWhenInactive hideWhenActive hideWhenLoading hideWhenHasLog"
+    <div class="restream-destination-name">{display_name}</div>
+    <div class="restream-actions">
+        <button type="button" class="btn btn-default hideWhenInactive hideWhenActive hideWhenLoading hideWhenHasLog"
             onclick="getAction('start', {live_transmitions_history_id}, {id});">
-            <i class="fas fa-play"></i> Start<br>{display_name}
+            <i class="fas fa-play" aria-hidden="true"></i> {label_start}
         </button>
-        <button class="btn btn-primary  hideWhenInactive hideWhenActive hideWhenHasNoLog disabled">
-            <i class="fas fa-sync faa-spin animated"></i> Loading<br>{display_name}
+        <button type="button" disabled class="btn btn-default hideWhenInactive hideWhenActive hideWhenHasNoLog">
+            <i class="fas fa-sync" aria-hidden="true"></i> {label_loading}
         </button>
-        <button class="btn btn-danger  hideWhenInactive hideWhenLoading hideWhenHasNoLog"
+        <button type="button" class="btn btn-danger hideWhenInactive hideWhenLoading hideWhenHasNoLog"
             onclick="getAction('stop', {live_transmitions_history_id}, {id});">
-            <i class="fas fa-stop"></i> Stop<br>{display_name}
+            <i class="fas fa-stop" aria-hidden="true"></i> {label_stop}
         </button>
-        <button class="btn btn-success  hideWhenActive hideWhenLoading hideWhenHasNoLog"
+        <button type="button" class="btn btn-success hideWhenActive hideWhenLoading hideWhenHasNoLog"
             onclick="getAction('start', {live_transmitions_history_id}, {id});">
-            <i class="fas fa-play"></i> Start<br>{display_name}
+            <i class="fas fa-play" aria-hidden="true"></i> {label_start}
         </button>
-        <button class="btn btn-default hideWhenHasNoLog"
-            onclick="showRestreamLog({live_transmitions_history_id}, {id});"
-            title="View FFMPEG Log">
-            <i class="fas fa-terminal"></i><br>Log
+        <button type="button" class="btn btn-default hideWhenHasNoLog"
+            onclick="showRestreamLog({live_transmitions_history_id}, {id});">
+            <i class="fas fa-terminal" aria-hidden="true"></i> {label_log}
         </button>
-        <a class="btn btn-default " href="{live_url}" target="_blank">
-             Open <br>
-             <i class="fa-solid fa-arrow-up-right-from-square fa-2x"></i>
+        <a class="btn btn-default {openLinkClass}" href="{live_url}" target="_blank">
+            <i class="fas fa-external-link-alt" aria-hidden="true"></i> {label_open}
         </a>
     </div>
 </div>

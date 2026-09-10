@@ -1,0 +1,5 @@
+[
+    {"element": "#livesRestreamList", "intro": "Each card shows a stream's status, start time, key and viewer totals. When there are no active streams, your most recent stream may appear as inactive."},
+    {"element": ".restream-destinations", "intro": "Manage each restream destination here. Start and Stop control the restream, Log opens its details, and Open is available when a destination URL exists."},
+    {"element": "#reloadActiveLives", "intro": "Reload the stream list here. The list also refreshes automatically every minute."}
+]

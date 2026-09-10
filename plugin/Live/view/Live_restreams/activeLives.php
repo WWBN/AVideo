@@ -8,60 +8,44 @@ if (!Live::canRestream()) {
     forbiddenPage('You cannot restream');
 }
 $_page = new Page(array('Active Lives'));
+$_page->setExtraStyles(array('plugin/Live/view/Live_restreams/activeLives.css'));
 ?>
-<style>
-    #livesRestreamList .livesRestreamStatus.inactive .hideWhenInactive,
-    #livesRestreamList .livesRestreamStatus.active .hideWhenActive,
-    #livesRestreamList .livesRestreamStatus.loading .hideWhenLoading,
-    #livesRestreamList .livesRestreamStatus.hasLog .hideWhenHasLog,
-    #livesRestreamList .livesRestreamStatus.hasNoLog .hideWhenHasNoLog {
-        display: none;
-    }
-
-    #livesRestreamList .livesRestreamStatus.active .showWhenActive {
-        display: inline-flex;
-    }
-</style>
 <div class="container-fluid">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-
+    <div class="panel panel-default restream-monitor">
+        <div class="panel-heading restream-toolbar">
+            <h1 class="panel-title"><i class="fas fa-broadcast-tower" aria-hidden="true"></i> <?php echo __('Active Lives'); ?></h1>
+            <div class="restream-actions">
+                <?php echo getTourHelpButton('plugin/Live/view/Live_restreams/activeLives.help.json', 'btn btn-default btn-sm'); ?>
+                <button type="button" class="btn btn-default btn-sm" id="reloadActiveLives" onclick="getActiveLives();">
+                    <i class="fas fa-sync" aria-hidden="true"></i> <?php echo __('Reload'); ?>
+                </button>
+            </div>
         </div>
         <div class="panel-body">
-            <table class="table table-hover" id="livesRestreamList">
-                <thead>
-                    <tr>
-                        <th colspan="4"></th>
-                        <th colspan="2" class="text-center">Viewers</th>
-                    </tr>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Live Status</th>
-                        <th>Key</th>
-                        <th>Started</th>
-                        <th><abbr title="<?php echo __('Max at same time'); ?>">Max</abbr></th>
-                        <th>Total</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-        <div class="panel-footer">
-            <button type="button" class="btn btn-info " onclick="getActiveLives();">
-                <i class="fas fa-sync faa-spin"></i>
-                <?php echo __('Reload'); ?>
-            </button>
+            <div class="restream-list-status text-muted" id="activeLivesStatus" role="status"><?php echo __('Loading...'); ?></div>
+            <div class="restream-live-list" id="livesRestreamList"></div>
         </div>
     </div>
 </div>
 <script>
     var activeLiveTemplate = <?php echo json_encode(file_get_contents($global['systemRootPath'] . 'plugin/Live/view/getActiveLives.template.html')); ?>;
     var activeLiveRestreamTemplate = <?php echo json_encode(file_get_contents($global['systemRootPath'] . 'plugin/Live/view/getActiveLivesRestreams.template.html')); ?>;
+    var activeLivesLabels = <?php echo json_encode(array(
+        'label_started' => __('Started'),
+        'label_key' => __('Key'),
+        'label_max' => __('Max at same time'),
+        'label_total' => __('Total views'),
+        'label_restream' => __('Restream'),
+        'label_start' => __('Start'),
+        'label_stop' => __('Stop'),
+        'label_loading' => __('Loading...'),
+        'label_log' => __('Log'),
+        'label_open' => __('Open'),
+        'label_no_destinations' => __('No restream destinations configured')
+    )); ?>;
 
     var getActiveLivesRefreshInterval = null;
+    var activeLivesLoading = false;
 
     $(document).ready(function() {
         getActiveLives();
@@ -100,27 +84,40 @@ $_page = new Page(array('Active Lives'));
     }
 
     function getActiveLives() {
+        if (activeLivesLoading) {
+            return;
+        }
+        activeLivesLoading = true;
+        $('#reloadActiveLives').prop('disabled', true);
+        $('#activeLivesStatus').removeClass('hidden').text(<?php echo json_encode(__('Loading...')); ?>);
         var url = webSiteRootURL + 'plugin/Live/view/getActiveLives.json.php';
-        //modal.showPleaseWait();
         $.ajax({
             url: url,
+            dataType: 'json',
             success: function(response) {
-                console.log('getActiveLives', response);
-                //modal.hidePleaseWait();
-                if (response.error) {
-                    avideoAlertError(response.msg);
+                if (!response || response.error || !Array.isArray(response.lives)) {
+                    $('#activeLivesStatus').text(<?php echo json_encode(__('Could not load live streams. Please reload.')); ?>);
                 } else {
                     activeLivesToTable(response.lives);
                     loadIfRestreamIsActive();
                 }
+            },
+            error: function() {
+                $('#activeLivesStatus').text(<?php echo json_encode(__('Could not load live streams. Please reload.')); ?>);
+            },
+            complete: function() {
+                activeLivesLoading = false;
+                $('#reloadActiveLives').prop('disabled', false);
             }
         });
     }
 
     function activeLivesToTable(lives) {
-        var liveTemplate = activeLiveTemplate;
-        var restreamTemplate = activeLiveRestreamTemplate;
-        $('#livesRestreamList tbody').empty();
+        var liveTemplate = arrayToTemplate(activeLivesLabels, activeLiveTemplate);
+        var restreamTemplate = arrayToTemplate(activeLivesLabels, activeLiveRestreamTemplate);
+        $('#livesRestreamList').empty();
+        $('#activeLivesStatus').toggleClass('hidden', lives.length > 0)
+            .text(<?php echo json_encode(__('No live streams to show yet.')); ?>);
         //console.log('activeLivesToTable', lives);
         for (var i in lives) {
             var live = lives[i];
@@ -136,14 +133,17 @@ $_page = new Page(array('Active Lives'));
                 }
                 itemsArray.live_transmitions_history_id = live.id;
                 itemsArray.live_restream_id = itemsArray.live_transmitions_history_id + '_' + itemsArray.id;
+                itemsArray.openLinkClass = empty(itemsArray.live_url) ? 'hidden' : '';
                 console.log('activeLivesToTable live', itemsArray);
                 restream += arrayToTemplate(itemsArray, restreamTemplate);
             }
             //console.log('activeLivesToTable restreams', restream);
             live['restream'] = restream;
+            live['noDestinationsClass'] = restream ? 'hidden' : '';
+            live['statusClass'] = empty(live.finished) ? 'label-success' : 'label-default';
             live['class'] = '';
-            liveHTML = arrayToTemplate(live, liveTemplate);
-            $('#livesRestreamList tbody').append(liveHTML);
+            var liveHTML = arrayToTemplate(live, liveTemplate);
+            $('#livesRestreamList').append(liveHTML);
         }
     }
 

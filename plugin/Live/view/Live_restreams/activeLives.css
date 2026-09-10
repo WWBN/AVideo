@@ -1,0 +1,115 @@
+#livesRestreamList .livesRestreamStatus.inactive .hideWhenInactive,
+#livesRestreamList .livesRestreamStatus.active .hideWhenActive,
+#livesRestreamList .livesRestreamStatus.loading .hideWhenLoading,
+#livesRestreamList .livesRestreamStatus.hasLog .hideWhenHasLog,
+#livesRestreamList .livesRestreamStatus.hasNoLog .hideWhenHasNoLog {
+    display: none;
+}
+
+#livesRestreamList .livesRestreamStatus.active .showWhenActive {
+    display: inline-flex;
+}
+
+.restream-monitor,
+.restream-live-card {
+    border-radius: 10px;
+}
+
+.restream-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-radius: 9px 9px 0 0;
+}
+
+.restream-live-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr));
+    gap: 16px;
+}
+
+.restream-live-card {
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.restream-live-title {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.restream-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin: 0;
+}
+
+.restream-metrics dt {
+    font-size: .85em;
+    font-weight: normal;
+    margin-bottom: 6px;
+}
+
+.restream-metrics dd {
+    overflow-wrap: anywhere;
+}
+
+.restream-key {
+    font-family: monospace;
+}
+
+.restream-count {
+    font-size: 1.6em;
+    font-weight: 600;
+}
+
+.restream-section-title {
+    margin: 0 0 12px;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.restream-live-card > .panel-footer {
+    border-radius: 0 0 9px 9px;
+    padding: 16px;
+}
+
+.restream-destinations {
+    display: grid;
+    gap: 12px;
+}
+
+.restream-destination,
+.restream-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.restream-destination {
+    justify-content: space-between;
+}
+
+.restream-destination-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.restream-actions .btn {
+    white-space: normal;
+}
+
+.restream-list-status {
+    text-align: center;
+    padding: 20px;
+}
+
+@media (max-width: 767px) {
+    .restream-monitor > .panel-body {
+        padding: 10px;
+    }
+}
