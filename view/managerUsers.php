@@ -9,6 +9,7 @@ if (!Permissions::canAdminUsers()) {
     exit;
 }
 $_page = new Page(array('Users'));
+$_page->loadBasicCSSAndJS();
 $_page->setIncludeInHead(array('view/managerUsers_head.php'));
 include $global['systemRootPath'] . 'view/managerUsers_body.php';
 $_page->print();

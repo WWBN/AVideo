@@ -9,6 +9,7 @@ if (!User::isAdmin()) {
 }
 
 $_page = new Page(array('Pending Requests'));
+$_page->loadBasicCSSAndJS();
 ?>
 <style>
 .bootgrid-table td{
@@ -42,50 +43,55 @@ $_page = new Page(array('Pending Requests'));
 <script>
     $(document).ready(function() {
 
-        var grid = $("#grid").bootgrid({
-            labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
+        var pendingRequestsFormatters = {
+            "status": function(row) {
+                var status = "";
+                status = "<div class=\"btn-group\"><button class='btn btn-success btn-xs command-status-success'>Confirm</button>";
+                status += "<button class='btn btn-danger btn-xs command-status-canceled'>Cancel</button><div>";
+                return status;
+            },
+            "description": function(row) {
+                if (row.information) {
+                    return row.information;
+                } else {
+                    return row.description;
+                }
+            },
+            "created": function(row) {
+                return '<span class="pendingTimers">' + row.created + '</span>';
+            }
+        };
+
+        var dt = avideoDataTable("#grid", {
+            avideoControls: true,
+            serverSide: true,
+            order: [[4, 'desc']],
+            language: {
+                zeroRecords: "<?php echo __("No results found!"); ?>",
+                loadingRecords: "<?php echo __("Loading..."); ?>",
                 search: "<?php echo __("Search"); ?>",
             },
-            ajax: true,
-            url: "<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/pendingRequests.json.php",
-            formatters: {
-                "status": function(column, row) {
-                    var status = "";
-                    status = "<div class=\"btn-group\"><button class='btn btn-success btn-xs command-status-success'>Confirm</button>";
-                    status += "<button class='btn btn-danger btn-xs command-status-canceled'>Cancel</button><div>";
-                    return status;
-                },
-                "description": function(column, row) {
-                    if (row.information) {
-                        return row.information;
-                    } else {
-                        return row.description;
-                    }
-                },
-                "created": function(column, row) {
-                    return '<span class="pendingTimers">' + row.created + '</span>';
-                }
-            }
-        }).on("loaded.rs.jquery.bootgrid", function() {
-
-            /* Executes after data is loaded and rendered */
-            grid.find(".command-status-success").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                setStatus("success", row.id);
-            });
-
-            grid.find(".command-status-canceled").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                setStatus("canceled", row.id);
-            });
+            columns: [
+                { data: 'user', width: '150px', orderable: false },
+                { data: 'value', width: '150px', render: function(data, type, row) { return type === 'display' ? row.valueText : data; } },
+                { data: 'description', render: function(data, type, row) { return type === 'display' ? pendingRequestsFormatters.description(row) : data; } },
+                { data: 'status', width: '150px', render: function(data, type, row) { return type === 'display' ? pendingRequestsFormatters.status(row) : data; } },
+                { data: 'created', width: '150px', render: function(data, type, row) { return type === 'display' ? pendingRequestsFormatters.created(row) : data; } }
+            ],
+            ajax: avideoDataTableAjax({ url: "<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/pendingRequests.json.php" })
+        }).on('draw.dt', function() {
             createTimer('.pendingTimers');
+        });
+
+        var grid = $("#grid");
+        grid.off('click.pendingRequests', '.command-status-success').on('click.pendingRequests', '.command-status-success', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            setStatus("success", row.id);
+        });
+
+        grid.off('click.pendingRequests', '.command-status-canceled').on('click.pendingRequests', '.command-status-canceled', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            setStatus("canceled", row.id);
         });
     });
 
@@ -106,7 +112,7 @@ $_page = new Page(array('Pending Requests'));
                         avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     }, 500);
                 } else {
-                    $("#grid").bootgrid("reload");
+                    $("#grid").DataTable().ajax.reload(null, false);
                 }
             }
         });

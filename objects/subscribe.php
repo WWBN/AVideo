@@ -191,7 +191,16 @@ class Subscribe extends ObjectYPT{
     public static function getAllSubscribes($user_id = "", $status = "a", $verifiedOnly = false)
     {
         global $global;
-        $cacheName = "getAllSubscribes_{$user_id}_{$status}_" . getCurrentPage() . "_" . getRowCount();
+        // Normalize search/sort BEFORE building the cache key - otherwise the key never varied with
+        // an active search phrase or a DataTables GET-based sort, so searching (or sorting) could
+        // silently return another request's cached, differently-filtered rows.
+        BootGrid::populateSortFromDataTablesOrder();
+        BootGrid::getSearchPhraseFromPost();
+        $cacheKeyExtra = md5(json_encode([
+            'sort' => empty($_POST['sort']) ? null : $_POST['sort'],
+            'search' => empty($_POST['searchPhrase']) ? '' : $_POST['searchPhrase'],
+        ]));
+        $cacheName = "getAllSubscribes_{$user_id}_{$status}_" . getCurrentPage() . "_" . getRowCount() . "_{$cacheKeyExtra}";
         $subscribe = ObjectYPT::getCache($cacheName, 300); // 5 minutes
         if (empty($subscribe)) {
             $status = str_replace("'", "", $status);
@@ -254,6 +263,37 @@ class Subscribe extends ObjectYPT{
             $subscribe = object_to_array($subscribe);
         }
         return $subscribe;
+    }
+
+    /**
+     * Total row count matching the exact same filters as getAllSubscribes() (including any active
+     * search), for the admin "My Subscribers" grid (objects/subscribes.json.php). Deliberately kept
+     * separate from getTotalSubscribes(), which uses different criteria (subscribes.status instead
+     * of the users' own account status) and is relied on elsewhere for public subscriber counts and
+     * the getExtraSubscribers() artificial adjustment - neither of those should change here.
+     */
+    public static function getTotalSubscribesFiltered($user_id = "", $status = "a", $verifiedOnly = false)
+    {
+        $status = str_replace("'", "", $status);
+        $sql = "SELECT COUNT(*) as total FROM subscribes as s "
+                . " LEFT JOIN users as suId ON suId.id = s.subscriber_users_id   "
+                . " LEFT JOIN users as u ON users_id = u.id  WHERE 1=1 AND subscriber_users_id > 0 ";
+        if (!empty($user_id)) {
+            $sql .= " AND users_id = {$user_id} ";
+        }
+        if (!empty($status)) {
+            $sql .= " AND u.status = '{$status}' ";
+            $sql .= " AND suId.status = '{$status}' ";
+        }
+        if (!empty($verifiedOnly)) {
+            $sql .= " AND suId.emailVerified = 1 ";
+        }
+        $sql .= BootGrid::getSqlSearchFromPost(['email']);
+
+        $res = sqlDAL::readSql($sql);
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return intval($row['total'] ?? 0);
     }
 
     /**

@@ -435,7 +435,13 @@ foreach ($userGroups as $value) {
                 success: function(response) {
                     if (!response.error) {
                         $('#userFormModal').modal('hide');
-                        $('.bootgrid-table').bootgrid("reload");
+                        // reload every initialized user grid across all tabs (multiple independent
+                        // DataTables, one per tab, lazily created by startUserGrid())
+                        $('table').each(function() {
+                            if ($.fn.DataTable.isDataTable(this)) {
+                                $(this).DataTable().ajax.reload(null, false);
+                            }
+                        });
                     }
                     avideoResponse(response);
                     console.log('user save', response);
@@ -460,14 +466,14 @@ foreach ($userGroups as $value) {
         $('#userGroupTab' + user_groups_id + ' .activeFilter').html($('#filter' + user_groups_id + '_' + value).html());
         $('.tooltip').tooltip('hide');
         var selector = '#userGroupGrid' + user_groups_id;
-        if ($(selector).hasClass('bootgrid-table')) {
+        if ($.fn.DataTable.isDataTable(selector)) {
             if (typeof avideoSetContainerLoading === 'function') {
                 avideoSetContainerLoading(selector + 'Tab', true, {
                     clear: false,
                     items: 4
                 });
             }
-            $(selector).bootgrid('reload');
+            $(selector).DataTable().ajax.reload(null, false);
         }
     }
 
@@ -477,12 +483,44 @@ foreach ($userGroups as $value) {
         return url;
     }
 
+    var userManagerFormatters = {
+        "commands": function(row) {
+            console.log(row);
+            if (!IAMAdmin && row.isAdmin) {
+                return '';
+            }
+            var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><i class="fa-solid fa-pen-to-square"></i></button>'
+            var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Info'); ?>"><i class="fas fa-info-circle"></i></button>'
+            var liveNowBtn = '<button type="button" class="btn btn-default btn-xs command-copy-livenow" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Copy Live Now URL"); ?>"><i class="fa-regular fa-copy"></i></button>';
+
+            var pluginsButtons = '<br><?php echo AVideoPlugin::getUsersManagerListButton(); ?>';
+            return editBtn + infoBtn + liveNowBtn + pluginsButtons;
+        },
+        "tags": function(row) {
+            var tags = '';
+            for (var i in row.tags) {
+                if (typeof row.tags[i].type == "undefined") {
+                    continue;
+                }
+                tags += "<span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
+            }
+            return tags;
+        },
+        "user": function(row) {
+            var photo = '';
+            if (row.photo) {
+                photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:100px;'/>";
+            }
+            return row.user + photo;
+        }
+    };
+
     function startUserGrid(selector, queryString, user_groups_id) {
         userGroupQueryString = queryString;
         if (user_groups_id) {
             userGroupFilter(user_groups_id, '');
         }
-        if ($(selector).hasClass('bootgrid-table')) {
+        if ($.fn.DataTable.isDataTable(selector)) {
             console.log(selector, 'already loaded');
             return false;
         }
@@ -492,113 +530,91 @@ foreach ($userGroups as $value) {
                 items: 4
             });
         }
-        var grid = $(selector).bootgrid({
-            labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
+        var dt = avideoDataTable(selector, {
+            avideoControls: true,
+            serverSide: true,
+            order: [[2, 'desc']],
+            language: {
+                zeroRecords: "<?php echo __("No results found!"); ?>",
+                loadingRecords: "<?php echo __("Loading..."); ?>",
                 search: "<?php echo __("Search"); ?>",
             },
-            ajax: true,
-            url: getUserGridURL,
-            formatters: {
-                "commands": function(column, row) {
-                    console.log(row);
-                    if(!IAMAdmin && row.isAdmin){
-                        return '';
-                    }
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><i class="fa-solid fa-pen-to-square"></i></button>'
-                    var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Info'); ?>"><i class="fas fa-info-circle"></i></button>'
-                    var liveNowBtn = '<button type="button" class="btn btn-default btn-xs command-copy-livenow" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Copy Live Now URL"); ?>"><i class="fa-regular fa-copy"></i></button>';
-
-                    var pluginsButtons = '<br><?php echo AVideoPlugin::getUsersManagerListButton(); ?>';
-                    return editBtn + infoBtn + liveNowBtn + pluginsButtons;
-                },
-                "tags": function(column, row) {
-                    var tags = '';
-                    for (var i in row.tags) {
-                        if (typeof row.tags[i].type == "undefined") {
-                            continue;
-                        }
-                        tags += "<span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
-                    }
-                    return tags;
-                },
-                "user": function(column, row) {
-                    var photo = '';
-                    if (row.photo) {
-                        photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:100px;'/>";
-                    }
-                    return row.user + photo;
-                }
-            }
-        }).on("loaded.rs.jquery.bootgrid", function() {
+            columns: [
+                { data: 'id', width: '80px' },
+                { data: 'user', render: function(data, type, row) { return type === 'display' ? userManagerFormatters.user(row) : data; } },
+                { data: 'name' },
+                { data: 'email' },
+                { data: 'phone' },
+                { data: 'created' },
+                { data: 'modified' },
+                { data: 'tags', orderable: false, render: function(data, type, row) { return type === 'display' ? userManagerFormatters.tags(row) : data; } },
+                { data: null, orderable: false, width: '200px', render: function(data, type, row) { return userManagerFormatters.commands(row); } }
+            ],
+            ajax: avideoDataTableAjax({ url: getUserGridURL })
+        }).on('draw.dt', function() {
             if (typeof avideoSetContainerLoading === 'function') {
                 avideoSetContainerLoading(selector + 'Tab', false);
             }
-            /* Executes after data is loaded and rendered */
-            grid.find(".command-edit").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $(selector).bootgrid("getCurrentRows")[row_index];
-                console.log(row);
-                $('#inputUserId').val(row.id);
-                $('#inputUser').val(row.user);
-                $('#inputPassword').val('');
-                $('#inputEmail').val(row.email);
-                $('#inputName').val(row.name);
-                $('#inputChannelName').val(row.channelName);
-                $('#inputPhone').val(row.phone);
-                $('#inputBirth').val(row.birth_date);
-                $('#inputAnalyticsCode').val(row.analyticsCode);
-                $('.userGroups').prop('checked', false);
-                $('.usergroupsLi').removeClass('dynamic');
-                $('.usergroupsLi input').removeAttr('disabled');
-                $('#is_company').val(row.is_company);
+        });
 
-                for (var index in row.groups) {
-                    $('#userGroup' + row.groups[index].id).prop('checked', true);
-                    if (row.groups[index].isDynamic) {
-                        $('#usergroupsLi' + row.groups[index].id).addClass('dynamic');
-                        $('#usergroupsLi' + row.groups[index].id + ' input').attr("disabled", true);
-                    }
+        var grid = $(selector);
+        grid.off('click.usersMgr', '.command-edit').on('click.usersMgr', '.command-edit', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            console.log(row);
+            $('#inputUserId').val(row.id);
+            $('#inputUser').val(row.user);
+            $('#inputPassword').val('');
+            $('#inputEmail').val(row.email);
+            $('#inputName').val(row.name);
+            $('#inputChannelName').val(row.channelName);
+            $('#inputPhone').val(row.phone);
+            $('#inputBirth').val(row.birth_date);
+            $('#inputAnalyticsCode').val(row.analyticsCode);
+            $('.userGroups').prop('checked', false);
+            $('.usergroupsLi').removeClass('dynamic');
+            $('.usergroupsLi input').removeAttr('disabled');
+            $('#is_company').val(row.is_company);
+
+            for (var index in row.groups) {
+                $('#userGroup' + row.groups[index].id).prop('checked', true);
+                if (row.groups[index].isDynamic) {
+                    $('#usergroupsLi' + row.groups[index].id).addClass('dynamic');
+                    $('#usergroupsLi' + row.groups[index].id + ' input').attr("disabled", true);
                 }
-                $('#isAdmin').prop('checked', (row.isAdmin == "1" ? true : false));
-                $('#canStream').prop('checked', (row.canStream == "1" ? true : false));
-                $('#canUpload').prop('checked', (row.canUpload == "1" ? true : false));
-                $('#canViewChart').prop('checked', (row.canViewChart == "1" ? true : false));
-                $('#canCreateMeet').prop('checked', (row.canCreateMeet == "1" ? true : false));
-                $('#status').prop('checked', (row.status === "a" ? true : false));
-                $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
-                <?php
-                print AVideoPlugin::loadUsersFormJS();
-                ?>
+            }
+            $('#isAdmin').prop('checked', (row.isAdmin == "1" ? true : false));
+            $('#canStream').prop('checked', (row.canStream == "1" ? true : false));
+            $('#canUpload').prop('checked', (row.canUpload == "1" ? true : false));
+            $('#canViewChart').prop('checked', (row.canViewChart == "1" ? true : false));
+            $('#canCreateMeet').prop('checked', (row.canCreateMeet == "1" ? true : false));
+            $('#status').prop('checked', (row.status === "a" ? true : false));
+            $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
+            <?php
+            print AVideoPlugin::loadUsersFormJS();
+            ?>
 
-                $('#userFormModal').modal();
-            }).end().find(".command-info").on("click", function(e) {
-
-                var row_index = $(this).closest('tr').index();
-                var row = $(selector).bootgrid("getCurrentRows")[row_index];
-                console.log(row);
-                modal.showPleaseWait();
-                $('#first_name').val(row.first_name);
-                $('#last_name').val(row.last_name);
-                $('#address').val(row.address);
-                $('#zip_code').val(row.zip_code);
-                $('#country').val(row.country);
-                $('#region').val(row.region);
-                $('#city').val(row.city);
-                $('#documentImage').attr('src', '<?php echo $global['webSiteRootURL']; ?>objects/userDocument.png.php?users_id=' + row.id);
-                $('#userInfoModal').modal();
-                modal.hidePleaseWait();
-            }).end().find(".command-copy-livenow").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                var text = webSiteRootURL + 'channel/' + row.channelName + '/liveNow?muted=1';
-                console.log(text);
-                copyToClipboard(text);
-            });
+            $('#userFormModal').modal();
+        });
+        grid.off('click.usersMgr', '.command-info').on('click.usersMgr', '.command-info', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            console.log(row);
+            modal.showPleaseWait();
+            $('#first_name').val(row.first_name);
+            $('#last_name').val(row.last_name);
+            $('#address').val(row.address);
+            $('#zip_code').val(row.zip_code);
+            $('#country').val(row.country);
+            $('#region').val(row.region);
+            $('#city').val(row.city);
+            $('#documentImage').attr('src', '<?php echo $global['webSiteRootURL']; ?>objects/userDocument.png.php?users_id=' + row.id);
+            $('#userInfoModal').modal();
+            modal.hidePleaseWait();
+        });
+        grid.off('click.usersMgr', '.command-copy-livenow').on('click.usersMgr', '.command-copy-livenow', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            var text = webSiteRootURL + 'channel/' + row.channelName + '/liveNow?muted=1';
+            console.log(text);
+            copyToClipboard(text);
         });
     }
 </script>

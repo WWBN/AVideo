@@ -8,8 +8,16 @@ $uuidJSCondition = implode(" && ", $rowId);
 $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
 ?>
 <style>
+    /* .pluginDescription uses white-space:nowrap for its ellipsis clipping, which (with the
+       default table-layout:auto) forces the whole column to the description's full unwrapped
+       width; table-layout:fixed makes the column widths declared on <th> authoritative instead */
+    #grid {
+        table-layout: fixed;
+    }
+
     td.wrapText {
         white-space: normal;
+        word-break: break-word;
     }
 
     .PluginActive,
@@ -72,6 +80,9 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                                 <button type="button" class="btn btn-primary" id="createPlugin" onclick="avideoModalIframeFull(webSiteRootURL + 'CreatePlugin/');">
                                     <i class="fas fa-plus-circle"></i> <?php echo __("Create a Plugin"); ?>
                                 </button>
+                                <button type="button" class="btn btn-warning" id="updateAllPluginsBtn">
+                                    <i class="fa fa-wrench"></i> <?php echo __("Update All Plugins"); ?>
+                                </button>
                             </div>
                             <div style="text-align: right; padding: 5px;">
                                 <span class="badge" id="PluginTagsTotal">...</span>
@@ -98,16 +109,18 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                             </div>
                         </div>
                         <div class="panel-body ">
+                            <div class="table-responsive">
                             <table id="grid" class="table table-condensed table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th data-column-id="name" data-formatter="name" data-width="300px"><?php echo __("Name"); ?></th>
-                                        <th data-column-id="description" data-formatter="description" data-css-class="wrapText hidden-md hidden-sm hidden-xs" data-header-css-class="hidden-md hidden-sm hidden-xs"><?php echo __("description"); ?></th>
-                                        <th data-column-id="modified" data-formatter="modified" data-sortable="true" data-width="180px" data-css-class="hidden-sm hidden-xs" data-header-css-class="hidden-sm hidden-xs"><?php echo __("Modified"); ?></th>
-                                        <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="150px"></th>
+                                        <th data-column-id="name" class="" data-width="300px"><?php echo __("Name"); ?></th>
+                                        <th data-column-id="description" class="wrapText hidden-md hidden-sm hidden-xs"><?php echo __("description"); ?></th>
+                                        <th data-column-id="modified" class="hidden-sm hidden-xs" data-width="180px"><?php echo __("Modified"); ?></th>
+                                        <th data-column-id="commands" class="" data-sortable="false" data-width="150px"></th>
                                     </tr>
                                 </thead>
                             </table>
+                            </div>
                             <div id="pluginsFormModal" class="modal fade" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -281,6 +294,12 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
         return true;
     }
 
+    // tbody-only data rows: excludes the thead row (a bare "#grid tr" selector matches it too,
+    // which used to hide the header itself) and any DataTables "no data available" placeholder row
+    function getGridDataRows() {
+        return $('#grid tbody tr').not(':has(td.dataTables_empty)');
+    }
+
     function processShowHideIfActive(tr) {
         if ($(tr).find(".pluginSwitch").is(":checked")) {
             if ($("#PluginTagsInstalled").hasClass('checked')) {
@@ -303,7 +322,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
         } else {
             var allItemsSeletors = getAllItemsSelector();
             //console.log(allItemsSeletors);
-            $("#grid tr").each(function(i, tr) {
+            getGridDataRows().each(function(i, tr) {
 
                 if (allItemsSeletors) {
                     if ($(tr).find(allItemsSeletors).length !== 0) {
@@ -343,12 +362,13 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
         $('.PluginTags').not('#PluginTagsAll').addClass('unchecked');
         $("#PluginTagsAll").removeClass('unchecked');
         $("#PluginTagsAll").addClass('checked');
-        $("#grid tr").show();
+        getGridDataRows().show();
         totalVisible();
     }
 
     function totalVisible() {
-        $('#PluginTagsTotal').text($("#grid tr:visible").length + ' / ' + $("#grid tr").length);
+        var rows = getGridDataRows();
+        $('#PluginTagsTotal').text(rows.filter(':visible').length + ' / ' + rows.length);
     }
 
     function PluginTagsToggle(type) {
@@ -381,7 +401,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
 
     function PluginTagsProcess() {
         var allItemsSeletors = getAllItemsSelector();
-        $("#grid tr").each(function(i, tr) {
+        getGridDataRows().each(function(i, tr) {
             if (!allItemsSeletors || $(tr).find(allItemsSeletors).length !== 0) {
                 $(tr).show();
             } else {
@@ -432,27 +452,10 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
 
 
         var myTextarea = document.getElementById("inputData");
-        var grid = $("#grid").bootgrid({
-            labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
-                search: "<?php echo __("Search"); ?>",
-            },
-            navigation: 0,
-            ajax: true,
-            url: "<?php echo $global['webSiteRootURL'] . "objects/pluginsAvailable.json.php"; ?>",
-            responseHandler: function(data) {
-                setTimeout(function() {
-                    processShow();
-                    totalVisible();
-                }, 1000);
-                return data;
+        // $('#grid').bootgrid('reload'|'getCurrentRows') calls below are translated onto this DataTable
+        // by the shared bridge in view/js/avideoDataTable.js (loaded via Page::loadBasicCSSAndJS()).
 
-            },
-            formatters: {
+        var pluginFormatters = {
                 "commands": function(column, row) {
                     var editBtn = '';
 
@@ -583,8 +586,137 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                     var formattedDate = date.toLocaleString();
                     return '<small title="' + formattedDate + '" data-toggle="tooltip"><i class="far fa-clock"></i> ' + timeAgo + '</small>';
                 }
-            }
-        }).on("loaded.rs.jquery.bootgrid", function() {
+        };
+
+        // objects/pluginsAvailable.json.php always returns every plugin in one shot (no real pagination/search/sort),
+        // and the tag-filter buttons (PluginTagsToggle/processShow/etc.) show/hide <tr> elements directly by hand,
+        // so every row must stay rendered in the DOM at once - matching the old bootgrid navigation:0 (paging: false).
+        avideoDataTable("#grid", {
+            paging: false,
+            dom: 't',
+            autoWidth: false,
+            columns: [
+                { data: null, className: '', width: '300px', render: function(data, type, row) { return pluginFormatters.name(null, row); } },
+                { data: null, className: 'wrapText hidden-md hidden-sm hidden-xs', render: function(data, type, row) { return pluginFormatters.description(null, row); } },
+                {
+                    data: 'modified', className: 'hidden-sm hidden-xs', width: '180px',
+                    render: function(data, type, row) {
+                        // sort/type need a real timestamp - the "X days ago" display text has no chronological meaning
+                        if (type === 'sort' || type === 'type') {
+                            if (!row.modified || row.modified === '' || row.modified === '0000-00-00 00:00:00') {
+                                return -1;
+                            }
+                            var t = new Date(row.modified).getTime();
+                            return isNaN(t) ? -1 : t;
+                        }
+                        return pluginFormatters.modified(null, row);
+                    }
+                },
+                { data: null, orderable: false, className: '', width: '150px', render: function(data, type, row) { return pluginFormatters.commands(null, row); } }
+            ],
+            ajax: function(data, callback, settings) {
+                $.ajax({
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/pluginsAvailable.json.php"; ?>",
+                    dataType: 'json',
+                    success: function(json) {
+                        callback({ data: json.rows });
+                    }
+                });
+            },
+        });
+
+        // Delegated, one-time bindings (namespaced) instead of grid.find(...).on(...) inside draw.dt: DataTables
+        // reuses/reorders the same <tr> elements across sorts, so re-binding on every draw stacked a new handler
+        // each time, firing the AJAX call / opening the modal once per past sort for a single click.
+        var grid = $("#grid");
+        grid.off('change.pluginmgr', '.pluginSwitch').on('change.pluginmgr', '.pluginSwitch', function(e) {
+            var row = grid.DataTable().row($(this).closest('tr')).data();
+            var this_ = $(this);
+            modal.showPleaseWait();
+            $.ajax({
+                url: webSiteRootURL + 'objects/pluginSwitch.json.php',
+                data: {
+                    "uuid": row.uuid,
+                    "name": row.name,
+                    "dir": row.dir,
+                    "enable": $('#enable' + row.uuid).is(":checked"),
+                    "globalToken": globalToken
+                },
+                type: 'post',
+                success: function(response) {
+                    modal.hidePleaseWait();
+                    if (this_.data("pname") == "WWBNIndex") {
+                        $.ajax({
+                            url: "<?= $global['webSiteRootURL']; ?>plugin/WWBNIndex/ajax.php",
+                            data: {
+                                "action": "changePluginStatus",
+                                "enabled": this_.is(":checked")
+                            },
+                            type: "post",
+                            success: function(response) {
+                                window.location.reload();
+                            }
+                        });
+                    } else {
+                        $("#grid").bootgrid('reload');
+                    }
+                }
+            });
+        });
+        grid.off('click.pluginmgr', '.command-edit').on('click.pluginmgr', '.command-edit', function(e) {
+            var row = grid.DataTable().row($(this).closest('tr')).data();
+            $('#inputPluginId').val(row.id);
+            var json = JSON.stringify(row.data_object);
+            //console.log(json);
+            //console.log(row.data_object);
+            jsonToForm(row.data_object, row.data_object_helper, row.data_object_info);
+            $('#inputData').val(json);
+            $('#pluginsFormModal').modal();
+            $('#is_advanced').prop('checked', false);
+        });
+        grid.off('click.pluginmgr', '.command-sql').on('click.pluginmgr', '.command-sql', function(e) {
+            var row = grid.DataTable().row($(this).closest('tr')).data();
+            $('#inputPluginId').val(row.id);
+            $('#inputData').val(JSON.stringify(row.data_object));
+            modal.showPleaseWait();
+            $.ajax({
+                url: webSiteRootURL + 'objects/pluginRunDatabaseScript.json.php',
+                data: {
+                    "name": row.name,
+                    "globalToken": '<?php echo getToken(300); ?>'
+                },
+                type: 'post',
+                success: function(response) {
+                    if (response.error) {
+                        avideoAlertError(response.msg);
+                    } else {
+                        $("#grid").bootgrid('reload');
+                    }
+                    modal.hidePleaseWait();
+                }
+            });
+        });
+        grid.off('click.pluginmgr', '.command-update').on('click.pluginmgr', '.command-update', function(e) {
+            var row = grid.DataTable().row($(this).closest('tr')).data();
+            $('#inputPluginId').val(row.id);
+            $('#inputData').val(JSON.stringify(row.data_object));
+            modal.showPleaseWait();
+            $.ajax({
+                url: webSiteRootURL + 'objects/pluginRunUpdateScript.json.php',
+                data: {
+                    name: row.name,
+                    uuid: row.uuid
+                },
+                type: 'post',
+                success: function(response) {
+                    modal.hidePleaseWait();
+                    $("#grid").bootgrid('reload');
+                    avideoResponse(response);
+                }
+            });
+        });
+
+        grid.on("draw.dt", function() {
             try {
                 $('[data-toggle="tooltip"], .tooltip').tooltip("hide");
             } catch (error) {
@@ -596,97 +728,10 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                     html: true
                 });
             }, 500);
-            /* Executes after data is loaded and rendered */
-            grid.find(".pluginSwitch").on("change", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                var this_ = $(this);
-                modal.showPleaseWait();
-                $.ajax({
-                    url: webSiteRootURL + 'objects/pluginSwitch.json.php',
-                    data: {
-                        "uuid": row.uuid,
-                        "name": row.name,
-                        "dir": row.dir,
-                        "enable": $('#enable' + row.uuid).is(":checked"),
-                        "globalToken": globalToken
-                    },
-                    type: 'post',
-                    success: function(response) {
-                        modal.hidePleaseWait();
-                        if (this_.data("pname") == "WWBNIndex") {
-                            $.ajax({
-                                url: "<?= $global['webSiteRootURL']; ?>plugin/WWBNIndex/ajax.php",
-                                data: {
-                                    "action": "changePluginStatus",
-                                    "enabled": this_.is(":checked")
-                                },
-                                type: "post",
-                                success: function(response) {
-                                    window.location.reload();
-                                }
-                            });
-                        } else {
-                            $("#grid").bootgrid('reload');
-                        }
-                    }
-                });
-            });
-            grid.find(".command-edit").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                $('#inputPluginId').val(row.id);
-                var json = JSON.stringify(row.data_object);
-                //console.log(json);
-                //console.log(row.data_object);
-                jsonToForm(row.data_object, row.data_object_helper, row.data_object_info);
-                $('#inputData').val(json);
-                $('#pluginsFormModal').modal();
-                $('#is_advanced').prop('checked', false);
-            });
-            grid.find(".command-sql").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                $('#inputPluginId').val(row.id);
-                $('#inputData').val(JSON.stringify(row.data_object));
-                modal.showPleaseWait();
-                $.ajax({
-                    url: webSiteRootURL + 'objects/pluginRunDatabaseScript.json.php',
-                    data: {
-                        "name": row.name,
-                        "globalToken": '<?php echo getToken(300); ?>'
-                    },
-                    type: 'post',
-                    success: function(response) {
-                        if (response.error) {
-                            avideoAlertError(response.msg);
-                        } else {
-                            $("#grid").bootgrid('reload');
-                        }
-                        modal.hidePleaseWait();
-                    }
-                });
-            });
-            grid.find(".command-update").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                $('#inputPluginId').val(row.id);
-                $('#inputData').val(JSON.stringify(row.data_object));
-                modal.showPleaseWait();
-                $.ajax({
-                    url: webSiteRootURL + 'objects/pluginRunUpdateScript.json.php',
-                    data: {
-                        name: row.name,
-                        uuid: row.uuid
-                    },
-                    type: 'post',
-                    success: function(response) {
-                        modal.hidePleaseWait();
-                        $("#grid").bootgrid('reload');
-                        avideoResponse(response);
-                    }
-                });
-            });
+            // filters must be re-applied after every draw (sort/reload), not just once after the initial ajax load,
+            // otherwise a sort/reload could silently drop the currently active tag filter
+            processShow();
+            totalVisible();
 
             if ($(".command-edit[data-pname=WWBNIndex]").length > 0) {
                 $(".command-edit[data-pname=WWBNIndex]").remove();
@@ -718,6 +763,63 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
         $('#upload').click(function(evt) {
             //$('#pluginsImportFormModal').modal();
             avideoModalIframeSmall(webSiteRootURL + 'view/managerPluginUpload.php');
+        });
+        function getPluginsNeedingUpdate() {
+            // paging is off on this grid, so every loaded row is always "current" - read the DataTable
+            // directly instead of the bootgrid bridge's page-scoped getCurrentRows() contract.
+            var rows = $('#grid').DataTable().rows().data().toArray();
+            return rows.filter(function(row) {
+                return row.hasOwnProperty('installedPlugin') && row.installedPlugin.hasOwnProperty('pluginversion') && row.installedPlugin.pluginversion != row.pluginversion;
+            });
+        }
+        function updatePluginsSequentially(rows, index, updated, failed) {
+            if (index >= rows.length) {
+                modal.hidePleaseWait();
+                $("#grid").bootgrid('reload');
+                if (failed.length) {
+                    avideoAlertError(updated.length + " <?php echo __("plugin(s) updated"); ?>, " + failed.length + " <?php echo __("failed"); ?>: " + failed.join(', '));
+                } else {
+                    avideoToastSuccess(updated.length + " <?php echo __("plugin(s) updated successfully!"); ?>");
+                }
+                return;
+            }
+            var row = rows[index];
+            modal.setText("<?php echo __("Updating"); ?> " + row.name + " (" + (index + 1) + "/" + rows.length + ")...");
+            modal.setProgress(Math.round((index / rows.length) * 100));
+            $.ajax({
+                url: webSiteRootURL + 'objects/pluginRunUpdateScript.json.php',
+                data: {
+                    name: row.name,
+                    uuid: row.uuid
+                },
+                type: 'post',
+                success: function(response) {
+                    if (response && response.error) {
+                        failed.push(row.name);
+                    } else {
+                        updated.push(row.name);
+                    }
+                },
+                error: function() {
+                    failed.push(row.name);
+                },
+                complete: function() {
+                    updatePluginsSequentially(rows, index + 1, updated, failed);
+                }
+            });
+        }
+        $('#updateAllPluginsBtn').click(async function(evt) {
+            var rows = getPluginsNeedingUpdate();
+            if (!rows.length) {
+                avideoToastSuccess("<?php echo __("All plugins are already up to date!"); ?>");
+                return;
+            }
+            var confirmed = await avideoConfirm(rows.length + " <?php echo __("plugin(s) will be updated. Continue?"); ?>");
+            if (!confirmed) {
+                return;
+            }
+            modal.showPleaseWait();
+            updatePluginsSequentially(rows, 0, [], []);
         });
         $.ajax({
             url: 'https://streamphp.com/marketplace/plugins.json?jsonp=1',

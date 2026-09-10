@@ -8,6 +8,7 @@ if (!Permissions::canAdminUserGroups()) {
     forbiddenPage(__("You can not manage do this"));
 }
 $_page = new Page(array('User Groups'));
+$_page->loadBasicCSSAndJS();
 $_page->setIncludeInHead(array('view/managerUsersGroups_head.php'));
 include $global['systemRootPath'] . 'view/managerUsersGroups_body.php';
 $_page->print();

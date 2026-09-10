@@ -10,6 +10,7 @@ if (!User::canUpload()) {
 }
 
 $_page = new Page(array('Subscribes'));
+$_page->loadBasicCSSAndJS();
 ?>
 
 <div class="container-fluid">
@@ -95,39 +96,43 @@ $_page = new Page(array('Subscribes'));
                 items: 3
             });
         }
-        var subscribesGridLoaded = false;
-        var grid = $("#grid").bootgrid({
-            labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
+        var subscribeFormatters = {
+            "status": function(row) {
+                var subscribe = '<button type="button" class="btn btn-xs btn-success command-status" id="subscribe' + row.id + '" data-toggle="tooltip" data-placement="left" title="Unsubscribe"><span class="fa fa-check" aria-hidden="true"></span></button>'
+                if (row.status == 'i') {
+                    subscribe = '<button type="button" class="btn btn-xs btn-danger command-status" id="subscribe' + row.id + '" data-toggle="tooltip" data-placement="left" title="Subscribe"><span class="fa fa-times-circle" aria-hidden="true"></span></button>'
+                }
+                return subscribe;
+            }
+        };
+
+        var dt = avideoDataTable("#grid", {
+            avideoControls: true,
+            serverSide: true,
+            language: {
+                zeroRecords: "<?php echo __("No results found!"); ?>",
+                loadingRecords: "<?php echo __("Loading..."); ?>",
                 search: "<?php echo __("Search"); ?>",
             },
-            ajax: true,
-            url: webSiteRootURL+"objects/subscribes.json.php",
-            formatters: {
-                "status": function(column, row) {
-                    var subscribe = '<button type="button" class="btn btn-xs btn-success command-status" id="subscribe' + row.id + '" data-toggle="tooltip" data-placement="left" title="Unsubscribe"><span class="fa fa-check" aria-hidden="true"></span></button>'
-                    if (row.status == 'i') {
-                        subscribe = '<button type="button" class="btn btn-xs btn-danger command-status" id="subscribe' + row.id + '" data-toggle="tooltip" data-placement="left" title="Subscribe"><span class="fa fa-times-circle" aria-hidden="true"></span></button>'
-                    }
-                    return subscribe;
-                }
-            }
-        }).on("loaded.rs.jquery.bootgrid", function() {
-            if (!subscribesGridLoaded && typeof avideoSetContainerLoading === 'function') {
+            columns: [
+                { data: 'channel_identification' },
+                { data: 'identification' },
+                { data: 'created' },
+                { data: 'modified' },
+                { data: null, orderable: false, render: function(data, type, row) { return subscribeFormatters.status(row); } }
+            ],
+            ajax: avideoDataTableAjax({ url: webSiteRootURL+"objects/subscribes.json.php" })
+        }).on('draw.dt', function() {
+            if (typeof avideoSetContainerLoading === 'function') {
                 avideoSetContainerLoading('subscribesGridContainer', false);
-                subscribesGridLoaded = true;
             }
-            /* Executes after data is loaded and rendered */
-            grid.find(".command-status").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                console.log(row);
-                _subscribe(row.email, row.users_id, row.id);
-            });
+        });
+
+        var grid = $("#grid");
+        grid.off('click.subscribesMgr', '.command-status').on('click.subscribesMgr', '.command-status', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            console.log(row);
+            _subscribe(row.email, row.users_id, row.id);
         });
         $("#sendSubscribeBtn").click(function() {
             notify();

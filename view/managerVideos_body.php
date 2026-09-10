@@ -420,13 +420,13 @@ if (empty($advancedCustom)) {
 
                     <li><a href="#" onclick="filterCategory = ''; $('.activeFilterCategory').html('<i class=\'fas fa-list\'></i> <?php echo __('All Categories'); ?>');
                 $('.tooltip').tooltip('hide');
-                $('#grid').bootgrid('reload');
+                reloadGridAfterFilterChange();
                 return false;"><i class="fas fa-list"></i> <?php echo __('All Categories'); ?></a></li>
                     <?php
                     $categories_edit = Category::getAllCategories(true);
                     foreach ($categories_edit as $key => $value) {
                         $text = "<i class='{$value['iconClass']}'></i> " . __($value['hierarchyAndName']);
-                        echo PHP_EOL . '<li class="categoryItem"><a href="#" onclick="filterCategory=\'' . $value['clean_name'] . '\'; $(\'.activeFilterCategory\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
+                        echo PHP_EOL . '<li class="categoryItem"><a href="#" onclick="filterCategory=\'' . $value['clean_name'] . '\'; $(\'.activeFilterCategory\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');reloadGridAfterFilterChange();return false;">' . $text . '</a></li>';
                     }
                     ?>
                 </ul>
@@ -451,7 +451,7 @@ if (empty($advancedCustom)) {
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                         <li><a href="#" onclick="filterStatus = ''; $('.activeFilter').html('<i class=\'fas fa-icons\'></i> <?php echo __('All Statuses'); ?>');
                                 $('.tooltip').tooltip('hide');
-                                $('#grid').bootgrid('reload');
+                                reloadGridAfterFilterChange();
                                 return false;"><i class="fas fa-icons"></i> <?php echo __('All Statuses'); ?></a></li>
                         <?php
                         if (!isset($statusSearchFilter)) {
@@ -468,12 +468,12 @@ if (empty($advancedCustom)) {
                                 continue;
                             }
                             $text = Video::$statusIcons[$key] . ' ' . __($value);
-                            echo PHP_EOL . '<li><a href="#" onclick="filterStatus=\'' . $key . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
+                            echo PHP_EOL . '<li><a href="#" onclick="filterStatus=\'' . $key . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');reloadGridAfterFilterChange();return false;">' . $text . '</a></li>';
                         }
                         ?>
                         <li><a href="#" onclick="filterStatus = 'passwordProtected'; $('.activeFilter').html('<i class=\'fas fa-lock\' ></i> <?php echo __('Password Protected'); ?>');
                                 $('.tooltip').tooltip('hide');
-                                $('#grid').bootgrid('reload');
+                                reloadGridAfterFilterChange();
                                 return false;"><i class="fas fa-lock"></i> <?php echo __('Password Protected'); ?></a></li>
                     </ul>
                 </div>
@@ -486,12 +486,12 @@ if (empty($advancedCustom)) {
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                         <li><a href="#" onclick="filterType = ''; $('.activeTypeFilter').html('<i class=\'fas fa-icons\'></i> <?php echo __('All Types'); ?>');
                                 $('.tooltip').tooltip('hide');
-                                $('#grid').bootgrid('reload');
+                                reloadGridAfterFilterChange();
                                 return false;"><i class="fas fa-icons"></i> <?php echo __('All Types'); ?></a></li>
                         <?php
                         foreach (Video::getDistinctVideoTypes() as $value) {
                             $text = __($value);
-                            echo PHP_EOL . '<li><a href="#" onclick="filterType=\'' . $value . '\'; $(\'.activeTypeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
+                            echo PHP_EOL . '<li><a href="#" onclick="filterType=\'' . $value . '\'; $(\'.activeTypeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');reloadGridAfterFilterChange();return false;">' . $text . '</a></li>';
                         }
                         ?>
                     </ul>
@@ -526,6 +526,47 @@ if (empty($advancedCustom)) {
                     </ul>
                 </div>
             </div>
+
+            <div class="btn-group pull-right" id="gridColumnsButtonGroup">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span><?php echo __('Columns'); ?></span> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu" style="min-width: 200px;">
+                    <?php
+                    $gridToggleableColumns = [
+                        'sites_id' => __('Storage'),
+                        'likes' => __('Likes'),
+                        'dislikes' => __('Dislikes'),
+                        'duration' => __('Duration'),
+                        'views_count' => __('Views'),
+                        'total_seconds_watching' => __('Time Watching'),
+                    ];
+                    if (Permissions::canAdminVideos()) {
+                        $gridToggleableColumns['isSuggested'] = __('Suggested');
+                    }
+                    $gridToggleableColumns['isChannelSuggested'] = __('Pin On Channel');
+                    $gridToggleableColumns['filesize'] = __('Size');
+                    $gridToggleableColumns['created'] = __('Created');
+                    $gridColumnsRevealedByDefault = ['duration', 'views_count', 'total_seconds_watching', 'isSuggested', 'isChannelSuggested', 'filesize', 'created'];
+                    foreach ($gridToggleableColumns as $colName => $label) {
+                        $checked = in_array($colName, $gridColumnsRevealedByDefault) ? 'checked' : '';
+                    ?>
+                        <li onclick="event.stopPropagation();">
+                            <div class="form-check" style="padding-left: 5px;">
+                                <input class="form-check-input gridColumnToggle" type="checkbox" data-col-name="<?php echo $colName; ?>" id="gridColumnToggle<?php echo $colName; ?>" <?php echo $checked; ?>>
+                                <label class="form-check-label" for="gridColumnToggle<?php echo $colName; ?>">
+                                    <?php echo $label; ?>
+                                </label>
+                            </div>
+                        </li>
+                    <?php
+                    }
+                    ?>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-default pull-right" id="gridRefreshButton" title="<?php echo __('Refresh'); ?>">
+                <i class="fas fa-sync"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Refresh'); ?></span>
+            </button>
             <div class="material-switch pull-right" style="margin-right: 20px; margin-top: 10px;">
                 <?php echo __('Compact Mode'); ?>
                 <input class="" data-toggle="toggle" type="checkbox" id="compactMode">
@@ -558,48 +599,51 @@ if (empty($advancedCustom)) {
                 <?php echo __('An error occurred'); ?>
                 <button type="button" class="btn btn-default btn-sm" onclick="$('#grid').bootgrid('reload');"><?php echo __('Try again'); ?></button>
             </div>
-            <table id="grid" class="table table-condensed table-hover table-striped videosManager">
+            <!-- class="bootgrid-table" kept literally so the existing .bootgrid-table CSS rules keep applying after the DataTables migration -->
+            <div class="table-responsive">
+            <table id="grid" class="table table-condensed table-hover table-striped videosManager bootgrid-table">
                 <thead>
                     <tr>
-                        <th data-formatter="checkbox" data-width="25px"></th>
-                        <th data-column-id="title" data-formatter="titleTag" data-width="200px"><?php echo __("Title"); ?></th>
-                        <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="300px" data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs tagsInfo'><?php echo __("Tags"); ?></th>
-                        <th style="display: none;" data-column-id="sites_id" data-formatter="sites_id" data-width="50px" data-header-css-class='hidden-xs' data-css-class='hidden-xs'>
-                            <?php echo htmlentities('<i class="fas fa-hdd" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Storage") . '"></i>'); ?>
+                        <th class="" data-width="25px"></th>
+                        <th data-column-id="title" class="" data-width="200px"><?php echo __("Title"); ?></th>
+                        <th data-column-id="tags" class="hidden-md hidden-sm hidden-xs" data-sortable="false" data-width="300px"><?php echo __("Tags"); ?></th>
+                        <th data-column-id="sites_id" class="hidden-xs" data-width="50px">
+                            <?php echo '<i class="fas fa-hdd" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Storage") . '"></i>'; ?>
                         </th>
-                        <th style="display: none;" data-column-id="likes" data-width="50px" data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'>
-                            <?php echo htmlentities('<i class="far fa-thumbs-up" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Likes") . '"></i>'); ?>
+                        <th data-column-id="likes" class="hidden-md hidden-sm hidden-xs" data-width="50px">
+                            <?php echo '<i class="far fa-thumbs-up" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Likes") . '"></i>'; ?>
                         </th>
-                        <th style="display: none;" data-column-id="dislikes" data-width="50px" data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'>
-                            <?php echo htmlentities('<i class="far fa-thumbs-down" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Dislikes") . '"></i>'); ?>
+                        <th data-column-id="dislikes" class="hidden-md hidden-sm hidden-xs" data-width="50px">
+                            <?php echo '<i class="far fa-thumbs-down" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Dislikes") . '"></i>'; ?>
                         </th>
-                        <th style="display: none;" data-column-id="duration" data-width="80px" data-header-css-class='hidden-md hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-md hidden-sm hidden-xs'>
-                            <?php echo htmlentities('<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Duration") . '"></i>'); ?>
+                        <th data-column-id="duration" class="hidden-md hidden-sm hidden-xs" data-width="80px">
+                            <?php echo '<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Duration") . '"></i>'; ?>
                         </th>
-                        <th style="display: none;" data-column-id="views_count" data-formatter="views_count" data-width="50px" data-header-css-class='hidden-md hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-md hidden-sm hidden-xs'>
-                            <?php echo htmlentities('<i class="fas fa-eye" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Views") . '"></i>'); ?>
+                        <th data-column-id="views_count" class="hidden-md hidden-sm hidden-xs" data-width="50px">
+                            <?php echo '<i class="fas fa-eye" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Views") . '"></i>'; ?>
                         </th>
-                        <th style="display: none;" data-column-id="total_seconds_watching" data-formatter="total_seconds_watching" data-width="100px" data-header-css-class='hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-sm hidden-xs'>
-                            <?php echo htmlentities('<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Time Watching") . '"></i>'); ?>
+                        <th data-column-id="total_seconds_watching" class="hidden-sm hidden-xs" data-width="100px">
+                            <?php echo '<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Time Watching") . '"></i>'; ?>
                         </th>
                         <?php
                         if (Permissions::canAdminVideos()) {
                         ?>
-                            <th style="display: none;" data-column-id="isSuggested" data-formatter="isSuggested" data-width="42px" data-header-css-class='hidden-xs showOnGridDone' data-css-class='hidden-xs'>
-                                <?php echo htmlentities('<i class="fas fa-star" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Suggested") . '"></i>'); ?>
+                            <th data-column-id="isSuggested" class="hidden-xs" data-width="42px">
+                                <?php echo '<i class="fas fa-star" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Suggested") . '"></i>'; ?>
                             </th>
                         <?php
                         }
                         ?>
-                        <th style="display: none;" data-column-id="isChannelSuggested" data-formatter="isChannelSuggested" data-width="42px" data-header-css-class='hidden-xs showOnGridDone' data-css-class='hidden-xs'>
-                            <?php echo htmlentities('<i class="fa-solid fa-thumbtack" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Pin On Channel") . '"></i>'); ?>
+                        <th data-column-id="isChannelSuggested" class="hidden-xs" data-width="42px">
+                            <?php echo '<i class="fa-solid fa-thumbtack" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Pin On Channel") . '"></i>'; ?>
                         </th>
-                        <th data-column-id="filesize" data-formatter="filesize" data-width="100px" data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Size"); ?></th>
-                        <th data-column-id="created" data-order="desc" data-width="150px" data-header-css-class='hidden-sm hidden-xs' data-css-class='hidden-sm hidden-xs'><?php echo __("Created"); ?></th>
-                        <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-css-class='controls' data-width="200px"></th>
+                        <th data-column-id="filesize" class="hidden-md hidden-sm hidden-xs" data-width="100px"><?php echo __("Size"); ?></th>
+                        <th data-column-id="created" class="hidden-sm hidden-xs" data-width="150px"><?php echo __("Created"); ?></th>
+                        <th data-column-id="commands" class="controls" data-sortable="false" data-width="200px"></th>
                     </tr>
                 </thead>
             </table>
+            </div>
         </div>
     </div>
 
@@ -1624,7 +1668,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         });
         $('#grid').on('change', '.checkboxVideo', updateManagerSelection);
         $('.searchFieldsNames').on('change', function() {
-            $('#grid').bootgrid('reload');
+            reloadGridAfterFilterChange();
         });
         $("#deleteBtn").click(function() {
             swal({
@@ -1753,32 +1797,23 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             return url;
         }
 
+        // filters (category/status/type/date range/search fields) must go back to page 1, otherwise
+        // e.g. filtering to a small result set while on page 2+ leaves the grid stuck on an out-of-range,
+        // empty page ("11 to 4 of 4"); row-action reloads (edit/delete/status change) keep using the
+        // page-preserving $('#grid').bootgrid('reload') shim instead.
+        // Assigned on window because the category/status/type filter dropdowns call this from a plain
+        // HTML onclick="" attribute, which runs in global scope, not inside this $(document).ready closure.
+        window.reloadGridAfterFilterChange = function() {
+            if ($.fn.DataTable.isDataTable('#grid')) {
+                $('#grid').DataTable().page(0).ajax.reload(null, false);
+            } else {
+                $('#grid').bootgrid('reload');
+            }
+        }
 
         var managerInitialSearchDone = false;
-        $('#grid').on('load.rs.jquery.bootgrid', function() {
-            $('#managerLoadError').addClass('hidden');
-        });
-        var grid = $("#grid").bootgrid({
-            padding: 4,
-            labels: {
-                noResults: __("No results found!"),
-                all: __("All"),
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: __("Loading..."),
-                refresh: __("Refresh"),
-                search: __("Search"),
-            },
-            rowCount: <?php echo $advancedCustom->videosManegerRowCount; ?>,
-            ajax: true,
-            ajaxSettings: {
-                complete: function(xhr, status) {
-                    if (status !== 'abort' && status !== 'success' && status !== 'notmodified') {
-                        $('#managerLoadError').removeClass('hidden');
-                    }
-                }
-            },
-            url: getGridURL,
-            formatters: {
+        // formatters kept exactly as before (only the Bootgrid wrapper around them changed); called from gridColumns' render() below
+        var videoManagerFormatters = {
                 "commands": function(column, row) {
                     var embedBtn = '';
                     var menuDebug = [];
@@ -2090,21 +2125,114 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     var buttonTitleLink = '<a href="' + row.link + '" class="btn btn-default btn-block titleBtn" style="overflow: hidden;" target="_top">' + img + '<br>' + type + row.title + '</a>';
                     return '<div>' + buttonTitleLink + tags + "<div class='clearfix hideIfCompact'></div><div class='gridYTPluginButtons hideIfCompact'>" + yt + pluginsButtons + "</div>" + playList + '</div>';
                 }
+        };
 
+        // gridColumns mirrors the previous <th> order 1:1; render() calls reuse the untouched formatters above.
+        // Columns that used to be hidden via a raw style="display:none" on just the <th> must use DataTables'
+        // own visible:false instead - a <th>-only inline style leaves the matching <td> visible in every row,
+        // which is what was throwing the header/data columns out of alignment.
+        var gridColumns = [];
+        var gridColumnsRevealAfterLoad = []; // indexes shown 1s after load, replacing the old $('.showOnGridDone').fadeIn()
+        var gridColumnIndexByName = {}; // used by the "Columns" show/hide dropdown
+        function pushGridColumn(name, def) {
+            gridColumns.push(def);
+            if (name) {
+                gridColumnIndexByName[name] = gridColumns.length - 1;
+            }
+        }
+        pushGridColumn(null, { data: null, orderable: false, className: '', width: '25px', render: function(data, type, row) { return videoManagerFormatters.checkbox(null, row); } });
+        pushGridColumn('title', { data: 'title', className: '', width: '200px', render: function(data, type, row) { return videoManagerFormatters.titleTag(null, row); } });
+        pushGridColumn(null, { data: null, orderable: false, className: 'hidden-md hidden-sm hidden-xs tagsInfo', width: '300px', render: function(data, type, row) { return videoManagerFormatters.tags(null, row); } });
+        pushGridColumn('sites_id', { data: 'sites_id', visible: false, className: 'hidden-xs', width: '50px', render: function(data, type, row) { return videoManagerFormatters.sites_id(null, row); } });
+        pushGridColumn('likes', { data: 'likes', visible: false, className: 'hidden-md hidden-sm hidden-xs', width: '50px' });
+        pushGridColumn('dislikes', { data: 'dislikes', visible: false, className: 'hidden-md hidden-sm hidden-xs', width: '50px' });
+        pushGridColumn('duration', { data: 'duration', visible: false, className: 'hidden-md hidden-sm hidden-xs', width: '80px' });
+        gridColumnsRevealAfterLoad.push(gridColumns.length - 1);
+        pushGridColumn('views_count', { data: 'views_count', visible: false, className: 'hidden-md hidden-sm hidden-xs', width: '50px', render: function(data, type, row) { return videoManagerFormatters.views_count(null, row); } });
+        gridColumnsRevealAfterLoad.push(gridColumns.length - 1);
+        pushGridColumn('total_seconds_watching', { data: 'total_seconds_watching', visible: false, className: 'hidden-sm hidden-xs', width: '100px', render: function(data, type, row) { return videoManagerFormatters.total_seconds_watching(null, row); } });
+        gridColumnsRevealAfterLoad.push(gridColumns.length - 1);
+        <?php if (Permissions::canAdminVideos()) { ?>
+        pushGridColumn('isSuggested', { data: 'isSuggested', visible: false, className: 'hidden-xs', width: '42px', render: function(data, type, row) { return videoManagerFormatters.isSuggested(null, row); } });
+        gridColumnsRevealAfterLoad.push(gridColumns.length - 1);
+        <?php } ?>
+        pushGridColumn('isChannelSuggested', { data: 'isChannelSuggested', visible: false, className: 'hidden-xs', width: '42px', render: function(data, type, row) { return videoManagerFormatters.isChannelSuggested(null, row); } });
+        gridColumnsRevealAfterLoad.push(gridColumns.length - 1);
+        pushGridColumn('filesize', { data: 'filesize', className: 'hidden-md hidden-sm hidden-xs', width: '100px', render: function(data, type, row) { return videoManagerFormatters.filesize(null, row); } });
+        pushGridColumn('created', { data: 'created', className: 'hidden-sm hidden-xs', width: '150px' });
+        pushGridColumn(null, { data: null, orderable: false, className: 'controls', width: '200px', render: function(data, type, row) { return videoManagerFormatters.commands(null, row); } });
+        var createdColumnIndex = gridColumns.length - 2; // "created" is always the column right before "commands"
 
+        // $('#grid').bootgrid('reload'|'getCurrentRows'|'getCurrentPage'|'search', ...) calls (this page,
+        // plugin/CDN/Storage, plugin/YPTStorage, plugin/CustomizeAdvanced, plugin/User_Controll and the
+        // generic "bootgridReload" AJAX action in view/js/script.js) are translated onto this DataTable by
+        // the shared bridge in view/js/avideoDataTable.js (loaded via Page::loadBasicCSSAndJS()).
+        avideoDataTable("#grid", {
+            <?php
+            // videosManegerRowCount can be a single integer OR a bootgrid-style "[10, 25, 50, -1]" dropdown-options string; -1 means "All" in both bootgrid and DataTables
+            $gridRowCountRaw = json_decode($advancedCustom->videosManegerRowCount, true);
+            if (is_array($gridRowCountRaw) && !empty($gridRowCountRaw)) {
+                $gridLengthMenu = array_map('intval', $gridRowCountRaw);
+                $gridPageLength = $gridLengthMenu[0];
+            } else {
+                $gridLengthMenu = null;
+                $gridPageLength = (int) $advancedCustom->videosManegerRowCount;
+            }
+            if ($gridPageLength !== -1 && $gridPageLength <= 0) {
+                $gridPageLength = 20;
+            }
+            ?>
+            pageLength: <?php echo $gridPageLength; ?>,
+            <?php if (!empty($gridLengthMenu)) { ?>
+            lengthMenu: [<?php echo json_encode($gridLengthMenu); ?>, <?php echo json_encode(array_map(function ($v) {
+                return $v == -1 ? __('All') : $v;
+            }, $gridLengthMenu)); ?>],
+            <?php } ?>
+            serverSide: true,
+            processing: true,
+            order: [[createdColumnIndex, 'desc']],
+            columns: gridColumns,
+            language: {
+                zeroRecords: __("No results found!"),
+                loadingRecords: __("Loading..."),
+                search: __("Search"),
             },
-            post: function() {
-                var page = getGridCurrentPage();
-                if (!page) {
-                    page = 1;
-                }
-                console.log('post page', page);
-                var ret = {
-                    current: page
-                };
-                return ret;
+            // bridges the existing bootgrid-shaped JSON from objects/videos.json.php (current/rowCount/total/rows)
+            // into what DataTables expects, so the endpoint (also used by the Encoder and video autocompletes) stays untouched
+            ajax: function(data, callback, settings) {
+                $.ajax({
+                    url: getGridURL(),
+                    data: data,
+                    dataType: 'json',
+                    success: function(json) {
+                        $('#managerLoadError').addClass('hidden');
+                        callback({
+                            draw: data.draw,
+                            recordsTotal: json.total,
+                            recordsFiltered: json.total,
+                            data: json.rows
+                        });
+                    },
+                    error: function() {
+                        $('#managerLoadError').removeClass('hidden');
+                        callback({ draw: data.draw, recordsTotal: 0, recordsFiltered: 0, data: [] });
+                    }
+                });
             },
-        }).on("loaded.rs.jquery.bootgrid", function() {
+        });
+
+        $('.gridColumnToggle').on('change', function() {
+            var colName = $(this).data('col-name');
+            var idx = gridColumnIndexByName[colName];
+            if (typeof idx !== 'undefined') {
+                $('#grid').DataTable().column(idx).visible($(this).is(':checked'));
+            }
+        });
+        $('#gridRefreshButton').on('click', function() {
+            $('#grid').bootgrid('reload');
+        });
+
+        var grid = $("#grid").on("draw.dt", function() {
             updateManagerSelection();
             $(".tooltip").tooltip("hide");
             if ($('.videoPlaylist').length > 50) {
@@ -2119,7 +2247,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             }
             if (!empty(_editVideo) && !managerInitialSearchDone) {
                 managerInitialSearchDone = true;
-                $(".bootgrid-header .search-field").val(_editVideo.id);
+                $("#grid_wrapper .dataTables_filter input").val(_editVideo.id);
                 // Opcional: Execute uma busca automaticamente com o valor padrão
                 grid.bootgrid("search", _editVideo.id);
             }
@@ -2299,10 +2427,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     const start = instance.formatDate(selectedDates[0], 'Y-m-d');
                     const end = instance.formatDate(selectedDates[1], 'Y-m-d');
                     filterDateRange = `${start}|${end}`;
-                    $('#grid').bootgrid('reload');
+                    reloadGridAfterFilterChange();
                 } else if (selectedDates.length === 0) {
                     filterDateRange = '';
-                    $('#grid').bootgrid('reload');
+                    reloadGridAfterFilterChange();
                 }
             }
         });
@@ -2323,7 +2451,9 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             <?php
             }
             ?>
-            $('.showOnGridDone').fadeIn();
+            if ($.fn.DataTable.isDataTable('#grid')) {
+                $('#grid').DataTable().columns(gridColumnsRevealAfterLoad).visible(true);
+            }
 
         }, 1000);
     });

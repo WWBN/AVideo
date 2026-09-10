@@ -19,5 +19,8 @@ if (User::isAdmin()) {
     //$user_id = '';
 }
 $Subscribes = Subscribe::getAllSubscribes($user_id);
-$total = Subscribe::getTotalSubscribes($user_id);
+// Use the same filter criteria as getAllSubscribes() (including any active search) instead of
+// Subscribe::getTotalSubscribes(), which counts by a different status field and is shared with
+// public-facing subscriber counts that must not change here.
+$total = Subscribe::getTotalSubscribesFiltered($user_id);
 echo '{  "current": '. getCurrentPage().',"rowCount": '.getRowCount().', "total": '.$total.', "rows":'. json_encode($Subscribes).'}';

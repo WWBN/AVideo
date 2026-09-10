@@ -12,11 +12,15 @@ if (!User::isAdmin()) {
 
 header('Content-Type: application/json');
 
-if(!empty($_POST['sort']['valueText'])){
+// Normalize the DataTables GET-based order into $_POST['sort'] BEFORE remapping the valueText
+// alias below - see plugin/YPTWallet/view/log.json.php for the same fix and full rationale.
+BootGrid::populateSortFromDataTablesOrder();
+
+if (!empty($_POST['sort']['valueText'])) {
     $_POST['sort']['value'] = $_POST['sort']['valueText'];
     unset($_POST['sort']['valueText']);
 }
 
 $row = WalletLog::getAllFromWallet(0,true,'pending');
 $total = WalletLog::getTotalFromWallet(0,true,'pending');
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($row).'}';
+echo '{  "current": '.getCurrentPage().',"rowCount": '.getRowCount().', "total": '.$total.', "rows":'. json_encode($row).'}';

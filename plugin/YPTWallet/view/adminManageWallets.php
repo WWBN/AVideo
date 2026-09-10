@@ -11,6 +11,7 @@ if (!User::isAdmin()) {
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
 $_page = new Page(array('Support Author'));
+$_page->loadBasicCSSAndJS();
 ?>
 
 <div class="container">
@@ -67,43 +68,47 @@ $_page = new Page(array('Support Author'));
 <script>
     $(document).ready(function() {
 
-        var grid = $("#grid").bootgrid({
-            labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
+        var walletFormatters = {
+            "commands": function(row) {
+                var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>'
+                var history = '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/history.php?users_id=' + row.user_id + '" class="btn btn-default btn-xs command-history"   data-toggle="tooltip" data-placement="left" title="History""><span class="fa fa-history" aria-hidden="true"></span></a>';
+                return editBtn + history;
+            },
+            "user": function(row) {
+                var photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:50px;'/>";
+                return row.user + photo;
+            }
+        };
+
+        var dt = avideoDataTable("#grid", {
+            avideoControls: true,
+            serverSide: true,
+            order: [[1, 'desc']],
+            language: {
+                zeroRecords: "<?php echo __("No results found!"); ?>",
+                loadingRecords: "<?php echo __("Loading..."); ?>",
                 search: "<?php echo __("Search"); ?>",
             },
-            ajax: true,
-            url: "<?php echo $global['webSiteRootURL'] . "plugin/YPTWallet/view/users.json.php"; ?>",
-            formatters: {
-                "commands": function(column, row) {
-                    console.log(row);
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>'
-                    var history = '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/history.php?users_id=' + row.user_id + '" class="btn btn-default btn-xs command-history"   data-toggle="tooltip" data-placement="left" title="History""><span class="fa fa-history" aria-hidden="true"></span></a>';
-                    //return editBtn + deleteBtn;
-                    return editBtn + history;
-                },
-                "user": function(column, row) {
-                    var photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:50px;'/>";
-                    return row.user + photo;
-                }
-            }
-        }).on("loaded.rs.jquery.bootgrid", function() {
-            /* Executes after data is loaded and rendered */
-            grid.find(".command-edit").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                console.log(row);
+            columns: [
+                { data: 'user', render: function(data, type, row) { return type === 'display' ? walletFormatters.user(row) : data; } },
+                { data: 'name' },
+                { data: 'email' },
+                { data: 'balance' },
+                { data: null, orderable: false, width: '100px', render: function(data, type, row) { return walletFormatters.commands(row); } }
+            ],
+            ajax: avideoDataTableAjax({ url: "<?php echo $global['webSiteRootURL'] . "plugin/YPTWallet/view/users.json.php"; ?>" })
+        });
 
-                $('#inputUserId').val(row.id);
-                $('#inputUser').val(row.user);
-                $('#inputUserBalance').val(row.balance);
+        var grid = $("#grid");
+        grid.off('click.ypWallet', '.command-edit').on('click.ypWallet', '.command-edit', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            console.log(row);
 
-                $('#userFormModal').modal();
-            });
+            $('#inputUserId').val(row.id);
+            $('#inputUser').val(row.user);
+            $('#inputUserBalance').val(row.balance);
+
+            $('#userFormModal').modal();
         });
 
         $('#saveUserBtn').click(function(evt) {
@@ -125,7 +130,7 @@ $_page = new Page(array('Support Author'));
                     if (!response.error) {
                         $(".walletBalance").text(response.walletBalance);
                         $('#userFormModal').modal('hide');
-                        $("#grid").bootgrid("reload");
+                        dt.ajax.reload(null, false);
                     } else {
                         avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been saved!"); ?>", "error");
                     }

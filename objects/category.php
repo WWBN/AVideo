@@ -454,6 +454,20 @@ class Category
 
         $sortWhitelist = ['id', 'name', 'clean_name', 'description', 'iconClass', 'nextVideoOrder', 'parentId', 'type', 'users_id', 'private', 'allow_download', 'order', 'suggested'];
 
+        // Normalize the DataTables GET-based order into $_POST['sort'] BEFORE the whitelist filter
+        // below - otherwise the filter only ever saw the legacy Bootgrid POST convention, and a
+        // DataTables GET sort request (translated later, inside BootGrid::getSqlFromPost()) reached
+        // the final ORDER BY unfiltered.
+        BootGrid::populateSortFromDataTablesOrder();
+
+        // "owner" is a display-only value computed after the query (User::getNameIdentificationById()),
+        // not a real categories column - map it to the closest real, whitelisted column (the
+        // owner's users_id) instead of letting "ORDER BY owner" reach the query (unknown column).
+        if (!empty($_POST['sort']['owner'])) {
+            $_POST['sort']['users_id'] = $_POST['sort']['owner'];
+            unset($_POST['sort']['owner']);
+        }
+
         if (!empty($_POST['sort']) && is_array($_POST['sort'])) {
             foreach ($_POST['sort'] as $key => $value) {
                 if (!in_array($key, $sortWhitelist)) {

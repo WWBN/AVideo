@@ -7362,24 +7362,27 @@ function getURL($relativePath, $ignoreCDN = false)
     if (!isset($_SESSION['user']['sessionCache']['getURL'])) {
         $_SESSION['user']['sessionCache']['getURL'] = [];
     }
-    if (!empty($_SESSION['user']['sessionCache']['getURL'][$relativePath])) {
-        $_SESSION['user']['sessionCache']['getURL'][$relativePath] = fixTestURL($_SESSION['user']['sessionCache']['getURL'][$relativePath]);
-        return $_SESSION['user']['sessionCache']['getURL'][$relativePath];
-    }
 
     $file = "{$global['systemRootPath']}{$relativePath}";
+    $fileExists = file_exists($file);
+    // Recomputed every call (cheap stat calls) and compared below, instead of trusting whatever was
+    // first cached for this session - otherwise an edited file's URL never changes until logout.
+    $cache = $fileExists ? (@filemtime($file) . '_' . @filectime($file)) : 'not_found';
+
+    $cached = $_SESSION['user']['sessionCache']['getURL'][$relativePath] ?? null;
+    if (is_array($cached) && !empty($cached['url']) && ($cached['cache'] ?? null) === $cache) {
+        return fixTestURL($cached['url']);
+    }
+
     if (empty($ignoreCDN)) {
         $url = getCDN() . $relativePath;
     } else {
         $url = $global['webSiteRootURL'] . $relativePath;
     }
     $url = fixTestURL($url);
-    if (file_exists($file)) {
-        $cache = @filemtime($file) . '_' . @filectime($file);
-        $url = addQueryStringParameter($url, 'cache', $cache);
-        $_SESSION['user']['sessionCache']['getURL'][$relativePath] = $url;
-    } else {
-        $url = addQueryStringParameter($url, 'cache', 'not_found');
+    $url = addQueryStringParameter($url, 'cache', $cache);
+    if ($fileExists) {
+        $_SESSION['user']['sessionCache']['getURL'][$relativePath] = ['url' => $url, 'cache' => $cache];
     }
 
     return $url;

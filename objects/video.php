@@ -1302,6 +1302,11 @@ if (!class_exists('Video')) {
         static function getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly)
         {
             $sql = '';
+            // DataTables sends the sort via $_GET['order']/$_GET['columns'] instead of $_POST['sort'] directly;
+            // that translation normally happens later inside BootGrid::getSqlFromPost(), too late for the
+            // "only v.created DESC requested" check below to ever see it, silently dropping the custom
+            // Sort Videos `order` column from the default grid sort.
+            BootGrid::populateSortFromDataTablesOrder();
             $sort = @$_POST['sort'];
 
             $_POST['sort'] = array();
@@ -1542,7 +1547,8 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_GET['search'])) {
-                $_POST['searchPhrase'] = $_GET['search'];
+                // DataTables sends search as an array (search[value]/search[regex]), older callers send it as a plain string
+                $_POST['searchPhrase'] = is_array($_GET['search']) ? ($_GET['search']['value'] ?? '') : $_GET['search'];
             }
 
             $sql .= self::getSearchSQLFromPost();
@@ -2088,7 +2094,8 @@ if (!class_exists('Video')) {
             $sql .= Video::getCatSQL();
 
             if (!empty($_GET['search'])) {
-                $_POST['searchPhrase'] = $_GET['search'];
+                // DataTables sends search as an array (search[value]/search[regex]), older callers send it as a plain string
+                $_POST['searchPhrase'] = is_array($_GET['search']) ? ($_GET['search']['value'] ?? '') : $_GET['search'];
             }
 
             if (!empty($_GET['modified'])) {

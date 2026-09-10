@@ -4,6 +4,17 @@ class BootGrid
     private const SEARCH_CHARSET = 'utf8mb4';
     private const SEARCH_COLLATION = 'utf8mb4_unicode_ci';
 
+    public static function populateSortFromDataTablesOrder()
+    {
+        if (empty($_POST['sort']) && !empty($_GET['order'][0]['dir'])) {
+            $index = intval($_GET['order'][0]['column']);
+            $data = $_GET['columns'][$index]['data'] ?? '';
+            if ($data !== '') {
+                $_POST['sort'][$data] = $_GET['order'][0]['dir'];
+            }
+        }
+    }
+
     public static function getSqlFromPost($searchFieldsNames = [], $keyPrefix = "", $alternativeOrderBy = "", $doNotSearch=false, $FIND_IN_SET = "", $allowedSortColumns = [])
     {
         global $global;
@@ -13,11 +24,7 @@ class BootGrid
             $sql = '';
         }
 
-        if (empty($_POST['sort']) && !empty($_GET['order'][0]['dir'])) {
-            $index = intval($_GET['order'][0]['column']);
-            $_GET['columns'][$index]['data'];
-            $_POST['sort'][$_GET['columns'][$index]['data']] = $_GET['order'][0]['dir'];
-        }
+        self::populateSortFromDataTablesOrder();
 
 
         if (!empty($FIND_IN_SET)) {

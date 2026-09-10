@@ -124,112 +124,117 @@
         });
     }
     $(document).ready(function() {
-        var grid = $("#grid").bootgrid({
-            labels: {
-                noResults: __("No results found!"),
-                all: __("All"),
-                infos: __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"),
-                loading: __("Loading..."),
-                refresh: __("Refresh"),
+        var userGroupsFormatters = {
+            "commands": function(row) {
+                var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="' + __('Edit') + '"><i class="fa-solid fa-pen-to-square"></i></button>'
+                var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="' + __('Delete') + '"><i class="fa fa-trash"></i></button>';
+                var channelsBtn = '<button type="button" class="btn btn-xs btn-default command-channels" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="' + __('View Channels') + '"><i class="fa fa-tv"></i></button>';
+                return editBtn + deleteBtn + channelsBtn;
+            }
+        };
+
+        var dt = avideoDataTable("#grid", {
+            avideoControls: true,
+            serverSide: true,
+            order: [[0, 'asc']],
+            language: {
+                zeroRecords: __("No results found!"),
+                loadingRecords: __("Loading..."),
                 search: __("Search"),
             },
-            ajax: true,
-            url: webSiteRootURL + "objects/usersGroups.json.php",
-            formatters: {
-                "commands": function(column, row) {
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="' + __('Edit') + '"><i class="fa-solid fa-pen-to-square"></i></button>'
-                    var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="' + __('Delete') + '"><i class="fa fa-trash"></i></button>';
-                    var channelsBtn = '<button type="button" class="btn btn-xs btn-default command-channels" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="' + __('View Channels') + '"><i class="fa fa-tv"></i></button>';
-                    return editBtn + deleteBtn + channelsBtn;
+            columns: [
+                { data: 'group_name' },
+                { data: 'created', width: '150px' },
+                { data: 'modified', width: '150px' },
+                { data: null, orderable: false, width: '100px', render: function(data, type, row) { return userGroupsFormatters.commands(row); } }
+            ],
+            ajax: avideoDataTableAjax({ url: webSiteRootURL + "objects/usersGroups.json.php" })
+        });
+
+        var grid = $("#grid");
+        grid.off('click.userGroupsMgr', '.command-edit').on('click.userGroupsMgr', '.command-edit', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            console.log(row);
+
+            $('#inputUserGroupsId').val(row.id);
+            $('#inputName').val(row.group_name);
+
+            // Load resolutions
+            $('.resolution-checkbox').prop('checked', false);
+            if (row.allowed_resolutions) {
+                try {
+                    var allowedResolutions = JSON.parse(row.allowed_resolutions);
+                    if (Array.isArray(allowedResolutions)) {
+                        allowedResolutions.forEach(function(resolution) {
+                            $('.resolution-checkbox[value="' + resolution + '"]').prop('checked', true);
+                        });
+                    }
+                } catch (e) {
+                    console.error('Error parsing allowed_resolutions:', e);
                 }
             }
-        }).on("loaded.rs.jquery.bootgrid", function() {
-            /* Executes after data is loaded and rendered */
-            grid.find(".command-edit").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                console.log(row);
 
-                $('#inputUserGroupsId').val(row.id);
-                $('#inputName').val(row.group_name);
-
-                // Load resolutions
-                $('.resolution-checkbox').prop('checked', false);
-                if (row.allowed_resolutions) {
-                    try {
-                        var allowedResolutions = JSON.parse(row.allowed_resolutions);
-                        if (Array.isArray(allowedResolutions)) {
-                            allowedResolutions.forEach(function(resolution) {
-                                $('.resolution-checkbox[value="' + resolution + '"]').prop('checked', true);
-                            });
+            modal.showPleaseWait();
+            $.ajax({
+                url: webSiteRootURL + 'plugin/Permissions/getPermissions.json.php?users_groups_id=' + row.id,
+                success: function(response) {
+                    console.log(response);
+                    $(".permissions").prop("checked", false);
+                    for (var key in response) {
+                        if (typeof key !== 'string') {
+                            continue;
                         }
-                    } catch (e) {
-                        console.error('Error parsing allowed_resolutions:', e);
-                    }
-                }
-
-                modal.showPleaseWait();
-                $.ajax({
-                    url: webSiteRootURL + 'plugin/Permissions/getPermissions.json.php?users_groups_id=' + row.id,
-                    success: function(response) {
-                        console.log(response);
-                        $(".permissions").prop("checked", false);
-                        for (var key in response) {
-                            if (typeof key !== 'string') {
+                        for (var subkey in response[key]) {
+                            if (typeof subkey !== 'string' || isNaN(subkey)) {
                                 continue;
                             }
-                            for (var subkey in response[key]) {
-                                if (typeof subkey !== 'string' || isNaN(subkey)) {
-                                    continue;
-                                }
-                                var selector = "." + key + "[value=\"" + response[key][subkey] + "\"]";
-                                console.log(selector, $(selector));
-                                $(selector).prop("checked", true);
-                            }
+                            var selector = "." + key + "[value=\"" + response[key][subkey] + "\"]";
+                            console.log(selector, $(selector));
+                            $(selector).prop("checked", true);
                         }
-                        $('#groupFormModal').modal();
-                        modal.hidePleaseWait();
+                    }
+                    $('#groupFormModal').modal();
+                    modal.hidePleaseWait();
+                }
+            });
+
+        });
+        grid.off('click.userGroupsMgr', '.command-delete').on('click.userGroupsMgr', '.command-delete', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+
+            swal({
+                    title: __("Are you sure?"),
+                    text: __("You will not be able to recover this action!"),
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then(function(willDelete) {
+                    if (willDelete) {
+                        modal.showPleaseWait();
+                        $.ajax({
+                            url: webSiteRootURL + 'objects/userGroupsDelete.json.php',
+                            data: {
+                                "id": row.id
+                            },
+                            type: 'post',
+                            success: function(response) {
+                                if (response.status === "1") {
+                                    dt.ajax.reload(null, false);
+                                    avideoAlertSuccess(__("Your group has been deleted!"));
+                                } else {
+                                    avideoAlertError(__("Your group has NOT been deleted!"));
+                                }
+                                modal.hidePleaseWait();
+                            }
+                        });
                     }
                 });
-
-            }).end().find(".command-delete").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-
-                swal({
-                        title: __("Are you sure?"),
-                        text: __("You will not be able to recover this action!"),
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    })
-                    .then(function(willDelete) {
-                        if (willDelete) {
-                            modal.showPleaseWait();
-                            $.ajax({
-                                url: webSiteRootURL + 'objects/userGroupsDelete.json.php',
-                                data: {
-                                    "id": row.id
-                                },
-                                type: 'post',
-                                success: function(response) {
-                                    if (response.status === "1") {
-                                        $("#grid").bootgrid("reload");
-                                        avideoAlertSuccess(__("Your group has been deleted!"));
-                                    } else {
-                                        avideoAlertError(__("Your group has NOT been deleted!"));
-                                    }
-                                    modal.hidePleaseWait();
-                                }
-                            });
-                        }
-                    });
-            }).end().find(".command-channels").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                var channelName = row.group_name ? encodeURIComponent(row.group_name) : '';
-                window.open(webSiteRootURL + 'channels/' + row.id + '/' + channelName, '_blank');
-            });
+        });
+        grid.off('click.userGroupsMgr', '.command-channels').on('click.userGroupsMgr', '.command-channels', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            var channelName = row.group_name ? encodeURIComponent(row.group_name) : '';
+            window.open(webSiteRootURL + 'channels/' + row.id + '/' + channelName, '_blank');
         });
 
         $('#addUserGroupsBtn').click(function(evt) {
@@ -256,7 +261,7 @@
                 success: function(response) {
                     if (response.status) {
                         $('#groupFormModal').modal('hide');
-                        $("#grid").bootgrid("reload");
+                        dt.ajax.reload(null, false);
                         avideoAlertSuccess(__("Your group has been saved!"));
                     } else {
                         avideoAlertError(__("Your group has NOT been saved!"));

@@ -10,6 +10,7 @@ if (!User::isLogged()) {
 
 $users_id = !empty($_GET['users_id']) ? $_GET['users_id'] : User::getId();
 $_page = new Page(array('History'));
+$_page->loadBasicCSSAndJS();
 ?>
 <style>
 .bootgrid-table td{
@@ -58,68 +59,75 @@ if (AVideoPlugin::isEnabledByName('MonetizeUsers')) {
 </style>
 <script>
     $(document).ready(function() {
-        var grid = $("#grid").bootgrid({
-            labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
+        var walletHistoryFormatters = {
+            "description": function(row) {
+                return row.information || row.description;
+            },
+            "status": function(row) {
+                let label = {
+                    success: 'label-success',
+                    pending: 'label-warning',
+                    canceled: 'label-danger'
+                };
+                let statusLabel = `<span class='label ${label[row.status] || "label-default"}'>${row.status}</span>`;
+                <?php if (User::isAdmin()) { ?>
+                if (row.type === "<?php echo YPTWallet::MANUAL_ADD; ?>" || row.type === "<?php echo YPTWallet::MANUAL_WITHDRAW; ?>") {
+                    statusLabel += `<br><br>
+                    <div class="btn-group">
+                        <button class='btn btn-default btn-xs command-status-success'>Success</button>
+                        <button class='btn btn-default btn-xs command-status-pending'>Pending</button>
+                        <button class='btn btn-default btn-xs command-status-canceled'>Canceled</button>
+                    </div>`;
+                }
+                <?php } ?>
+                return statusLabel;
+            },
+            "balance": function(row) {
+                return row.balance_formated;
+            },
+            "previousBalance": function(row) {
+                return row.previous_wallet_balance_formated;
+            }
+        };
+
+        var dt = avideoDataTable("#grid", {
+            avideoControls: true,
+            serverSide: true,
+            order: [[0, 'desc']],
+            language: {
+                zeroRecords: "<?php echo __("No results found!"); ?>",
+                loadingRecords: "<?php echo __("Loading..."); ?>",
                 search: "<?php echo __("Search"); ?>",
             },
-            ajax: true,
-            url: "<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/log.json.php?users_id=<?php echo $users_id; ?>",
-            formatters: {
-                "description": function(column, row) {
-                    return row.information || row.description;
-                },
-                "status": function(column, row) {
-                    let label = {
-                        success: 'label-success',
-                        pending: 'label-warning',
-                        canceled: 'label-danger'
-                    };
-                    let statusLabel = `<span class='label ${label[row.status] || "label-default"}'>${row.status}</span>`;
-                    <?php if (User::isAdmin()) { ?>
-                    if (row.type === "<?php echo YPTWallet::MANUAL_ADD; ?>" || row.type === "<?php echo YPTWallet::MANUAL_WITHDRAW; ?>") {
-                        statusLabel += `<br><br>
-                        <div class="btn-group">
-                            <button class='btn btn-default btn-xs command-status-success'>Success</button>
-                            <button class='btn btn-default btn-xs command-status-pending'>Pending</button>
-                            <button class='btn btn-default btn-xs command-status-canceled'>Canceled</button>
-                        </div>`;
-                    }
-                    <?php } ?>
-                    return statusLabel;
-                },
-                "balance": function(column, row) {
-                    return row.balance_formated;
-                },
-                "previousBalance": function(column, row) {
-                    return row.previous_wallet_balance_formated;
-                }
-            }
-        }).on("loaded.rs.jquery.bootgrid", function() {
-            <?php if (User::isAdmin()) { ?>
-            grid.find(".command-status-success").on("click", function() {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                setStatus("success", row.id);
-            });
-
-            grid.find(".command-status-pending").on("click", function() {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                setStatus("pending", row.id);
-            });
-
-            grid.find(".command-status-canceled").on("click", function() {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                setStatus("canceled", row.id);
-            });
-            <?php } ?>
+            columns: [
+                { data: 'created', width: '150px' },
+                { data: 'value', width: '120px', render: function(data, type, row) { return type === 'display' ? row.valueText : data; } },
+                { data: 'previous_wallet_balance', width: '120px', render: function(data, type, row) { return type === 'display' ? walletHistoryFormatters.previousBalance(row) : data; } },
+                { data: 'balance', width: '120px', orderable: false, render: function(data, type, row) { return type === 'display' ? walletHistoryFormatters.balance(row) : data; } },
+                { data: 'type', width: '150px' },
+                { data: 'description', render: function(data, type, row) { return type === 'display' ? walletHistoryFormatters.description(row) : data; } },
+                { data: 'status', width: '100px', render: function(data, type, row) { return type === 'display' ? walletHistoryFormatters.status(row) : data; } }
+            ],
+            ajax: avideoDataTableAjax({ url: "<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/log.json.php?users_id=<?php echo $users_id; ?>" })
         });
+
+        <?php if (User::isAdmin()) { ?>
+        var grid = $("#grid");
+        grid.off('click.walletHistory', '.command-status-success').on('click.walletHistory', '.command-status-success', function() {
+            var row = dt.row($(this).closest('tr')).data();
+            setStatus("success", row.id);
+        });
+
+        grid.off('click.walletHistory', '.command-status-pending').on('click.walletHistory', '.command-status-pending', function() {
+            var row = dt.row($(this).closest('tr')).data();
+            setStatus("pending", row.id);
+        });
+
+        grid.off('click.walletHistory', '.command-status-canceled').on('click.walletHistory', '.command-status-canceled', function() {
+            var row = dt.row($(this).closest('tr')).data();
+            setStatus("canceled", row.id);
+        });
+        <?php } ?>
     });
 
     <?php if (User::isAdmin()) { ?>
@@ -140,7 +148,7 @@ if (AVideoPlugin::isEnabledByName('MonetizeUsers')) {
                         avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     }, 500);
                 } else {
-                    $("#grid").bootgrid("reload");
+                    $("#grid").DataTable().ajax.reload(null, false);
                 }
             }
         });

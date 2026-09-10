@@ -11,12 +11,14 @@ $global['showChannelNameOnVideoItem'] = 1;
 header('Content-Type: application/json');
 session_write_close();
 $canAdminUsers = canAdminUsers();
-if (empty($_POST['current'])) {
-    $_POST['current'] = 1;
-}
-if (empty($_REQUEST['rowCount'])) {
-    $_REQUEST['rowCount'] = 10;
-}
+// Normalize before defaulting: getCurrentPage()/getRowCount() already understand both the legacy
+// Bootgrid current/rowCount POST convention and the DataTables start/length GET convention. Forcing
+// $_POST['current']=1 / $_REQUEST['rowCount']=10 here BEFORE that normalization ran meant every
+// DataTables request (which never sends fields literally named current/rowCount) always saw these
+// hardcoded defaults instead of the real requested page/length - page 2 kept re-fetching page 1, and
+// picking 25/50/All silently stayed at 10. Normalize first, then these become genuine fallbacks.
+$_POST['current'] = getCurrentPage();
+$_REQUEST['rowCount'] = getRowCount(10);
 // Cap rowCount for callers without user-search permissions to prevent
 // bulk harvesting of the full account list in a single request.
 if (!canSearchUsers()) {

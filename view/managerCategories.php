@@ -10,6 +10,7 @@ if (!Category::canCreateCategory()) {
     exit;
 }
 $_page = new Page(array('Categories'));
+$_page->loadBasicCSSAndJS();
 $_page->setIncludeInHead(array('view/managerCategories_head.php'));
 include $global['systemRootPath'] . 'view/managerCategories_body.php';
 $_page->print();

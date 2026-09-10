@@ -283,152 +283,155 @@
             });
         }
 
-        var grid = $("#grid").bootgrid({
-            labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
+        var categoryFormatters = {
+            "download": function(row) {
+                if (row.allow_download == 1) {
+                    return '<i class="far fa-check-square"></i>';
+                } else {
+                    return '<i class="far fa-square"></i>';
+                }
+            },
+            "suggested": function(row) {
+                if (row.suggested == 1) {
+                    return '<i class="far fa-check-square"></i>';
+                } else {
+                    return '<i class="far fa-square"></i>';
+                }
+            },
+            "name": function(row) {
+                return row.hierarchyAndName
+            },
+            "private": function(row) {
+                if (row.private == '1') {
+                    return "<?php echo __("Private"); ?>";
+                } else {
+                    return "<?php echo __("Public"); ?>";
+                }
+            },
+            "commands": function(row) {
+                var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Edit"); ?>"><i class="fa-solid fa-pen-to-square"></i></button>'
+                var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Delete"); ?>"><i class="fa-solid fa-trash"></i></button>';
+                var liveNowBtn = '<button type="button" class="btn btn-default btn-xs command-copy-livenow" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Copy Live Now URL"); ?>"><i class="fa-regular fa-copy"></i></button>';
+                var rssBtn = '<br><a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("RSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>feed/?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
+                rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("MRSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>mrss/?catName=' + row.clean_name + '" >MRSS</a>';
+                rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("Roku Json"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>roku.json?catName=' + row.clean_name + '" >ROKU</a>';
+
+                if (!row.canEdit) {
+                    editBtn = '';
+                    deleteBtn = '';
+                }
+
+                return editBtn + deleteBtn + liveNowBtn + rssBtn;
+            }
+        };
+
+        var dt = avideoDataTable("#grid", {
+            avideoControls: true,
+            serverSide: true,
+            order: [[2, 'desc']],
+            language: {
+                zeroRecords: "<?php echo __("No results found!"); ?>",
+                loadingRecords: "<?php echo __("Loading..."); ?>",
                 search: "<?php echo __("Search"); ?>",
             },
-            ajax: true,
-            url: "<?php echo $global['webSiteRootURL'] . "objects/categories.json.php"; ?>",
-            formatters: {
-                "download": function(column, row) {
-                    if (row.allow_download == 1) {
-                        return '<i class="far fa-check-square"></i>';
-                    } else {
-                        return '<i class="far fa-square"></i>';
-                    }
-                },
-                "suggested": function(column, row) {
-                    if (row.suggested == 1) {
-                        return '<i class="far fa-check-square"></i>';
-                    } else {
-                        return '<i class="far fa-square"></i>';
-                    }
-                },
-                "name": function(column, row) {
-                    return row.hierarchyAndName
-                },
-                "type": function(column, row) {
-                    if (row.type == '3') {
-                        return "<?php echo __("Auto"); ?>";
-                    } else if (row.type == '0') {
-                        return "<?php echo __("Both"); ?>";
-                    } else if (row.type == '1') {
-                        return "<?php echo __("Audio"); ?>";
-                    } else if (row.type == '2') {
-                        return "<?php echo __("Video"); ?>";
-                    } else {
-                        return "<?php echo __("Invalid"); ?>";
-                    }
-                },
-                "private": function(column, row) {
-                    if (row.private == '1') {
-                        return "<?php echo __("Private"); ?>";
-                    } else {
-                        return "<?php echo __("Public"); ?>";
-                    }
-                },
-                "commands": function(column, row) {
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Edit"); ?>"><i class="fa-solid fa-pen-to-square"></i></button>'
-                    var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Delete"); ?>"><i class="fa-solid fa-trash"></i></button>';
-                    var liveNowBtn = '<button type="button" class="btn btn-default btn-xs command-copy-livenow" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Copy Live Now URL"); ?>"><i class="fa-regular fa-copy"></i></button>';
-                    var rssBtn = '<br><a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("RSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>feed/?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
-                    rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("MRSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>mrss/?catName=' + row.clean_name + '" >MRSS</a>';
-                    rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("Roku Json"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>roku.json?catName=' + row.clean_name + '" >ROKU</a>';
-
-                    if (!row.canEdit) {
-                        editBtn = '';
-                        deleteBtn = '';
-                    }
-
-                    return editBtn + deleteBtn + liveNowBtn + rssBtn;
-                }
-            }
-        }).on("loaded.rs.jquery.bootgrid", function() {
+            columns: [
+                { data: 'id', type: 'num', width: '5%' },
+                { data: 'iconHtml', orderable: false, width: '5%' },
+                { data: 'name', width: '20%', render: function(data, type, row) { return type === 'display' ? categoryFormatters.name(row) : data; } },
+                { data: 'private', render: function(data, type, row) { return type === 'display' ? categoryFormatters.private(row) : data; } },
+                { data: 'total_users_groups', orderable: false },
+                { data: 'owner' },
+                { data: 'fullTotal_videos', orderable: false },
+                { data: 'fullTotal_lives', orderable: false },
+                { data: 'fullTotal_livelinks', orderable: false },
+                { data: 'allow_download', render: function(data, type, row) { return type === 'display' ? categoryFormatters.download(row) : data; } },
+                { data: 'suggested', render: function(data, type, row) { return type === 'display' ? categoryFormatters.suggested(row) : data; } },
+                { data: 'order' },
+                { data: null, orderable: false, width: '130px', render: function(data, type, row) { return categoryFormatters.commands(row); } }
+            ],
+            ajax: avideoDataTableAjax({ url: "<?php echo $global['webSiteRootURL'] . "objects/categories.json.php"; ?>" })
+        }).on('draw.dt', function() {
             if (typeof avideoSetContainerLoading === 'function') {
                 avideoSetContainerLoading('categoryGridContainer', false);
             }
-            grid.find(".command-edit").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+        });
 
-                // console.log(row);
-                $("#subcat" + row.id).hide(); // hide own entry
-                $('#inputCategoryId').val(row.id);
-                $('#inputCategory').trigger('change');
-                $('#inputName').val(row.name);
-                $('#inputCleanName').val(row.clean_name);
-                $('#inputDescription').val(row.description);
-                $('#inputSuggested').val(row.suggested);
-                $('#inputPrivate').val(row.private);
-                $('#allow_download').val(row.allow_download);
-                $('#order').val(row.order);
-                $('#inputParentId').val(row.parentId);
-                //$('#inputType').val(row.type);
-                $("select[name='iconCat']").val(row.iconClass);
-                $("select[name='iconCat']").trigger('change');
+        var grid = $("#grid");
+        grid.off('click.categoryMgr', '.command-edit').on('click.categoryMgr', '.command-edit', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
 
-                $(".catGroups").prop("checked", false);
+            // console.log(row);
+            $("#subcat" + row.id).hide(); // hide own entry
+            $('#inputCategoryId').val(row.id);
+            $('#inputCategory').trigger('change');
+            $('#inputName').val(row.name);
+            $('#inputCleanName').val(row.clean_name);
+            $('#inputDescription').val(row.description);
+            $('#inputSuggested').val(row.suggested);
+            $('#inputPrivate').val(row.private);
+            $('#allow_download').val(row.allow_download);
+            $('#order').val(row.order);
+            $('#inputParentId').val(row.parentId);
+            //$('#inputType').val(row.type);
+            $("select[name='iconCat']").val(row.iconClass);
+            $("select[name='iconCat']").trigger('change');
 
-                for (var prop in row.users_groups_ids_array) {
-                    var users_groups_id = row.users_groups_ids_array[prop];
-                    if (typeof users_groups_id !== 'number') {
-                        continue;
-                    }
-                    console.log(users_groups_id);
-                    $("#catGroups" + users_groups_id).prop("checked", true);
+            $(".catGroups").prop("checked", false);
+
+            for (var prop in row.users_groups_ids_array) {
+                var users_groups_id = row.users_groups_ids_array[prop];
+                if (typeof users_groups_id !== 'number') {
+                    continue;
                 }
+                console.log(users_groups_id);
+                $("#catGroups" + users_groups_id).prop("checked", true);
+            }
 
-                $('#categoryFormModal').modal();
-                console.log("restartCroppie");
-                <?php
-                echo $croppie1['restartCroppie'] . "(getCategoryPhotoPath(row.id));";
-                echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(row.id));";
-                ?>
+            $('#categoryFormModal').modal();
+            console.log("restartCroppie");
+            <?php
+            echo $croppie1['restartCroppie'] . "(getCategoryPhotoPath(row.id));";
+            echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(row.id));";
+            ?>
 
-                console.log("restartCroppie done");
-            }).end().find(".command-delete").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                swal({
-                        title: "<?php echo __("Are you sure?"); ?>",
-                        text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    })
-                    .then(function(willDelete) {
-                        if (willDelete) {
+            console.log("restartCroppie done");
+        });
+        grid.off('click.categoryMgr', '.command-delete').on('click.categoryMgr', '.command-delete', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            swal({
+                    title: "<?php echo __("Are you sure?"); ?>",
+                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then(function(willDelete) {
+                    if (willDelete) {
 
 
-                            modal.showPleaseWait();
-                            $.ajax({
-                                url: webSiteRootURL+'objects/categoryDelete.json.php',
-                                data: {
-                                    "id": row.id
-                                },
-                                type: 'post',
-                                success: function(response) {
-                                    avideoResponse(response);
-                                    if(empty(response.error)){
-                                        $("#grid").bootgrid("reload");
-                                    }
-                                    modal.hidePleaseWait();
+                        modal.showPleaseWait();
+                        $.ajax({
+                            url: webSiteRootURL+'objects/categoryDelete.json.php',
+                            data: {
+                                "id": row.id
+                            },
+                            type: 'post',
+                            success: function(response) {
+                                avideoResponse(response);
+                                if(empty(response.error)){
+                                    dt.ajax.reload(null, false);
                                 }
-                            });
-                        }
-                    });
-            }).end().find(".command-copy-livenow").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                var text = webSiteRootURL +'cat/'+row.clean_name+'/liveNow?muted=1';
-                console.log(text);
-                copyToClipboard(text);
-            });
+                                modal.hidePleaseWait();
+                            }
+                        });
+                    }
+                });
+        });
+        grid.off('click.categoryMgr', '.command-copy-livenow').on('click.categoryMgr', '.command-copy-livenow', function(e) {
+            var row = dt.row($(this).closest('tr')).data();
+            var text = webSiteRootURL +'cat/'+row.clean_name+'/liveNow?muted=1';
+            console.log(text);
+            copyToClipboard(text);
         });
 
 
@@ -503,7 +506,7 @@
             success: function(response) {
                 if (!response.error) {
                     $('#categoryFormModal').modal('hide');
-                    $("#grid").bootgrid("reload");
+                    $("#grid").DataTable().ajax.reload(null, false);
                     avideoToast("<?php echo __("Your category has been saved!"); ?>");
                 } else {
                     avideoAlertError(response.msg);
