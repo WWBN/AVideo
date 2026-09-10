@@ -121,11 +121,11 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
 $global['doNotLoadPlayer'] = 1;
 
 $_page = new Page(array('Live'));
+$_page->setExtraStyles(array('plugin/Live/view/workspace.css'));
 include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
 ?>
 <div class="container-fluid">
-
-    <div class="panel panel-default">
+    <div class="panel panel-default workspace-panel">
         <div class="panel-heading tabbable-line">
             <ul class="nav nav-tabs">
                 <?php
@@ -205,6 +205,7 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
         </div>
         <div class="panel-body">
             <div class="col-lg-6" id="indexCol1">
+                <h2 class="workspace-section-title"><i class="fas fa-video text-primary" aria-hidden="true"></i> <?php echo __('Broadcast a Live Stream'); ?></h2>
                 <div class="row">
                     <div class="<?php echo $col1Class; ?>">
                         <?php
@@ -219,6 +220,7 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                 </div>
             </div>
             <div class="col-lg-6 " id="indexCol2">
+                <h2 class="workspace-section-title"><i class="fas fa-sliders-h text-primary" aria-hidden="true"></i> <?php echo __('Live Tools'); ?></h2>
                 <?php
                 include $global['systemRootPath'] . 'plugin/Live/indexCol3.php';
                 ?>
@@ -286,8 +288,14 @@ include $global['systemRootPath'] . 'view/bootstrap/fileinput.php';
                 globalToken: '<?php echo getToken(); ?>'
             },
             type: 'post',
-            complete: function(resp) {
-                avideoResponse(resp);
+            dataType: 'json',
+            success: function(response) {
+                avideoResponse(response);
+            },
+            error: function() {
+                avideoToastError(<?php echo json_encode(__('Could not save stream settings. Please try again.')); ?>);
+            },
+            complete: function() {
                 modal.hidePleaseWait();
                 isSavingStream = false;
             }

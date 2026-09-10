@@ -48,9 +48,9 @@ if (AVideoPlugin::isEnabledByName('WebRTC')) {
 }
 ?>
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs workspace-tabs">
         <li class="active">
-            <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-key"></i> <?php echo __("Stream Meta Data"); ?></a>
+            <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-info-circle"></i> <?php echo __("Stream Meta Data"); ?></a>
         </li>
         <li id="tabLiveImages">
             <?php
@@ -58,7 +58,7 @@ if (AVideoPlugin::isEnabledByName('WebRTC')) {
             $url = addQueryStringParameter($url, 'live_schedule_id', @$_REQUEST['live_schedule_id']);
             $url = addQueryStringParameter($url, 'live_servers_id', @$_REQUEST['live_servers_id']);
             ?>
-            <a style="cursor: pointer;" onclick="avideoModalIframe('<?php echo $url; ?>');"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a>
+            <a href="<?php echo htmlspecialchars($url, ENT_QUOTES, 'UTF-8'); ?>" onclick="avideoModalIframe(this.href); return false;"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a>
         </li>
         <?php
         if (empty($objLive->hideUserGroups)) {
@@ -86,7 +86,7 @@ if (AVideoPlugin::isEnabledByName('WebRTC')) {
                                 <input type="text" class="form-control" id="title" value="<?php echo $trasnmition['title'] ?>">
                             </div>
                             <div class="form-group" id="LivePasswordProtect">
-                                <label for="title"><?php echo __("Password Protect"); ?>:</label>
+                                <label for="password_livestream"><?php echo __("Password Protect"); ?>:</label>
                                 <?php
                                 echo getInputPassword('password_livestream', 'class="form-control" value="' . $trasnmition['password'] . '"', __("Password Protect"), false);
                                 ?>
@@ -113,7 +113,7 @@ if (AVideoPlugin::isEnabledByName('WebRTC')) {
                             <?php
                             } else {
                             ?>
-                                <div class="form-group" id="publiclyListed">
+                                <div class="form-group" id="rebroadcastOption">
                                     <i class="fas fa-retweet"></i> <?php echo __("Mark this stream as a Rebroadcast"); ?>
                                     <div class="material-switch pull-right">
                                         <input id="isRebroadcast" type="checkbox" value="1" <?php echo !empty($trasnmition['isRebroadcast']) ? "checked" : ""; ?> onchange="saveStream(this);" />
@@ -175,9 +175,9 @@ if (AVideoPlugin::isEnabledByName('WebRTC')) {
                         <div class="col-sm-6">
 
                             <div class="form-group" id="LiveCategory">
-                                <label for="title"><?php echo __("Category"); ?>:</label>
+                                <label for="liveCategorySelect"><?php echo __("Category"); ?>:</label>
                                 <?php
-                                echo Layout::getCategorySelect('categories_id', $trasnmition['categories_id']);
+                                echo Layout::getCategorySelect('categories_id', $trasnmition['categories_id'], 'liveCategorySelect');
                                 ?>
                             </div>
                             <div class="form-group" id="LiveDescription">
@@ -219,7 +219,7 @@ if (AVideoPlugin::isEnabledByName('WebRTC')) {
                     ?>
                 </div>
                 <div class="panel-footer">
-                    <button type="button" class="btn btn-success btnSaveStream" id="btnSaveStream"><i class="fas fa-save"></i> <?php echo __("Save Stream Settings"); ?></button>
+                    <button type="button" class="btn btn-success btnSaveStream" id="btnSaveStreamGroups"><i class="fas fa-save"></i> <?php echo __("Save Stream Settings"); ?></button>
                     <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-primary"><span class="fa fa-users"></span> <?php echo __("Add more user Groups"); ?></a>
                 </div>
             </div>

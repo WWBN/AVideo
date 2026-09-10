@@ -1,5 +1,5 @@
 <div class="panel panel-default <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>" id="RTMPSettings">
-    <div class="panel-heading">
+    <div class="panel-heading clearfix">
         <i class="fas fa-hdd"></i> <?php echo __("RTMP Settings"); ?> (<?php echo $channelName; ?>)
         <div class="pull-right">
             <?php

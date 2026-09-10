@@ -9,6 +9,7 @@ if (!Live::canRestream()) {
 ?>
 <div class="panel panel-default" id="LiveRestreamPanel">
     <div class="panel-heading clearfix">
+        <i class="fas fa-sync" aria-hidden="true"></i> <?php echo __('Restream'); ?>
         <div class="pull-right">
             <?php
             echo getTourHelpButton('plugin/Live/view/Live_restreams/help.json', 'btn btn-default btn-xs', 'Restream Help');

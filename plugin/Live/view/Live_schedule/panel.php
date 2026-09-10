@@ -12,7 +12,7 @@ global $Schedulecount;
     </div>
     <div class="panel-body">
 
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs workspace-tabs">
             <li class="active">
                 <a data-toggle="tab" href="#newSchedule"><i class="far fa-file"></i> <?php echo __('New Schedule'); ?></a>
             </li>
@@ -27,6 +27,9 @@ global $Schedulecount;
                 ?>
             </div>
             <div id="savedSchedule" class="tab-pane fade" style="padding: 5px; max-height: 300px; overflow-y: auto;">
+                <div class="workspace-empty-state text-muted" id="scheduleLiveStatus" role="status">
+                    <?php echo __('Loading...'); ?>
+                </div>
                 <div class="list-group" id="schedule_live_list">
                 </div>
             </div>

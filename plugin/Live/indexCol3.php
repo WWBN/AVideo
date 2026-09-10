@@ -1,7 +1,7 @@
 <div class="clear clearfix"></div>
 
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInRight', 'live'); ?>"  id="indexTabs">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs workspace-tabs">
         <?php
         $active = 'active';
         if (Live::canRestream()) {

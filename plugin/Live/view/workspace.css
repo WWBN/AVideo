@@ -1,0 +1,57 @@
+.workspace-section-title {
+    margin: 8px 0 20px;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.workspace-section-title i {
+    margin-right: 6px;
+}
+
+.workspace-panel,
+.workspace-panel .panel {
+    border-radius: 10px;
+}
+
+.workspace-panel .panel-heading {
+    border-radius: 9px 9px 0 0;
+}
+
+.workspace-panel .panel-footer {
+    border-radius: 0 0 9px 9px;
+}
+
+.workspace-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.workspace-tabs > li > a {
+    padding: 12px;
+}
+
+.workspace-tabs > li > a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+}
+
+.workspace-empty-state {
+    padding: 24px 16px;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.workspace-empty-state p {
+    margin: 12px 0 0;
+}
+
+@media (max-width: 767px) {
+    .workspace-panel > .panel-body {
+        padding: 10px 0;
+    }
+
+    .workspace-tabs > li > a {
+        padding: 10px 8px;
+    }
+}

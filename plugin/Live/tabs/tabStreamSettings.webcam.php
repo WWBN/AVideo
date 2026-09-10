@@ -1,5 +1,5 @@
 <div class="tabbable-line ">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs workspace-tabs">
         <li class="active" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Stream Software'); ?>">
             <a data-toggle="tab" href="#tabStreamSoftware">
                 <i class="fa-solid fa-key"></i>
