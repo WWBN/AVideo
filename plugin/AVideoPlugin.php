@@ -755,6 +755,91 @@ class AVideoPlugin
         return $isPluginEnabledByName[$index];
     }
 
+    /**
+     * @return PluginDependency[] the dependencies declared by $name (via getPluginDependencies())
+     * that are not currently enabled.
+     */
+    public static function getMissingDependencies($name)
+    {
+        $missing = [];
+        $p = static::loadPlugin($name);
+        if (!is_object($p)) {
+            return $missing;
+        }
+        foreach ($p->getPluginDependencies() as $dependency) {
+            if (!($dependency instanceof PluginDependency)) {
+                continue;
+            }
+            if (!static::isEnabledByName($dependency->pluginName)) {
+                $missing[] = $dependency;
+            }
+        }
+        return $missing;
+    }
+
+    /**
+     * Ready-to-echo HTML about $name's dependencies, or '' when none are declared. Plugin authors get
+     * this for free: it's already called by createTable() (admin/functions.php) and by the Plugins
+     * admin panel - no per-plugin markup needed, only getPluginDependencies() to declare.
+     * A missing REQUIRED dependency always renders as a red alert - required means the plugin cannot
+     * work correctly without it, regardless of whether $name itself is currently enabled, so the admin
+     * should be warned either way. Optional dependencies are rendered separately as a plain,
+     * non-alarming list - most plugins (e.g. API) work fine with optional integrations disabled, they
+     * just won't respond for that specific integration.
+     */
+    public static function getDependencyWarningHTML($name)
+    {
+        $p = static::loadPlugin($name);
+        if (!is_object($p)) {
+            return '';
+        }
+        $required = [];
+        $optional = [];
+        foreach ($p->getPluginDependencies() as $dependency) {
+            if (!($dependency instanceof PluginDependency)) {
+                continue;
+            }
+            if ($dependency->required) {
+                $required[] = $dependency;
+            } else {
+                $optional[] = $dependency;
+            }
+        }
+        if (empty($required) && empty($optional)) {
+            return '';
+        }
+
+        $html = '';
+        $requiredMissing = array_filter($required, function ($dependency) {
+            return !AVideoPlugin::isEnabledByName($dependency->pluginName);
+        });
+        if (!empty($requiredMissing)) {
+            $items = '';
+            foreach ($requiredMissing as $dependency) {
+                $reason = !empty($dependency->reason) ? ' &mdash; ' . htmlspecialchars($dependency->reason, ENT_QUOTES, 'UTF-8') : '';
+                $items .= '<li><strong>' . htmlspecialchars($dependency->pluginName, ENT_QUOTES, 'UTF-8') . '</strong>' . $reason . '</li>';
+            }
+            $html .= '<div class="alert alert-danger pluginDependencyWarning">'
+                . '<i class="fas fa-exclamation-triangle"></i> '
+                . __('This plugin requires other plugins that are not enabled:')
+                . '<ul class="pluginDependencyWarningList">' . $items . '</ul>'
+                . '</div>';
+        } elseif (!empty($required)) {
+            $names = implode(', ', array_map(function ($dependency) {
+                return htmlspecialchars($dependency->pluginName, ENT_QUOTES, 'UTF-8');
+            }, $required));
+            $html .= '<div class="text-muted pluginDependencyRequiredList"><small><span style="display:inline-block;width:14px;text-align:center;"><i class="fas fa-check-circle text-success"></i></span> ' . __('Requires') . ': ' . $names . '</small></div>';
+        }
+        if (!empty($optional)) {
+            $items = implode(', ', array_map(function ($dependency) {
+                $icon = AVideoPlugin::isEnabledByName($dependency->pluginName) ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="far fa-circle text-muted"></i>';
+                return $icon . ' ' . htmlspecialchars($dependency->pluginName, ENT_QUOTES, 'UTF-8');
+            }, $optional));
+            $html .= '<div class="text-muted pluginDependencyOptionalList"><small><span style="display:inline-block;width:14px;text-align:center;"><i class="fas fa-info-circle"></i></span> ' . __('Optional') . ': ' . $items . '</small></div>';
+        }
+        return $html;
+    }
+
     public static function getLogin()
     {
         $plugins = Plugin::getAllEnabled();

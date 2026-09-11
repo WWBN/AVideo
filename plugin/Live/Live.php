@@ -25,6 +25,14 @@ User::loginFromRequestIfNotLogged();
 class Live extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('PayPerViewLive', 'Optional pay-per-view gating for live streams', false),
+            PluginDependency::create('PlayLists', 'Optional scheduled/rebroadcast playlist integration', false),
+            PluginDependency::create('VideoPlaylistScheduler', 'Optional calendar/scheduling integration', false),
+        );
+    }
+
     public static $public_server_http = 'http';
     public static $public_server_port = 8080;
     public static $public_server_domain = 'live.ypt.me';

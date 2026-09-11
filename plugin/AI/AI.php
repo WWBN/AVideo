@@ -11,6 +11,15 @@ require_once $global['systemRootPath'] . 'plugin/AI/Objects/Ai_scheduler.php';
 class AI extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('YPTWallet', 'Charges AI usage to the user wallet balance', false),
+            PluginDependency::create('VideoHLS', 'Optional dubbing/HLS track integration', false),
+            PluginDependency::create('SubtitleSwitcher', 'Optional subtitle track integration for transcriptions', false),
+            PluginDependency::create('Bookmark', 'Optional bookmark integration for AI Shorts', false),
+        );
+    }
+
     const PERMISSION_CAN_USE_AI_SUGGESTIONS = 0;
 
     static $typeTranslation = 'translation';

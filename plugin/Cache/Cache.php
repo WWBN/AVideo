@@ -8,6 +8,12 @@ class Cache extends PluginAbstract {
 
     private $skipCurrentRequest = false;
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('User_Location', 'Optional per-location cache variants', false),
+        );
+    }
+
     public function getTags() {
         return [
             PluginTags::$RECOMMENDED,

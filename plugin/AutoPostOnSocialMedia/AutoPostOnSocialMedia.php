@@ -7,9 +7,15 @@ require_once $global['systemRootPath'] . 'objects/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 class AutoPostOnSocialMedia extends PluginAbstract {
-    
+
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('BitLy', 'Optional link shortening before posting', false),
+        );
+    }
+
     static $scheduleType = 'AutoPostOnSocialMedia';
-    
+
     public function getDescription() {
         $desc = "Helps you automatically post your content on multiple social media platforms (Cuttently Twitter only)";
         $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AutoPostOnSocialMedia-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
@@ -36,7 +42,7 @@ class AutoPostOnSocialMedia extends PluginAbstract {
           if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
           sqlDal::executeFile($global['systemRootPath'] . 'plugin/PayPerView/install/updateV2.0.sql');
           }
-         * 
+         *
          */
         return true;
     }
@@ -85,7 +91,7 @@ class AutoPostOnSocialMedia extends PluginAbstract {
             365 => __("12 Months"));
         $o->value = 365;
         $obj->postARandomVideoFromLastDays = $o;
-        
+
         $obj->debugMode = true;
 
         return $obj;
@@ -111,7 +117,7 @@ class AutoPostOnSocialMedia extends PluginAbstract {
     static function post($msg) {
         $obj = AVideoPlugin::getDataObject('AutoPostOnSocialMedia');
         //var_dump($obj->TwitterAPIKey, $obj->TwitterAPIKeySecret, $obj->TwitterAccessToken, $obj->TwitterAccessTokenSecret, $msg);exit;
-        
+
         if($obj->debugMode){
             _error_log('AutoPostOnSocialMedia start');
         }
@@ -125,7 +131,7 @@ class AutoPostOnSocialMedia extends PluginAbstract {
                 _error_log($msg);
             }
             $post_tweets = $connection->post("statuses/update", ["status" => $msg]);
-            
+
             if($obj->debugMode){
                 _error_log("getLastHttpCode: ". $connection->getLastHttpCode());
                 //_error_log("getLastBody: ". $connection->getLastBody());

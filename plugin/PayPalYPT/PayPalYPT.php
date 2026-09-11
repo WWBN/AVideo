@@ -31,6 +31,12 @@ require_once $global['systemRootPath'] . 'plugin/PayPalYPT/PayPalClient.php';
 class PayPalYPT extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('YPTWallet', 'Credits confirmed PayPal payments to the user wallet balance'),
+        );
+    }
+
     public function getTags()
     {
         return [
@@ -902,7 +908,7 @@ class PayPalYPT extends PluginAbstract
             if (User::isAdmin()) {
                 YPTWallet::showAdminMessage();
                 echo '<div class="alert alert-warning" role="alert">
-                    <i class="fa fa-info-circle"></i> 
+                    <i class="fa fa-info-circle"></i>
                     <strong>Admin Notice:</strong> PayPal YPT configuration will only appear if <strong>enableAutoWithdrawFundsPagePaypal</strong> is checked in the plugin parameters.
                 </div>';
             }

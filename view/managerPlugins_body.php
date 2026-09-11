@@ -557,7 +557,39 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                         }
                     }
                     txt += "<br>" + tags;
+                    txt += pluginFormatters.dependencyWarning(row);
                     return txt;
+                },
+                "dependencyWarning": function(row) {
+                    var iconSpan = function(iconHtml) { return '<span style="display:inline-block;width:14px;text-align:center;">' + iconHtml + '</span>'; };
+                    if (!row.dependencies || !row.dependencies.length) {
+                        return '<div class="pluginDependencyStatus text-muted"><small>' + iconSpan('<i class="fas fa-check-circle"></i>') + ' <?php echo __("No dependencies"); ?></small></div>';
+                    }
+                    // Required dependencies always warn when missing, regardless of this plugin's own
+                    // enabled state - "required" means it cannot work correctly without it. Optional
+                    // dependencies are shown separately, calmly - e.g. API works fine without every
+                    // optional integration, that endpoint just won't respond, nothing to alarm about.
+                    // Every line starts with the same fixed-width icon span so "Requires"/"Optional"
+                    // labels line up with each other regardless of which icon is used.
+                    var required = row.dependencies.filter(function(d) { return d.required; });
+                    var optional = row.dependencies.filter(function(d) { return !d.required; });
+                    var html = '';
+                    var requiredMissing = required.filter(function(d) { return !d.enabled; });
+                    if (requiredMissing.length) {
+                        var missingNames = requiredMissing.map(function(d) { return d.pluginName; }).join(', ');
+                        html += '<div class="pluginDependencyStatus" style="margin:3px 0;"><small class="text-danger">' + iconSpan('<i class="fas fa-exclamation-triangle"></i>') + ' <?php echo __("Requires"); ?>: <strong>' + missingNames + '</strong></small></div>';
+                    } else if (required.length) {
+                        var requiredNames = required.map(function(d) { return d.pluginName; }).join(', ');
+                        html += '<div class="pluginDependencyStatus text-muted"><small>' + iconSpan('<i class="fas fa-check-circle text-success"></i>') + ' <?php echo __("Requires"); ?>: ' + requiredNames + '</small></div>';
+                    }
+                    if (optional.length) {
+                        var optionalItems = optional.map(function(d) {
+                            var icon = d.enabled ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="far fa-circle text-muted"></i>';
+                            return icon + ' ' + d.pluginName;
+                        }).join(', ');
+                        html += '<div class="pluginDependencyStatus text-muted"><small>' + iconSpan('<i class="fas fa-info-circle"></i>') + ' <?php echo __("Optional"); ?>: ' + optionalItems + '</small></div>';
+                    }
+                    return html;
                 },
                 "modified": function(column, row) {
                     if (!row.modified || row.modified == '' || row.modified == '0000-00-00 00:00:00') {

@@ -7,6 +7,13 @@ require_once $global['systemRootPath'] . 'plugin/Live/Live.php';
 
 class LiveLinks extends PluginAbstract {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('Live', 'Requires Live classes to reference live transmissions (direct require_once)'),
+            PluginDependency::create('VideoTags', 'Optional video tags shown on live links', false),
+        );
+    }
+
     public function getTags() {
         return array(
             PluginTags::$LIVE,

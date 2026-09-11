@@ -6,6 +6,14 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 class CustomizeAdvanced extends PluginAbstract {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('VideoHLS', 'Optional HLS-related advanced customization options', false),
+            PluginDependency::create('Scheduler', 'Optional scheduled task customization options', false),
+            PluginDependency::create('Subscription', 'Optional subscription-related menu customization', false),
+        );
+    }
+
     public function getTags() {
         return array(
             PluginTags::$RECOMMENDED,

@@ -6,6 +6,12 @@ require_once $global['systemRootPath'] . 'plugin/BlockonomicsYPT/Objects/Blockon
 
 class BlockonomicsYPT extends PluginAbstract {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('YPTWallet', 'Credits confirmed Bitcoin payments to the user wallet balance'),
+        );
+    }
+
     static $BASE_URL = "https://www.blockonomics.co/";
 
     static function getPRICE_URL() {

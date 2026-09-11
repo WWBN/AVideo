@@ -27,6 +27,27 @@ require_once __DIR__ . '/../../plugin/Plugin.abstract.php';
 class API extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('ADs', 'Optional ads endpoint integration', false),
+            PluginDependency::create('Live', 'Optional live stream endpoints', false),
+            PluginDependency::create('PlayLists', 'Optional playlist endpoints', false),
+            PluginDependency::create('VideoTags', 'Optional video tags endpoint', false),
+            PluginDependency::create('PayPerView', 'Optional PPV purchase endpoints', false),
+            PluginDependency::create('YPTWallet', 'Optional wallet balance endpoints', false),
+            PluginDependency::create('Subscription', 'Optional subscription endpoints', false),
+            PluginDependency::create('MobileManager', 'Optional mobile app configuration endpoint', false),
+            PluginDependency::create('GoogleAds_IMA', 'Optional VMAP/ads endpoint integration', false),
+            PluginDependency::create('AD_Server', 'Optional VMAP/ads endpoint integration', false),
+            PluginDependency::create('AdsForJesus', 'Optional VMAP/ads endpoint integration', false),
+            PluginDependency::create('User_Location', 'Optional geolocation-based endpoint behavior', false),
+            PluginDependency::create('Chat2', 'Optional chat endpoints', false),
+            PluginDependency::create('Meet', 'Optional meeting endpoints', false),
+            PluginDependency::create('UserNotifications', 'Optional push notification endpoints', false),
+            PluginDependency::create('YouPHPFlix2', 'Optional Flix-mode listing endpoint behavior', false),
+        );
+    }
+
     public function getTags()
     {
         return [

@@ -8,6 +8,13 @@ require_once ($global['systemRootPath'] . 'plugin/RazorPayYPT/razorpay-php/Razor
 use Razorpay\Api\Api;
 class RazorPayYPT extends PluginAbstract {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('YPTWallet', 'Credits confirmed RazorPay payments to the user wallet balance'),
+            PluginDependency::create('Subscription', 'Optional recurring subscription plan integration', false),
+        );
+    }
+
     public function getTags() {
         return array(
             PluginTags::$MONETIZATION,

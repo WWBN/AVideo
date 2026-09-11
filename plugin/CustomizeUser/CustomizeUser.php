@@ -13,6 +13,12 @@ require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_aff
 class CustomizeUser extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('YPTWallet', 'Optional donation-to-wallet integration', false),
+            PluginDependency::create('VideoTags', 'Optional video tags shown on the user subscriptions tab', false),
+        );
+    }
 
     private static function _getSocialMedia()
     {

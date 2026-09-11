@@ -8,6 +8,15 @@ require_once $global['systemRootPath'] . 'objects/Channel.php';
 
 class Gallery extends PluginAbstract
 {
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('PlayLists', 'Optional program/playlist sections on the gallery', false),
+            PluginDependency::create('Live', 'Optional live-stream sections on the gallery', false),
+            PluginDependency::create('YouPHPFlix2', 'Optional Flix-mode layout alternative', false),
+            PluginDependency::create('VideoTags', 'Optional video tags shown on channel sections', false),
+        );
+    }
+
     const BigVideoLiveDisabled = 0;
     const BigVideoLiveShowLiveAndVOD = 1;
     const BigVideoLiveShowLiveOnly = 2;

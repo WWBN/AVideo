@@ -39,6 +39,13 @@ use net\authorize\api\controller\ARBGetSubscriptionController;
 class AuthorizeNet extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('YPTWallet', 'Credits successful payments to the user wallet balance'),
+            PluginDependency::create('Subscription', 'Optional recurring subscription plan integration', false),
+        );
+    }
+
     // --- inside AuthorizeNet class ---
 
     /**

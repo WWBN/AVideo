@@ -5,6 +5,12 @@ require_once $global['systemRootPath'] . 'plugin/CDN/Storage/CDNStorage.php';
 
 class CDN extends PluginAbstract
 {
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('AWS_S3', 'Optional S3-backed CDN storage integration', false),
+        );
+    }
+
     public function getTags()
     {
         return [

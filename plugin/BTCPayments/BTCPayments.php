@@ -12,6 +12,12 @@ define("BTC_MARKETPLACE_URL", "https://streamphp.com/marketplace/BTC/"); // Repl
 class BTCPayments extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('API', 'Uses the API plugin object data for invoice/webhook processing'),
+            PluginDependency::create('YPTWallet', 'Credits confirmed BTC payments to the user wallet balance', false),
+        );
+    }
 
     public function getTags()
     {

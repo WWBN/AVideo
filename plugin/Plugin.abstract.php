@@ -173,6 +173,18 @@ abstract class PluginAbstract {
         return array();
     }
 
+    /**
+     * Declare other plugins this plugin needs enabled in order to work correctly.
+     * Override and return an array of PluginDependency (see objects/plugin.php), e.g.:
+     *   return [PluginDependency::create('YPTWallet', 'Charges quota plan purchases to the user wallet')];
+     * Checked/rendered automatically by AVideoPlugin::getDependencyWarningHTML() and the Plugins admin panel -
+     * no other wiring is needed once this is declared.
+     * @return PluginDependency[]
+     */
+    public function getPluginDependencies() {
+        return array();
+    }
+
     public function getGallerySection() {
         return "";
     }

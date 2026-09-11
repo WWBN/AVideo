@@ -6,6 +6,12 @@ require_once $global['systemRootPath'] . 'plugin/AD_Overlay/Objects/AD_Overlay_C
 class AD_Overlay extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('ADs', 'Reuses the ADs image upload/library to attach overlay images'),
+        );
+    }
+
     public function getTags()
     {
         return array(

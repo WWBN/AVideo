@@ -271,6 +271,7 @@ class Plugin extends ObjectYPT
                         $obj->databaseScript = !empty(static::getDatabaseFile($value));
                         $obj->pluginMenu = $p->getPluginMenu();
                         $obj->tags = $p->getTags();
+                        $obj->dependencies = static::getDependenciesInfo($p);
                         $obj->pluginversion = $p->getPluginVersion();
                         $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace->{$obj->name}) ? $pluginsMarketplace->{$obj->name}->version : 0);
                         $obj->pluginversionCompare = (!empty($obj->pluginversionMarketPlace) ? version_compare($obj->pluginversion, $obj->pluginversionMarketPlace) : 0);
@@ -289,6 +290,27 @@ class Plugin extends ObjectYPT
             }
         }
         return $getAvailablePlugins;
+    }
+
+    /**
+     * JSON-friendly view of $p->getPluginDependencies(), with each dependency's current enabled
+     * state resolved - so the Plugins admin panel can render a warning without extra requests.
+     */
+    public static function getDependenciesInfo(PluginAbstract $p)
+    {
+        $info = [];
+        foreach ($p->getPluginDependencies() as $dependency) {
+            if (!($dependency instanceof PluginDependency)) {
+                continue;
+            }
+            $info[] = [
+                'pluginName' => $dependency->pluginName,
+                'reason' => $dependency->reason,
+                'required' => $dependency->required,
+                'enabled' => AVideoPlugin::isEnabledByName($dependency->pluginName),
+            ];
+        }
+        return $info;
     }
 
     public static function getAvailablePluginsBasic()
@@ -632,4 +654,28 @@ class PluginTags
     public static $PREMIUM = ['info', 'Premium', '<i class="fas fa-thumbs-up"></i>', 'PREMIUM'];
     public static $DEPRECATED = ['danger', 'Deprecated', '<i class="fas fa-times-circle"></i>', 'DEPRECATED'];
     public static $UNDERDEVELOPMENT = ['warning', 'Under Development', '<i class="fa-solid fa-terminal"></i>', 'UNDERDEVELOPMENT'];
+}
+
+/**
+ * Declarative dependency between two plugins, returned from PluginAbstract::getPluginDependencies().
+ * A missing $required=true dependency means the plugin cannot work correctly; $required=false is an
+ * optional/enhanced-feature dependency. $reason is shown to the admin to explain why it's needed.
+ */
+class PluginDependency
+{
+    public $pluginName;
+    public $reason;
+    public $required;
+
+    public function __construct($pluginName, $reason = '', $required = true)
+    {
+        $this->pluginName = $pluginName;
+        $this->reason = $reason;
+        $this->required = $required;
+    }
+
+    public static function create($pluginName, $reason = '', $required = true)
+    {
+        return new self($pluginName, $reason, $required);
+    }
 }

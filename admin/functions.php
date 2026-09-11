@@ -12,6 +12,7 @@ function createTable($pluginName, $filter = [])
     echo '<form class="adminOptionsForm">';
     echo '<input type="hidden" value="' . $pluginName . '" name="pluginName"/>';
     echo '<input type="hidden" value="' . implode("|", array_keys($filter)) . '" name="pluginsList"/>';
+    echo AVideoPlugin::getDependencyWarningHTML($pluginName);
     echo '<table class="table table-hover">';
     $pluginsList = [];
     if (!AVideoPlugin::exists($pluginName)) {

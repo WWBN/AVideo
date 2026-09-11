@@ -5,6 +5,14 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 class YouPHPFlix2 extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('VideoTags', 'Optional video tags shown on Flix-mode listings', false),
+            PluginDependency::create('PlayLists', 'Optional playlist-based Flix sections', false),
+            PluginDependency::create('PayPerView', 'Optional PPV-gated content indicator', false),
+        );
+    }
+
     public function getTags()
     {
         return array(

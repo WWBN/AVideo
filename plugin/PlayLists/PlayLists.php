@@ -10,6 +10,13 @@ require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
 class PlayLists extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('Rebroadcaster', 'Optional scheduled playlist rebroadcasting', false),
+            PluginDependency::create('VideoPlaylistScheduler', 'Optional schedule management UI integration', false),
+        );
+    }
+
     const PERMISSION_CAN_MANAGE_ALL_PLAYLISTS = 0;
 
     public function getTags()

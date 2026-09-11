@@ -13,6 +13,14 @@ require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaigns
 class AD_Server extends PluginAbstract
 {
 
+    public function getPluginDependencies() {
+        return array(
+            PluginDependency::create('AD_Server_Location', 'Optional geographic targeting for VAST campaigns', false),
+            PluginDependency::create('GoogleAds_IMA', 'Optional fallback/alternate ad rendering integration', false),
+            PluginDependency::create('YPTWallet', 'Optional per-view ad revenue payout to the wallet', false),
+        );
+    }
+
     const STATUS_THAT_DETERMINE_AD_WAS_PLAYED = 'start';
 
     const AD_STARTED = 'AdStarted';
