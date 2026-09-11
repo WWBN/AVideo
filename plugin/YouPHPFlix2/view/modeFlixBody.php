@@ -530,9 +530,9 @@ $videoFound = false;
                 $container.on('append.infiniteScroll', function(event, response, path, items) {
                     //console.log('Append page: ' + path);
 
-                    $("img.thumbsJPG").not('flickity-lazyloaded').each(function(index) {
-                        $(this).attr('src', $(this).attr('data-flickity-lazyload'));
-                        $(this).addClass('flickity-lazyloaded');
+                    // Initialize only the appended rows; Flickity owns thumbnail lazy loading.
+                    $(items).each(function() {
+                        startModeFlix('#' + this.id + ' ');
                     });
 
                     lazyImage();

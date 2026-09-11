@@ -42,6 +42,7 @@
                 <h2 class="infoTitle pull-left">
                     <?php
                     $rowLink = $link = PlayLists::getLink($value['serie_playlists_id']);
+                    $rowLinkEmbed = $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
                     $value['title'] = "<a href='{$link}' embed='{$linkEmbed}' class='{$canWatchPlayButton}'>{$value['title']}</a>";
                     echo $value['title'];
                     ?>

@@ -157,7 +157,7 @@ $videosCounter = 0;
     }
     ?>
     <script>
-        startModeFlix('#<?php echo $divUUID; ?> .topicRow div');
+        startModeFlix('#<?php echo $divUUID; ?> ');
     </script>
 </div>
 <p class="pagination">

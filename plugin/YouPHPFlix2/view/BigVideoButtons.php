@@ -15,7 +15,7 @@
             <a class="btn btn-default" 
                href="<?php echo $url; ?>">
                 <i class="fas fa-sign-in-alt"></i>
-                <span class="hidden-xs"><?php echo __("Login"); ?></span>
+                <span><?php echo __("Login"); ?></span>
             </a>
             <?php
         }
