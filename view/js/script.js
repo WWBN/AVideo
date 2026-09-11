@@ -530,9 +530,11 @@ async function mouseEffect() {
     //return false;
     clearTimeout(_mouseEffectTimeout);
     _mouseEffectTimeout = setTimeout(function () {
-        $(".thumbsImage").off("mouseenter");
-        $(".thumbsImage").off("mouseleave");
-        $(".thumbsImage").on("mouseenter", function () {
+        // Flix owns its preview loading and sizing; do not remove its hover handlers.
+        var $thumbs = $(".thumbsImage").not('.flix-carousel .thumbsImage, .flix-hero .thumbsImage');
+        $thumbs.off("mouseenter");
+        $thumbs.off("mouseleave");
+        $thumbs.on("mouseenter", function () {
             //console.log('mouseEffect()');
             var gif = $(this).find(".thumbsGIF");
             var jpg = $(this).find(".thumbsJPG");
@@ -554,7 +556,7 @@ async function mouseEffect() {
             gif.width(jpg.width());
             gif.stop(true, true).fadeIn();
         });
-        $(".thumbsImage").on("mouseleave", function () {
+        $thumbs.on("mouseleave", function () {
             $(this).find(".thumbsGIF").stop(true, true).fadeOut();
         });
     }, 100);

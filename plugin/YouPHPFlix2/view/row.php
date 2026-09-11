@@ -79,7 +79,7 @@ TimeLogStart($timeLog3);
                             data-flix-fallback="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>"
                             class="tile__img <?php echo $cssClass; ?> thumbsJPG img img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
                         <?php if (!empty($imgGif)) { ?>
-                            <img style="position: absolute; top: 0; display: none;" src="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
+                            <img style="position: absolute; top: 0; display: none;" src="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flix-preview="<?php echo $imgGif; ?>" />
                         <?php } ?>
                         <?php
                         if ($advancedCustom->paidOnlyShowLabels && $obj->paidOnlyLabelOverPoster) {

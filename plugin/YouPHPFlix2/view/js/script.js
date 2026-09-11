@@ -103,7 +103,23 @@ function startModeFlix(container) {
     var $thumbs = $(container + '.thumbsImage');
     $thumbs.off('.flix').on('mouseenter.flix', function () {
         if (window.matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) {
-            $(this).find('.thumbsGIF').stop(true, true).fadeIn(150);
+            $(this).find('.thumbsGIF').each(function () {
+                var $preview = $(this);
+                var source = $preview.attr('data-flix-preview');
+                if (source) {
+                    // Download animated previews only when the visitor actually hovers a card.
+                    $preview.one('load.flixPreview', function () {
+                        $preview.addClass('flickity-lazyloaded');
+                        if ($preview.closest('.thumbsImage').is(':hover')) {
+                            $preview.stop(true, true).fadeIn(150);
+                        }
+                    }).one('error.flixPreview', function () {
+                        $preview.addClass('hidden');
+                    }).removeAttr('data-flix-preview').attr('src', source);
+                } else if (this.complete && this.naturalWidth > 0) {
+                    $preview.stop(true, true).fadeIn(150);
+                }
+            });
         }
     }).on('mouseleave.flix', function () {
         $(this).find('.thumbsGIF').stop(true, true).fadeOut(150);
