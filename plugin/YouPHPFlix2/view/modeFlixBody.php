@@ -1,6 +1,9 @@
 <?php
 // resolve once so an includer that forgot to set this on $obj cannot silently fail open
 $hidePrivate = isset($obj->hidePrivateVideos) ? $obj->hidePrivateVideos : isToHidePrivateVideos();
+?>
+<div class="flickity-area flix-catalog">
+<?php
 include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
 
 // Pre-load the list of video IDs that have active PPV plans (one query, no
@@ -9,20 +12,12 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
 if (AVideoPlugin::isEnabledByName('PayPerView')) {
     PayPerView::preloadPPVVideoIds();
 }
-$percent = 90;
-$styleBG =  "
-background-color: rgb({$obj->backgroundRGB});
-background: -webkit-linear-gradient(bottom, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
-background: -o-linear-gradient(top, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
-background: linear-gradient(top, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
-background: -moz-linear-gradient(to top, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
-";
 $videoFound = false;
 ?>
 <!-- do not remove the channel page to play trailers -->
 <script src="<?php echo getURL('plugin/YouPHPFlix2/view/js/fullscreen.js'); ?>"></script>
 
-<div id="carouselRows" style="<?php echo $styleBG; ?>">
+<div id="carouselRows">
     <?php
     unsetCurrentPage();
     $_REQUEST['rowCount'] = $obj->maxVideos;
@@ -595,3 +590,4 @@ if(!$videoFound){
     include_once __DIR__.'/notFoundHTML.php';
 }
 ?>
+</div>

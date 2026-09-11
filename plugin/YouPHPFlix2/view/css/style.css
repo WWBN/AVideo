@@ -1,423 +1,343 @@
-/*@import "../../../YouPHPFlix2/style.css";*/
-body {
-    padding-top: 50px;
+/* Catalog styles stay inside the Flix views; the active Bootstrap theme supplies colors. */
+.flickity-area {
+    --flix-gutter: clamp(16px, 3.5vw, 64px);
+    --flix-card-width: clamp(176px, 18vw, 288px);
+    --flix-poster-width: clamp(128px, 12vw, 184px);
+    --flix-radius: 6px;
+    --flix-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+    color: var(--flix-text, inherit);
 }
-a:link,
-a:hover,
-a:active,
-a:visited {
-    -webkit-transition: color 150ms;
-    transition: color 150ms;
-    text-decoration: none;
-}
-.flickity-viewport {
-    -webkit-transition: 450ms -webkit-transform;
-    transition: 450ms -webkit-transform;
-    transition: 450ms transform;
-    transition: 450ms transform, 450ms -webkit-transform;
-    font-size: 0;
-    white-space: nowrap;
-    margin: 35px 0 45px 0;
-    padding-bottom: 10px;
-}
-.tile {
+.flix-catalog { position: relative; min-width: 0; overflow: hidden; }
+#mainContainer.flickity-area {
     position: relative;
-    display: inline-block;
-    width: 250px;
-    height: 140.625px;
-    margin-right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    -webkit-transition: 450ms all;
-    transition: 450ms all;
-    -webkit-transform-origin: center left;
-    transform-origin: center left;
-}
-.tile__img {
-    width: 250px;
-    height: 140.625px;
-    -o-object-fit: cover;
-    object-fit: cover;
-}
-.posterPortrait.tile__img {
-    height: auto;
-    width: 186px;
-    max-height: 280px;
-}
-
-.rowPortrait.carousel {
-    height: 220px;
-}
-
-.tile__details {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-    font-size: 10px;
-    opacity: 0;
-    background: -webkit-linear-gradient(bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
-    -webkit-transition: 450ms opacity;
-    transition: 450ms opacity;
-}
-.tile__details:after,
-.tile__details:before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    display: #000;
-}
-.tile__details:after {
-    margin-top: -25px;
-    margin-left: -25px;
-    width: 50px;
-    height: 50px;
-    border: 3px solid #ecf0f1;
-    line-height: 50px;
-    text-align: center;
-    border-radius: 100%;
-    background: rgba(39,43,48,0.5);
-    z-index: 1;
-}
-.tile__details:before {
-    content: '▶';
-    left: 0;
-    width: 100%;
-    font-size: 30px;
-    margin-left: 2px;
-    margin-top: -20px;
-    text-align: center;
-    z-index: 2;
-}
-.tile:hover .tile__details {
-    opacity: 1;
-}
-.tile__title {
-    position: absolute;
-    bottom: 0;
-    padding: 10px;
-    width: 100%;
-    white-space: nowrap;
+    min-width: 0;
     overflow: hidden;
-    text-overflow: ellipsis;
-    background-color: black;
-    color: white;
-    opacity: 0.4; 
-    font-weight: bold;
-    border-radius: 15px;
+    padding-bottom: 32px;
 }
-.tile__media h4{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: white;
-    font-weight: bold;
-    background-color: rgba(0,0,0,0.5);
-    margin: 2px 0;
-}
-.flickity-viewport:hover {
-    -webkit-transform: translate3d(-62.5px, 0, 0);
-    transform: translate3d(-62.5px, 0, 0);
-    z-index: 1010;
-}
-.flickity-viewport:hover .tile {
-    opacity: 0.5;
-}
-.flickity-viewport:hover .tile:hover {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-    opacity: 1;
-    z-index: 9999;
-}
-.tile:hover ~ .tile {
-    -webkit-transform: translate3d(125px, 0, 0);
-    transform: translate3d(125px, 0, 0);
-}
-
-
-.poster{
+#carouselRows {
     position: relative;
-    height: 370px;
-    width: 100%;
-    margin-top: 10px;
-    background-repeat: no-repeat;
-    background-size: auto 700px;
-    background-position: right 0 center;    
-    -webkit-transition: background 0.5s linear;
-    -moz-transition: background 0.5s linear;
-    -o-transition: background 0.5s linear;
-    transition: background 0.5s linear; 
-
+    padding: 8px var(--flix-gutter) 40px;
+    background: var(--flix-surface);
 }
-
-.posterDetails {
-    padding: 60px 20px 56.25% 20px;
-    color: #FFF;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
+#carouselRows > .row,
+#carouselRows .topicRow {
+    margin-left: 0;
+    margin-right: 0;
 }
-
-
-#carouselRows .poster{
+#carouselRows h2 {
     position: relative;
-    background-size: cover;
-
+    margin: 24px 0 12px;
+    font-size: clamp(20px, 1.6vw, 28px);
+    font-weight: 600;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
 }
-
-#carouselRows .posterDetails {
-    padding: 10px;
-    position: relative;
-    min-height: 500px;
-    height: 100vh;
+#carouselRows h2 a {
+    color: inherit;
 }
-
-#carouselRows div.carousel.rowPortrait div.slide.thumbsImage{
-    height: calc(100% - 10px);
+.flix-carousel {
+    margin-bottom: 36px;
 }
-#carouselRows div.carousel.rowPortrait div.slide.thumbsImage .tile__media,
-#carouselRows div.carousel.rowPortrait div.slide.thumbsImage .tile__media .tile__img.posterPortrait{
-    height: 100%;
-}
-
-
-
-.posterDetails .row{
-    margin-top: 15px;
-}
-
-.infoText{
-    overflow-x: hidden;
-    overflow-y: auto;
-    display: block; /* Fallback for non-webkit */
-    display: -webkit-box;
-    -webkit-line-clamp: 7;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-}
-
-.thumbsImage{
-    transition: border 0.8s;
-    position: relative;
-    border: 4px solid transparent;
-
-}
-.thumbsGIF{
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.videoDescription{
-    display: none;
-}
-
-iframe{
-    border-width: 0;
-}
-
-#divIframeFull iframe {
-    width: 0;
-    height: 0;
-
-    min-width: 100%;
-    min-height: 100%;  
-    min-height: calc(var(--vh, 1vh) * 100);  
-}
-
-/* carousel height */
-.carousel {
-    min-height: 160px;
-}
-.container-fluid{
-    overflow: hidden;
-    padding-bottom: 50px;
-}
-
-.bootgrid-header{
-    overflow: visible;
-}
-
-/* cell inherit height from carousel */
-.carousel-cell {
-    height: 100%;
-}
-.carousel-cell:hover {
-    z-index: 1;
-}
-
-/* fade in image when loaded */
-.carousel-cell-image {
-    transition: opacity 0.4s;
-    opacity: 0;
-}
-
-.carousel-cell-image.flickity-lazyloaded,
-.carousel-cell-image.flickity-lazyerror {
-    opacity: 1;
-}
-
-.flickity-slider{
-    margin-left: 75px;
-}
-
-.flickity-page-dots .dot {
-    background: #F33;
-}
-.flickity-viewport{
-    overflow: visible !important;
-}
-.flickity-prev-next-button{
-    z-index: 1020;
-}
-.thumbsImage.active{
-    border: 4px solid #FFF;
-}
-.arrow-down {
-    position: absolute;
-    left: 50%;
-    margin: -2px 0 0 -20px;
-    width: 0; 
-    height: 0; 
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;  
-    border-top: 10px solid #FFF;
-}
-footer {
-    color: #555;
-    background-color: transparent;
-    border-top: 1px solid #555;
-    border-top-color: rgb(50, 50, 50);
-}
-footer .btn-outline {
-    color: #555;
-    border-color: rgb(50, 50, 50);
-}
-
-.navbar-brand {
-    height: auto;
-}
-.infoText {
+.flix-carousel:not(.flickity-enabled) {
+    display: flex;
     overflow: hidden;
 }
-.posterPortrait {
-    height: 20vh;
-}
-.rowPortrait .tile {
-    width: 140px;
-    height: 210px;
-}
-#bigVideo .posterPortrait {
-    min-height: 250px;
-    min-width: 135px;
-}
-#bigVideo .mainInfoText{
-    max-height: 29vh;
-}
-.mainInfoText{
-    position:relative;
-    height:100%;
-    width: 110%;
-    padding-right: 10%;
-    overflow-x:hidden;
-    overflow-y:scroll; 
-    max-height: 22vh;
-}
-
-#bg_container, #bg_container_overlay{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    pointer-events: none;
-}
-#bg_container iframe{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    min-height: 100%;
-    pointer-events: none;
-    opacity: 1;
-    filter: alpha(opacity=100); /* For IE8 and earlier */
-    overflow: hidden;
-    z-index: -1;
-}
-#carouselRows h2{
-    position: relative;
-}
-
-#carouselRows{
-    position: relative;
-    padding: 20px;
-}
-
-body.fullscreen{
+.flix-carousel .flickity-viewport {
     margin: 0;
     padding: 0;
+    /* Override Flickity's clipping only within the catalog's clipped outer container. */
+    overflow: visible;
+}
+.flix-carousel .carousel-cell {
+    width: var(--flix-card-width);
+    height: auto;
+    margin-right: 12px;
+}
+.flix-carousel.rowPortrait .carousel-cell {
+    width: var(--flix-poster-width);
+}
+.flix-carousel .tile {
+    position: relative;
+    width: 100%;
+    font-size: 14px;
+}
+.flix-carousel .thumbsImage {
+    position: relative;
+    cursor: pointer;
+    border-radius: var(--flix-radius);
+    transition: box-shadow .2s ease, transform .2s ease;
+}
+.flix-carousel .thumbsImage.active,
+.flix-carousel .thumbsImage:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+.flix-carousel .tile__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--flix-radius);
+    background: var(--flix-surface);
+}
+.flix-carousel .tile__img,
+.flix-carousel .thumbsGIF {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+.flix-carousel.rowPortrait .tile__img,
+.flix-carousel.rowPortrait .thumbsGIF {
+    aspect-ratio: 2 / 3;
+}
+/* A missing portrait falls back to the complete landscape artwork, without stretching. */
+.flix-carousel.rowPortrait .tile__img:not(.posterPortrait),
+.flix-carousel.rowPortrait .tile__media:has(.tile__img:not(.posterPortrait)) .thumbsGIF {
+    object-fit: contain;
+}
+.flix-carousel .tile__img.flix-image-fallback { object-fit: contain; }
+.flix-carousel .thumbsGIF {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+.flix-carousel .tile__media h4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    height: 2.8em;
+    margin: 8px 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: inherit;
+}
+.flix-carousel .tile__media h4 a {
+    color: inherit;
+}
+.flix-carousel.title-over-poster .tile__media h4 {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-height: 4.8em;
+    margin: 0;
+    padding: 24px 10px 8px;
+    color: var(--flix-text);
+    background: linear-gradient(to top, var(--flix-surface) 45%, transparent);
+}
+.flix-carousel .progress {
+    border-radius: 0;
+    box-shadow: none;
+}
+.flix-carousel .progress:has(.progress-bar[aria-valuenow="0"]) {
+    visibility: hidden;
+}
+.flix-carousel .carousel-cell-image {
+    opacity: 0;
+    transition: opacity .2s ease;
+}
+.flix-carousel .flickity-lazyloaded,
+.flix-carousel .flickity-lazyerror {
+    opacity: 1;
+}
+.flix-carousel .flickity-prev-next-button {
+    width: 36px;
+    height: 64px;
+    border-radius: var(--flix-radius);
+    color: var(--flix-text);
+    background: var(--flix-surface);
+    box-shadow: var(--flix-shadow);
+    z-index: 2;
+}
+.flix-carousel .flickity-prev-next-button.previous { left: -14px; }
+.flix-carousel .flickity-prev-next-button.next { right: -14px; }
+.flix-carousel .flickity-prev-next-button:disabled { visibility: hidden; }
+.flix-carousel .flickity-page-dots {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 4px;
+    bottom: -20px;
+    padding: 0;
+}
+/* Flickity 3 uses buttons; older bundled versions use .dot elements. */
+.flix-carousel .flickity-page-dot,
+.flix-carousel .flickity-page-dots .dot {
+    flex: 0 1 16px;
+    min-width: 0;
+    width: 16px;
+    height: 3px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: currentColor;
+    opacity: .25;
+}
+.flix-carousel .flickity-page-dot.is-selected,
+.flix-carousel .flickity-page-dots .dot.is-selected { opacity: 1; }
+.flix-carousel .flickity-page-dots:has(> :only-child) { display: none; }
+.flix-carousel .arrow-down { display: none; }
+.flix-hero {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    min-height: clamp(380px, 38vw, 640px);
+    background-size: cover;
+    background-position: center;
+}
+.flix-hero .posterDetails {
+    position: relative;
+    min-height: inherit;
+    padding: clamp(32px, 5vw, 80px) var(--flix-gutter) 48px;
+    background: linear-gradient(to right, var(--flix-surface) 45%, transparent);
+    background: linear-gradient(to top, var(--flix-surface), transparent 30%),
+        linear-gradient(to right, var(--flix-surface) 5%, color-mix(in srgb, var(--flix-surface) 92%, transparent) 40%, transparent 100%);
+}
+.flix-hero .infoTitle {
+    max-width: 24ch;
+    margin: 0 0 20px;
+    font-size: clamp(28px, 3vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+.flickity-area .infoDetails {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+}
+.flickity-area .infoDetails .label {
+    display: inline-block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.4;
+}
+.flickity-area .posterDetails .row { margin-top: 20px; }
+.flix-hero .flix-poster-preview { max-width: 220px; }
+.flix-hero .flix-poster-preview img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    object-position: left center;
+    border-radius: var(--flix-radius);
+}
+.flix-hero .flix-poster-preview .thumbsImage { position: relative; }
+.flix-hero .flix-poster-preview .thumbsGIF { width: 100%; height: 100%; object-fit: contain; }
+.flickity-area .mainInfoText {
+    width: 100%;
+    max-height: 10em;
+    margin-top: 0;
+    overflow: auto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+.flickity-area .posterDetails .btn {
+    margin: 4px 4px 4px 0;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+#carouselRows .poster {
+    position: relative;
+    height: auto;
+    margin: 16px 0 32px;
+    background-position: center;
+    background-size: cover;
+    border-radius: var(--flix-radius);
     overflow: hidden;
 }
-@media (max-width: 1400px) {
-    #bigVideo{
-        /*        margin-bottom: -150px !important;*/
-    }
+#carouselRows .posterDetails {
+    position: relative;
+    min-height: 340px;
+    padding: 28px;
+    background: linear-gradient(to right, var(--flix-surface) 55%, transparent);
+    background: linear-gradient(to right, var(--flix-surface) 20%, color-mix(in srgb, var(--flix-surface) 92%, transparent) 55%, color-mix(in srgb, var(--flix-surface) 30%, transparent));
 }
-@media (max-width: 1200px) {
-    #bigVideo{
-        /*        margin-bottom: -100px !important;*/
-    }
+#carouselRows .posterDetails::after { content: ''; display: table; clear: both; }
+#carouselRows .posterDetails > .infoTitle,
+#carouselRows .posterDetails > .topicRow > .infoTitle { padding-right: 50px; margin-top: 0; }
+.flickity-area .posterDetails .posterPortrait { max-height: 260px; object-fit: contain; }
+.flickity-area .posterDetails .flix-close-details {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    padding: 10px 14px;
 }
-@media (max-width: 1120px) {
-    #bigVideo{
-        /*        margin-bottom: -70px !important;*/
-    }
-}
-@media (max-width: 1060px) {
-    #bigVideo{
-        /*        margin-bottom: -10px !important;*/
-        overflow: hidden;
-        /*        height: 450px !important;*/
-    }
-}
-.paidOnlyLabel{
-    position: absolute; 
-    top: 30px; 
+.flickity-area .footerBtn { margin-top: 20px; }
+.flickity-area .topicRow { margin-top: 28px; }
+.flickity-area .paidOnlyLabel {
+    position: absolute;
+    top: 10px;
     right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    opacity: 0.8;
-    filter: alpha(opacity=80); /* For IE8 and earlier */
 }
-.footerBtn{
-    margin-top: 10px;
+#bg_container,
+#bg_container_overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: -1;
 }
-.topicRow{
-    margin-top: 35px;
+.flix-hero #bg_container iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--flix-video-width, 100%);
+    height: var(--flix-video-height, 100%);
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    border: 0;
 }
-
-#mainNavBar{
-    transition: background-color 0.5s ease;
+#divIframeFull iframe {
+    width: 100%;
+    height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    border: 0;
 }
-
-.bgTransparent{
-    background-color: transparent;
-    background: transparent;
-    border-color: transparent;
+body.fullscreen { margin: 0; padding: 0; overflow: hidden; }
+.isChannelToYouPHPFlix2 .addChannelToYouPHPFlix2,
+.removeChannelFromYouPHPFlix2 { display: none; }
+.isChannelToYouPHPFlix2 .removeChannelFromYouPHPFlix2 { display: inline-block; }
+@media (hover: hover) and (pointer: fine) {
+    .flix-carousel .thumbsImage:hover { transform: translateY(-4px); box-shadow: var(--flix-shadow); }
 }
-
-.rowSerie{
-    display: inline-table;
+@media (max-width: 767px) {
+    .flix-hero { min-height: 360px; }
+    .flix-hero .posterDetails {
+        padding-top: 100px;
+        padding-bottom: 32px;
+        background: linear-gradient(to top, var(--flix-surface) 55%, transparent);
+        background: linear-gradient(to top, var(--flix-surface) 5%, color-mix(in srgb, var(--flix-surface) 90%, transparent) 55%, transparent);
+    }
+    .flix-hero .infoTitle { font-size: 30px; }
+    #carouselRows .posterDetails { min-height: 0; padding: 24px 16px; }
+    #carouselRows .posterDetails .infoText { width: 100%; }
+    .flickity-area .posterDetails .btn { padding: 10px 14px; }
+    .flix-carousel .flickity-prev-next-button { width: 28px; height: 44px; }
+    .flix-carousel .flickity-prev-next-button.previous { left: -12px; }
+    .flix-carousel .flickity-prev-next-button.next { right: -12px; }
 }
-
-.isChannelToYouPHPFlix2 .addChannelToYouPHPFlix2, .removeChannelFromYouPHPFlix2{
-    display: none;
-}
-
-.isChannelToYouPHPFlix2 .removeChannelFromYouPHPFlix2 {
-    display: inline-block;
+@media (prefers-reduced-motion: reduce) {
+    .flix-carousel .thumbsImage,
+    .flix-carousel .carousel-cell-image { transition: none; }
+    .flix-carousel .thumbsImage:hover { transform: none; }
 }

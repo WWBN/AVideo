@@ -3,20 +3,23 @@ global $advancedCustom;
 
 $uidOriginal = uniqid();
 $landscape = "rowPortrait";
-$css = "";
 if (!empty($obj->landscapePosters)) {
     $landscape = "landscapeTile";
-    if (!empty($obj->titleLabel)) {
-        $css = "height: 185px;";
-    }
 }
+if (!empty($obj->titleLabelOverPoster)) {
+    $landscape .= " title-over-poster";
+}
+$rowFlickity = clone $dataFlickirty;
+$rowFlickity->setGallerySize = true;
+$rowFlickity->lazyLoad = 2;
+$rowFlickity->percentPosition = false;
 $get = $_GET;
 $post = $_POST;
 $timeLog3 = __FILE__ . " - modeFlix Row";
 TimeLogStart($timeLog3);
 ?>
 <!-- row count total videos=<?php echo count($videos); ?> -->
-<div class="carousel <?php echo $landscape; ?>" data-flickity='<?php echo json_encode($dataFlickirty) ?>' style="<?php echo $css; ?>">
+<div class="carousel flix-carousel <?php echo $landscape; ?>" data-flickity='<?php echo json_encode($rowFlickity) ?>'>
     <?php
     TimeLogEnd($timeLog3, __LINE__);
     if (!isset($videosCounter)) {
@@ -61,6 +64,8 @@ TimeLogStart($timeLog3);
         <div class="carousel-cell">
             <div class="tile">
                 <div class="slide thumbsImage _<?php echo $uidOriginal; ?>" crc="<?php echo $uid; ?>"
+                    role="button" tabindex="0" aria-expanded="false" aria-controls="poster<?php echo $uid; ?>"
+                    aria-label="<?php echo htmlspecialchars(strip_tags($value['title']), ENT_QUOTES, 'UTF-8'); ?>"
                     uidOriginal="<?php echo $uidOriginal; ?>"
                     videos_id="<?php echo $value['id']; ?>"
                     poster="<?php echo $poster; ?>"
@@ -69,8 +74,9 @@ TimeLogStart($timeLog3);
                     iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbed/<?php echo $value['clean_title']; ?>"
                     ajaxLoad="<?php echo $ajaxLoad; ?>">
                     <div class="tile__media">
-                        <img alt="<?php echo str_replace('"', '', $value['title']); ?>"
+                        <img alt="<?php echo htmlspecialchars(strip_tags($value['title']), ENT_QUOTES, 'UTF-8'); ?>"
                             src="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>"
+                            data-flix-fallback="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>"
                             class="tile__img <?php echo $cssClass; ?> thumbsJPG img img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
                         <?php if (!empty($imgGif)) { ?>
                             <img style="position: absolute; top: 0; display: none;" src="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
@@ -85,8 +91,7 @@ TimeLogStart($timeLog3);
                                                                                                                                     }
                                                                                                                                     if (!empty($obj->titleLabel)) {
                                                                                                                                                 ?>
-                            <h4 style="<?php if (!empty($obj->titleLabelOverPoster)) { ?>margin-top: -27px;<?php }
-                                                                                                                                        echo $obj->titleLabelCSS; ?> "><?php echo $value['title']; ?></h4>
+                            <h4 style="<?php echo $obj->titleLabelCSS; ?>"><?php echo $value['title']; ?></h4>
                         <?php
                                                                                                                                     }
                         ?>

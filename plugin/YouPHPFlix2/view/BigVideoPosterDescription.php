@@ -2,18 +2,18 @@
 <?php
 $bigVideoAd = getAdsLeaderBoardBigVideo();
 
-$colClass = "col-md-4 col-sm-6";
+$colClass = "col-md-4 col-sm-6 flix-poster-preview";
 if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
     ?>
     <div class="<?php echo $colClass; ?> hidden-xs">
-        <img alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive" src="<?php echo $images->posterPortrait; ?>" style="max-height: 40vh" />
+        <img alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" />
     </div>
     <?php
 } else {
     ?>
     <div class="<?php echo $colClass; ?>">
         <a href="<?php echo YouPHPFlix2::getLinkToVideo($video['id']); ?>">
-            <div class="thumbsImage hidden-xs" style="max-height: 40vh">
+            <div class="thumbsImage hidden-xs">
                 <img alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive thumbsJPG" src="<?php echo $images->poster; ?>" />
                 <?php if (!empty($images->thumbsGif)) { ?>
                     <img style="position: absolute; top: 0; display: none;" src="<?php echo $images->thumbsGif; ?>"  alt="<?php echo str_replace('"', '', $video['title']); ?>" id="thumbsGIFBig<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img" />
@@ -29,7 +29,7 @@ if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
 }
 if (empty($obj->RemoveBigVideoDescription)) {
     ?>
-    <div class="infoText col-md-4 col-sm-6 hidden-xs  ">
+    <div class="infoText col-md-4 col-sm-6 hidden-xs">
         <h4 class="mainInfoText" itemprop="description">
             <?php
             echo strip_specific_tags($video['descriptionHTML']);

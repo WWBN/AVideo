@@ -133,7 +133,7 @@ TimeLogStart($timeLog6);
             <a class="btn btn-default"
                href="<?php echo $url; ?>">
                 <i class="fas fa-sign-in-alt"></i>
-                <span class="hidden-xs"><?php echo __("Login"); ?></span>
+                <span><?php echo __("Login"); ?></span>
             </a>
             <?php
         }
@@ -145,7 +145,7 @@ TimeLogStart($timeLog6);
     <button class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>"
        onclick="avideoModalIframe('<?php echo $rowLinkEmbed; ?>');return false;">
         <i class="fas fa-file-pdf"></i>
-        <span class="hidden-xs"><?php echo __("Open PDF"); ?></span>
+        <span><?php echo __("Open PDF"); ?></span>
     </button>
     <?php
     }else{
@@ -154,7 +154,7 @@ TimeLogStart($timeLog6);
        href="<?php echo $rowLink; ?>"
        embed="<?php echo $rowLinkEmbed; ?>">
         <i class="fa fa-play"></i>
-        <span class="hidden-xs"><?php echo __("Play"); ?></span>
+        <span><?php echo __("Play"); ?></span>
     </a>
     <?php
     }
@@ -162,7 +162,7 @@ TimeLogStart($timeLog6);
         ?>
         <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo parseVideos($value['trailer1'], 1, 0, 0, 0, 1); ?>', '');return false;">
             <span class="fa fa-film"></span>
-            <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
+            <span><?php echo __("Trailer"); ?></span>
         </a>
         <?php
     }

@@ -1,0 +1,64 @@
+.channel-layout {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+.channel-layout > .panel-body { padding: 0; }
+.channel-layout .channel-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 20px 0 12px;
+}
+.channel-layout .channel-heading > .col-sm-12 { width: auto; min-width: 0; }
+.channel-layout .channel-heading > .col-sm-12:first-child { flex: 1 1 240px; }
+.channel-layout .channel-heading h2 {
+    margin: 0 0 12px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+.channel-layout .channel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.channel-layout #aboutArea { margin-bottom: 20px; overflow-wrap: anywhere; }
+.channel-layout #aboutAreaPreContent { max-width: 100%; overflow-x: auto; }
+.channel-layout .tabbable-line > .nav-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 0 12px;
+}
+.channel-layout .tabbable-line > .nav-tabs > li {
+    flex: 0 0 auto;
+    float: none;
+    margin-bottom: 0;
+    border-bottom: 3px solid transparent;
+}
+.channel-layout .tabbable-line > .nav-tabs > li::after,
+.channel-layout .tabbable-line > .nav-tabs > li > a::after { display: none; }
+.channel-layout .tabbable-line > .nav-tabs > li.active,
+.channel-layout .tabbable-line > .nav-tabs > li:hover {
+    border-bottom-color: currentColor;
+}
+.channel-layout .tabbable-line > .nav-tabs > li > a {
+    padding: 14px 12px;
+    color: inherit;
+    white-space: nowrap;
+}
+.channel-layout .tabbable-line > .tab-content { margin-top: 0; padding-top: 0; }
+#channelHome .flix-catalog { border-radius: 6px; }
+#channelHome .flix-hero { min-height: clamp(360px, 34vw, 560px); }
+#channelHome .flix-hero .posterDetails { padding-top: 40px; }
+#channelHome .modeFlixContainer { padding: 0; }
+#channelHome #bigVideoCarousel { height: auto; }
+@media (max-width: 767px) {
+    .channel-layout .channel-actions { float: none !important; }
+    .channel-layout .channel-actions .btn { min-height: 36px; }
+    #channelHome .flix-hero .posterDetails { padding-top: 72px; }
+}

@@ -165,7 +165,6 @@ function tabContentClass(string $tab): string
     #aboutArea.expanded .showLess { display: block; }
 
     #channelHome {
-        background-color: rgb(<?php echo $obj->backgroundRGB; ?>);
         position: relative;
         overflow: hidden;
     }
@@ -174,7 +173,7 @@ function tabContentClass(string $tab): string
 </style>
 
 <div class="clearfix"></div>
-<div class="panel panel-default">
+<div class="panel panel-default channel-layout">
     <div class="panel-body">
         <div class="gallery galleryLayout">
             <div class="row clearfix">
@@ -201,7 +200,7 @@ function tabContentClass(string $tab): string
             }
             ?>
 
-            <div class="row">
+            <div class="row channel-heading">
                 <div class="col-sm-12" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
                     <h2 class="pull-left" style="font-size: 2em;">
                         <?php echo $user->getNameIdentificationBd(); ?>
@@ -228,7 +227,7 @@ function tabContentClass(string $tab): string
                     </ul>
                 </div>
                 <div class="col-sm-12">
-                    <span class="pull-right">
+                    <span class="pull-right channel-actions">
                         <?php echo AVideoPlugin::getChannelPageButtons($user_id); ?>
                     </span>
                 </div>
@@ -281,7 +280,7 @@ function tabContentClass(string $tab): string
                         <ul class="nav nav-tabs">
                             <?php if ($showChannelHomeTab) { ?>
                                 <li class="nav-item <?php echo tabButtonClass('channelHome'); ?>">
-                                    <a class="nav-link" href="#channelHome" data-toggle="tab" aria-expanded="false" onclick="setTimeout(function(){flickityReload();},500);">
+                                    <a class="nav-link" href="#channelHome" data-toggle="tab" aria-expanded="false">
                                         <i class="fas fa-home"></i> <span class="labelUpperCase"><?php echo __('Home'); ?></span>
                                     </a>
                                 </li>

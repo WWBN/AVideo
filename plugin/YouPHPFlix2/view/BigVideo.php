@@ -21,39 +21,19 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         $imgGif = $images->thumbsGif;
         $poster = $images->poster;
     ?>
-        <div style="padding-bottom: 40%;"></div>
-        <div class="embed-responsive-16by9" id="bigVideo" style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);
-             background: url(<?php echo $poster; ?>);
-             -webkit-background-size: cover;
-             -moz-background-size: cover;
-             -o-background-size: cover;
-             background-size: cover;
-             z-index: 0;
-             position: absolute;
-             top: 0;
-             width: 100%;">
+        <div class="flix-hero" id="bigVideo" style="background-image: url('<?php echo $poster; ?>');">
             <?php
             if (!isMobile() && !empty($video['trailer1'])) {
-                $percent = 2;
             ?>
-                <div id="bg_container" class="" style="height: 100%;">
-                    <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 0, 'cover'); ?>" frameborder="0" allowtransparency="true" allow="autoplay"></iframe>
+                <div id="bg_container">
+                    <iframe src="<?php echo addQueryStringParameter(parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 0, 'cover'), 'objectFit', 'cover'); ?>" frameborder="0" allowtransparency="true" allow="autoplay" tabindex="-1" aria-hidden="true"></iframe>
                 </div>
                 <div id="bg_container_overlay"></div>
             <?php
-            } else {
-                $percent = 40;
             }
-            $style = "
-            padding: 60px 20px 56.25% 20px;
-            background: -webkit-linear-gradient(left, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
-            background: -o-linear-gradient(right, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
-            background: linear-gradient(right, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
-            background: -moz-linear-gradient(to right, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
-            ";
             ?>
 
-            <div class="posterDetails" style="<?php echo $style; ?>">
+            <div class="posterDetails">
                 <?php
                 include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoInfoDetails.php';
                 ?>

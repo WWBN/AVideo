@@ -8,11 +8,10 @@
      background-image: url('<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/img/loading.gif');
      ">
     <!-- row video -->
-    <div class="posterDetails " style="
-         background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-         background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-         background: linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-         background: -moz-linear-gradient(to right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);">
+    <div class="posterDetails">
+        <button type="button" class="btn btn-default flix-close-details" aria-label="<?php echo __('Close'); ?>">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
         <h2 class="infoTitle">
             <?php echo $value['title']; ?>
         </h2>
