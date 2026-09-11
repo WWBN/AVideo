@@ -11,7 +11,7 @@ if (!isValidURL($trailer)) {
 if (isValidURL($trailer)) {
     echo '<!-- invalid trailer URL -->';
 ?>
-    <button type="button" class="btn btn-default no-outline" onclick="avideoModalIframe('<?php echo parseVideos($trailer, 1); ?>');" data-toggle="tooltip" title="<?php echo __("Trailer"); ?>">
+    <button type="button" class="btn btn-default no-outline" onclick="avideoModalIframe('<?php echo htmlspecialchars(parseVideos($trailer, 1), ENT_QUOTES, 'UTF-8'); ?>');" data-toggle="tooltip" title="<?php echo __("Trailer"); ?>">
         <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
     </button>
 <?php
