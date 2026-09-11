@@ -347,13 +347,13 @@ function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge
                     <!-- Dropdown trigger -->
                     <div class="dropdown pull-right">
                         <!-- Dropdown Menu -->
-                        <div class="dropdown-menu" id="videoButtonOptions">
+                        <div class="dropdown-menu videoButtonOptions">
                             <?php
                             echo AVideoPlugin::getGalleryActionButton($video['id']);
                             ?>
                         </div>
                         <!-- Trigger button -->
-                        <button class="btn btn-link btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                        <button class="btn btn-link btn-xs dropdown-toggle" type="button" data-toggle="dropdown" title="<?php echo __('Options'); ?>" aria-label="<?php echo __('Options'); ?>" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-ellipsis-v"></i>
                         </button>
                     </div>

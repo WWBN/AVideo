@@ -538,12 +538,20 @@ async function mouseEffect() {
             //console.log('mouseEffect()');
             var gif = $(this).find(".thumbsGIF");
             var jpg = $(this).find(".thumbsJPG");
+            var $card = $(this);
             try {
                 gif.lazy({
-                    effect: 'fadeIn',
+                    effect: 'show',
+                    effectTime: 0,
                     afterLoad: function (element) {
                         element.removeClass('lazyload');
                         element.addClass('lazyloadLoaded');
+                        if (!$card.is(':hover')) {
+                            element.stop(true, true).hide();
+                        }
+                    },
+                    onError: function (element) {
+                        element.stop(true, true).hide();
                     }
                 });
                 setTimeout(function () {
@@ -554,7 +562,10 @@ async function mouseEffect() {
             }
             gif.height(jpg.height());
             gif.width(jpg.width());
-            gif.stop(true, true).fadeIn();
+            // Keep the still image visible until the animated image has loaded.
+            gif.filter(function () {
+                return !this.hasAttribute('data-src') && this.complete && this.naturalWidth > 0;
+            }).stop(true, true).fadeIn();
         });
         $thumbs.on("mouseleave", function () {
             $(this).find(".thumbsGIF").stop(true, true).fadeOut();

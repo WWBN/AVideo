@@ -110,20 +110,24 @@ h3.galleryTitle{
     width: 100%;
 }
 
-#videoButtonOptions{
+#videoButtonOptions,
+.videoButtonOptions{
     padding: 10px;
     white-space: nowrap;
 }
 
-#videoButtonOptions .btn-link{
+#videoButtonOptions .btn-link,
+.videoButtonOptions .btn-link{
     padding: 1px 0;
 }
 
-#videoButtonOptions div{
+#videoButtonOptions div,
+.videoButtonOptions div{
     float: none;
 }
 
-#videoButtonOptions .btn {
+#videoButtonOptions .btn,
+.videoButtonOptions .btn {
     font-size: unset;
 }
 
@@ -606,6 +610,19 @@ a.h6.galleryLink > strong{
 }
 
 @media (max-width: 767px) {
+    .galleryLayout #BigVideoLive:not(.fullscreen) #BigVideoLiveIFrame {
+        height: auto;
+        min-height: 0;
+        max-height: 240px;
+        aspect-ratio: 16 / 9;
+    }
+    .galleryLayout .galleryVideo .title {
+        max-height: none;
+        -webkit-line-clamp: unset;
+    }
+    .galleryLayout .galleryVideo .galeryDetailsContent {
+        grid-template-rows: auto auto;
+    }
     .galleryLayout .mainArea {
         padding: 5px;
     }
@@ -614,4 +631,10 @@ a.h6.galleryLink > strong{
         padding-right: 5px;
         padding-left: 5px;
     }
+}
+
+.galleryLayout .galleryVideo .title:hover,
+.galleryLayout .galleryVideo:focus-within .title {
+    max-height: none;
+    -webkit-line-clamp: unset;
 }

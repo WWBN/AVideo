@@ -107,14 +107,21 @@ function startModeFlix(container) {
                 var $preview = $(this);
                 var source = $preview.attr('data-flix-preview');
                 if (source) {
+                    var $previewCard = $preview.closest('.thumbsImage');
+                    if (!$previewCard.find('.flix-preview-status').length) {
+                        $('<span>', {class: 'flix-preview-status', role: 'status', text: __('Loading...')}).appendTo($previewCard);
+                    }
+                    $previewCard.attr('aria-busy', 'true');
                     // Download animated previews only when the visitor actually hovers a card.
                     $preview.one('load.flixPreview', function () {
                         $preview.addClass('flickity-lazyloaded');
+                        $previewCard.attr('aria-busy', 'false');
                         if ($preview.closest('.thumbsImage').is(':hover')) {
                             $preview.stop(true, true).fadeIn(150);
                         }
                     }).one('error.flixPreview', function () {
                         $preview.addClass('hidden');
+                        $previewCard.attr('aria-busy', 'false');
                     }).removeAttr('data-flix-preview').attr('src', source);
                 } else if (this.complete && this.naturalWidth > 0) {
                     $preview.stop(true, true).fadeIn(150);
@@ -153,8 +160,13 @@ function startModeFlix(container) {
         $poster.stop(true, true).slideDown(reduceMotion ? 0 : 180, function () {
             resizeFlixCarousels();
             var navbarHeight = $('#mainNavBar').outerHeight() || 0;
-            var top = $card.closest('.carousel').offset().top - navbarHeight - 16;
-            $('html, body').stop(true).animate({scrollTop: Math.max(0, top)}, reduceMotion ? 0 : 180);
+            var rect = $poster[0].getBoundingClientRect();
+            var availableHeight = Math.max(0, window.innerHeight - navbarHeight - 32);
+            var delta = rect.top < navbarHeight + 16 ? rect.top - navbarHeight - 16
+                : Math.max(0, rect.top + Math.min(rect.height, availableHeight) - window.innerHeight + 16);
+            if (delta !== 0) {
+                $('html, body').stop(true).animate({scrollTop: Math.max(0, window.scrollY + delta)}, reduceMotion ? 0 : 180);
+            }
         });
         $card.closest('.carousel').flickity('stopPlayer');
 

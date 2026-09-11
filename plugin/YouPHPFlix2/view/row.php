@@ -41,9 +41,6 @@ TimeLogStart($timeLog3);
                 $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
             }
             $ajaxLoad = $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/modeFlixSerie.php?playlists_id=' . $value['serie_playlists_id'];
-            $link = PlayLists::getLink($value['serie_playlists_id']);
-            $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
-            $value['title'] = "<a href='{$link}' embed='{$linkEmbed}'>{$value['title']}</a>";
         }
         TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
         $imgGif = $images->thumbsGif;

@@ -313,6 +313,19 @@
     min-height: calc(var(--vh, 1vh) * 100);
     border: 0;
 }
+.flix-preview-status {
+    display: none;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--flix-surface);
+    color: var(--flix-text);
+    font-size: 12px;
+    pointer-events: none;
+}
+.thumbsImage[aria-busy="true"]:hover > .flix-preview-status { display: block; }
 body.fullscreen { margin: 0; padding: 0; overflow: hidden; }
 .isChannelToYouPHPFlix2 .addChannelToYouPHPFlix2,
 .removeChannelFromYouPHPFlix2 { display: none; }
