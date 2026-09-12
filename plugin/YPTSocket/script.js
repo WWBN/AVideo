@@ -703,6 +703,13 @@ function defaultCallback(json) {
 
 var socketAutoUpdateOnHTMLTimout;
 var globalAutoUpdateOnHTML = [];
+function socketSetTextIfChanged(elements, value) {
+    const text = String(value);
+    elements.each(function () {
+        if (this.textContent !== text) $(this).text(text);
+    });
+}
+
 function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
     if (typeof socketInfoRecordUpdate === 'function') socketInfoRecordUpdate(autoUpdateOnHTML);
     for (var prop in autoUpdateOnHTML) {
@@ -726,12 +733,19 @@ async function AutoUpdateOnHTMLTimer() {
     clearTimeout(socketAutoUpdateOnHTMLTimout);
     //console.log('socket AutoUpdateOnHTMLTimer 1', empty(globalAutoUpdateOnHTML), globalAutoUpdateOnHTML);
     if (!empty(globalAutoUpdateOnHTML)) {
-        $('.total_on').text(0);
-        $('.total_on').parent().removeClass('text-success');
+        const totalElements = $('.total_on');
+        totalElements.parent('.text-success').removeClass('text-success');
         //console.log("socket AutoUpdateOnHTMLTimer 2", $('.total_on'), globalAutoUpdateOnHTML);
 
         localAutoUpdateOnHTML = globalAutoUpdateOnHTML;
         globalAutoUpdateOnHTML = [];
+        // Reset only counters absent from this snapshot. Present counters go
+        // directly to their final value, avoiding a write to zero and back.
+        totalElements.each(function () {
+            const present = Array.from(this.classList).some(name =>
+                Object.prototype.hasOwnProperty.call(localAutoUpdateOnHTML, name));
+            if (!present && this.textContent !== '0') $(this).text('0');
+        });
         //console.log('socket AutoUpdateOnHTMLTimer localAutoUpdateOnHTML 1', globalAutoUpdateOnHTML, localAutoUpdateOnHTML);
         for (var prop in localAutoUpdateOnHTML) {
             if (localAutoUpdateOnHTML[prop] === false) {
@@ -740,7 +754,7 @@ async function AutoUpdateOnHTMLTimer() {
             var val = localAutoUpdateOnHTML[prop];
             if (typeof val == 'string' || typeof val == 'number') {
                 //console.log('socket AutoUpdateOnHTMLTimer 3', prop, val, $('.' + prop).text());
-                $('.' + prop).text(val);
+                socketSetTextIfChanged($('.' + prop), val);
                 //console.log('socket AutoUpdateOnHTMLTimer 4', prop, val, $('.' + prop).text());
                 if (parseInt(val) > 0) {
                     //$('.' + prop).parent().addClass('text-success');
@@ -758,6 +772,8 @@ async function AutoUpdateOnHTMLTimer() {
 }
 
 var canShowSocketToast = true;
+var socketUserCardsSnapshot = null;
+var socketUserCardsDirty = false;
 async function parseSocketResponse() {
     const json = yptSocketResponse;
     yptSocketResponse = false;
@@ -792,6 +808,18 @@ async function parseSocketResponse() {
         eval(json.msg.autoEvalCodeOnHTML);
     }
 
+    if (json && (json.users_uri || json.users_id_online)) {
+        socketUserCardsSnapshot = { users_uri: json.users_uri, users_id_online: json.users_id_online };
+        socketUserCardsDirty = true;
+        socketRenderUserCards();
+    }
+}
+
+function socketRenderUserCards() {
+    const panel = document.getElementById('socketInfoPanel');
+    // Older layouts do not have socketInfoPanel; keep their eager rendering.
+    if (!socketUserCardsDirty || (panel && (document.hidden || panel.hidden))) return;
+    const json = socketUserCardsSnapshot;
     const ignoreURI = ['latestOrLive.php', 'plugin/Chat2'];
     const validAnchorHrefs = new Set();
 
@@ -850,6 +878,7 @@ async function parseSocketResponse() {
 
 
         $('#socketUsersURI').tooltip({ html: true });
+        socketUserCardsDirty = false;
     }
 }
 
@@ -933,7 +962,8 @@ function socketDisconnection(json) {
 
 function setInitialOnlineStatus() {
     if (typeof users_id_online === 'undefined') return false;
-    socketOnlineUserIds(users_id_online).forEach(setUserOnlineStatus);
+    const online = socketOnlineUsersSet(users_id_online);
+    socketOnlineUserIds(users_id_online).forEach(id => setUserOnlineStatus(id, online.has(id)));
     return true;
 }
 
@@ -947,17 +977,18 @@ function socketApplyOnlineUsers(users) {
     if (!users || typeof users !== 'object') return;
     const previous = socketOnlineUserIds(users_id_online);
     users_id_online = users;
-    new Set([...previous, ...socketOnlineUserIds(users)]).forEach(setUserOnlineStatus);
+    const online = socketOnlineUsersSet(users);
+    new Set([...previous, ...socketOnlineUserIds(users)]).forEach(id => setUserOnlineStatus(id, online.has(id)));
 }
 
-function setUserOnlineStatus(users_id) {
-    if (isUserOnline(users_id)) {
-        $('.users_id_' + users_id).removeClass('offline');
-        $('.users_id_' + users_id).addClass('online');
-    } else {
-        $('.users_id_' + users_id).removeClass('online');
-        $('.users_id_' + users_id).addClass('offline');
-    }
+function socketOnlineUsersSet(users) {
+    const ids = socketOnlineUserIds(users);
+    return new Set(Array.isArray(users) ? ids : ids.filter(id => !!users[id]));
+}
+
+function setUserOnlineStatus(users_id, online) {
+    if (typeof online !== 'boolean') online = !!isUserOnline(users_id);
+    $('.users_id_' + users_id).toggleClass('offline', !online).toggleClass('online', online);
 }
 var getWebSocket;
 $(async function () {

@@ -19,6 +19,7 @@ function socketInfoMaximize() {
     container.classList.remove('socketMinimized');
     document.getElementById('socketInfoPanel').hidden = false;
     document.getElementById('socketInfoToggle').setAttribute('aria-expanded', 'true');
+    if (typeof socketRenderUserCards === 'function') socketRenderUserCards();
     checkSocketInfoPosition();
     socketInfoRefreshTimes();
 }
@@ -127,7 +128,9 @@ function socketInfoRecordUpdate(values) {
     let changed = false;
     keys.forEach(key => {
         if (typeof values[key] === 'string' || typeof values[key] === 'number') {
-            $('#socket_info_container .' + key).text(values[key]);
+            const elements = $('#socket_info_container .' + key);
+            if (typeof socketSetTextIfChanged === 'function') socketSetTextIfChanged(elements, values[key]);
+            else elements.text(values[key]);
             changed = true;
         }
     });
@@ -139,11 +142,16 @@ function socketInfoRecordUpdate(values) {
 
 function socketInfoRefreshSummary() {
     const online = document.getElementById('socketInfoOnline');
-    online.hidden = socketInfoState.status !== 'connected' || socketInfoState.onlineCount === null;
-    document.getElementById('socketInfoOnlineCount').textContent = socketInfoState.onlineCount === null ? '—' : socketInfoState.onlineCount.toLocaleString();
+    const hidden = socketInfoState.status !== 'connected' || socketInfoState.onlineCount === null;
+    if (online.hidden !== hidden) online.hidden = hidden;
+    const countElement = document.getElementById('socketInfoOnlineCount');
+    const countText = socketInfoState.onlineCount === null ? '—' : socketInfoState.onlineCount.toLocaleString();
+    if (countElement.textContent !== countText) countElement.textContent = countText;
     const status = document.querySelector('.socket-inspector-label').textContent;
     const count = online.hidden ? '' : ', ' + online.textContent.replace(/\s+/g, ' ').trim();
-    document.getElementById('socketInfoToggle').setAttribute('aria-label', document.getElementById('socketInfoTitle').textContent + ': ' + status + count);
+    const toggle = document.getElementById('socketInfoToggle');
+    const label = document.getElementById('socketInfoTitle').textContent + ': ' + status + count;
+    if (toggle.getAttribute('aria-label') !== label) toggle.setAttribute('aria-label', label);
 }
 
 function socketInfoRefreshTimes() {
@@ -169,6 +177,9 @@ $(function () {
         new ResizeObserver(checkSocketInfoPosition).observe(container);
     }
     $('#socketInfoToggle').on('click', socketInfoToogle);
+    $(document).on('visibilitychange.socketInfo', () => {
+        if (!document.hidden && typeof socketRenderUserCards === 'function') socketRenderUserCards();
+    });
     $('#socketInfoClose').on('click', () => socketInfoMinimize(true));
     $(document).on('click.socketInfo', event => {
         if (!container.contains(event.target)) socketInfoMinimize();
