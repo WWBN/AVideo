@@ -91,7 +91,8 @@ $localVersion = isset($localData['version']) ? (int)$localData['version'] : 0;
 $remoteVersion = (int)$remoteData['version'];
 
 // 3. Compare and update if needed
-if ($remoteVersion != $localVersion) {
+// A locally tested build may be newer than the published release.
+if ($remoteVersion > $localVersion || !is_file($localBinaryPath)) {
     echo "⬇️  New version available (local: $localVersion, remote: $remoteVersion). Starting update...\n";
 
     // Kill existing yptsocket process

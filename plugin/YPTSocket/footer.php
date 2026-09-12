@@ -11,249 +11,79 @@ if (isBot()) {
 $refl = new ReflectionClass('SocketMessageType');
 $obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
 if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugSocket))) {
-    $socket_info_container_class = '';
-    $socket_info_container_top = 60;
-    $socket_info_container_left = 50;
-    if (isset($_COOKIE['socketInfoMinimized'])) {
-        $socket_info_container_class = 'socketMinimized';
-    }
-    if (isset($_COOKIE['socketInfoPositionTop'])) {
-        $socket_info_container_top = $_COOKIE['socketInfoPositionTop'];
-    }
-    if (isset($_COOKIE['socketInfoPositionLeft'])) {
-        $socket_info_container_left = $_COOKIE['socketInfoPositionLeft'];
-    }
-    $command = "sudo " . YPTSocket::getStartServerCommand();
 ?>
-    <style>
-        #socket_info_container>div {
-            padding: 5px;
-            font-size: 11px;
-        }
-
-        #socket_info_container div.socketItem span {
-            float: right;
-            color: #fff;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            background-color: #777;
-            border-radius: 10px;
-            font-size: 11px;
-            margin-left: 10px;
-            text-shadow: none;
-            padding: 2px 3px;
-        }
-
-        #socket_info_container {
-            border-radius: 5px;
-            border: 2px solid transparent;
-            position: fixed;
-            top: <?php echo $socket_info_container_top; ?>px;
-            left: <?php echo $socket_info_container_left; ?>px;
-
-            background-color: rgba(255, 255, 255, 0);
-            color: #000;
-
-            -webkit-transition: background-color 0.5s linear;
-            -moz-transition: background-color 0.5s linear;
-            -ms-transition: background-color 0.5s linear;
-            -o-transition: background-color 0.5s linear;
-            transition: background-color 0.5s linear;
-            transition: box-shadow 0.5s ease-in-out;
-            z-index: 1050;
-            -moz-box-shadow: 0 0 0 #00000000;
-            -webkit-box-shadow: 0 0 0 #00000000;
-            box-shadow: 0 0 0 #00000000;
-
-        }
-
-        #socket_info_container:hover {
-            background-color: rgba(255, 255, 255, 1);
-            -moz-box-shadow: 0 0 10px #000000;
-            -webkit-box-shadow: 0 0 10px #000000;
-            box-shadow: 0 0 10px #000000;
-            border: 2px solid #777;
-        }
-
-        #socket_info_container div {
-            color: #00000077;
-        }
-
-        #socket_info_container.socketMinimized .socketItem {
-            display: none;
-        }
-
-        .socketTitle,
-        .socketTitle span {
-            text-align: center;
-            font-size: 14px;
-            width: 100%;
-            cursor: move;
-        }
-
-        #socket_info_container>div.socketHeader {
-            padding: 2px 15px 2px 5px;
-        }
-
-        .socketHeader,
-        .socketUserName {
-            cursor: pointer;
-        }
-
-        #socket_info_container>div.clearfix {
-            cursor: move;
-        }
-
-        #socketUsersURI {
-            max-height: 300px;
-            overflow: auto;
-        }
-
-        #socketUsersURI a {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            max-width: 300px;
-        }
-
-        .socketItem img {
-            height: 20px;
-            width: 20px;
-            margin: 2px 5px 2px 0;
-            display: inline;
-        }
-
-        #socket_info_container>div:last-child {
-            margin-top: 5px;
-            border-top: solid 1px #000;
-        }
-
-        .hideNotConected,
-        .hideNotDisconnected,
-        .socketUserDiv .socketUserPages,
-        .socketUserDiv .fa-caret-up,
-        .socketUserDiv.visible .fa-caret-down {
-            display: none;
-        }
-
-        .socket_connected .hideNotConected,
-        .socketUserDiv.visible .socketUserPages,
-        .socket_disconnected .hideNotDisconnected {
-            display: block;
-        }
-
-        .socketUserDiv.visible .fa-caret-up {
-            display: inline-block;
-        }
-
-        #socket_info_container {
-            border: solid 2px #CCCCCC11;
-        }
-    </style>
-    <div id="socket_info_container" class="socket_info blur-background <?php echo $socket_info_container_class; ?> <?php echo getCSSAnimationClassAndStyle('animate__bounceIn', 'socket_info'); ?>" style="display: none;">
-        <div class="socketHeader ">
-            <?php
-            echo getSocketConnectionLabel();
-            ?>
-        </div>
-        <div class="socketItem hideNotDisconnected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>">
-            <button class="btn btn-xs btn-block btn-default" onclick="copyToClipboard('<?php echo addcslashes($command, '\\'); ?>')">Copy code to run on terminal</button>
-            <button class="btn btn-xs btn-block btn-primary" onclick="socketConnect()">Try again</button>
-        </div>
-
-        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>">
-            <i class="fa-solid fa-code-compare"></i> Version <span class="webSocketServerVersion"></span>
-        </div>
-
-        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>">
-            <i class="fa-solid fa-memory"></i> Memory <span class="socket_mem">0 bytes</span>
-        </div>
-
-        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>"  data-toggle="tooltip"
-            title="Number of unique users with active WebSocket connections. One connection per real device. Iframes in the same browser are not counted twice.">
-            <i class="fas fa-network-wired"></i> Unique Devices Online <span class="total_devices_online">0</span>
-        </div>
-
-        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>"  data-toggle="tooltip"
-            title="Total number of active WebSocket connections. A user with multiple devices or multiple tabs/iframes will be counted more than once.">
-            <i class="fas fa-users"></i> Total Connections <span class="total_users_online">0</span>
-        </div>
-
-        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'socket'); ?>" id="socketUsersURI">
-        </div>
-
-
-        <button onclick="avideoAjax(webSiteRootURL+'plugin/YPTSocket/restart.json.php', {});" class="socketItem btn btn-danger btn-sm btn-xs btn-block"><i class="fas fa-power-off"></i> Restart</button>
-    </div>
-    <script>
-        var socket_info_container_draging = false;
-        $(document).ready(function() {
-            if (typeof $("#socket_info_container").draggable === 'function') {
-                $("#socket_info_container").draggable({
-                    start: function(event, ui) {
-                        socket_info_container_draging = true;
-                    },
-                    stop: function(event, ui) {
-                        setTimeout(function() {
-                            socket_info_container_draging = false;
-                        }, 100);
-                        var currentPos = $(this).position();
-                        Cookies.set('socketInfoPositionTop', currentPos.top, avideoCookieOptions(365));
-                        Cookies.set('socketInfoPositionLeft', currentPos.left, avideoCookieOptions(365));
-                    }
-                });
-            } else {
-                $("#socket_info_container").hide();
-            }
-            $(".socketHeader").click(function() {
-                socketInfoToogle()
-            });
-            checkSocketInfoPosition();
-        });
-
-        function socketInfoMinimize() {
-            $("#socket_info_container").addClass('socketMinimized');
-
-            Cookies.set('socketInfoMinimized', 1, avideoCookieOptions(365));
-        }
-
-        function socketInfoMaximize() {
-            $("#socket_info_container").removeClass('socketMinimized');
-            Cookies.set('socketInfoMinimized', 0, avideoCookieOptions(365));
-        }
-
-        function socketInfoToogle() {
-            if (socket_info_container_draging) {
-                return false;
-            }
-            if ($("#socket_info_container").hasClass('socketMinimized')) {
-                socketInfoMaximize();
-            } else {
-                socketInfoMinimize();
-            }
-        }
-
-        function checkSocketInfoPosition() {
-            var currentPos = $('#socket_info_container').position();
-            var maxLeft = $(window).width() - $('#socket_info_container').width();
-            var maxTop = $(window).height() - $('#socket_info_container').height();
-
-            if (currentPos.top < 60 || currentPos.left < 60 || currentPos.top > maxTop || currentPos.left > maxLeft) {
-                $('#socket_info_container').css('top', '60px');
-                $('#socket_info_container').css('left', '60px');
-            }
-        }
-
-        function socketUserNameToggle(socketUserDivID) {
-            var isVisible = $(socketUserDivID).find('.socketUserPages').is(":visible");
-            if (isVisible) {
-                $(socketUserDivID).removeClass('visible');
-            } else {
-                $(socketUserDivID).addClass('visible');
-            }
-            Cookies.set(socketUserDivID, !isVisible, avideoCookieOptions(365));
-        }
-    </script>
+    <link rel="stylesheet" href="<?php echo getURL('plugin/YPTSocket/socketInfo.css'); ?>">
+    <aside id="socket_info_container" class="socket_info socketMinimized socket-inspector hidden" aria-label="<?php echo __('Socket'); ?>">
+        <section id="socketInfoPanel" class="socket-inspector-panel panel panel-default" aria-labelledby="socketInfoTitle" hidden>
+            <header class="panel-heading socket-inspector-heading" title="<?php echo __('Drag to move'); ?>">
+                <strong id="socketInfoTitle"><?php echo __('Socket'); ?></strong>
+                <button type="button" class="btn btn-default btn-xs" id="socketInfoClose" aria-label="<?php echo __('Close'); ?>" title="<?php echo __('Close'); ?>"><i class="fas fa-times" aria-hidden="true"></i></button>
+            </header>
+            <div class="panel-body socket-inspector-body">
+                <p class="small"><?php echo __('Connection used to receive chat messages and notifications without refreshing the page.'); ?></p>
+                <p class="socket-inspector-status" role="status" aria-live="polite"
+                   data-connected="<?php echo __('Connected'); ?>"
+                   data-disconnected="<?php echo __('Disconnected'); ?>"
+                   data-loading="<?php echo __('Connecting'); ?>"><?php echo __('Connecting'); ?></p>
+                <p class="small text-muted socket-info-connected"><?php echo __('Real-time updates are active.'); ?></p>
+                <p class="small text-muted socket-info-loading"><?php echo __('Connecting to real-time updates. You can continue browsing.'); ?></p>
+                <p class="small text-muted socket-info-disconnected"><?php echo __('Real-time updates are paused. Reconnection is automatic; you can continue browsing.'); ?></p>
+                <div class="socket-inspector-metrics">
+                    <div class="well well-sm"><strong class="total_devices_online">—</strong><span><?php echo __('Online users (by device)'); ?></span></div>
+                    <div class="well well-sm"><strong class="total_users_online">—</strong><span><?php echo __('Active connections'); ?></span></div>
+                </div>
+                <p class="small text-muted"><?php echo __('Site-wide users and visitors, counted by device. Multiple tabs on the same device count once per user.'); ?></p>
+                <dl class="socket-inspector-facts">
+                    <div><dt><?php echo __('Connected for'); ?></dt><dd id="socketInfoDuration">—</dd></div>
+                    <div><dt><?php echo __('Last server update'); ?></dt><dd id="socketInfoLastUpdate">—</dd></div>
+                    <div><dt><?php echo __('Reconnections on this page'); ?></dt><dd id="socketInfoReconnects">0</dd></div>
+                </dl>
+                <p class="small text-muted socket-info-disconnected"><?php echo __('Displayed totals are from the last received update.'); ?></p>
+                <details class="socket-inspector-details">
+                    <summary><?php echo __('Technical details'); ?></summary>
+                    <dl class="socket-inspector-facts">
+                        <div><dt><?php echo __('Server version'); ?></dt><dd class="webSocketServerVersion">—</dd></div>
+                        <div><dt><?php echo __('Server memory'); ?></dt><dd class="socket_mem">—</dd></div>
+                        <div><dt><?php echo __('Transport'); ?></dt><dd id="socketInfoTransport">—</dd></div>
+                    </dl>
+                    <p class="small text-muted"><?php echo __('Memory is reported by the socket server. These values do not measure video quality or your internet speed.'); ?></p>
+                </details>
+                <details class="socket-inspector-details">
+                    <summary><?php echo __('Online activity'); ?></summary>
+                    <p class="small text-muted"><?php echo __('Expand a user to see available pages. Chat and background connections are omitted from this list.'); ?></p>
+                    <div id="socketUsersURI"></div>
+                    <p class="small text-muted socket-inspector-empty"><?php echo __('No page activity to display yet.'); ?></p>
+                </details>
+                <div class="socket-inspector-actions socket-info-disconnected">
+                    <button type="button" class="btn btn-default btn-sm" id="socketInfoRetry"><?php echo __('Reconnect'); ?></button>
+                </div>
+                <?php if (User::isAdmin()) { ?>
+                    <details class="socket-inspector-details">
+                        <summary><?php echo __('Server administration'); ?></summary>
+                        <p class="small text-muted"><?php echo __('Restarting disconnects everyone briefly.'); ?></p>
+                        <div class="socket-inspector-actions">
+                            <button type="button" class="btn btn-default btn-sm" id="socketInfoCopyCommand" data-command="<?php echo htmlspecialchars('sudo ' . YPTSocket::getStartServerCommand(), ENT_QUOTES, 'UTF-8'); ?>"><?php echo __('Copy start command'); ?></button>
+                            <button type="button" class="btn btn-danger btn-sm" id="socketInfoRestart" data-confirm="<?php echo __('Restart the socket server? All connected users will reconnect.'); ?>"><i class="fas fa-power-off" aria-hidden="true"></i> <?php echo __('Restart server'); ?></button>
+                        </div>
+                    </details>
+                <?php } ?>
+            </div>
+        </section>
+        <button type="button" id="socketInfoToggle" class="socket-inspector-toggle btn btn-default" aria-expanded="false" aria-controls="socketInfoPanel" title="<?php echo __('Chat and notification connection. Click for details or drag to move.'); ?>">
+            <i class="fas fa-plug socket-inspector-indicator" aria-hidden="true"></i>
+            <span class="socket-inspector-caption">
+                <span class="socket-inspector-name"><?php echo __('Socket'); ?></span>
+                <span class="socket-inspector-summary">
+                    <span class="socket-inspector-label"><?php echo __('Connecting'); ?></span>
+                    <span id="socketInfoOnline" class="socket-inspector-online" title="<?php echo __('Site-wide users and visitors, counted by device. Multiple tabs on the same device count once per user.'); ?>" hidden>
+                        <span aria-hidden="true"> &middot; <i class="fas fa-users"></i> </span><?php echo __('Online'); ?>: <strong id="socketInfoOnlineCount">—</strong>
+                    </span>
+                </span>
+            </span>
+            <i class="fas fa-chevron-up socket-inspector-chevron" aria-hidden="true"></i>
+        </button>
+    </aside>
+    <script src="<?php echo getURL('plugin/YPTSocket/socketInfo.js'); ?>"></script>
 <?php
 }
 ?>
@@ -272,7 +102,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         if (!isEmbed()) {
         ?>
             if (!inIframe()) {
-                $('#socket_info_container').fadeIn();
+                $('#socket_info_container').removeClass('hidden');
             }
         <?php
         }

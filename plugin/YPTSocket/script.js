@@ -7,9 +7,18 @@ var socketResourceId;
 var socketConnectTimeout;
 var users_id_online = undefined;
 
-var socketConnectRetryTimeout = 15000;
+var socketConnectRetryTimeout = 2000;
 
 var connWS;
+var socket;
+var socketReady = false;
+var socketReadyTimeout;
+var socketTokenFetching = false;
+var socketTokenCallbacks = [];
+var socketSendQueue = [];
+var socketSendTimer;
+var socketSendQueueLimit = 1000;
+var socketSendLifetime = 30000;
 
 // Debug flag for socket logging - set to true to enable verbose logging
 var AVIDEO_SOCKET_DEBUG = false;
@@ -355,320 +364,243 @@ function socketConnect() {
     }
 }
 
-function socketConnectOld() {
-    if (socketConnectRequested) {
-        socketLog('Connection already requested, skipping');
-        return false;
-    }
+function socketDisposeTransport() {
+    clearTimeout(socketReadyTimeout);
+    socketReady = false;
+    const previousSocket = typeof socket !== 'undefined' ? socket : null;
+    const previousWS = connWS;
+    socket = null;
+    connWS = null;
+    if (previousSocket) previousSocket.disconnect();
+    if (previousWS && previousWS.readyState < 2) previousWS.close();
+}
+
+function socketScheduleReconnect() {
     clearTimeout(socketConnectTimeout);
+    socketConnectRequested = false;
+    socketDisposeTransport();
+    onSocketClose();
+    const delay = socketConnectRetryTimeout;
+    socketConnectRetryTimeout = Math.min(delay * 2, 60000);
+    socketConnectTimeout = setTimeout(function () {
+        socketConnectTimeout = null;
+        startSocket();
+    }, delay);
+}
 
+function socketConnectOld() {
+    if (socketConnectRequested || isSocketActive()) return false;
+    clearTimeout(socketConnectTimeout);
     if (!isOnline()) {
-        socketLog('Browser offline, retrying in 1s');
-        socketConnectRequested = 0;
-        socketConnectTimeout = setTimeout(function () {
-            socketConnect();
-        }, 1000);
+        socketScheduleReconnect();
         return false;
     }
-
-    socketConnectRequested = 1;
-    var url = addGetParam(webSocketURL, 'page_title', $('<textarea />').html($(document).find("title").text()).text());
-    socketLog('Connecting to WebSocket');
-
-    if (!isValidURL(url)) {
-        socketConnectRequested = 0;
-        socketError('Invalid WebSocket URL');
-        socketConnectTimeout = setTimeout(function () {
-            socketConnect();
-        }, 30000);
-        return false;
-    }
+    socketConnectRequested = true;
+    setSocketIconStatus('loading');
+    const url = addGetParam(webSocketURL, 'page_title', document.title);
+    let connection;
     try {
-        conn = new WebSocket(url);
+        if (!isValidURL(url)) throw new Error('Invalid WebSocket URL');
+        connection = new WebSocket(url);
+        connWS = connection;
     } catch (error) {
         socketError('WebSocket creation failed:', error.message);
-    }
-    setSocketIconStatus('loading');
-
-    connWS.onopen = function (e) {
-        socketConnectRequested = 0;
-        socketConnectRetryTimeout = 2000; // Reset retry timer
-        clearTimeout(socketConnectTimeout);
-        socketWarn('WebSocket connection established');
-        onSocketOpen();
+        socketScheduleReconnect();
         return false;
-    };
-
-    connWS.onmessage = function (e) {
-        try {
-            var json = JSON.parse(e.data);
-            socketLog('Message received');
-            socketResourceId = json.resourceId;
-            yptSocketResponse = json;
-            parseSocketResponse();
-
-            if (json.type == webSocketTypes.MSG_TO_ALL && Array.isArray(json.msg)) {
-                socketLog('Batch message received:', json.msg.length, 'messages');
-
-                if (Array.isArray(json.lastMessageToAllDurationMessages) && json.lastMessageToAllDurationMessages.length > 0) {
-                    socketLog('Force disconnect:', json.lastMessageToAllDurationMessages.length, 'users');
-                }
-
-                json.msg.forEach(function (element) {
-                    processSocketJson(element);
-                });
-            } else {
-                processSocketJson(json);
-            }
-        } catch (parseError) {
-            socketError('Error parsing socket message:', parseError.message);
-        }
-    };
-
-    connWS.onclose = function (e) {
-        socketConnectRequested = 0;
-
-        if (e.code === 1006) {
-            socketError('WebSocket closed unexpectedly (code 1006)');
-
-            // Check the WebSocket readyState to understand the closure phase
-            switch (connWS.readyState) {
-                case WebSocket.CONNECTING:
-                    socketError('Connection attempt failed (CONNECTING state)');
-                    break;
-                case WebSocket.OPEN:
-                    socketError('Unexpected close (OPEN state)');
-                    break;
-                case WebSocket.CLOSING:
-                    socketError('Error during close (CLOSING state)');
-                    break;
-                case WebSocket.CLOSED:
-                    socketError('Already closed (CLOSED state)');
-                    break;
-            }
-
-            socketLog('Retrying in', socketConnectRetryTimeout / 1000, 'seconds');
-
-            // Retry connection with exponential backoff
-            // Use startSocket() to fetch a fresh token before reconnecting;
-            // socketConnect() would reuse the stale webSocketURL/webSocketToken which expires in 12h.
-            socketConnectTimeout = setTimeout(function () {
-                socketConnectRetryTimeout = Math.min(socketConnectRetryTimeout * 2, 60000); // Increase timeout up to 1 minute
-                startSocket();
-            }, socketConnectRetryTimeout);
-
-            // Optionally, add checks for connection timeouts, SSL issues, or network connectivity
-            checkNetworkConnection();
-            checkSSLIssues(webSocketURL);
-        } else {
-            socketLog('Socket closed normally, code:', e.code);
-            // Use startSocket() to fetch a fresh token before reconnecting
-            socketConnectTimeout = setTimeout(function () {
-                startSocket();
-            }, socketConnectRetryTimeout);
-        }
-
-        onSocketClose();
-    };
-
-    function checkNetworkConnection() {
-        if (!navigator.onLine) {
-            socketError('Browser appears to be offline');
-        }
     }
-
-    function checkSSLIssues(url) {
+    socketReadyTimeout = setTimeout(function () {
+        if (connWS === connection && !socketReady) socketScheduleReconnect();
+    }, 35000);
+    connection.onopen = function () {
+        // Wait for the authenticated PHP server's first message before enabling sends.
+        if (connWS !== connection) return;
+        setSocketIconStatus('loading');
+        // Request an existing, non-mutating echo even when presence broadcasts are disabled.
         try {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url.replace('wss://', 'https://'), true);
-            xhr.onload = function () {
-                if (xhr.status !== 200) {
-                    socketError('SSL issue detected, status:', xhr.status);
-                }
-            };
-            xhr.onerror = function () {
-                socketError('SSL check failed - possible certificate issue');
-            };
-            xhr.send();
-        } catch (e) {
-            socketError('SSL check error:', e.message);
+            connection.send(JSON.stringify({ type: webSocketTypes.TESTING, msg: webSocketTypes.TESTING, webSocketToken: webSocketToken }));
+        } catch (error) {
+            socketScheduleReconnect();
         }
-    }
-
-
-    connWS.onerror = function (err) {
-        socketConnectRequested = 0;
-        socketError('WebSocket error, readyState:', err.target.readyState);
-        connWS.close();
     };
+    connection.onmessage = function (event) {
+        if (connWS !== connection) return;
+        let json;
+        try {
+            json = JSON.parse(event.data);
+        } catch (error) {
+            socketError('Invalid WebSocket response');
+            return;
+        }
+        if (!json || typeof json !== 'object') return;
+        if (json.resourceId) socketResourceId = json.resourceId;
+        yptSocketResponse = json;
+        parseSocketResponse();
+        onSocketOpen();
+        const messages = json.type === webSocketTypes.MSG_TO_ALL && Array.isArray(json.msg) ? json.msg : [json];
+        messages.forEach(socketProcessMessage);
+    };
+    connection.onclose = function () {
+        if (connWS === connection) socketScheduleReconnect();
+    };
+    connection.onerror = function () {
+        if (connWS === connection) socketScheduleReconnect();
+    };
+}
+
+function socketProcessMessage(message) {
+    if (!message || typeof message !== 'object') return;
+    try {
+        processSocketJson(message);
+        if (message.users_id) setUserOnlineStatus(message.users_id);
+    } catch (error) {
+        // One plugin callback must not prevent delivery of the rest of a batch.
+        socketError('Socket message callback failed:', error.message);
+    }
 }
 
 function socketConnectIO() {
-    if (socketConnectRequested) {
-        socketLog('Socket.IO connection already requested');
-        return false;
-    }
+    if (socketConnectRequested || isSocketActive()) return false;
     clearTimeout(socketConnectTimeout);
-
     if (!isOnline()) {
-        socketLog('Browser offline, retrying in 1s');
-        socketConnectRequested = false;
-        socketConnectTimeout = setTimeout(() => {
-            socketConnectIO();
-        }, 1000);
+        socketScheduleReconnect();
         return false;
     }
-
     socketConnectRequested = true;
-
-    const url = addGetParam(webSocketURL, "page_title", encodeURIComponent(document.title));
-    socketLog('Connecting to Socket.IO');
-
-    if (!isValidURL(url)) {
-        socketConnectRequested = false;
-        socketError('Invalid Socket.IO URL');
-        socketConnectTimeout = setTimeout(() => {
-            socketConnectIO();
-        }, 30000);
-        return false;
-    }
-
+    setSocketIconStatus('loading');
+    const url = addGetParam(webSocketURL, 'page_title', encodeURIComponent(document.title));
+    let connection;
     try {
-        socket = io(url, {
-            transports: ["websocket"],
-            timeout: 10000, // 5 seconds timeout
-            pingTimeout: 60000,
-            pingInterval: 25000,
-            // Disable internal reconnector so we always fetch a fresh token
-            // via startSocket() on disconnect, preventing stale/expired token reuse.
-            reconnection: false
-        });
+        if (!isValidURL(url)) throw new Error('Invalid Socket.IO URL');
+        connection = io(url, { transports: ['websocket'], timeout: 10000, reconnection: false });
+        socket = connection;
     } catch (error) {
         socketError('Socket.IO initialization failed:', error.message);
+        socketScheduleReconnect();
+        return false;
     }
-
-    setSocketIconStatus("loading");
-
-    socket.on("connect", () => {
-        socketConnectRequested = false;
-        socketConnectRetryTimeout = 2000; // Reset retry timer
-        clearTimeout(socketConnectTimeout);
-        socketWarn('Socket.IO connection established');
-        onSocketOpen();
+    socketReadyTimeout = setTimeout(function () {
+        if (socket === connection && !socketReady) socketScheduleReconnect();
+    }, 35000);
+    connection.on('connect', function () {
+        if (socket !== connection) return;
+        socketResourceId = connection.id;
+        // Socket.IO transport connected; PHP authentication is still pending.
+        setSocketIconStatus('loading');
     });
-
-    socket.on("message", (data) => {
-        if (data.type == webSocketTypes.MSG_BATCH && data.messages.length > 0) {
-            socketResourceId = data.resourceId;
+    connection.on('yptReady', function () {
+        if (socket === connection) onSocketOpen();
+    });
+    connection.on('message', function (data) {
+        if (socket !== connection || !data || typeof data !== 'object') return;
+        // Older Node servers confirm authentication by their first delivered message.
+        onSocketOpen();
+        if (data.type === webSocketTypes.MSG_BATCH) {
             yptSocketResponse = data;
             parseSocketResponse();
-
-            if (data.autoUpdateOnHTML) {
-                socketAutoUpdateOnHTML(data.autoUpdateOnHTML);
-            }
-            // console.log("📩 Socket.IO message received MSG_BATCH:", data);
-            data.messages.forEach(function (message, index) {
-                processSocketJson(message);
-                if(message.users_id){
-                    setUserOnlineStatus(message.users_id);
-                }
-            });
+            if (Array.isArray(data.messages)) data.messages.forEach(socketProcessMessage);
         } else {
-            socketLog('Message received');
-            processSocketJson(data);
+            if (data.users_id_online !== undefined) socketApplyOnlineUsers(data.users_id_online);
+            socketProcessMessage(data);
         }
     });
-
-    socket.on("broadcast", (data) => {
-        socketLog('Broadcast received');
-        processSocketJson(data);
+    connection.on('broadcast', function (data) {
+        if (socket !== connection) return;
+        onSocketOpen();
+        socketProcessMessage(data);
     });
-
-    socket.on("disconnect", (reason) => {
+    connection.on('disconnect', function (reason) {
+        if (socket !== connection) return;
         socketError('Disconnected:', reason);
-        socketConnectRequested = false;
-
-        // For all non-intentional disconnects, fetch a fresh token before reconnecting.
-        // socket.connect() / Socket.IO internal reconnector reuses the original URL with
-        // the old token, which will fail after the 12-hour token expiry.
-        if (reason !== "io client disconnect") {
-            socketConnectTimeout = setTimeout(function () {
-                startSocket();
-            }, socketConnectRetryTimeout);
+        if (reason === 'io client disconnect') {
+            socketConnectRequested = false;
+            onSocketClose();
+        } else {
+            socketScheduleReconnect();
         }
-
-        onSocketClose();
     });
-
-    socket.on("connect_error", (err) => {
-        socketError('Connection error:', err.message || err);
+    connection.on('connect_error', function (error) {
+        if (socket !== connection) return;
+        socketError('Connection error:', error.message);
+        socketScheduleReconnect();
     });
-
-    socket.on("connect_timeout", () => {
-        socketError('Connection timeout, retrying...');
+    connection.on('error', function () {
+        if (socket === connection) socketError('Socket server reported a message or validation error');
     });
-
 }
 
-/**
- * Fetches a fresh webSocketToken (and URL) from the server.
- * @param {function(response)} onSuccess  Called with the response when successful.
- * @param {function}           onFail     Called on server error or network failure.
- */
+/** Share one bounded token request between reconnect and proactive refresh. */
 function fetchWebSocketToken(onSuccess, onFail) {
-    var url = webSiteRootURL + 'plugin/YPTSocket/getWebSocket.json.php';
+    socketTokenCallbacks.push({ onSuccess: onSuccess, onFail: onFail });
+    if (socketTokenFetching) return;
+    socketTokenFetching = true;
+    let url = webSiteRootURL + 'plugin/YPTSocket/getWebSocket.json.php';
     url = addGetParam(url, 'webSocketSelfURI', webSocketSelfURI);
     url = addGetParam(url, 'webSocketVideos_id', webSocketVideos_id);
     url = addGetParam(url, 'webSocketLiveKey', webSocketLiveKey);
+    function finish(response, error) {
+        socketTokenFetching = false;
+        const callbacks = socketTokenCallbacks.splice(0);
+        callbacks.forEach(function (pending) {
+            const callback = error ? pending.onFail : pending.onSuccess;
+            if (typeof callback === 'function') callback(error || response);
+        });
+    }
     $.ajax({
         url: url,
+        dataType: 'json',
+        timeout: 10000,
         success: function (response) {
-            if (response.error) {
-                if (typeof onFail === 'function') onFail(response.msg);
-            } else {
-                webSocketToken = response.webSocketToken;
-                webSocketURL = response.webSocketURL;
-                if (typeof onSuccess === 'function') onSuccess(response);
+            if (!response || response.error || typeof response.webSocketToken !== 'string' || !response.webSocketToken || typeof response.webSocketURL !== 'string' || !response.webSocketURL) {
+                finish(null, 'Socket configuration unavailable');
+                return;
             }
+            webSocketToken = response.webSocketToken;
+            webSocketURL = response.webSocketURL;
+            finish(response);
         },
-        error: function () {
-            if (typeof onFail === 'function') onFail('network error');
-        }
+        error: function () { finish(null, 'Socket configuration request failed'); }
     });
 }
 
 function attemptTokenRefresh() {
     fetchWebSocketToken(
+        function () { if (socketReady) scheduleTokenRefresh(); },
         function () {
-            socketLog('WebSocket token refreshed proactively');
-            scheduleTokenRefresh(); // success: schedule next refresh in 11h
-        },
-        function (reason) {
-            // Failure: retry the fetch itself in 30 min (NOT scheduleTokenRefresh,
-            // which would add another 11h on top — the token may already be expired).
-            socketError('Token refresh failed (' + reason + '), retrying in 30 min');
-            tokenRefreshTimeout = setTimeout(attemptTokenRefresh, 30 * 60 * 1000);
+            if (socketReady) tokenRefreshTimeout = setTimeout(attemptTokenRefresh, 30 * 60 * 1000);
         }
     );
 }
 
 function scheduleTokenRefresh() {
     clearTimeout(tokenRefreshTimeout);
-    // Refresh the token 1 hour before the 12-hour expiry so in-flight messages
-    // always carry a valid token, even for long-lived connections.
     tokenRefreshTimeout = setTimeout(attemptTokenRefresh, 11 * 60 * 60 * 1000);
 }
 
 function onSocketOpen() {
+    if (socketReady) return;
+    socketReady = true;
+    socketConnectRequested = false;
+    socketConnectRetryTimeout = 2000;
+    clearTimeout(socketConnectTimeout);
+    clearTimeout(socketReadyTimeout);
     setSocketIconStatus('connected');
+    scheduleTokenRefresh();
+    socketFlushSendQueue();
+    document.dispatchEvent(new CustomEvent('YPTSocketReady'));
 }
 
 function onSocketClose() {
+    socketReady = false;
+    socketResourceId = undefined;
+    clearTimeout(socketReadyTimeout);
     clearTimeout(tokenRefreshTimeout);
     setSocketIconStatus('disconnected');
+    socketApplyOnlineUsers([]);
 }
 
+
 function setSocketIconStatus(status) {
+    if (typeof socketInfoSetStatus === 'function') socketInfoSetStatus(status);
     var selector = '.socket_info';
     if (status == 'connected') {
         $(selector).removeClass('socket_loading');
@@ -686,39 +618,83 @@ function setSocketIconStatus(status) {
 }
 
 function sendSocketMessageToAll(msg, callback) {
-    sendSocketMessageToUser(msg, callback, "");
+    return sendSocketMessageToUser(msg, callback, "");
 }
 
 function sendSocketMessageToNone(msg, callback) {
-    sendSocketMessageToUser(msg, callback, -1);
+    return sendSocketMessageToUser(msg, callback, -1);
 }
 
 function sendSocketMessage(payload) {
-    if (useSocketIO) {
-        if (typeof socket !== 'undefined' && socket.connected) {
-            socket.emit('message', payload);
-        } else {
-            setTimeout(() => sendSocketMessage(payload), 1000);
+    if (!payload || typeof payload !== 'object') return false;
+    socketPruneSendQueue();
+    if (socketSendQueue.length >= socketSendQueueLimit) {
+        socketReportSendFailure('queue_full', 1);
+        return false;
+    }
+    let snapshot;
+    try {
+        // Snapshot now, as the old immediate send did. Callers may reuse/mutate msg.
+        snapshot = JSON.parse(JSON.stringify({ ...payload, webSocketToken: undefined }));
+    } catch (error) {
+        socketReportSendFailure('invalid_payload', 1);
+        return false;
+    }
+    // The token is filled when sending, after any refresh/reconnection.
+    socketSendQueue.push({ payload: snapshot, expires: Date.now() + socketSendLifetime });
+    if (!socketSendTimer) socketSendTimer = setTimeout(socketFlushSendQueue, 0);
+    return true;
+}
+
+function socketReportSendFailure(reason, count) {
+    socketError('Outgoing socket messages not sent:', reason, count);
+    document.dispatchEvent(new CustomEvent('YPTSocketSendError', { detail: { reason: reason, count: count } }));
+}
+
+function socketPruneSendQueue() {
+    let expired = 0;
+    while (socketSendQueue.length && socketSendQueue[0].expires <= Date.now()) {
+        socketSendQueue.shift();
+        expired++;
+    }
+    if (expired) socketReportSendFailure('expired', expired);
+}
+
+function socketFlushSendQueue() {
+    clearTimeout(socketSendTimer);
+    socketSendTimer = null;
+    socketPruneSendQueue();
+    let sent = 0;
+    while (socketSendQueue.length && isSocketActive() && sent < 32) {
+        const item = socketSendQueue.shift();
+        const payload = { ...item.payload, webSocketToken: webSocketToken };
+        try {
+            if (useSocketIO) socket.emit('message', payload);
+            else connWS.send(JSON.stringify(payload));
+        } catch (error) {
+            // A send may already have reached the peer: never replay it automatically.
+            socketReportSendFailure('send_failed', 1);
+            socketScheduleReconnect();
+            break;
         }
-    } else {
-        if (connWS && connWS.readyState === 1) {
-            connWS.send(JSON.stringify(payload));
-        } else {
-            setTimeout(() => sendSocketMessage(payload), 1000);
-        }
+        sent++;
+    }
+    if (socketSendQueue.length) {
+        const delay = isSocketActive() ? 25 : Math.max(1, socketSendQueue[0].expires - Date.now());
+        socketSendTimer = setTimeout(socketFlushSendQueue, delay);
     }
 }
 
 function sendSocketMessageToUser(msg, callback, to_users_id) {
-    sendSocketMessage({ msg, webSocketToken, callback, to_users_id });
+    return sendSocketMessage({ msg, webSocketToken, callback, to_users_id });
 }
 
 function sendSocketMessageToResourceId(msg, callback, resourceId) {
-    sendSocketMessage({ msg, webSocketToken, callback, resourceId });
+    return sendSocketMessage({ msg, webSocketToken, callback, resourceId });
 }
 
 function isSocketActive() {
-    return isOnline() && ((typeof conn != 'undefined' && connWS.readyState === 1) || (typeof socket != 'undefined' && socket.connected));
+    return isOnline() && socketReady && (useSocketIO ? !!(socket && socket.connected) : !!(connWS && connWS.readyState === 1));
 }
 
 function defaultCallback(json) {
@@ -728,6 +704,7 @@ function defaultCallback(json) {
 var socketAutoUpdateOnHTMLTimout;
 var globalAutoUpdateOnHTML = [];
 function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
+    if (typeof socketInfoRecordUpdate === 'function') socketInfoRecordUpdate(autoUpdateOnHTML);
     for (var prop in autoUpdateOnHTML) {
         if (autoUpdateOnHTML[prop] === false) {
             continue;
@@ -796,7 +773,7 @@ async function parseSocketResponse() {
     }
 
     if (typeof json.users_id_online !== 'undefined') {
-        users_id_online = json.users_id_online;
+        socketApplyOnlineUsers(json.users_id_online);
     }
 
     if (typeof json.autoUpdateOnHTML !== 'undefined') {
@@ -818,7 +795,7 @@ async function parseSocketResponse() {
     const ignoreURI = ['latestOrLive.php', 'plugin/Chat2'];
     const validAnchorHrefs = new Set();
 
-    if (json && $('#socket_info_container').length) {
+    if (json && (json.users_uri || json.users_id_online) && $('#socket_info_container').length) {
         if (typeof json.users_uri !== 'undefined') {
             for (const group in json.users_uri) {
                 const groupData = json.users_uri[group];
@@ -836,7 +813,7 @@ async function parseSocketResponse() {
                         const resourceId = userData.resourceId;
                         if (!selfURI || !resourceId || ignoreURI.some(uri => selfURI.includes(uri))) continue;
                         //console.log('updateSocketUserCard', userData, json);
-                        updateSocketUserCard(userData, json.ResourceID, validAnchorHrefs, 'a1');
+                        updateSocketUserCard(userData, socketResourceId, validAnchorHrefs, 'a1');
                     }
                 }
             }
@@ -851,7 +828,7 @@ async function parseSocketResponse() {
                 const resourceId = element.resourceId;
                 if (!selfURI || !resourceId || ignoreURI.some(uri => selfURI.includes(uri))) continue;
 
-                updateSocketUserCard(element, json.ResourceID, validAnchorHrefs, 'a2');
+                updateSocketUserCard(element, socketResourceId, validAnchorHrefs, 'a2');
             }
         }
 
@@ -955,17 +932,22 @@ function socketDisconnection(json) {
 }
 
 function setInitialOnlineStatus() {
-    if (!isReadyToCheckIfIsOnline()) {
-        setTimeout(function () {
-            setInitialOnlineStatus();
-        }, 1000);
-        return false;
-    }
-
-    for (var users_id in users_id_online) {
-        setUserOnlineStatus(users_id);
-    }
+    if (typeof users_id_online === 'undefined') return false;
+    socketOnlineUserIds(users_id_online).forEach(setUserOnlineStatus);
     return true;
+}
+
+function socketOnlineUserIds(users) {
+    if (!users || typeof users !== 'object') return [];
+    const ids = Array.isArray(users) ? users.map(user => user && typeof user === 'object' ? user.users_id : user) : Object.keys(users);
+    return [...new Set(ids.map(Number).filter(id => Number.isSafeInteger(id) && id >= 0))];
+}
+
+function socketApplyOnlineUsers(users) {
+    if (!users || typeof users !== 'object') return;
+    const previous = socketOnlineUserIds(users_id_online);
+    users_id_online = users;
+    new Set([...previous, ...socketOnlineUserIds(users)]).forEach(setUserOnlineStatus);
 }
 
 function setUserOnlineStatus(users_id) {
@@ -982,32 +964,29 @@ $(async function () {
     await startSocket();
     AutoUpdateOnHTMLTimer();
 });
-var _startSocketTimeout;
 async function startSocket() {
     if(typeof webSocketURL === 'undefined') {
         console.debug('startSocket: webSocketURL is empty or undefined');
         return false;
     }
-    console.debug('startSocket');
-    clearTimeout(_startSocketTimeout);
+    if (socketConnectRequested || isSocketActive()) return false;
+    clearTimeout(socketConnectTimeout);
     if (!isOnline() || typeof webSiteRootURL == 'undefined') {
         //console.log('startSocket: Not Online');
-        _startSocketTimeout = setTimeout(async function () {
-            await startSocket();
-        }, 10000);
+        socketScheduleReconnect();
         return false;
     }
+    socketConnectRequested = true;
+    setSocketIconStatus('loading');
     ////console.log('Getting webSocketToken ...');
     fetchWebSocketToken(
         function () {
-            scheduleTokenRefresh();
+            socketConnectRequested = false;
             socketConnect();
         },
         function (reason) {
-            //console.log('Getting webSocketToken ERROR ' + reason);
-            if (typeof avideoToastError == 'function') {
-                avideoToastError(reason);
-            }
+            socketError(reason);
+            socketScheduleReconnect();
         }
     );
     if (inIframe()) {

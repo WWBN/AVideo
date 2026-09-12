@@ -1,0 +1,128 @@
+/* Also override cached positioning from older inline versions of this widget. */
+#socket_info_container.socket-inspector {
+    position: fixed;
+    top: auto;
+    right: auto;
+    height: auto;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    transition: none;
+    left: max(12px, env(safe-area-inset-left));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    z-index: 1025;
+    max-width: calc(100vw - 24px);
+    font-size: 13px;
+    color: inherit;
+    line-height: 1.45;
+    pointer-events: none;
+}
+#socket_info_container.socket-inspector-right {
+    left: auto;
+    right: max(12px, env(safe-area-inset-right));
+}
+#socket_info_container.socket-inspector:hover {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+.socket-inspector-toggle {
+    max-width: calc(100vw - 24px);
+    display: flex;
+    align-items: center;
+    gap: .6em;
+    min-height: 40px;
+    padding: .55em .85em;
+    border-radius: 2em;
+    box-shadow: 0 2px 8px var(--socket-info-shadow, rgba(0, 0, 0, .12));
+    pointer-events: auto;
+    opacity: 1;
+    transition: opacity .2s ease, box-shadow .2s ease;
+}
+.socket-inspector.socketMinimized:not(:hover):not(:focus-within):not(.ui-draggable-dragging) .socket-inspector-toggle {
+    opacity: .3;
+    box-shadow: none;
+}
+.socket-inspector-caption { display: flex; flex-direction: column; text-align: left; line-height: 1.25; white-space: normal; }
+.socket-inspector-name { font-weight: 600; }
+.socket-inspector-summary { display: flex; flex-wrap: wrap; column-gap: .35em; font-size: .85em; opacity: .85; }
+.socket-inspector-online { white-space: nowrap; }
+.socket-inspector-online[hidden] { display: none; }
+#socketInfoOnlineCount { font-variant-numeric: tabular-nums; }
+.socket-inspector-right .socket-inspector-toggle { margin-left: auto; }
+.socket-inspector-indicator { color: var(--socket-info-pending, #996700); }
+.socket_connected .socket-inspector-indicator { color: var(--socket-info-connected, #27945b); }
+.socket_disconnected .socket-inspector-indicator { color: var(--socket-info-disconnected, #ce554d); }
+.socket-inspector:not(.socketMinimized) .socket-inspector-chevron { transform: rotate(180deg); }
+.socket-inspector .socket-inspector-panel {
+    position: static;
+    height: auto;
+    width: min(26em, calc(100vw - 24px));
+    margin: 0 0 8px;
+    border-radius: .8em;
+    box-shadow: 0 8px 28px var(--socket-info-shadow, rgba(0, 0, 0, .12));
+    overflow: hidden;
+    pointer-events: auto;
+}
+.socket-inspector-panel[hidden] { display: none; }
+.socket-inspector .socket-inspector-heading {
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+}
+.socket-inspector-heading .btn { min-width: 32px; min-height: 32px; }
+.socket-inspector.ui-draggable .socket-inspector-heading,
+.socket-inspector.ui-draggable .socket-inspector-toggle { cursor: grab; }
+.socket-inspector.ui-draggable-dragging .socket-inspector-heading,
+.socket-inspector.ui-draggable-dragging .socket-inspector-toggle { cursor: grabbing; }
+.socket-inspector .socket-inspector-body {
+    position: static;
+    height: auto;
+    width: auto;
+    max-height: 65vh;
+    max-height: min(65vh, calc(100dvh - 130px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+.socket-inspector-status { font-weight: 600; margin-bottom: .3em; }
+.socket-inspector .text-muted { color: inherit; opacity: .85; }
+#socket_info_container.socket-inspector div { color: inherit; }
+.socket-inspector-metrics { display: flex; gap: .75em; }
+.socket-inspector-metrics .well { flex: 1; min-width: 0; margin-bottom: .6em; }
+.socket-inspector-metrics strong { display: block; font-size: 1.6em; font-variant-numeric: tabular-nums; }
+.socket-inspector-metrics span { display: block; font-size: .85em; }
+.socket-inspector-facts { margin: 1em 0; }
+.socket-inspector-facts > div { display: flex; justify-content: space-between; gap: 1em; margin: .5em 0; }
+.socket-inspector-facts dt { font-weight: normal; }
+.socket-inspector-facts dd { text-align: right; margin: 0; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.socket-inspector-details { border-top: 1px solid var(--socket-info-divider, rgba(127, 127, 127, .25)); padding: .75em 0; }
+.socket-inspector-details summary { display: list-item; cursor: pointer; padding: .35em 0; margin-left: 1.1em; font-weight: 600; }
+.socket-inspector-details[open] summary { margin-bottom: .6em; }
+.socket-inspector-actions { display: flex; flex-wrap: wrap; gap: .5em; margin-top: .75em; }
+.socket-inspector .socket-info-connected,
+.socket-inspector .socket-info-disconnected,
+.socket-inspector.socket_connected .socket-info-loading,
+.socket-inspector.socket_disconnected .socket-info-loading { display: none; }
+.socket-inspector.socket_connected .socket-info-connected,
+.socket-inspector.socket_disconnected .socket-info-disconnected { display: block; }
+.socket-inspector .socketUserName { cursor: pointer; padding: .5em 0; font-weight: 600; }
+.socket-inspector .socketUserPages,
+.socket-inspector .socketUserDiv .fa-caret-up,
+.socket-inspector .socketUserDiv.visible .fa-caret-down { display: none; }
+.socket-inspector .socketUserDiv.visible .socketUserPages { display: block; }
+.socket-inspector .socketUserDiv.visible .fa-caret-up { display: inline; }
+.socket-inspector .socketUserPages a { white-space: normal; overflow-wrap: anywhere; text-align: left; }
+#socketUsersURI:not(:empty) + .socket-inspector-empty { display: none; }
+.modal-open .socket-inspector,
+.socket-inspector.socket-inspector-suspended { visibility: hidden; pointer-events: none; }
+@media (max-width: 767px) {
+    .socket-inspector-toggle { min-height: 44px; }
+    .socket-inspector.socketMinimized .socket-inspector-chevron { display: none; }
+    .socket-inspector .socket-inspector-body { max-height: min(60vh, calc(100dvh - 130px)); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .socket-inspector-toggle { transition: none; }
+}
+@media print { .socket-inspector { display: none; } }
