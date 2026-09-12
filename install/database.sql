@@ -107,6 +107,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `suggested` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_categories_users1_idx` (`users_id` ASC),
+  INDEX `category_parent_idx` (`parentId` ASC),
   INDEX `clean_name_INDEX2` (`clean_name` ASC),
   INDEX `sortcategoryOrderIndex` (`order` ASC),
   INDEX `category_name_idx` (`name` ASC),

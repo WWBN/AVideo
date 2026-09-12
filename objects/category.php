@@ -149,6 +149,12 @@ class Category
             return false;
         }
 
+        $oldParentId = 0;
+        if (!empty($this->id)) {
+            $oldCategory = self::getCategory($this->id);
+            $oldParentId = empty($oldCategory) ? 0 : intval($oldCategory['parentId']);
+        }
+
         if (empty($this->users_id)) {
             $this->users_id = User::getId();
         }
@@ -203,6 +209,8 @@ class Category
             // delete the select
             $cacheHandler = new CategoryCacheHandler(0);
             $cacheHandler->deleteCache();
+            self::clearCountCacheChain($oldParentId);
+            self::clearCountCacheChain($this->parentId);
             self::deleteOGImage($id);
             return $id;
         } else {
@@ -368,6 +376,27 @@ class Category
         //_error_log("deleteCategoryCache: {$cacheDir} = " . json_encode($rrmdir));
     }
 
+    private static function getCountCacheSuffix($suffix, $getAllVideos = false)
+    {
+        $visibilitySql = $getAllVideos ? '' : Video::getUserGroupsCanSeeSQL();
+        return $suffix . '_u' . User::getId()
+            . '_m' . intval(Permissions::canModerateVideos())
+            . '_v' . md5($visibilitySql);
+    }
+
+    public static function clearCountCacheChain($categories_id)
+    {
+        $visited = [];
+        $categories_id = intval($categories_id);
+        while ($categories_id > 0 && empty($visited[$categories_id])) {
+            $visited[$categories_id] = true;
+            $cacheHandler = new CategoryCacheHandler($categories_id);
+            $cacheHandler->deleteCache();
+            $category = self::getCategory($categories_id);
+            $categories_id = empty($category) ? 0 : intval($category['parentId']);
+        }
+    }
+
     public static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false, $hideNegativeOrder = false, $showRestrictedCategories = false)
     {
         global $global, $config;
@@ -413,25 +442,23 @@ class Category
         }
 
         if ($onlyWithVideos) {
-            $sql .= " AND ((SELECT count(*) FROM videos v where 1=1 ";
-            if (isForKidsSet()) {
-                $sql .= " AND v.made_for_kids = 1 ";
-            }
-            $sql .= " AND v.categories_id = c.id OR categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id)) > 0  ";
+            $kidsFilter = isForKidsSet() ? " AND v.made_for_kids = 1 " : "";
+            $sql .= " AND ("
+                . "EXISTS (SELECT 1 FROM videos v WHERE v.categories_id = c.id {$kidsFilter})"
+                . " OR EXISTS (SELECT 1 FROM videos v INNER JOIN categories child ON child.id = v.categories_id "
+                . "WHERE child.parentId = c.id AND child.id != c.id {$kidsFilter})";
             if (AVideoPlugin::isEnabledByName("Live")) {
                 $sql .= " OR "
-                    . " ("
-                    . " SELECT count(*) FROM live_transmitions lt where "
-                    . " (lt.categories_id = c.id OR lt.categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id))"
+                    . " EXISTS (SELECT 1 FROM live_transmitions lt WHERE lt.categories_id = c.id)"
+                    . " OR EXISTS (SELECT 1 FROM live_transmitions lt INNER JOIN categories child ON child.id = lt.categories_id "
+                    . "WHERE child.parentId = c.id AND child.id != c.id)";
                     //. " AND lt.id = (select id FROM live_transmitions lt2 WHERE lt.users_id = lt2.users_id ORDER BY CREATED DESC LIMIT 1 )"
-                    . " ) > 0  ";
             }
             if (AVideoPlugin::isEnabledByName("LiveLinks")) {
                 $sql .= " OR "
-                    . " ("
-                    . " SELECT count(*) FROM LiveLinks ll where "
-                    . " (ll.categories_id = c.id OR ll.categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id))"
-                    . " ) > 0  ";
+                    . " EXISTS (SELECT 1 FROM LiveLinks ll WHERE ll.categories_id = c.id)"
+                    . " OR EXISTS (SELECT 1 FROM LiveLinks ll INNER JOIN categories child ON child.id = ll.categories_id "
+                    . "WHERE child.parentId = c.id AND child.id != c.id)";
             }
             $sql .= ")";
         }
@@ -482,7 +509,8 @@ class Category
         }
 
         $timeLogName = TimeLogStart("getAllCategories");
-        $cacheSuffix = md5($sql . '_r' . intval($showRestrictedCategories));
+        $cacheContext = self::getCountCacheSuffix('', false);
+        $cacheSuffix = md5($sql . '_r' . intval($showRestrictedCategories) . $cacheContext);
         $cacheHandler = new CategoryCacheHandler(0);
         $cacheObj = $cacheHandler->getCache($cacheSuffix, 36000);
         TimeLogEnd($timeLogName, __LINE__);
@@ -502,7 +530,7 @@ class Category
 
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     TimeLogEnd($timeLogName, __LINE__);
-                    $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
+                    $fullTotals = self::getTotalFromCategory($row['id'], false, true);
                     if ($showRestrictedCategories) {
                         // Count all active videos regardless of user-group restrictions so that
                         // categories with restricted-only content still appear in the menu/API.
@@ -717,7 +745,7 @@ class Category
     public static function getTotalFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false)
     {
         global $global;
-        $cacheSuffix = "getTotalFromCategory_{$categories_id}_" . intval($showUnlisted) . intval($getAllVideos);
+        $cacheSuffix = self::getCountCacheSuffix("getTotalFromCategory_{$categories_id}_" . intval($showUnlisted) . intval($getAllVideos), $getAllVideos);
         if (isset($global[$cacheSuffix])) {
             return $global[$cacheSuffix];
         }
@@ -828,7 +856,7 @@ class Category
         global $global, $config;
         $cacheHandler = new CategoryCacheHandler($categories_id);
 
-        $suffix = "totalVideos_" . intval($showUnlisted) . "_" . intval($getAllVideos);
+        $suffix = self::getCountCacheSuffix("totalVideos_" . intval($showUnlisted) . "_" . intval($getAllVideos), $getAllVideos);
 
         $timeLogName = TimeLogStart($suffix);
         $total = $cacheHandler->getCache($suffix);
@@ -1019,28 +1047,26 @@ class Category
             }
         }
         if (!empty($_GET['parentsOnly'])) {
-            $sql .= "AND parentId = 0 OR parentId = -1 ";
+            $sql .= "AND (parentId = 0 OR parentId = -1) ";
         }
         if ($onlyWithVideos) {
-            $sql .= " AND ((SELECT count(*) FROM videos v where 1=1 ";
-            if (isForKidsSet()) {
-                $sql .= " AND v.made_for_kids = 1 ";
-            }
-            $sql .= " AND v.categories_id = c.id OR categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id) ) > 0  ";
+            $kidsFilter = isForKidsSet() ? " AND v.made_for_kids = 1 " : "";
+            $sql .= " AND ("
+                . "EXISTS (SELECT 1 FROM videos v WHERE v.categories_id = c.id {$kidsFilter})"
+                . " OR EXISTS (SELECT 1 FROM videos v INNER JOIN categories child ON child.id = v.categories_id "
+                . "WHERE child.parentId = c.id AND child.id != c.id {$kidsFilter})";
             if (AVideoPlugin::isEnabledByName("Live")) {
                 $sql .= " OR "
-                    . " ("
-                    . " SELECT count(*) FROM live_transmitions lt where "
-                    . " (lt.categories_id = c.id OR lt.categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id))"
+                    . " EXISTS (SELECT 1 FROM live_transmitions lt WHERE lt.categories_id = c.id)"
+                    . " OR EXISTS (SELECT 1 FROM live_transmitions lt INNER JOIN categories child ON child.id = lt.categories_id "
+                    . "WHERE child.parentId = c.id AND child.id != c.id)";
                     //. " AND lt.id = (select id FROM live_transmitions lt2 WHERE lt.users_id = lt2.users_id ORDER BY CREATED DESC LIMIT 1 )"
-                    . " ) > 0  ";
             }
             if (AVideoPlugin::isEnabledByName("LiveLinks")) {
                 $sql .= " OR "
-                    . " ("
-                    . " SELECT count(*) FROM LiveLinks ll where "
-                    . " (ll.categories_id = c.id OR ll.categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id))"
-                    . " ) > 0  ";
+                    . " EXISTS (SELECT 1 FROM LiveLinks ll WHERE ll.categories_id = c.id)"
+                    . " OR EXISTS (SELECT 1 FROM LiveLinks ll INNER JOIN categories child ON child.id = ll.categories_id "
+                    . "WHERE child.parentId = c.id AND child.id != c.id)";
             }
             $sql .= ")";
         }

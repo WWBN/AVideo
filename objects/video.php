@@ -790,10 +790,8 @@ if (!class_exists('Video')) {
 
                 // I am not sure what is it for
                 if ($this->categoryWasChanged) {
-                    $cacheHandler = new CategoryCacheHandler($this->categories_id);
-                    $cacheHandler->deleteCache();
-                    $cacheHandler = new CategoryCacheHandler($this->old_categories_id);
-                    $cacheHandler->deleteCache();
+                    Category::clearCountCacheChain($this->categories_id);
+                    Category::clearCountCacheChain($this->old_categories_id);
                     // delete the select
                     $cacheHandler = new CategoryCacheHandler(0);
                     $cacheHandler->deleteCache();

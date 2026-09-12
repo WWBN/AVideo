@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `LiveLinks` (
   `isRebroadcast` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_LiveLinks_users_idx` (`users_id` ASC),
+  INDEX `fk_livelinks_categories1_idx` (`categories_id` ASC),
   CONSTRAINT `fk_LiveLinks_users2`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
