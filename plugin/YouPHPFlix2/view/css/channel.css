@@ -24,6 +24,11 @@
     gap: 8px;
     margin-bottom: 12px;
 }
+.channel-layout .channel-actions .btn {
+    min-height: 34px;
+    padding: 7px 12px;
+    border-radius: 6px;
+}
 .channel-layout #aboutArea { margin-bottom: 20px; overflow-wrap: anywhere; }
 .channel-layout #aboutAreaPreContent { max-width: 100%; overflow-x: auto; }
 .channel-layout .tabbable-line > .nav-tabs {
@@ -52,13 +57,69 @@
     white-space: nowrap;
 }
 .channel-layout .tabbable-line > .tab-content { margin-top: 0; padding-top: 0; }
-#channelHome .flix-catalog { border-radius: 6px; }
-#channelHome .flix-hero { min-height: clamp(360px, 34vw, 560px); }
-#channelHome .flix-hero .posterDetails { padding-top: 40px; }
+#channelHome .flix-catalog {
+    --flix-gutter: clamp(16px, 2.4vw, 36px);
+    --flix-radius: 10px;
+    --flix-card-width: clamp(180px, 19vw, 280px);
+    border-radius: var(--flix-radius);
+}
+#channelHome .flix-hero {
+    min-height: 320px;
+    margin-top: 20px;
+    overflow: hidden;
+    border-radius: var(--flix-radius);
+    background-color: var(--flix-surface);
+    background-size: 56% auto;
+    background-position: right center;
+    background-repeat: no-repeat;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 10%, transparent);
+}
+#channelHome .flix-hero .posterDetails {
+    padding: 36px var(--flix-gutter);
+    background: linear-gradient(to right, var(--flix-surface) 44%, transparent 80%);
+}
+#channelHome .flix-hero .infoTitle {
+    max-width: 48%;
+    margin-bottom: 16px;
+    font-size: clamp(24px, 2.2vw, 36px);
+    line-height: 1.18;
+    letter-spacing: -.02em;
+}
+#channelHome .flix-hero .infoDetails { max-width: 48%; }
+/* The hero already shows this landscape artwork; keep portraits and ad columns. */
+#channelHome .flix-hero .flix-poster-preview:has(.thumbsImage) { display: none; }
+#channelHome .flix-hero .posterDetails > .row { margin-top: 16px; }
+#channelHome .flix-hero .posterDetails > .row.hidden-xs { margin-top: 0; }
+#channelHome #carouselRows { padding: 8px 0 20px; }
+#channelHome #carouselRows .topicRow { margin-top: 24px; }
+#channelHome #carouselRows h2 {
+    margin: 0 0 16px;
+    font-size: clamp(18px, 1.5vw, 24px);
+}
+#channelHome .flix-carousel { margin-bottom: 24px; }
+#channelHome .flix-carousel .tile__media h4 { font-weight: 600; }
+#channelHome .flix-carousel .flickity-prev-next-button {
+    width: 36px;
+    height: 48px;
+    border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+}
+#channelHome .flix-carousel .flickity-prev-next-button.previous { left: 8px; }
+#channelHome .flix-carousel .flickity-prev-next-button.next { right: 8px; }
 #channelHome .modeFlixContainer { padding: 0; }
 #channelHome #bigVideoCarousel { height: auto; }
 @media (max-width: 767px) {
     .channel-layout .channel-actions { float: none !important; }
     .channel-layout .channel-actions .btn { min-height: 36px; }
-    #channelHome .flix-hero .posterDetails { padding-top: 72px; }
+    #channelHome .flix-hero {
+        min-height: 0;
+        background-size: 100% auto;
+        background-position: center top;
+    }
+    #channelHome .flix-hero .posterDetails {
+        padding: clamp(180px, 50vw, 300px) 20px 24px;
+        background: linear-gradient(to top, var(--flix-surface) 40%, transparent 90%);
+    }
+    #channelHome .flix-hero .infoTitle,
+    #channelHome .flix-hero .infoDetails { max-width: 100%; }
+    #channelHome .flix-hero .posterDetails .btn { padding: 10px 12px; }
 }
