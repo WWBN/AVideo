@@ -2100,6 +2100,16 @@ body.ypt-is-compressed #videoCol {
     border: 2px solid grey;
 }
 
+/* Dependency descriptions must remain readable in both light and dark themes. */
+.pluginDependencyStatus.text-muted,
+.pluginDependencyRequiredList.text-muted,
+.pluginDependencyOptionalList.text-muted,
+.pluginDependencyStatus .text-muted,
+.pluginDependencyRequiredList .text-muted,
+.pluginDependencyOptionalList .text-muted {
+    color: inherit;
+}
+
 #topMenuUserNotifications,
 .webui-popover-content {
     display: none;
