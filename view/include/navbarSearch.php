@@ -2,7 +2,7 @@
     <div class="navbar-header">
 
         <div class="navbar-header">
-            <button type="button" class="visible-xs navbar-toggle btn btn-default navbar-btn faa-parent animated-hover" data-toggle="collapse" data-target="#mysearch" style="padding: 6px 12px;">
+            <button type="button" class="visible-xs navbar-toggle btn btn-default navbar-btn faa-parent animated-hover" data-toggle="collapse" data-target="#mysearch" aria-controls="mysearch" aria-expanded="false" aria-label="<?php echo __('Search'); ?>" style="padding: 6px 12px;">
                 <span class="fa fa-search faa-shake"></span>
             </button>
         </div>
@@ -15,9 +15,9 @@
                         <i class="fas fa-sliders-h"></i>
                     </button>
                 </span>
-                <input class="form-control globalsearchfield" type="text" name="search" placeholder="<?php echo __("Search"); ?>" id="searchFormInput">
+                <input class="form-control globalsearchfield" type="text" name="search" placeholder="<?php echo __("Search"); ?>" aria-label="<?php echo __('Search'); ?>" enterkeyhint="search" id="searchFormInput">
                 <span class="input-group-append">
-                    <button class="btn btn-default btn-outline-secondary border-right-0 border py-2 faa-parent animated-hover" type="submit" id="buttonSearch" data-toggle="collapse" data-target="#mysearch">
+                    <button class="btn btn-default btn-outline-secondary border-right-0 border py-2 faa-parent animated-hover" type="submit" id="buttonSearch" aria-label="<?php echo __('Search'); ?>">
                         <i class="fas fa-search faa-shake notLoadingIcon"></i>
                         <i class="fa-solid fa-sync fa-spin loadingIcon"></i>
                         <i class="fa-solid fa-circle-exclamation fa-beat-fade text-danger notFoundIcon"></i>

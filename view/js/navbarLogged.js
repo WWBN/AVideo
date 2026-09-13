@@ -89,6 +89,26 @@ $(document).ready(function () {
             openRightMenu();
         }
     });
+    $('#mysearch').on('show.bs.collapse', function (event) {
+        if (event.target !== this || !isScreeWidthCollapseSize()) return;
+        closeLeftMenu();
+        closeRightMenu();
+        var navbar = document.getElementById('mainNavBar');
+        if (navbar) navbar.style.setProperty('--navbar-menu-background', getComputedStyle(navbar).backgroundColor);
+    }).on('shown.bs.collapse', function (event) {
+        if (event.target === this && isScreeWidthCollapseSize()) $('#searchFormInput').trigger('focus');
+    });
+    $('#buttonMyNavbar').attr({'aria-controls': 'myNavbar', 'aria-expanded': 'false'});
+    $(document).on('click.mobileNavbar', function (event) {
+        if (isScreeWidthCollapseSize() && !$(event.target).closest('#myNavbar, #buttonMyNavbar').length) {
+            closeRightMenu();
+        }
+    }).on('keydown.mobileNavbar', function (event) {
+        if (event.key === 'Escape' && isScreeWidthCollapseSize() && isMyNMavbarOpen()) {
+            closeRightMenu();
+            $('#buttonMyNavbar').trigger('focus');
+        }
+    });
     var wasMobile = true;
     $(window).resize(function () {
         if ($(window).width() > 767) {
@@ -107,6 +127,8 @@ $(document).ready(function () {
 
     $(window).resize(function () {
         if (!isScreeWidthCollapseSize()) {
+            $('#myNavbar').removeClass('mobile-navbar-open');
+            $('#buttonMyNavbar').attr('aria-expanded', 'false');
             $("#myNavbar").css({ display: '' });
             $("#myNavbar").removeClass('animate__bounceOutRight');
             var selector = '#buttonMyNavbar svg';
@@ -138,11 +160,8 @@ async function openLeftMenu() {
 async function closeRightMenu() {
     var selector = '#buttonMyNavbar svg';
     $(selector).removeClass('active');
-    $("#myNavbar").removeClass('animate__bounceInRight');
-    $("#myNavbar").addClass('animate__bounceOutRight');
-    setTimeout(function () {
-        $("#myNavbar").hide();
-    }, 500);
+    $('#buttonMyNavbar').attr('aria-expanded', 'false');
+    $("#myNavbar").removeClass('mobile-navbar-open animate__bounceInRight animate__bounceOutRight').hide();
 }
 async function openRightMenu() {
     if (isScreeWidthCollapseSize()) {
@@ -151,7 +170,13 @@ async function openRightMenu() {
     }
     var selector = '#buttonMyNavbar svg';
     $(selector).addClass('active');
-    $("#myNavbar").show();
+    $('#buttonMyNavbar').attr('aria-expanded', 'true');
+    var navbar = document.getElementById('mainNavBar');
+    if (navbar) {
+        navbar.style.setProperty('--navbar-menu-background', getComputedStyle(navbar).backgroundColor);
+        navbar.style.setProperty('--navbar-menu-top', navbar.getBoundingClientRect().bottom + 'px');
+    }
+    $("#myNavbar").removeClass('animate__bounceOutRight').addClass('mobile-navbar-open').show();
 }
 
 async function closeSearchMenu() {
@@ -319,6 +344,10 @@ $(function () {
     function updateArrows() {
         cancelAnimationFrame(frame);
         frame = requestAnimationFrame(function () {
+            if (isScreeWidthCollapseSize()) {
+                $previous.add($next).prop('hidden', true);
+                return;
+            }
             // Include arrow widths when deciding whether overflow has actually disappeared.
             var arrowWidth = ($previous.is(':visible') ? $previous.outerWidth(true) : 0) +
                 ($next.is(':visible') ? $next.outerWidth(true) : 0);

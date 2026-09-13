@@ -503,10 +503,103 @@ li.navsub-toggle a+ul {
 #mainNavBar #myNavbar .dropdown-menu.navbarScrollDropdown { overflow-y: auto; }
 @media (max-width: 767px) {
     #mainNavBar #searchNavItem { flex: 0 0 42px; min-width: 0; }
+    #mainNavBar #mysearch {
+        position: absolute;
+        top: 100%;
+        left: 8px;
+        right: 8px;
+        width: auto;
+        padding: 12px;
+        background: var(--navbar-menu-background, Canvas);
+        border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+        border-radius: 12px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, .16);
+    }
+    #mainNavBar #searchForm {
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+    }
+    #mainNavBar #searchForm > .input-group-prepend,
+    #mainNavBar #searchForm > .input-group-append { flex: 0 0 44px; }
+    #mainNavBar #searchForm > #filterDropdown { flex: 0 0 0; width: 0; min-width: 0; }
+    #mainNavBar #searchForm > span > .btn {
+        width: 44px;
+        height: 44px;
+        margin: 0;
+        padding: 10px;
+        font-size: 16px;
+    }
+    #mainNavBar #searchFormInput {
+        height: 44px;
+        min-width: 0;
+        margin: 0;
+        padding: 10px 12px;
+        font-size: 16px;
+    }
+    #mainNavBar #lastItemOnMenu { flex: 0 0 auto; }
+    #mainNavBar #buttonMyNavbar { display: inline-block !important; }
+    #mainNavBar .navbarScrollArrow { display: none !important; }
+    #mainNavBar #myNavbar {
+        display: none !important;
+        position: fixed;
+        top: var(--navbar-menu-top, 50px);
+        right: 8px;
+        width: min(360px, calc(100% - 16px));
+        max-height: calc(100dvh - var(--navbar-menu-top, 50px) - 16px);
+        padding: 12px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: var(--navbar-menu-background, Canvas);
+        border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+        border-radius: 12px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, .2);
+        overscroll-behavior: contain;
+    }
+    #mainNavBar #myNavbar.mobile-navbar-open { display: block !important; }
+    #mainNavBar #myNavbar > ul.right-menus {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: minmax(64px, auto);
+        align-items: stretch;
+        width: 100%;
+        gap: 8px;
+    }
+    #mainNavBar #myNavbar > ul.right-menus > li {
+        min-width: 0;
+        margin: 0;
+    }
+    /* Plugins wrap actions differently; stretch wrappers, but never popup contents. */
+    #mainNavBar #myNavbar > ul.right-menus > li > div:not(.dropdown-menu),
+    #mainNavBar #myNavbar > ul.right-menus > li > div > .btn-group {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+    #mainNavBar #myNavbar > ul.right-menus > li .btn:not(.dropdown-menu .btn) {
+        width: 100%;
+        height: 100%;
+        min-height: 64px;
+        margin: 0;
+        padding: 10px 8px;
+        border-radius: 8px;
+        font-size: 13px;
+        line-height: 1.4;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        text-align: center;
+    }
+    #mainNavBar #myNavbar > ul.right-menus > li .btn:not(.dropdown-menu .btn):not(.hideWhenHasNothingToShow) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
     #mainNavBar #mainNavbarLogo { max-width: 95px; padding-left: 5px; padding-right: 5px; }
     #mainNavBar #mainNavbarLogo img { max-width: 100%; object-fit: contain; }
-    #mainNavBar #myNavbar > ul.right-menus > li { margin-left: 4px; }
-    #mainNavBar #myNavbar .btn { width: auto; }
 }
 @media (max-width: 400px) {
     #mainNavBar #mainNavbarLogo { max-width: 60px; }
