@@ -45,16 +45,18 @@
         $('#refresh1').click(function() {
             $('#dt1').DataTable().ajax.reload();
         });
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', loadReport1);
         loadReport1();
 
     });
 
     function loadReport1() {
         if (!$('#dt1').is(':visible')) {
-            setTimeout(function() {
-                loadReport1();
-            }, 3000);
             return false;
+        }
+        if ($.fn.dataTable.isDataTable('#dt1')) {
+            $('#dt1').DataTable().columns.adjust();
+            return;
         }
         $('#dt1').DataTable({
             "language": {

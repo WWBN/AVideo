@@ -47,15 +47,17 @@
         $('#refresh2').click(function() {
             $('#dt2').DataTable().ajax.reload();
         });
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', loadReport2);
         loadReport2();
     });
 
     function loadReport2() {
         if (!$('#dt2').is(':visible')) {
-            setTimeout(function() {
-                loadReport2();
-            }, 3000);
             return false;
+        }
+        if ($.fn.dataTable.isDataTable('#dt2')) {
+            $('#dt2').DataTable().columns.adjust();
+            return;
         }
         $('#dt2').DataTable({
             "language": {

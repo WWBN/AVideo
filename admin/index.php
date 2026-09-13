@@ -197,123 +197,62 @@ switch ($_GET['browse_page']) {
 }
 
 $_page = new Page(array('Administration'));
+$_page->setExtraStyles(array('view/css/adminLayout.css'));
+$_page->setExtraScripts(array('view/js/adminSettings.js'));
 if (!empty($includeHead) && file_exists($includeHead)) {
     $_page->setIncludeInHead(array($includeHead));
 }
 
 ?>
-<style>
-    @media (max-width: 767px) {
-        .affix {
-            position: static;
-        }
-    }
 
-    .leftMenu .panel-body {
-        padding: 0px;
-    }
-
-    .adminLeftMenu.panel-default i,
-    .adminLeftMenu.panel-default {
-        -webkit-transition: opacity 0.5s ease-in-out;
-        -moz-transition: opacity 0.5s ease-in-out;
-        transition: opacity 0.5s ease-in-out;
-    }
-
-    .adminLeftMenu.panel-default i {
-        opacity: 0.2;
-    }
-
-    .adminLeftMenu:hover.panel-default i {
-        opacity: 1;
-    }
-
-    .adminLeftMenu.panel-default {
-        opacity: 0.6;
-    }
-
-    .adminLeftMenu:hover.panel-default {
-        opacity: 1;
-    }
-</style>
-<div class="container-fluid">
-    <br>
-    <div class="row">
-        <div class=" col-lg-2 col-md-3 col-sm-3 fixed affix leftMenu">
-            <div class="panel-group" id="accordion">
+<div class="container-fluid admin-shell">
+    <div class="row admin-layout">
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 leftMenu admin-sidebar">
+            <nav class="panel-group admin-accordion" id="accordion" aria-label="<?php echo __('Administration'); ?>">
                 <?php
-                $panel = 'panel-default';
-                if (empty($_REQUEST['browse_page'])) {
-                    $panel = 'panel-primary';
-                }
+                $currentPage = empty($_GET['browse_page']) ? 'dashboard' : $_GET['browse_page'];
                 foreach ($itens as $key => $value) {
-                    $uid = uniqid();
-                    $href = 'data-toggle="collapse" data-parent="#accordion" href="#collapse' . $uid . '"';
-                    if (!empty($value->href)) {
-                        $href = 'href="' . $global['webSiteRootURL'] . 'admin/?browse_page=' . $value->href . '"';
-                        $href .= ' id="browse_page_' . $value->href . '"';
+                    $uid = 'collapseadmin-' . $key;
+                    $hasChildren = !empty($value->itens);
+                    $active = $currentPage === $value->href;
+                    foreach ($value->itens as $child) {
+                        $active = $active || $currentPage === $child->href;
                     }
-                    if (!empty($_REQUEST['browse_page']) && $_REQUEST['browse_page'] == $value->href) {
-                        $panel = 'panel-primary';
-                    } else {
-                        foreach ($value->itens as $key2 => $value2) {
-                            if (!empty($_REQUEST['browse_page']) && $_REQUEST['browse_page'] === $value2->href) {
-                                $panel = 'panel-primary';
-                            }
-                        }
-                    } ?>
-                    <div class="panel <?php echo $panel; ?> adminLeftMenu <?php echo getCSSAnimationClassAndStyle('animate__bounceInLeft', 'menu'); ?>">
+                    ?>
+                    <div class="panel <?php echo $active ? 'panel-primary' : 'panel-default'; ?> adminLeftMenu">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a <?php echo $href; ?>>
-                                    <i class="<?php echo $value->icon; ?> "></i> <?php echo $value->title; ?>
+                                <?php if ($hasChildren) { ?>
+                                    <a class="admin-menu-toggle" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $uid; ?>" role="button" aria-controls="<?php echo $uid; ?>" aria-expanded="<?php echo $active ? 'true' : 'false'; ?>">
+                                <?php } else { ?>
+                                    <a id="browse_page_<?php echo $value->href; ?>" href="<?php echo $global['webSiteRootURL'] . 'admin/?browse_page=' . $value->href; ?>" <?php echo $active ? 'aria-current="page"' : ''; ?>>
+                                <?php } ?>
+                                    <i class="<?php echo $value->icon; ?>" aria-hidden="true"></i>
+                                    <span class="admin-menu-label"><?php echo $value->title; ?></span>
+                                    <?php if ($hasChildren) { ?><i class="fa fa-chevron-down admin-menu-chevron" aria-hidden="true"></i><?php } ?>
                                 </a>
                             </h4>
                         </div>
-                        <?php
-                        if (!empty($value->itens)) {
-                            $in = '';
-                            if (!empty($_GET['browse_page'])) {
-                                foreach ($value->itens as $search) {
-                                    if ($_GET['browse_page'] === $search->href) {
-                                        $in = "in";
-                                        break;
-                                    }
-                                }
-                            } ?>
-                            <div id="collapse<?php echo $uid; ?>" class="panel-collapse collapse <?php echo $in; ?>">
+                        <?php if ($hasChildren) { ?>
+                            <div id="<?php echo $uid; ?>" class="panel-collapse collapse <?php echo $active ? 'in' : ''; ?>">
                                 <div class="panel-body">
-                                    <table class="table">
-                                        <?php
-                                        $active = '';
-                                        if (empty($_GET['browse_page'])) {
-                                            $active = "active";
-                                        }
-                                        foreach ($value->itens as $key2 => $value2) {
-                                            if (!empty($_GET['browse_page']) && $_GET['browse_page'] === $value2->href) {
-                                                $active = "active";
-                                            } ?>
-                                            <tr>
-                                                <td class="<?php echo $active; ?>">
-                                                    <a href="<?php echo "{$global['webSiteRootURL']}admin/?browse_page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
-                                                </td>
-                                            </tr>
-                                        <?php
-                                            $active = '';
-                                        } ?>
-                                    </table>
+                                    <ul class="admin-submenu">
+                                        <?php foreach ($value->itens as $child) { ?>
+                                            <li>
+                                                <a href="<?php echo $global['webSiteRootURL'] . 'admin/?browse_page=' . $child->href; ?>" <?php echo $currentPage === $child->href ? 'aria-current="page"' : ''; ?>>
+                                                    <i class="<?php echo $child->icon; ?>" aria-hidden="true"></i> <?php echo $child->title; ?>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
                                 </div>
                             </div>
-                        <?php
-                        } ?>
+                        <?php } ?>
                     </div>
-                <?php
-                    $panel = 'panel-default';
-                }
-                ?>
-            </div>
+                <?php } ?>
+            </nav>
         </div>
-        <div class=" col-lg-10 col-md-9 col-sm-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-2 ">
+        <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12 admin-content">
             <?php
             if (!empty($includeBody)) {
                 if (is_array($includeBody)) {
@@ -347,38 +286,12 @@ if (!empty($includeHead) && file_exists($includeHead)) {
     </div>
 </div>
 <script>
-    var adminSaveToken = '<?php echo getToken(); ?>';
-    $(document).ready(function() {
-        $('.adminOptionsForm').submit(function(e) {
-            e.preventDefault();
-            modal.showPleaseWait();
-            $.ajax({
-                url: webSiteRootURL + 'admin/save.json.php',
-                data: $(this).serialize() + '&globalToken=' + encodeURIComponent(adminSaveToken),
-                type: 'post',
-                success: function(response) {
-                    modal.hidePleaseWait();
-                }
-            });
-        });
-        $('.pluginSwitch').change(function(e) {
-            modal.showPleaseWait();
-            $.ajax({
-                url: webSiteRootURL + 'objects/pluginSwitch.json.php',
-                data: {
-                    "uuid": $(this).attr('uuid'),
-                    "name": $(this).attr('name'),
-                    "dir": $(this).attr('name'),
-                    "enable": $(this).is(":checked"),
-                    "globalToken": adminSaveToken
-                },
-                type: 'post',
-                success: function(response) {
-                    modal.hidePleaseWait();
-                }
-            });
-        });
-    });
+    var adminSaveToken = <?php echo json_encode(getToken()); ?>;
+    var adminSettingsMessages = {
+        saving: <?php echo json_encode(__('Saving')); ?>,
+        saved: <?php echo json_encode(__('Saved')); ?>,
+        error: <?php echo json_encode(__('An error occurred')); ?>
+    };
 </script>
 <?php
 $_page->print();

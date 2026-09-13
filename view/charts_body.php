@@ -1,5 +1,5 @@
 
-<div class="list-group-item clear clearfix">
+<div class="list-group-item clear clearfix report-tabs">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#dashboard"><i class="fas fa-tachometer-alt"></i> <?php echo __("Dashboard"); ?></a></li>
         <li><a data-toggle="tab" id="viewmyVideosReport" href="#myVideosReport"><i class="fas fa-play-circle"></i> <?php echo __("My Videos"); ?></a></li>
@@ -10,7 +10,7 @@
     </ul>
 
     <div class="tab-content">
-        <div id="dashboard" class="tab-pane fade in active" style="padding: 10px;">
+        <div id="dashboard" class="tab-pane fade in active">
             <?php
             if (User::isAdmin()) {
                 echo diskUsageBars();
@@ -18,22 +18,22 @@
             include $global['systemRootPath'] . 'view/report0.php';
             ?>
         </div>
-        <div id="myVideosReport" class="tab-pane fade" style="padding: 10px;">
+        <div id="myVideosReport" class="tab-pane fade">
             <?php
             include $global['systemRootPath'] . 'view/reportMyVideos.php';
             ?>
         </div>
-        <div id="menu1" class="tab-pane fade" style="padding: 10px;">
+        <div id="menu1" class="tab-pane fade">
             <?php
             include $global['systemRootPath'] . 'view/report1.php';
             ?>
         </div>
-        <div id="menu2" class="tab-pane fade" style="padding: 10px;">
+        <div id="menu2" class="tab-pane fade">
             <?php
             include $global['systemRootPath'] . 'view/report2.php';
             ?>
         </div>
-        <div id="menu3" class="tab-pane fade" style="padding: 10px;">
+        <div id="menu3" class="tab-pane fade">
             <?php
             include $global['systemRootPath'] . 'view/report3.php';
             ?>

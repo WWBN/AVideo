@@ -12,44 +12,32 @@ if (!isGlobalTokenValid()) {
     die('{"error":"' . __("Invalid or missing CSRF token") . '"}');
 }
 
-$pluginName = $_POST['pluginName'];
-
-if (empty($_POST['pluginsList'])) {
-    unset($_POST['pluginsList']);
-    unset($_POST['pluginName']);
-    $pluginValues = $_POST;
-} else {
-    $pluginsList = explode("|", $_POST['pluginsList']);
-
-    $pluginValues = [];
-    foreach ($pluginsList as $value) {
-        $pluginValues[$value] = empty($_POST[$value]) ? false : ($_POST[$value]==1||$_POST[$value]=="true" ? true : $_POST[$value]);
-    }
-}
-
-$pluginDO = AVideoPlugin::getObjectData($pluginName);
-$pluginDB = Plugin::getPluginByName($pluginName);
-
-foreach ($pluginDO as $key => $value) {
-    if (isset($pluginValues[$key])) {
-        if (is_bool($pluginDO->$key)) {
-            $pluginDO->$key = empty($pluginValues[$key]) ? false : true;
-        } else {
-            //$pluginDO->$key = str_replace('"', '\\"', $pluginValues[$key]);
-            $pluginDO->$key = $pluginValues[$key];
-        }
-    }
-}
-
-$p = new Plugin($pluginDB['id']);
-$p->setObject_data(json_encode($pluginDO));
-
+require_once __DIR__ . '/functions.php';
 $obj = new stdClass();
-$obj->save = $p->save();
-$obj->pluginName = $pluginName;
-$obj->dataObject = $pluginDO;
-if ($obj->save === false) {
-    _error_log("[ERROR] Error saving plugin $pluginName data. Maybe plugin is not enabled?", AVideoLog::$ERROR);
+$obj->error = true;
+$obj->msg = __('An error occurred');
+$obj->save = false;
+try {
+    $pluginName = $_POST['pluginName'] ?? '';
+    $pluginDO = AVideoPlugin::getObjectData($pluginName);
+    $pluginDB = Plugin::getPluginByName($pluginName);
+    if (!is_object($pluginDO) || empty($pluginDB['id'])) {
+        throw new RuntimeException('Plugin settings are unavailable');
+    }
+    $fields = empty($_POST['pluginsList']) ? array_keys($_POST) : explode('|', $_POST['pluginsList']);
+    $pluginDO = applyAdminPluginValues($pluginDO, $_POST, $fields);
+    $json = json_encode($pluginDO, JSON_THROW_ON_ERROR);
+    $p = new Plugin($pluginDB['id']);
+    $p->setObject_data($json);
+    $obj->save = $p->save();
+    $obj->pluginName = $pluginName;
+    $obj->dataObject = $pluginDO;
+    if (empty($obj->save)) {
+        throw new RuntimeException('Could not save plugin settings');
+    }
+    $obj->error = false;
+    $obj->msg = __('Saved');
+} catch (\Throwable $th) {
+    _error_log('admin/save.json.php: ' . $th->getMessage(), AVideoLog::$ERROR);
 }
-
-echo(json_encode($obj));
+echo json_encode($obj);

@@ -55,14 +55,35 @@
     $(document).ready(function () {
         $("#customizeForm").submit(function (event) {
             event.preventDefault();
+            var form = $(this);
+            if (form.data('saving')) {
+                return;
+            }
+            ['about', 'footer'].forEach(function(id) {
+                if (typeof tinymce !== 'undefined' && tinymce.get(id)) {
+                    tinymce.get(id).save();
+                }
+            });
+            form.data('saving', true).find(':submit').prop('disabled', true);
             modal.showPleaseWait();
             $.ajax({
                 url: webSiteRootURL + 'plugin/Customize/page/editorSave.php',
                 data: {"about": $('#about').val(), "footer": $('#footer').val(), "description": $('#description').val()},
                 type: 'post',
+                dataType: 'json',
                 success: function (response) {
+                    if (response && !response.error && response.save) {
+                        avideoToastSuccess(<?php echo json_encode(__('Saved')); ?>);
+                    } else {
+                        avideoToastError(<?php echo json_encode(__('An error occurred')); ?>);
+                    }
+                },
+                error: function () {
+                    avideoToastError(<?php echo json_encode(__('An error occurred')); ?>);
+                },
+                complete: function () {
+                    form.removeData('saving').find(':submit').prop('disabled', false);
                     modal.hidePleaseWait();
-                    console.log(response);
                 }
             });
         });

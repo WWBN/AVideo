@@ -107,15 +107,17 @@
         $('#refreshMyVideosRep').click(function() {
             $('#dtMyVideosRep').DataTable().ajax.reload();
         });
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', loadReportMyVideos);
         loadReportMyVideos();
     });
 
     function loadReportMyVideos() {
         if (!$('#dtMyVideosRep').is(':visible')) {
-            setTimeout(function() {
-                loadReportMyVideos();
-            }, 3000);
             return false;
+        }
+        if ($.fn.dataTable.isDataTable('#dtMyVideosRep')) {
+            $('#dtMyVideosRep').DataTable().columns.adjust();
+            return;
         }
 
         $('#dtMyVideosRep').DataTable({

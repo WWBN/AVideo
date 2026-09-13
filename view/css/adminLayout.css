@@ -1,0 +1,157 @@
+.admin-shell {
+    padding-top: 20px;
+}
+
+.admin-layout {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.admin-sidebar {
+    position: sticky;
+    top: 70px;
+    max-height: calc(100vh - 85px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.admin-content {
+    min-width: 0;
+}
+
+.admin-sidebar .panel-body {
+    padding: 0;
+}
+
+.adminLeftMenu {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.adminLeftMenu .panel-heading {
+    padding: 0;
+}
+
+.adminLeftMenu .panel-title a,
+.admin-submenu a {
+    display: flex;
+    align-items: center;
+    padding: 14px 12px;
+    line-height: 1.4;
+    text-decoration: none;
+}
+
+.adminLeftMenu a:hover,
+.adminLeftMenu a:focus-visible {
+    background-color: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.adminLeftMenu i {
+    width: 1.4em;
+    text-align: center;
+    margin-right: 6px;
+    flex-shrink: 0;
+}
+
+.admin-menu-label {
+    flex: 1;
+}
+
+.admin-menu-chevron {
+    font-size: .7em;
+    transition: transform 180ms ease;
+}
+
+.admin-menu-toggle[aria-expanded="true"] .admin-menu-chevron {
+    transform: rotate(180deg);
+}
+
+.admin-submenu {
+    list-style: none;
+    padding: 6px;
+    margin: 0;
+}
+
+.admin-submenu a {
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 2px 0;
+}
+
+.admin-submenu [aria-current="page"] {
+    font-weight: 600;
+    background: color-mix(in srgb, currentColor 10%, transparent);
+    box-shadow: inset 3px 0 currentColor;
+}
+
+.admin-accordion a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -3px;
+}
+
+.admin-settings-table > tbody > tr > td {
+    vertical-align: middle;
+    padding: 14px 10px;
+    overflow-wrap: anywhere;
+}
+
+.admin-settings-table label {
+    margin-bottom: 0;
+}
+
+.admin-settings-table .form-control {
+    min-width: 0;
+}
+
+.admin-shell .material-switch > input[type="checkbox"] {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.admin-shell .material-switch > input:focus-visible + label {
+    outline: 2px solid currentColor;
+    outline-offset: 6px;
+}
+
+.admin-shell .material-switch > input:disabled + label {
+    opacity: .5;
+    cursor: wait;
+}
+
+.admin-settings-table .form-text {
+    display: block;
+    margin-top: 6px;
+    line-height: 1.5;
+}
+
+.admin-save-status {
+    min-height: 1.5em;
+    margin: 8px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .admin-menu-chevron {
+        transition: none;
+    }
+
+    .admin-accordion .collapsing {
+        transition: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .admin-layout {
+        display: block;
+    }
+
+    .admin-sidebar {
+        position: static;
+        max-height: none;
+    }
+}

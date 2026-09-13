@@ -2,31 +2,44 @@
 function createTable($pluginName, $filter = [])
 {
     $plugin = AVideoPlugin::getObjectData($pluginName);
-    //var_dump($plugin->userMustBeLoggedIn, '---<br>');exit;
-    if (empty($filter)) {
-        foreach ($plugin as $keyJson => $valueJson) {
-            $filter[$keyJson] = "&nbsp;";
-        }
-    }
-    //var_dump($filter);exit;
+    $form = is_object($plugin) ? jsonToFormElements($plugin, $filter) : [];
     echo '<form class="adminOptionsForm">';
-    echo '<input type="hidden" value="' . $pluginName . '" name="pluginName"/>';
-    echo '<input type="hidden" value="' . implode("|", array_keys($filter)) . '" name="pluginsList"/>';
+    echo '<input type="hidden" value="' . htmlspecialchars($pluginName, ENT_QUOTES, 'UTF-8') . '" name="pluginName"/>';
+    echo '<input type="hidden" value="' . htmlspecialchars(implode('|', array_keys($form)), ENT_QUOTES, 'UTF-8') . '" name="pluginsList"/>';
     echo AVideoPlugin::getDependencyWarningHTML($pluginName);
-    echo '<table class="table table-hover">';
-    $pluginsList = [];
+    echo '<table class="table table-hover admin-settings-table">';
     if (!AVideoPlugin::exists($pluginName)) {
-        echo "<tr><td colspan='2'> ".__('Sorry you do not have the plugin')." </td></tr>";
+        echo "<tr><td colspan='2'> " . __('Sorry you do not have the plugin') . " </td></tr>";
     } else {
-        if (!empty($plugin)) {
-            $form = jsonToFormElements($plugin, $filter);
-            //var_dump($form);
-            echo implode("", $form);
+        echo implode('', $form);
+        if (!empty($form)) {
+            echo "<tr><td colspan='2'><button type='submit' class='btn btn-primary'><i class='fa fa-save'></i> " . __('Save') . "</button></td></tr>";
         }
-
-        echo "<tr><td colspan='2'> <button class='btn btn-block btn-primary'><i class='fa fa-save'></i> ".__('Save')."</button> </td></tr>";
     }
-    echo '</table></form>';
+    echo '</table><div class="admin-save-status" role="status" aria-live="polite"></div></form>';
+}
+
+// Merge only the fields represented by this form; unchecked checkboxes are absent from POST.
+function applyAdminPluginValues($plugin, array $values, array $fields)
+{
+    $result = clone $plugin;
+    foreach ($fields as $key) {
+        if (!property_exists($result, $key)) {
+            continue;
+        }
+        $current = $result->$key;
+        if (is_bool($current)) {
+            $result->$key = isset($values[$key]) && in_array($values[$key], [true, 1, '1', 'true', 'on'], true);
+        } elseif (array_key_exists($key, $values) && is_scalar($values[$key])) {
+            if (is_object($current) && property_exists($current, 'value')) {
+                $result->$key = clone $current;
+                $result->$key->value = $values[$key];
+            } elseif (is_scalar($current) || $current === null) {
+                $result->$key = $values[$key];
+            }
+        }
+    }
+    return $result;
 }
 
 function jsonToFormElements($json, $filter = [])
@@ -37,17 +50,22 @@ function jsonToFormElements($json, $filter = [])
         if (!empty($filter) && empty($filter[$keyJson])) {
             continue;
         }
-        $label = "<label>{$keyJson}</label>";
+        $inputId = 'admin-setting-' . uniqid();
+        $fieldName = htmlspecialchars($keyJson, ENT_QUOTES, 'UTF-8');
+        $label = "<label for='{$inputId}'>{$fieldName}</label>";
         $help = '';
         if (!empty($filter[$keyJson])) {
             $help = "<small class=\"form-text text-muted\">{$filter[$keyJson]}</small>";
         }
         $input = '';
         if (is_object($valueJson)) {
+            if (!isset($valueJson->type) || !property_exists($valueJson, 'value')) {
+                continue;
+            }
             if ($valueJson->type === 'textarea') {
-                $input = "<textarea class='form-control jsonElement' name='{$keyJson}' pluginType='object'>" . htmlspecialchars($valueJson->value, ENT_QUOTES, 'UTF-8') . "</textarea>";
-            } elseif (is_array($valueJson->type)) {
-                $input = "<select class='form-control jsonElement' name='{$keyJson}'  pluginType='object'>";
+                $input = "<textarea class='form-control jsonElement' id='{$inputId}' name='{$fieldName}' pluginType='object'>" . htmlspecialchars((string)$valueJson->value, ENT_QUOTES, 'UTF-8') . "</textarea>";
+            } elseif (is_array($valueJson->type) || is_object($valueJson->type)) {
+                $input = "<select class='form-control jsonElement' id='{$inputId}' name='{$fieldName}'  pluginType='object'>";
                 foreach ($valueJson->type as $key => $value) {
                     $select = '';
                     if ($valueJson->value == $key) {
@@ -57,24 +75,24 @@ function jsonToFormElements($json, $filter = [])
                 }
                 $input .= "</select>";
             } else {
-                if (!is_string($valueJson->type) || !is_string($valueJson->value)) {
+                if (!is_string($valueJson->type) || !is_scalar($valueJson->value)) {
                     continue;
                 }
-                $input = "<input class='form-control jsonElement' name='{$keyJson}' "
-                . "pluginType='object' type='" . htmlspecialchars($valueJson->type, ENT_QUOTES, 'UTF-8') . "' value='" . htmlspecialchars($valueJson->value, ENT_QUOTES, 'UTF-8') . "'/>";
+                $input = "<input class='form-control jsonElement' id='{$inputId}' name='{$fieldName}' "
+                . "pluginType='object' type='" . htmlspecialchars($valueJson->type, ENT_QUOTES, 'UTF-8') . "' value='" . htmlspecialchars((string)$valueJson->value, ENT_QUOTES, 'UTF-8') . "'/>";
             }
-            $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
+            $elements[$keyJson] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
         } elseif (is_bool($valueJson)) {
             //var_dump($keyJson, $valueJson, '---<br>');
-            $id = uniqid();
+
             $input = '<div class="material-switch">
-                                <input data-toggle="toggle" type="checkbox" id="' . $keyJson . $id . '" name="' . $keyJson . '" value="1" ' . ($valueJson ? "checked" : "") . ' >
-                                <label for="' . $keyJson . $id . '" class="label-primary"></label>
+                                <input data-toggle="toggle" type="checkbox" id="' . $inputId . '" name="' . $fieldName . '" value="1" ' . ($valueJson ? "checked" : "") . ' >
+                                <label for="' . $inputId . '" class="label-primary"></label>
                             </div>';
-            $elements[] = "<tr><td>{$input}</td><td>{$label}<br>{$help}</td></tr>";
-        } else {
-            $input = "<input class='form-control jsonElement' name='{$keyJson}' type='text' value='" . htmlspecialchars((string)$valueJson, ENT_QUOTES, 'UTF-8') . "'/>";
-            $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
+            $elements[$keyJson] = "<tr><td>{$input}</td><td>{$label}<br>{$help}</td></tr>";
+        } elseif (is_scalar($valueJson) || $valueJson === null) {
+            $input = "<input class='form-control jsonElement' id='{$inputId}' name='{$fieldName}' type='text' value='" . htmlspecialchars((string)$valueJson, ENT_QUOTES, 'UTF-8') . "'/>";
+            $elements[$keyJson] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
         }
     }
     return $elements;
@@ -90,7 +108,7 @@ function getPluginSwitch($pluginName)
         $id = uniqid();
         $uuid = $pluginForced->getUUID();
         $input = '<div class="material-switch">
-                                <input class="pluginSwitch" data-toggle="toggle" type="checkbox" id="' . $id . '" uuid="' . $uuid . '" name="' . $pluginName . '" value="1" ' . (!empty($plugin) ? "checked" : "") . ' >
+                                <input class="pluginSwitch" aria-label="' . htmlspecialchars($pluginName, ENT_QUOTES, 'UTF-8') . '" data-toggle="toggle" type="checkbox" id="' . $id . '" uuid="' . $uuid . '" name="' . $pluginName . '" value="1" ' . (!empty($plugin) ? "checked" : "") . ' >
                                 <label for="' . $id . '" class="label-primary"></label>
                             </div>';
     }

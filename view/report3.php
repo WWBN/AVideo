@@ -50,15 +50,17 @@
         $('#refresh3').click(function() {
             $('#dt3').DataTable().ajax.reload();
         });
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', loadReport3);
         loadReport3();
     });
 
     function loadReport3() {
         if (!$('#dt3').is(':visible')) {
-            setTimeout(function() {
-                loadReport3();
-            }, 3000);
             return false;
+        }
+        if ($.fn.dataTable.isDataTable('#dt3')) {
+            $('#dt3').DataTable().columns.adjust();
+            return;
         }
 
         $('#dt3').DataTable({
