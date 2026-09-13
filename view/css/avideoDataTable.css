@@ -1,0 +1,332 @@
+/* Global DataTables presentation. Colors follow the active Bootstrap theme. */
+.avideo-datatable {
+    --avideo-dt-line: color-mix(in srgb, currentColor 16%, transparent);
+    --avideo-dt-stripe: color-mix(in srgb, currentColor 4%, transparent);
+    --avideo-dt-hover: color-mix(in srgb, currentColor 9%, transparent);
+    position: relative;
+    min-width: 0;
+    padding: .5em 0;
+}
+
+.avideo-datatable table.dataTable {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--avideo-dt-line);
+    border-radius: .6em;
+    background: transparent;
+    color: inherit;
+}
+
+.avideo-datatable table.dataTable > thead > tr > th,
+.avideo-datatable table.dataTable > thead > tr > td {
+    padding-top: .9em;
+    padding-bottom: .9em;
+    border-bottom: 1px solid var(--avideo-dt-line);
+    background: var(--avideo-dt-stripe);
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+.avideo-datatable table.dataTable > tbody > tr > td,
+.avideo-datatable table.dataTable > tbody > tr > th {
+    padding: .8em .65em;
+    border-top: 0;
+    border-bottom: 1px solid var(--avideo-dt-line);
+    vertical-align: top;
+}
+
+.avideo-datatable table.dataTable.table-condensed > tbody > tr > td,
+.avideo-datatable table.dataTable.table-condensed > tbody > tr > th {
+    padding: .5em;
+}
+
+.avideo-datatable table.dataTable > tbody > tr:last-child > td {
+    border-bottom: 0;
+}
+
+/* Keep selected rows and semantic Bootstrap status colors intact. */
+.avideo-datatable table.dataTable > tbody > tr:not(.selected):not(.active):not(.success):not(.info):not(.warning):not(.danger) {
+    background-color: transparent;
+}
+
+.avideo-datatable table.dataTable > tbody > tr:nth-child(odd):not(.selected):not(.active):not(.success):not(.info):not(.warning):not(.danger) {
+    background-color: var(--avideo-dt-stripe);
+}
+
+.avideo-datatable table.dataTable > tbody > tr:not(.selected) > td.sorting_1,
+.avideo-datatable table.dataTable > tbody > tr:not(.selected) > td.sorting_2,
+.avideo-datatable table.dataTable > tbody > tr:not(.selected) > td.sorting_3 {
+    background-color: transparent;
+}
+
+.avideo-datatable table.dataTable > tbody > tr:hover:not(.selected):not(.active):not(.success):not(.info):not(.warning):not(.danger),
+.avideo-datatable table.dataTable > tbody > tr:focus-within:not(.selected):not(.active):not(.success):not(.info):not(.warning):not(.danger) {
+    background-color: var(--avideo-dt-hover);
+}
+
+.avideo-datatable .dataTables_length,
+.avideo-datatable .dataTables_filter,
+.avideo-datatable .dt-buttons {
+    margin-bottom: .8em;
+}
+
+/* Both Bootstrap's row layout and the legacy Blfrtip layout use these controls. */
+.avideo-datatable > .dt-buttons {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: .25em;
+    float: left;
+    margin-inline-end: 1em;
+}
+
+.avideo-datatable > .dataTables_length {
+    float: left;
+}
+
+.avideo-datatable > .dataTables_filter {
+    float: right;
+}
+
+.avideo-datatable > table.dataTable {
+    clear: both;
+}
+
+.avideo-datatable .dataTables_length label,
+.avideo-datatable .dataTables_filter label {
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
+    font-weight: normal;
+    max-width: 100%;
+}
+
+.avideo-datatable .dataTables_filter input,
+.avideo-datatable .dataTables_length select {
+    min-height: 2.5em;
+    padding: .4em .65em;
+    border: 1px solid var(--avideo-dt-line);
+    border-radius: .5em;
+    box-shadow: none;
+}
+
+.avideo-datatable .dataTables_filter input {
+    width: 15em;
+    max-width: 100%;
+    min-width: 0;
+    margin-left: 0;
+}
+
+.avideo-datatable .dataTables_info {
+    padding-top: 1em;
+    font-size: .9em;
+}
+
+.avideo-datatable .dataTables_paginate .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: .25em;
+    margin: .7em 0 0;
+}
+
+.avideo-datatable .dataTables_paginate .pagination > li > a,
+.avideo-datatable .dataTables_paginate .pagination > li > span {
+    border-radius: .45em;
+    margin-left: 0;
+    min-width: 2.4em;
+    text-align: center;
+}
+
+.avideo-datatable .dataTables_filter input:focus-visible,
+.avideo-datatable .dataTables_length select:focus-visible,
+.avideo-datatable .dataTables_paginate a:focus-visible,
+.avideo-datatable .dt-buttons button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+.avideo-datatable table.dataTable td.dataTables_empty {
+    padding: 3em 1em;
+    text-align: center;
+}
+
+/* Replace the library's inline processing display, including processing:false tables. */
+.avideo-datatable .dataTables_processing {
+    display: none !important;
+}
+
+.avideo-datatable .avideo-datatable-loading {
+    position: absolute;
+    z-index: 5;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    border-radius: 0 0 .6em .6em;
+    box-shadow: none;
+    margin: 0;
+    pointer-events: none;
+    animation: avideoDataTableReveal .25s ease-out both;
+}
+
+.avideo-datatable-loading::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset: 0 auto auto 0;
+    height: 2px;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    opacity: .4;
+    animation: avideoDataTableSweep 2s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+
+.avideo-datatable-skeleton {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.avideo-datatable-skeleton .avideo-inline-loading-row {
+    display: grid;
+    flex: 1;
+    align-items: center;
+    margin: 0;
+    border-bottom: 1px solid var(--avideo-dt-line);
+}
+
+.avideo-datatable-placeholder {
+    padding: 1em .75em;
+    overflow: hidden;
+}
+
+.avideo-datatable-skeleton .avideo-inline-loading-line {
+    position: relative;
+    overflow: hidden;
+    height: .65em;
+    width: 72%;
+    margin: 0;
+    border-radius: 1em;
+    background: var(--avideo-dt-hover);
+    animation: none;
+}
+
+.avideo-datatable-placeholder:nth-child(even) .avideo-inline-loading-line {
+    width: 48%;
+}
+
+.avideo-datatable-skeleton .avideo-inline-loading-row:nth-child(2) .avideo-inline-loading-line {
+    width: 58%;
+}
+
+.avideo-datatable-skeleton .avideo-inline-loading-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, transparent, color-mix(in srgb, currentColor 20%, transparent), transparent);
+    animation: avideoDataTableShimmer 1.8s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+
+.avideo-datatable-skeleton .avideo-inline-loading-row:nth-child(2) .avideo-inline-loading-line::after {
+    animation-delay: .12s;
+}
+
+.avideo-datatable-skeleton .avideo-inline-loading-row:nth-child(3) .avideo-inline-loading-line::after {
+    animation-delay: .24s;
+}
+
+.avideo-datatable-loading .avideo-datatable-loading-status {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: .85em;
+    width: max-content;
+    max-width: calc(100% - 1.5em);
+    margin: 0;
+    padding: .85em 1.25em;
+    border: 1px solid var(--avideo-dt-line);
+    border-radius: 2em;
+    box-shadow: 0 .4em 1.5em var(--avideo-dt-line);
+}
+
+.avideo-datatable-loading-status .loader {
+    flex: 0 0 auto;
+    width: 1.8em;
+    height: 1.8em;
+    border-width: 2px;
+    border-color: var(--avideo-dt-line);
+    border-top-color: currentColor;
+    border-right-color: currentColor;
+    animation: spin .85s cubic-bezier(.55, .15, .45, .85) infinite;
+}
+
+.avideo-datatable-loading-label {
+    font-weight: 500;
+    letter-spacing: .02em;
+}
+
+.avideo-datatable-busy table.dataTable > tbody {
+    opacity: .15;
+}
+
+.avideo-datatable-busy table.dataTable td.dataTables_empty {
+    visibility: hidden;
+    padding-block: 5em;
+}
+
+/* Server-side tables have no placeholder row until their first AJAX response. */
+.avideo-datatable-busy table.dataTable > tbody:empty::after {
+    content: '';
+    display: table-row;
+    height: 12em;
+}
+
+@keyframes avideoDataTableReveal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes avideoDataTableSweep {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(350%); }
+}
+
+@keyframes avideoDataTableShimmer {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+
+@media (max-width: 767px) {
+    .avideo-datatable > .dt-buttons,
+    .avideo-datatable > .dataTables_filter,
+    .avideo-datatable > .dataTables_length {
+        float: none;
+        width: 100%;
+    }
+    .avideo-datatable > .dt-buttons {
+        justify-content: center;
+        margin-inline-end: 0;
+    }
+    .avideo-datatable .dataTables_filter,
+    .avideo-datatable .dataTables_length {
+        text-align: center;
+    }
+    .avideo-datatable .dataTables_paginate .pagination {
+        justify-content: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .avideo-datatable .avideo-datatable-loading,
+    .avideo-datatable-loading::before,
+    .avideo-datatable-loading .loader,
+    .avideo-datatable-skeleton .avideo-inline-loading-line::after {
+        animation: none;
+    }
+    .avideo-datatable-loading::before,
+    .avideo-datatable-skeleton .avideo-inline-loading-line::after {
+        display: none;
+    }
+}

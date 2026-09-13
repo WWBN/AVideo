@@ -105,12 +105,6 @@
         $("#datetoVideosRep").datepicker("setDate", "<?php echo date("m/d/Y"); ?>");
 
         $('#refreshMyVideosRep').click(function() {
-            if (typeof avideoSetContainerLoading === 'function') {
-                avideoSetContainerLoading('dtMyVideosRepContainer', true, {
-                    clear: false,
-                    items: 3
-                });
-            }
             $('#dtMyVideosRep').DataTable().ajax.reload();
         });
         loadReportMyVideos();
@@ -122,13 +116,6 @@
                 loadReportMyVideos();
             }, 3000);
             return false;
-        }
-
-        if (typeof avideoSetContainerLoading === 'function') {
-            avideoSetContainerLoading('dtMyVideosRepContainer', true, {
-                clear: false,
-                items: 3
-            });
         }
 
         $('#dtMyVideosRep').DataTable({
@@ -159,17 +146,7 @@
             "ajax": {
                 'type': 'POST',
                 'url': webSiteRootURL + "view/reportMyVideos.json.php",
-                'data': getDataFromVideoRep,
-                'error': function() {
-                    if (typeof avideoSetContainerLoading === 'function') {
-                        avideoSetContainerLoading('dtMyVideosRepContainer', false);
-                    }
-                }
-            },
-            "initComplete": function() {
-                if (typeof avideoSetContainerLoading === 'function') {
-                    avideoSetContainerLoading('dtMyVideosRepContainer', false);
-                }
+                'data': getDataFromVideoRep
             },
             "footerCallback": function(row, data, start, end, display) {
                 var api = this.api(),

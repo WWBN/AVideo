@@ -90,12 +90,6 @@ $_page->loadBasicCSSAndJS();
         });
     }
     $(document).ready(function() {
-        if (typeof avideoSetContainerLoading === 'function') {
-            avideoSetContainerLoading('subscribesGridContainer', true, {
-                clear: false,
-                items: 3
-            });
-        }
         var subscribeFormatters = {
             "status": function(row) {
                 var subscribe = '<button type="button" class="btn btn-xs btn-success command-status" id="subscribe' + row.id + '" data-toggle="tooltip" data-placement="left" title="Unsubscribe"><span class="fa fa-check" aria-hidden="true"></span></button>'
@@ -122,10 +116,6 @@ $_page->loadBasicCSSAndJS();
                 { data: null, orderable: false, render: function(data, type, row) { return subscribeFormatters.status(row); } }
             ],
             ajax: avideoDataTableAjax({ url: webSiteRootURL+"objects/subscribes.json.php" })
-        }).on('draw.dt', function() {
-            if (typeof avideoSetContainerLoading === 'function') {
-                avideoSetContainerLoading('subscribesGridContainer', false);
-            }
         });
 
         var grid = $("#grid");

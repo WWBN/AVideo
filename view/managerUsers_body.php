@@ -467,12 +467,6 @@ foreach ($userGroups as $value) {
         $('.tooltip').tooltip('hide');
         var selector = '#userGroupGrid' + user_groups_id;
         if ($.fn.DataTable.isDataTable(selector)) {
-            if (typeof avideoSetContainerLoading === 'function') {
-                avideoSetContainerLoading(selector + 'Tab', true, {
-                    clear: false,
-                    items: 4
-                });
-            }
             $(selector).DataTable().ajax.reload(null, false);
         }
     }
@@ -524,12 +518,6 @@ foreach ($userGroups as $value) {
             console.log(selector, 'already loaded');
             return false;
         }
-        if (typeof avideoSetContainerLoading === 'function') {
-            avideoSetContainerLoading(selector + 'Tab', true, {
-                clear: false,
-                items: 4
-            });
-        }
         var dt = avideoDataTable(selector, {
             avideoControls: true,
             serverSide: true,
@@ -551,10 +539,6 @@ foreach ($userGroups as $value) {
                 { data: null, orderable: false, width: '200px', render: function(data, type, row) { return userManagerFormatters.commands(row); } }
             ],
             ajax: avideoDataTableAjax({ url: getUserGridURL })
-        }).on('draw.dt', function() {
-            if (typeof avideoSetContainerLoading === 'function') {
-                avideoSetContainerLoading(selector + 'Tab', false);
-            }
         });
 
         var grid = $(selector);

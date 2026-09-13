@@ -276,12 +276,6 @@
 
         refreshSubCategoryList();
 
-        if (typeof avideoSetContainerLoading === 'function') {
-            avideoSetContainerLoading('categoryGridContainer', true, {
-                clear: false,
-                items: 4
-            });
-        }
 
         var categoryFormatters = {
             "download": function(row) {
@@ -350,10 +344,6 @@
                 { data: null, orderable: false, width: '130px', render: function(data, type, row) { return categoryFormatters.commands(row); } }
             ],
             ajax: avideoDataTableAjax({ url: "<?php echo $global['webSiteRootURL'] . "objects/categories.json.php"; ?>" })
-        }).on('draw.dt', function() {
-            if (typeof avideoSetContainerLoading === 'function') {
-                avideoSetContainerLoading('categoryGridContainer', false);
-            }
         });
 
         var grid = $("#grid");

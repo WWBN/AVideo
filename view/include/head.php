@@ -162,6 +162,7 @@ if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exis
 }
 ?>
 <link href="<?php echo getURL('view/css/main.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo getURL('view/css/avideoDataTable.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
 TimeLogEnd($timeLogHead, __LINE__);
 if (isRTL()) {
@@ -171,6 +172,7 @@ if (isRTL()) {
 }
 ?>
 <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
+<script src="<?php echo getURL('view/js/avideoDataTableTheme.js'); ?>" data-loading-text="<?php echo htmlspecialchars(__('Loading...'), ENT_QUOTES, 'UTF-8'); ?>"></script>
 <script class="doNotSepareteTag">
     var useIframe = <?php echo json_encode(useIframe()); ?>;
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
