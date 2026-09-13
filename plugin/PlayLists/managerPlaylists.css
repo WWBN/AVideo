@@ -6,19 +6,41 @@
 .playlistManagerToolbar .label { background: transparent; color: inherit; padding: 0; font-size: inherit; font-weight: inherit; }
 .playlistManager #searchFormPlaylist { margin: 0; padding: 0; max-width: 100%; }
 .playlistManager #searchPlaylist { min-width: 0; }
-.playlistManagerGrid { display: flex; flex-wrap: wrap; align-items: flex-start; margin: 0 -6px; }
+.playlistManagerGrid { display: flex; flex-wrap: wrap; align-items: stretch; margin: 0 -6px; }
 .playlistManagerGrid::before, .playlistManagerGrid::after,
 .playlistManagerGrid > .clearfix { display: none !important; }
 .playlistManagerGrid > .pl { padding: 0 6px; min-width: 0; }
-.playlistManager .pl > .panel { border-radius: 9px; margin-bottom: 12px; box-shadow: none; }
+.playlistManager .pl > .panel {
+    display: flex;
+    flex-direction: column;
+    height: 30em;
+    border-radius: 9px;
+    margin-bottom: 12px;
+    box-shadow: none;
+}
+.playlistManager .pl > .panel > .panel-heading,
+.playlistManager .pl > .panel > .panel-footer { flex-shrink: 0; }
 .playlistCardHeading { padding: 8px 10px; border-radius: 8px 8px 0 0; }
 .playlistCardTitle { font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; margin-bottom: 6px; }
 .playlistManager .playlistCardActions { display: flex; flex-wrap: wrap; gap: 4px; float: none !important; }
 .playlistManager .playlistCardActions > .btn { float: none; margin: 0; border-radius: 5px !important; min-width: 27px; padding: 4px 7px; }
-.playlistManager .playLists { padding: 8px 10px; }
-.playlistManager .playLists:not(:has(.tab-pane)) { display: none; }
+.playlistManager .playLists {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    padding: 8px 10px;
+}
+.playlistManager .playLists > .nav { flex-shrink: 0; }
+.playlistManager .playLists > .tab-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    overscroll-behavior-y: contain;
+}
 .playlistManager .playLists .nav > li > a { padding: 5px 8px; font-size: 12px; border-radius: 6px; }
-.playlistManager .playLists .list-group { margin: 6px 0 0; max-height: 230px; overflow: auto; }
+.playlistManager .playLists .list-group { margin: 6px 0 0; }
 .playlistManager .playLists .list-group-item { display: flex; align-items: center; gap: 3px; padding: 7px 6px; min-height: 34px; }
 .playlistManager .playLists .list-group-item:hover,
 .playlistManager .playLists .list-group-item:focus-within { background: color-mix(in srgb, currentColor 7%, transparent); }
