@@ -86,6 +86,13 @@
         }
         delete options.avideoControls;
         var $el = $(selector);
+        $el.each(function () {
+            // DataTables 1.x needs an explicit table width to restore relative sizing and
+            // register its resize handler; CSS width alone leaves a frozen pixel width.
+            if (!$.fn.DataTable.isDataTable(this) && !this.getAttribute('width') && !this.style.width) {
+                $(this).attr('width', '100%');
+            }
+        });
         var dt = ($.fn.DataTable && $.fn.DataTable.isDataTable($el)) ? $el.DataTable() : $el.DataTable(options);
         $el.each(function () {
             $(this).data(REGISTRY_KEY, true);

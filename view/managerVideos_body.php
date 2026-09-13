@@ -1975,7 +1975,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     var bigButtons = _edit + _thumbnail + _download;
 
                     var menuDebugComment = menuDebug.length ? ('<!-- ' + menuDebug.join(' | ') + ' -->') : '';
-                    return '<div class="scrollIfCompact">' + playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + editLikes + bigButtons + pluginsButtons + download + nextIsSet + menuDebugComment + '<div>';
+                    return '<div class="scrollIfCompact"><div class="text-nowrap">' + playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + editLikes + '</div>' + bigButtons + pluginsButtons + download + nextIsSet + menuDebugComment + '</div>';
                 },
                 "tags": function(column, row) {
                     var tags = '';
