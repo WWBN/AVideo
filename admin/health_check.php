@@ -1,6 +1,8 @@
 <?php
 // Include centralized health check functions and configuration
 require_once __DIR__ . '/health_check_functions.php';
+// Diagnostics can take time; do not block other tabs or configuration saves.
+_session_write_close();
 
 //socket
 // live
@@ -38,11 +40,22 @@ $linuxApps[] = ['convert', 'sudo apt update && sudo apt install imagemagick'];
 
 $messages = ['Server' => [], 'PHP' => [], 'Apache' => []];
 $version = phpversion();
-$phpMinVersion = '8.0.0';
+$phpMinVersion = '8.1.0';
 if (strnatcmp($version, $phpMinVersion) >= 0) {
     $messages['PHP'][] = "PHP v{$version}";
 } else {
     $messages['PHP'][] = "PHP v{$version}, please upgrade to version {$phpMinVersion} or greater";
+}
+
+// Compatibility and admin diagnostics share these checks and their rendering.
+foreach (['post_max_size' => check_post_max_size(), 'upload_max_filesize' => check_upload_max_filesize()] as $setting => $valid) {
+    $description = $setting . ': ' . ini_get($setting);
+    $messages['PHP'][] = $valid ? $description : [$description, __('Use at least 100M in php.ini')];
+}
+$durationMinutes = round(getSecondsTotalVideosLength() / 60);
+$messages['Server'][] = __('Total video duration') . ': ' . number_format($durationMinutes) . ' ' . __('minutes');
+if (!empty($global['videoStorageLimitMinutes'])) {
+    $messages['Server'][] = __('Storage limit') . ': ' . number_format($global['videoStorageLimitMinutes']) . ' ' . __('minutes');
 }
 
 $extensions = array_map('strtolower', get_loaded_extensions());
@@ -271,59 +284,7 @@ function printMessages($messages, $cols = array(4, 6))
 
 
 ?>
-<style>
-    #healthCheck .alert {
-        overflow: auto;
-    }
-    #performanceMetrics .metric-box {
-        background: #f5f5f5;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-    #performanceMetrics .metric-box.dark {
-        background: #2b2b2b;
-        border-color: #444;
-    }
-    #performanceMetrics .metric-label {
-        font-size: 12px;
-        color: #666;
-        text-transform: uppercase;
-        margin-bottom: 5px;
-    }
-    #performanceMetrics .metric-value {
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-    }
-    #performanceMetrics .metric-value.dark {
-        color: #fff;
-    }
-    #performanceMetrics .metric-status {
-        font-size: 11px;
-        margin-top: 5px;
-        color: #999;
-    }
-    #performanceMetrics .spinner {
-        border: 3px solid #f3f3f3;
-        border-top: 3px solid #3498db;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        animation: spin 1s linear infinite;
-        margin: 10px auto;
-    }
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    #performanceMetrics .metric-icon {
-        font-size: 36px;
-        margin-bottom: 10px;
-    }
-</style>
+<link href="<?php echo getURL('view/css/healthCheck.css'); ?>" rel="stylesheet" type="text/css" />
 <div class="panel panel-default" id="healthCheck">
     <div class="panel-heading">
         <?php

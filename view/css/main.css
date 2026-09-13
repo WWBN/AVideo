@@ -238,7 +238,6 @@ footer ul.list-inline li {
     transition: width 0.3s, margin 0.3s;
 }
 
-.panel,
 #mainNavBar,
 #sidebar,
 .swal-modal {
@@ -251,10 +250,37 @@ footer ul.list-inline li {
 }
 
 .panel {
+    --avideo-panel-radius: 10px;
+    --avideo-panel-padding: 16px;
+    --avideo-panel-shadow: 0 4px 18px rgb(0 0 0 / 8%);
     margin-top: 10px;
+    border-radius: var(--avideo-panel-radius);
+    box-shadow: var(--avideo-panel-shadow);
+}
+
+.panel > .panel-heading {
+    border-radius: calc(var(--avideo-panel-radius) - 1px) calc(var(--avideo-panel-radius) - 1px) 0 0;
+}
+
+.panel > .panel-heading > h1,
+.panel > .panel-heading > h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.panel > .panel-body {
+    padding: var(--avideo-panel-padding);
+}
+
+.panel > .panel-footer {
+    border-radius: 0 0 calc(var(--avideo-panel-radius) - 1px) calc(var(--avideo-panel-radius) - 1px);
 }
 
 @media (max-width: 767px) {
+
+    .panel { --avideo-panel-padding: 12px; }
 
     #mainNavBar .dropdown-menu {
         max-height: calc(100vh - 250px);

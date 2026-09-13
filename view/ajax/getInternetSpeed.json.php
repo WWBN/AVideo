@@ -14,6 +14,7 @@ if (!User::isAdmin()) {
 }
 
 header('Content-Type: application/json');
+_session_write_close();
 
 $speedTest = getInternetSpeed();
 

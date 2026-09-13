@@ -1,0 +1,8 @@
+[
+  { "element": "#tabRegularLink", "intro": "Start with the site name, language and user permissions. Your changes are saved together using Save." },
+  { "element": "#croppieLogo", "intro": "The entire logo is centered automatically. Drag or zoom only when you want to crop it. Fit image restores the whole image." },
+  { "element": "#logo-btn", "intro": "Choose a logo from your computer. Review the preview before saving. Images are only replaced when you change them." },
+  { "element": "a[href='#tabAdvanced']", "intro": "Configure the encoder and email here. Save changes before using Test Email." },
+  { "element": "a[href='#tabCompatibility']", "intro": "Health Check runs the same diagnostics available in the admin dashboard. Opening it does not discard your changes." },
+  { "element": ".configuration-save", "intro": "Save applies your edits. Wait for the confirmation; if saving fails, your draft stays available so you can try again." }
+]

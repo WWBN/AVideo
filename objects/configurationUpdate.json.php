@@ -17,41 +17,14 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 
 forbidIfIsUntrustedRequest('configurationUpdate');
 
-_error_log("save configuration {$_POST['language']}");
-
+require_once __DIR__ . '/configurationForm.php';
 $config = new AVideoConf();
-$config->setContactEmail($_POST['contactEmail']);
-$config->setLanguage($_POST['language']);
-$config->setWebSiteTitle($_POST['webSiteTitle']);
-$config->setDescription($_POST['description']);
-$config->setAuthCanComment($_POST['authCanComment']);
-$config->setAuthCanUploadVideos($_POST['authCanUploadVideos']);
-$config->setAuthCanViewChart($_POST['authCanViewChart']);
-if (empty($global['disableAdvancedConfigurations'])) {
-    $config->setDisable_analytics($_POST['disable_analytics']);
-    $config->setAllow_download($_POST['allow_download']);
-    $config->setSession_timeout($_POST['session_timeout']);
-    $config->setEncoderURL($_POST['encoder_url']);
-    $config->setSmtp($_POST['smtp']);
-    $config->setSmtpAuth($_POST['smtpAuth']);
-    $config->setSmtpSecure($_POST['smtpSecure']);
-    $config->setSmtpHost($_POST['smtpHost']);
-    $config->setSmtpUsername($_POST['smtpUsername']);
-    $config->setSmtpPassword($_POST['smtpPassword']);
-    $config->setSmtpPort($_POST['smtpPort']);
-}
-
-$config->setHead($_POST['head']);
-$config->setAdsense($_POST['adsense']);
-$config->setMode('Youtube');
-
-$config->setAutoplay($_POST['autoplay']);
-$config->setTheme($_POST['theme']);
+applySiteConfigurationValues($config, $_POST, empty($global['disableAdvancedConfigurations']));
 
 $imagePath = "videos/userPhoto/";
 
 //Check write Access to Directory
-if (!file_exists($global['systemRootPath'] . $imagePath)) {
+if (!empty($_POST['logoImgBase64']) && !file_exists($global['systemRootPath'] . $imagePath)) {
     mkdir($global['systemRootPath'] . $imagePath, 0755, true);
 }
 /*
@@ -66,6 +39,8 @@ if (!is_writable($global['systemRootPath'] . $imagePath)) {
  *
  */
 $response = [];
+$response2 = [];
+$warning = null;
 if (!empty($_POST['logoImgBase64'])) {
     $fileData = base64DataToImage($_POST['logoImgBase64']);
     $fileName = 'logo.png';
@@ -104,22 +79,19 @@ if (!empty($_POST['faviconBase64'])) {
         $input = $global['systemRootPath'] . $photoURL;
         $output = $global['systemRootPath'] . $imagePath . 'favicon.ico';
 
-        // Check if the `convert` command is available (ImageMagick)
-        $convertPath = trim(shell_exec('which convert'));
-
-        if (empty($convertPath)) {
-            error_log("[favicon] ImageMagick 'convert' command not found. Please install it using:\n  sudo apt update && sudo apt install imagemagick");
-            echo "Error: ImageMagick is not installed. Please install it with:\n";
-            echo "sudo apt update && sudo apt install imagemagick\n";
-            return;
+        // An optional ICO conversion must not abort saving the other settings.
+        $convertPath = function_exists('shell_exec') ? trim((string) shell_exec('command -v convert')) : '';
+        if (empty($convertPath) || !function_exists('exec')) {
+            $warning = __('Settings saved, but favicon.ico could not be generated. Check ImageMagick.');
+        } else {
+            $sizesStr = implode(',', $sizes);
+            $cmd = escapeshellarg($convertPath) . ' ' . escapeshellarg($input)
+                . ' -define icon:auto-resize=' . escapeshellarg($sizesStr) . ' ' . escapeshellarg($output);
+            exec($cmd, $outputLog, $returnCode);
+            if ($returnCode !== 0) {
+                $warning = __('Settings saved, but favicon.ico could not be generated. Check ImageMagick.');
+            }
         }
-
-        // Prepare auto-resize sizes for favicon
-        $sizesStr = implode(',', $sizes);
-
-        // Build and execute the `convert` command
-        $cmd = escapeshellcmd("convert {$input} -define icon:auto-resize={$sizesStr} {$output}");
-        exec($cmd, $outputLog, $returnCode);
     } else {
         $response2 = [
             "status" => 'error',
@@ -129,4 +101,13 @@ if (!empty($_POST['faviconBase64'])) {
     }
 }
 
-echo '{"status":"' . $config->save() . '", "respnseLogo": ' . json_encode($response) . ', "respnseFavicon": ' . json_encode($response2) . '}';
+$saved = $config->save();
+$imageError = ($response['status'] ?? '') === 'error' || ($response2['status'] ?? '') === 'error';
+echo json_encode([
+    'status' => (string) $saved,
+    'error' => empty($saved) || $imageError,
+    'warning' => $warning,
+    // Keep the existing response keys for integrations.
+    'respnseLogo' => $response,
+    'respnseFavicon' => $response2,
+]);

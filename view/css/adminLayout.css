@@ -26,9 +26,7 @@
 }
 
 .adminLeftMenu {
-    border-radius: 8px;
     overflow: hidden;
-    box-shadow: none;
 }
 
 .adminLeftMenu .panel-heading {

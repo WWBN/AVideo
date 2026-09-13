@@ -1,0 +1,47 @@
+.site-configurations { max-width: 1600px; margin: 20px auto; }
+.site-configurations .tabbable-line { padding: 8px 16px 0; }
+.site-configurations .nav-tabs { display: flex; overflow-x: auto; overflow-y: hidden; flex-wrap: nowrap; }
+.site-configurations form[aria-busy=true] .croppie-container { pointer-events: none; opacity: .6; }
+.site-configurations .nav-tabs > li { float: none; flex: 0 0 auto; }
+.site-configurations .nav-tabs > li > a { padding: 16px; white-space: nowrap; border-radius: 8px 8px 0 0; }
+.site-configurations .tab-content { padding-top: 8px; }
+.site-configurations .form-group { margin-bottom: 20px; }
+.site-configurations .form-group > .control-label { display: block; float: none; width: 100%; text-align: left; padding-top: 0; padding-bottom: 8px; }
+.site-configurations .form-group > [class*="col-md-"]:not(.control-label) { float: none; width: 100%; }
+.site-configurations .form-control { min-height: 40px; border-radius: 6px; }
+.site-configurations .input-group .form-control { border-radius: 0 6px 6px 0; }
+.site-configurations .input-group-addon { border-radius: 6px 0 0 6px; }
+.site-configurations .alert h3 { font-size: 14px; line-height: 1.6; margin: 0; }
+.site-configurations .croppie-container { margin: 12px auto 20px; }
+.site-configurations .cr-slider-wrap { max-width: 100%; }
+.site-configurations .configuration-image-error { border: 1px dashed #d9534f; }
+.site-configurations .configuration-actions { position: sticky; bottom: 0; z-index: 5; display: flex; align-items: center; justify-content: flex-end; gap: 16px; padding: 14px 20px; box-shadow: 0 -4px 18px rgba(0,0,0,.06); }
+.site-configurations .configuration-save { min-width: 150px; border-radius: 8px; }
+.site-configurations #configurationSaveStatus { margin-right: auto; min-width: 0; overflow-wrap: anywhere; }
+.site-configurations .material-switch > input[type=checkbox] { display: block; position: absolute; opacity: 0; width: 1px; height: 1px; }
+.site-configurations .material-switch > input:focus-visible + label { outline: 2px solid currentColor; outline-offset: 8px; }
+.site-configurations .CodeMirror { height: 420px; max-width: 100%; border-radius: 8px; }
+.site-configurations .tab-pane.active { animation: configuration-enter .2s ease-out; }
+@keyframes configuration-enter { from { opacity: .5; } to { opacity: 1; } }
+@media (max-width: 767px) {
+    .site-configurations { margin: 12px auto; padding: 0 8px; }
+    .site-configurations .nav-tabs > li > a { padding: 12px; }
+    .site-configurations .configuration-actions { padding: 12px; gap: 8px; }
+    .site-configurations .configuration-save { min-width: 100px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .site-configurations .tab-pane.active { animation: none; }
+    .site-configurations .fa-spin { animation: none; }
+}
+
+/* Croppie measures the viewport including its border. Keep the output aspect exact. */
+.site-configurations .croppie-container .cr-viewport { border: 0; }
+.site-configurations .croppie-container { height: auto; }
+.site-configurations .croppie-container .cr-boundary {
+    border: 0;
+    outline: 1px solid currentColor;
+    background-color: rgba(127,127,127,.08);
+}
+.site-configurations .configuration-image-error { min-height: 70px; }
+.site-configurations .help-block { overflow-wrap: anywhere; }
+.site-configurations #configurationHealthCheck { min-width: 0; }

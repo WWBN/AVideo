@@ -1,0 +1,55 @@
+#healthCheck .alert {
+    overflow: auto;
+}
+#performanceMetrics .metric-box {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+#performanceMetrics .metric-box.dark {
+    background: #2b2b2b;
+    border-color: #444;
+}
+#performanceMetrics .metric-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+#performanceMetrics .metric-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+#performanceMetrics .metric-value.dark {
+    color: #fff;
+}
+#performanceMetrics .metric-status {
+    font-size: 11px;
+    margin-top: 5px;
+    color: #999;
+}
+#performanceMetrics .spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: health-check-spin 1s linear infinite;
+    margin: 10px auto;
+}
+@keyframes health-check-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+#performanceMetrics .metric-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #performanceMetrics .spinner { animation: none; }
+}
