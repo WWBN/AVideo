@@ -33,30 +33,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         $classInner = 'carousel-inner';
     }
 ?>
-    <style>
-        #bigVideoCarousel .carousel-indicators .active {
-            border-color: #777 !important;
-        }
-    </style>
-
-    <div class="clearfix" style="margin: 5px 0 20px 0;">
-        <div id="bigVideoCarousel" class="<?php echo $class; ?> " data-ride="carousel">
-            <?php
-            if (count($videoRows) > 1) {
-            ?>
-                <!-- Indicators -->
-                <ol class="carousel-indicators" style="bottom: -25px;">
-                    <?php
-                    for ($i = 0; $i < count($videoRows); $i++) {
-                    ?>
-                    <li data-target="#bigVideoCarousel" data-slide-to="<?php echo $i; ?>" class="<?php echo $i === 0 ? "active" : ""; ?>" style="border-color: #DDD;"></li>
-                    <?php
-                    }
-                    ?>
-                </ol>
-            <?php
-            }
-            ?>
+    <div class="clearfix gallery-featured-wrap">
+        <div id="bigVideoCarousel" class="gallery-featured <?php echo $class; ?>" data-ride="carousel" aria-label="<?php echo __('Featured'); ?>">
             <!-- Wrapper for slides -->
             <div class="<?php echo $classInner; ?>">
                 <?php
@@ -91,8 +69,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 ?>
                     <div class="item <?php echo $count === 1 ? "active" : ""; ?>">
                         <div class="clear clearfix">
-                            <div class="row thumbsImage">
-                                <div class="<?php echo $colClass1; ?>">
+                            <div class="row thumbsImage gallery-featured-layout">
+                                <div class="<?php echo $colClass1; ?> gallery-featured-media">
                                     <?php
                                     echo Video::getVideoImagewithHoverAnimationFromVideosId($videoRow, true, true, false, true, empty($obj->GifOnBigVideo));
                                     ?>
@@ -117,10 +95,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     <?php }
                                     ?>
                                 </div>
-                                <div class="<?php echo $colClass2; ?>">
+                                <div class="<?php echo $colClass2; ?> gallery-featured-body">
                                     <div class="<?php echo $colClass3; ?>">
                                         <a class="h6 galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $videoRow['id']; ?>" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" title="<?php echo htmlentities(getSEOTitle($videoRow['title'], 200)); ?>">
-                                            <h2 style="margin: 5px 0; padding: 5px 0;"><?php echo getSEOTitle($videoRow['title']); ?></h2>
+                                            <h2 class="gallery-featured-title"><?php echo getSEOTitle($videoRow['title']); ?></h2>
                                         </a>
                                         <div class="descriptionArea">
                                             <div class="descriptionAreaPreContent">
@@ -262,6 +240,17 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 }
                 ?>
             </div>
+            <?php if (count($videoRows) > 1) { ?>
+                <nav class="gallery-featured-navigation" aria-label="<?php echo __('Videos'); ?>">
+                    <button type="button" class="btn btn-default gallery-featured-arrow" data-target="#bigVideoCarousel" data-slide="prev" aria-label="<?php echo __('Previous'); ?>"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                    <ol class="carousel-indicators">
+                        <?php for ($i = 0; $i < count($videoRows); $i++) { ?>
+                            <li class="<?php echo $i === 0 ? 'active' : ''; ?>"><button type="button" data-target="#bigVideoCarousel" data-slide-to="<?php echo $i; ?>" aria-label="<?php echo __('Video') . ' ' . ($i + 1); ?>"></button></li>
+                        <?php } ?>
+                    </ol>
+                    <button type="button" class="btn btn-default gallery-featured-arrow" data-target="#bigVideoCarousel" data-slide="next" aria-label="<?php echo __('Next'); ?>"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+                </nav>
+            <?php } ?>
         </div>
     </div>
 <?php

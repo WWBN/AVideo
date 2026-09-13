@@ -15,3 +15,28 @@ function channelToGallery(users_id, add) {
         }
     });
 }
+
+$(function () {
+    var featuredCarousel = $('#bigVideoCarousel.gallery-featured');
+    if (!featuredCarousel.hasClass('carousel')) {
+        return;
+    }
+    function updateFeaturedIndicators() {
+        featuredCarousel.find('.carousel-indicators button').each(function () {
+            $(this).attr('aria-current', $(this).parent().hasClass('active') ? 'true' : 'false');
+        });
+        lazyImage();
+    }
+    updateFeaturedIndicators();
+    featuredCarousel.on('slid.bs.carousel', updateFeaturedIndicators);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        featuredCarousel.carousel({interval: false});
+    }
+    featuredCarousel.on('slide.bs.carousel', function (event) {
+        // Do not move a slide away while its menu or keyboard controls are in use.
+        if ($(this).find('.item.active .open').length ||
+            $(document.activeElement).closest('#bigVideoCarousel .item.active').length) {
+            event.preventDefault();
+        }
+    });
+});

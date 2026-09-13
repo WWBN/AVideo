@@ -638,3 +638,176 @@ a.h6.galleryLink > strong{
     max-height: none;
     -webkit-line-clamp: unset;
 }
+
+/* Featured videos: scoped to Gallery, including its channel embed. */
+.gallery-featured-wrap {
+    margin: 12px 0 24px;
+}
+#bigVideoCarousel.gallery-featured {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(12px, 2vw, 24px);
+    border: 1px solid rgba(128, 128, 128, .2);
+    border-radius: 18px;
+    background: linear-gradient(125deg, rgba(128, 128, 128, .08), transparent 65%);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .06);
+}
+#bigVideoCarousel .gallery-featured-layout {
+    display: flex;
+    align-items: center;
+    margin: 0 -12px;
+}
+#bigVideoCarousel .gallery-featured-layout::before,
+#bigVideoCarousel .gallery-featured-layout::after {
+    display: none;
+}
+#bigVideoCarousel .gallery-featured-media,
+#bigVideoCarousel .gallery-featured-body {
+    min-width: 0;
+    padding: 0 12px;
+}
+#bigVideoCarousel .gallery-featured-media .aspectRatio16_9 {
+    border-radius: 12px;
+    background: #111;
+}
+#bigVideoCarousel .gallery-featured-title {
+    margin: 0 0 14px;
+    padding: 0;
+    font-size: clamp(21px, 2.2vw, 32px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.025em;
+    overflow-wrap: anywhere;
+}
+#bigVideoCarousel .descriptionArea {
+    margin-bottom: 16px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+#bigVideoCarousel .galeryDetails {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 12px;
+    font-size: 12px;
+}
+#bigVideoCarousel .galeryDetails > div {
+    float: none;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+}
+#bigVideoCarousel .galleryTags {
+    flex-basis: 100%;
+}
+#bigVideoCarousel .galleryTags .label {
+    display: inline-block;
+    padding: 6px 9px;
+    border-radius: 6px;
+    font-size: 11px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+#bigVideoCarousel .galeryDetails > .btn-link,
+#bigVideoCarousel .galeryDetails > .btn {
+    min-height: 32px;
+    border-radius: 6px;
+}
+#bigVideoCarousel .gallery-featured-navigation {
+    order: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(128, 128, 128, .18);
+}
+#bigVideoCarousel .gallery-featured-arrow {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+#bigVideoCarousel .gallery-featured-arrow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .14);
+}
+#bigVideoCarousel .carousel-indicators {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+#bigVideoCarousel .carousel-indicators li,
+#bigVideoCarousel .carousel-indicators li.active {
+    display: block;
+    width: 28px;
+    height: 32px;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    text-indent: 0;
+}
+#bigVideoCarousel .carousel-indicators button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+}
+#bigVideoCarousel .carousel-indicators button::after {
+    content: '';
+    display: block;
+    width: 7px;
+    height: 7px;
+    margin: auto;
+    border-radius: 8px;
+    background: currentColor;
+    opacity: .3;
+    transition: width .25s ease, opacity .25s ease;
+}
+#bigVideoCarousel .carousel-indicators .active button::after {
+    width: 22px;
+    opacity: .85;
+}
+#bigVideoCarousel button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+/* Bootstrap clips dropdowns even when the carousel is stationary. */
+#bigVideoCarousel .carousel-inner:has(.item.active .open) {
+    overflow: visible;
+}
+@media (max-width: 767px) {
+    #bigVideoCarousel .gallery-featured-layout {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+    }
+    #bigVideoCarousel .gallery-featured-media,
+    #bigVideoCarousel .gallery-featured-body {
+        width: 100%;
+    }
+    #bigVideoCarousel .gallery-featured-title {
+        font-size: 22px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    #bigVideoCarousel .item,
+    #bigVideoCarousel .gallery-featured-arrow,
+    #bigVideoCarousel .carousel-indicators button::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
