@@ -1,10 +1,10 @@
 <?php
-require_once '../objects/functions.php';
+require_once __DIR__ . '/../objects/functions.php';
 if (!isCommandLineInterface()) {
     die('Command Line only');
 }
-if (file_exists("../videos/configuration.php")) {
-    die("Can not create configuration again: " . json_encode($_SERVER));
+if (file_exists(__DIR__ . "/../videos/configuration.php")) {
+    die("Configuration already exists. Installation was not changed.\n");
 }
 
 
@@ -45,14 +45,7 @@ if (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
 
 $webSiteRootURL = rtrim($webSiteRootURL, '/') . '/';
 
-$_POST['systemRootPath'] = str_replace("install", "", getcwd());
-if (!is_dir($_POST['systemRootPath'])) {
-    $_POST['systemRootPath'] = "/var/www/html/YouPHPTube/";
-    if (!is_dir($_POST['systemRootPath'])) {
-        $_POST['systemRootPath'] = "/var/www/html/AVideo/";
-    }
-}
-
+$_POST['systemRootPath'] = str_replace('\\', '/', dirname(__DIR__)) . '/';
 
 $_POST['databaseHost'] = "localhost";
 $_POST['databaseUser'] = $databaseUser;
@@ -66,4 +59,5 @@ $_POST['mainLanguage'] = "en";
 $_POST['webSiteTitle'] = "AVideo";
 $_POST['webSiteRootURL'] = $webSiteRootURL;
 
-include './checkConfiguration.php';
+include __DIR__ . '/checkConfiguration.php';
+if (empty($installerSucceeded)) { exit(1); }
