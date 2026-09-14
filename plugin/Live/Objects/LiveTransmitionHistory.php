@@ -404,12 +404,32 @@ class LiveTransmitionHistory extends ObjectYPT
         $this->live_servers_id = intval($live_servers_id);
     }
 
-    public static function getAllFromUser($users_id = 0, $onlyWithViewers = false, $onlyActive = false, $limit = 0)
+    /** Save a heartbeat audience sample without overwriting a larger concurrent sample. */
+    public static function recordAudienceSample($historyId, $secondsInactive = 60)
+    {
+        $historyId = (int) $historyId;
+        if ($historyId <= 0) {
+            return false;
+        }
+        $secondsInactive = max(10, min(600, (int) $secondsInactive));
+        $session = "CASE WHEN session_id IS NULL OR session_id = '' THEN CONCAT('row:', id) ELSE CONCAT('session:', session_id) END";
+        $sql = "UPDATE live_transmitions_history h JOIN (
+                    SELECT COUNT(DISTINCT {$session}) AS total,
+                        COUNT(DISTINCT CASE WHEN modified >= NOW() - INTERVAL ? SECOND THEN {$session} END) AS online
+                    FROM live_transmition_history_log WHERE live_transmitions_history_id = ?
+                ) audience
+                SET h.max_viewers_sametime = GREATEST(COALESCE(h.max_viewers_sametime, 0), audience.online),
+                    h.total_viewers = GREATEST(COALESCE(h.total_viewers, 0), audience.total)
+                WHERE h.id = ? AND h.finished IS NULL";
+        return sqlDAL::writeSql($sql, 'iii', [$secondsInactive, $historyId, $historyId]);
+    }
+
+    public static function getAllFromUser($users_id = 0, $onlyWithViewers = false, $onlyActive = false, $limit = 0, $reportOrder = '')
     {
         global $global;
         $users_id = intval($users_id);
         $sql = "SELECT *, "
-            . " (SELECT count(id) FROM  live_transmition_history_log WHERE live_transmitions_history_id=lth.id ) as total_viewers_from_history "
+            . " (SELECT COUNT(DISTINCT CASE WHEN session_id IS NULL OR session_id = '' THEN CONCAT('row:', id) ELSE CONCAT('session:', session_id) END) FROM live_transmition_history_log WHERE live_transmitions_history_id=lth.id ) as total_viewers_from_history "
             . " FROM  " . static::getTableName() . " lth "
             . " WHERE 1=1 AND title NOT LIKE 'Restream test%'";
 
@@ -424,7 +444,16 @@ class LiveTransmitionHistory extends ObjectYPT
             $sql .= " AND (total_viewers>0 OR (SELECT count(id) FROM  live_transmition_history_log WHERE live_transmitions_history_id=lth.id )>0) ";
         }
         $limit = intval($limit);
-        if (!empty($limit)) {
+        $reportOrders = [
+            'recent' => 'lth.created DESC, lth.id DESC',
+            'views' => 'CASE WHEN lth.total_viewers > 0 THEN lth.total_viewers ELSE total_viewers_from_history END DESC, lth.id DESC',
+            'peak' => 'lth.max_viewers_sametime DESC, lth.id DESC'
+        ];
+        if (isset($reportOrders[$reportOrder])) {
+            // Reports use a fixed, validated order before LIMIT, independent of page request filters.
+            $limit = max(1, min(100, $limit));
+            $sql .= ' ORDER BY ' . $reportOrders[$reportOrder] . " LIMIT {$limit}";
+        } elseif (!empty($limit)) {
             $sql .= "ORDER BY
             CASE
                 WHEN finished IS NULL THEN 0

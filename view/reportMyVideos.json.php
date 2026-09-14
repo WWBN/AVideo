@@ -8,8 +8,8 @@ require_once $global['systemRootPath'] . 'objects/Channel.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 _session_write_close();
-$from = date("Y-m-d 00:00:00", strtotime($_POST['dateFrom']));
-$to = date('Y-m-d 23:59:59', strtotime($_POST['dateTo']));
+require_once __DIR__ . '/../objects/reportDateRange.php';
+[$from, $to] = reportRequestDateRange($_POST);
 $users_id = 0;
 if ($config->getAuthCanViewChart() == 0) {
     // list all channels
@@ -46,6 +46,14 @@ if($users_id === 'all'){
     $users_id = 0;
 }
 
-$obj->data = VideoStatistic::getStatisticTotalViewsAndSecondsWatchingFromUser($users_id, $from, $to);
+try {
+    $obj->data = VideoStatistic::getStatisticTotalViewsAndSecondsWatchingFromUser($users_id, $from, $to);
+
+} catch (Throwable $e) {
+    _error_log('Analytics query failed: ' . $e->getMessage());
+    http_response_code(500);
+    $obj->error = true;
+    $obj->msg = __('Unable to load this report. Please try again.');
+}
 
 echo json_encode($obj);

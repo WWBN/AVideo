@@ -1,5 +1,5 @@
 <?php
-require_once '../videos/configuration.php';
+require_once __DIR__ . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistory.php';
@@ -9,19 +9,13 @@ if (!User::canStream()) {
 }
 global $isAdminPanel;
 if(User::isAdmin()){
-   $isAdminPanel = 1; 
+   $isAdminPanel = 1;
 }
 
-$_POST['sort'] = array();
-$_POST['sort']['created'] = 'DESC';
-$_POST['sort']['total_viewers_from_history'] = 'DESC';
-$_POST['sort']['total_viewers'] = 'DESC';
-$_POST['sort']['max_viewers_sametime'] = 'DESC';
-$_REQUEST['rowCount'] = 30;
 if (!empty($isAdminPanel)) {
-    $lives = LiveTransmitionHistory::getAllFromUser(0, true);
+    $lives = LiveTransmitionHistory::getAllFromUser(0, true, false, 30, 'recent');
 } else {
-    $lives = LiveTransmitionHistory::getAllFromUser(User::getId(), true);
+    $lives = LiveTransmitionHistory::getAllFromUser(User::getId(), true, false, 30, 'recent');
 }
 $labelsArray = [];
 $valueArray = [];
@@ -37,23 +31,20 @@ foreach ($lives as $value) {
         continue;
     }
     if (!empty($isAdminPanel)) {
-        $label = $value['created'] . "\n users_id#{$value['users_id']} " . User::getNameIdentificationById($value['users_id']);
+        $label = $value['created'] . "\n" . $value['title'] . " - " . User::getNameIdentificationById($value['users_id']);
     } else {
         $label = $value['created'] . "\n" . $value['title'];
     }
-    $labelsArray[] = safeString($label);
-    $valueArraySameTime[] = intval($value['max_viewers_sametime']);
+    $labelsArray[] = $label;
+    $valueArraySameTime[] = (intval($value['max_viewers_sametime']) ?: null);
     $valueArray[] = intval($total_viewers );
 }
 //var_dump($labelsArray, $valueArraySameTime, $valueArray);
 
-$_POST['sort'] = array();
-$_POST['sort']['total_viewers_from_history'] = 'DESC';
-$_POST['sort']['total_viewers'] = 'DESC';
 if ($isAdminPanel) {
-    $lives = LiveTransmitionHistory::getAllFromUser(0, true);
+    $lives = LiveTransmitionHistory::getAllFromUser(0, true, false, 30, 'views');
 } else {
-    $lives = LiveTransmitionHistory::getAllFromUser(User::getId(), true);
+    $lives = LiveTransmitionHistory::getAllFromUser(User::getId(), true, false, 30, 'views');
 }
 $labelsArrayMoreViews = [];
 $valueArrayMoreViews = [];
@@ -69,22 +60,20 @@ foreach ($lives as $value) {
         continue;
     }
     if (!empty($isAdminPanel)) {
-        $label = $value['created'] . "\n users_id#{$value['users_id']} " . User::getNameIdentificationById($value['users_id']);
+        $label = $value['created'] . "\n" . $value['title'] . " - " . User::getNameIdentificationById($value['users_id']);
     } else {
         $label = $value['created'] . "\n" . $value['title'];
     }
-    $labelsArrayMoreViews[] = safeString($label);
-    $valueArraySameTimeMoreViews[] = intval($value['max_viewers_sametime']);
+    $labelsArrayMoreViews[] = $label;
+    $valueArraySameTimeMoreViews[] = (intval($value['max_viewers_sametime']) ?: null);
     $valueArrayMoreViews[] = intval($total_viewers);
 }
 
 
-$_POST['sort'] = array();
-$_POST['sort']['max_viewers_sametime'] = 'DESC';
 if (!empty($isAdminPanel)) {
-    $lives = LiveTransmitionHistory::getAllFromUser(0, true);
+    $lives = LiveTransmitionHistory::getAllFromUser(0, true, false, 30, 'peak');
 } else {
-    $lives = LiveTransmitionHistory::getAllFromUser(User::getId(), true);
+    $lives = LiveTransmitionHistory::getAllFromUser(User::getId(), true, false, 30, 'peak');
 }
 $labelsArrayMoreViewsSameTime = [];
 $valueArrayMoreViewsSameTime = [];
@@ -96,231 +85,69 @@ foreach ($lives as $value) {
         continue;
     }
     if (!empty($isAdminPanel)) {
-        $label = $value['created'] . "\n users_id#{$value['users_id']} " . User::getNameIdentificationById($value['users_id']);
+        $label = $value['created'] . "\n" . $value['title'] . " - " . User::getNameIdentificationById($value['users_id']);
     } else {
         $label = $value['created'] . "\n" . $value['title'];
     }
-    $labelsArrayMoreViewsSameTime[] = safeString($label);
-    $valueArraySameTimeMoreViewsSameTime[] = intval($value['max_viewers_sametime']);
+    $labelsArrayMoreViewsSameTime[] = $label;
+    $valueArraySameTimeMoreViewsSameTime[] = (intval($value['max_viewers_sametime']) ?: null);
     $valueArrayMoreViewsSameTime[] = intval($value['total_viewers']);
 }
+$liveReports = [
+    ['liveChart', 'Recent broadcasts', 'Views and peak concurrent viewers for up to 30 recent broadcasts, oldest to newest.', array_reverse($labelsArray), array_reverse($valueArray), array_reverse($valueArraySameTime)],
+    ['liveChartMoreViews', 'Most watched broadcasts', 'Up to 30 broadcasts ranked by recorded views.', $labelsArrayMoreViews, $valueArrayMoreViews, null],
+    ['liveChartMoreViewsSameTime', 'Highest simultaneous audience', 'Up to 30 broadcasts ranked by their peak number of concurrent viewers.', $labelsArrayMoreViewsSameTime, null, $valueArraySameTimeMoreViewsSameTime]
+];
 ?>
-<div id="liveVideosMenu" class="tab-pane fade" style="padding: 10px;">
-    <div class="panel panel-default">
-        <div class="panel-heading when">
-            # <?php echo __("Last Lives"); ?>
-            <?php 
-            $smallText = 'users_id='.User::getId();
-            if($isAdminPanel){
-                $smallText = 'Admin';
-            }
-            echo '<small class="text-muted pull-right">'.$smallText.'</small>';
-            ?>
+<div id="liveVideosMenu" class="tab-pane fade">
+    <header class="report-section-heading">
+        <h2><?php echo __('Live performance'); ?></h2>
+        <p class="text-muted"><?php echo __('Views count recorded browser sessions, not unique people. Peak concurrent viewers is estimated from recent viewer activity. Older broadcasts may have no recorded peak; this is shown as Not recorded, not zero.'); ?></p>
+        <p class="help-block"><?php echo !empty($isAdminPanel) ? __('All channels / All time / Refresh the page to update') : __('Your broadcasts / All time / Refresh the page to update'); ?></p>
+    </header>
+    <?php if (empty($labelsArray) && empty($labelsArrayMoreViews) && empty($labelsArrayMoreViewsSameTime)) { ?>
+        <div class="well"><?php echo __('No live viewing activity recorded yet. Broadcasts with viewers will appear here.'); ?></div>
+    <?php } else { ?>
+        <h3><?php echo __('Latest broadcasts with viewers'); ?></h3>
+        <div class="report-summary">
+            <?php foreach (array_slice($labelsArray, 0, 4) as $i => $label) { ?>
+                <div class="panel panel-default report-live-card"><div class="panel-body">
+                    <h4><?php echo htmlspecialchars($label, ENT_QUOTES, 'UTF-8'); ?></h4>
+                    <dl><dt><?php echo __('Views'); ?></dt><dd><?php echo number_format($valueArray[$i]); ?></dd><dt><?php echo __('Peak concurrent viewers'); ?></dt><dd><?php echo ($valueArraySameTime[$i] === null ? __('Not recorded') : number_format($valueArraySameTime[$i])); ?></dd></dl>
+                </div></div>
+            <?php } ?>
         </div>
-        <div class="panel-body">
-            <?php
-            $liveChartLatest = array();
-
-            foreach ($valueArray as $i => $value) {
-                if (empty($value)) {
-                    continue;
-                }
-                $liveChartLatest[] = $i;
-            ?>
-                <div class="col-md-3" style="min-height: 300px;">
-                    <canvas id="liveChartLatest<?php echo $i; ?>"></canvas>
+        <?php foreach ($liveReports as $liveReport) { ?>
+            <section class="panel panel-default">
+                <div class="panel-heading"><h2><?php echo __($liveReport[1]); ?></h2><p><?php echo __($liveReport[2]); ?></p></div>
+                <div class="panel-body">
+                    <?php if (empty($liveReport[3])) { ?><p><?php echo __('No audience peaks recorded yet. New viewer activity will populate this report when live audience tracking is enabled.'); ?></p><?php } else { ?>
+                        <div class="report-chart-body"><canvas id="<?php echo $liveReport[0]; ?>" role="img" aria-label="<?php echo __($liveReport[1]); ?>"></canvas></div>
+                        <details><summary><?php echo __('View data'); ?></summary><div class="table-responsive"><table class="table table-striped">
+                            <thead><tr><th><?php echo __('Broadcast'); ?></th><?php if ($liveReport[4] !== null) { ?><th><?php echo __('Views'); ?></th><?php } ?><?php if ($liveReport[5] !== null) { ?><th><?php echo __('Peak concurrent viewers'); ?></th><?php } ?></tr></thead>
+                            <tbody><?php foreach ($liveReport[3] as $i => $label) { ?><tr><td><?php echo htmlspecialchars($label, ENT_QUOTES, 'UTF-8'); ?></td><?php if ($liveReport[4] !== null) { ?><td><?php echo number_format($liveReport[4][$i]); ?></td><?php } ?><?php if ($liveReport[5] !== null) { ?><td><?php echo ($liveReport[5][$i] === null ? __('Not recorded') : number_format($liveReport[5][$i])); ?></td><?php } ?></tr><?php } ?></tbody>
+                        </table></div></details>
+                    <?php } ?>
                 </div>
-            <?php
-                if (count($liveChartLatest) >= 4) {
-                    break;
-                }
-            }
-            ?>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading when"># <?php echo __("Timeline"); ?></div>
-        <div class="panel-body">
-            <div class="col-md-12" style="min-height: 500px;">
-                <canvas id="liveChart" height="150"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading when"># <?php echo __("More views"); ?></div>
-        <div class="panel-body">
-            <div class="col-md-12" style="min-height: 400px;">
-                <canvas id="liveChartMoreViews" height="90"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading when"># <?php echo __("More views same time"); ?></div>
-        <div class="panel-body">
-            <div class="col-md-12" style="min-height: 400px;">
-                <canvas id="liveChartMoreViewsSameTime" height="90"></canvas>
-            </div>
-        </div>
-    </div>
+            </section>
+        <?php } ?>
+    <?php } ?>
 </div>
 <script>
-    var ctxLiveChat = document.getElementById("liveChart");
-    var liveChartData = {
-        labels: <?php echo json_encode($labelsArray); ?>,
-        datasets: [{
-            backgroundColor: 'rgba(255, 0, 0, 0.3)',
-            borderColor: 'rgba(255, 0, 0, 0.5)',
-            label: '# <?php echo __("Total Views"); ?>',
-            data: <?php echo json_encode($valueArray); ?>
-        }, {
-            backgroundColor: 'rgba(0,255, 0, 0.3)',
-            borderColor: 'rgba( 0,255, 0, 0.5)',
-            label: '# <?php echo __("Total Viewers Same Time"); ?>',
-            data: <?php echo json_encode($valueArraySameTime); ?>
-        }]
-    };
-
-    var ctxLiveChatMoreViews = document.getElementById("liveChartMoreViews");
-    var liveChartDataMoreViews = {
-        labels: <?php echo json_encode($labelsArrayMoreViews); ?>,
-        datasets: [{
-            backgroundColor: 'rgba(255, 0, 0, 0.3)',
-            borderColor: 'rgba(255, 0, 0, 0.5)',
-            label: '# <?php echo __("Total Views"); ?>',
-            data: <?php echo json_encode($valueArrayMoreViews); ?>
-        }]
-    };
-
-    var ctxLiveChatMoreViewsSameTime = document.getElementById("liveChartMoreViewsSameTime");
-    var liveChartDataMoreViewsSameTime = {
-        labels: <?php echo json_encode($labelsArrayMoreViewsSameTime); ?>,
-        datasets: [{
-            backgroundColor: 'rgba(0,255, 0, 0.3)',
-            borderColor: 'rgba( 0,255, 0, 0.5)',
-            label: '# <?php echo __("Total Viewers Same Time"); ?>',
-            data: <?php echo json_encode($valueArraySameTimeMoreViewsSameTime); ?>
-        }]
-    };
-
-    $(document).ready(function() {
-
-        var liveChart = new Chart(ctxLiveChat, {
-            type: 'bar',
-            data: liveChartData,
-            fill: false,
-            responsive: true,
-            options: {
-                scales: {
-                    y: {
-                        ticks: {
-                            beginAtZero: true,
-                            callback: function(value, index, values) {
-                                if (Math.floor(value) === value) {
-                                    return value;
-                                }
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    display: false
-                },
-                responsive: true,
-                title: {
-                    display: true
-                }
-            }
-        });
-
-        var liveChartMoreViews = new Chart(ctxLiveChatMoreViews, {
-            type: 'bar',
-            data: liveChartDataMoreViews,
-            fill: false,
-            responsive: true,
-            options: {
-                scales: {
-                    y: {
-                        ticks: {
-                            beginAtZero: true,
-                            callback: function(value, index, values) {
-                                if (Math.floor(value) === value) {
-                                    return value;
-                                }
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    display: false
-                },
-                responsive: true,
-                title: {
-                    display: true
-                }
-            }
-        });
-
-        var liveChartMoreViewsSameTime = new Chart(ctxLiveChatMoreViewsSameTime, {
-            type: 'bar',
-            data: liveChartDataMoreViewsSameTime,
-            fill: false,
-            responsive: true,
-            options: {
-                scales: {
-                    y: {
-                        ticks: {
-                            beginAtZero: true,
-                            callback: function(value, index, values) {
-                                if (Math.floor(value) === value) {
-                                    return value;
-                                }
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    display: false
-                },
-                responsive: true,
-                title: {
-                    display: true
-                }
-            }
-        });
-
-        <?php
-        foreach ($liveChartLatest as $i) {
-        ?>
-
-            var liveChartLatest<?php echo $i; ?> = new Chart(document.getElementById("liveChartLatest<?php echo $i; ?>"), {
-                type: 'doughnut',
-                data: {
-                    labels: [<?php echo json_encode(__('Total Viewers')), '+ " (' . $valueArraySameTime[$i] . ')"'; ?>, <?php echo json_encode(__('Max Viewers Same Time')), '+ " (' . $valueArray[$i] . ')"'; ?>],
-                    datasets: [{
-                        label: '',
-                        data: <?php echo json_encode(array($valueArraySameTime[$i], $valueArray[$i])); ?>,
-                        backgroundColor: [
-                            "#00FF0055",
-                            "#FF000055",
-                        ],
-
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: <?php echo json_encode($labelsArray[$i]); ?>
-                        }
-                    }
-                },
-            });
-        <?php
-        }
-        ?>
-    });
+$(function () {
+    var drawn = false;
+    function drawLive() {
+        if (drawn || !$('#liveVideosMenu').is(':visible')) { return; }
+        drawn = true;
+        <?php foreach ($liveReports as $liveReport) { if (empty($liveReport[3])) { continue; } ?>
+        (function () {
+            var labels = <?php echo json_encode($liveReport[3], JSON_HEX_TAG | JSON_HEX_AMP); ?>, datasets = [];
+            <?php if ($liveReport[4] !== null) { ?>datasets.push({label: <?php echo json_encode(__('Views')); ?>, data: <?php echo json_encode($liveReport[4]); ?>});<?php } ?>
+            <?php if ($liveReport[5] !== null) { ?>datasets.push({label: <?php echo json_encode(__('Peak concurrent viewers')); ?>, data: <?php echo json_encode($liveReport[5]); ?>});<?php } ?>
+            AVideoReports.chart(document.getElementById('<?php echo $liveReport[0]; ?>'), labels.map(function (label) { return label.slice(0, 10); }), datasets, {fullLabels: labels});
+        })();
+        <?php } ?>
+    }
+    $('a[href="#liveVideosMenu"]').on('shown.bs.tab', drawLive); drawLive();
+});
 </script>

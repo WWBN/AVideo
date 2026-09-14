@@ -6,6 +6,7 @@ if (!isset($global['systemRootPath'])) {
 }
 
 AVideoPlugin::getDataObject('VideosStatistics');
+require_once __DIR__ . '/../objects/reportMetrics.php';
 
 _session_write_close();
 
@@ -38,18 +39,18 @@ $obj->users_id_statistics = $obj->users_id;
 $isAdminPanel = User::isAdmin() && !empty($_REQUEST['isAdminPanel']);
 if ($isAdminPanel) {
     $obj->users_id_statistics = 0; // show all results
-    $obj->totalUsers = User::getTotalUsers(false, 'a');
+    $obj->totalUsers = User::getTotalUsers(false);
 } elseif (User::getId() !== $obj->users_id_statistics) {
     $obj->msg = 'Invalid user';
     die(_json_encode($obj));
 }
 
-$cacheName = 'statisticsReport_'.$obj->users_id_statistics;
+$cacheName = 'statisticsReport_v3_'.$obj->users_id_statistics;
 
 $cache = ObjectYPT::getCache($cacheName, 300); // 5 min cache
 if (!empty($cache)) {
     if ($isAdminPanel) {
-        $cache->totalUsers = User::getTotalUsers(false, 'a');
+        $cache->totalUsers = User::getTotalUsers(false);
     }
     if (empty($cache->performance)) {
         $cache->performance = new stdClass();
@@ -78,20 +79,28 @@ if (!$user->getIsAdmin() && empty($obj->can_view_charts)) {
     }
 }
 
-$obj->error = false;
-$obj->totalVideos = VideosStatistics::getTotalVideos($obj->users_id_statistics);
-$obj->totalSubscriptions = VideosStatistics::getTotalSubscriptions($obj->users_id_statistics);
-$obj->totalComents = VideosStatistics::getTotalComments($obj->users_id_statistics);
-$obj->totalVideosViews = VideosStatistics::getTotalVideosViews($obj->users_id_statistics);
-$obj->totalDurationVideos = intval(VideosStatistics::getTotalDuration($obj->users_id_statistics) / 60);
-$obj->totalLikes = VideosStatistics::getTotalLikes($obj->users_id_statistics);
-$obj->totalDislikes = VideosStatistics::getTotalDislikes($obj->users_id_statistics);
+try {
+    $obj->error = false;
+    $obj->totalVideos = VideosStatistics::getTotalVideos($obj->users_id_statistics);
+    $obj->totalSubscriptions = ReportMetrics::subscriptions($obj->users_id_statistics);
+    $obj->totalComents = VideosStatistics::getTotalComments($obj->users_id_statistics);
+    $obj->totalVideosViews = VideosStatistics::getTotalVideosViews($obj->users_id_statistics);
+    $obj->totalDurationVideos = intval(VideosStatistics::getTotalDuration($obj->users_id_statistics) / 60);
+    $reactions = ReportMetrics::reactions($obj->users_id_statistics);
+    $obj->totalLikes = array_sum(array_column($reactions, 'thumbsUp'));
+    $obj->totalDislikes = array_sum(array_column($reactions, 'thumbsDown'));
 
-$obj->today = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 1, 10);
-$obj->last7Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 7, 10);
-$obj->last15Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 15, 10);
-$obj->last30Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 30);
-$obj->last90Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 90);
+    $obj->today = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 1, 10);
+    $obj->last7Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 7, 10);
+    $obj->last15Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 15, 10);
+    $obj->last30Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 30);
+    $obj->last90Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 90);
+
+} catch (Throwable $e) {
+    _error_log('Analytics query failed: ' . $e->getMessage());
+    http_response_code(500);
+    die(json_encode(['error' => true, 'msg' => __('Unable to load this report. Please try again.')]));
+}
 
 
 $obj->performance->end = microtime(true);

@@ -3,10 +3,10 @@ require_once '../videos/configuration.php';
 header('Content-Type: application/json');
 
 _session_write_close();
-$from = date("Y-m-d 00:00:00", strtotime($_REQUEST['dateFrom']));
-$to = date('Y-m-d 23:59:59', strtotime($_REQUEST['dateTo']));
-$fromDate = date("Y-m-d", strtotime($_REQUEST['dateFrom']));
-$toDate = date('Y-m-d', strtotime($_REQUEST['dateTo']));
+require_once __DIR__ . '/../objects/reportDateRange.php';
+[$from, $to] = reportRequestDateRange($_REQUEST);
+$fromDate = substr($from, 0, 10);
+$toDate = substr($to, 0, 10);
 $users_id = 0;
 if ($config->getAuthCanViewChart() == 0) {
     // list all channels
@@ -40,7 +40,13 @@ if($users_id === 'all'){
     $users_id = 0;
 }
 
-$obj->data = VideoStatistic::getStatisticTotalViewsAndSecondsWatchingFromUser($users_id, $from, $to);
+try {
+    $obj->data = VideoStatistic::getStatisticTotalViewsAndSecondsWatchingFromUser($users_id, $from, $to);
+} catch (Throwable $e) {
+    _error_log('Analytics export failed: ' . $e->getMessage());
+    http_response_code(500);
+    die(json_encode(['error' => true, 'msg' => __('Unable to load this report. Please try again.')]));
+}
 
 // Collect all unique externalOptions keys to create consistent columns
 $allExternalOptionsKeys = [];
@@ -98,6 +104,8 @@ foreach ($processedData as $value) {
 }
 
 $filename = "{$users_id}_{$fromDate}_{$toDate}";
+header("Content-Type: text/csv; charset=UTF-8");
+header("Content-Disposition: attachment; filename={$filename}.csv");
 $output = fopen("php://output", 'w') or die("Can't open php://output");
 $identification = 'All Users';
 if(!empty($users_id)){
@@ -116,6 +124,4 @@ fputcsv($output, $fields);
 foreach ($rows as $row) {
     fputcsv($output, csvFormulaEscape($row));
 }
-header("Content-Type:application/csv");
-header("Content-Disposition:attachment;filename={$filename}.csv");
 fclose($output) or die("Can't close php://output");

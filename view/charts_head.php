@@ -33,6 +33,3 @@ if (!User::isAdmin()) {
 <script src="<?php echo getURL('node_modules/chart.js/dist/chart.umd.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js'); ?>" type="text/javascript"></script>
-
-<link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css"/>
-<link rel="stylesheet" type="text/css" href="<?php echo getURL('view/css/reportDashboard.css'); ?>"/>

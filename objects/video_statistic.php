@@ -155,7 +155,7 @@ class VideoStatistic extends ObjectYPT
             $vs = new VideoStatistic(0);
             $vs->setUsers_id($users_id);
             $vs->setVideos_id($videos_id);
-            $vs->setWhen(date("Y-m-d h:i:s"));
+            $vs->setWhen(date("Y-m-d H:i:s"));
         } else {
             //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
             $vs = new VideoStatistic($lastStatistic['id']);
@@ -818,93 +818,30 @@ class VideoStatistic extends ObjectYPT
 
     public static function getStatisticTotalViewsAndSecondsWatchingFromUser($users_id, $startDate = "", $endDate = "")
     {
-        global $global;
-
-        $users_id = intval($users_id);
-
-        $sql = "SELECT distinct(s.videos_id) as videos_id, title, filename, type, v.externalOptions FROM  " . static::getTableName() . " s LEFT JOIN videos v ON s.videos_id = v.id WHERE 1=1 ";
-
-        $formats = '';
-        $values = [];
-
-        if (!empty($users_id)) {
-            $sql .= " AND v.users_id = ? ";
-            $formats .= "i";
-            $values[] = $users_id;
+        require_once __DIR__ . '/reportMetrics.php';
+        $rows = ReportMetrics::videoActivity((int) $users_id, $startDate, $endDate);
+        $totalViews = 0;
+        $totalWatchingTime = 0;
+        foreach ($rows as &$row) {
+            $row['total_views'] = (int) $row['total_views'];
+            $row['seconds_watching_video'] = (int) $row['seconds_watching_video'];
+            $totalViews += $row['total_views'];
+            $totalWatchingTime += $row['seconds_watching_video'];
+            $row['startDate'] = $startDate;
+            $row['endDate'] = $endDate;
+            $row['seconds_watching_video_human'] = secondsToDuration($row['seconds_watching_video']);
+            $row['seconds_watching_video_human2'] = seconds2human($row['seconds_watching_video']);
+            $row['totalViews'] = $totalViews;
+            $row['totalWatchingTime'] = $totalWatchingTime;
         }
-
-        if (!empty($startDate)) {
-            $sql .= " AND `when` >= ? ";
-            $formats .= "s";
-            $values[] = $startDate;
+        unset($row);
+        foreach ($rows as &$row) {
+            $row['totalViewsAllVideos'] = $totalViews;
+            $row['totalWatchingTimeAllVideos'] = $totalWatchingTime;
+            $row['totalWatchingTimeAllVideosHuman'] = secondsToDuration($totalWatchingTime);
+            $row['totalWatchingTimeAllVideosHuman2'] = seconds2human($totalWatchingTime);
         }
-
-        if (!empty($endDate)) {
-            $sql .= " AND `when` <= ? ";
-            $formats .= "s";
-            $values[] = $endDate;
-        }
-        $sql .= " LIMIT 10000 ";
-        $res = sqlDAL::readSql($sql, $formats, $values);
-        $fullData = sqlDAL::fetchAllAssoc($res);
-        sqlDAL::close($res);
-        $rows = [];
-        if ($res != false) {
-            $totalViews = 0;
-            $totalWatchingTime = 0;
-            foreach ($fullData as $row) {
-                $sql = "SELECT count(s.videos_id) total_views, sum(seconds_watching_video) as seconds_watching_video FROM  " . static::getTableName() . " s WHERE 1=1 ";
-
-                $formats = '';
-                $values = [];
-
-                $sql .= " AND s.videos_id = ? ";
-                $formats .= "i";
-                $values[] = $row['videos_id'];
-
-                if (!empty($startDate)) {
-                    $sql .= " AND `when` >= ? ";
-                    $formats .= "s";
-                    $values[] = $startDate;
-                }
-
-                if (!empty($endDate)) {
-                    $sql .= " AND `when` <= ? ";
-                    $formats .= "s";
-                    $values[] = $endDate;
-                }
-                $sql .= " LIMIT 10000 ";
-                $res2 = sqlDAL::readSql($sql, $formats, $values);
-                $fullData2 = sqlDAL::fetchAllAssoc($res2);
-                sqlDAL::close($res2);
-                if ($res2 != false) {
-                    foreach ($fullData2 as $row2) {
-                        $totalViews += intval($row2['total_views']);
-                        $totalWatchingTime += intval($row2['seconds_watching_video']);
-                    }
-                    foreach ($fullData2 as $row2) {
-                        $row2['users_id'] = $users_id;
-                        $row2['startDate'] = $startDate;
-                        $row2['endDate'] = $endDate;
-                        $row2['seconds_watching_video_human'] = secondsToDuration($row2['seconds_watching_video']);
-                        $row2['seconds_watching_video_human2'] = seconds2human($row2['seconds_watching_video']);
-                        $row2['totalViews'] = $totalViews;
-                        $row2['totalWatchingTime'] = $totalWatchingTime;
-
-                        $rows[] = array_merge($row, $row2);
-                    }
-                }
-            }
-            $totalWatchingTimeHuman = secondsToDuration($totalWatchingTime);
-            $totalWatchingTimeHuman2 = seconds2human($totalWatchingTime);
-            foreach ($rows as $key => $row) {
-                $rows[$key]['totalViewsAllVideos'] = $totalViews;
-                $rows[$key]['totalWatchingTimeAllVideos'] = $totalWatchingTime;
-                $rows[$key]['totalWatchingTimeAllVideosHuman'] = $totalWatchingTimeHuman;
-                $rows[$key]['totalWatchingTimeAllVideosHuman2'] = $totalWatchingTimeHuman2;
-            }
-        }
-
+        unset($row);
         return $rows;
     }
     public static function getSecondsWatchedFromVideos_id($videos_id)

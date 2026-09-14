@@ -4882,80 +4882,103 @@ function displayJsonAsHtml(jsonObjectOrString, level = 0) {
     return html;
 }
 
-function startTour(stepsFileRelativePath) {
-    console.log('Tour starting with steps file:', stepsFileRelativePath);
-
-    let id = stepsFileRelativePath.replace(/[^a-zA-Z0-9]/g, '');
-    console.log('Generated ID:', id);
-
-    // Check if Intro.js is already loaded
-    if (typeof introJs === 'undefined') {
-        console.log('Intro.js is not loaded, loading Intro.js now...');
-
-        // Load Intro.js CSS
-        $('head').append('<link rel="stylesheet" href="' + webSiteRootURL + 'node_modules/intro.js/minified/introjs.min.css" type="text/css" />');
-        console.log('Intro.js CSS loaded.');
-
-        if (isCurrentThemeDark) {
-            console.log('Applying dark theme for Intro.js.');
-            $('head').append('<link rel="stylesheet" href="' + webSiteRootURL + 'node_modules/intro.js/themes/introjs-modern.css" type="text/css" />');
+async function startTour(stepsFileRelativePath) {
+    // One tour at a time, including while the library and steps are loading.
+    if (startTour.loading || startTour.active) { return; }
+    startTour.loading = true;
+    const setLoading = window.AVideoReports ? window.AVideoReports.busy : function (busy) {
+        if (busy) { modal.showPleaseWait(); } else { modal.hidePleaseWait(); }
+    };
+    setLoading(true);
+    let loading = true;
+    let tour;
+    let finished = false;
+    let originalTabs = [];
+    const originalFocus = document.activeElement;
+    function stopLoading() {
+        if (loading) {
+            loading = false;
+            setLoading(false);
+            startTour.loading = false;
         }
-
-        // Load Intro.js JavaScript
-        console.log('Loading Intro.js JavaScript...');
-        $.getScript(webSiteRootURL + 'node_modules/intro.js/minified/intro.min.js', function () {
-            console.log('Intro.js JavaScript loaded successfully.');
-            loadAndStartTour(stepsFileRelativePath);
-        }).fail(function (jqxhr, settings, exception) {
-            console.error('Failed to load Intro.js script:', exception);
-        });
-    } else {
-        console.log('Intro.js is already loaded, starting the tour directly...');
-        loadAndStartTour(stepsFileRelativePath);
     }
-
-    function loadAndStartTour(stepsFileRelativePath) {
-        console.log('Loading tour steps from:', webSiteRootURL + stepsFileRelativePath);
-
-        // Fetch the tour steps from a server
-        $.ajax({
-            url: webSiteRootURL + stepsFileRelativePath, // URL to the server-side script that returns JSON
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                console.log('Tour steps fetched successfully:', response);
-
-                // Initialize the tour with the fetched data
-                var tour = introJs();
-                console.log('Filtering tour steps based on element visibility.');
-
-                var filteredSteps = $.grep(response, function (step) {
-                    var $element = $(step.element);
-                    var isVisible = $element.length > 0 && isElementVisible($element);
-                    console.log('Step element:', step.element, 'Visible:', isVisible);
-                    return isVisible;
-                });
-
-                console.log('Filtered steps:', filteredSteps);
-
-                tour.setOptions({
-                    steps: filteredSteps
-                });
-
-                console.log('Starting the tour...');
-                tour.start();
-            },
-            error: function (xhr, status, error) {
-                console.error('Error fetching tour data:', error);
+    function cleanup() {
+        if (finished) { return; }
+        finished = true;
+        startTour.active = null;
+        originalTabs.forEach(function (tab) { $(tab).tab('show'); });
+        if (originalFocus && document.contains(originalFocus)) { originalFocus.focus({preventScroll: true}); }
+    }
+    try {
+        if (typeof introJs === 'undefined') {
+            if (!document.getElementById('avideoIntroStyle')) {
+                $('head').append($('<link>', {id: 'avideoIntroStyle', rel: 'stylesheet', href: webSiteRootURL + 'node_modules/intro.js/minified/introjs.min.css'}));
+                if (typeof isCurrentThemeDark !== 'undefined' && isCurrentThemeDark) {
+                    $('head').append($('<link>', {rel: 'stylesheet', href: webSiteRootURL + 'node_modules/intro.js/themes/introjs-modern.css'}));
+                }
             }
+            await $.ajax({url: webSiteRootURL + 'node_modules/intro.js/minified/intro.min.js', dataType: 'script', cache: true, timeout: 30000});
+        }
+        const response = await $.ajax({url: webSiteRootURL + stepsFileRelativePath, dataType: 'json', timeout: 30000});
+        // Existing array-based tours retain their visibility filtering and options.
+        const steps = Array.isArray(response) ? response : response.steps;
+        if (!Array.isArray(steps)) { throw new Error('Invalid tour steps'); }
+        const filteredSteps = steps.filter(function (step) {
+            const element = $(step.element).first();
+            if (!element.length) { return false; }
+            if (!step.tab) { return element.is(':visible'); }
+            const tab = $(step.tab).first();
+            const pane = $(tab.attr('href'));
+            if (!tab.is(':visible') || !pane.hasClass('tab-pane') || !pane.has(element).length && pane[0] !== element[0]) { return false; }
+            const active = tab.closest('[role="tablist"], .nav-tabs').find('li.active a[data-toggle="tab"]')[0];
+            if (active && originalTabs.indexOf(active) === -1) { originalTabs.push(active); }
+            // Hidden optional controls stay excluded; only the tab pane itself may be closed.
+            return !element.parentsUntil(pane).addBack().filter('.hidden, [hidden]').length;
         });
-    }
-
-    function isElementVisible($element) {
-        var visibility = $element.is(':visible') && $element.closest(':hidden').length === 0;
-        console.log('Element visibility check for', $element, ':', visibility);
-        // Check if the element itself and its parent chain are visible
-        return visibility;
+        if (!filteredSteps.length) {
+            stopLoading();
+            avideoToastInfo(__('No help is available for this screen.'));
+            return;
+        }
+        tour = typeof introJs.tour === 'function' ? introJs.tour() : introJs();
+        startTour.active = tour;
+        const options = Array.isArray(response) ? {} : (response.options || {});
+        ['nextLabel', 'prevLabel', 'skipLabel', 'doneLabel'].forEach(function (key) {
+            if (options[key]) { options[key] = __(options[key]); }
+        });
+        tour.setOptions(Object.assign({}, options, {steps: filteredSteps.map(function (step) {
+            return Object.assign({}, step, {title: step.title ? __(step.title) : '', intro: __(step.intro)});
+        })}));
+        tour.onBeforeChange(async function (target, index) {
+            const step = filteredSteps[index];
+            if (step.tab) {
+                const tab = $(step.tab).first();
+                if (!tab.parent().hasClass('active')) {
+                    await new Promise(function (resolve) {
+                        tab.one('shown.bs.tab.avideoTour', resolve);
+                        tab.tab('show');
+                    });
+                }
+            }
+            // Reports load on first opening a tab. Wait for the existing loading state,
+            // not an arbitrary animation delay, before positioning the highlight.
+            const deadline = Date.now() + 65000;
+            while (!finished && step.waitFor && $(step.waitFor).attr('aria-busy') === 'true' && Date.now() < deadline) {
+                await new Promise(function (resolve) { window.setTimeout(resolve, 100); });
+            }
+            return !finished;
+        });
+        tour.onExit(cleanup);
+        tour.onComplete(cleanup);
+        stopLoading();
+        await tour.start();
+    } catch (error) {
+        if (tour) { await tour.exit(true); }
+        cleanup();
+        console.error('Unable to start help tour', error);
+        avideoToastError(__('Unable to load help. Please try again.'));
+    } finally {
+        stopLoading();
     }
 }
 

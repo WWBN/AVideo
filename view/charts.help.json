@@ -1,0 +1,105 @@
+{
+  "options": {
+    "nextLabel": "Next",
+    "prevLabel": "Back",
+    "skipLabel": "Close tour",
+    "doneLabel": "Finish",
+    "showProgress": true,
+    "showStepNumbers": true,
+    "showBullets": false,
+    "exitOnOverlayClick": false,
+    "disableInteraction": true,
+    "tooltipClass": "avideo-guided-tour"
+  },
+  "steps": [
+    {
+      "element": "#analyticsTabs",
+      "title": "Find your way around",
+      "intro": "Each tab answers a different question about your audience. This tour opens the reports for you. Use Next and Back, or close the tour at any time."
+    },
+    {
+      "element": "#dashboard .metric-grid",
+      "tab": "#analyticsTabs a[href=\"#dashboard\"]",
+      "title": "Understand your totals",
+      "intro": "These cards summarize the site or your channel. Video views are accumulated counters. Dated reports use saved viewing sessions, so the totals can differ after old statistics are removed. Most figures can take five minutes to update."
+    },
+    {
+      "element": "#total_users_online",
+      "tab": "#analyticsTabs a[href=\"#dashboard\"]",
+      "title": "People online right now",
+      "intro": "This live count groups connections by device. Opening several tabs on the same device does not count as several people. A dash means a live count has not arrived yet."
+    },
+    {
+      "element": "#overviewPeriod",
+      "tab": "#analyticsTabs a[href=\"#dashboard\"]",
+      "title": "Find your most watched videos",
+      "intro": "Choose a rolling period, such as the last 7 days. The chart ranks videos by recorded views in that period. Views are viewing sessions, not unique people. Open View data below the chart to read the exact numbers."
+    },
+    {
+      "element": "#userCumulativeChart",
+      "tab": "#analyticsTabs a[href=\"#dashboard\"]",
+      "title": "Read account growth",
+      "intro": "This chart adds up existing accounts by registration date, including active and inactive accounts. Deleted accounts are excluded. The New users chart shows the daily counts instead."
+    },
+    {
+      "element": "#dtMyVideosRepReport .report-filters",
+      "tab": "#viewmyVideosReport",
+      "waitFor": "#dtMyVideosRepReport",
+      "title": "Choose what to compare",
+      "intro": "Select a period or enter custom dates, then choose Update report. Both the first and last day are included. If Video owner is available, choose a suggestion to view one channel or leave it blank for all channels."
+    },
+    {
+      "element": "#dtMyVideosRepReport .table-responsive",
+      "tab": "#viewmyVideosReport",
+      "waitFor": "#dtMyVideosRepReport",
+      "title": "Compare views and watch time",
+      "intro": "Views count saved viewing sessions that started in your date range. Watch time is hours:minutes:seconds: 1:30:00 means one hour and thirty minutes. Select a video title for details or a column heading to sort."
+    },
+    {
+      "element": "#dtMyVideosRepReport .table-responsive",
+      "tab": "#viewmyVideosReport",
+      "waitFor": "#dtMyVideosRepReport",
+      "title": "Find a video quickly",
+      "intro": "Use Search to narrow the table. The Views and Watch time totals above it follow your search and include all matching pages. Clear the search to see the full report again."
+    },
+    {
+      "element": "#dtMyVideosRepReport .report-export",
+      "tab": "#viewmyVideosReport",
+      "waitFor": "#dtMyVideosRepReport",
+      "title": "Download a spreadsheet",
+      "intro": "Download CSV exports all results for the selected dates and owner, including rows hidden by Search. You can open the file in Excel or another spreadsheet app."
+    },
+    {
+      "element": "#dt1Report .report-section-heading",
+      "tab": "#viewperchannel",
+      "waitFor": "#dt1Report",
+      "title": "Compare channels fairly",
+      "intro": "This report groups the same viewing sessions by channel. Use the same dates and channel scope as Video performance to compare totals. Unpublished videos are included; channels with no views are omitted."
+    },
+    {
+      "element": "#dt2Report .report-section-heading",
+      "tab": "#commentthumbs",
+      "waitFor": "#dt2Report",
+      "title": "Understand comment reactions",
+      "intro": "See likes and dislikes received on each person's comments. The date range uses when the current vote was last updated. Removed votes are excluded. Changing this period does not change the other tabs."
+    },
+    {
+      "element": "#dt3Report .report-section-heading",
+      "tab": "#videothumbs",
+      "waitFor": "#dt3Report",
+      "title": "Understand video reactions",
+      "intro": "These are the current recorded votes on each channel's videos. There is no date filter. Imported or manually adjusted display counters are excluded, so these totals may differ from a public video counter."
+    },
+    {
+      "element": "#liveVideosMenu .report-section-heading",
+      "tab": "#liveVideos",
+      "title": "Read live audience numbers",
+      "intro": "Views count recorded browser sessions. Peak concurrent viewers estimates the largest audience active together. Not recorded means the peak was never saved; it does not mean zero viewers. The charts compare recent broadcasts, most watched broadcasts and highest peaks."
+    },
+    {
+      "element": "#analyticsHeading .startTourBtn",
+      "title": "Ready to explore",
+      "intro": "Choose a report, set its filters and read the results. If a report is empty, try a longer period. If loading fails, use Update report or Retry. Open Help whenever you need this tour again. Closing the tour returns you to your original tab."
+    }
+  ]
+}

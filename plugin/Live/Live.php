@@ -794,6 +794,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
 
         include $global['systemRootPath'] . 'plugin/Live/view/footer.php';
+        include $global['systemRootPath'] . 'plugin/Live/view/audience.php';
         return $js;
     }
 
@@ -1686,6 +1687,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public function getChartTabs()
     {
+        if (!User::canStream()) {
+            return '';
+        }
         return '<li><a data-toggle="tab" id="liveVideos" href="#liveVideosMenu"><i class="fas fa-play-circle"></i> ' . __('Live videos') . '</a></li>';
     }
 

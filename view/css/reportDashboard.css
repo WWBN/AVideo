@@ -1,5 +1,42 @@
 .report-tabs {
     padding: 16px;
+    --report-accent: #009fe2;
+    --report-highlight: #fcc70d;
+}
+
+.report-page-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.report-page-heading h1 { margin: 0 0 8px; font-size: 28px; font-weight: 600; }
+.report-section-heading { margin-bottom: 20px; }
+.report-section-heading h2, .report-tabs .panel-heading h2 { margin: 0 0 8px; font-size: 20px; }
+.report-tabs .panel-heading p, .report-page-heading p { margin-bottom: 0; }
+.report-tabs .panel-heading.report-page-heading { margin-bottom: 0; }
+.report-filter-grid { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.report-filter-grid .form-group { flex: 1 1 150px; min-width: 0; margin: 0; }
+.report-filter-grid label { display: block; }
+.report-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.report-actions .form-control { width: auto; }
+.report-summary { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.report-summary-item { flex: 1 1 160px; padding: 16px; margin: 0; }
+.report-summary-item strong { display: block; font-size: 24px; font-variant-numeric: tabular-nums; margin-top: 4px; }
+.report-live-card { flex: 1 1 200px; min-width: 0; margin: 0; }
+.report-live-card h4 { font-size: 14px; line-height: 1.6; white-space: pre-line; overflow-wrap: anywhere; }
+.report-live-card dd { font-size: 22px; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+.report-metric-icon { float: right; opacity: .6; font-size: 24px; }
+.report-table { width: 100%; }
+.report-tabs td { overflow-wrap: anywhere; }
+.report-video-details { white-space: normal; text-align: left; padding: 0; overflow-wrap: anywhere; }
+.report-tabs details { margin-top: 16px; }
+.report-tabs summary { cursor: pointer; padding: 8px 0; font-weight: 600; }
+.report-data-scroll { max-height: 24em; overflow: auto; }
+.report-tabs :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.report-tabs .report-feedback { min-height: 1.5em; }
+@media (min-width: 1200px) { .report-tabs .metric-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 767px) {
+    .report-tabs { padding: 12px; }
+    .report-filter-grid { gap: 12px; }
+    .report-filter-grid .report-actions { flex-basis: 100%; }
+    .report-actions button { flex-grow: 1; }
+    .report-tabs .nav-tabs > li > a { padding: 12px; }
 }
 
 .report-tabs > .nav-tabs {
@@ -149,3 +186,31 @@
         grid-template-columns: minmax(0, 1fr);
     }
 }
+.introjs-tooltip.avideo-guided-tour {
+    width: min(400px, calc(100vw - 32px));
+    min-width: min(320px, calc(100vw - 32px));
+    max-width: min(400px, calc(100vw - 32px));
+}
+.avideo-guided-tour .introjs-tooltip-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+.avideo-guided-tour .introjs-tooltip-title {
+    float: none;
+    flex: 1;
+    width: auto;
+    line-height: 1.35;
+}
+.avideo-guided-tour .introjs-skipbutton {
+    position: static;
+    float: none;
+    flex-shrink: 0;
+    width: auto;
+    height: auto;
+    margin-left: auto;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: nowrap;
+}
+.avideo-guided-tour .introjs-tooltiptext { line-height: 1.5; }

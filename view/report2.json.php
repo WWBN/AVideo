@@ -8,39 +8,44 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/comment.php';
 
 _session_write_close();
-$from = date("Y-m-d 00:00:00", strtotime($_POST['dateFrom']));
-$to = date('Y-m-d 23:59:59', strtotime($_POST['dateTo']));
+require_once __DIR__ . '/../objects/reportDateRange.php';
+[$from, $to] = reportRequestDateRange($_POST);
 
 // list all channels
+$reportScope = null;
 if ($config->getAuthCanViewChart() == 0) {
     if (User::isAdmin()) {
-        $users = User::getAllUsers();
+        $reportScope = 0;
     } elseif (User::isLogged()) {
-        $users = [['id'=> User::getId()]];
+        $reportScope = User::getId();
     } else {
-        $users = [];
+        $reportScope = null;
     }
 } elseif ($config->getAuthCanViewChart() == 1) {
     if ((!empty($_SESSION['user']['canViewChart']))||(User::isAdmin())) {
-        $users = User::getAllUsers(true);
+        $reportScope = 0;
     }
 }
 
+require_once __DIR__ . '/../objects/reportMetrics.php';
 $rows = [];
-foreach ($users as $key => $value) {
-    // list all videos on that channel
-    $identification = User::getNameIdentificationById($value['id']);
-    $thumbs = Comment::getTotalCommentsThumbsUpFromUser($value['id'], $from, $to);
-    if (empty($thumbs['thumbsUp']) && empty($thumbs['thumbsDown'])) {
-        continue;
+try {
+    if ($reportScope !== null) {
+        foreach (ReportMetrics::reactions($reportScope, true, $from, $to) as $value) {
+            $identification = htmlspecialchars(User::getNameIdentificationById($value['id']), ENT_QUOTES, 'UTF-8');
+            $link = htmlspecialchars(User::getChannelLink($value['id']), ENT_QUOTES, 'UTF-8');
+            $rows[] = [
+                'thumbsUp' => (int) $value['thumbsUp'],
+                'thumbsDown' => (int) $value['thumbsDown'],
+                'user' => "<a href='{$link}'>{$identification}</a>"
+            ];
+        }
     }
-    $item = [
-        'thumbsUp'=>$thumbs['thumbsUp'],
-        'thumbsDown'=>$thumbs['thumbsDown'],
-        'user'=>"<a href='".User::getChannelLink($value['id'])."'>{$identification}</a>",
 
-    ];
-    $rows[] = $item;
+} catch (Throwable $e) {
+    _error_log('Analytics query failed: ' . $e->getMessage());
+    http_response_code(500);
+    die(json_encode(['error' => true, 'msg' => __('Unable to load this report. Please try again.'), 'data' => []]));
 }
 
 $obj = new stdClass();

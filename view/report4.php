@@ -1,241 +1,52 @@
 <?php
-if(!User::isAdmin()) {
-    echo '<!-- Only admin can see the users report -->';
-    return;
-}
-
+if (!User::isAdmin()) { return; }
+foreach ([
+    ['userRegistrationsChart', 'New users', 'Existing accounts grouped by registration date. Deleted accounts are not included.', 'view/report4.json.php', 'bar'],
+    ['userCumulativeChart', 'User growth', 'Cumulative count of existing accounts by registration date, including active and inactive accounts.', 'view/report4.1.json.php', 'line']
+] as $registrationReport) {
 ?>
-
-<div class="col-md-12 col-sm-12 col-xs-12 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <?php echo __("User Registrations Over Time"); ?>
-        </div>
-        <div class="panel-body clearfix" style="height: 300px;">
-            <canvas id="userRegistrationsChart" style="height: 300px; width: 100%;"></canvas>
-        </div>
-        <div class="panel-footer">
-            <button class="btn btn-default btn-xs btn-block" onclick="resetZoomUserChart()">
-                <i class="fa fa-search-minus"></i> <?php echo __("Reset Zoom"); ?>
-            </button>
+<section class="col-md-6 col-xs-12">
+    <div class="panel panel-default report-registration" data-endpoint="<?php echo $registrationReport[3]; ?>" data-chart-type="<?php echo $registrationReport[4]; ?>">
+        <div class="panel-heading"><h2><?php echo __($registrationReport[1]); ?></h2><p><?php echo __($registrationReport[2]); ?></p></div>
+        <div class="panel-body">
+            <p class="report-feedback" role="status"></p>
+            <div class="report-chart-body"><canvas id="<?php echo $registrationReport[0]; ?>" role="img" aria-label="<?php echo __($registrationReport[1]); ?>"></canvas></div>
+            <details><summary><?php echo __('View data'); ?></summary><div class="report-data-scroll"><table class="table table-striped"><thead><tr><th><?php echo __('Date'); ?></th><th><?php echo __('Users'); ?></th></tr></thead><tbody></tbody></table></div></details>
+            <button type="button" class="btn btn-default report-retry hidden"><?php echo __('Retry'); ?></button>
         </div>
     </div>
-</div>
-<div class="col-md-12 col-sm-12 col-xs-12 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <?php echo __("Cumulative User Growth Over Time"); ?>
-        </div>
-        <div class="panel-body clearfix" style="height: 300px;">
-            <canvas id="userCumulativeChart" style="height: 300px; width: 100%;" tabindex="0"></canvas>
-        </div>
-        <div class="panel-footer">
-            <button class="btn btn-default btn-xs btn-block" onclick="resetZoomUserCumulativeChart()">
-                <i class="fa fa-search-minus"></i> <?php echo __("Reset Zoom"); ?>
-            </button>
-        </div>
-    </div>
-</div>
-
+</section>
+<?php } ?>
 <script>
-    $(document).ready(function() {
-        loadUserRegistrationsChart();
-        loadUserCumulativeChart();
+$(function () {
+    $('.report-registration').each(function () {
+        var root = $(this), canvas = root.find('canvas')[0], feedback = root.find('.report-feedback');
+        function load() {
+            root.find('.report-retry').addClass('hidden'); feedback.text(<?php echo json_encode(__('Loading...')); ?>);
+            root.attr('aria-busy', 'true'); AVideoReports.busy(true);
+            function failed() {
+                root.find('.report-chart-body').hide();
+                root.find('details').hide();
+                feedback.text(<?php echo json_encode(__('Unable to load this report. Check your connection and try again.')); ?>).addClass('text-danger');
+                root.find('.report-retry').removeClass('hidden');
+            }
+            $.ajax({url: webSiteRootURL + root.data('endpoint'), dataType: 'json', timeout: 60000,
+                success: function (data) {
+                    if (!data || typeof data !== 'object' || data.error) { failed(); return; }
+                    var labels = Object.keys(data).sort();
+                    if (labels.some(function (key) { return !/^\d{4}-\d{2}-\d{2}$/.test(key) || !Number.isFinite(Number(data[key])); })) { failed(); return; }
+                    var values = labels.map(function (key) { return Number(data[key]); });
+                    root.find('tbody').empty();
+                    labels.forEach(function (label, i) { $('<tr>').append($('<td>').text(label)).append($('<td>').text(values[i].toLocaleString())).appendTo(root.find('tbody')); });
+                    feedback.removeClass('text-danger').text(labels.length ? '' : <?php echo json_encode(__('No registrations recorded yet.')); ?>);
+                    root.find('.report-chart-body').toggle(labels.length > 0);
+                    root.find('details').toggle(labels.length > 0);
+                    AVideoReports.chart(canvas, labels, [{label: <?php echo json_encode(__('Users')); ?>, data: values}], {type: root.data('chart-type'), time: true});
+                }, error: failed,
+                complete: function () { root.attr('aria-busy', 'false'); AVideoReports.busy(false); }
+            });
+        }
+        root.find('.report-retry').on('click', load); load();
     });
-
-    var userRegistrationsChartInstance;
-    var userCumulativeChartInstance;
-
-    function resetZoomUserCumulativeChart() {
-        if (userCumulativeChartInstance) {
-            userCumulativeChartInstance.resetZoom();
-        }
-    }
-
-    function loadUserCumulativeChart() {
-        $.getJSON(webSiteRootURL + 'view/report4.1.json.php', function(json) {
-            const labels = Object.keys(json); // e.g., ["2023-01-01", ...]
-            const data = Object.values(json).map(Number); // e.g., [1, 2, 3, 4, ...]
-
-            const ctx = $('#userCumulativeChart');
-
-            if (userCumulativeChartInstance) {
-                userCumulativeChartInstance.destroy();
-            }
-
-            userCumulativeChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: "<?php echo __("Total Users"); ?>",
-                        data: data,
-                        borderColor: 'rgba(40, 167, 69, 1)',
-                        backgroundColor: 'rgba(40, 167, 69, 0.2)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        pointRadius: 0,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day',
-                                tooltipFormat: 'yyyy-MM-dd',
-                                round: 'day'
-                            },
-                            ticks: {
-                                autoSkip: true,
-                                maxRotation: 0,
-                                minRotation: 0
-                            },
-                            title: {
-                                display: true,
-                                text: "<?php echo __("Date"); ?>"
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grace: '5%',
-                            title: {
-                                display: true,
-                                text: "<?php echo __("Total Users"); ?>"
-                            }
-                        }
-                    },
-                    plugins: {
-                        zoom: {
-                            pan: {
-                                enabled: true,
-                                mode: 'x',
-                                modifierKey: null
-                            },
-                            zoom: {
-                                drag: {
-                                    enabled: true,
-                                    backgroundColor: 'rgba(40, 167, 69, 0.3)'
-                                },
-                                pinch: {
-                                    enabled: true
-                                },
-                                mode: 'x'
-                            }
-                        },
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    },
-                    interaction: {
-                        mode: 'nearest',
-                        axis: 'x',
-                        intersect: false
-                    }
-                }
-            });
-        });
-    }
-
-    function resetZoomUserChart() {
-        if (userRegistrationsChartInstance) {
-            userRegistrationsChartInstance.resetZoom();
-        }
-    }
-
-    function loadUserRegistrationsChart() {
-        $.getJSON(webSiteRootURL + 'view/report4.json.php', function(json) {
-            const labels = Object.keys(json); // ["2024-07-01", "2024-07-02", ...]
-            const data = Object.values(json).map(Number); // [5, 3, 8, 2, ...]
-
-            const ctx = $('#userRegistrationsChart');
-
-            if (userRegistrationsChartInstance) {
-                userRegistrationsChartInstance.destroy();
-            }
-
-            userRegistrationsChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: "<?php echo __("New Users per Day"); ?>",
-                        data: data,
-                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day', // You can change to 'week' or 'month' if too dense
-                                tooltipFormat: 'yyyy-MM-dd',
-                                round: 'day'
-                            },
-                            ticks: {
-                                autoSkip: true,
-                                maxRotation: 0,
-                                minRotation: 0
-                            },
-                            title: {
-                                display: true,
-                                text: "<?php echo __("Date"); ?>"
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grace: '5%',
-                            title: {
-                                display: true,
-                                text: "<?php echo __("User Count"); ?>"
-                            }
-                        }
-                    },
-                    plugins: {
-                        zoom: {
-                            pan: {
-                                enabled: true,
-                                mode: 'x',
-                                modifierKey: null
-                            },
-                            zoom: {
-                                drag: {
-                                    enabled: true,
-                                    backgroundColor: 'rgba(0, 123, 255, 0.3)'
-                                },
-                                pinch: {
-                                    enabled: true
-                                },
-                                mode: 'x'
-                            }
-                        },
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    },
-                    interaction: {
-                        mode: 'nearest',
-                        axis: 'x',
-                        intersect: false
-                    }
-                }
-            });
-        });
-    }
+});
 </script>

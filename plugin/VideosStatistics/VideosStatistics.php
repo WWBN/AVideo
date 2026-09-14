@@ -143,7 +143,7 @@ class VideosStatistics extends PluginAbstract {
     static public function getTotalLikesDislikesFromVideos($users_id, $like, $days) {
         global $_getTotalLikesDislikes;
 
-        $index = "$users_id, $like, $days";
+        $index = "videoCounters:$users_id, $like, $days";
 
         if (!isset($_getTotalLikesDislikes)) {
             $_getTotalLikesDislikes = array();
@@ -246,28 +246,31 @@ class VideosStatistics extends PluginAbstract {
 
     static public function getMostViewedVideosFromLastDays($users_id, $days = 7, $limit = 15) {
         global $global;
-        $sql = "SELECT v.*, "
-                . " (SELECT count(id) FROM videos_statistics vs WHERE vs.videos_id = v.id AND modified  > (NOW() - INTERVAL {$days} DAY)) as total_views, "
-                . " (SELECT count(id) FROM comments c WHERE c.videos_id = v.id AND modified  > (NOW() - INTERVAL {$days} DAY)) as total_comments  "
-                . " FROM videos v WHERE (SELECT count(id) FROM videos_statistics vs WHERE vs.videos_id = v.id AND modified  > (NOW() - INTERVAL {$days} DAY)) > 0 ";
-
         $users_id = intval($users_id);
-        $days = intval($days);
-        $limit = intval($limit);
-
-        if (!empty($users_id)) {
-            $sql .= " AND users_id = $users_id ";
+        $days = max(1, intval($days));
+        $limit = max(1, intval($limit));
+        $sql = "SELECT v.*, a.total_views,
+                (SELECT COUNT(*) FROM comments c WHERE c.videos_id = v.id AND c.created > NOW() - INTERVAL ? DAY AND c.created <= NOW()) AS total_comments,
+                (SELECT COUNT(*) FROM likes r WHERE r.videos_id = v.id AND r.`like` = 1 AND COALESCE(r.modified, r.created) > NOW() - INTERVAL ? DAY AND COALESCE(r.modified, r.created) <= NOW()) AS total_likes,
+                (SELECT COUNT(*) FROM likes r WHERE r.videos_id = v.id AND r.`like` = -1 AND COALESCE(r.modified, r.created) > NOW() - INTERVAL ? DAY AND COALESCE(r.modified, r.created) <= NOW()) AS total_dislikes
+                FROM videos v JOIN (
+                    SELECT videos_id, COUNT(*) AS total_views FROM videos_statistics
+                    WHERE `when` > NOW() - INTERVAL ? DAY AND `when` <= NOW() GROUP BY videos_id
+                ) a ON a.videos_id = v.id WHERE 1=1";
+        $formats = 'iiii';
+        $values = [$days, $days, $days, $days];
+        if ($users_id > 0) {
+            $sql .= ' AND v.users_id = ?';
+            $formats .= 'i';
+            $values[] = $users_id;
         }
-
-        if (!empty($days)) {
-            $sql .= " AND modified  > (NOW() - INTERVAL {$days} DAY) ";
+        $sql .= ' ORDER BY total_views DESC, v.id DESC LIMIT ?';
+        $formats .= 'i';
+        $values[] = $limit;
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        if ($res === false) {
+            throw new RuntimeException('Unable to load video ranking');
         }
-
-        $sql .= " ORDER BY v.modified DESC ";
-
-        $sql .= " LIMIT {$limit} ";
-
-        $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
 
@@ -288,8 +291,8 @@ class VideosStatistics extends PluginAbstract {
                 $video->totalComents = $row['total_comments'];
                 $video->total_views = $row['total_views'];
                 $video->modified = $row['modified'];
-                $video->total_likes = self::getTotalLikesDislikes($users_id, 1, $days);
-                $video->total_dislikes = self::getTotalLikesDislikes($users_id, -1, $days);
+                $video->total_likes = (int) $row['total_likes'];
+                $video->total_dislikes = (int) $row['total_dislikes'];
                 $video->human = humanTimingAgo($video->modified, 2);
                 $video->poster = Video::getPoster($row['id']);
 
