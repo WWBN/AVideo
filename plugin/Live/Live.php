@@ -1701,8 +1701,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function saveHistoryLog($key)
     {
-        // get the latest history for this key
-        $latest = LiveTransmitionHistory::getLatest($key);
+        // Record viewer activity only for the current broadcast, never a finished history with the same key.
+        $latest = LiveTransmitionHistory::getLatest($key, null, true);
 
         if (!empty($latest)) {
             LiveTransmitionHistoryLog::addLog($latest['id']);
