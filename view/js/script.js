@@ -466,58 +466,61 @@ function isEmailValid(email) {
     return validateEmail(email);
 }
 
-function subscribe(email, user_id) {
-    modal.showPleaseWait();
-    $.ajax({
-        url: webSiteRootURL + 'objects/subscribe.json.php',
+// Share the request lock across every subscribe/bell control for the same channel.
+var subscriptionRequests = Object.create(null);
+function updateSubscription(email, user_id, notificationOnly) {
+    if (subscriptionRequests[user_id]) { return false; }
+    subscriptionRequests[user_id] = true;
+    var groups = $('.notificationButton' + user_id);
+    var buttons = groups.find('button:not(:disabled)');
+    groups.removeClass('subscription-complete').addClass('subscription-pending').attr('aria-busy', 'true');
+    buttons.prop('disabled', true);
+    return $.ajax({
+        url: webSiteRootURL + (notificationOnly ? 'objects/subscribeNotify.json.php' : 'objects/subscribe.json.php'),
         method: 'POST',
-        data: {
-            'email': email,
-            'user_id': user_id
-        },
+        dataType: 'json',
+        data: {email: email, user_id: user_id},
         success: function (response) {
-            var totalElement = $('.notificationButton' + user_id + ' .badge');
-            if (response.subscribe == "i") {
-                $('.notificationButton' + user_id).removeClass("subscribed");
-                totalElement.text(parseInt(totalElement.first().text()) - 1);
-            } else {
-                $('.notificationButton' + user_id).addClass("subscribed");
-                totalElement.text(parseInt(totalElement.first().text()) + 1);
+            if (!response || response.error ||
+                (!notificationOnly && response.subscribe !== 'a' && response.subscribe !== 'i') ||
+                typeof response.notify === 'undefined') {
+                avideoToastError(__('An error occurred'));
+                return;
             }
-            if (!response.notify) {
-                $('.notificationButton' + user_id).removeClass("notify");
-            } else {
-                $('.notificationButton' + user_id).addClass("notify");
+            if (!notificationOnly) {
+                var subscribed = response.subscribe === 'a';
+                var wasSubscribed = groups.first().hasClass('subscribed');
+                var badges = groups.find('.badge');
+                var count = parseInt(badges.first().text(), 10);
+                if (!isNaN(count) && subscribed !== wasSubscribed) {
+                    badges.text(Math.max(0, count + (subscribed ? 1 : -1)));
+                }
+                groups.toggleClass('subscribed', subscribed);
+                $('#popover-content #subscribeEmail').val(email);
+                $('.subscribeButton' + user_id).popover('hide');
             }
-            $('#popover-content #subscribeEmail').val(email);
-            $('.subscribeButton' + user_id).popover('hide');
-            modal.hidePleaseWait();
+            groups.toggleClass('notify', !!Number(response.notify));
+            groups.addClass('subscription-complete');
+        },
+        error: function () { avideoToastError(__('An error occurred')); },
+        complete: function () {
+            delete subscriptionRequests[user_id];
+            groups.removeClass('subscription-pending').attr('aria-busy', 'false');
+            buttons.prop('disabled', false);
         }
     });
 }
 
+function subscribe(email, user_id) {
+    return updateSubscription(email, user_id, false);
+}
+
 function toogleNotify(user_id) {
-    email = $('#subscribeEmail' + user_id).val();
-    subscribeNotify(email, user_id);
+    var email = $('#subscribeEmail' + user_id).val();
+    return subscribeNotify(email, user_id);
 }
 function subscribeNotify(email, user_id) {
-    modal.showPleaseWait();
-    $.ajax({
-        url: webSiteRootURL + 'objects/subscribeNotify.json.php',
-        method: 'POST',
-        data: {
-            'email': email,
-            'user_id': user_id
-        },
-        success: function (response) {
-            if (response.notify) {
-                $('.notificationButton' + user_id).addClass("notify");
-            } else {
-                $('.notificationButton' + user_id).removeClass("notify");
-            }
-            modal.hidePleaseWait();
-        }
-    });
+    return updateSubscription(email, user_id, true);
 }
 
 var _mouseEffectTimeout;

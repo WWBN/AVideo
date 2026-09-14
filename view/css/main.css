@@ -638,15 +638,15 @@ img.rotate-90 {
 
 .notificationButton button {
     display: none;
-    border-radius: 4px 0 0 4px !important;
+    border-radius: 999px 0 0 999px !important;
 }
 
 .notificationButton button.subscribe {
-    border-radius: 4px !important;
+    border-radius: 999px !important;
 }
 
 .notificationButton button.notifyBtn {
-    border-radius: 0 4px 4px 0 !important;
+    border-radius: 0 999px 999px 0 !important;
 }
 
 .notificationButton.subscribed .doNotNotify,
@@ -2288,4 +2288,67 @@ body>div.jq-toast-wrap {
     margin: 0;
     min-width: 34px;
     text-align: center;
+}
+
+/* Local feedback shared by channel subscription controls. */
+.notificationButton.btn-group { position: relative; border-radius: 999px; isolation: isolate; }
+.btn.addChannelToGallery,
+.btn.removeChannelFromGallery,
+.notificationButton.btn-group > .btn { min-height: 34px; padding: 6px 10px; transition: background-color .2s ease, box-shadow .2s ease, filter .2s ease; }
+.btn.addChannelToGallery:hover:not(:disabled),
+.btn.removeChannelFromGallery:hover:not(:disabled),
+.notificationButton.btn-group > .btn:hover:not(:disabled) { filter: brightness(1.08); }
+.btn.addChannelToGallery:focus-visible,
+.btn.removeChannelFromGallery:focus-visible,
+.notificationButton.btn-group > .btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.notificationButton.subscription-pending { cursor: progress; }
+.notificationButton.subscription-pending > .btn:disabled { opacity: .85; cursor: progress; }
+.notificationButton.subscription-pending::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,.4) 50%, transparent 75%);
+    background-size: 250% 100%;
+    animation: subscription-shimmer 1.2s ease-in-out infinite;
+}
+.notificationButton.subscription-complete:not(.subscription-pending) { animation: subscription-confirm .45s cubic-bezier(.2,.8,.2,1); }
+.notificationButton.subscription-complete.notify .doNotify > i { animation: subscription-bell .55s ease-out; transform-origin: 50% 15%; }
+@keyframes subscription-shimmer {
+    from { background-position: 150% 0; }
+    to { background-position: -50% 0; }
+}
+@keyframes subscription-confirm {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.045); box-shadow: 0 0 0 5px rgba(128,128,128,.13); }
+    100% { transform: scale(1); box-shadow: 0 0 0 9px transparent; }
+}
+@keyframes subscription-bell {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(15deg); }
+    50% { transform: rotate(-12deg); }
+    75% { transform: rotate(6deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .notificationButton, .notificationButton > .btn, .notificationButton > .btn > i, .notificationButton::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+.btn.addChannelToGallery,
+.btn.removeChannelFromGallery {
+    border-radius: 999px;
+    vertical-align: middle;
+}
+.btn.addChannelToGallery small,
+.btn.removeChannelFromGallery small {
+    font-size: inherit;
+    font-weight: 600;
+}
+@media (prefers-reduced-motion: reduce) {
+    .btn.addChannelToGallery,
+    .btn.removeChannelFromGallery { transition: none; }
 }
