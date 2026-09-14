@@ -2,6 +2,9 @@ name: Dependabot auto-merge
 on:
   pull_request_target:
     types: [opened, reopened, synchronize, ready_for_review]
+  workflow_run:
+    workflows: [Tests, Validate/Lint, Dependency Review, Code Scanning - Action, Docker Image CI]
+    types: [completed]
   workflow_dispatch:
   schedule:
     - cron: '17 * * * *'
@@ -9,24 +12,23 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  checks: read
+  statuses: read
+
+concurrency:
+  group: dependabot-auto-merge
+  cancel-in-progress: false
 
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' && github.event.pull_request.draft == false }}
+    if: >-
+      github.repository == 'WWBN/AVideo' &&
+      (github.event_name != 'pull_request_target' ||
+       github.event.pull_request.user.login == 'dependabot[bot]')
     steps:
-      - name: Enable auto-merge for Dependabot PRs
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ github.event.pull_request.number }}
-          merge-method: merge
-
-  dependabot-backfill:
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'pull_request_target' }}
-    steps:
-      - name: Enable auto-merge on all open Dependabot PRs
+      # Never check out or execute PR code in this write-enabled workflow.
+      - name: Merge Dependabot PRs after successful checks
         uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -39,21 +41,73 @@ jobs:
               per_page: 100
             });
 
-            const dependabotPRs = pulls.filter((pr) => pr.user?.login === 'dependabot[bot]' && !pr.draft);
+            const isEligible = (pr) => pr.user?.login === 'dependabot[bot]' &&
+              !pr.draft && pr.state === 'open' && pr.base.ref === 'master' &&
+              pr.head.repo?.full_name === `${owner}/${repo}`;
+            const dependabotPRs = pulls.filter(isEligible);
             core.info(`Found ${dependabotPRs.length} open Dependabot PR(s).`);
 
-            for (const pr of dependabotPRs) {
+            // Require the repository's CI even though master is not protected.
+            const requiredChecks = [
+              'PHP 8.1 Tests', 'PHP 8.2 Tests', 'PHP 8.3 Tests',
+              'PHP 8.1 on ubuntu-latest', 'PHP 8.2 on ubuntu-latest',
+              'PHP 8.3 on ubuntu-latest', 'dependency-review',
+              'CodeQL-Build', 'CodeQL', 'build'
+            ];
+            const automationChecks = new Set(['dependabot', 'dependabot-backfill']);
+            let failed = false;
+            for (const candidate of dependabotPRs) {
               try {
-                await github.graphql(
-                  `mutation EnableAutoMerge($pullRequestId: ID!) {
-                    enablePullRequestAutoMerge(input: {pullRequestId: $pullRequestId, mergeMethod: MERGE}) {
-                      pullRequest { number }
-                    }
-                  }`,
-                  { pullRequestId: pr.node_id }
+                const {data: pr} = await github.rest.pulls.get({
+                  owner, repo, pull_number: candidate.number
+                });
+                if (!isEligible(pr) || pr.mergeable !== true) {
+                  core.info(`#${candidate.number}: not mergeable yet; will retry.`);
+                  continue;
+                }
+                const checks = await github.paginate(github.rest.checks.listForRef, {
+                  owner, repo, ref: pr.head.sha, filter: 'latest', per_page: 100
+                });
+                const relevantChecks = checks.filter((check) =>
+                  !(check.app?.slug === 'github-actions' && automationChecks.has(check.name))
                 );
-                core.info(`Enabled auto-merge for #${pr.number}`);
+                const missing = requiredChecks.filter((name) => !relevantChecks.some((check) =>
+                  check.name === name &&
+                  check.app?.slug === (name === 'CodeQL' ? 'github-advanced-security' : 'github-actions') &&
+                  check.status === 'completed' && check.conclusion === 'success'
+                ));
+                const pendingOrFailed = relevantChecks.filter((check) =>
+                  check.status !== 'completed' ||
+                  !['success', 'neutral', 'skipped'].includes(check.conclusion)
+                );
+                const {data: status} = await github.rest.repos.getCombinedStatusForRef({
+                  owner, repo, ref: pr.head.sha, per_page: 100
+                });
+                if (missing.length || pendingOrFailed.length ||
+                    (status.total_count > 0 && status.state !== 'success')) {
+                  core.info(`#${pr.number}: waiting for successful checks. ` +
+                    `Required: ${missing.join(', ')}; other checks: ` +
+                    `${pendingOrFailed.map((check) => check.name).join(', ')}; ` +
+                    `commit status: ${status.state}.`);
+                  continue;
+                }
+                // REST merge also works without branch protection. The SHA prevents
+                // merging an untested Dependabot update pushed during this run.
+                const {data: result} = await github.rest.pulls.merge({
+                  owner, repo, pull_number: pr.number,
+                  sha: pr.head.sha, merge_method: 'merge'
+                });
+                if (!result.merged) {
+                  throw new Error(result.message || 'GitHub did not merge the PR');
+                }
+                core.info(`Merged #${pr.number}: ${result.sha}`);
               } catch (error) {
-                core.warning(`Could not enable auto-merge for #${pr.number}: ${error.message}`);
+                if ([405, 409].includes(error.status)) {
+                  core.warning(`#${candidate.number}: merge blocked or head changed; will retry. ${error.message}`);
+                } else {
+                  failed = true;
+                  core.error(`#${candidate.number}: ${error.message}`);
+                }
               }
             }
+            if (failed) core.setFailed('Could not process every Dependabot PR. See errors above.');
