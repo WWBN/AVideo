@@ -29,6 +29,11 @@
     gap: 24px;
 }
 
+.admin-layout::before,
+.admin-layout::after {
+    display: none;
+}
+
 .admin-sidebar {
     position: sticky;
     top: 70px;
