@@ -1,5 +1,24 @@
 .admin-shell {
-    padding-top: 20px;
+    padding: 24px;
+}
+
+.admin-page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.admin-page-heading h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.admin-page-heading p {
+    margin: 0;
 }
 
 .admin-layout {
@@ -7,6 +26,7 @@
     align-items: flex-start;
     margin-left: 0;
     margin-right: 0;
+    gap: 24px;
 }
 
 .admin-sidebar {
@@ -15,10 +35,25 @@
     max-height: calc(100vh - 85px);
     overflow-y: auto;
     overscroll-behavior: contain;
+    flex: 0 0 220px;
+    padding: 0;
 }
 
 .admin-content {
     min-width: 0;
+    flex: 1;
+    padding: 0;
+}
+
+.admin-navigation-button {
+    margin-bottom: 12px;
+}
+
+@media (min-width: 768px) {
+    .admin-navigation.collapse {
+        display: block;
+        height: auto;
+    }
 }
 
 .admin-sidebar .panel-body {
@@ -27,6 +62,12 @@
 
 .adminLeftMenu {
     overflow: hidden;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.admin-accordion .panel + .panel {
+    margin-top: 8px;
 }
 
 .adminLeftMenu .panel-heading {
@@ -144,6 +185,14 @@
 }
 
 @media (max-width: 767px) {
+    .admin-shell {
+        padding: 12px;
+    }
+
+    .admin-page-heading {
+        margin-bottom: 16px;
+    }
+
     .admin-layout {
         display: block;
     }

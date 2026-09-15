@@ -107,7 +107,8 @@
     }
 }
 
-.metric-grid .panel-heading {
+.metric-grid .panel-heading,
+.metric-grid .panel-body {
     flex: 1;
     padding: 16px;
     border: 0;
@@ -168,7 +169,8 @@
         gap: 10px;
     }
 
-    .metric-grid .panel-heading {
+    .metric-grid .panel-heading,
+    .metric-grid .panel-body {
         padding: 10px;
     }
 

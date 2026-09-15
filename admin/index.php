@@ -197,8 +197,15 @@ switch ($_GET['browse_page']) {
 }
 
 $_page = new Page(array('Administration'));
-$_page->setExtraStyles(array('view/css/adminLayout.css'));
-$_page->setExtraScripts(array('view/js/adminSettings.js'));
+// Embedded managers need the same table bridge as their standalone pages.
+$adminStyles = array('view/css/DataTables/datatables.min.css', 'view/css/adminLayout.css');
+$adminScripts = array('view/css/DataTables/datatables.min.js', 'view/js/avideoDataTable.js', 'view/js/adminSettings.js');
+if ($includeHead === $global['systemRootPath'] . 'view/charts_head.php') {
+    $adminStyles[] = 'view/css/reportDashboard.css';
+    $adminScripts[] = 'view/js/reportDashboard.js';
+}
+$_page->setExtraStyles($adminStyles);
+$_page->setExtraScripts($adminScripts);
 if (!empty($includeHead) && file_exists($includeHead)) {
     $_page->setIncludeInHead(array($includeHead));
 }
@@ -206,8 +213,17 @@ if (!empty($includeHead) && file_exists($includeHead)) {
 ?>
 
 <div class="container-fluid admin-shell">
+    <header class="admin-page-heading">
+        <div>
+            <h1><?php echo __('Administration'); ?></h1>
+            <p class="text-muted"><?php echo __('Manage your site, content and settings.'); ?></p>
+        </div>
+        <a class="btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>"><i class="fa fa-home" aria-hidden="true"></i> <?php echo __('View site'); ?></a>
+    </header>
     <div class="row admin-layout">
-        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 leftMenu admin-sidebar">
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 admin-sidebar">
+            <button class="btn btn-default btn-block visible-xs admin-navigation-button" type="button" data-toggle="collapse" data-target="#adminNavigation" aria-expanded="false" aria-controls="adminNavigation"><i class="fa fa-bars" aria-hidden="true"></i> <?php echo __('Administration'); ?></button>
+            <div class="collapse admin-navigation" id="adminNavigation">
             <nav class="panel-group admin-accordion" id="accordion" aria-label="<?php echo __('Administration'); ?>">
                 <?php
                 $currentPage = empty($_GET['browse_page']) ? 'dashboard' : $_GET['browse_page'];
@@ -251,6 +267,7 @@ if (!empty($includeHead) && file_exists($includeHead)) {
                     </div>
                 <?php } ?>
             </nav>
+            </div>
         </div>
         <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12 admin-content">
             <?php
