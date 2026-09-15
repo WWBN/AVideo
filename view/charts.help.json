@@ -39,7 +39,7 @@
       "element": "#userCumulativeChart",
       "tab": "#analyticsTabs a[href=\"#dashboard\"]",
       "title": "Read account growth",
-      "intro": "This chart adds up existing accounts by registration date, including active and inactive accounts. Deleted accounts are excluded. The New users chart shows the daily counts instead."
+      "intro": "Choose a period above each chart. Short periods use days or weeks; longer histories use months or years so the chart stays readable. New users sums registrations in each interval. User growth shows the total at the end of each interval, including accounts created before the selected period. Empty intervals show zero new accounts or an unchanged total. Deleted accounts are excluded. Hover or tap the chart, or open View data, for exact dates and values."
     },
     {
       "element": "#dtMyVideosRepReport .report-filters",

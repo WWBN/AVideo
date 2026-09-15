@@ -116,6 +116,47 @@ window.AVideoReports = (function ($) {
         $('a[data-toggle="tab"]').on('shown.bs.tab', function () { if (root.is(':visible')) { if (grid) { grid.columns.adjust(); } else { load(); } } });
         load();
     }
+    // No existing registration grouping helper: retain empty intervals and the cumulative baseline.
+    function registrationSeries(data, days, cumulative, today) {
+        var keys = Object.keys(data).filter(function (key) { return key <= today; }).sort();
+        var result = {labels: [], ranges: [], values: [], partial: [], unit: 'day'};
+        if (!keys.length) { return result; }
+        var day = 86400000, end = new Date(today + 'T00:00:00Z');
+        var start = days ? new Date(end.getTime() - (days - 1) * day) : new Date(keys[0] + 'T00:00:00Z');
+        var span = Math.round((end - start) / day) + 1;
+        var unit = span <= 31 ? 'day' : span <= 180 ? 'week' : span <= 1096 ? 'month' : 'year';
+        var yearStep = Math.max(1, Math.ceil(span / (365.25 * 30)));
+        result.unit = unit;
+        result.yearStep = yearStep;
+        var cursor = new Date(start), index = 0, previous = 0;
+        function iso(date) { return date.toISOString().slice(0, 10); }
+        // Accounts created before the selected period still belong in the growth total.
+        while (index < keys.length && keys[index] < iso(start)) {
+            previous = Number(data[keys[index++]]);
+        }
+        if (unit === 'week') { cursor.setUTCDate(cursor.getUTCDate() - (cursor.getUTCDay() + 6) % 7); }
+        if (unit === 'month') { cursor.setUTCDate(1); }
+        if (unit === 'year') { cursor = new Date(Date.UTC(cursor.getUTCFullYear(), 0, 1)); }
+        while (cursor <= end) {
+            var next = new Date(cursor);
+            if (unit === 'year') { next.setUTCFullYear(next.getUTCFullYear() + yearStep); }
+            else if (unit === 'month') { next.setUTCMonth(next.getUTCMonth() + 1); }
+            else { next.setUTCDate(next.getUTCDate() + (unit === 'week' ? 7 : 1)); }
+            var from = iso(new Date(Math.max(cursor.getTime(), start.getTime())));
+            var to = iso(new Date(Math.min(next.getTime() - day, end.getTime())));
+            var total = 0;
+            while (index < keys.length && keys[index] <= to) {
+                previous = Number(data[keys[index++]]);
+                total += previous;
+            }
+            result.labels.push(unit === 'month' ? iso(cursor).slice(0, 7) : unit === 'year' ? iso(cursor).slice(0, 4) : from);
+            result.ranges.push([from, to]);
+            result.values.push(cumulative ? previous : total);
+            result.partial.push(from !== iso(cursor) || to !== iso(new Date(next.getTime() - day)));
+            cursor = next;
+        }
+        return result;
+    }
     function chart(canvas, labels, datasets, options) {
         var previous = Chart.getChart(canvas);
         if (previous) { previous.destroy(); }
@@ -133,10 +174,11 @@ window.AVideoReports = (function ($) {
             options: {
                 responsive: true, maintainAspectRatio: false,
                 indexAxis: options.horizontal ? 'y' : 'x',
+                interaction: options.interaction || {mode: 'nearest', intersect: true},
                 animation: {duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 250},
                 scales: {
                     x: {type: options.time ? 'time' : (options.horizontal ? 'linear' : 'category'), beginAtZero: true, ticks: {color: styles.color, maxRotation: 0, precision: 0}},
-                    y: {beginAtZero: true, ticks: {color: styles.color, precision: 0}}
+                    y: {beginAtZero: options.beginAtZero !== false, ticks: {color: styles.color, precision: 0}}
                 },
                 plugins: {legend: {display: datasets.length > 1, labels: {color: styles.color}}, tooltip: {callbacks: {
                     title: function (items) { return options.fullLabels ? options.fullLabels[items[0].dataIndex] : items[0].label; }
@@ -144,5 +186,5 @@ window.AVideoReports = (function ($) {
             }
         });
     }
-    return {table: table, busy: busy, chart: chart};
+    return {table: table, busy: busy, chart: chart, registrationSeries: registrationSeries};
 })(jQuery);
