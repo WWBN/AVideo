@@ -1812,6 +1812,18 @@ class API extends PluginAbstract
             $rows[$key]['videoStatusDescription'] = Video::$statusDesc[$rows[$key]['status']] ?? 'Unknown';
             $rows[$key]['videoStatusIcon'] = Video::$statusIcons[$rows[$key]['status']] ?? '';
 
+            // PARITY FIX (requested by an API integration - Course Companion): the PRIMARY
+            // requested video never got its own content tags attached here, even though
+            // relatedVideos entries always do (see the videoTags/videoTagsObject assignment
+            // a few dozen lines below, inside the relatedVideos loop). Mirrors that same logic
+            // for $rows[$key] itself so a caller asking for one specific video (the common case)
+            // can actually see its tags without having to cross-reference the related list.
+            if (AVideoPlugin::isEnabledByName("VideoTags")) {
+                require_once $global['systemRootPath'] . 'plugin/VideoTags/Objects/Tags.php';
+                $rows[$key]['videoTags'] = Tags::getAllFromVideosId($rows[$key]['id']);
+                $rows[$key]['videoTagsObject'] = Tags::getObjectFromVideosId($rows[$key]['id']);
+            }
+
             //make playlist compatible
             if (!empty($parameters['playlist'])) {
                 $rows[$key]['mp3'] = convertVideoToMP3FileIfNotExists($value['id']);

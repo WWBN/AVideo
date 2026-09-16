@@ -109,7 +109,8 @@ class ADs extends PluginAbstract
     {
         global $global;
         $fileAPIName = $global['systemRootPath'] . 'plugin/ADs/pluginMenu.html';
-        return file_get_contents($fileAPIName);
+        $debugURL = addQueryStringParameter($global['webSiteRootURL'], 'AdsDebug', 1);
+        return file_get_contents($fileAPIName) . '<a href="' . $debugURL . '" target="_blank" class="btn btn-default btn-sm btn-xs btn-block"><i class="fas fa-bug"></i> ' . __('Show Ads Positions') . '</a>';
     }
 
     public function getHeadCode()
