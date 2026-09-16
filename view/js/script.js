@@ -789,7 +789,7 @@ function playerPlay(currentTime) {
     }
     promisePlaytry--;
     if (typeof player !== 'undefined') {
-        if (currentTime) {
+        if (currentTime !== undefined && currentTime !== null) {
             setCurrentTime(currentTime);
         }
         try {
@@ -844,11 +844,11 @@ function playerPlay(currentTime) {
                             var mutedPlayPromise = player.play();
                             if (mutedPlayPromise !== undefined) {
                                 mutedPlayPromise.then(function () {
-                                    console.debug('[playerPlay] muted fallback resolved, trying auto unmute');
-                                    player.muted(false);
+                                    // Unmuting without a gesture can make the browser pause autoplay.
+                                    console.debug('[playerPlay] muted fallback resolved');
                                     setTimeout(function () {
                                         if (player.muted() && !inIframe()) {
-                                            console.debug('[playerPlay] auto unmute failed, showing popup');
+                                            console.debug('[playerPlay] showing unmute popup');
                                             showUnmutePopup();
                                         }
                                     }, 120);
@@ -1046,7 +1046,7 @@ function playerPlayIfAutoPlay(currentTime) {
         //console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
     }
 
-    if (currentTime) {
+    if (currentTime !== undefined && currentTime !== null) {
         setCurrentTime(currentTime);
     }
     if (isAutoplayEnabled()) {
@@ -1077,7 +1077,7 @@ function playerPlayMutedIfAutoPlay(currentTime) {
         //console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
     }
 
-    if (currentTime) {
+    if (currentTime !== undefined && currentTime !== null) {
         setCurrentTime(currentTime);
     }
     if (isAutoplayEnabled()) {

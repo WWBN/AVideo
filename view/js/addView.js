@@ -132,8 +132,8 @@ async function addViewFromCookie() {
         return false;
     }
 
-    if (mediaId === addView_videos_id) {
-        // it is the same video, play at the last moment
+    if (mediaId === addView_videos_id && !urlParams.has('t')) {
+        // Resume the same video only when the link does not specify a start time.
         forceCurrentTime = addView_playerCurrentTime;
     }
     var doNotCountViewOriginal = isVideoAddViewCount;
