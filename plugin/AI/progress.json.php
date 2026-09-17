@@ -25,7 +25,7 @@ $aiURL = "{$aiURL}progress.json.php";
 
 $json = array();
 $json['AccessToken'] = $objAI->AccessToken;
-$json['isTest'] = AI::$isTest?1:0;
+$json['isTest'] = AI::isTestEnvironment() ? 1 : 0;
 //echo json_encode($obj);exit;
 
 if (empty($json['AccessToken'])) {

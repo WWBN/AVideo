@@ -198,7 +198,14 @@ class YPTWallet extends PluginAbstract
         return number_format($balance, $obj->decimalPrecision);
     }
 
-    public static function formatCurrency($value, $addHTML = false, $doNotUseVirtualCurrency = false, $currency = false)
+    /**
+     * @param int|false $decimalPrecisionOverride Optional. Number of decimals
+     * to use instead of the configured wallet precision, for callers that
+     * display sub-cent amounts (e.g. per-token AI usage, which rounds to
+     * "0.00" at the default precision of 2). Omitted/false keeps the exact
+     * previous behavior for every existing caller.
+     */
+    public static function formatCurrency($value, $addHTML = false, $doNotUseVirtualCurrency = false, $currency = false, $decimalPrecisionOverride = false)
     {
         $value = floatval($value);
         $obj = AVideoPlugin::getObjectData('YPTWallet');
@@ -211,6 +218,9 @@ class YPTWallet extends PluginAbstract
             $currency_symbol = $obj->virtual_currency_symbol;
             $decimalPrecision = $obj->virtual_currency_decimalPrecision;
             $currency = $obj->virtual_currency;
+        }
+        if ($decimalPrecisionOverride !== false && is_numeric($decimalPrecisionOverride)) {
+            $decimalPrecision = intval($decimalPrecisionOverride);
         }
         $value = number_format($value, $decimalPrecision);
 

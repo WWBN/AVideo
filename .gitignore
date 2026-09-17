@@ -126,3 +126,5 @@ vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/
 .github/prompts/avideo-security-advisory-triage.prompt.md
 .github/copilot-instructions.md
 .github/prompts/avideo-github-issue-answer.prompt.md
+.claude/*
+CLAUDE.md

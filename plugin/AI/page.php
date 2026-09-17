@@ -37,12 +37,12 @@ $priceForShorts = $objAI->priceForShorts;
 $priceForDubbing = $objAI->priceForDubbing;
 $priceForAll = $priceForTranscription + $priceForBasic + $priceForShorts;
 
-$priceForBasicText = YPTWallet::formatCurrency($priceForBasic);
-$priceForTranscriptionText = YPTWallet::formatCurrency($priceForTranscription);
-$priceForTranslationText = YPTWallet::formatCurrency($priceForTranslation);
-$priceForShortsText = YPTWallet::formatCurrency($priceForShorts);
-$priceForAllText = YPTWallet::formatCurrency($priceForAll);
-$priceForDubbingText = YPTWallet::formatCurrency($priceForDubbing);
+$priceForBasicText = AI::formatPrice($priceForBasic);
+$priceForTranscriptionText = AI::formatPrice($priceForTranscription);
+$priceForTranslationText = AI::formatPrice($priceForTranslation);
+$priceForShortsText = AI::formatPrice($priceForShorts);
+$priceForAllText = AI::formatPrice($priceForAll);
+$priceForDubbingText = AI::formatPrice($priceForDubbing);
 /*
 if (User::isAdmin()) {
     $_1hour = 60 * 60;
@@ -55,11 +55,11 @@ if (User::isAdmin()) {
     $adminPriceForShorts = $pricesJ->priceForShorts;
     $adminPriceForAll = $adminPriceForTranscription + $adminPriceForBasic + $adminPriceForShorts;
 
-    $adminPriceForBasicText = YPTWallet::formatCurrency($adminPriceForBasic);
-    $adminPriceForTranscriptionText = YPTWallet::formatCurrency($adminPriceForTranscription);
-    $adminPriceForTranslationText = YPTWallet::formatCurrency($adminPriceForTranslation);
-    $adminPriceForShortsText = YPTWallet::formatCurrency($adminPriceForShorts);
-    $adminPriceForAllText = YPTWallet::formatCurrency($adminPriceForAll);
+    $adminPriceForBasicText = AI::formatPrice($adminPriceForBasic);
+    $adminPriceForTranscriptionText = AI::formatPrice($adminPriceForTranscription);
+    $adminPriceForTranslationText = AI::formatPrice($adminPriceForTranslation);
+    $adminPriceForShortsText = AI::formatPrice($adminPriceForShorts);
+    $adminPriceForAllText = AI::formatPrice($adminPriceForAll);
 }
 */
 
@@ -182,6 +182,12 @@ $_page = new Page(['Video Metatags']);
                                 <?php echo __("Dubbing"); ?>
                             </a>
                         </li>
+                        <li>
+                            <a data-toggle="tab" href="#pCompanionChat">
+                                <i class="fa-solid fa-comments"></i>
+                                <?php echo __("Chat"); ?>
+                            </a>
+                        </li>
                         <?php
                         if (User::isAdmin()) {
                         ?>
@@ -227,6 +233,11 @@ $_page = new Page(['Video Metatags']);
                         <div id="pDubbing" class="tab-pane fade">
                             <?php
                             include $global['systemRootPath'] . 'plugin/AI/tabs/dubbing.php';
+                            ?>
+                        </div>
+                        <div id="pCompanionChat" class="tab-pane fade">
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/AI/tabs/companionChat.php';
                             ?>
                         </div>
                         <?php
@@ -547,5 +558,6 @@ $_page = new Page(['Video Metatags']);
     });
 </script>
 <?php
+$_page->setExtraStyles(['plugin/AI/View/pricing.css']);
 $_page->print();
 ?>

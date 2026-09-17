@@ -1,0 +1,86 @@
+.ai-settings {
+    padding: 8px 6px;
+}
+
+.ai-settings-header, .ai-settings-title, .ai-settings-control {
+    display: flex;
+    align-items: center;
+}
+
+.ai-settings-header {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.ai-settings-title { gap: 14px; }
+.ai-settings-title h3 { margin: 0 0 5px; font-size: 21px; font-weight: 600; letter-spacing: -0.4px; }
+.ai-settings-title p { margin: 0; font-size: 13px; }
+.ai-settings-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: color-mix(in srgb, currentColor 9%, transparent);
+    font-size: 22px;
+}
+.ai-settings-control { gap: 16px; padding: 8px 5px; }
+.ai-settings-control > label { font-weight: 500; margin: 0; font-size: 13px; cursor: pointer; }
+.ai-settings-switch { position: relative; margin: 0 5px; }
+.ai-settings-switch > input[type="checkbox"] {
+    display: block;
+    position: absolute;
+    opacity: 0;
+    width: 44px;
+    height: 28px;
+    margin: 0;
+    top: -8px;
+}
+.ai-settings-switch > input:focus-visible + label { outline: 2px solid currentColor; outline-offset: 14px; }
+
+.ai-price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+    background: color-mix(in srgb, currentColor 2%, transparent);
+    border-radius: 12px;
+    padding: 18px 0;
+}
+.ai-price-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 0 22px;
+    min-width: 0;
+}
+.ai-price-item + .ai-price-item { border-left: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
+.ai-price-caption { font-size: 12px; font-weight: 500; }
+.ai-price-amount { font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: -0.5px; font-variant-numeric: tabular-nums; }
+.ai-price-note { font-size: 11px; }
+.ai-wallet-item > span:nth-child(2) { font-size: 16px; line-height: 26px; font-variant-numeric: tabular-nums; }
+.ai-wallet-item .label { border-radius: 20px; font-size: 10px; font-weight: 500; padding: 4px 7px; }
+.ai-settings-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 12px; margin-top: 14px; }
+.ai-settings-meta i { margin-right: 4px; }
+.ai-price-details { margin: 12px 0 0; font-size: 12px; }
+.ai-price-details summary { cursor: pointer; width: fit-content; list-style: none; font-weight: 500; }
+.ai-price-details summary::-webkit-details-marker { display: none; }
+.ai-price-details summary i { font-size: 9px; margin-left: 5px; transition: transform .15s; }
+.ai-price-details[open] summary i { transform: rotate(180deg); }
+.ai-price-details-body { padding-top: 14px; max-width: 70em; line-height: 1.6; }
+.ai-settings .alert, .ai-settings .progress { margin-top: 16px; }
+.ai-settings #companionVideoNotSubmitted { margin-top: 16px; }
+
+@media (max-width: 767px) {
+    .ai-settings { padding: 4px 0; }
+    .ai-settings-header { gap: 12px; margin-bottom: 16px; }
+    .ai-settings-title h3 { font-size: 19px; }
+    .ai-settings-control { width: 100%; justify-content: space-between; }
+    .ai-price-grid { grid-template-columns: 1fr 1fr; padding: 16px 0 0; }
+    .ai-price-item { padding: 0 14px; }
+    .ai-price-amount { font-size: 19px; overflow-wrap: anywhere; }
+    .ai-price-grid .ai-wallet-item { grid-column: 1 / -1; border-left: 0; border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent); margin-top: 16px; padding: 12px 14px; gap: 4px; }
+}
