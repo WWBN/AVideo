@@ -1,7 +1,8 @@
 .companion-widget { position:fixed; right:40px; bottom:88px; z-index:1600; font-family:inherit; }
-.companion-widget-launcher { display:grid; place-items:center; border-radius:50%; width:50px; height:50px; padding:0; border-width:3px; border-color:var(--companion-launcher-border, #fff); box-shadow:0 6px 24px rgb(0 0 0 / 22%); }
-.companion-widget-launcher > .fa-comment-dots { font-size:26px; color:var(--companion-launcher-icon, #000); -webkit-text-stroke:1px var(--companion-launcher-border, #fff); }
-.companion-widget-launcher > .companion-widget-launcher-close { font-size:22px; color:var(--companion-launcher-icon, #000); }
+/* Colors come from the active theme's btn-default so the launcher reads on light and dark themes alike. */
+.companion-widget-launcher { display:grid; place-items:center; border-radius:50%; width:50px; height:50px; padding:0; border-width:3px; box-shadow:0 6px 24px rgb(0 0 0 / 22%); }
+.companion-widget-launcher > .fa-comment-dots { font-size:26px; color:currentColor; }
+.companion-widget-launcher > .companion-widget-launcher-close { font-size:22px; color:currentColor; }
 .companion-widget-launcher[aria-expanded="true"] { opacity:.85; }
 .companion-widget-panel { position:absolute; right:0; bottom:66px; width:min(420px, calc(100vw - 32px)); height:min(680px, calc(100dvh - 180px)); margin:0; display:flex; flex-direction:column; overflow:hidden; border-radius:20px; box-shadow:0 16px 64px rgb(0 0 0 / 28%); }
 .companion-widget-panel[hidden] { display:none; }
