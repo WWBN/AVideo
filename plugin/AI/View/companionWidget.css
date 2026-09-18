@@ -1,8 +1,8 @@
 .companion-widget { position:fixed; right:40px; bottom:88px; z-index:1600; font-family:inherit; }
 .companion-widget-launcher { display:grid; place-items:center; border-radius:50%; width:50px; height:50px; padding:0; border-width:3px; border-color:var(--companion-launcher-border, #fff); box-shadow:0 6px 24px rgb(0 0 0 / 22%); }
 .companion-widget-launcher > .fa-comment-dots { font-size:26px; color:var(--companion-launcher-icon, #000); -webkit-text-stroke:1px var(--companion-launcher-border, #fff); }
-.companion-widget-chevron { font-size:11px; transition:transform .18s ease; }
-.companion-widget-launcher[aria-expanded="true"] .companion-widget-chevron { transform:rotate(180deg); }
+.companion-widget-launcher > .companion-widget-launcher-close { font-size:22px; color:var(--companion-launcher-icon, #000); }
+.companion-widget-launcher[aria-expanded="true"] { opacity:.85; }
 .companion-widget-panel { position:absolute; right:0; bottom:66px; width:min(420px, calc(100vw - 32px)); height:min(680px, calc(100dvh - 180px)); margin:0; display:flex; flex-direction:column; overflow:hidden; border-radius:20px; box-shadow:0 16px 64px rgb(0 0 0 / 28%); }
 .companion-widget-panel[hidden] { display:none; }
 /* Floating: left/top/width/height are set inline by companionWidget.js (jQuery UI drag/resize), remembered in localStorage. */
@@ -36,4 +36,3 @@ body.companion-widget-fullscreen { overflow:hidden; }
     .companion-widget-panel, .companion-widget-panel.is-expanded { position:fixed; inset:12px 12px 144px; width:auto; height:auto; border-radius:16px; }
 }
 .companion-widget-panel.is-expanded { position:fixed; inset:0; width:100%; height:100dvh; max-width:none; margin:0; border:0; border-radius:0; }
-@media (prefers-reduced-motion:reduce) { .companion-widget-chevron { transition:none; } }

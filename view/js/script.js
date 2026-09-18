@@ -5040,13 +5040,42 @@ function actionButtonPlaylistClick(t, videos_id) {
     var $button = $(t);
     // Bootstrap may insert a tooltip between the button and its playlist form.
     var $content = $button.nextAll('.webui-popover-content').first();
-    $button.tooltip('hide');
     $button.webuiPopover({
         content: function () { return $content; },
         trigger: 'manual',
         container: 'body',
-        width: Math.min(340, window.innerWidth - 24),
-        closeable: true
+        width: Math.min(400, window.innerWidth - 24),
+        style: 'playlist-picker',
+        arrow: false,
+        title: __('Add to'),
+        closeable: true,
+        onShow: function ($target) {
+            $button.attr('aria-expanded', 'true');
+            $target.addClass('panel panel-default').attr({role: 'dialog', 'aria-label': __('Add to'), tabindex: -1});
+            $target.find('.close').attr('aria-label', __('Close'));
+            $target.find('.playlist-create').off('toggle.playlistPicker').on('toggle.playlistPicker', function () {
+                var focusedElement = document.activeElement;
+                $button.webuiPopover('show');
+                $(focusedElement).trigger('focus');
+            });
+            $target.off('keydown.playlistPicker').on('keydown.playlistPicker', function (event) {
+                if (event.key === 'Escape') {
+                    $button.webuiPopover('hide');
+                    $button.trigger('focus');
+                }
+            });
+            $(document).off('click.playlistPicker').on('click.playlistPicker', function (event) {
+                if (!$target.is(event.target) && !$target.has(event.target).length
+                    && !$button.is(event.target) && !$button.has(event.target).length) {
+                    $button.webuiPopover('hide');
+                }
+            });
+            $target.trigger('focus');
+        },
+        onHide: function () {
+            $button.attr('aria-expanded', 'false');
+            $(document).off('click.playlistPicker');
+        }
     }).webuiPopover('toggle');
     callFunctionOrLoadScript('loadPlayLists', webSiteRootURL + 'plugin/PlayLists/script.js', videos_id);
 }

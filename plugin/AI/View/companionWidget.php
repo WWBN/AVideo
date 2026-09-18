@@ -16,7 +16,7 @@ if (empty($embedUrl)) {
         </div>
         <iframe class="companion-widget-frame" data-src="<?php echo htmlspecialchars($embedUrl, ENT_QUOTES, 'UTF-8'); ?>" title="<?php echo htmlspecialchars(__('Companion chat'), ENT_QUOTES, 'UTF-8'); ?>" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </section>
-    <button type="button" class="companion-widget-launcher btn btn-circle btn-default btn-lg" aria-controls="companionChatPanel" aria-expanded="false" aria-label="<?php echo htmlspecialchars(__('Open chat'), ENT_QUOTES, 'UTF-8'); ?>" title="<?php echo htmlspecialchars(__('AI Chat'), ENT_QUOTES, 'UTF-8'); ?>">
+    <button type="button" class="companion-widget-launcher btn btn-circle btn-default btn-lg" aria-controls="companionChatPanel" aria-expanded="false" aria-label="<?php echo htmlspecialchars(__('Open chat'), ENT_QUOTES, 'UTF-8'); ?>" title="<?php echo htmlspecialchars(__('AI Chat'), ENT_QUOTES, 'UTF-8'); ?>" data-label-open="<?php echo htmlspecialchars(__('Open chat'), ENT_QUOTES, 'UTF-8'); ?>" data-label-close="<?php echo htmlspecialchars(__('Close chat'), ENT_QUOTES, 'UTF-8'); ?>">
         <i class="fas fa-comment-dots" aria-hidden="true"></i>
     </button>
 </div>

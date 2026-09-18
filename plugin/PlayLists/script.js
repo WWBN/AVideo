@@ -294,12 +294,32 @@ async function loadPlayListsResponse(videos_id) {
         itemsArray.checked = checked;
         itemsArray.videos_id = videos_id;
         itemsArray.randId = randId;
+        itemsArray.edit_label = __('Edit');
+        itemsArray.play_label = __('Play');
 
         $(".searchlist" + videos_id).append(arrayToTemplate(itemsArray, listGroupItemTemplate));
 
 
     }
-    $('.searchlist' + videos_id).btsListFilter('#searchinput' + videos_id, { itemChild: '.nameSearch', initial: false });
+    var $search = $('#searchinput' + videos_id);
+    if (!$search.data('playlistFilterReady')) {
+        $('.searchlist' + videos_id).btsListFilter($search, {
+            itemChild: '.nameSearch',
+            initial: false,
+            eventKey: 'input',
+            resetOnBlur: false,
+            emptyNode: function () {
+                return $('<div>', {class: 'list-group-item text-muted', text: __('No results found!')});
+            }
+        });
+        $search.data('playlistFilterReady', true);
+    }
+    $search.trigger('input');
+    // Reposition after the loading indicator has been replaced by the list.
+    var $button = $('#addBtn' + videos_id);
+    if ($button.attr('aria-expanded') === 'true') {
+        $button.webuiPopover('show');
+    }
     $('.playListsVideosIds' + videos_id).change(function () {
         if (playListsAdding) {
             return false;

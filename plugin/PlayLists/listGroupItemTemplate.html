@@ -1,22 +1,19 @@
-<a class="list-group-item clearfix">
-    <div class="ellipsis plistNameSearch pull-left">
-        <button class="btn btn-xs btn-default"
-            onclick="avideoModalIframeFull(webSiteRootURL+'viewProgram/{id}/pl');return false;">
-            <i class="fas fa-edit"></i>
-        </button>
-        <button class="btn btn-xs btn-default"
-            onclick="avideoModalIframeFull(webSiteRootURL+'plugin/PlayLists/embed.php?playlists_id={id}');return false;">
-            <i class="fas fa-play"></i>
-        </button>
-        <span>
-            <i class="{icon}"></i>
-            <span class="nameSearch">{name_translated}</span>
-        </span>
-    </div>
-    <div class="material-switch material-small pull-right">
+<div class="list-group-item playlist-picker-item">
+    <label class="playlist-picker-choice" for="someSwitchOptionDefault{randId}">
         <input id="someSwitchOptionDefault{randId}" name="someSwitchOption{response_id}"
-            class="playListsVideosIds{videos_id} playListsIds_{id}_videos_id_{videos_id} playListsIds{id} "
+            class="playListsVideosIds{videos_id} playListsIds_{id}_videos_id_{videos_id} playListsIds{id}"
             type="checkbox" value="{id}" {checked}>
-        <label for="someSwitchOptionDefault{randId}" class="label-success"></label>
+        <i class="{icon}" aria-hidden="true"></i>
+        <span class="nameSearch">{name_translated}</span>
+    </label>
+    <div class="playlist-picker-actions">
+        <button type="button" class="btn btn-xs btn-default" title="{edit_label}" aria-label="{edit_label}"
+            onclick="avideoModalIframeFull(webSiteRootURL+'viewProgram/{id}/pl');return false;">
+            <i class="fas fa-edit" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="btn btn-xs btn-default" title="{play_label}" aria-label="{play_label}"
+            onclick="avideoModalIframeFull(webSiteRootURL+'plugin/PlayLists/embed.php?playlists_id={id}');return false;">
+            <i class="fas fa-play" aria-hidden="true"></i>
+        </button>
     </div>
-</a>
+</div>

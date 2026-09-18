@@ -38,6 +38,13 @@
         // Measured while visible: a hidden panel has no rect to start from.
         if (open) floatPanel();
         launcher.setAttribute('aria-expanded', String(open));
+        // The same button opens and closes the chat: show which one it will do.
+        launcher.querySelector('i').className = open ? 'fas fa-chevron-down companion-widget-launcher-close' : 'fas fa-comment-dots';
+        var label = open ? launcher.dataset.labelClose : launcher.dataset.labelOpen;
+        if (label) {
+            launcher.setAttribute('aria-label', label);
+            launcher.setAttribute('title', label);
+        }
         // Load only once. Hiding preserves the draft, messages and any stream.
         if (open && !frame.getAttribute('src')) frame.src = frame.dataset.src;
         if (open) close.focus();
