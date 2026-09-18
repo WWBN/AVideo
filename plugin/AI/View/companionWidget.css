@@ -5,6 +5,23 @@
 .companion-widget-launcher[aria-expanded="true"] .companion-widget-chevron { transform:rotate(180deg); }
 .companion-widget-panel { position:absolute; right:0; bottom:66px; width:min(420px, calc(100vw - 32px)); height:min(680px, calc(100dvh - 180px)); margin:0; display:flex; flex-direction:column; overflow:hidden; border-radius:20px; box-shadow:0 16px 64px rgb(0 0 0 / 28%); }
 .companion-widget-panel[hidden] { display:none; }
+/* Floating: left/top/width/height are set inline by companionWidget.js (jQuery UI drag/resize), remembered in localStorage. */
+.companion-widget-panel.is-floating { position:fixed; right:auto; bottom:auto; max-width:100vw; max-height:100dvh; }
+.companion-widget-panel.is-floating .companion-widget-bar { cursor:move; }
+.companion-widget-panel.is-dragging .companion-widget-frame { pointer-events:none; }
+/* Resize handles sit inside the rounded, overflow-hidden panel instead of jQuery UI's default outside offsets. */
+.companion-widget-panel:not(.is-floating) > .ui-resizable-handle { display:none; }
+.companion-widget-panel > .ui-resizable-n, .companion-widget-panel > .ui-resizable-s { left:0; width:100%; height:8px; }
+.companion-widget-panel > .ui-resizable-e, .companion-widget-panel > .ui-resizable-w { top:0; height:100%; width:8px; }
+.companion-widget-panel > .ui-resizable-n { top:0; }
+.companion-widget-panel > .ui-resizable-s { bottom:0; }
+.companion-widget-panel > .ui-resizable-e { right:0; }
+.companion-widget-panel > .ui-resizable-w { left:0; }
+.companion-widget-panel > .ui-resizable-ne, .companion-widget-panel > .ui-resizable-nw, .companion-widget-panel > .ui-resizable-se, .companion-widget-panel > .ui-resizable-sw { width:16px; height:16px; }
+.companion-widget-panel > .ui-resizable-ne { top:0; right:0; }
+.companion-widget-panel > .ui-resizable-nw { top:0; left:0; }
+.companion-widget-panel > .ui-resizable-se { bottom:0; right:0; }
+.companion-widget-panel > .ui-resizable-sw { bottom:0; left:0; }
 .companion-widget-bar { display:flex; flex:none; align-items:center; justify-content:space-between; gap:12px; padding:8px 12px 8px 18px; border-radius:0; }
 .companion-widget-bar > span { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; }
 .companion-widget-actions { display:flex; gap:5px; }

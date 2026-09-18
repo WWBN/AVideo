@@ -26,10 +26,17 @@
         expand.setAttribute('aria-pressed', String(expanded));
         expand.querySelector('i').className = expanded ? 'fas fa-compress' : 'fas fa-expand';
         syncExpanded();
+        // Fullscreen is driven by the stylesheet (inset:0); the floating
+        // left/top/width/height would override it, so drop them while expanded
+        // and restore the remembered spot when the viewer compresses again.
+        if (expanded) clearLayout();
+        else floatPanel();
     }
     function setOpen(open) {
         panel.hidden = !open;
         syncExpanded();
+        // Measured while visible: a hidden panel has no rect to start from.
+        if (open) floatPanel();
         launcher.setAttribute('aria-expanded', String(open));
         // Load only once. Hiding preserves the draft, messages and any stream.
         if (open && !frame.getAttribute('src')) frame.src = frame.dataset.src;
@@ -44,6 +51,109 @@
     document.addEventListener('keydown', function (event) {
         if (event.key === 'Escape' && !panel.hidden) setOpen(false);
     });
+
+    // --- Floating layout: drag, resize and remember ---
+    // jQuery UI is loaded globally by view/include/footer.php before plugin
+    // footer code, and is already used the same way by avideoWindowIframe()
+    // in view/js/script.js. On phones (the stylesheet's 600px breakpoint) the
+    // panel keeps its fixed inset layout and none of this applies.
+    var LAYOUT_KEY = 'companionWidgetLayout';
+    var LAYOUT_MIN = { width: 280, height: 240 };
+    var mobileQuery = window.matchMedia ? window.matchMedia('(max-width: 600px)') : null;
+    var $panel = window.jQuery ? window.jQuery(panel) : null;
+    var canFloat = !!($panel && $panel.draggable && $panel.resizable);
+    function isMobile() { return !!(mobileQuery && mobileQuery.matches); }
+    function readLayout() {
+        try {
+            var saved = JSON.parse(window.localStorage.getItem(LAYOUT_KEY));
+            if (saved && isFinite(saved.left) && isFinite(saved.top) && isFinite(saved.width) && isFinite(saved.height)) return saved;
+        } catch (e) {
+            // Storage blocked or a malformed value: start from the default spot.
+        }
+        return null;
+    }
+    function saveLayout(layout) {
+        try {
+            window.localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout));
+        } catch (e) {
+            // Storage blocked (private mode/quota): the layout lasts for this page only.
+        }
+    }
+    // The whole panel stays inside the viewport and never grows past it. A
+    // remembered layout from a bigger screen is shrunk/moved to fit this one.
+    function fitLayout(layout) {
+        var winW = window.innerWidth, winH = window.innerHeight;
+        var out = {};
+        out.width = Math.max(Math.min(LAYOUT_MIN.width, winW), Math.min(layout.width, winW));
+        out.height = Math.max(Math.min(LAYOUT_MIN.height, winH), Math.min(layout.height, winH));
+        out.left = Math.min(Math.max(layout.left, 0), winW - out.width);
+        out.top = Math.min(Math.max(layout.top, 0), winH - out.height);
+        return out;
+    }
+    function currentLayout() {
+        var rect = panel.getBoundingClientRect();
+        return { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
+    }
+    function applyLayout(layout) {
+        layout = fitLayout(layout);
+        panel.classList.add('is-floating');
+        panel.style.left = Math.round(layout.left) + 'px';
+        panel.style.top = Math.round(layout.top) + 'px';
+        panel.style.width = Math.round(layout.width) + 'px';
+        panel.style.height = Math.round(layout.height) + 'px';
+        return layout;
+    }
+    function clearLayout() {
+        panel.classList.remove('is-floating');
+        panel.style.left = panel.style.top = panel.style.width = panel.style.height = '';
+    }
+    // Pin the open panel to the remembered spot, or to wherever the
+    // stylesheet placed it when nothing was remembered yet.
+    function floatPanel() {
+        if (!canFloat || panel.hidden || panel.classList.contains('is-expanded')) return;
+        if (isMobile()) { clearLayout(); return; }
+        applyLayout(readLayout() || currentLayout());
+    }
+    function rememberLayout() {
+        panel.classList.remove('is-dragging');
+        saveLayout(applyLayout(currentLayout()));
+    }
+    function beginDragOrResize() {
+        if (!panel.classList.contains('is-floating')) return false;
+        // The iframe would swallow the pointer while it passes over it.
+        panel.classList.add('is-dragging');
+        return true;
+    }
+    // Edge handles (n/w) move the panel while resizing it, so a plain
+    // maxWidth/maxHeight is not enough: clamp position and size together.
+    // jQuery UI applies ui.position/ui.size again after this callback.
+    function clampResize(event, ui) {
+        var winW = window.innerWidth, winH = window.innerHeight;
+        if (ui.position.left < 0) { ui.size.width += ui.position.left; ui.position.left = 0; }
+        if (ui.position.top < 0) { ui.size.height += ui.position.top; ui.position.top = 0; }
+        ui.size.width = Math.min(ui.size.width, winW - ui.position.left);
+        ui.size.height = Math.min(ui.size.height, winH - ui.position.top);
+    }
+    if (canFloat) {
+        $panel.draggable({
+            handle: '.companion-widget-bar',
+            cancel: '.companion-widget-actions',
+            containment: 'window',
+            start: beginDragOrResize,
+            stop: rememberLayout
+        });
+        $panel.resizable({
+            handles: 'all',
+            minWidth: LAYOUT_MIN.width,
+            minHeight: LAYOUT_MIN.height,
+            start: beginDragOrResize,
+            resize: clampResize,
+            stop: rememberLayout
+        });
+        // Re-fit when the window shrinks, and go back to the remembered size
+        // when it grows again (fitLayout only shrinks what does not fit).
+        window.addEventListener('resize', floatPanel);
+    }
 
     // --- Host player control (see frontend/src/components/EmbedPlayerProvider.tsx) ---
     // The chat is framed over the watch page of the very video it answers

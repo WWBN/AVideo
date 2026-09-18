@@ -1,6 +1,6 @@
 <section class="ai-settings" aria-label="<?php echo __('Video chat settings'); ?>">
     <div id="companionChatPanelBody">
-        <div class="alert alert-info" role="note">
+        <div id="companionMarketplaceCreditNotice" class="alert alert-info hidden" role="note">
             <i class="fa-solid fa-wallet" aria-hidden="true"></i>
             <?php echo __('Companion is connected automatically through AVideo. Creating your organization and site requires a valid Marketplace AccessToken and a positive available wallet balance, excluding reserved funds.'); ?>
             <?php echo __('Save the token in Admin > Plugins > AI. Video processing and chat require enough available credits for each operation.'); ?>
@@ -196,6 +196,10 @@
 
     function companionRenderStatus(response) {
         $('#companionChatLoading').hide();
+        var status = response.status || {};
+        var hasLowBalance = status.balance !== null && status.balance !== undefined && status.balance !== ''
+            && Number.isFinite(Number(status.balance)) && Number(status.balance) < 5;
+        $('#companionMarketplaceCreditNotice').toggleClass('hidden', !hasLowBalance);
         if (response.notConfigured || response.videoStatusError) {
             $('#companionChatContent').hide();
             $('#companionChatNotConfigured').show();
@@ -204,7 +208,6 @@
         $('#companionChatNotConfigured').hide();
         $('#companionChatContent').show();
 
-        var status = response.status || {};
         if (status.organization_status && status.organization_status !== 'active') {
             var reason = status.marketplace_auto_disabled_at
                 ? <?php echo json_encode(__('This account is disabled because the connected marketplace wallet balance ran out. Add credits to your marketplace wallet to reactivate automatically - content is at risk of deletion after 24 hours.')); ?>
