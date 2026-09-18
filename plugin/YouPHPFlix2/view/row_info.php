@@ -160,7 +160,7 @@ TimeLogStart($timeLog6);
     }
     if (!empty($value['trailer1'])) {
         ?>
-        <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo parseVideos($value['trailer1'], 1, 0, 0, 0, 1); ?>', '');return false;">
+        <a href="#" class="btn btn-default" onclick="flixFullScreen('<?php echo parseVideos($value['trailer1'], 1, 0, 0, 0, 1); ?>', '');return false;">
             <span class="fa fa-film"></span>
             <span><?php echo __("Trailer"); ?></span>
         </a>
