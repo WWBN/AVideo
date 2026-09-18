@@ -11,8 +11,6 @@ if (empty($videos_id)) {
     forbiddenPage('Videos ID is required');
 }
 
-$objWallet = AVideoPlugin::getObjectData('YPTWallet');
-
 $objAI = AVideoPlugin::getObjectDataIfEnabled('AI');
 
 if (empty($objAI)) {
@@ -29,6 +27,18 @@ if(!AI::canUseAI()){
 if (!Video::canEdit($videos_id)) {
     forbiddenPage('You cannot edit this video');
 }
+
+if (!empty($_GET['videoChatOnly'])) {
+    $_page = new Page(['Video chat']);
+    echo '<div class="container-fluid"><div class="panel panel-default"><div class="panel-body">';
+    include $global['systemRootPath'] . 'plugin/AI/tabs/companionChat.php';
+    echo '</div></div></div>';
+    $_page->setExtraStyles(['plugin/AI/View/pricing.css']);
+    $_page->print();
+    return;
+}
+
+$objWallet = AVideoPlugin::getObjectData('YPTWallet');
 
 $priceForBasic = $objAI->priceForBasic;
 $priceForTranscription = $objAI->priceForTranscription;

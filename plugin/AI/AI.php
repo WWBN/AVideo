@@ -214,6 +214,9 @@ class AI extends PluginAbstract
         $obj->autoProcessAll = false;
         self::addDataObjectHelper('autoProcessAll', 'Auto Process All', "This will create the transcription + basic + shorts automatically for all new videos");
 
+        $obj->showOnlyVideoChat = false;
+        self::addDataObjectHelper('showOnlyVideoChat', 'Show only Video Chat', "Show only the Video Chat button in My videos, hiding the full AI-Powered button.");
+
         // --- Companion (AI video chat) integration ---------------------
         // Reuses the SAME AccessToken above to also cover Companion's video
         // processing + chat costs from this account's marketplace wallet.
@@ -667,10 +670,16 @@ class AI extends PluginAbstract
         $obj = $this->getDataObject();
         $btn = '';
         if (AI::canUseAI()) {
+            if (empty($obj->showOnlyVideoChat)) {
+                $btn .= '<button type="button" ' .
+                    ' class="btn btn-default btn-light btn-sm btn-xs btn-block" ' .
+                    ' onclick="avideoModalIframe(webSiteRootURL+\\\'plugin/AI/page.php?videos_id=\'+row.id+\'\\\');" >' .
+                    ' <i class="fas fa-robot"></i> ' . __("AI-Powered") . '</button>';
+            }
             $btn .= '<button type="button" ' .
                 ' class="btn btn-default btn-light btn-sm btn-xs btn-block" ' .
-                ' onclick="avideoModalIframe(webSiteRootURL+\\\'plugin/AI/page.php?videos_id=\'+row.id+\'\\\');" >' .
-                ' <i class="fas fa-robot"></i> ' . __("AI-Powered") . '</button>';
+                ' onclick="avideoModalIframe(webSiteRootURL+\\\'plugin/AI/page.php?videoChatOnly=1&videos_id=\'+row.id+\'\\\');" >' .
+                ' <i class="fas fa-comments"></i> ' . __("Video chat") . '</button>';
         }
 
         return $btn;
