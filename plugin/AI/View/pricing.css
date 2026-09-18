@@ -74,6 +74,36 @@
 .ai-settings .alert, .ai-settings .progress { margin-top: 16px; }
 .ai-settings #companionVideoNotSubmitted { margin-top: 16px; }
 
+.ai-dashboard-card {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px 28px;
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    border-radius: 12px;
+    background: color-mix(in srgb, currentColor 3%, transparent);
+}
+.ai-dashboard-description { display: flex; align-items: flex-start; gap: 14px; flex: 1 1 320px; min-width: 0; }
+.ai-dashboard-description h4 { margin: 0 0 8px; font-size: 17px; font-weight: 600; }
+.ai-dashboard-description p { margin: 0; max-width: 75ch; font-size: 13px; line-height: 1.6; }
+.ai-dashboard-action { display: flex; flex-direction: column; align-items: center; gap: 8px; max-width: 100%; }
+.ai-dashboard-action .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 44px;
+    max-width: 100%;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    white-space: normal;
+}
+.ai-dashboard-action .btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.ai-dashboard-note { font-size: 12px; }
+
 @media (max-width: 767px) {
     .ai-settings { padding: 4px 0; }
     .ai-settings-header { gap: 12px; margin-bottom: 16px; }
@@ -83,4 +113,7 @@
     .ai-price-item { padding: 0 14px; }
     .ai-price-amount { font-size: 19px; overflow-wrap: anywhere; }
     .ai-price-grid .ai-wallet-item { grid-column: 1 / -1; border-left: 0; border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent); margin-top: 16px; padding: 12px 14px; gap: 4px; }
+    .ai-dashboard-card { padding: 16px; gap: 18px; }
+    .ai-dashboard-description { flex-basis: 100%; }
+    .ai-dashboard-action, .ai-dashboard-action .btn { width: 100%; }
 }

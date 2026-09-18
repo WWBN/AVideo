@@ -2455,3 +2455,7 @@ $t['Too many connection attempts. Wait a minute and try again.'] = 'Muitas tenta
 $t['Could not verify the Companion connection or Marketplace balance. Please try again.'] = 'Não foi possível verificar a conexão com o Companion ou o saldo do Marketplace. Tente novamente.';
 $t['Could not submit this video to Companion. Check that your Marketplace wallet is connected and has enough available credits for processing.'] = 'Não foi possível enviar o vídeo ao Companion. Verifique se a carteira do Marketplace está conectada e tem créditos disponíveis suficientes para o processamento.';
 $t['Any questions about this video? I\'m here to help 🙂'] = 'Alguma dúvida sobre este vídeo? Estou aqui para ajudar 🙂';
+$t['Companion dashboard'] = 'Painel do Companion';
+$t['Open Companion dashboard'] = 'Abrir painel do Companion';
+$t['Companion powers the AI chat for your videos. Use its dashboard to manage this site\'s processed videos, review chat history, adjust settings and monitor usage costs.'] = 'O Companion é o serviço que permite conversar com seus vídeos usando IA. No painel, você pode gerenciar os vídeos processados deste site, consultar o histórico de conversas, ajustar configurações e acompanhar os custos de uso.';
+$t['Opens in a new tab'] = 'Abre em uma nova aba';

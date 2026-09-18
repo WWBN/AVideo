@@ -52,11 +52,6 @@
             </div>
             <div class="ai-settings-meta">
                 <span id="companionAlreadyProcessedPrice" class="text-success" style="display:none;"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> <?php echo __('Processed'); ?> <span class="text-muted">&middot; <?php echo __('No processing charge to reuse'); ?></span></span>
-                <?php if (User::isAdmin()) { ?>
-                <button type="button" class="btn btn-default btn-sm" id="companionOpenDashboardBtn" onclick="companionOpenDashboard()" title="<?php echo __('Open this site in Companion (videos, chat history, settings and spend). Only this site is visible there.'); ?>">
-                    <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> <?php echo __('Open Companion dashboard'); ?>
-                </button>
-                <?php } ?>
             </div>
             <details class="ai-price-details">
                 <summary><?php echo __('Pricing details'); ?> <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
@@ -91,6 +86,24 @@
             </div>
 
             <div id="companionVideoError" style="display:none;" class="alert alert-danger"></div>
+
+            <?php if (User::isAdmin()) { ?>
+            <section class="ai-dashboard-card" aria-labelledby="companionDashboardTitle">
+                <div class="ai-dashboard-description">
+                    <span class="ai-settings-icon text-primary"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span>
+                    <div>
+                        <h4 id="companionDashboardTitle"><?php echo __('Companion dashboard'); ?></h4>
+                        <p id="companionDashboardDescription"><?php echo __('Companion powers the AI chat for your videos. Use its dashboard to manage this site\'s processed videos, review chat history, adjust settings and monitor usage costs.'); ?></p>
+                    </div>
+                </div>
+                <div class="ai-dashboard-action">
+                    <button type="button" class="btn btn-primary" id="companionOpenDashboardBtn" onclick="companionOpenDashboard()" aria-describedby="companionDashboardDescription companionDashboardNewTab">
+                        <?php echo __('Open Companion dashboard'); ?> <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    </button>
+                    <span class="ai-dashboard-note" id="companionDashboardNewTab"><?php echo __('Opens in a new tab'); ?></span>
+                </div>
+            </section>
+            <?php } ?>
         </div>
     </div>
 </section>
