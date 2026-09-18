@@ -134,6 +134,28 @@ class CompanionAI
         return in_array(strtolower($parts['host']), $allowedHosts, true);
     }
 
+    // Older enabled videos only stored embedUrl. Resolve their branding URL
+    // without a database write, a new enable request or a Companion round-trip.
+    static function getWidgetConfigUrl($embedUrl, $configUrl = '')
+    {
+        if (!self::isValidEmbedUrl($embedUrl)) {
+            return '';
+        }
+        if (self::isValidConfigUrl($configUrl)) {
+            return $configUrl;
+        }
+        $baseUrl = self::getBaseUrl();
+        if (empty($baseUrl)) {
+            return '';
+        }
+        // PHP uses Docker's host alias; a local viewer uses localhost.
+        if (AI::isTestEnvironment() && parse_url($baseUrl, PHP_URL_HOST) === 'host.docker.internal') {
+            $baseUrl = str_replace('://host.docker.internal', '://localhost', $baseUrl);
+        }
+        $key = substr($embedUrl, strlen(self::getFrontendBaseUrl() . 'widget/'));
+        return $baseUrl . 'api/v1/public/widget/' . $key;
+    }
+
     private static function request($method, $path, $params = array(), $headers = array())
     {
         $baseUrl = self::getBaseUrl();

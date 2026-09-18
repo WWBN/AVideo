@@ -41,7 +41,7 @@
         // The same button opens and closes the chat: show which one it will do
         // (the stylesheet swaps the icon/photo for a chevron while open).
         widget.classList.toggle('is-open', open);
-        if (open) hideTeaser(true);
+        if (open) hideTeaser();
         var label = open ? launcher.dataset.labelClose : launcher.dataset.labelOpen;
         if (label) {
             launcher.setAttribute('aria-label', label);
@@ -65,40 +65,40 @@
     var photo = launcher.querySelector('.companion-widget-launcher-photo');
     var statusDot = launcher.querySelector('.companion-widget-launcher-status');
     var titleText = widget.querySelector('.companion-widget-title-text');
-    var TEASER_KEY = 'companionWidgetTeaserDismissed';
     var TEASER_DELAY_MS = 2500;
     var teaserTimer = null;
-    function teaserDismissed() {
-        try { return window.sessionStorage.getItem(TEASER_KEY) === '1'; } catch (e) { return false; }
-    }
-    function hideTeaser(remember) {
+    // Hide only for this page visit. Opening another video or reloading must
+    // show the current invitation, even if the viewer opened chat earlier.
+    var teaserDismissed = false;
+    function hideTeaser() {
         if (teaserTimer) { clearTimeout(teaserTimer); teaserTimer = null; }
         teaser.hidden = true;
-        if (remember) {
-            try { window.sessionStorage.setItem(TEASER_KEY, '1'); } catch (e) { /* storage blocked: only this page */ }
-        }
+        teaserDismissed = true;
     }
     function scheduleTeaser(message) {
-        if (!message || teaserDismissed() || !panel.hidden) return;
+        if (!message || teaserDismissed || !panel.hidden) return;
         teaserText.textContent = message;
         teaserTimer = setTimeout(function () {
             teaserTimer = null;
-            if (panel.hidden && !teaserDismissed()) teaser.hidden = false;
+            if (panel.hidden && !teaserDismissed) teaser.hidden = false;
         }, TEASER_DELAY_MS);
     }
     teaserText.addEventListener('click', function () { setOpen(true); });
     teaserDismiss.addEventListener('click', function (event) {
         event.stopPropagation();
-        hideTeaser(true);
+        hideTeaser();
         launcher.focus();
     });
     function applyBranding(config) {
         var name = config && typeof config.agent_name === 'string' ? config.agent_name.trim() : '';
         var avatar = config && typeof config.agent_avatar_url === 'string' ? config.agent_avatar_url.trim() : '';
         var message = config && typeof config.launcher_message === 'string' ? config.launcher_message.trim() : '';
+        if (config && (config.theme === 'dark' || config.theme === 'light')) {
+            widget.dataset.theme = config.theme;
+        }
         if (name) {
             titleText.textContent = name;
-            launcher.setAttribute('title', name);
+            if (panel.hidden) launcher.setAttribute('title', name);
         }
         if (avatar && /^https?:\/\//i.test(avatar)) {
             photo.addEventListener('load', function () {
@@ -112,7 +112,7 @@
     }
     var configUrl = widget.dataset.configUrl;
     if (configUrl && window.fetch) {
-        fetch(configUrl, { credentials: 'omit', mode: 'cors' })
+        fetch(configUrl, { credentials: 'omit', mode: 'cors', cache: 'no-store' })
             .then(function (res) { return res.ok ? res.json() : null; })
             .then(applyBranding)
             .catch(function () { applyBranding(null); });

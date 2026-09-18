@@ -21,7 +21,7 @@ if (!isset($configUrl)) {
     </section>
     <div class="companion-widget-dock">
         <!-- Invitation bubble: shows a few seconds after load, until the viewer opens the chat or dismisses it. -->
-        <div class="companion-widget-teaser" hidden data-default-message="<?php echo htmlspecialchars(__('Any questions about this video? I\'m here to help 🙂'), ENT_QUOTES, 'UTF-8'); ?>">
+        <div class="companion-widget-teaser" hidden data-default-message="<?php echo htmlspecialchars(__('Any questions about this video? I\'m here to help 🙂', true), ENT_QUOTES, 'UTF-8'); ?>">
             <button type="button" class="companion-widget-teaser-text"></button>
             <button type="button" class="companion-widget-teaser-dismiss" aria-label="<?php echo htmlspecialchars(__('Dismiss'), ENT_QUOTES, 'UTF-8'); ?>"><i class="fas fa-times" aria-hidden="true"></i></button>
         </div>
