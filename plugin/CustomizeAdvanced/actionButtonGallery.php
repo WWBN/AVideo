@@ -6,6 +6,6 @@ if(!isValidURL($video->getTrailer1())){
 }
 ?>
 
-<button type="button" class="btn btn-link btn-xs videoTrailerBtnLabel" onclick="avideoModalIframe('<?php echo htmlspecialchars(parseVideos($video->getTrailer1(), 1), ENT_QUOTES, 'UTF-8'); ?>');" data-toggle="tooltip" title="<?php echo __("Trailer"); ?>">
-    <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
+<button type="button" class="btn btn-default btn-sm videoTrailerBtnLabel" onclick="avideoModalIframe('<?php echo htmlspecialchars(parseVideos($video->getTrailer1(), 1), ENT_QUOTES, 'UTF-8'); ?>');" data-toggle="tooltip" title="<?php echo __("Trailer"); ?>">
+    <i class="fa fa-play" aria-hidden="true"></i> <?php echo __("Trailer"); ?>
 </button>

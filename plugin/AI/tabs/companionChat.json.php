@@ -54,7 +54,9 @@ if (!$obj->notConfigured) {
             $res = empty($objAI->AccessToken) ? null : CompanionAI::linkMarketplace($objAI->AccessToken);
             if (empty($res) || !empty($res->error)) {
                 $obj->error = true;
-                $obj->msg = !empty($res->detail) ? $res->detail : __('Could not link the marketplace wallet. Make sure a valid AccessToken is saved above.');
+                $obj->msg = empty($objAI->AccessToken)
+                    ? CompanionAI::connectionErrorMessage(402, false)
+                    : CompanionAI::getConnectionError();
             }
             break;
         case 'submit':
@@ -71,7 +73,7 @@ if (!$obj->notConfigured) {
             $res = CompanionAI::submitVideo($videos_id);
             if (empty($res)) {
                 $obj->error = true;
-                $obj->msg = __('Could not submit this video to Companion. Check the free trial/marketplace status below.');
+                $obj->msg = __('Could not submit this video to Companion. Check that your Marketplace wallet is connected and has enough available credits for processing.');
             }
             break;
         case 'enable_chat':
@@ -97,7 +99,7 @@ if (!$obj->notConfigured) {
     $obj->status = CompanionAI::status();
     if (empty($obj->status)) {
         $obj->error = true;
-        $obj->msg = __('Could not connect to Companion. Ask your site administrator to check the AI plugin connection.');
+        $obj->msg = CompanionAI::getConnectionError();
         echo _json_encode($obj);
         exit;
     }

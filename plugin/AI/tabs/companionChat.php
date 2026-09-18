@@ -1,5 +1,12 @@
 <section class="ai-settings" aria-label="<?php echo __('Video chat settings'); ?>">
     <div id="companionChatPanelBody">
+        <div class="alert alert-info" role="note">
+            <i class="fa-solid fa-wallet" aria-hidden="true"></i>
+            <?php echo __('Companion is connected automatically through AVideo. Creating your organization and site requires a valid Marketplace AccessToken and a positive available wallet balance, excluding reserved funds.'); ?>
+            <?php echo __('Save the token in Admin > Plugins > AI. Video processing and chat require enough available credits for each operation.'); ?>
+            <a href="https://streamphp.com/marketplace/" target="_blank" rel="noopener noreferrer" class="alert-link"><?php echo __('Open Marketplace to add credits'); ?></a>
+            <button type="button" class="btn btn-default btn-sm" onclick="loadCompanionChat()"><i class="fa-solid fa-rotate" aria-hidden="true"></i> <?php echo __('Check connection again'); ?></button>
+        </div>
         <div id="companionChatNotConfigured" style="display:none;" class="alert alert-warning">
             <?php echo __("The Companion Chat service is not available right now. Ask your site administrator to check the AI plugin connection."); ?>
         </div>
@@ -45,6 +52,11 @@
             </div>
             <div class="ai-settings-meta">
                 <span id="companionAlreadyProcessedPrice" class="text-success" style="display:none;"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> <?php echo __('Processed'); ?> <span class="text-muted">&middot; <?php echo __('No processing charge to reuse'); ?></span></span>
+                <?php if (User::isAdmin()) { ?>
+                <button type="button" class="btn btn-default btn-sm" id="companionOpenDashboardBtn" onclick="companionOpenDashboard()" title="<?php echo __('Open this site in Companion (videos, chat history, settings and spend). Only this site is visible there.'); ?>">
+                    <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> <?php echo __('Open Companion dashboard'); ?>
+                </button>
+                <?php } ?>
             </div>
             <details class="ai-price-details">
                 <summary><?php echo __('Pricing details'); ?> <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
@@ -58,7 +70,7 @@
             </details>
 
             <div id="companionNeedsMarketplaceLink" style="display:none;" class="alert alert-warning">
-                <?php echo __("This video already used the free sample. Save an AccessToken above and click below to connect your marketplace wallet and keep processing videos + chat."); ?>
+                <?php echo __('Connect a Marketplace wallet with available credits to process videos and use chat. Save your AccessToken in Admin > Plugins > AI, then connect below.'); ?>
                 <br>
                 <button class="btn btn-warning btn-sm" onclick="companionLinkMarketplace()">
                     <i class="fa-solid fa-link"></i> <?php echo __('Connect marketplace wallet now'); ?>
@@ -261,6 +273,40 @@
             }
             companionRenderStatus(response);
         });
+    }
+
+    // Admin-only: asks AVideo (server-to-server) for a one-time Companion
+    // sign-in link for the current admin and opens it. The link is bound to
+    // this installation's Site and expires in a couple of minutes.
+    function companionOpenDashboard() {
+        var btn = document.getElementById('companionOpenDashboardBtn');
+        if (btn) btn.disabled = true;
+        // Open the tab synchronously (popup blockers) and navigate it later.
+        var target = window.open('', '_blank');
+        var url = webSiteRootURL + 'plugin/AI/companionAdminLogin.json.php';
+        var failed = function (msg) {
+            if (btn) btn.disabled = false;
+            if (target) target.close();
+            avideoAlertError(msg || '<?php echo __('Could not open Companion'); ?>');
+        };
+        $.post(url, { action: 'token' }, function (tokenResponse) {
+            if (!tokenResponse || tokenResponse.error || !tokenResponse.globalToken) {
+                failed(tokenResponse && tokenResponse.msg);
+                return;
+            }
+            $.post(url, { action: 'login', globalToken: tokenResponse.globalToken }, function (response) {
+                if (!response || response.error || !response.login_url) {
+                    failed(response && response.msg);
+                    return;
+                }
+                if (btn) btn.disabled = false;
+                if (target) {
+                    target.location = response.login_url;
+                } else {
+                    window.location = response.login_url;
+                }
+            }, 'json').fail(function () { failed(); });
+        }, 'json').fail(function () { failed(); });
     }
 
     function companionSubmitVideo() {

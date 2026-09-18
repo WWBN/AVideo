@@ -14,6 +14,32 @@
  */
 class CompanionAI
 {
+    private static $connectionError = '';
+
+    static function getConnectionError()
+    {
+        return self::$connectionError ?: __('Could not verify the Companion connection or Marketplace balance. Please try again.');
+    }
+
+    static function connectionErrorMessage($httpCode, $hasAccessToken)
+    {
+        if ($httpCode === 402) {
+            return $hasAccessToken
+                ? __('Add credits to your Marketplace wallet. Creating a Companion organization and site requires a positive available balance, excluding reserved funds. Then try again.')
+                : __('Save your Marketplace AccessToken in Admin > Plugins > AI and add credits to that wallet before connecting Companion.');
+        }
+        if ($httpCode === 400 || $httpCode === 401 || $httpCode === 403) {
+            return __('Could not authenticate the connection. Ask your administrator to check the Marketplace AccessToken and the AVideo API credentials.');
+        }
+        if ($httpCode === 409) {
+            return __('This installation or wallet is already linked to another organization. Contact the platform administrator to review the connection.');
+        }
+        if ($httpCode === 429) {
+            return __('Too many connection attempts. Wait a minute and try again.');
+        }
+        return __('Could not verify the Companion connection or Marketplace balance. Please try again.');
+    }
+
     static function getBaseUrl()
     {
         global $global;
@@ -155,6 +181,7 @@ class CompanionAI
     private static function connect($accessToken)
     {
         global $global;
+        self::$connectionError = '';
         $params = array(
             'avideo_base_url' => $global['webSiteRootURL'],
             'avideo_site_name' => parse_url($global['webSiteRootURL'], PHP_URL_HOST),
@@ -168,6 +195,7 @@ class CompanionAI
         }
         $res = self::request('POST', 'api/v1/integrations/avideo/connect', $params, self::authHeader());
         if (empty($res) || $res['httpCode'] != 201 || empty($res['body']->integration_api_key)) {
+            self::$connectionError = self::connectionErrorMessage(empty($res) ? 0 : (int) $res['httpCode'], !empty($accessToken));
             _error_log('[CompanionAI] connect failed, HTTP ' . (empty($res) ? 0 : $res['httpCode']), AVideoLog::$ERROR);
             return false;
         }
@@ -207,6 +235,29 @@ class CompanionAI
             return null;
         }
         return $res['body'];
+    }
+
+    /**
+     * One-time link that signs the CURRENT AVideo admin in to Companion's own
+     * dashboard for THIS installation's Site (Companion never sees an AVideo
+     * password). Only ever called after User::isAdmin() (see
+     * companionAdminLogin.json.php); Companion scopes that session to the one
+     * Site - nothing of the Organization or other sites is reachable with it.
+     * Returns null when the integration is not connected/reachable.
+     */
+    static function adminLoginUrl($users_id, $displayName)
+    {
+        if (!self::ensureConnected()) {
+            return null;
+        }
+        $res = self::request('POST', 'api/v1/integrations/avideo/admin-login', array(
+            'avideo_users_id' => (string) $users_id,
+            'display_name' => (string) $displayName,
+        ), self::authHeader());
+        if (empty($res) || $res['httpCode'] != 200 || empty($res['body']->login_url)) {
+            return null;
+        }
+        return $res['body']->login_url;
     }
 
     static function submitVideo($videos_id)

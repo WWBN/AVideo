@@ -441,7 +441,8 @@ a.h6.galleryLink > strong{
     align-self: end;
 }
 
-.galleryLayout .galleryDownload > .btn {
+.galleryLayout .galleryDownload > .btn,
+.galleryLayout .videoTrailerBtnLabel {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -459,6 +460,11 @@ a.h6.galleryLink > strong{
     box-shadow: none;
 }
 
+.galleryLayout .videoTrailerBtnLabel {
+    align-self: flex-start;
+    margin: 6px 0;
+}
+
 .galleryLayout .galleryDownloadLabel {
     min-width: 0;
     overflow: hidden;
@@ -466,11 +472,13 @@ a.h6.galleryLink > strong{
 }
 
 .galleryLayout .galleryDownload > .btn > .fa,
-.galleryLayout .galleryDownload > .btn > .caret {
+.galleryLayout .galleryDownload > .btn > .caret,
+.galleryLayout .videoTrailerBtnLabel > .fa {
     flex-shrink: 0;
 }
 
-.galleryLayout .galleryDownload > .btn:focus-visible {
+.galleryLayout .galleryDownload > .btn:focus-visible,
+.galleryLayout .videoTrailerBtnLabel:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 3px;
 }
