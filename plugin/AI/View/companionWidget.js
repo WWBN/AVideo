@@ -95,6 +95,42 @@
         }
     }
 
+    // --- Playback context for a question (see frontend EmbedPlayerProvider.requestPlayerState) ---
+    // A viewer asking "what are the options?" means the question on screen
+    // RIGHT NOW. Right before sending, the chat asks where the player is and
+    // for a capture of it; Companion shows that capture to the model for that
+    // one answer and never stores it.
+    var CAPTURE_MAX_WIDTH = 768;
+    function captureFrame(target) {
+        try {
+            var el = typeof target.el === 'function' ? target.el() : null;
+            var video = el ? el.querySelector('video') : null;
+            if (!video || !video.videoWidth || !video.videoHeight || video.readyState < 2) return null;
+            var scale = Math.min(1, CAPTURE_MAX_WIDTH / video.videoWidth);
+            var canvas = document.createElement('canvas');
+            canvas.width = Math.round(video.videoWidth * scale);
+            canvas.height = Math.round(video.videoHeight * scale);
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            // Throws SecurityError when the media is cross-origin without CORS
+            // (canvas tainted) - then only the position is reported.
+            return canvas.toDataURL('image/jpeg', 0.72);
+        } catch (e) {
+            return null;
+        }
+    }
+    function reportPlayerState(nonce) {
+        var target = getPlayer();
+        var message = { type: 'companion:player-state', nonce: nonce, currentTime: null, screenshot: null };
+        if (target) {
+            var time = Number(target.currentTime());
+            if (isFinite(time) && time >= 0) {
+                message.currentTime = time;
+                message.screenshot = captureFrame(target);
+            }
+        }
+        if (frameOrigin && frame.contentWindow) frame.contentWindow.postMessage(message, frameOrigin);
+    }
+
     if (!frameOrigin) return;
     frame.addEventListener('load', function () { announcePlayer(0); });
     window.addEventListener('message', function (event) {
@@ -103,6 +139,7 @@
         if (!data || typeof data !== 'object') return;
         if (data.type === 'companion:close') setOpen(false);
         else if (data.type === 'companion:player-query') announcePlayer(0);
+        else if (data.type === 'companion:player-state-query') reportPlayerState(data.nonce);
         else if (data.type === 'companion:seek') seekTo(Number(data.seconds));
     });
 }());

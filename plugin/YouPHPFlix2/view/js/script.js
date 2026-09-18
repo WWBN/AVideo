@@ -174,10 +174,10 @@ function startModeFlix(container) {
         var $ajaxTarget = $('#ajaxLoad-' + crc);
         if (ajaxLoad && !$ajaxTarget.attr('ajaxLoaded') && !$ajaxTarget.data('flixLoading')) {
             $ajaxTarget.data('flixLoading', true);
-            modal.showPleaseWait();
+            avideoSetContainerLoading('ajaxLoad-' + crc, true, {items: 4, clear: true});
             $ajaxTarget.load(ajaxLoad, function (response, status) {
                 $ajaxTarget.removeData('flixLoading');
-                modal.hidePleaseWait();
+                avideoSetContainerLoading('ajaxLoad-' + crc, false);
                 if (status === 'error') {
                     $ajaxTarget.empty().append($('<p>').text(__('An error occurred')));
                     $('<button>', {

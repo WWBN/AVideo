@@ -326,6 +326,46 @@
     pointer-events: none;
 }
 .thumbsImage[aria-busy="true"]:hover > .flix-preview-status { display: block; }
+/* Keep catalog loading inside its panel, using the shared loading helper. */
+.flickity-area .avideo-inline-loading {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    padding: 20px 0;
+    border: 0;
+    background: transparent;
+    color: var(--flix-text, inherit);
+    pointer-events: none;
+}
+.flickity-area .avideo-inline-loading-row {
+    min-width: 0;
+    margin: 0;
+}
+.flickity-area .avideo-inline-loading-line {
+    background: currentColor;
+    background: linear-gradient(100deg, color-mix(in srgb, currentColor 7%, transparent) 25%,
+        color-mix(in srgb, currentColor 16%, transparent) 45%, color-mix(in srgb, currentColor 7%, transparent) 65%);
+    background-size: 400% 100%;
+    border-radius: var(--flix-radius);
+    animation-duration: 1.8s;
+}
+.flickity-area .avideo-inline-loading-line-title {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    margin: 0 0 14px;
+}
+.flickity-area .avideo-inline-loading-line-subtitle { width: 72%; }
+.flickity-area .avideo-inline-loading-line-content { width: 46%; }
+.flickity-area .avideo-inline-loading-text {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: inherit;
+    opacity: .75;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: .02em;
+}
 body.fullscreen { margin: 0; padding: 0; overflow: hidden; }
 .isChannelToYouPHPFlix2 .addChannelToYouPHPFlix2,
 .removeChannelFromYouPHPFlix2 { display: none; }
@@ -334,6 +374,8 @@ body.fullscreen { margin: 0; padding: 0; overflow: hidden; }
     .flix-carousel .thumbsImage:hover { transform: translateY(-4px); box-shadow: var(--flix-shadow); }
 }
 @media (max-width: 767px) {
+    .flickity-area .avideo-inline-loading { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .flickity-area .avideo-inline-loading-row:nth-child(n + 3) { display: none; }
     .flix-hero { min-height: 360px; }
     .flix-hero .posterDetails {
         padding-top: 100px;
@@ -350,6 +392,7 @@ body.fullscreen { margin: 0; padding: 0; overflow: hidden; }
     .flix-carousel .flickity-prev-next-button.next { right: -12px; }
 }
 @media (prefers-reduced-motion: reduce) {
+    .flickity-area .avideo-inline-loading-line { animation: none; }
     .flix-carousel .thumbsImage,
     .flix-carousel .carousel-cell-image { transition: none; }
     .flix-carousel .thumbsImage:hover { transform: none; }
