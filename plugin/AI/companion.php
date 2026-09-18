@@ -101,6 +101,39 @@ class CompanionAI
             && preg_match('~^widget/[A-Za-z0-9_.-]+$~D', substr($embedUrl, strlen($baseUrl)));
     }
 
+    // Public launcher branding JSON for the widget (agent name/avatar,
+    // invitation text). Same trust problem as the embed URL: it is read back
+    // from uploader-writable externalOptions and fetched by every viewer's
+    // browser, so only accept Companion's own public widget route on a host
+    // that belongs to the configured Companion API or UI.
+    static function isValidConfigUrl($configUrl)
+    {
+        if (empty($configUrl) || !is_string($configUrl) || !preg_match('~^https?://~i', $configUrl)) {
+            return false;
+        }
+        $parts = parse_url($configUrl);
+        if (empty($parts['host']) || empty($parts['path']) || isset($parts['user']) || isset($parts['pass']) || isset($parts['fragment']) || !empty($parts['query'])) {
+            return false;
+        }
+        if (!preg_match('~^/api/v1/public/widget/[A-Za-z0-9_.-]+$~D', $parts['path'])) {
+            return false;
+        }
+        $allowedHosts = array();
+        foreach (array(self::getBaseUrl(), self::getFrontendBaseUrl()) as $base) {
+            $host = empty($base) ? '' : parse_url($base, PHP_URL_HOST);
+            if (!empty($host)) {
+                $allowedHosts[] = strtolower($host);
+            }
+        }
+        // Inside Docker the plugin reaches Companion through host.docker.internal
+        // while browsers use localhost; both name the same local API.
+        if (AI::isTestEnvironment()) {
+            $allowedHosts[] = 'localhost';
+            $allowedHosts[] = '127.0.0.1';
+        }
+        return in_array(strtolower($parts['host']), $allowedHosts, true);
+    }
+
     private static function request($method, $path, $params = array(), $headers = array())
     {
         $baseUrl = self::getBaseUrl();
@@ -325,9 +358,18 @@ class CompanionAI
         if (empty($externalOptions)) {
             $externalOptions = new stdClass();
         }
+        $configUrl = empty($res['body']->widget_config_url) ? '' : $res['body']->widget_config_url;
+        if (!empty($configUrl) && !self::isValidConfigUrl($configUrl)) {
+            _error_log('[CompanionAI] ignored a widget config URL outside Companion: ' . $configUrl, AVideoLog::$SECURITY);
+            $configUrl = '';
+        }
         $externalOptions->companionChat = array(
             'enabled' => true,
             'embedUrl' => $res['body']->widget_embed_url,
+            // Launcher branding (agent photo, invitation) is fetched live by
+            // the watch page, so a new avatar in Companion shows up without
+            // re-enabling the chat.
+            'configUrl' => $configUrl,
         );
         $video->setExternalOptions(json_encode($externalOptions));
         $video->save();

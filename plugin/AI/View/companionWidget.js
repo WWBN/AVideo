@@ -38,8 +38,10 @@
         // Measured while visible: a hidden panel has no rect to start from.
         if (open) floatPanel();
         launcher.setAttribute('aria-expanded', String(open));
-        // The same button opens and closes the chat: show which one it will do.
-        launcher.querySelector('i').className = open ? 'fas fa-chevron-down companion-widget-launcher-close' : 'fas fa-comment-dots';
+        // The same button opens and closes the chat: show which one it will do
+        // (the stylesheet swaps the icon/photo for a chevron while open).
+        widget.classList.toggle('is-open', open);
+        if (open) hideTeaser(true);
         var label = open ? launcher.dataset.labelClose : launcher.dataset.labelOpen;
         if (label) {
             launcher.setAttribute('aria-label', label);
@@ -52,6 +54,71 @@
     }
     launcher.addEventListener('click', function () { setOpen(panel.hidden); });
     close.addEventListener('click', function () { setOpen(false); });
+
+    // --- Launcher branding: the agent's photo and a short invitation ---
+    // Fetched from Companion's public widget config (same key as the iframe)
+    // so it always reflects the Site's current settings. Any failure simply
+    // leaves the generic chat icon; the chat itself never depends on this.
+    var teaser = widget.querySelector('.companion-widget-teaser');
+    var teaserText = teaser.querySelector('.companion-widget-teaser-text');
+    var teaserDismiss = teaser.querySelector('.companion-widget-teaser-dismiss');
+    var photo = launcher.querySelector('.companion-widget-launcher-photo');
+    var statusDot = launcher.querySelector('.companion-widget-launcher-status');
+    var titleText = widget.querySelector('.companion-widget-title-text');
+    var TEASER_KEY = 'companionWidgetTeaserDismissed';
+    var TEASER_DELAY_MS = 2500;
+    var teaserTimer = null;
+    function teaserDismissed() {
+        try { return window.sessionStorage.getItem(TEASER_KEY) === '1'; } catch (e) { return false; }
+    }
+    function hideTeaser(remember) {
+        if (teaserTimer) { clearTimeout(teaserTimer); teaserTimer = null; }
+        teaser.hidden = true;
+        if (remember) {
+            try { window.sessionStorage.setItem(TEASER_KEY, '1'); } catch (e) { /* storage blocked: only this page */ }
+        }
+    }
+    function scheduleTeaser(message) {
+        if (!message || teaserDismissed() || !panel.hidden) return;
+        teaserText.textContent = message;
+        teaserTimer = setTimeout(function () {
+            teaserTimer = null;
+            if (panel.hidden && !teaserDismissed()) teaser.hidden = false;
+        }, TEASER_DELAY_MS);
+    }
+    teaserText.addEventListener('click', function () { setOpen(true); });
+    teaserDismiss.addEventListener('click', function (event) {
+        event.stopPropagation();
+        hideTeaser(true);
+        launcher.focus();
+    });
+    function applyBranding(config) {
+        var name = config && typeof config.agent_name === 'string' ? config.agent_name.trim() : '';
+        var avatar = config && typeof config.agent_avatar_url === 'string' ? config.agent_avatar_url.trim() : '';
+        var message = config && typeof config.launcher_message === 'string' ? config.launcher_message.trim() : '';
+        if (name) {
+            titleText.textContent = name;
+            launcher.setAttribute('title', name);
+        }
+        if (avatar && /^https?:\/\//i.test(avatar)) {
+            photo.addEventListener('load', function () {
+                photo.hidden = false;
+                statusDot.hidden = false;
+                widget.classList.add('has-photo');
+            });
+            photo.src = avatar;
+        }
+        scheduleTeaser(message || teaser.dataset.defaultMessage || '');
+    }
+    var configUrl = widget.dataset.configUrl;
+    if (configUrl && window.fetch) {
+        fetch(configUrl, { credentials: 'omit', mode: 'cors' })
+            .then(function (res) { return res.ok ? res.json() : null; })
+            .then(applyBranding)
+            .catch(function () { applyBranding(null); });
+    } else {
+        applyBranding(null);
+    }
     expand.addEventListener('click', function () {
         setExpanded(!panel.classList.contains('is-expanded'));
     });

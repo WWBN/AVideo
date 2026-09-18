@@ -42,7 +42,7 @@ $displayName = trim((string) $user->getNameIdentification());
 if ($displayName === '') {
     $displayName = trim((string) $user->getUser());
 }
-$loginUrl = Companion::adminLoginUrl(User::getId(), $displayName);
+$loginUrl = CompanionAI::adminLoginUrl(User::getId(), $displayName);
 if (empty($loginUrl)) {
     $obj->msg = __('Companion is not connected or is unreachable right now');
     echo _json_encode($obj);

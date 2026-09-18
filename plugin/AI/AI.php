@@ -775,6 +775,7 @@ class AI extends PluginAbstract
         }
         global $global;
         $embedUrl = $chat->embedUrl;
+        $configUrl = (!empty($chat->configUrl) && CompanionAI::isValidConfigUrl($chat->configUrl)) ? $chat->configUrl : '';
         ob_start();
         include $global['systemRootPath'] . 'plugin/AI/View/companionWidget.php';
         return ob_get_clean();

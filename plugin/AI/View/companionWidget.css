@@ -1,10 +1,34 @@
 .companion-widget { position:fixed; right:40px; bottom:88px; z-index:1600; font-family:inherit; }
+.companion-widget-dock { display:flex; align-items:center; justify-content:flex-end; gap:12px; }
 /* Colors come from the active theme's btn-default so the launcher reads on light and dark themes alike. */
-.companion-widget-launcher { display:grid; place-items:center; border-radius:50%; width:50px; height:50px; padding:0; border-width:3px; box-shadow:0 6px 24px rgb(0 0 0 / 22%); }
-.companion-widget-launcher > .fa-comment-dots { font-size:26px; color:currentColor; }
-.companion-widget-launcher > .companion-widget-launcher-close { font-size:22px; color:currentColor; }
+.companion-widget-launcher { position:relative; display:grid; place-items:center; flex:none; border-radius:50%; width:56px; height:56px; padding:0; border-width:3px; box-shadow:0 6px 24px rgb(0 0 0 / 22%); overflow:visible; transition:transform .18s ease, box-shadow .18s ease; }
+.companion-widget-launcher:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgb(0 0 0 / 28%); }
+.companion-widget-launcher > .companion-widget-launcher-icon { font-size:26px; color:currentColor; }
+.companion-widget-launcher > .companion-widget-launcher-toggle { display:none; font-size:22px; color:currentColor; }
+/* The agent's photo fills the whole button; the generic icon stays underneath until it has loaded. */
+.companion-widget-launcher > .companion-widget-launcher-photo { position:absolute; inset:0; width:100%; height:100%; border-radius:50%; object-fit:cover; }
+.companion-widget-launcher > .companion-widget-launcher-photo[hidden] { display:none; }
+.companion-widget.has-photo .companion-widget-launcher { border-color:#fff; background:#fff; }
+.companion-widget.has-photo .companion-widget-launcher > .companion-widget-launcher-icon { visibility:hidden; }
+/* "Online" dot: the small human cue that someone is there to talk. */
+.companion-widget-launcher > .companion-widget-launcher-status { position:absolute; right:1px; bottom:1px; width:14px; height:14px; border-radius:50%; background:#22c55e; border:2px solid #fff; box-shadow:0 0 0 1px rgb(0 0 0 / 8%); }
+.companion-widget-launcher > .companion-widget-launcher-status[hidden] { display:none; }
+/* While the chat is open the same button closes it. */
+.companion-widget.is-open .companion-widget-launcher > .companion-widget-launcher-icon,
+.companion-widget.is-open .companion-widget-launcher > .companion-widget-launcher-photo,
+.companion-widget.is-open .companion-widget-launcher > .companion-widget-launcher-status { display:none; }
+.companion-widget.is-open .companion-widget-launcher > .companion-widget-launcher-toggle { display:block; }
 .companion-widget-launcher[aria-expanded="true"] { opacity:.85; }
-.companion-widget-panel { position:absolute; right:0; bottom:66px; width:min(420px, calc(100vw - 32px)); height:min(680px, calc(100dvh - 180px)); margin:0; display:flex; flex-direction:column; overflow:hidden; border-radius:20px; box-shadow:0 16px 64px rgb(0 0 0 / 28%); }
+/* Invitation bubble beside the photo: light, small, dismissable, never over the video. */
+.companion-widget-teaser { position:relative; display:flex; align-items:center; gap:4px; max-width:min(260px, calc(100vw - 120px)); padding:4px 4px 4px 14px; border-radius:16px; background:#fff; color:#1f2937; box-shadow:0 8px 28px rgb(0 0 0 / 18%); animation:companion-teaser-in .28s ease-out; }
+.companion-widget-teaser[hidden] { display:none; }
+.companion-widget-teaser::after { content:""; position:absolute; right:-7px; top:50%; width:14px; height:14px; margin-top:-7px; background:#fff; transform:rotate(45deg); border-radius:2px; box-shadow:4px -4px 8px rgb(0 0 0 / 6%); }
+.companion-widget-teaser-text { flex:1; min-width:0; padding:6px 4px 6px 0; border:0; background:none; color:inherit; font:inherit; font-size:14px; line-height:1.35; text-align:left; cursor:pointer; }
+.companion-widget-teaser-dismiss { flex:none; width:28px; height:28px; padding:0; border:0; border-radius:50%; background:none; color:#6b7280; font-size:13px; cursor:pointer; }
+.companion-widget-teaser-dismiss:hover { background:#f3f4f6; color:#111827; }
+@keyframes companion-teaser-in { from { opacity:0; transform:translateX(8px); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion: reduce) { .companion-widget-teaser { animation:none; } .companion-widget-launcher { transition:none; } }
+.companion-widget-panel { position:absolute; right:0; bottom:72px; width:min(420px, calc(100vw - 32px)); height:min(680px, calc(100dvh - 180px)); margin:0; display:flex; flex-direction:column; overflow:hidden; border-radius:20px; box-shadow:0 16px 64px rgb(0 0 0 / 28%); }
 .companion-widget-panel[hidden] { display:none; }
 /* Floating: left/top/width/height are set inline by companionWidget.js (jQuery UI drag/resize), remembered in localStorage. */
 .companion-widget-panel.is-floating { position:fixed; right:auto; bottom:auto; max-width:100vw; max-height:100dvh; }
@@ -25,13 +49,14 @@
 .companion-widget-panel > .ui-resizable-sw { bottom:0; left:0; }
 .companion-widget-bar { display:flex; flex:none; align-items:center; justify-content:space-between; gap:12px; padding:8px 12px 8px 18px; border-radius:0; }
 .companion-widget-bar > span { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; }
+.companion-widget-title-text:empty { display:none; }
 .companion-widget-actions { display:flex; gap:5px; }
 .companion-widget-actions .btn { width:36px; height:34px; border-radius:9px; }
 .companion-widget-frame { flex:1; width:100%; min-height:0; border:0; }
 .companion-widget.is-expanded { z-index:2000; }
-.companion-widget.is-expanded .companion-widget-launcher { visibility:hidden; }
+.companion-widget.is-expanded .companion-widget-dock { visibility:hidden; }
 body.companion-widget-fullscreen { overflow:hidden; }
-.companion-widget-launcher:focus-visible, .companion-widget-actions .btn:focus-visible { outline:3px solid currentColor; outline-offset:3px; }
+.companion-widget-launcher:focus-visible, .companion-widget-actions .btn:focus-visible, .companion-widget-teaser button:focus-visible { outline:3px solid currentColor; outline-offset:3px; }
 @media (max-width:600px) {
     .companion-widget { right:16px; bottom:80px; }
     .companion-widget-panel, .companion-widget-panel.is-expanded { position:fixed; inset:12px 12px 144px; width:auto; height:auto; border-radius:16px; }
