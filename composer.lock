@@ -1088,23 +1088,23 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v7.1.0",
+            "version": "v7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/php-jwt.git",
-                "reference": "b374a5d1a4f1f67fadc2165cdb284645945e2fc0"
+                "reference": "9bc93bd7e3ee5bead4cd23c365ec12f3c1fb0a6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/php-jwt/zipball/b374a5d1a4f1f67fadc2165cdb284645945e2fc0",
-                "reference": "b374a5d1a4f1f67fadc2165cdb284645945e2fc0",
+                "url": "https://api.github.com/repos/googleapis/php-jwt/zipball/9bc93bd7e3ee5bead4cd23c365ec12f3c1fb0a6a",
+                "reference": "9bc93bd7e3ee5bead4cd23c365ec12f3c1fb0a6a",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.0"
             },
             "require-dev": {
-                "guzzlehttp/guzzle": "^7.4",
+                "guzzlehttp/guzzle": "^7.4||^8.0",
                 "phpfastcache/phpfastcache": "^9.2",
                 "phpseclib/phpseclib": "~3.0",
                 "phpspec/prophecy-phpunit": "^2.0",
@@ -1148,9 +1148,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/php-jwt/issues",
-                "source": "https://github.com/googleapis/php-jwt/tree/v7.1.0"
+                "source": "https://github.com/googleapis/php-jwt/tree/v7.1.1"
             },
-            "time": "2026-06-11T17:54:14+00:00"
+            "time": "2026-09-14T17:48:47+00:00"
         },
         {
             "name": "gliterd/backblaze-b2",
@@ -1329,16 +1329,16 @@
         },
         {
             "name": "google/auth",
-            "version": "v1.53.0",
+            "version": "v1.54.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "d677d0b0c4bd52ab222a85df8e74e0d491c0cc5a"
+                "reference": "a9e3aedd93f01997e935556adbd1866fec576968"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/d677d0b0c4bd52ab222a85df8e74e0d491c0cc5a",
-                "reference": "d677d0b0c4bd52ab222a85df8e74e0d491c0cc5a",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/a9e3aedd93f01997e935556adbd1866fec576968",
+                "reference": "a9e3aedd93f01997e935556adbd1866fec576968",
                 "shasum": ""
             },
             "require": {
@@ -1367,6 +1367,14 @@
                 "phpseclib/phpseclib": "May be used in place of OpenSSL for signing strings or for token management. Please require version ^2."
             },
             "type": "library",
+            "extra": {
+                "component": {
+                    "id": "auth",
+                    "path": "Auth",
+                    "entry": "README.md",
+                    "target": "googleapis/google-auth-library-php.git"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Google\\Auth\\": "src"
@@ -1377,7 +1385,7 @@
                 "Apache-2.0"
             ],
             "description": "Google Auth Library for PHP",
-            "homepage": "https://github.com/google/google-auth-library-php",
+            "homepage": "https://github.com/googleapis/google-auth-library-php",
             "keywords": [
                 "Authentication",
                 "google",
@@ -1386,9 +1394,9 @@
             "support": {
                 "docs": "https://cloud.google.com/php/docs/reference/auth/latest",
                 "issues": "https://github.com/googleapis/google-auth-library-php/issues",
-                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.53.0"
+                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.54.0"
             },
-            "time": "2026-07-22T22:36:10+00:00"
+            "time": "2026-09-14T18:27:51+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
