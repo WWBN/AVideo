@@ -1,5 +1,5 @@
 <?php if (!defined('INSTALLER_PRODUCT')) { return; }
-if (!installerConfigured()): ?>
+if (!installerConfigured() && installerHasMissingDependencies($checks ?? [])): ?>
 <details class="card ubuntu-help">
     <summary>Ubuntu setup help and troubleshooting commands</summary>
     <?php foreach (installerUbuntuHelp() as $help): ?>

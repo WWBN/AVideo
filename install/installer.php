@@ -30,7 +30,7 @@ function installerPermissionHelp() {
             'text' => 'Replace APACHE_ACCOUNT with the account running Apache (Services > Apache > Log On; if XAMPP was started manually, use whoami). Then try again.',
             'command' => 'icacls ' . $root . ' /grant "APACHE_ACCOUNT:(OI)(CI)M"'];
     }
-    return ['title' => 'Server terminal', 'text' => 'Replace PHP_USER with the Apache/PHP-FPM account (for example, www-data). Grant access only to that account and try again.',
+    return ['title' => 'Server terminal', 'text' => 'Replace PHP_USER with the Apache account (for example, www-data). Grant access only to that account and try again.',
         'command' => "sudo apt-get install acl\nsudo setfacl -m u:PHP_USER:rwx " . $root];
 }
 function installerChecks() {

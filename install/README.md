@@ -1,6 +1,6 @@
 # Guided installation
 
-Open `/install/` before configuring the application. Setup checks its requirements, tests the database connection without writing data, and provides English error messages with repair commands. Expand **Ubuntu setup help and troubleshooting commands** for PHP packages, service checks, file permissions, routing, and product-specific dependencies. The examples target Ubuntu 22.04 and 24.04; use extension packages matching the PHP version serving the site.
+Open `/install/` before configuring the application. Setup checks its requirements, tests the database connection without writing data, and provides English error messages with repair commands. **Ubuntu setup help and troubleshooting commands** appears only when a checked PHP extension, Composer/frontend dependency, or encoding tool is missing. Permission, schema, and PHP version failures alone do not display this section. The examples target Ubuntu 22.04, 24.04, and 26.04 with Apache and mod_php; use extension packages matching the PHP version serving the site.
 
 Run Composer/npm as the application owner. Run CLI installation as the account that will run PHP, so that the generated configuration remains readable by that account. Installers do not change operating-system packages or permissions automatically.
 
