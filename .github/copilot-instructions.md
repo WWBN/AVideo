@@ -233,6 +233,7 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
 
 - Test suites live under `tests/Security/` and `tests/Unit/` (PHPUnit `^9.6`, config in
   `phpunit.xml`, bootstrap `tests/bootstrap.php`).
+- Write PHP backend tests in PHP using the existing PHPUnit suite. Do not introduce Python test runners or Python dependencies to test PHP code.
 - Run relevant tests locally before calling a change complete:
   ```bash
   composer test                     # full suite (phpunit.xml)

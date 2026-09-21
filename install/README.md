@@ -10,7 +10,13 @@ After completion, setup hides the form, requirements, paths, and troubleshooting
 
 ## Shared presentation
 
-The Streamer installation checklist groups passing requirements and items needing attention, with totals and repair guidance. Results use the existing server checks; database access still requires **Test connection**, and upload limits and rewrite rules require the separate review shown on the page. Reload after correcting requirements. `checklist.css` contains the Streamer-specific layout.
+The Streamer installation checklist distinguishes **passed**, **needs attention**, **not verified**, and **not applicable**, with totals per group and repair/verification guidance. Only the original installation requirements block setup; the additional checks are advisory and do not change CLI or database installation behavior.
+
+Additional groups cover PHP extensions and effective upload/memory/time limits, Apache modules, HTTPS, temporary/cache directory permissions, local tool discovery, Encoder, Live, Python dependencies, User_Location and scheduled tasks. The upload recommendation remains 100M; the Ubuntu example's 8G upload/POST values are a deployment choice. Memory and execution recommendations are 512M and 7200 seconds. Unlimited memory (-1), POST size (0) and execution time (0) are handled separately. POST capacity should exceed the upload limit to allow form overhead.
+
+Tool discovery inspects the PHP service PATH and executable permissions, without running tools. On Windows, ImageMagick discovery uses `magick` rather than the unrelated system `convert.exe`. Nginx also checks the Ubuntu source-build location. A detected binary does not prove its version, module support or successful operation. Remote Encoder/Live services, Python environments, certificate validity/renewal, routing, plugin data import and cron execution remain **not verified**, with manual checks shown beside them. Database access still requires **Test connection**.
+
+Reload after correcting requirements. `checklist-functions.php` provides standalone diagnostics without bootstrapping the application; `checklist.css` contains the Streamer-specific layout. All diagnostics are hidden once configuration exists.
 
 Keep these files byte-identical across Streamer, Encoder and Encoder Network:
 
@@ -22,19 +28,29 @@ The images are copies of the Streamer `view/img/logo.png` and `view/img/favicon.
 
 ## Verification
 
-Use an isolated MySQL/MariaDB server and a test account with CREATE/DROP privileges. The integration scripts create and remove only their temporary databases and files; they never read the real application configuration. Supply a password through `MYSQL_PWD` when needed. PHP must have the required extensions enabled.
+Run the checklist tests with the existing PHPUnit suite. They use temporary fixtures and do not need a database, Python or browser automation:
 
 ```sh
-python3 tests/installer_integration.py --php php --mysql mysql --port 3306
+php vendor/bin/phpunit tests/Unit/InstallerChecklistTest.php
 ```
 
-From the Streamer checkout, compare all three installers and check their locked pages without a database:
+Use an isolated MySQL/MariaDB server and a test account with CREATE/DROP and TRIGGER privileges. PHPUnit creates and removes only generated temporary databases and files; it never reads the real application configuration. Enable integration tests with `AVIDEO_INSTALLER_MYSQL_TESTS=1`. Connection settings are `AVIDEO_TEST_DB_HOST` (default `127.0.0.1`), `AVIDEO_TEST_DB_PORT` (`3306`), `AVIDEO_TEST_DB_USER` (`root`) and `AVIDEO_TEST_DB_PASSWORD` (empty). Set these in the test environment; do not put passwords in command-line arguments.
+
+PHP must have the required installer extensions enabled. If child PHP processes need additional CLI options, set `AVIDEO_TEST_PHP_ARGS` to a JSON string array, for example `["-d","extension=gd","-d","extension=zip"]` for an XAMPP setup where those extensions are installed but disabled.
 
 ```sh
-python3 tests/installers_consistency.py --php php --encoder /path/to/AVideo-Encoder --network /path/to/AVideo-Encoder-Network
+php vendor/bin/phpunit tests/Integration/InstallerIntegrationTest.php
 ```
 
-HTTP/database tests use a local mock Streamer for remote administrator verification. Test a real Streamer connection and a complete encoding/upload workflow in your deployment as well.
+To compare all three installers and check their locked pages and CLI isolation without a database, set `AVIDEO_TEST_ENCODER_ROOT` and `AVIDEO_TEST_NETWORK_ROOT` to the corresponding repository paths:
+
+```sh
+php vendor/bin/phpunit tests/Integration/InstallersConsistencyTest.php
+```
+
+These integration suites are invoked explicitly and skip external-service cases when their environment settings are absent. They use PHP, PHPUnit, MySQLi and cURL; Python, Playwright and the MySQL CLI are not required. HTTP tests run a temporary PHP server on localhost and exercise the real installer endpoint.
+
+Browser validation remains manual: check desktop/mobile layout, test the database connection, submit mismatched passwords, and confirm successful installation removes the form and checklist. Test a real Encoder connection and a complete encoding/upload workflow in your deployment as well.
 
 ## Streamer CLI
 

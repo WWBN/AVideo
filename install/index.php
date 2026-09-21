@@ -8,9 +8,24 @@ header('X-Frame-Options: DENY');
 function h($value) { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
 $configured = installerConfigured();
 $checks = $configured ? [] : installerChecks();
-$passedChecks = array_filter($checks, function ($check) { return $check['ok']; });
-$failedChecks = array_filter($checks, function ($check) { return !$check['ok']; });
 $ready = !in_array(false, array_column($checks, 'ok'), true);
+$checklistGroups = [];
+$checklistCounts = array_fill_keys(['passed', 'failed', 'unknown', 'na'], 0);
+$checklistStatuses = ['passed' => ['✓', 'Check passed'], 'failed' => ['✕', 'Needs attention'],
+    'unknown' => ['!', 'Not verified'], 'na' => ['—', 'Not applicable']];
+if (!$configured) {
+    require_once __DIR__ . '/checklist-functions.php';
+    foreach ($checks as $check) {
+        $help = $check['ok'] ? [] : installerRequirementHelp($check);
+        $checklistGroups['Required for installation'][] = ['label' => $check['label'], 'status' => $check['ok'] ? 'passed' : 'failed',
+            'detail' => $check['ok'] ? ($check['label'] === 'PHP 8.1 or later' ? 'Current version: ' . PHP_VERSION : 'Installation requirement available.') : $check['detail'],
+            'help' => $help['text'] ?? '', 'command' => $help['command'] ?? ''];
+    }
+    foreach (installerAdditionalChecks() as $check) { $checklistGroups[$check['group']][] = $check; }
+    foreach ($checklistGroups as $group) {
+        foreach ($group as $check) { ++$checklistCounts[$check['status']]; }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,33 +70,36 @@ $ready = !in_array(false, array_column($checks, 'ok'), true);
             <h1>Set up your video platform.</h1>
             <p class="intro">Enter your details below. We will create the database, install the tables,<br class="desktop"> and generate your configuration file.</p>
             <section class="environment" aria-labelledby="checklistHeading">
-                <div class="environment-title"><span class="status-dot <?= $ready ? '' : 'bad' ?>" aria-hidden="true"></span><strong><?= $ready ? 'Environment ready' : 'Action required' ?></strong><span>Server check</span></div>
+                <div class="environment-title"><span class="status-dot <?= $ready ? '' : 'bad' ?>" aria-hidden="true"></span><strong><?= $ready ? 'Required checks passed' : 'Required checks need attention' ?></strong><span>Server check</span></div>
                 <h2 id="checklistHeading" class="checklist-heading">Installation checklist</h2>
-                <p class="checklist-summary"><?= count($passedChecks) ?> checks passed · <?= count($failedChecks) ?> need attention. Reload this page after making corrections.</p>
-                <?php foreach (['Needs attention' => $failedChecks, 'Checks passed' => $passedChecks] as $heading => $group): if (!$group) { continue; } ?>
-                <h3 class="checklist-heading"><?= h($heading) ?> (<?= count($group) ?>)</h3>
-                <ul class="requirement-list">
-                    <?php foreach ($group as $check): ?>
-                    <li class="requirement-item <?= $check['ok'] ? 'passed' : 'failed' ?>">
-                        <span class="requirement-icon" aria-hidden="true"><?= $check['ok'] ? '✓' : '✕' ?></span>
-                        <div><strong><?= h($check['label']) ?></strong><span class="requirement-status"><?= $check['ok'] ? 'Check passed' : 'Missing or needs configuration' ?></span></div>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-                <?php endforeach; ?>
-                <p class="checklist-summary">These checks cover the installation requirements. Use <a href="#database">Test connection</a> below to verify database access. Upload limits and web server rules need a separate review below.</p>
-                <?php if (!$ready): ?>
-                    <details open class="requirement-help"><summary>How to resolve missing requirements</summary>
-                        <?php foreach ($checks as $check): if ($check['ok']) { continue; } $help = installerRequirementHelp($check); ?>
-                        <h3><?= h($check['label']) ?></h3><p><?= h($help['text']) ?></p>
-                        <?php if (!empty($help['command'])): ?><pre><code><?= h($help['command']) ?></code></pre><?php endif; ?>
-                        <?php endforeach; ?><p>Then reload this page.</p>
-                    </details>
-                <?php endif; ?>
-                <details class="advisory"><summary>Upload limits and web server configuration</summary>
-                    <p>For video uploads, set upload_max_filesize and post_max_size to at least 100M in the web server php.ini. Current values: <?= h(ini_get('upload_max_filesize')) ?> and <?= h(ini_get('post_max_size')) ?>.</p>
-                    <p>Apache needs mod_rewrite and AllowOverride enabled. With Nginx, configure the equivalent AVideo rewrite rules before opening your site.</p>
+                <p class="checklist-summary"><?= $checklistCounts['passed'] ?> passed · <?= $checklistCounts['failed'] ?> need attention · <?= $checklistCounts['unknown'] ?> not verified · <?= $checklistCounts['na'] ?> not applicable.</p>
+                <p class="checklist-summary">Only required checks block installation. Expand the other groups to review recommended settings and optional features. Encoder and Live may run on separate servers. Reload this page after corrections.</p>
+                <?php foreach ($checklistGroups as $heading => $group):
+                    $required = $heading === 'Required for installation';
+                    $counts = array_count_values(array_column($group, 'status'));
+                ?>
+                <details class="checklist-group" <?= $required ? 'open' : '' ?>>
+                    <summary><strong><?= h($heading) ?></strong><span class="checklist-group-counts"><?= $counts['passed'] ?? 0 ?> passed · <?= $counts['failed'] ?? 0 ?> need attention · <?= $counts['unknown'] ?? 0 ?> not verified · <?= $counts['na'] ?? 0 ?> not applicable</span></summary>
+                    <p class="checklist-summary"><?= $required ? 'Required to install this Streamer.' : 'Advisory only. Review the checks for features you plan to use; these do not block Streamer installation.' ?></p>
+                    <ul class="requirement-list">
+                        <?php foreach ($group as $check): $status = $checklistStatuses[$check['status']]; ?>
+                        <li class="requirement-item <?= h($check['status']) ?>">
+                            <span class="requirement-icon" aria-hidden="true"><?= $status[0] ?></span>
+                            <div class="requirement-content"><strong><?= h($check['label']) ?></strong><span class="requirement-status"><?= h($status[1]) ?></span>
+                                <p class="requirement-detail"><?= h($check['detail']) ?></p>
+                                <?php if ($check['help']): ?>
+                                <details class="checklist-help"><summary><?= $check['status'] === 'failed' ? 'How to resolve' : 'How to verify' ?></summary>
+                                    <p><?= h($check['help']) ?></p>
+                                    <?php if ($check['command']): ?><pre><code><?= h($check['command']) ?></code></pre><?php endif; ?>
+                                </details>
+                                <?php endif; ?>
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
                 </details>
+                <?php endforeach; ?>
+                <p class="checklist-summary">Database access is checked separately: use <a href="#database">Test connection</a> below with your database details. A passing checklist does not replace an upload, encoding or live playback test.</p>
             </section>
             <?php include __DIR__ . '/ubuntu-help.php'; ?>
             <form id="configurationForm" data-ready="<?= $ready ? '1' : '0' ?>">

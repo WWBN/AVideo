@@ -38,6 +38,44 @@ h3.checklist-heading {
     font-size:11px;
     margin-top:2px;
 }
+.requirement-content {
+    min-width:0;
+    flex:1;
+}
+.requirement-detail {
+    color:var(--muted);
+    font-size:11px;
+    margin:6px 0;
+}
+.checklist-group {
+    border-top:1px solid var(--border);
+    padding:12px 0;
+}
+.checklist-group>summary {
+    font-size:13px;
+}
+.checklist-group-counts {
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin:4px 0 0 16px;
+}
+.checklist-help {
+    margin-top:8px;
+    font-size:11px;
+}
+.checklist-help pre {
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+.requirement-item.unknown .requirement-icon,
+.requirement-item.unknown .requirement-status {
+    color:var(--accent);
+}
+.requirement-item.na .requirement-icon,
+.requirement-item.na .requirement-status {
+    color:var(--muted);
+}
 .requirement-item.passed .requirement-icon,
 .requirement-item.passed .requirement-status {
     color:var(--success);
