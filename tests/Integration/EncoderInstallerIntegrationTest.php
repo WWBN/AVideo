@@ -42,8 +42,8 @@ class EncoderInstallerIntegrationTest extends TestCase
         $source = dirname(__DIR__, 2) . '/.compose/encoder';
         $this->fixture = new InstallerTestEnvironment($source);
         $this->fixture->prepareEncoder();
-        $this->fixture->write('mock-streamer.php', "<?php header('Content-Type: application/json'); parse_str(file_get_contents('php://input'), \$data); \$hash = trim(file_get_contents(__DIR__ . '/streamer-hash.txt')); echo json_encode(['isAdmin' => (isset(\$data['pass']) && \$data['pass'] === \$hash && isset(\$data['encodedPass']) && \$data['encodedPass'] === 'true')]);");
-        $this->fixture->write('streamer-hash.txt', $this->adminHash);
+        $this->fixture->write('mock-streamer.php', "<?php header('Content-Type: application/json'); parse_str(file_get_contents('php://input'), \$data); \$password = file_get_contents(__DIR__ . '/streamer-password.txt'); echo json_encode(['isAdmin' => (isset(\$data['pass']) && \$data['pass'] === \$password && isset(\$data['encodedPass']) && \$data['encodedPass'] === 'false')]);");
+        $this->fixture->write('streamer-password.txt', $this->adminPassword);
         $this->mockStreamerUrl = $this->fixture->startRouter('mock-streamer.php');
         $this->url = $this->fixture->startServer();
         $this->client = curl_init();
@@ -173,6 +173,12 @@ class EncoderInstallerIntegrationTest extends TestCase
         $this->assertSame(35, $formats);
         $priority = (int) $this->connection->query('SELECT defaultPriority FROM ' . $data['tablesPrefix'] . 'configurations_encoder')->fetch_row()[0];
         $this->assertSame(3, $priority);
+        $version = $this->connection->query('SELECT version FROM ' . $data['tablesPrefix'] . 'configurations_encoder')->fetch_row()[0];
+        foreach (glob(dirname(__DIR__, 2) . '/.compose/encoder/update/updateDb.v*.sql') as $migration) {
+            preg_match('/updateDb\.v([0-9.]+)\.sql$/', $migration, $match);
+            $this->assertFalse(version_compare($version, $match[1], '<'), 'Fresh installation has a pending migration: ' . basename($migration));
+        }
+        $this->assertSame(1, $this->connection->query("SHOW COLUMNS FROM " . $data['tablesPrefix'] . "encoder_queue LIKE 'retry_count'")->num_rows);
         $path = $this->fixture->path('videos/configuration.php');
         $this->assertSame(0, $this->fixture->run(['-l', $path])['exit']);
         $configuration = file_get_contents($path);
@@ -208,6 +214,7 @@ class EncoderInstallerIntegrationTest extends TestCase
         $this->connection->select_db($data['databaseName']);
         $this->connection->query('CREATE TABLE unrelated (id INT)');
         $this->connection->query('INSERT INTO unrelated VALUES (7)');
+        unlink($config);
         $second = $this->payload();
         $second['databaseName'] = $data['databaseName'];
         $second['tablesPrefix'] = 'second_';
@@ -224,18 +231,20 @@ class EncoderInstallerIntegrationTest extends TestCase
     public function testSeedFailureRollsBackAndCanBeRetried()
     {
         $data = $this->payload();
+        $data['tablesPrefix'] = '';
         $this->createDatabase($data['databaseName']);
         $this->importSchema($data['databaseName']);
         $this->connection->select_db($data['databaseName']);
-        $this->connection->query("CREATE TRIGGER qa_failure BEFORE INSERT ON qa_configurations_encoder FOR EACH ROW SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='test failure'");
+        $this->connection->query('DELETE FROM formats');
+        $this->connection->query("CREATE TRIGGER qa_failure BEFORE INSERT ON configurations_encoder FOR EACH ROW SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='test failure'");
         $data['createTables'] = '0';
         $result = $this->request($data);
         $this->assertNotEmpty($result['error'], json_encode($result));
         $this->assertSame('records', $result['stage']);
         $this->assertFileDoesNotExist($this->fixture->path('videos/configuration.php'));
         $this->connection->select_db($data['databaseName']);
-        $this->assertSame(0, (int) $this->connection->query('SELECT COUNT(*) FROM qa_streamers')->fetch_row()[0]);
-        $this->assertSame(0, (int) $this->connection->query('SELECT COUNT(*) FROM qa_formats')->fetch_row()[0]);
+        $this->assertSame(0, (int) $this->connection->query('SELECT COUNT(*) FROM streamers')->fetch_row()[0]);
+        $this->assertSame(0, (int) $this->connection->query('SELECT COUNT(*) FROM formats')->fetch_row()[0]);
         $this->connection->query('DROP TRIGGER qa_failure');
         $result = $this->request($data);
         $this->assertTrue(!empty($result['installed']), json_encode($result));
@@ -274,6 +283,70 @@ class EncoderInstallerIntegrationTest extends TestCase
     }
 
     public function installationModes(): array { return [['1'], ['0']]; }
+
+    /** @dataProvider updateCases */
+    public function testUpdate82HandlesExistingColumnAndQueryFailure($prefix, $hasColumn, $strict, $missingTable)
+    {
+        $data = $this->payload();
+        $this->createDatabase($data['databaseName']);
+        $this->connection->select_db($data['databaseName']);
+        $this->connection->query('CREATE TABLE ' . $prefix . 'configurations_encoder (id INT PRIMARY KEY, version VARCHAR(10), modified DATETIME)');
+        $this->connection->query("INSERT INTO " . $prefix . "configurations_encoder VALUES (1, '8.1', NOW())");
+        if (!$missingTable) {
+            $this->connection->query('CREATE TABLE ' . $prefix . 'encoder_queue (id INT PRIMARY KEY' . ($hasColumn ? ', retry_count INT NOT NULL DEFAULT 0' : '') . ')');
+            $this->connection->query('INSERT INTO ' . $prefix . 'encoder_queue VALUES (1' . ($hasColumn ? ', 7' : '') . ')');
+        }
+        $source = dirname(__DIR__, 2) . '/.compose/encoder';
+        $this->fixture->copyDirectory($source . '/update', 'update');
+        $functions = file_get_contents($source . '/objects/functions.php');
+        $start = strpos($functions, 'function addPrefixIntoQuery(');
+        $end = strpos($functions, 'function isURLaVODVideo(', $start);
+        $this->fixture->write('prefix.php', "<?php\n" . substr($functions, $start, $end - $start));
+        $this->fixture->write('update-settings.json', json_encode([
+            'host' => $this->host, 'port' => $this->port, 'user' => $this->user, 'password' => $this->password,
+            'database' => $data['databaseName'], 'prefix' => $prefix, 'strict' => $strict,
+        ]));
+        $this->fixture->write('run-update.php', <<<'PHP'
+<?php
+require __DIR__ . '/prefix.php';
+function __($message) { return $message; }
+function _error_log($message) { error_log($message); }
+$settings = json_decode(file_get_contents(__DIR__ . '/update-settings.json'), true);
+mysqli_report($settings['strict'] ? MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT : MYSQLI_REPORT_OFF);
+$global = ['systemRootPath' => __DIR__ . '/', 'tablesPrefix' => $settings['prefix'],
+    'mysqli' => new mysqli($settings['host'], $settings['user'], $settings['password'], $settings['database'], $settings['port'])];
+$config = new class { public function getVersion() { return '8.1'; } };
+$_POST['updateFile'] = 'updateDb.v8.2.sql';
+include __DIR__ . '/update/update.php';
+PHP
+        );
+        $result = $this->fixture->run([$this->fixture->path('run-update.php')]);
+        $this->assertSame(0, $result['exit'], $result['stderr']);
+        $version = $this->connection->query('SELECT version FROM ' . $prefix . 'configurations_encoder')->fetch_row()[0];
+        $this->assertSame($missingTable ? '8.1' : '8.2', $version);
+        if ($missingTable) {
+            $this->assertStringContainsString('alert-danger', $result['stdout']);
+            $this->assertStringNotContainsString('is done, click continue', $result['stdout']);
+            $this->assertStringNotContainsString($data['databaseName'], $result['stdout']);
+        } else {
+            $this->assertStringContainsString('is done, click continue', $result['stdout']);
+            $retryCount = $this->connection->query('SELECT retry_count FROM ' . $prefix . 'encoder_queue WHERE id = 1')->fetch_row()[0];
+            $this->assertSame($hasColumn ? 7 : 0, (int) $retryCount);
+        }
+    }
+
+    public function updateCases(): array
+    {
+        return [
+            'legacy schema' => ['', false, true, false],
+            'legacy prefixed schema' => ['qa_', false, true, false],
+            'new schema old version' => ['', true, true, false],
+            'new prefixed schema old version' => ['qa_', true, true, false],
+            'non throwing mysqli' => ['qa_', true, false, false],
+            'SQL exception' => ['qa_', false, true, true],
+            'SQL false result' => ['qa_', false, false, true],
+        ];
+    }
 
     public function testCliInvocationFromDifferentWorkingDirectory()
     {

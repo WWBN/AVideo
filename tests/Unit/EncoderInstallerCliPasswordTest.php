@@ -15,9 +15,9 @@ class EncoderInstallerCliPasswordTest extends TestCase
             $fixture->write('router.php', <<<'PHP'
 <?php
 header('Content-Type: application/json');
-$expected = md5(hash('whirlpool', sha1(file_get_contents(__DIR__ . '/expected.txt'))));
+$expected = file_get_contents(__DIR__ . '/expected.txt');
 echo json_encode(['isAdmin' => ($_POST['user'] ?? '') === 'admin'
-    && ($_POST['encodedPass'] ?? '') === 'true' && ($_POST['pass'] ?? '') === $expected]);
+    && ($_POST['encodedPass'] ?? '') === 'false' && ($_POST['pass'] ?? '') === $expected]);
 PHP
             );
             // Stop before database installation; verify the selected password reaches both fields.

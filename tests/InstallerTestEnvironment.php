@@ -60,7 +60,6 @@ class InstallerTestEnvironment
             $this->write('node_modules/' . $asset, '');
         }
         mkdir($this->path('videos'), 0700);
-        mkdir($this->path('objects'), 0700);
     }
 
     private function command(array $arguments)

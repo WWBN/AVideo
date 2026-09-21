@@ -12,16 +12,17 @@ jobs:
 
     services:
       mysql:
-        image: mariadb:latest
+        image: mariadb:10.11
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: '1'
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
+          --health-start-period=30s
 
     strategy:
       matrix:
@@ -32,12 +33,19 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v7
+
+    - name: Checkout Encoder for installer tests
+      uses: actions/checkout@v7
+      with:
+        repository: WWBN/AVideo-Encoder
+        ref: dfa5d0857464f99c24d2aa948cb2ba7181170688
+        path: .compose/encoder
     
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
-        extensions: mbstring, xml, ctype, json, fileinfo, pdo, pdo_mysql, gd, curl
+        extensions: mbstring, xml, ctype, json, fileinfo, pdo, pdo_mysql, mysqli, gd, curl, zip, bcmath
         coverage: xdebug
     
     - name: Validate composer.json
