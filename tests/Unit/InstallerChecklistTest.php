@@ -110,7 +110,7 @@ class InstallerChecklistTest extends TestCase
     public function testMissingToolsAndRemoteServicesAreNotReportedAsInstalledOrBroken()
     {
         $checks = $this->checks('putenv("PATH=" . installerRoot() . "empty-path");');
-        foreach (['FFmpeg executable', 'Encoder connection and processing', 'Certificate validity and renewal', 'Scheduled tasks and yt-dlp updates'] as $label) {
+        foreach (['FFmpeg executable', 'Encoder connection and processing', 'Scheduled tasks and yt-dlp updates'] as $label) {
             $this->assertSame('unknown', $checks[$label]['status'], $label);
         }
         $this->assertSame('failed', $checks['HTMLPurifier serializer cache']['status']);
@@ -154,11 +154,10 @@ class InstallerChecklistTest extends TestCase
     }
 
     /** @dataProvider httpsValues */
-    public function testRequestHttpsDoesNotClaimCertificateValidity($https, $expected)
+    public function testRequestHttpsUsesRuntimeState($https, $expected)
     {
         $checks = $this->checks('$_SERVER["HTTPS"]=' . var_export($https, true) . '; $_SERVER["HTTP_X_FORWARDED_PROTO"]="https";');
         $this->assertSame($expected, $checks['HTTPS on this request']['status']);
-        $this->assertSame('unknown', $checks['Certificate validity and renewal']['status']);
     }
 
     public function httpsValues(): array

@@ -9,13 +9,26 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
+    services:
+      mysql:
+        image: mariadb:latest
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     strategy:
       matrix:
         php-version: ['8.1', '8.2', '8.3']
-    
+
     name: PHP ${{ matrix.php-version }} Tests
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v7
@@ -50,7 +63,16 @@ jobs:
     - name: Run Unit Tests (Optional)
       continue-on-error: true
       run: php vendor/bin/phpunit tests/Unit/ --no-coverage --colors=never
-    
+
+    - name: Run Integration Tests (Critical - installer)
+      env:
+        AVIDEO_INSTALLER_MYSQL_TESTS: '1'
+        AVIDEO_TEST_DB_HOST: 127.0.0.1
+        AVIDEO_TEST_DB_PORT: 3306
+        AVIDEO_TEST_DB_USER: root
+        AVIDEO_TEST_DB_PASSWORD: ''
+      run: php vendor/bin/phpunit tests/Integration/ --no-coverage --colors=never
+
     - name: Run All Tests with Coverage
       if: matrix.php-version == '8.3'
       run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml

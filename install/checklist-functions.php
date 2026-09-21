@@ -73,17 +73,10 @@ function installerAdditionalChecks() {
             $modules === null ? ($nginx ? 'This request is served by Nginx; Apache modules do not apply here.' : 'Apache modules cannot be inspected from this PHP runtime.') : ($status === 'passed' ? 'Module loaded.' : 'Module not loaded.'),
             'For Apache, enable the module and reload the service. On Ubuntu, xsendfile also needs libapache2-mod-xsendfile. With PHP-FPM, verify modules on the web server itself.');
     }
-    $add('Web server', 'Routing and media delivery', 'unknown',
-        'Module presence alone does not verify URL rewriting or X-Sendfile delivery.',
-        'For Apache, review AllowOverride and the AVideo .htaccess rules. For Nginx, configure equivalent routing. After installation, open a video URL and test playback/downloads.');
     $https = !empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) !== 'off';
     $add('Web server', 'HTTPS on this request', $https ? 'passed' : 'unknown',
         $https ? 'PHP reports HTTPS for this request; certificate validity is not checked here.' : 'PHP does not report HTTPS. TLS may terminate at a reverse proxy.',
         'Verify the final public site URL in a browser, including deployments behind a reverse proxy.');
-    $add('Web server', 'Certificate validity and renewal', 'unknown',
-        'The public certificate and renewal schedule require a deployment check.',
-        'Verify hostname, expiration and certificate chain on the public URL. If using Certbot, check its renewal timer and run a renewal dry run on the TLS server.',
-        PHP_OS_FAMILY === 'Windows' ? '' : 'sudo certbot certificates' . "\n" . 'sudo certbot renew --dry-run');
 
     $temporary = ini_get('upload_tmp_dir') ?: sys_get_temp_dir();
     foreach (['PHP upload temporary directory' => $temporary,
