@@ -18,7 +18,7 @@ root=Path(__file__).resolve().parents[1]
 workspace=tempfile.TemporaryDirectory(prefix='avideo-installer-test-')
 site=Path(workspace.name)
 for name in ['install','objects','locale','vendor','videos']:(site/name).mkdir()
-for name in ['index.php','checkConfiguration.php','installer.php','installer.js','installer.css','database.sql','ubuntu-help.php','ubuntu-help-functions.php']:
+for name in ['index.php','checkConfiguration.php','installer.php','installer.js','installer.css','checklist.css','database.sql','ubuntu-help.php','ubuntu-help-functions.php']:
  shutil.copy2(root/'install'/name,site/'install'/name)
 shutil.copytree(root/'install/assets',site/'install/assets')
 shutil.copy2(root/'objects/bcp47.php',site/'objects/bcp47.php')

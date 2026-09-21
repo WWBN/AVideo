@@ -8,6 +8,8 @@ header('X-Frame-Options: DENY');
 function h($value) { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
 $configured = installerConfigured();
 $checks = $configured ? [] : installerChecks();
+$passedChecks = array_filter($checks, function ($check) { return $check['ok']; });
+$failedChecks = array_filter($checks, function ($check) { return !$check['ok']; });
 $ready = !in_array(false, array_column($checks, 'ok'), true);
 ?>
 <!DOCTYPE html>
@@ -18,6 +20,7 @@ $ready = !in_array(false, array_column($checks, 'ok'), true);
     <title>Setup • AVideo Streamer</title>
     <link rel="icon" href="assets/favicon.png">
     <link rel="stylesheet" href="installer.css">
+    <link rel="stylesheet" href="checklist.css">
     <script src="installer.js" defer></script>
 </head>
 <body>
@@ -51,13 +54,22 @@ $ready = !in_array(false, array_column($checks, 'ok'), true);
             <div class="eyebrow">GET STARTED</div>
             <h1>Set up your video platform.</h1>
             <p class="intro">Enter your details below. We will create the database, install the tables,<br class="desktop"> and generate your configuration file.</p>
-            <section class="environment" aria-label="Server requirements">
-                <div class="environment-title"><span class="status-dot <?= $ready ? '' : 'bad' ?>"></span><strong><?= $ready ? 'Environment ready' : 'Action required' ?></strong><span>Server check</span></div>
-                <div class="checks">
-                    <?php foreach ($checks as $check): ?>
-                    <div class="check <?= $check['ok'] ? '' : 'failed' ?>" title="<?= h($check['detail']) ?>"><span aria-hidden="true"><?= $check['ok'] ? '✓' : '!' ?></span><?= h($check['label']) ?></div>
+            <section class="environment" aria-labelledby="checklistHeading">
+                <div class="environment-title"><span class="status-dot <?= $ready ? '' : 'bad' ?>" aria-hidden="true"></span><strong><?= $ready ? 'Environment ready' : 'Action required' ?></strong><span>Server check</span></div>
+                <h2 id="checklistHeading" class="checklist-heading">Installation checklist</h2>
+                <p class="checklist-summary"><?= count($passedChecks) ?> checks passed · <?= count($failedChecks) ?> need attention. Reload this page after making corrections.</p>
+                <?php foreach (['Needs attention' => $failedChecks, 'Checks passed' => $passedChecks] as $heading => $group): if (!$group) { continue; } ?>
+                <h3 class="checklist-heading"><?= h($heading) ?> (<?= count($group) ?>)</h3>
+                <ul class="requirement-list">
+                    <?php foreach ($group as $check): ?>
+                    <li class="requirement-item <?= $check['ok'] ? 'passed' : 'failed' ?>">
+                        <span class="requirement-icon" aria-hidden="true"><?= $check['ok'] ? '✓' : '✕' ?></span>
+                        <div><strong><?= h($check['label']) ?></strong><span class="requirement-status"><?= $check['ok'] ? 'Check passed' : 'Missing or needs configuration' ?></span></div>
+                    </li>
                     <?php endforeach; ?>
-                </div>
+                </ul>
+                <?php endforeach; ?>
+                <p class="checklist-summary">These checks cover the installation requirements. Use <a href="#database">Test connection</a> below to verify database access. Upload limits and web server rules need a separate review below.</p>
                 <?php if (!$ready): ?>
                     <details open class="requirement-help"><summary>How to resolve missing requirements</summary>
                         <?php foreach ($checks as $check): if ($check['ok']) { continue; } $help = installerRequirementHelp($check); ?>

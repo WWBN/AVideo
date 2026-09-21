@@ -10,6 +10,8 @@ After completion, setup hides the form, requirements, paths, and troubleshooting
 
 ## Shared presentation
 
+The Streamer installation checklist groups passing requirements and items needing attention, with totals and repair guidance. Results use the existing server checks; database access still requires **Test connection**, and upload limits and rewrite rules require the separate review shown on the page. Reload after correcting requirements. `checklist.css` contains the Streamer-specific layout.
+
 Keep these files byte-identical across Streamer, Encoder and Encoder Network:
 
 - `installer.css` and `installer.js`
