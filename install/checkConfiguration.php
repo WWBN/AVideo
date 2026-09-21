@@ -63,6 +63,7 @@ try {
     $temporary = $videos . '.configuration-' . bin2hex(random_bytes(12)) . '.php';
     $content = installerConfig($data);
     if (@file_put_contents($temporary, $content, LOCK_EX) !== strlen($content)) { throw new InstallerFailure('Unable to prepare configuration.php.', installerPermissionHelp()); }
+    installerMatchDirectoryOwnership($temporary, $videos);
     if (PHP_OS_FAMILY !== 'Windows' && !chmod($temporary, 0600)) { throw new InstallerFailure('Unable to set configuration file permissions.', installerPermissionHelp()); }
     $stage = 'database';
     if (!$databaseExists) {

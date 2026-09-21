@@ -2,6 +2,16 @@
 define('INSTALLER_PRODUCT', 'Streamer');
 // Setup must work without loading the application's database configuration.
 function installerRoot() { return str_replace('\\', '/', dirname(__DIR__)) . '/'; }
+// A root CLI install (common in Docker entrypoints) must not leave configuration.php
+// owned by root while the web server runs as another account (e.g. www-data): match
+// the ownership already set on the videos directory before restricting permissions.
+function installerMatchDirectoryOwnership($file, $directory) {
+    if (PHP_OS_FAMILY === 'Windows' || !function_exists('posix_getuid') || posix_getuid() !== 0) { return; }
+    $owner = @fileowner($directory);
+    $group = @filegroup($directory);
+    if ($owner !== false && $owner !== @fileowner($file)) { @chown($file, $owner); }
+    if ($group !== false && $group !== @filegroup($file)) { @chgrp($file, $group); }
+}
 function installerConfigured() {
     clearstatcache();
     $file = installerRoot() . 'videos/configuration.php';
