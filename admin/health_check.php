@@ -33,7 +33,7 @@ $linuxApps[] = ['ffmpeg'];
 $linuxApps[] = ['git'];
 $linuxApps[] = ['exiftool'];
 $linuxApps[] = ['unzip'];
-$linuxApps[] = ['youtube-dl'];
+$linuxApps[] = [['yt-dlp', 'youtube-dl'], 'Install yt-dlp or youtube-dl.'];
 $linuxApps[] = ['sshpass', 'https://github.com/WWBN/AVideo/wiki/Clone-Site-Plugin#the-process-with-rsync-support-hls'];
 $linuxApps[] = ['apache2'];
 $linuxApps[] = ['convert', 'sudo apt update && sudo apt install imagemagick'];
@@ -139,11 +139,19 @@ if(_isSchedulerPresentOnCrontab()){
  */
 
 foreach ($linuxApps as $value) {
-    $response = _isAPPInstalled($value[0]);
+    $appNames = (array) $value[0];
+    $appLabel = implode(' or ', $appNames);
+    foreach ($appNames as $appName) {
+        $response = _isAPPInstalled($appName);
+        if (!empty($response)) {
+            $appLabel = $appName;
+            break;
+        }
+    }
     if (!empty($response)) {
-        $messages['Server'][] = "{$value[0]} is installed here {$response}";
+        $messages['Server'][] = "{$appLabel} is installed here {$response}";
     } else {
-        $messages['Server'][] = ["{$value[0]} is NOT installed", @$value[1]];
+        $messages['Server'][] = ["{$appLabel} is NOT installed", @$value[1]];
     }
 }
 $videosDir = getVideosDir();
