@@ -129,15 +129,20 @@ class InstallerChecklistTest extends TestCase
     }
 
     /** @dataProvider postLimits */
-    public function testPostCapacityLeavesRoomForFormData($postSize, $expected)
+    public function testPostCapacityAcceptsEqualLimitsAndAtLeastTwoGigabytes($postSize, $uploadSize, $expected)
     {
-        $checks = $this->checks('', ['upload_max_filesize' => '8G', 'post_max_size' => $postSize]);
+        $checks = $this->checks('', ['upload_max_filesize' => $uploadSize, 'post_max_size' => $postSize]);
         $this->assertSame($expected, $checks['POST capacity for file uploads']['status']);
     }
 
     public function postLimits(): array
     {
-        return [['8G', 'failed'], ['9G', 'passed'], ['0', 'passed']];
+        return [
+            ['8G', '8G', 'passed'], ['9G', '8G', 'passed'], ['0', '8G', 'passed'],
+            ['2G', '8G', 'passed'], ['3G', '8G', 'passed'], ['2048M', '8G', 'passed'],
+            ['2047M', '8G', 'failed'], ['1G', '8G', 'failed'], ['2G', '2G', 'passed'],
+            ['512M', '512M', 'passed'], ['256M', '512M', 'failed'],
+        ];
     }
 
     public function testDiagnosticsWorkWhenProcessFunctionsAndUploadsAreDisabled()

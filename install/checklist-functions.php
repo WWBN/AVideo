@@ -58,10 +58,10 @@ function installerAdditionalChecks() {
     }
     $upload = installerChecklistBytes(ini_get('upload_max_filesize'));
     $post = installerChecklistBytes(ini_get('post_max_size'));
-    $consistent = $upload === null || $post === null ? 'unknown' : (($post === 0.0 || $post > $upload) ? 'passed' : 'failed');
+    $consistent = $upload === null || $post === null ? 'unknown' : (($post === 0.0 || $post >= $upload || $post >= 2 * 1024 * 1024 * 1024) ? 'passed' : 'failed');
     $add('Recommended PHP configuration', 'POST capacity for file uploads', $consistent,
         'post_max_size: ' . ini_get('post_max_size') . '; upload_max_filesize: ' . ini_get('upload_max_filesize') . '.',
-        'Set post_max_size above upload_max_filesize to leave room for form data, or use an unlimited POST size (0).');
+        'For this readiness check, post_max_size of 2G or more is sufficient. Lower values should be at least upload_max_filesize. Equal limits and unlimited POST size (0) are accepted.');
     $add('Recommended PHP configuration', 'PHP file uploads', filter_var(ini_get('file_uploads'), FILTER_VALIDATE_BOOLEAN) ? 'passed' : 'failed',
         'file_uploads: ' . (ini_get('file_uploads') ?: 'Off'), 'Enable file_uploads in the web PHP configuration to accept uploads.');
 

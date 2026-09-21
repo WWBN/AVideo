@@ -53,6 +53,16 @@ class InstallerTestEnvironment
         mkdir($this->path('videos'), 0700);
     }
 
+    public function prepareEncoder()
+    {
+        $this->write('objects/include_config.php', "<?php \$global['mysqli'] = new mysqli(\$mysqlHost,\$mysqlUser,\$mysqlPass,\$mysqlDatabase,(int)\$mysqlPort); echo \$global['mysqli']->host_info;");
+        foreach (['jquery/dist/jquery.min.js', 'bootstrap/dist/js/bootstrap.min.js', 'bootstrap/dist/css/bootstrap.min.css'] as $asset) {
+            $this->write('node_modules/' . $asset, '');
+        }
+        mkdir($this->path('videos'), 0700);
+        mkdir($this->path('objects'), 0700);
+    }
+
     private function command(array $arguments)
     {
         $extra = json_decode(getenv('AVIDEO_TEST_PHP_ARGS') ?: '[]', true, 512, JSON_THROW_ON_ERROR);
@@ -92,6 +102,20 @@ class InstallerTestEnvironment
         fclose($pipes[0]);
         $this->processes[] = $process;
         return 'http://' . $address . '/install/';
+    }
+
+    public function startRouter($relative)
+    {
+        $socket = stream_socket_server('tcp://127.0.0.1:0', $error, $message);
+        if (!$socket) { throw new RuntimeException('Cannot reserve a test HTTP port.'); }
+        $address = stream_socket_get_name($socket, false);
+        fclose($socket);
+        $process = proc_open($this->command(['-S', $address, $this->path($relative)]),
+            [0 => ['pipe', 'r'], 1 => ['file', $this->path('router.log'), 'a'], 2 => ['file', $this->path('router.log'), 'a']], $pipes, $this->root);
+        if (!is_resource($process)) { throw new RuntimeException('Cannot start PHP HTTP router.'); }
+        fclose($pipes[0]);
+        $this->processes[] = $process;
+        return 'http://' . $address . '/';
     }
 
     public function cleanup()
