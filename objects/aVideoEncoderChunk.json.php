@@ -18,6 +18,10 @@
 // is absent do we load the full stack for the credential fallback.
 global $global, $doNotConnectDatabaseIncludeConfig, $doNotStartSessionIncludeConfig;
 
+// This protocol uses a hexadecimal upload ID. The general request sanitizer casts
+// fields ending in _id to integers, so preserve it for the strict validation below.
+$encoderChunkFileId = isset($_GET['file_id']) ? $_GET['file_id'] : '';
+
 $uploadToken = isset($_SERVER['HTTP_X_ENCODER_UPLOAD_TOKEN']) ? $_SERVER['HTTP_X_ENCODER_UPLOAD_TOKEN'] : '';
 
 if (!empty($uploadToken)) {
@@ -115,10 +119,10 @@ if ($contentLength > $maxBytes) {
 // -----------------------------------------------------------------------
 require_once __DIR__ . '/EncoderChunkAssembler.php';
 
-$fileId = isset($_GET['file_id']) ? $_GET['file_id'] : '';
-if (!empty($fileId)) {
+$fileId = $encoderChunkFileId;
+if ($fileId !== '') {
     // Validate file_id to prevent path traversal (only hex chars allowed).
-    if (!preg_match('/^[0-9a-f]{1,64}$/i', $fileId)) {
+    if (!is_string($fileId) || !preg_match('/^[0-9a-f]{1,64}$/i', $fileId)) {
         http_response_code(400);
         error_log("aVideoEncoderChunk.json.php: invalid file_id rejected");
         die(json_encode(['error' => true, 'msg' => 'Invalid file_id']));
