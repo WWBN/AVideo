@@ -3541,7 +3541,10 @@ function clearCache($firstPageOnly = false)
     }
     ObjectYPT::deleteCache("getEncoderURL");
     ObjectYPT::deleteAllSessionCache();
-    if (function_exists('opcache_reset')) {
+    // Updating the home page invalidates data, not PHP code. Resetting OPcache
+    // here can kill a long-running upload/storage request after its forced
+    // restart timeout. Keep opcode resets for an explicit full cache clear.
+    if (!$firstPageOnly && empty($_REQUEST['FirstPage']) && function_exists('opcache_reset')) {
         opcache_reset();
     }
     if (class_exists('Live')) {

@@ -35,6 +35,10 @@ if (!Video::canEdit($_REQUEST['videos_id'])) {
 }
 
 $file = getTmpDir("aVideoEncoderNotifyIsDone")."video_{$_REQUEST['videos_id']}";
+// Storage hooks may outlive the encoder's HTTP connection. Finish the authorized
+// operation so a later retry can read the successful completion marker.
+ignore_user_abort(true);
+set_time_limit(7200);
 $lock = fopen($file . '.lock', 'c');
 if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
     $obj->msg = __("Video completion is already in progress. Please retry shortly.");
