@@ -35,43 +35,56 @@ if (!Video::canEdit($_REQUEST['videos_id'])) {
 }
 
 $file = getTmpDir("aVideoEncoderNotifyIsDone")."video_{$_REQUEST['videos_id']}";
-if(file_exists($file)){
-    $obj->msg = __("Notification already sent {$file}");
-    _error_log($obj->msg);
+$lock = fopen($file . '.lock', 'c');
+if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
+    $obj->msg = __("Video completion is already in progress. Please retry shortly.");
     die(json_encode($obj));
 }
 
-file_put_contents($file, time());
+try {
+    // Older timestamp markers were written before processing and may represent a failed request.
+    $completed = file_exists($file) ? json_decode(file_get_contents($file), true) : null;
+    if (is_array($completed) && !empty($completed['completed'])) {
+        $obj->error = false;
+        $obj->video_id = $_REQUEST['videos_id'];
+    } else {
+        Video::clearCache($_REQUEST['videos_id'], true);
+        // check if there is en video id if yes update if is not create a new one
+        $video = new Video("", "", $_REQUEST['videos_id'], true);
+        $obj->video_id = $_REQUEST['videos_id'];
 
 
-Video::clearCache($_REQUEST['videos_id'], true);
-// check if there is en video id if yes update if is not create a new one
-$video = new Video("", "", $_REQUEST['videos_id'], true);
-$obj->video_id = $_REQUEST['videos_id'];
+        $video->setAutoStatus(Video::STATUS_ACTIVE);
 
+        $video_id = $video->save();
+        if (empty($video_id)) {
+            throw new RuntimeException('Could not save the completed video');
+        }
 
-$video->setAutoStatus(Video::STATUS_ACTIVE);
+        $video = new Video("", "", $video_id, true);
 
-$video_id = $video->save();
-
-$video = new Video("", "", $video_id, true);
-
-$obj->error = false;
-$obj->video_id = $video_id;
-Video::updateFilesize($video_id);
-// delete original files if any
-$originalFilePath =  Video::getStoragePath()."original_" . $video->getFilename();
-if (file_exists($originalFilePath)) {
-    unlink($originalFilePath);
+        $obj->video_id = $video_id;
+        Video::updateFilesize($video_id);
+        // delete original files if any
+        $originalFilePath =  Video::getStoragePath()."original_" . $video->getFilename();
+        if (file_exists($originalFilePath)) {
+            unlink($originalFilePath);
+        }
+        _error_log("Video is done notified {$video_id}: " . $video->getTitle());
+        Video::clearCache($video_id, true);
+        AVideoPlugin::onEncoderNotifyIsDone($video_id);
+        AVideoPlugin::afterNewVideo($video_id);
+        if (file_put_contents($file, json_encode(array('completed' => true, 'time' => time()))) === false) {
+            throw new RuntimeException('Could not save the video completion marker');
+        }
+        $obj->error = false;
+    }
+} catch (Throwable $exception) {
+    _error_log('Encoder completion failed for video ' . $_REQUEST['videos_id'] . ': ' . get_class($exception) . ': ' . $exception->getMessage());
+    $obj->error = true;
+    $obj->msg = __("Could not complete the video. Please retry.");
+} finally {
+    flock($lock, LOCK_UN);
+    fclose($lock);
 }
-_error_log("Video is done notified {$video_id}: " . $video->getTitle());
-Video::clearCache($video_id, true);
-AVideoPlugin::onEncoderNotifyIsDone($video_id);
-AVideoPlugin::afterNewVideo($video_id);
 die(json_encode($obj));
-
-/*
-_error_log(print_r($_REQUEST, true));
-_error_log(print_r($_FILES, true));
-var_dump($_REQUEST, $_FILES);
-*/
