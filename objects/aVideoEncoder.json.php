@@ -153,7 +153,8 @@ useVideoHashOrLogin();
 _error_log("aVideoEncoder.json: after useVideoHashOrLogin - User::getId()=" . User::getId() . " isLogged=" . (User::isLogged() ? 'true' : 'false') . " videos_id=" . @$_REQUEST['videos_id'] . " video_id_hash=" . @$_REQUEST['video_id_hash']);
 _error_log("aVideoEncoder.json: auth summary after useVideoHashOrLogin " . getEncoderAuthDebugSummary());
 if (!User::canUpload()) {
-    $obj->msg = __("Permission denied to receive a file") . ': ' . json_encode($_REQUEST);
+    $obj->code = 'streamer_access_denied';
+    $obj->msg = __("The site refused access. Renew the encoder account access and check its upload permissions.");
     _error_log("aVideoEncoder.json: upload denied auth summary " . getEncoderAuthDebugSummary());
     _error_log("aVideoEncoder.json: {$obj->msg}  canNotUploadReason=" . json_encode(User::canNotUploadReason()));
     _error_log($obj->msg);
@@ -163,7 +164,8 @@ if (!User::canUpload()) {
 if (!empty($_REQUEST['videos_id'])) {
     if (!Video::canEncoderEdit($_REQUEST['videos_id'])) {
         _error_log("aVideoEncoder.json: Permission denied to edit videos_id=" . intval($_REQUEST['videos_id']) . " isLogged=" . (User::isLogged() ? 'true' : 'false') . " userId=" . User::getId());
-        $obj->msg = __("Permission denied to edit a video: ") . json_encode($_REQUEST);
+        $obj->code = 'destination_unavailable';
+        $obj->msg = __("The destination video was removed or this account cannot edit it. Check the video and account access on the site.");
         _error_log($obj->msg);
         dieJsonResponse($obj, 'permission-denied-edit');
     }
@@ -639,7 +641,8 @@ function deduplicateByEncoderQueueId(Video &$video, stdClass &$obj)
         // before disclosing its video_id_hash (same gate used elsewhere in this file).
         if (!Video::canEncoderEdit($existing_id)) {
             _error_log("aVideoEncoder.json: deduplicateByEncoderQueueId — permission denied for video_id={$existing_id} (encoder_queue_id={$encoder_queue_id}) userId=" . User::getId());
-            $obj->msg = __("Permission denied to edit a video: ") . $existing_id;
+            $obj->code = 'destination_unavailable';
+            $obj->msg = __("The destination video was removed or this account cannot edit it. Check the video and account access on the site.");
             dieJsonResponse($obj, 'permission-denied-dedup');
         }
         _error_log("aVideoEncoder.json: deduplicateByEncoderQueueId — returning existing video_id={$existing_id} for encoder_queue_id={$encoder_queue_id}; skipping duplicate INSERT");

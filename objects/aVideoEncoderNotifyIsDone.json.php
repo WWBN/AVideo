@@ -23,13 +23,15 @@ if (empty($_REQUEST)) {
 
 useVideoHashOrLogin();
 if (!User::canUpload()) {
-    $obj->msg = __("Permission denied to Notify Done: ") . print_r($_REQUEST, true);
+    $obj->code = 'streamer_access_denied';
+    $obj->msg = __("The site refused access. Renew the encoder account access and check its upload permissions.");
     _error_log($obj->msg);
     die(json_encode($obj));
 }
 
 if (!Video::canEdit($_REQUEST['videos_id'])) {
-    $obj->msg = __("Permission denied to edit a video: ") . print_r($_REQUEST, true);
+    $obj->code = 'destination_unavailable';
+    $obj->msg = __("The destination video was removed or this account cannot edit it. Check the video and account access on the site.");
     _error_log($obj->msg);
     die(json_encode($obj));
 }
@@ -41,6 +43,7 @@ ignore_user_abort(true);
 set_time_limit(7200);
 $lock = fopen($file . '.lock', 'c');
 if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
+    $obj->code = 'completion_in_progress';
     $obj->msg = __("Video completion is already in progress. Please retry shortly.");
     die(json_encode($obj));
 }
@@ -86,6 +89,7 @@ try {
 } catch (Throwable $exception) {
     _error_log('Encoder completion failed for video ' . $_REQUEST['videos_id'] . ': ' . get_class($exception) . ': ' . $exception->getMessage());
     $obj->error = true;
+    $obj->code = 'completion_failed';
     $obj->msg = __("Could not complete the video. Please retry.");
 } finally {
     flock($lock, LOCK_UN);
