@@ -4229,7 +4229,7 @@ if (!class_exists('Video')) {
             global $config;
 
             $target = $config->getEncoderURL() . 'queue';
-            _error_log('postToEncoderQueue: SEND To QUEUE: (' . $target . ') ' . json_encode($postFields));
+            _error_log('postToEncoderQueue: SEND To QUEUE: (' . $target . ') videos_id=' . intval($postFields['videos_id'] ?? 0));
 
             $obj = new stdClass();
             $obj->error = true;
@@ -4246,12 +4246,28 @@ if (!class_exists('Video')) {
 
             $r = curl_exec($curl);
             $obj->response = $r;
+            $httpCode = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            // The encoder returns the saved queue ID. A successful HTTP request
+            // can still contain false when the queue insert failed.
+            $queueId = json_decode((string) $r);
+            $accepted = (is_int($queueId) || (is_string($queueId) && ctype_digit($queueId)))
+                && (int) $queueId > 0;
 
             if ($errno = curl_errno($curl)) {
                 $error_message = curl_strerror($errno);
                 $obj->msg = "cURL error ({$errno}):\n {$error_message}";
+            } elseif ($httpCode < 200 || $httpCode >= 300 || !$accepted) {
+                $obj->msg = __('The encoder did not confirm that the video was added to the queue. Please retry.');
             } else {
                 $obj->error = false;
+            }
+
+            if ($obj->error && !empty($postFields['videos_id'])) {
+                $video = new Video('', '', (int) $postFields['videos_id'], true);
+                if ($video->getStatus() === Video::STATUS_ENCODING) {
+                    $video->setStatus(Video::STATUS_ENCODING_ERROR);
+                    $video->save();
+                }
             }
 
             _error_log('postToEncoderQueue: QUEUE CURL: (' . $target . ') ' . json_encode($obj));

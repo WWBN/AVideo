@@ -8023,7 +8023,7 @@ function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false, 
     // Prepare the data to be sent to the encoder
     $postFields = [
         'user' => $user->getUser(),
-        'pass' => $user->getPassword(),
+        'pass' => User::getUserHash($video['users_id']),
         'fileURI' => $downloadURL,
         'videoDownloadedLink' => $downloadURL,
         'filename' => $video['filename'],
