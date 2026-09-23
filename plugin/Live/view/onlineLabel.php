@@ -68,8 +68,8 @@ if (isLiveLink() || Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id,
             player.on('error', function () {
                 console.log("PError 1 " + player.error());
             });
-            if (typeof player.tech_ !== 'undefined') {
-                player.tech_.hls.playlists.on('error', function () {
+            if (player.tech_ && player.tech_.vhs && player.tech_.vhs.playlists) {
+                player.tech_.vhs.playlists.on('error', function () {
                     console.log("PError 2 " + player.error());
                     console.log("PError 2.1 " + this.error());
                 });
