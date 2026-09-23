@@ -89,7 +89,8 @@ class EncoderInstallerIntegrationTest extends TestCase
     private function payload()
     {
         $page = $this->request();
-        $this->assertStringContainsString('Ubuntu setup help', $page);
+        // CI provides every dependency; setup help is shown only for missing dependencies.
+        $this->assertStringNotContainsString('Ubuntu setup help', $page);
         $this->assertStringContainsString('assets/logo.png', $page);
         $this->assertSame(1, preg_match('/name="install_csrf_token" value="([^"]+)"/', $page, $matches));
         $name = $this->prefix . '_' . count($this->databases);

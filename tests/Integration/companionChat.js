@@ -126,6 +126,7 @@ for (const [action, connected, expectedError] of [['status', true, false], ['sta
         }
         class CompanionAI {
             static function isConfigured() { return true; }
+            static function getConnectionError() { return 'Could not verify the Companion connection or Marketplace balance. Please try again.'; }
             static function status() { return ${connected ? '(object) ["free_trial_available" => true]' : 'null'}; }
             static function getVideoStatus($id, &$httpCode = null) {
                 $httpCode = 200;
@@ -144,7 +145,7 @@ for (const [action, connected, expectedError] of [['status', true, false], ['sta
     assert.strictEqual(response.error, expectedError);
     if (action === 'status' && connected) assert.strictEqual(response.videoStatus.status, 'ready');
     if (!connected) {
-        assert.match(response.msg, /Could not connect/);
+        assert.strictEqual(response.msg, 'Could not verify the Companion connection or Marketplace balance. Please try again.');
         assert.strictEqual(response.videoStatus, undefined);
     }
 }
@@ -152,7 +153,8 @@ for (const [action, connected, expectedError] of [['status', true, false], ['sta
 const view = fs.readFileSync(path.join(root, 'plugin/AI/tabs/companionChat.php'), 'utf8');
 const js = view.split('<script>')[1].split('</script>')[0]
     .replace(/<\?php echo \(int\) \$videos_id; \?>/g, '627')
-    .replace(/<\?php echo json_encode\(__\((.*?)\)\); \?>/g, (_, literal) => literal);
+    .replace(/<\?php echo json_encode\(__\((.*?)\)\); \?>/g, (_, literal) => literal)
+    .replace(/<\?php echo __\('([^']*)'\); \?>/g, (_, text) => text);
 const elements = {};
 function $(selector) {
     if (!elements[selector]) elements[selector] = {

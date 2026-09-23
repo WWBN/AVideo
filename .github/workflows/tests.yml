@@ -50,20 +50,23 @@ jobs:
       uses: actions/checkout@v7
       with:
         repository: WWBN/AVideo-Encoder
-        ref: c981040b895ef8130f82a531d1a481ac63142e3e
+        ref: 8f7404baa437b485f1115f79abb6b596c80a363d
         path: .compose/encoder
 
     - name: Checkout Encoder Network for cross-project installer tests
       uses: actions/checkout@v7
       with:
         repository: WWBN/AVideo-Encoder-Network
-        ref: ec7eb46e4cd8354ee23da1e9019811bc8c2ad404
+        ref: a10b55136a1c1afb1ef83cdef56ab1a1811f8b2b
         path: .compose/network
 
     - name: Set up Node for regression tests
       uses: actions/setup-node@v4
       with:
         node-version: '22.14.0'
+
+    - name: Install frontend dependencies from lockfile
+      run: npm ci --ignore-scripts --no-fund --no-audit
     
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -74,6 +77,13 @@ jobs:
     
     - name: Validate composer.json
       run: composer validate --strict
+
+    - name: Install media tools for installer integration tests
+      run: |
+        sudo apt-get update
+        sudo apt-get install --no-install-recommends -y ffmpeg
+        ffmpeg -version
+        ffprobe -version
     
     - name: Clear Composer cache
       run: composer clear-cache

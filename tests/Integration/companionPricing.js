@@ -6,7 +6,8 @@ const vm = require('node:vm');
 const view = fs.readFileSync(path.join(__dirname, '../../plugin/AI/tabs/companionChat.php'), 'utf8');
 const script = view.split('<script>')[1].split('</script>')[0]
     .replace(/<\?php echo \(int\) \$videos_id; \?>/g, '627')
-    .replace(/<\?php echo json_encode\(__\((.*?)\)\); \?>/g, (_, literal) => literal);
+    .replace(/<\?php echo json_encode\(__\((.*?)\)\); \?>/g, (_, literal) => literal)
+    .replace(/<\?php echo __\('([^']*)'\); \?>/g, (_, text) => text);
 const document = {documentElement: {lang: 'en'}};
 const context = {document, $: () => ({ready() {}})};
 vm.createContext(context);

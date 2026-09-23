@@ -202,4 +202,17 @@ class InstallerChecklistTest extends TestCase
             $this->assertStringNotContainsString($text, $page);
         }
     }
+
+    public function testUbuntuHelpOnlyAppearsForMissingDependencies()
+    {
+        foreach ([true, false] as $available) {
+            $checks = [['label' => 'FFmpeg', 'ok' => $available, 'detail' => 'Media tools']];
+            $page = $this->runPhp('function h($value) { return htmlspecialchars($value, ENT_QUOTES, "UTF-8"); } $checks = ' . var_export($checks, true) . '; ob_start(); require __DIR__ . "/install/ubuntu-help.php"; echo json_encode(ob_get_clean());');
+            if ($available) {
+                $this->assertStringNotContainsString('Ubuntu setup help', $page);
+            } else {
+                $this->assertStringContainsString('Ubuntu setup help', $page);
+            }
+        }
+    }
 }
