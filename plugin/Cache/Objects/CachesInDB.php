@@ -203,9 +203,8 @@ class CachesInDB extends ObjectYPT
             // If GET_LOCK is unavailable for any reason, do not block the cleanup.
             return true;
         }
-        if (!$locked) {
-            _error_log("CachesInDB::acquireCleanupLock({$prefix}) skipped, lock held by another process", AVideoLog::$DEBUG);
-        }
+        // Not logged here: callers already log a rate-limited, context-rich message
+        // (who requested the invalidation) when acquireCleanupLock() returns false.
         return $locked;
     }
 
@@ -667,17 +666,33 @@ class CachesInDB extends ObjectYPT
         // before we attempt the (more expensive) cross-process MySQL lock below.
         $tmpFile = getTmpDir().'_deleteCacheStartingWith'.md5($name);
         if(file_exists($tmpFile) && (time() - file_get_contents($tmpFile)) < 10){
-            _error_log("CachesInDB::_deleteCacheStartingWith($name) already in progress, skipping. Last run: " . (time() - file_get_contents($tmpFile)) . " seconds ago", AVideoLog::$DEBUG);
+            // This branch is hit on every request while a burst of callers (e.g. chunked
+            // uploads re-invoking deleteVideo.json.php per chunk) invalidates the same
+            // prefix within the 10s dedup window, so it is expected/noisy by design.
+            // Rate-limit it instead of removing it entirely, so a prefix that stays
+            // "in progress" for an abnormally long time (stuck lock/process) still surfaces.
+            rateLimitedLog(
+                '_deleteCacheStartingWith_dedup_' . $name,
+                "CachesInDB::_deleteCacheStartingWith($name) skipped: another invalidation for the same prefix ran " . (time() - file_get_contents($tmpFile)) . "s ago (dedup window=10s). Requested by caller=" . self::describeCaller(),
+                60,
+                AVideoLog::$DEBUG
+            );
             return false;
         }
         file_put_contents($tmpFile, time());
+        $originalName = $name;
         $name = self::hashName($name);
 
         // Cross-process/cross-server lock: the same prefix must never be deleted
         // concurrently by two Apache workers, an async CLI invalidation process,
         // and the scheduled cron cleanup at the same time.
         if (!self::acquireCleanupLock($name)) {
-            _error_log("CachesInDB::_deleteCacheStartingWith($name) skipped, duplicate concurrent invalidation", AVideoLog::$DEBUG);
+            rateLimitedLog(
+                '_deleteCacheStartingWith_lock_' . $name,
+                "CachesInDB::_deleteCacheStartingWith($name) skipped: another process/server already holds the cross-process cleanup lock for this prefix (MySQL GET_LOCK). Requested by caller=" . self::describeCaller(),
+                60,
+                AVideoLog::$DEBUG
+            );
             return false;
         }
 
@@ -739,8 +754,36 @@ class CachesInDB extends ObjectYPT
         }
 
         $elapsed = round(microtime(true) - $start, 3);
-        _error_log("CachesInDB::_deleteCacheStartingWith($name) deleted={$totalDeleted} batches={$batches} elapsed={$elapsed}s", AVideoLog::$PERFORMANCE);
+        // Skip the log entirely for the common "nothing to delete and it was fast" case
+        // (the vast majority of calls, since most prefixes are already empty by the time
+        // a follow-up invalidation runs); only log when it actually did work or was slow
+        // enough to be worth knowing about.
+        if ($totalDeleted > 0 || $elapsed >= 0.05) {
+            _error_log("CachesInDB::_deleteCacheStartingWith(prefix={$originalName}) deleted={$totalDeleted} batches={$batches} elapsed={$elapsed}s isCli=" . ($isCli ? 'yes' : 'no') . " requestedBy=" . self::describeCaller(), AVideoLog::$PERFORMANCE);
+        }
         return $totalDeleted > 0;
+    }
+
+    /**
+     * Best-effort human-readable identifier for whoever triggered a cache invalidation,
+     * used to make otherwise-generic cache log lines actionable (who/why) without
+     * changing behavior.
+     */
+    private static function describeCaller()
+    {
+        if (isCommandLineInterface()) {
+            global $argv;
+            $script = !empty($argv[0]) ? basename($argv[0]) : 'cli';
+            $args = !empty($argv) ? implode(' ', array_slice($argv, 1)) : '';
+            return "cli:{$script} pid=" . getmypid() . (!empty($args) ? " args={$args}" : '');
+        }
+        $script = !empty($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : 'unknown';
+        $user = 'guest';
+        if (class_exists('User') && User::isLogged()) {
+            $user = 'user_id=' . User::getId();
+        }
+        $ip = function_exists('getRealIpAddr') ? getRealIpAddr() : ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+        return "http:{$script} {$user} ip={$ip}";
     }
 
     /**

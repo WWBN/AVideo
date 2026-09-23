@@ -136,7 +136,7 @@ if ($fileId !== '') {
     fclose($putdata);
 
     if ($result->status === EncoderChunkAssembler::STATUS_OK) {
-        error_log("aVideoEncoderChunk.json.php: chunk " . ($result->chunk + 1) . "/{$result->total} file={$result->file} filesize={$result->filesize} complete=" . ($result->complete ? 'yes' : 'no') . (!empty($result->replay) ? ' (replay)' : ''));
+        error_log("aVideoEncoderChunk.json.php: chunk " . ($result->chunk + 1) . "/{$result->total} file={$result->file} filesize={$result->filesize} complete=" . ($result->complete ? 'yes' : 'no') . (!empty($result->replay) ? ' (replay)' : '') . " file_id={$fileId} requestedBy=" . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
         die(json_encode([
             'file' => $result->file,
             'filesize' => $result->filesize,
