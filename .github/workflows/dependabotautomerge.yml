@@ -55,6 +55,7 @@ jobs:
               'CodeQL-Build', 'CodeQL', 'build'
             ];
             const automationChecks = new Set(['dependabot', 'dependabot-backfill']);
+            const manualMerges = [];
             let failed = false;
             for (const candidate of dependabotPRs) {
               try {
@@ -102,12 +103,24 @@ jobs:
                 }
                 core.info(`Merged #${pr.number}: ${result.sha}`);
               } catch (error) {
-                if ([405, 409].includes(error.status)) {
+                if (error.status === 403 &&
+                    error.message.includes('refusing to allow a GitHub App to create or update workflow') &&
+                    error.message.includes('without `workflows` permission')) {
+                  manualMerges.push(candidate.number);
+                  core.warning(`#${candidate.number}: manual merge required; GITHUB_TOKEN cannot update workflow files. ${error.message}`);
+                } else if ([405, 409].includes(error.status)) {
                   core.warning(`#${candidate.number}: merge blocked or head changed; will retry. ${error.message}`);
                 } else {
                   failed = true;
                   core.error(`#${candidate.number}: ${error.message}`);
                 }
               }
+            }
+            if (manualMerges.length) {
+              await core.summary
+                .addHeading('Dependabot PRs requiring manual merge')
+                .addRaw('GitHub rejected these merges because GITHUB_TOKEN lacks permission to update workflow files. A maintainer must review and merge them.\n\n')
+                .addList(manualMerges.map((number) => `https://github.com/${owner}/${repo}/pull/${number}`))
+                .write();
             }
             if (failed) core.setFailed('Could not process every Dependabot PR. See errors above.');

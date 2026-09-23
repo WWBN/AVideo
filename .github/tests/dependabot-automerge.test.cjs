@@ -25,6 +25,8 @@ async function simulate(options = {}) {
   }));
   const merged = [];
   const failures = [];
+  const warnings = [];
+  const summary = [];
   const github = {
     rest: {
       pulls: {
@@ -46,8 +48,15 @@ async function simulate(options = {}) {
     }
   };
   await run(github, { repo: { owner: 'WWBN', repo: 'AVideo' } }, {
-    info() {}, warning() {}, error() {}, setFailed: message => failures.push(message)
+    info() {}, warning: message => warnings.push(message), error() {}, setFailed: message => failures.push(message),
+    summary: {
+      addHeading() { return this; },
+      addRaw() { return this; },
+      addList(items) { summary.push(...items); return this; },
+      async write() { options.onSummary?.(summary); }
+    }
   });
+  options.onWarnings?.(warnings);
   return { merged, failures };
 }
 
@@ -101,5 +110,29 @@ test('head changes or branch rules defer merge without overriding them', async (
 test('permission errors fail the workflow instead of silently succeeding', async () => {
   const result = await simulate({ error: { status: 403, message: 'Forbidden' } });
   assert.equal(result.merged.length, 0);
+  assert.equal(result.failures.length, 1);
+});
+
+test('workflow permission restriction reports manual merge without failing automation', async () => {
+  let warnings;
+  let summary;
+  const result = await simulate({
+    error: {
+      status: 403,
+      message: 'refusing to allow a GitHub App to create or update workflow `.github/workflows/release.yml` without `workflows` permission'
+    },
+    onWarnings: value => { warnings = value; },
+    onSummary: value => { summary = value; }
+  });
+  assert.deepEqual(result, { merged: [], failures: [] });
+  assert.equal(warnings.length, 1);
+  assert.match(warnings[0], /#123: manual merge required/);
+  assert.deepEqual(summary, ['https://github.com/WWBN/AVideo/pull/123']);
+});
+
+test('other workflow-related permission errors still fail', async () => {
+  const result = await simulate({ error: {
+    status: 403, message: 'Resource not accessible by integration: workflows'
+  } });
   assert.equal(result.failures.length, 1);
 });
