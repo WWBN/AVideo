@@ -8,7 +8,6 @@ unset($_SESSION['sessionCache']['thereIsAnyRemoteUpdate']);
 unset($_SESSION['sessionCache']['thereIsAnyUpdate']);
 _session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
-//check if there is a update
 if (!User::isAdmin()) {
     forbiddenPage("");
     exit;
@@ -19,68 +18,23 @@ if (!empty($_POST['updateFile'])) {
     $dir = Video::getStoragePath() . "cache";
     rrmdir($dir);
 }
-$_page = new Page(array('Update AVideo System'));
-$_page->setExtraScripts(
-    array(
-        'view/js/three.js',
-    )
-);
+require_once $global['systemRootPath'] . 'objects/functionsUpdate.php';
+$updateFiles = getUpdatesFilesArray();
+$versionOverview = getAVideoUpdateOverview($global['systemRootPath']);
+$_page = new Page(array('Update AVideo System'), 'system-update-page');
+$_page->setExtraStyles(['view/css/update.css']);
 ?>
-<style>
-    html {
-        height: unset;
-    }
-
-    body {
-        background-color: #193c6d;
-        filter: progid: DXImageTransform.Microsoft.gradient(gradientType=1, startColorstr='#003073', endColorstr='#029797');
-        background-image: url(//img.alicdn.com/tps/TB1d.u8MXXXXXXuXFXXXXXXXXXX-1900-790.jpg);
-        background-size: 100%;
-        background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0, #003073), color-stop(100%, #029797));
-        background-image: -webkit-linear-gradient(135deg, #003073, #029797);
-        background-image: -moz-linear-gradient(45deg, #003073, #029797);
-        background-image: -ms-linear-gradient(45deg, #003073 0, #029797 100%);
-        background-image: -o-linear-gradient(45deg, #003073, #029797);
-        background-image: linear-gradient(135deg, #003073, #029797);
-        margin: 0px;
-        overflow: hidden;
-        height: 100%;
-    }
-
-    .alert {
-        text-align: center;
-    }
-
-    #updateInfo {
-        position: absolute;
-        top: 60px;
-        z-index: 1;
-        width: 500px;
-        left: 50%;
-        margin-left: -250px;
-    }
-</style>
-
 <div class="container-fluid">
-    <div id="updateInfo">
-        <div>
-            <img style="max-height: 20vh;
-                        display: block;
-                        margin-left: auto;
-                        margin-right: auto;" src="https://streamphp.com/marketplace/img/avideo_logo.png" class="img img-responsive" />
-        </div>
-        <div class="alert alert-success">
-            <i class="fas fa-cog fa-spin"></i> <?php printf(__("You are running AVideo version %s!"), $config->getVersion()); ?>
-        </div>
+    <div class="update-content">
+        <?php require $global['systemRootPath'] . 'view/update.version.php'; ?>
         <?php
         if (empty($_POST['updateFile'])) {
-            $updateFiles = getUpdatesFilesArray();
             if (!empty($updateFiles)) {
         ?>
                 <div class="alert alert-warning">
                     <form method="post" class="form-compact well form-horizontal">
                         <fieldset>
-                            <legend><?php echo __("Update AVideo System"); ?></legend>
+                            <legend><?php echo __('Database updates'); ?></legend>
                             <label for="updateFile" class="sr-only"><?php echo __("Select the update"); ?></label>
                             <select class="form-control input-lg selectpicker" data-width="fit" name="updateFile" id="updateFile" required autofocus>
                                 <?php
@@ -92,7 +46,7 @@ $_page->setExtraScripts(
                             </select>
                             <?php printf(__("We detected a total of %s pending updates, if you want to do it now click (Update Now) button"), "<strong class='badge'>" . count($updateFiles) . "</strong>"); ?>
                             <hr>
-                            <button type="submit" class="btn btn-warning btn-lg center-block " href="?update=1"> <i class="fa-solid fa-arrows-rotate"></i> <?php echo __("Update Now"); ?> </button>
+                            <button type="submit" class="btn btn-warning btn-lg center-block"> <i class="fa-solid fa-arrows-rotate"></i> <?php echo __("Update Now"); ?> </button>
                         </fieldset>
                     </form>
                 </div>
@@ -110,15 +64,8 @@ $_page->setExtraScripts(
             } elseif ($version = thereIsAnyRemoteUpdate()) {
             ?>
                 <div class="alert alert-warning">
-                    Our repository is now running at version <?php echo $version->version; ?>.
-                    You can follow this <a target="_blank" href="https://github.com/WWBN/AVideo/wiki/How-to-Update-your-AVideo-Platform" class="btn btn-warning btn-xs" rel="noopener noreferrer">Update Tutorial</a>
-                    to update your files and get the latest version.
-                </div>
-            <?php
-            } else {
-            ?>
-                <div class="alert alert-success">
-                    <h2><i class="fas fa-check"></i> <?php echo __("Your system is up to date"); ?></h2>
+                    <?php printf(__('Database schema %s is available. Update the application files first, then return here to apply pending migrations.'), htmlspecialchars($version->version, ENT_QUOTES, 'UTF-8')); ?>
+                    <a target="_blank" href="https://github.com/WWBN/AVideo/wiki/How-to-Update-your-AVideo-Platform" class="btn btn-warning btn-xs" rel="noopener noreferrer"><?php echo __('Update guide'); ?></a>
                 </div>
             <?php
             }
@@ -146,11 +93,9 @@ $_page->setExtraScripts(
                 }
                 $templine .= $line;
                 if (substr(trim($line), -1, 1) == ';') {
-                    //echo $templine;echo '<br><br>';
                     if (!$global['mysqli']->query($templine)) {
                         $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
                         echo json_encode($obj);
-                        //exit;
                     }
                     $templine = '';
                 }
@@ -182,7 +127,6 @@ $_page->setExtraScripts(
                 }
             }
 
-            //$renamed = rename("{$global['systemRootPath']}updateDb.sql", "{$global['systemRootPath']}updateDb.sql.old");
             ?>
             <div class="alert alert-success">
                 <?php

@@ -1,3 +1,6 @@
+When the feature targets the Encoder, inspect and edit the Encoder source at
+`D:\git\htdocs\AVideo\.compose\encoder\`. Keep Encoder analysis separate from the Streamer code
+in the repository root.
 ---
 name: "AVideo New Feature"
 description: "Implement a new feature in AVideo safely. Ensures existing patterns are reused, plugin compatibility is maintained, and the implementation is minimal and well-integrated."

@@ -1,0 +1,356 @@
+.system-update-page {
+    overflow-y: auto;
+}
+
+.system-update-page .update-content {
+    max-width: 1240px;
+    margin: 36px auto;
+    padding: 0 20px;
+}
+
+.version-dashboard {
+    --version-radius: 22px;
+    line-height: 1.6;
+}
+
+.version-dashboard .text-muted {
+    color: inherit;
+    opacity: .72;
+}
+
+.version-toolbar,
+.version-card-heading,
+.version-actions,
+.version-card-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.version-toolbar {
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.version-eyebrow {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.version-toolbar .version-eyebrow span {
+    margin: 0 12px;
+    opacity: .35;
+}
+
+.version-source,
+.version-check-time {
+    font-size: 12px;
+}
+
+.version-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: var(--version-radius);
+    box-shadow: none;
+    margin-bottom: 30px;
+}
+
+.version-hero-glow {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 90% 10%, currentColor, transparent 65%);
+    opacity: .1;
+}
+
+.version-hero-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 48px 48px 40px;
+}
+
+.version-hero-copy {
+    max-width: 720px;
+    min-width: 0;
+}
+
+.version-hero-title {
+    margin: 14px 0 20px;
+    font-size: clamp(34px, 4.5vw, 60px);
+    font-weight: 750;
+    line-height: 1.06;
+    letter-spacing: -.045em;
+    overflow-wrap: break-word;
+}
+
+.version-hero-description {
+    max-width: 570px;
+    margin-bottom: 24px;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.version-actions .btn {
+    border-radius: 10px;
+    padding: 11px 18px;
+    font-weight: 600;
+}
+
+.version-actions .btn i {
+    margin: 0 4px;
+}
+
+.version-status-seal {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: 0 0 190px;
+    aspect-ratio: 1;
+}
+
+.version-status-seal::before,
+.version-status-seal::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: .15;
+}
+
+.version-status-seal::after {
+    inset: 15px;
+    opacity: .25;
+}
+
+.version-status-ring {
+    display: grid;
+    place-items: center;
+    width: 130px;
+    aspect-ratio: 1;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    font-size: 52px;
+    background: color-mix(in srgb, currentColor 7%, transparent);
+}
+
+.version-commit-strip {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 60px minmax(0, 1fr);
+    align-items: center;
+    padding: 28px 48px;
+    border-top: 1px solid;
+    border-color: inherit;
+}
+
+.version-commit p:last-child {
+    margin-bottom: 0;
+}
+
+.version-commit-value {
+    margin: 8px 0;
+    font: 600 24px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
+    overflow-wrap: anywhere;
+}
+
+.version-commit-value a {
+    color: inherit;
+}
+
+.version-commit-value i {
+    font-size: 11px;
+    opacity: .5;
+    vertical-align: middle;
+}
+
+.version-commit-connector {
+    text-align: center;
+    font-size: 24px;
+}
+
+.version-commit-strip .version-commit:last-child {
+    padding-left: 36px;
+}
+
+.version-check-time {
+    padding: 16px 48px;
+    border-top: 1px solid;
+    border-color: inherit;
+}
+
+.version-check-time span {
+    margin: 0 8px;
+}
+
+.version-section-intro h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.version-section-intro p {
+    margin-bottom: 22px;
+    font-size: 13px;
+}
+
+.version-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.version-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 26px;
+    margin: 0;
+    border-radius: var(--version-radius);
+    box-shadow: none;
+}
+
+.version-card-heading {
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 18px;
+}
+
+.version-card h3 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.version-card h3 i {
+    margin-right: 6px;
+    opacity: .6;
+}
+
+.version-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.version-card .version-value {
+    margin: 0 0 12px;
+    font-size: 36px;
+    line-height: 1.2;
+    letter-spacing: -.035em;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.version-card p {
+    overflow-wrap: anywhere;
+}
+
+.version-hash {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.version-card-links {
+    padding-top: 12px;
+    margin-top: auto;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.version-card-links i {
+    font-size: 10px;
+    margin-left: 4px;
+}
+
+.version-explanation {
+    margin: 24px 0;
+    font-size: 13px;
+}
+
+.version-explanation summary {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.version-explanation dl {
+    margin: 20px 0 0;
+    max-width: 850px;
+}
+
+.version-explanation dd {
+    margin-bottom: 14px;
+}
+
+.version-dashboard-compact .version-hero-main {
+    padding: 30px;
+}
+
+.version-dashboard-compact .version-hero-title {
+    font-size: clamp(30px, 3vw, 44px);
+}
+
+@media (max-width: 767px) {
+    .system-update-page .update-content {
+        margin: 24px auto;
+        padding: 0;
+    }
+
+    .version-hero-main,
+    .version-dashboard-compact .version-hero-main {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 28px 24px;
+    }
+
+    .version-status-seal {
+        flex-basis: auto;
+        width: 86px;
+    }
+
+    .version-status-seal::after {
+        inset: 7px;
+    }
+
+    .version-status-ring {
+        width: 60px;
+        font-size: 26px;
+    }
+
+    .version-hero-title {
+        font-size: 38px;
+    }
+
+    .version-commit-strip {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding: 24px;
+    }
+
+    .version-commit-connector {
+        display: none;
+    }
+
+    .version-commit-strip .version-commit:last-child {
+        padding-left: 0;
+    }
+
+    .version-check-time {
+        padding: 16px 24px;
+    }
+
+    .version-cards {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,3 +1,9 @@
+## Encoder Source Location
+
+When a task requires viewing, searching, reviewing, editing, or testing Encoder code, use the
+Encoder source at `D:\git\htdocs\AVideo\.compose\encoder\`. Treat it as a separate component from
+the Streamer code in the repository root; do not infer Encoder behavior from similarly named files
+under the root or from generated/deployed copies.
 # AVideo Copilot Instructions
 
 ## Mandatory Canonical Security Policy

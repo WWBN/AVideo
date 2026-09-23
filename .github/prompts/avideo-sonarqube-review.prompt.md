@@ -1,3 +1,6 @@
+When the target is Encoder code, use the source at
+`D:\git\htdocs\AVideo\.compose\encoder\`; do not substitute similarly named Streamer files from
+the repository root.
 ---
 name: "AVideo SonarQube Review"
 description: "Review AVideo code for SonarQube quality and security standards. Checks duplication, complexity, unused code, unsafe input handling, empty catch blocks, weak typing, and security hotspots."

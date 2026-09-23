@@ -1,3 +1,6 @@
+When the issue concerns the Encoder, inspect and edit its source at
+`D:\git\htdocs\AVideo\.compose\encoder\`. Treat it as a separate component from the Streamer
+source in the repository root.
 ---
 name: "AVideo Debug"
 description: "Debug an issue in AVideo using logs, existing code analysis, and minimal safe fixes. Use when investigating a bug, unexpected behavior, PHP error, JavaScript error, or broken feature."

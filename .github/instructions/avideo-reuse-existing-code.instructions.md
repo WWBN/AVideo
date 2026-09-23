@@ -1,3 +1,6 @@
+When the task concerns the Encoder, search and inspect its source in
+`D:\git\htdocs\AVideo\.compose\encoder\`. The Encoder is a separate component; do not use a
+similarly named Streamer file from the repository root as a substitute.
 ---
 name: "AVideo Reuse Existing Code"
 description: "Use when starting any new feature, endpoint, plugin, or frontend component in AVideo. Covers the required search-first workflow, existing helpers inventory, plugin hook reuse, JS utility reuse, and patterns to avoid hallucinating APIs that do not exist."

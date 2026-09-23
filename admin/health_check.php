@@ -293,6 +293,7 @@ function printMessages($messages, $cols = array(4, 6))
 
 ?>
 <link href="<?php echo getURL('view/css/healthCheck.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo getURL('view/css/update.css'); ?>" rel="stylesheet" type="text/css" />
 <div class="panel panel-default" id="healthCheck">
     <div class="panel-heading">
         <?php
@@ -304,6 +305,14 @@ function printMessages($messages, $cols = array(4, 6))
         ?>
     </div>
     <div class="panel-body">
+        <?php
+        require_once $global['systemRootPath'] . 'objects/functionsUpdate.php';
+        $versionOverview = getAVideoUpdateOverview($global['systemRootPath']);
+        $updateFiles = getUpdatesFilesArray();
+        $versionOverviewCompact = true;
+        require $global['systemRootPath'] . 'view/update.version.php';
+        unset($versionOverviewCompact);
+        ?>
         <?php include __DIR__ . '/disk_usage.php'; ?>
 
         <div class="panel panel-default" id="performanceMetrics" style="margin-top: 20px;">

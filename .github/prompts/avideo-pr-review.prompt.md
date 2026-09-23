@@ -1,3 +1,6 @@
+For Encoder changes, read and review the source under
+`D:\git\htdocs\AVideo\.compose\encoder\`, not a similarly named file in the Streamer repository
+root. Treat the Encoder as a separate component when assessing behavior and regression risk.
 ---
 name: "AVideo PR Review"
 description: "Review a pull request or code diff for AVideo. Checks code reuse, security, SQL safety, plugin compatibility, backward compatibility, UI consistency, regression risk, and SonarQube issues."

@@ -1,3 +1,6 @@
+If the review also requires Encoder code, inspect that code at
+`D:\git\htdocs\AVideo\.compose\encoder\`; it is a separate component from the Streamer source
+in the repository root.
 ---
 name: "AVideo Plugin Review"
 description: "Review or audit an AVideo plugin for correctness, structure, hook usage, install/update/uninstall patterns, permissions, DB changes, UI integration, and backward compatibility."
