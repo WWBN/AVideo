@@ -653,7 +653,7 @@ class PlayerSkins extends PluginAbstract
             $prepareStartPlayerJS_getDataSetup = array();
         }
         if ($obj->playsinline) {
-            $prepareStartPlayerJS_getDataSetup[] = ', playsinline: true, preferFullWindow: true ';
+            $prepareStartPlayerJS_getDataSetup[] = ', playsinline: true ';
         }
         if (empty($noReadyFunction)) {
             $js .= "var originalVideo;";
