@@ -30,11 +30,11 @@ function getAVideoUpdateGitInfo($root)
 function getAVideoUpdateGitHubData($path)
 {
     $key = 'avideoUpdateGitHub_' . md5($path);
-    $cached = ObjectYPT::getCacheGlobal($key, 900, true);
+    $cached = ObjectYPT::getCacheGlobal($key, 3600, true);
     if (is_object($cached)) {
         $cached = object_to_array($cached);
     }
-    if (is_array($cached) && isset($cached['checked_at']) && time() - $cached['checked_at'] < 900) {
+    if (is_array($cached) && isset($cached['checked_at']) && time() - $cached['checked_at'] < 3600) {
         return $cached;
     }
     $data = json_decode((string) url_get_contents('https://api.github.com/repos/WWBN/AVideo/' . $path, '', 4), true);

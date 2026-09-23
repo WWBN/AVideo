@@ -2507,6 +2507,6 @@ $t['The commit identifies the Git revision checked out on this server; local fil
 $t['A release is a published snapshot with its own version and release notes. The master branch can contain newer changes that have not been released yet.'] = 'Uma release é uma publicação com versão própria e notas das alterações. A branch master pode conter alterações mais recentes que ainda não fazem parte de uma release.';
 $t['The database version changes only when a database migration is applied. It is not expected to match the release tag or commit.'] = 'A versão do banco muda apenas quando uma migração é aplicada. Ela não precisa coincidir com a tag da release ou o commit.';
 $t['GitHub check'] = 'Consulta ao GitHub';
-$t['Remote information is cached for up to 15 minutes.'] = 'As informações remotas ficam em cache por até 15 minutos.';
+$t['Remote information is cached for up to 1 hour.'] = 'As informações remotas ficam em cache por até 1 hora.';
 $t['Database updates'] = 'Atualizações do banco';
 $t['Database schema %s is available. Update the application files first, then return here to apply pending migrations.'] = 'A versão %s do banco está disponível. Atualize primeiro os arquivos da aplicação e volte aqui para aplicar as migrações pendentes.';

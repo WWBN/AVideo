@@ -70,7 +70,7 @@ $versionHeadingTag = empty($versionOverviewCompact) ? 'h1' : 'h2';
                 <p class="small text-muted"><?php echo $latestMaster ? $formatVersionDate($latestMaster['commit']['committer']['date'] ?? '') : __('GitHub information is temporarily unavailable.'); ?></p>
             </div>
         </div>
-        <div class="version-check-time text-muted"><i class="far fa-clock" aria-hidden="true"></i> <?php echo __('GitHub check'); ?>: <?php echo $formatVersionDate(gmdate('c', $versionOverview['checked_at'])); ?> <span aria-hidden="true">&middot;</span> <?php echo __('Remote information is cached for up to 15 minutes.'); ?></div>
+        <div class="version-check-time text-muted"><i class="far fa-clock" aria-hidden="true"></i> <?php echo __('GitHub check'); ?>: <?php echo $formatVersionDate(gmdate('c', $versionOverview['checked_at'])); ?> <span aria-hidden="true">&middot;</span> <?php echo __('Remote information is cached for up to 1 hour.'); ?></div>
     </section>
     <div class="version-section-intro">
         <h2><?php echo __('Release & database'); ?></h2>
