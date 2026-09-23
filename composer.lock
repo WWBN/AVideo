@@ -248,16 +248,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.395.5",
+            "version": "3.395.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ac892b4a1116808f5d085c42e3a682769dab939c"
+                "reference": "f88c98a1d678c8b26dab0385af485eb7e2a22bf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ac892b4a1116808f5d085c42e3a682769dab939c",
-                "reference": "ac892b4a1116808f5d085c42e3a682769dab939c",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f88c98a1d678c8b26dab0385af485eb7e2a22bf6",
+                "reference": "f88c98a1d678c8b26dab0385af485eb7e2a22bf6",
                 "shasum": ""
             },
             "require": {
@@ -339,9 +339,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.395.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.395.6"
             },
-            "time": "2026-09-17T18:14:42+00:00"
+            "time": "2026-09-18T18:54:36+00:00"
         },
         {
             "name": "bunnycdn/storage",
