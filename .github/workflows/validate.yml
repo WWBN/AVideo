@@ -1,6 +1,13 @@
 name: Validate/Lint
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_call:
+    inputs:
+      ref:
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -17,6 +24,8 @@ jobs:
   steps:
   - name: Checkout
     uses: actions/checkout@v7
+    with:
+      ref: ${{ inputs.ref || github.sha }}
 
   - name: Set up PHP
     uses: shivammathur/setup-php@v2

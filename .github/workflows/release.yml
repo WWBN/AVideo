@@ -1,0 +1,92 @@
+name: Weekly release
+
+on:
+  schedule:
+    - cron: '0 12 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Calculate notes and run all tests without publishing'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weekly-release
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    if: github.repository == 'WWBN/AVideo' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      publish: ${{ steps.plan.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+      - run: npm ci --prefix .github/release --ignore-scripts
+      - run: npm test --prefix .github/release
+      - name: Calculate release from published baseline (read-only)
+        id: plan
+        run: node .github/release/release.mjs plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-plan
+          path: .github/release/release-plan.json
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+
+  tests:
+    needs: plan
+    if: needs.plan.outputs.publish == 'true'
+    uses: ./.github/workflows/tests.yml
+    with:
+      ref: ${{ github.sha }}
+
+  lint:
+    needs: plan
+    if: needs.plan.outputs.publish == 'true'
+    uses: ./.github/workflows/validate.yml
+    with:
+      ref: ${{ github.sha }}
+
+  publish:
+    needs: [plan, tests, lint]
+    if: >-
+      needs.plan.outputs.publish == 'true' &&
+      needs.tests.result == 'success' && needs.lint.result == 'success' &&
+      !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+      - run: npm ci --prefix .github/release --ignore-scripts
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-plan
+          path: .github/release
+      - name: Publish the tested commit
+        run: node .github/release/release.mjs publish
+        env:
+          GH_TOKEN: ${{ github.token }}

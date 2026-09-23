@@ -1,14 +1,23 @@
 name: Tests
 
 on:
+  workflow_call:
+    inputs:
+      ref:
+        required: true
+        type: string
   push:
     branches: [ master, main, develop ]
   pull_request:
     branches: [ master, main, develop ]
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     services:
       mysql:
@@ -25,6 +34,7 @@ jobs:
           --health-start-period=30s
 
     strategy:
+      fail-fast: false
       matrix:
         php-version: ['8.1', '8.2', '8.3']
 
@@ -33,13 +43,27 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v7
+      with:
+        ref: ${{ inputs.ref || github.sha }}
 
     - name: Checkout Encoder for installer tests
       uses: actions/checkout@v7
       with:
         repository: WWBN/AVideo-Encoder
-        ref: dfa5d0857464f99c24d2aa948cb2ba7181170688
+        ref: c981040b895ef8130f82a531d1a481ac63142e3e
         path: .compose/encoder
+
+    - name: Checkout Encoder Network for cross-project installer tests
+      uses: actions/checkout@v7
+      with:
+        repository: WWBN/AVideo-Encoder-Network
+        ref: ec7eb46e4cd8354ee23da1e9019811bc8c2ad404
+        path: .compose/network
+
+    - name: Set up Node for regression tests
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22.14.0'
     
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -65,25 +89,29 @@ jobs:
         test -f vendor/phpunit/phpunit/src/Framework/Test.php || (echo "PHPUnit Test.php missing!" && exit 1)
         php vendor/bin/phpunit --version
     
-    - name: Run Security Tests (Critical)
-      run: php vendor/bin/phpunit tests/Security/ --no-coverage --colors=never
-    
-    - name: Run Unit Tests (Optional)
-      continue-on-error: true
-      run: php vendor/bin/phpunit tests/Unit/ --no-coverage --colors=never
-
-    - name: Run Integration Tests (Critical - installer)
+    - name: Run all PHPUnit suites (required)
       env:
         AVIDEO_INSTALLER_MYSQL_TESTS: '1'
         AVIDEO_TEST_DB_HOST: 127.0.0.1
         AVIDEO_TEST_DB_PORT: 3306
         AVIDEO_TEST_DB_USER: root
         AVIDEO_TEST_DB_PASSWORD: ''
-      run: php vendor/bin/phpunit tests/Integration/ --no-coverage --colors=never
+        AVIDEO_TEST_ENCODER_ROOT: ${{ github.workspace }}/.compose/encoder
+        AVIDEO_TEST_NETWORK_ROOT: ${{ github.workspace }}/.compose/network
+      run: php vendor/bin/phpunit --colors=never --fail-on-risky --fail-on-incomplete --coverage-clover=coverage.xml
 
-    - name: Run All Tests with Coverage
-      if: matrix.php-version == '8.3'
-      run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+    - name: Run standalone PHP regressions (required)
+      run: |
+        for test in tests/*-regression.php; do
+          php "$test"
+        done
+
+    - name: Run JavaScript and workflow regressions (required)
+      run: |
+        for test in tests/Integration/*.js; do
+          node "$test"
+        done
+        node --test .github/tests/*.test.cjs
     
     - name: Upload coverage to Codecov
       if: matrix.php-version == '8.3'

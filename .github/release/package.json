@@ -1,0 +1,16 @@
+{
+  "name": "avideo-release-automation",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test release.test.mjs",
+    "plan": "node release.mjs plan",
+    "publish": "node release.mjs publish"
+  },
+  "dependencies": {
+    "@semantic-release/commit-analyzer": "13.0.1",
+    "@semantic-release/release-notes-generator": "14.1.1",
+    "conventional-changelog-conventionalcommits": "8.0.0",
+    "semver": "7.7.4"
+  }
+}
