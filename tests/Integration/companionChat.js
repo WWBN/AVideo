@@ -133,6 +133,8 @@ for (const [action, connected, expectedError] of [['status', true, false], ['sta
                 ${connected ? 'return (object) ["status" => "ready"];' : 'throw new Exception("Do not query video status after connection failure");'}
             }
             static function getStoredChatConfig($id) { return null; }
+            static function getSubtitleState($id) { return null; }
+            static function isSubtitleSwitcherEnabled() { return true; }
         }
         $_REQUEST['action'] = '${action}';
         $source = file_get_contents('${endpoint}');
@@ -257,6 +259,8 @@ for (const code of [0, 401, 404, 500]) {
             static function status() { return (object) ['organization_status' => 'active']; }
             static function getVideoStatus($id, &$httpCode = null) { $httpCode = ${code}; return null; }
             static function getStoredChatConfig($id) { return null; }
+            static function getSubtitleState($id) { return null; }
+            static function isSubtitleSwitcherEnabled() { return true; }
         }
         $_REQUEST['action'] = 'status';
         $source = str_replace("require_once '../../../videos/configuration.php';", '', file_get_contents('${endpoint}'));

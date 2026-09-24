@@ -1207,6 +1207,8 @@ class AI extends PluginAbstract
                     $this->executeCutVideo($row);
                 } else if ($ai->getAi_scheduler_type() === Ai_scheduler::$typeProcessAll) {
                     AI::processAll($row);
+                } else if ($ai->getAi_scheduler_type() === Ai_scheduler::$typeCompanionSubtitle) {
+                    CompanionAI::processScheduledSubtitle($row);
                 } else {
                     $ai->setStatus(Ai_scheduler::$statusError);
                     $ai->save();

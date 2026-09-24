@@ -87,6 +87,13 @@
 
             <div id="companionVideoError" style="display:none;" class="alert alert-danger"></div>
 
+            <div id="companionSubtitle" class="ai-settings-meta" style="display:none;">
+                <span id="companionSubtitleStatus" class="text-muted"></span>
+                <button type="button" class="btn btn-default btn-xs" id="companionCopySubtitleBtn" onclick="companionCopySubtitle(false, false)">
+                    <i class="fa-solid fa-closed-captioning" aria-hidden="true"></i> <?php echo __('Copy subtitle to player'); ?>
+                </button>
+            </div>
+
             <?php if (User::isAdmin()) { ?>
             <section class="ai-dashboard-card" aria-labelledby="companionDashboardTitle">
                 <div class="ai-dashboard-description">
@@ -111,6 +118,8 @@
 <script>
     var companionActionBusy = false;
     var companionPollTimer = null;
+    // One silent attempt per page view; the scheduler covers closed tabs.
+    var companionAutoSubtitleTried = false;
 
     // A per-question price is routinely a fraction of a cent, so a fixed
     // 2-decimal format prints it as "0.00" - which reads as "free". Keep the
@@ -251,7 +260,7 @@
             : companionPrice(estimate, 4));
         $('#companionVideoDuration').text(estimate === null ? '' : (Number(duration) / 60).toLocaleString(document.documentElement.lang || undefined, {maximumFractionDigits: 2}) + ' ' + <?php echo json_encode(__('minutes of video')); ?>);
         $('#companionAlreadyProcessedPrice').toggle(!!video && video.status === 'ready');
-        $('#companionVideoNotSubmitted, #companionVideoProcessing, #companionVideoReady, #companionVideoError, #companionNeedsMarketplaceLink').hide();
+        $('#companionVideoNotSubmitted, #companionVideoProcessing, #companionVideoReady, #companionVideoError, #companionNeedsMarketplaceLink, #companionSubtitle').hide();
 
         if (!video) {
             $('#companionVideoNotSubmitted').show();
@@ -265,6 +274,7 @@
             var chat = response.chatConfig;
             var enabled = !!(chat && chat.enabled);
             $('#companionChatToggle').prop('checked', enabled);
+            companionRenderSubtitle(response);
         } else if (video.status === 'failed' || video.status === 'cancelled') {
             $('#companionVideoError').show().text(video.error_message || <?php echo json_encode(__('Processing failed.')); ?>);
             $('#companionVideoNotSubmitted').show();
@@ -276,6 +286,66 @@
             clearTimeout(companionPollTimer);
             companionPollTimer = setTimeout(loadCompanionChat, 5000);
         }
+    }
+
+    function companionRenderSubtitle(response) {
+        var state = response.subtitle;
+        var text;
+        if (!response.subtitleSwitcherEnabled) {
+            text = <?php echo json_encode(__('Enable the SubtitleSwitcher plugin to show subtitles on the player.')); ?>;
+        } else if (state && state.skipped === 'exists') {
+            text = <?php echo json_encode(__('A subtitle in this language already existed, so it was kept.')); ?>;
+        } else if (state && state.skipped === 'no_speech') {
+            text = <?php echo json_encode(__('No speech was transcribed in this video, so there is no subtitle to copy.')); ?>;
+        } else if (state && state.importedAt) {
+            text = <?php echo json_encode(__('Subtitle on the player')); ?> + ': ' + (response.subtitleLanguageLabel || state.lang);
+        } else {
+            text = <?php echo json_encode(__('The subtitle has not been copied to the player yet.')); ?>;
+        }
+        $('#companionSubtitleStatus').text(text);
+        $('#companionCopySubtitleBtn').prop('disabled', !response.subtitleSwitcherEnabled);
+        $('#companionSubtitle').show();
+        if (response.subtitleSwitcherEnabled && !state && !companionAutoSubtitleTried) {
+            companionAutoSubtitleTried = true;
+            companionCopySubtitle(false, true);
+        }
+    }
+
+    // Manual copy works at any time (e.g. after a failure or to restore the
+    // Companion version); a subtitle that did not come from Companion is only
+    // replaced after the admin confirms.
+    function companionCopySubtitle(overwrite, automatic) {
+        // companionAjax drops a mutation while another runs (e.g. the silent
+        // attempt); do not leave a "please wait" nobody will close.
+        if (companionActionBusy) {
+            return;
+        }
+        if (!automatic) {
+            modal.showPleaseWait();
+        }
+        companionAjax('copy_subtitle', automatic ? {auto: 1} : {overwrite: overwrite ? 1 : 0}, function(response) {
+            var result = response.subtitleResult || {};
+            if (response.status) {
+                companionRenderStatus(response);
+            }
+            if (automatic) {
+                return;
+            }
+            modal.hidePleaseWait();
+            if (result.code === 'exists' && !overwrite) {
+                avideoConfirm(result.msg).then(function(confirmed) {
+                    if (confirmed) {
+                        companionCopySubtitle(true, false);
+                    }
+                });
+                return;
+            }
+            if (response.error || result.error) {
+                avideoAlertError(result.msg || response.msg);
+                return;
+            }
+            avideoToastSuccess(result.msg);
+        });
     }
 
     function loadCompanionChat() {

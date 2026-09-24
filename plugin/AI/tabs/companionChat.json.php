@@ -74,7 +74,17 @@ if (!$obj->notConfigured) {
             if (empty($res)) {
                 $obj->error = true;
                 $obj->msg = __('Could not submit this video to Companion. Check that your Marketplace wallet is connected and has enough available credits for processing.');
+            } else {
+                CompanionAI::scheduleSubtitleImport($videos_id, User::getId());
             }
+            break;
+        case 'copy_subtitle':
+            forbidIfNotPost();
+            forbidIfInvalidToken();
+            // auto=1 is the tab's own silent attempt once processing ends:
+            // it never replaces a subtitle that did not come from Companion.
+            $automatic = !empty($_POST['auto']);
+            $obj->subtitleResult = CompanionAI::importSubtitle($videos_id, !$automatic && !empty($_POST['overwrite']), $automatic);
             break;
         case 'enable_chat':
             forbidIfNotPost();
@@ -113,6 +123,12 @@ if (!$obj->notConfigured) {
         }
     }
     $obj->chatConfig = CompanionAI::getStoredChatConfig($videos_id);
+    $obj->subtitle = CompanionAI::getSubtitleState($videos_id);
+    $obj->subtitleSwitcherEnabled = CompanionAI::isSubtitleSwitcherEnabled();
+    $obj->subtitleLanguageLabel = '';
+    if (!empty($obj->subtitle->lang) && is_string($obj->subtitle->lang)) {
+        $obj->subtitleLanguageLabel = empty($global['bcp47'][$obj->subtitle->lang]['label']) ? $obj->subtitle->lang : $global['bcp47'][$obj->subtitle->lang]['label'];
+    }
 }
 
 echo _json_encode($obj);

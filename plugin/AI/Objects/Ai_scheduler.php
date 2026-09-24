@@ -16,6 +16,8 @@ class Ai_scheduler extends ObjectYPT {
 
     static $typeCutVideo = 'cutVideo';
     static $typeProcessAll = 'processAll';
+    // Copy the Companion transcript to SubtitleSwitcher once processing ends.
+    static $typeCompanionSubtitle = 'companionSubtitle';
 
 
     protected $id,$json,$status,$ai_scheduler_type,$created_php_time,$modified_php_time;
