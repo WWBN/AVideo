@@ -3501,15 +3501,12 @@ function clearCache($firstPageOnly = false)
     file_put_contents($lockFile, time());
 
     $dir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
-    $tmpDir = ObjectYPT::getCacheDir('firstPage');
-    $parts = explode('firstpage', $tmpDir);
+    $tmpDir = ObjectYPT::getTmpCacheDir();
 
     if ($firstPageOnly || !empty($_REQUEST['FirstPage'])) {
-        $tmpDir = $parts[0] . 'firstpage' . DIRECTORY_SEPARATOR;
+        $tmpDir .= 'firstPage' . DIRECTORY_SEPARATOR;
         //var_dump($tmpDir);exit;
         $dir .= "firstPage" . DIRECTORY_SEPARATOR;
-    } else {
-        $tmpDir = $parts[0];
     }
 
     //_error_log('clearCache 1: '.$dir);
@@ -3533,6 +3530,9 @@ function clearCache($firstPageOnly = false)
         // (rrmdir() itself protects against deleting the videos directory)
         rrmdir($tmpDir);
     }
+    // Cached paths may point at directories that were just removed.
+    global $_getCacheDir;
+    $_getCacheDir = [];
 
     $obj = AVideoPlugin::getDataObjectIfEnabled('Cache');
     if ($obj) {
@@ -5255,16 +5255,18 @@ function setRowCount($rowCount)
 function getSearchVar()
 {
     $search = '';
-    if (!empty($_REQUEST['search'])) {
-        $search = $_REQUEST['search'];
+    $requestSearch = $_REQUEST['search'] ?? '';
+    if (is_array($requestSearch)) {
+        $requestSearch = $requestSearch['value'] ?? '';
+    }
+    if (is_scalar($requestSearch) && (string) $requestSearch !== '') {
+        $search = $requestSearch;
     } elseif (!empty($_REQUEST['q'])) {
         $search = $_REQUEST['q'];
     } elseif (!empty($_REQUEST['searchPhrase'])) {
         $search = $_REQUEST['searchPhrase'];
-    } elseif (!empty($_REQUEST['search']['value'])) {
-        $search = $_REQUEST['search']['value'];
     }
-    return mb_strtolower($search);
+    return is_scalar($search) ? mb_strtolower((string) $search) : '';
 }
 
 function isSearch()

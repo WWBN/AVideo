@@ -23,7 +23,7 @@ function function_exists($name) { return $name === 'opcache_reset'; }
 function class_exists($name) { return false; }
 function opcache_reset() { ++$GLOBALS['resets']; return true; }
 class ObjectYPT {
-    static function getCacheDir($name) { return '/fixture/YPTObjectCache/firstpage/'; }
+    static function getTmpCacheDir() { return '/fixture/YPTObjectCache/'; }
     static function deleteCache($name) {}
     static function deleteAllSessionCache() {}
 }

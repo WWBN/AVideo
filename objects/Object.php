@@ -863,7 +863,7 @@ abstract class ObjectYPT implements ObjectInterface
         global $__getAVideoCache;
         unset($__getAVideoCache);
         //_error_log('deleteALLCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-        $tmpDir = self::getCacheDir('', false);
+        $tmpDir = self::getTmpCacheDir();
 
         $newtmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . uniqid();
         _error_log("deleteALLCache rename($tmpDir, $newtmpDir) ");
@@ -884,6 +884,8 @@ abstract class ObjectYPT implements ObjectInterface
                 rrmdirCommandLine($newtmpDir, true);
             }
         }
+        global $_getCacheDir;
+        $_getCacheDir = [];
         self::setLastDeleteALLCacheTime();
         @unlink($lockFile);
         $end = microtime(true) - $start;
@@ -1102,6 +1104,7 @@ abstract class ObjectYPT implements ObjectInterface
     {
         $file = self::getLastDeleteALLCacheTimeFile();
         //_error_log("ObjectYPT::setLastDeleteALLCacheTime {$file}");
+        make_path($file);
         return @file_put_contents($file, time());
     }
 

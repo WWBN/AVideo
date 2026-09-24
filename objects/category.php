@@ -384,6 +384,25 @@ class Category
             . '_v' . md5($visibilitySql);
     }
 
+    /**
+     * Fingerprint of the categories table, part of the getAllCategories() cache key.
+     * Invalidating the list cache is not reliable on its own: with the Cache plugin the DB rows
+     * are only removed by the scheduled cron job (Cache_schedule_delete), the file cache is
+     * removed asynchronously and the session mirror may not be persisted. Any insert, delete or
+     * update changes this value, so a stale cached list can never be served again.
+     */
+    private static function getListCacheVersion()
+    {
+        $sql = "SELECT COUNT(*) AS total, MAX(id) AS maxId, MAX(modified) AS lastModified FROM categories";
+        $res = sqlDAL::readSql($sql, '', [], true);
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (empty($row)) {
+            return '';
+        }
+        return '_cv' . intval($row['total']) . '_' . intval($row['maxId']) . '_' . $row['lastModified'];
+    }
+
     public static function clearCountCacheChain($categories_id)
     {
         $visited = [];
@@ -510,7 +529,7 @@ class Category
 
         $timeLogName = TimeLogStart("getAllCategories");
         $cacheContext = self::getCountCacheSuffix('', false);
-        $cacheSuffix = md5($sql . '_r' . intval($showRestrictedCategories) . $cacheContext);
+        $cacheSuffix = md5($sql . '_r' . intval($showRestrictedCategories) . $cacheContext . self::getListCacheVersion());
         $cacheHandler = new CategoryCacheHandler(0);
         $cacheObj = $cacheHandler->getCache($cacheSuffix, 36000);
         TimeLogEnd($timeLogName, __LINE__);

@@ -174,6 +174,16 @@ Do not invent table names. Search migration files to confirm a table exists befo
 | `configurations` | `id=1`, `webSiteTitle`, `logo`, `theme`, `encoderURL`, `smtp*` | Site settings |
 | `CachesInDB` | `id`, `name`, `value`, `expire` | DB cache |
 
+### Cache invalidation is not immediate
+
+`CacheHandler::deleteCache()` (`objects/Object.php`, used by `CategoryCacheHandler`,
+`VideoCacheHandler`, etc.) defaults to `$schedule = true`. With the Cache plugin enabled, that
+only queues the prefix in `cache_schedule_delete`, and the rows are removed later by the
+`Cache::executeEveryMinute()` cron job. The file cache is removed asynchronously. A read right
+after a write can therefore get stale data, which is worse on sites without a working cron. For
+lists that must reflect a write immediately, put a cheap fingerprint of the source table in the
+cache key (for example, `Category::getListCacheVersion()`) instead of relying on deletion.
+
 ---
 
 ## Indexes
