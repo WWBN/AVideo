@@ -89,6 +89,10 @@ Before writing any new code, search the repository for existing logic:
   `updatedb/updateDb.vX.X.sql` (sequential, currently up to `v30.0` — pick the next version number).
 - Never modify `plugin/Plugin.abstract.php` or `plugin/AVideoPlugin.php` without an explicit request
   — every one of the ~130+ plugins depends on their current contract.
+- Many plugin folders (e.g. `plugin/Subscription/`, `plugin/VideoHLS/`, `plugin/PayPerView/`) are
+  listed in `.gitignore`: they are distributed separately and may exist locally but are not shipped
+  by this repo. Never make a fix in a tracked file depend on an edit to one of them — sites can run
+  an older version. Check with `git check-ignore -v <path>` first.
 - Interact with other plugins only via `AVideoPlugin::loadPluginIfEnabled()` / `loadPlugin()`, never
   by instantiating another plugin's classes or reading its tables directly.
 - Assume third-party/community plugins outside this repo may also extend `PluginAbstract` and call

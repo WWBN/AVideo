@@ -250,7 +250,7 @@ class StripeYPT extends PluginAbstract
                     'metadata' => [
                         'users_id' => $users_id,
                     ],
-                ]);
+                ], ['idempotency_key' => 'avideo_customer_' . hash('sha256', $global['webSiteRootURL'] . '|' . $users_id . '|' . $stripeToken)]);
             } catch (Exception $exc) {
                 _error_log($exc->getTraceAsString());
             }
@@ -295,7 +295,7 @@ class StripeYPT extends PluginAbstract
         }
     }
 
-    private function createBillingPlan($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement')
+    private function createBillingPlan($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement', $requestOptions = [])
     {
         global $global;
         $this->start();
@@ -310,7 +310,7 @@ class StripeYPT extends PluginAbstract
             'nickname' => $name,
             'amount' => self::removeDot($total),
             'metadata' => array('users_id' => User::getId(), 'recurrent' => 1)
-        ]);
+        ], $requestOptions);
     }
 
     function updateBillingPlan($plans_id, $total = '1.00', $currency = "USD", $interval = 1, $name = 'Base Agreement')
@@ -416,7 +416,8 @@ class StripeYPT extends PluginAbstract
 
     public function setUpSubscription($plans_id, $stripeToken)
     {
-        global $setUpSubscriptionErrorResponse;
+        global $global, $setUpSubscriptionErrorResponse;
+        $setUpSubscriptionErrorResponse = '';
         if (!User::isLogged()) {
             $setUpSubscriptionErrorResponse = 'User not logged';
             _error_log("setUpSubscription: User not logged");
@@ -427,6 +428,50 @@ class StripeYPT extends PluginAbstract
             _error_log("setUpSubscription: plans_id is empty");
             return false;
         }
+        // Same advisory-lock pattern as AuthorizeNet; serialize across PHP sessions/workers.
+        $lockName = 'stripe_subscription_' . sha1($global['webSiteRootURL'] . '|' . User::getId() . '|' . intval($plans_id));
+        $locked = false;
+        try {
+            $res = sqlDAL::readSql('SELECT GET_LOCK(?, ?) AS locked', 'si', [$lockName, 0], true);
+            $row = $res ? sqlDAL::fetchAssoc($res) : false;
+            sqlDAL::close($res);
+            $locked = !empty($row['locked']);
+            if (!$locked) {
+                $setUpSubscriptionErrorResponse = 'A subscription request is already being processed. Please wait and try again.';
+                return false;
+            }
+            return $this->setUpSubscriptionLocked($plans_id, $stripeToken);
+        } catch (\Throwable $th) {
+            _error_log('StripeYPT::setUpSubscription: ' . $th->getMessage(), AVideoLog::$ERROR);
+            $setUpSubscriptionErrorResponse = 'An error occurred';
+            return false;
+        } finally {
+            if ($locked) {
+                $res = sqlDAL::readSql('SELECT RELEASE_LOCK(?) AS released', 's', [$lockName], true);
+                sqlDAL::close($res);
+            }
+        }
+    }
+
+    /**
+     * Local Stripe customer links for a user/plan, read bypassing the per-request sqlDAL cache
+     * (writes do not invalidate it, and a stale read here could charge a second customer).
+     */
+    private static function getStripeCustomerLinks($users_id, $plans_id)
+    {
+        $sql = 'SELECT id, users_id, subscriptions_plans_id, stripe_costumer_id FROM ' . SubscriptionTable::getTableName()
+            . ' WHERE users_id = ? AND subscriptions_plans_id = ?';
+        $res = sqlDAL::readSql($sql, 'ii', [intval($users_id), intval($plans_id)], true);
+        $rows = $res ? sqlDAL::fetchAllAssoc($res) : [];
+        sqlDAL::close($res);
+        return $rows;
+    }
+
+    private function setUpSubscriptionLocked($plans_id, $stripeToken)
+    {
+        global $global, $setUpSubscriptionErrorResponse;
+        $this->start();
+        $requestOptions = [];
         if ($plans_id > 0 || !User::isAdmin()) {
             $subs = new SubscriptionPlansTable($plans_id);
             $obj = AVideoPlugin::getObjectData('YPTWallet');
@@ -445,13 +490,62 @@ class StripeYPT extends PluginAbstract
                 _error_log("setUpSubscription: the user does not have any active subscription for this plan [{$plans_id}]");
             }
 
-            // check costumer
-            $sub = Subscription::getOrCreateStripeSubscription(User::getId(), $plans_id);
-
-            if (empty($sub['stripe_costumer_id']) || !self::isCostumerValid($sub['stripe_costumer_id'])) {
-                $sub['stripe_costumer_id'] = "";
+            // Search is eventually consistent. Check every locally linked customer directly,
+            // including legacy duplicate rows, before creating anything that can charge.
+            $sub = ['stripe_costumer_id' => ''];
+            $customers = [];
+            $endedSubscriptions = [];
+            $incompleteSubscription = null;
+            $planRows = self::getStripeCustomerLinks(User::getId(), $plans_id);
+            foreach ($planRows as $row) {
+                if (!empty($row['stripe_costumer_id']) && $row['stripe_costumer_id'] !== 'canceled') {
+                    $customers[$row['stripe_costumer_id']] = true;
+                }
+            }
+            $usableCustomers = [];
+            foreach (array_keys($customers) as $customerId) {
+                try {
+                    $customer = \Stripe\Customer::retrieve($customerId);
+                } catch (\Stripe\Exception\InvalidRequestException $e) {
+                    // Only a missing customer (e.g. Stripe account/mode changed) is skipped; other errors abort.
+                    if ($e->getStripeCode() !== 'resource_missing') {
+                        throw $e;
+                    }
+                    continue;
+                }
+                if (!empty($customer->deleted)) {
+                    continue;
+                }
+                $usableCustomers[$customerId] = true;
+                $sub['stripe_costumer_id'] = $customerId;
+                $subscriptions = \Stripe\Subscription::all(['customer' => $customerId, 'status' => 'all', 'limit' => 100]);
+                foreach ($subscriptions->autoPagingIterator() as $existing) {
+                    if ($existing->metadata->users_id != User::getId() || $existing->metadata->plans_id != $plans_id) {
+                        continue;
+                    }
+                    if (!in_array($existing->status, ['canceled', 'incomplete_expired'], true)) {
+                        if ($existing->status === 'incomplete') {
+                            $incompleteSubscription = $existing;
+                            continue;
+                        }
+                        $setUpSubscriptionErrorResponse = 'the user already have an active subscription for this plan';
+                        _error_log('setUpSubscription: prevented duplicate subscription ' . $existing->id);
+                        return false;
+                    }
+                    $endedSubscriptions[] = $existing->id;
+                }
+            }
+            if (!empty($incompleteSubscription)) {
+                return \Stripe\Subscription::retrieve(['id' => $incompleteSubscription->id, 'expand' => ['latest_invoice.payment_intent']]);
             }
 
+            // Local rows whose customer is 'canceled', deleted or missing.
+            $staleRows = [];
+            foreach ($planRows as $row) {
+                if (!empty($row['stripe_costumer_id']) && empty($usableCustomers[$row['stripe_costumer_id']])) {
+                    $staleRows[] = $row;
+                }
+            }
             if (empty($sub['stripe_costumer_id'])) {
                 $sub['stripe_costumer_id'] = $this->getCostumerId(User::getId(), $stripeToken);
                 if (empty($sub['stripe_costumer_id'])) {
@@ -459,8 +553,35 @@ class StripeYPT extends PluginAbstract
                     $setUpSubscriptionErrorResponse = 'Could not create a Stripe costumer';
                     return false;
                 }
-                Subscription::getOrCreateStripeSubscription(User::getId(), $plans_id, $sub['stripe_costumer_id']);
+                if (!empty($staleRows)) {
+                    // getOrCreateStripeSubscription() never replaces a non-empty customer id,
+                    // so relink the stale row to the new customer.
+                    if (!preg_match('/^cus_[A-Za-z0-9]+$/', $sub['stripe_costumer_id'])) {
+                        throw new \RuntimeException('Unexpected Stripe customer id');
+                    }
+                    SubscriptionTable::updateStripeCostumerId($staleRows[0]['id'], $sub['stripe_costumer_id']);
+                } else {
+                    // Call once, with the customer already known. Calling first with an empty
+                    // customer can cache a missing row and make the second call insert again.
+                    Subscription::getOrCreateStripeSubscription(User::getId(), $plans_id, $sub['stripe_costumer_id']);
+                }
+                // Never charge a customer that retries would not find again.
+                $saved = false;
+                foreach (self::getStripeCustomerLinks(User::getId(), $plans_id) as $row) {
+                    if ($row['stripe_costumer_id'] === $sub['stripe_costumer_id']) {
+                        $saved = true;
+                    }
+                }
+                if (!$saved) {
+                    throw new \RuntimeException('Could not persist the Stripe customer for this subscription');
+                }
             }
+
+            // The customer is persisted and read back fresh under the lock, so every retry and
+            // double click charges the same customer with the same key. A cancellation adds an
+            // ended subscription or a new customer, which renews the key.
+            sort($endedSubscriptions);
+            $requestOptions = ['idempotency_key' => 'avideo_subscription_' . hash('sha256', $global['webSiteRootURL'] . '|' . User::getId() . '|' . $plans_id . '|' . $sub['stripe_costumer_id'] . '|' . implode(',', $endedSubscriptions))];
 
             // check plan
             $stripe_plan_id = $subs->getStripe_plan_id();
@@ -472,7 +593,7 @@ class StripeYPT extends PluginAbstract
                     $paymentName = "Recurrent Payment";
                 }
 
-                $plan = $this->createBillingPlan($price, $obj->currency, $bi->stripeFrequency, $bi->stripeInterval, $paymentName);
+                $plan = $this->createBillingPlan($price, $obj->currency, $bi->stripeFrequency, $bi->stripeInterval, $paymentName, ['idempotency_key' => $requestOptions['idempotency_key'] . '_plan']);
                 if (empty($plan)) {
                     _error_log("setUpSubscription: could not create stripe plan");
                     return false;
@@ -523,13 +644,12 @@ class StripeYPT extends PluginAbstract
         if (!empty($subs) && is_object($subs)) {
             $trialDays = $subs->getHow_many_days_trial();
             if (!empty($trialDays)) {
-                $trial = strtotime("+{$trialDays} days");
-                $parameters['trial_end'] = $trial;
+                $parameters['trial_period_days'] = intval($trialDays);
             }
         }
 
         _error_log("setUpSubscription: parameters " . json_encode($parameters));
-        $Subscription = \Stripe\Subscription::create($parameters);
+        $Subscription = \Stripe\Subscription::create($parameters, $requestOptions);
 
         StripeYPT::updateSubscriptionMetadata($Subscription->id, $subMetadata);
         _error_log("setUpSubscription: result " . json_encode($Subscription));

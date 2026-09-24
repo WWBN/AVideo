@@ -37,6 +37,11 @@ if ($res) {
 }
 ```
 
+**Per-request read cache:** `readSql()` caches results for the rest of the request, keyed on SQL +
+values, and `writeSql()` does **not** invalidate it. Reading the same query again after a write
+returns the old result (including a cached "no rows"). Pass the 4th argument `$refreshCache = true`
+for reads that must see your own writes or that gate money/locks (e.g. payment duplicate checks).
+
 ### Write Queries (INSERT / UPDATE / DELETE)
 
 ```php

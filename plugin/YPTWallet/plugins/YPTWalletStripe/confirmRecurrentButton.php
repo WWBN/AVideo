@@ -107,18 +107,34 @@ $uid = uniqid();
 
     // Handle form submission.
     var form<?php echo $uid; ?> = document.getElementById('payment-form<?php echo $uid; ?>');
+    var subscriptionPending<?php echo $uid; ?> = false;
+    function unlockSubscription<?php echo $uid; ?>() {
+        subscriptionPending<?php echo $uid; ?> = false;
+        $(form<?php echo $uid; ?>).find('button').prop('disabled', false);
+        modal.hidePleaseWait();
+    }
     form<?php echo $uid; ?>.addEventListener('submit', function(event) {
         event.preventDefault();
+        if (subscriptionPending<?php echo $uid; ?>) {
+            return;
+        }
+        subscriptionPending<?php echo $uid; ?> = true;
+        $(form<?php echo $uid; ?>).find('button').prop('disabled', true);
+        modal.showPleaseWait();
         stripe<?php echo $uid; ?>.createToken(card<?php echo $uid; ?>).then(function(result) {
             console.log(result);
             if (result.error) {
                 // Inform the user if there was an error.
                 var errorElement = document.getElementById('card-errors<?php echo $uid; ?>');
                 errorElement.textContent = result.error.message;
+                unlockSubscription<?php echo $uid; ?>();
             } else {
                 // Send the token to your server.
                 stripeTokenHandler<?php echo $uid; ?>(result.token);
             }
+        }).catch(function() {
+            unlockSubscription<?php echo $uid; ?>();
+            avideoAlertError(<?php echo json_encode(__('An error occurred')); ?>);
         });
     });
 
@@ -134,6 +150,7 @@ $uid = uniqid();
                 var errorElement = document.getElementById('card-errors<?php echo $uid; ?>');
                 errorElement.textContent = result.error.message;
                 avideoAlertError(result.error.message);
+                unlockSubscription<?php echo $uid; ?>();
             } else {
                 // Send the token to your server.
                 avideoToast("<?php echo __("Payment Success"); ?>");
@@ -144,7 +161,7 @@ $uid = uniqid();
                         $url = YPTWallet::getAddFundsSuccessRedirectURL();
                         echo empty($url) ? 'location.reload();' : "window.top.location.href='{$url}'";
                     }else{
-                        echo 'modal.hidePleaseWait();';
+                        echo "unlockSubscription{$uid}();";
                     }
                     ?>
                 }, 3000);
@@ -161,9 +178,13 @@ $uid = uniqid();
                             card: card<?php echo $uid; ?>,
                         }
                     }
-                ).then(handlePaymentConfirmation);
+                ).then(handlePaymentConfirmation).catch(function() {
+                    unlockSubscription<?php echo $uid; ?>();
+                    avideoAlertError(<?php echo json_encode(__('An error occurred')); ?>);
+                });
             } else {
                 avideoAlertError(response.msg);
+                unlockSubscription<?php echo $uid; ?>();
             }
         }
 
@@ -183,6 +204,8 @@ $uid = uniqid();
                     echo 'setTimeout(function() {
                             location.reload();
                         }, 5000);';
+                } else {
+                    echo "unlockSubscription{$uid}();";
                 }
                 ?>
             } else if (response.confirmCardPayment) {
@@ -191,7 +214,7 @@ $uid = uniqid();
             } else {
                 avideoResponse(response);
                 setTimeout(function() {
-                    modal.hidePleaseWait();
+                    unlockSubscription<?php echo $uid; ?>();
                 }, 500);
             }
 
@@ -208,7 +231,11 @@ $uid = uniqid();
                 "plans_id": "<?php echo @$_GET['plans_id']; ?>"
             },
             type: 'post',
-            success: checkPayment
+            success: checkPayment,
+            error: function() {
+                unlockSubscription<?php echo $uid; ?>();
+                avideoAlertError(<?php echo json_encode(__('An error occurred')); ?>);
+            }
         });
     }
 </script>
