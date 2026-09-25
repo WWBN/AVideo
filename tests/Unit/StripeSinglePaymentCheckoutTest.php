@@ -43,6 +43,9 @@ class StripeSinglePaymentCheckoutTest extends TestCase
         Gateway\PaymentIntent::$failCancel = false;
         Gateway\PaymentIntent::$reject = false;
         Gateway\PaymentIntent::$onCreate = null;
+        Gateway\Charge::$objects = [];
+        Gateway\Charge::$failRetrieve = false;
+        Gateway\Charge::$denyRead = false;
         $this->root = sys_get_temp_dir() . '/avideo-payment-test-' . bin2hex(random_bytes(8)) . '/';
         mkdir($this->root);
         $GLOBALS['global'] = ['systemRootPath' => $this->root, 'webSiteRootURL' => 'https://test.invalid/'];
@@ -83,10 +86,17 @@ class StripeSinglePaymentCheckoutTest extends TestCase
         $this->assertCount(1, Gateway\PaymentIntent::$objects);
     }
 
+    private function paid($intent, $chargedAt)
+    {
+        $intent->status = 'succeeded';
+        $intent->latest_charge = 'ch_' . $intent->id;
+        Gateway\Charge::$objects[$intent->latest_charge] = (object) ['created' => $chargedAt];
+    }
+
     public function testSuccessfulPaymentIsReusedAndOtherPaymentsBlockedForFiveMinutes(): void
     {
         $first = $this->pay();
-        $first->status = 'succeeded';
+        $this->paid($first, self::$now);
         $this->assertSame($first, $this->pay());
         self::$now += 299;
         $this->assertSame($first, $this->pay());
@@ -96,13 +106,83 @@ class StripeSinglePaymentCheckoutTest extends TestCase
         $this->assertCount(2, Gateway\PaymentIntent::$objects);
     }
 
-    public function testSlowConfirmationStartsCooldownWhenSuccessIsObserved(): void
+    public function testReturningCustomerIsNotBlockedByAnOldSuccessfulPayment(): void
+    {
+        // The browser confirms the card, so the server first sees the success days later.
+        $first = $this->pay();
+        $this->paid($first, self::$now + 30);
+        self::$now += 7 * 86400;
+        $second = $this->pay();
+        $this->assertNotSame($first->id, $second->id);
+        $this->assertSame('requires_payment_method', $second->status);
+        $this->paid($second, self::$now);
+        self::$now += 7 * 86400;
+        $this->assertNotFalse($this->pay(25));
+        $this->assertCount(3, Gateway\PaymentIntent::$objects);
+    }
+
+    public function testSlowConfirmationCooldownIsMeasuredFromTheCharge(): void
     {
         $first = $this->pay();
         self::$now += 3600;
-        $first->status = 'succeeded';
+        $this->paid($first, self::$now - 60);
         $this->assertSame($first, $this->pay());
+        $this->assertFalse($this->pay(3.99));
+        self::$now += 240;
+        $this->assertNotSame($first->id, $this->pay()->id);
+        $this->assertCount(2, Gateway\PaymentIntent::$objects);
+    }
+
+    public function testChargeReadFailureDoesNotCreateAnotherPayment(): void
+    {
+        $first = $this->pay();
+        $this->paid($first, self::$now);
+        self::$now += 7 * 86400;
+        Gateway\Charge::$failRetrieve = true;
+        $this->assertFalse($this->pay());
         $this->assertCount(1, Gateway\PaymentIntent::$objects);
+    }
+
+    public function testMissingChargesPermissionDegradesToObservedCooldownInsteadOfLockingOut(): void
+    {
+        $first = $this->pay();
+        $this->paid($first, self::$now);
+        self::$now += 7 * 86400;
+        Gateway\Charge::$denyRead = true;
+        $this->assertSame($first, $this->pay());
+        self::$now += 300;
+        $this->assertNotSame($first->id, $this->pay()->id);
+        $this->assertCount(2, Gateway\PaymentIntent::$objects);
+    }
+
+    public function testStateFromPreviousVersionWithCompletedAtIsUnblockedByChargeTime(): void
+    {
+        $first = $this->pay();
+        $this->paid($first, self::$now);
+        self::$now += 7 * 86400;
+        // The previous version wrote completed_at when it first observed the success,
+        // i.e. on this returning purchase, and then blocked it for five minutes.
+        $files = glob($this->root . 'videos/stripe-payment-locks/*.php');
+        $prefix = "<?php exit; ?>\n";
+        $state = json_decode(substr(file_get_contents($files[0]), strlen($prefix)), true);
+        $state['completed_at'] = self::$now;
+        file_put_contents($files[0], $prefix . json_encode($state));
+        self::$now += 60;
+        $this->assertNotSame($first->id, $this->pay()->id);
+        $this->assertCount(2, Gateway\PaymentIntent::$objects);
+    }
+
+    public function testSuccessWithoutChargeTimeFailsClosedUntilObservedCooldownEnds(): void
+    {
+        $first = $this->pay();
+        $first->status = 'succeeded';
+        self::$now += 7 * 86400;
+        $this->assertSame($first, $this->pay());
+        self::$now += 299;
+        $this->assertFalse($this->pay(3.99));
+        self::$now++;
+        $this->assertNotSame($first->id, $this->pay()->id);
+        $this->assertCount(2, Gateway\PaymentIntent::$objects);
     }
 
     public function testLostCreateResponseRetriesSameIdempotencyKey(): void
@@ -114,18 +194,40 @@ class StripeSinglePaymentCheckoutTest extends TestCase
         $this->assertSame(Gateway\PaymentIntent::$requests[0], Gateway\PaymentIntent::$requests[1]);
     }
 
-    public function testUncertainExpiredCreationDoesNotCreateAnotherPayment(): void
+    public function testUncertainCreationStartsOverWhenTheKeyCanNoLongerBeReplayed(): void
     {
+        // The hidden intent was never confirmed and its client secret never left the
+        // server, so a fresh key is safe once Stripe's retention window has elapsed.
         Gateway\PaymentIntent::$loseResponse = true;
         $this->assertFalse($this->pay());
         self::$now += 23 * 3600;
-        $this->assertFalse($this->pay());
-        $this->assertCount(1, Gateway\PaymentIntent::$requests);
+        $this->assertNotFalse($this->pay());
+        $this->assertCount(2, Gateway\PaymentIntent::$requests);
+        $this->assertNotSame(Gateway\PaymentIntent::$requests[0], Gateway\PaymentIntent::$requests[1]);
     }
 
-    public function testPendingDifferentAmountIsBlocked(): void
+    public function testUncertainCreationStartsOverForADifferentAmount(): void
+    {
+        Gateway\PaymentIntent::$loseResponse = true;
+        $this->assertFalse($this->pay());
+        $this->assertNotFalse($this->pay(4.99));
+        $this->assertCount(2, Gateway\PaymentIntent::$requests);
+        $this->assertNotSame(Gateway\PaymentIntent::$requests[0], Gateway\PaymentIntent::$requests[1]);
+    }
+
+    public function testPendingDifferentAmountCancelsThePreviousIntentFirst(): void
+    {
+        $first = $this->pay();
+        $second = $this->pay(4.99);
+        $this->assertSame('canceled', $first->status);
+        $this->assertNotSame($first->id, $second->id);
+        $this->assertCount(2, Gateway\PaymentIntent::$objects);
+    }
+
+    public function testPendingDifferentAmountNeverCreatesAnotherWhenCancelFails(): void
     {
         $this->pay();
+        Gateway\PaymentIntent::$failCancel = true;
         $this->assertFalse($this->pay(4.99));
         $this->assertCount(1, Gateway\PaymentIntent::$objects);
     }
@@ -208,7 +310,7 @@ class PaymentIntent
 {
     public static $objects = [], $keys = [], $requests = [];
     public static $loseResponse, $failRetrieve, $failCancel, $onCreate, $reject;
-    public $id, $client_secret, $status = 'requires_payment_method';
+    public $id, $client_secret, $latest_charge, $status = 'requires_payment_method';
 
     public static function create($parameters, $options = [])
     {
@@ -247,6 +349,18 @@ class PaymentIntent
     }
 }
 
+class Charge
+{
+    public static $objects = [], $failRetrieve = false, $denyRead = false;
+
+    public static function retrieve($id)
+    {
+        if (self::$denyRead) { throw new Exception\PermissionException('This API key does not have the required permissions'); }
+        if (self::$failRetrieve) { throw new \RuntimeException('Stripe unavailable'); }
+        return self::$objects[$id];
+    }
+}
+
 namespace Tests\StripeSinglePayment\Gateway\Exception;
 
 class InvalidRequestException extends \RuntimeException
@@ -254,3 +368,5 @@ class InvalidRequestException extends \RuntimeException
     public function getHttpStatus() { return 400; }
     public function getStripeCode() { return 'amount_too_small'; }
 }
+
+class PermissionException extends \RuntimeException {}

@@ -186,26 +186,48 @@ class StripeYPT extends PluginAbstract
                 throw new \RuntimeException('Invalid Stripe payment lock state; reconciliation required');
             }
             $fingerprint = hash('sha256', json_encode($parameters));
-            if (!empty($state)) {
-                if (empty($state['intent'])) {
-                    // A timeout may have hidden a successful create. Replay its original key,
-                    // never generate a new key after Stripe's retention window has elapsed.
-                    if ($state['fingerprint'] !== $fingerprint || time() - $state['created'] >= 23 * 3600) {
-                        throw new \RuntimeException('Unresolved Stripe payment creation; reconciliation required');
-                    }
+            if (!empty($state) && empty($state['intent'])) {
+                // A timeout may have hidden a successful create. Replay its original key while
+                // Stripe still honours it (24h); otherwise start over. That hidden intent was never
+                // confirmed and its client secret never left the server, so it cannot charge anyone.
+                if ($state['fingerprint'] === $fingerprint && time() - $state['created'] < 23 * 3600) {
                     $intent = $this->createSinglePaymentIntent($parameters, $state, $statePath);
                     $state['intent'] = $intent->id;
                     $this->saveSinglePaymentState($statePath, $state);
+                } else {
+                    $state = [];
                 }
+            }
+            if (!empty($state)) {
                 $intent = \Stripe\PaymentIntent::retrieve($state['intent']);
                 if ($intent->status === 'succeeded') {
-                    // Start the guard when success is observed, not when the charge was
-                    // created (3DS confirmation can complete much later).
-                    if (empty($state['completed_at'])) {
-                        $state['completed_at'] = time();
-                        $this->saveSinglePaymentState($statePath, $state);
+                    // Measure the guard from when the charge happened. The browser confirms the
+                    // card, so this server usually first observes the success on the user's next
+                    // purchase, possibly days later; starting the guard then would block it.
+                    // Fetch the charge separately: expanding it would put card and billing
+                    // details into the intent that is logged and returned to the browser.
+                    $charge = $intent->latest_charge;
+                    if (is_string($charge) && $charge !== '') {
+                        try {
+                            $charge = \Stripe\Charge::retrieve($charge);
+                        } catch (\Stripe\Exception\PermissionException $exception) {
+                            // Restricted key without "Charges: Read". Degrade to the observation
+                            // guard below instead of locking the customer out, and tell the admin.
+                            _error_log('StripeYPT::getIntent the Stripe restricted key cannot read Charges; grant it "Charges: Read", otherwise repeat purchases wait 5 minutes: ' . $exception->getMessage());
+                            $charge = null;
+                        }
                     }
-                    if (time() - $state['completed_at'] < 300) {
+                    if (is_object($charge) && !empty($charge->created)) {
+                        $paidAt = (int) $charge->created;
+                    } else {
+                        // Fail closed if Stripe did not tell when it was paid.
+                        if (empty($state['completed_at'])) {
+                            $state['completed_at'] = time();
+                            $this->saveSinglePaymentState($statePath, $state);
+                        }
+                        $paidAt = (int) $state['completed_at'];
+                    }
+                    if (time() - $paidAt < 300) {
                         if ($state['fingerprint'] === $fingerprint) {
                             return $intent;
                         }
@@ -217,15 +239,11 @@ class StripeYPT extends PluginAbstract
                         $getIntentErrorResponse = 'A payment request is already being processed. Please wait and try again.';
                         throw new \RuntimeException('Stripe payment still processing');
                     }
-                    if (time() - $state['created'] < 900) {
-                        if ($state['fingerprint'] === $fingerprint) {
-                            return $intent;
-                        }
-                        $getIntentErrorResponse = 'Another payment is pending. Please finish it or wait 15 minutes before starting a different payment.';
-                        throw new \RuntimeException('Different Stripe payment already pending');
+                    if ($state['fingerprint'] === $fingerprint && time() - $state['created'] < 900) {
+                        return $intent;
                     }
-                    // Expiry alone is not sufficient: invalidate the old client secret first.
-                    // If cancellation races with confirmation or fails, do not create another.
+                    // A different amount or an expired attempt: invalidate the old client secret
+                    // first. If cancellation races with confirmation or fails, do not create another.
                     $intent = $intent->cancel();
                     if ($intent->status !== 'canceled') {
                         throw new \RuntimeException('Previous Stripe payment could not be canceled');

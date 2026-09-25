@@ -179,6 +179,16 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   `CDN` plugin). Path/URL-building helpers already exist per backend — reuse them rather than
   constructing storage paths/URLs manually, since a wrong path can silently break playback only on
   non-local storage.
+- **Stripe single payments** (`plugin/StripeYPT/getIntent.json.php` with `singlePayment` metadata):
+  the browser confirms the card (`confirmCardPayment`) and the wallet is credited only by the
+  `charge.succeeded` webhook (`StripeYPT::processSinglePaymentIPN()`), so the server never sees the
+  success inside `getIntent()`. The per-user duplicate/idempotency guard in
+  `StripeYPT::getSinglePaymentIntentLocked()` (state files under `videos/stripe-payment-locks/`)
+  must take its timestamps from Stripe (`latest_charge.created`), never from when the server first
+  observed a status — otherwise a returning customer is blocked days later. Reading the charge needs
+  the restricted key to have **Charges: Read** (the rest of the flow only needs PaymentIntents);
+  without it the guard logs a warning and degrades to the 5-minute observation fallback. Covered by
+  `tests/Unit/StripeSinglePaymentCheckoutTest.php`.
 - **Manual testing required**: changes to FFmpeg/encoding, HLS packaging, live streaming
   (RTMP/on_publish flows), CDN/storage backends, payments (PayPal/Stripe/AuthorizeNet/Blockonomics),
   or third-party auth/social-login providers cannot be fully verified by automated tests in this
