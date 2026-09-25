@@ -26,7 +26,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.status === "success") {
                     avideoToastSuccess(__('Opening live studio...'));
-                    // Open the WebRTC setup screen (preview only); publishing requires explicit Confirm + Start.
+                    // Open the WebRTC setup screen (preview only); publishing requires an explicit Start broadcast.
                     avideoModalIframeFull(response.liveUrl);
                     // Reset button after modal opens
                     btn.prop("disabled", false);

@@ -1,20 +1,15 @@
 
 // Function to request notifications
 function requestNotifications() {
-    // Clear any previous timeout
+    if (typeof rtmpURLEncrypted === 'undefined' || !socketWebRTC.connected) return;
     clearTimeout(liveStatusTimeout);
-
-    // Set a timeout to mark as not live if no response is received
     liveStatusTimeout = setTimeout(() => {
-        console.warn("No response received within 10 seconds. Marking as not live.");
-        liveIndicator.style.display = 'none'; // Mark as not live
-    }, 10000); // 10 seconds
-
-    // Emit events to check RTMP status or other server-side data
+        webrtcStatusKnown = false;
+        setWebRTCError(__('Unable to confirm broadcast status. Check your connection and try again.'));
+        // Never claim a broadcast ended just because a status request timed out.
+    }, 10000);
     checkRTMPStatus();
-
     checkRemainingTime();
-
     checkConnections();
 }
 
@@ -71,7 +66,7 @@ function handleMediaError(error) {
             message = __('Unable to access the camera or microphone. Please check your devices and try again.');
     }
 
-    avideoToastError(message);
+    setWebRTCError(message);
 }
 
 function getSavedWebRTCDevices() {
@@ -106,77 +101,78 @@ function clearSavedWebRTCDevices() {
     }
 }
 
-// Marks the Quick Go Live device setup as confirmed, revealing the Start button (see style.css)
+// Retained for integrations that used the previous setup confirmation step.
 function markWebrtcSetupConfirmed() {
     document.body.classList.add('webrtcSetupConfirmed');
 }
 
 function startWebcamLive(rtmpURLEncrypted) {
-    if (isLive || isPublishing) {
-        console.warn('startWebcamLive ignored: a publish attempt is already in progress or already live.');
+    if (isLive || isPublishing || webrtcStopPending || webrtcMediaBusy) return;
+    if (!socketWebRTC.connected || !webrtcStatusKnown) {
+        setWebRTCError(__('Wait for the connection before starting your broadcast.'));
         return;
     }
-
-    if (!localStream) {
-        avideoToastError(__('No camera or microphone preview is available. Please check your devices and try again.'));
+    if (!localStream || !localStream.getVideoTracks().some(track => track.readyState === 'live') ||
+        (!webrtcUsingScreen && !localStream.getAudioTracks().some(track => track.readyState === 'live'))) {
+        setWebRTCError(__('A camera and microphone are needed. Check your devices and update the preview.'));
         return;
     }
-
+    webrtcError = '';
     isPublishing = true;
-    $('#startLive').prop('disabled', true);
-
-    // Notify server of new connection
+    renderWebRTCStudio();
+    $('#stopLive').trigger('focus');
     socketWebRTC.emit('join', { rtmpURLEncrypted, id: socketWebRTC.id });
-
-    // Send stream to the server for RTMP forwarding
-    sendStreamToServer(localStream);
-
-    // Safety net in case the server never confirms the publish (network/publication failure)
+    if (!sendStreamToServer(localStream)) return;
     clearTimeout(publishWatchdog);
     publishWatchdog = setTimeout(() => {
         if (isPublishing && !isLive) {
-            console.warn('Publish attempt timed out waiting for server confirmation.');
-            avideoToastError(__('We could not confirm the live stream started. Please try again.'));
-            isPublishing = false;
-            $('#startLive').prop('disabled', false);
-            stopStreamToServer();
+            failWebRTCPublish(__('We could not confirm the live stream started. Please try again.'));
         }
     }, 15000);
 }
 
-// Stop the live stream
 function stopWebcamLive(rtmpURLEncrypted) {
-    socketWebRTC.emit('stop-live', { rtmpURLEncrypted });
+    if (webrtcStopping) return;
+    webrtcError = '';
+    webrtcStopPending = true;
+    webrtcStopping = true;
+    isPublishing = false;
+    clearTimeout(publishWatchdog);
+    stopStreamToServer();
+    // Do not queue a stale stop in Socket.IO's offline send buffer. Send it on reconnect.
+    if (socketWebRTC.connected) socketWebRTC.emit('stop-live', { rtmpURLEncrypted });
+    renderWebRTCStudio();
+    clearTimeout(webrtcStopWatchdog);
+    webrtcStopWatchdog = setTimeout(() => {
+        webrtcStopping = false;
+        setWebRTCError(__('Unable to confirm the broadcast ended. Check your connection and choose End broadcast again.'));
+    }, 10000);
 }
 
 let mediaRecorder; // Declare a global variable to manage the MediaRecorder
 
 function sendStreamToServer(stream) {
     try {
-        if (!window.MediaRecorder) {
-            console.error('MediaRecorder API is not supported on this device.');
-            avideoToastError('MediaRecorder API is not supported on this device.');
-            return;
-        }
-
+        if (!window.MediaRecorder) throw new Error('MediaRecorder unavailable');
         mediaRecorder = new MediaRecorder(stream);
-
+        const recorder = mediaRecorder;
         mediaRecorder.ondataavailable = (event) => {
-            if (event.data.size > 0) {
-                //console.log(`video-chunk`);
+            if (mediaRecorder === recorder && recorder.state !== 'inactive' && event.data.size > 0 &&
+                socketWebRTC.connected && !webrtcStopPending && (isPublishing || isLive)) {
                 socketWebRTC.emit('video-chunk', { rtmpURLEncrypted, chunk: event.data });
             }
         };
-
         mediaRecorder.onerror = (event) => {
+            if (mediaRecorder !== recorder || webrtcStopPending) return;
             console.error('MediaRecorder error:', event.error);
+            failWebRTCPublish(__('Unable to share your camera and microphone. Update your browser or try again.'));
         };
-
-        const chunkSize = isIPhone() ? 250 : 1000; // 250ms for iPhone, 1000ms for others
-        mediaRecorder.start(chunkSize); // Record and send chunks every second
-        console.log(`MediaRecorder started`);
+        mediaRecorder.start(isIPhone() ? 250 : 1000);
+        return true;
     } catch (error) {
         console.error('Failed to initialize MediaRecorder:', error);
+        failWebRTCPublish(__('Unable to share your camera and microphone. Update your browser or try again.'));
+        return false;
     }
 }
 
@@ -190,8 +186,6 @@ function stopStreamToServer() {
     if (mediaRecorder && mediaRecorder.state !== 'inactive') {
         mediaRecorder.stop(); // Stop the MediaRecorder
         console.log('MediaRecorder stopped');
-    } else {
-        console.warn('MediaRecorder is not active or already stopped.');
     }
 }
 
@@ -200,15 +194,24 @@ function isWebcamServerConnected() {
 }
 
 function setIsWebcamServerConnected() {
-    console.log('Connection success');
-    // Custom logic to handle connection failure
     $('body').removeClass('WebcamServerNotConnected').addClass('WebcamServerConnected');
+    webrtcStatusKnown = false;
+    webrtcError = '';
+    webrtcHasConnected = true;
+    renderWebRTCStudio();
 }
 
 function setIsWebcamServerNotConnected() {
-    console.log('Connection error');
     $('body').removeClass('WebcamServerConnected').addClass('WebcamServerNotConnected');
-    setIsNotLive();
+    webrtcStatusKnown = false;
+    clearTimeout(liveStatusTimeout);
+    // End forwarding locally and reconcile with the server after reconnecting.
+    // Never silently republish a camera or claim a disconnected broadcast has ended.
+    if (isLive || isPublishing) webrtcStopPending = true;
+    isPublishing = false;
+    clearTimeout(publishWatchdog);
+    stopStreamToServer();
+    renderWebRTCStudio();
 }
 
 function setIsLive() {
@@ -217,8 +220,8 @@ function setIsLive() {
     isLive = true;
     isPublishing = false;
     clearTimeout(publishWatchdog);
-    $('#startLive').prop('disabled', false);
-    lockScreenOrientation(); // Lock screen orientation
+    renderWebRTCStudio();
+    lockScreenOrientation();
 }
 
 function setIsNotLive() {
@@ -227,9 +230,9 @@ function setIsNotLive() {
     isLive = false;
     isPublishing = false;
     clearTimeout(publishWatchdog);
-    $('#startLive').prop('disabled', false);
-    stopStreamToServer()
-    unlockScreenOrientation(); // Unlock screen orientation
+    stopStreamToServer();
+    renderWebRTCStudio();
+    unlockScreenOrientation();
 }
 
 async function getVideoSources() {
@@ -257,7 +260,15 @@ async function getAudioSources() {
 }
 
 async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScreen = false } = {}) {
+    if (webrtcMediaBusy || isLive || isPublishing || webrtcStopPending) return false;
+    webrtcMediaBusy = true;
+    webrtcError = '';
+    const request = ++webrtcMediaRequest;
+    renderWebRTCStudio();
     try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            throw { name: 'SecurityError' };
+        }
         let constraints;
 
         if (useScreen) {
@@ -272,16 +283,13 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
             };
         } else {
             // Constraints for selected devices or default devices
-            const isLandscape = window.screen.orientation.type.startsWith('landscape');
+            const isLandscape = window.innerWidth > window.innerHeight;
 
             const videoConstraints = buildVideoConstraints(videoDeviceId);
-            videoConstraints.aspectRatio = isLandscape ? 16 / 9 : 9 / 16;
+            videoConstraints.aspectRatio = { ideal: isLandscape ? 16 / 9 : 9 / 16 };
 
             console.log('videoConstraints', isLandscape, videoConstraints);
 
-            if (videoDeviceId) {
-                videoConstraints.deviceId = { exact: videoDeviceId };
-            }
 
             const audioConstraints = audioDeviceId ? { deviceId: { exact: audioDeviceId } } : true;
 
@@ -299,6 +307,10 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
             ? await navigator.mediaDevices.getDisplayMedia(constraints)
             : await navigator.mediaDevices.getUserMedia(constraints);
 
+        if (request !== webrtcMediaRequest) {
+            newStream.getTracks().forEach(track => track.stop());
+            return false;
+        }
         // Stop existing tracks before replacing them
         if (localStream) {
             localStream.getTracks().forEach((track) => track.stop());
@@ -306,7 +318,11 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
 
         // Set the new stream
         localStream = newStream;
+        webrtcUsingScreen = useScreen;
         localVideo.srcObject = newStream;
+        newStream.getTracks().forEach(track => {
+            track.addEventListener('ended', () => handleWebRTCTrackEnded(newStream));
+        });
 
         // Optionally replace tracks in WebRTC PeerConnection if needed
         if (peers.localPeerConnection) {
@@ -331,33 +347,23 @@ async function startWebRTC({ videoDeviceId = null, audioDeviceId = null, useScre
         console.error('Error starting the stream:', error);
         handleMediaError(error);
         return false;
+    } finally {
+        webrtcMediaBusy = false;
+        renderWebRTCStudio();
     }
 }
 
 function stopWebRTC() {
-    if (localStream) {
-        // Stop all tracks of the stream
-        localStream.getTracks().forEach((track) => track.stop());
-
-        // Optionally clear the video element's stream
-        localVideo.srcObject = null;
-        localStream = null;
-        $('body').removeClass('webCamIsOn');
-        console.log('Camera and microphone stopped.');
-    } else {
-        console.log('No active stream to stop.');
-    }
+    if (isLive || isPublishing || webrtcStopPending) return;
+    releaseWebRTCPreview();
+    webrtcError = '';
+    renderWebRTCStudio();
+    $('#startWebRTC').trigger('focus');
 }
 
-
 function toggleMediaSelector() {
-    if (!$('#mediaSelector').is(':visible')) {
-        $('#mediaSelector').fadeIn(); // Fade in #mediaSelector if not visible
-        $('#webrtcChat').hide();      // Hide #webrtcChat
-    } else {
-        $('#webrtcChat').show();      // Show #webrtcChat
-        $('#mediaSelector').fadeOut(); // Fade out #mediaSelector
-    }
+    const selector = document.getElementById('mediaSelector');
+    if (selector) selector.open = !selector.open;
 }
 
 // Utility to lock screen orientation
@@ -386,16 +392,16 @@ function unlockScreenOrientation() {
 async function populateSources() {
     let validatedSavedDevices = null;
     try {
-        // Request camera/mic access briefly to unlock device labels (required in iOS/Android).
-        // This stream is only used to read labels, so it is stopped immediately.
-        const labelStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        labelStream.getTracks().forEach((track) => track.stop());
+        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return null;
+        // Enumeration never opens the camera. The actual preview unlocks device labels.
+        const selectedVideo = $('#videoSource').val();
+        const selectedAudio = $('#audioSource').val();
 
         const devices = await navigator.mediaDevices.enumerateDevices();
 
         // Clear existing options
-        $('#videoSource').empty().append('<option value="">Default</option>');
-        $('#audioSource').empty().append('<option value="">Default</option>');
+        $('#videoSource').empty().append(new Option(__('Default'), ''));
+        $('#audioSource').empty().append(new Option(__('Default'), ''));
 
         const videoInputs = devices.filter(device => device.kind === 'videoinput');
         const audioInputs = devices.filter(device => device.kind === 'audioinput');
@@ -403,20 +409,20 @@ async function populateSources() {
         // Populate video sources
         videoInputs.forEach((device, index) => {
             $('#videoSource').append(
-                `<option value="${device.deviceId}">${device.label || `Camera ${index + 1}`}</option>`
+                new Option(device.label || __('Camera') + ' ' + (index + 1), device.deviceId)
             );
         });
 
         // If only 1 camera is available or labels are missing, add facingMode fallback options
-        if (videoInputs.length <= 1) {
-            $('#videoSource').append('<option value="facing-user">Front Camera</option>');
-            $('#videoSource').append('<option value="facing-environment">Rear Camera</option>');
+        if (videoInputs.length <= 1 || (getSavedWebRTCDevices() || {}).videoDeviceId?.startsWith('facing-')) {
+            $('#videoSource').append(new Option(__('Front Camera'), 'facing-user'));
+            $('#videoSource').append(new Option(__('Rear Camera'), 'facing-environment'));
         }
 
         // Populate audio sources
         audioInputs.forEach((device, index) => {
             $('#audioSource').append(
-                `<option value="${device.deviceId}">${device.label || `Mic ${index + 1}`}</option>`
+                new Option(device.label || __('Microphone') + ' ' + (index + 1), device.deviceId)
             );
         });
 
@@ -438,6 +444,8 @@ async function populateSources() {
                 clearSavedWebRTCDevices();
             }
         }
+        if (selectedVideo && videoInputs.some(d => d.deviceId === selectedVideo)) $('#videoSource').val(selectedVideo);
+        if (selectedAudio && audioInputs.some(d => d.deviceId === selectedAudio)) $('#audioSource').val(selectedAudio);
     } catch (error) {
         console.error('Error populating media sources:', error);
         handleMediaError(error);
@@ -465,100 +473,160 @@ function buildVideoConstraints(deviceIdOrFacingMode) {
 }
 
 
-window.addEventListener('orientationchange', () => {
-    console.log('Orientation changed.');
-    if (isLive) {
-        console.log('Live stream is running. Orientation change will not restart the stream.');
-        return; // Do not restart the stream if live is running
+
+// Studio state is separate from Socket.IO connectivity: a connection is not a broadcast.
+let webrtcMediaBusy = false;
+let webrtcUsingScreen = false;
+let webrtcMediaRequest = 0;
+let webrtcStatusKnown = false;
+let webrtcStopping = false;
+let webrtcStopPending = false;
+let webrtcError = '';
+let webrtcStopWatchdog;
+let webrtcHasConnected = false;
+
+function renderWebRTCStudio() {
+    if (!document.getElementById('webrtcStatus')) return;
+    const connected = isWebcamServerConnected();
+    const preview = !!localStream;
+    const active = isLive || isPublishing || webrtcStopPending;
+    let state = 'preview';
+    let label = __('Preview only');
+    let message = preview ? __('Only you can see this preview. Choose Start broadcast when you are ready.') :
+        __('Prepare your camera and microphone. Only you can see this preview.');
+    if (preview && webrtcUsingScreen && !localStream.getAudioTracks().length) {
+        message = __('Your screen preview has no sound. Choose a source with audio if you want your audience to hear it.');
     }
-
-    console.log('Restarting media stream due to orientation change...');
-    startWebRTC(); // Restart stream with updated constraints
-});
-
-// Detect a camera/microphone being unplugged or connected mid-session
-if (navigator.mediaDevices && typeof navigator.mediaDevices.addEventListener === 'function') {
-    navigator.mediaDevices.addEventListener('devicechange', async () => {
-        console.log('Media devices changed.');
-        const previousVideoTrack = localStream ? localStream.getVideoTracks()[0] : null;
-        const previousAudioTrack = localStream ? localStream.getAudioTracks()[0] : null;
-
-        await populateSources();
-
-        if (previousVideoTrack && previousVideoTrack.readyState === 'ended') {
-            avideoToastError(__('Your camera was disconnected. Please select another device.'));
-        }
-        if (previousAudioTrack && previousAudioTrack.readyState === 'ended') {
-            avideoToastError(__('Your microphone was disconnected. Please select another device.'));
-        }
-    });
+    if (webrtcMediaBusy && !active) {
+        state = 'loading';
+        label = __('Preparing camera and microphone');
+        message = __('Allow camera and microphone access in your browser to see the preview.');
+    } else if (!connected || !webrtcStatusKnown) {
+        state = 'connecting';
+        label = webrtcHasConnected ? __('Reconnecting') : __('Connecting');
+        message = active ? __('Connection interrupted. Checking your broadcast status. You can still choose End broadcast.') :
+            __('Connecting to the live service. You can prepare your preview while you wait.');
+    } else if (webrtcStopPending) {
+        state = 'stopping';
+        label = __('Ending broadcast');
+        message = __('Waiting for confirmation that your broadcast has ended.');
+    } else if (isPublishing) {
+        state = 'starting';
+        label = __('Starting broadcast');
+        message = __('Connecting your broadcast. Your camera and microphone are being shared.');
+    } else if (isLive) {
+        state = 'live';
+        label = __('You are live');
+        message = __('Your audience can see and hear your broadcast.');
+    }
+    if (webrtcError) {
+        message = webrtcError;
+        if (!active) { state = 'error'; label = __('Action needed'); }
+    }
+    $('.webrtc-studio').attr('data-state', state);
+    $('#webrtcStatus').removeClass('alert-info alert-success alert-warning alert-danger')
+        .addClass(webrtcError ? 'alert-danger' : state === 'live' ? 'alert-success' : active ? 'alert-warning' : 'alert-info');
+    $('#webrtcStateLabel').text(label);
+    $('#webrtcStateMessage').text(message);
+    $('#webrtcPreviewBadge').text(active ? label : __('Not live'));
+    $('#webrtcPreviewPlaceholder').toggleClass('hidden', preview);
+    $('#localVideo').attr('aria-hidden', preview ? 'false' : 'true');
+    $('#startWebRTC').toggleClass('hidden', preview || active).prop('disabled', webrtcMediaBusy);
+    $('#startLive').toggleClass('hidden', !preview || active).prop('disabled', webrtcMediaBusy || !connected || !webrtcStatusKnown);
+    $('#stopWebRTC').toggleClass('hidden', !preview || active).prop('disabled', webrtcMediaBusy);
+    $('#stopLive').toggleClass('hidden', !active).prop('disabled', webrtcStopping);
+    $('#webrtcDeviceFields').prop('disabled', active || webrtcMediaBusy);
+    $('#retryWebRTC').toggleClass('hidden', !webrtcError || active).prop('disabled', webrtcMediaBusy);
 }
 
+function setWebRTCError(message) {
+    const changed = webrtcError !== message;
+    webrtcError = message;
+    renderWebRTCStudio();
+    if (changed) avideoToastError(message);
+}
+
+function finishWebRTCStop() {
+    const focusStart = document.activeElement && document.activeElement.id === 'stopLive';
+    webrtcStopPending = false;
+    webrtcStopping = false;
+    webrtcStatusKnown = true;
+    clearTimeout(webrtcStopWatchdog);
+    setIsNotLive();
+    if (focusStart) $(localStream ? '#startLive' : '#startWebRTC').trigger('focus');
+}
+
+function failWebRTCPublish(message) {
+    // Cancel forwarding even if join succeeded but the confirmation was lost.
+    stopWebcamLive(rtmpURLEncrypted);
+    setWebRTCError(message);
+}
+
+async function prepareWebcam() {
+    if (localStream || webrtcMediaBusy || isLive || isPublishing || webrtcStopPending) return;
+    const saved = await populateSources();
+    const started = await startWebRTC(saved ? {
+        videoDeviceId: saved.videoDeviceId, audioDeviceId: saved.audioDeviceId
+    } : {});
+    if (started) await populateSources();
+}
+
+async function retryWebRTC() {
+    webrtcError = '';
+    if (!socketWebRTC.connected) socketWebRTC.connect();
+    else requestNotifications();
+    if (!localStream) await prepareWebcam();
+    renderWebRTCStudio();
+}
+
+function handleWebRTCTrackEnded(stream) {
+    if (stream !== localStream) return;
+    if (isLive || isPublishing) stopWebcamLive(rtmpURLEncrypted);
+    releaseWebRTCPreview();
+    setWebRTCError(__('Camera or microphone disconnected. Check your devices and prepare the preview again.'));
+}
+
+function releaseWebRTCPreview() {
+    // Invalidate outstanding permission requests so a late result cannot reopen the camera.
+    webrtcMediaRequest++;
+    if (localStream) localStream.getTracks().forEach(track => track.stop());
+    localStream = null;
+    webrtcUsingScreen = false;
+    if (localVideo) localVideo.srcObject = null;
+    $('body').removeClass('webCamIsOn');
+    renderWebRTCStudio();
+}
+
+function cleanupWebRTCStudio() {
+    if (isLive || isPublishing || webrtcStopPending) stopWebcamLive(rtmpURLEncrypted);
+    stopStreamToServer();
+    releaseWebRTCPreview();
+}
 
 $(document).ready(function () {
-    webrtcSourcesReadyPromise = populateSources();
-
-    // Start Screen Sharing
-    $('#startScreenShare').click(async function () {
-        startWebRTC({ useScreen: true });
-    });
-
-    // Confirm setup: apply the selected devices and persist them for future visits
+    if (!document.getElementById('webrtcStatus')) return;
+    renderWebRTCStudio();
+    $('#startScreenShare').click(() => startWebRTC({ useScreen: true }));
     $('#applyChanges').click(async function () {
-        if (typeof isLive !== 'undefined' && isLive) {
-            avideoToastWarning(__('Please stop the live stream before changing your camera or microphone.'));
-            return;
-        }
-
         const videoDeviceId = $('#videoSource').val();
         const audioDeviceId = $('#audioSource').val();
-        const btn = $(this);
-
-        btn.prop('disabled', true);
-        try {
-            const started = await startWebRTC({ videoDeviceId: videoDeviceId, audioDeviceId: audioDeviceId });
-            if (started) {
-                saveWebRTCDevices(videoDeviceId, audioDeviceId);
-                markWebrtcSetupConfirmed();
-                avideoToastSuccess(__('Setup confirmed.'));
-                console.log('Media devices updated successfully.');
-                // Free up the screen (chat/preview) now that setup is done; gear icon reopens it.
-                $('#mediaSelector').fadeOut(function () {
-                    $('#webrtcChat').show();
-                });
+        if (await startWebRTC({ videoDeviceId, audioDeviceId })) {
+            saveWebRTCDevices(videoDeviceId, audioDeviceId);
+            await populateSources();
+        }
+    });
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (event) {
+        if ($(event.target).attr('href') === '#tabWebcam') prepareWebcam();
+    });
+    if (document.body.classList.contains('quickGoLiveMode') || $('#tabWebcam').hasClass('active')) prepareWebcam();
+    window.addEventListener('pagehide', cleanupWebRTCStudio);
+    window.addEventListener('beforeunload', cleanupWebRTCStudio);
+    if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
+        navigator.mediaDevices.addEventListener('devicechange', async () => {
+            if (localStream && localStream.getTracks().some(track => track.readyState === 'ended')) {
+                handleWebRTCTrackEnded(localStream);
             }
-        } catch (error) {
-            console.error('Error applying changes to media devices:', error);
-        } finally {
-            btn.prop('disabled', false);
-        }
-    });
-
-    // Apply Changes (Change Video and Audio Sources)
-    $('#stopWebRTC').click(function () {
-        try {
-            stopWebRTC();
-            console.log('Media devices stop successfully.');
-        } catch (error) {
-            console.error('Error on stop', error);
-        }
-    });
-
-    // Apply Changes (Change Video and Audio Sources)
-    $('#startWebRTC').click(function () {
-        try {
-            startWebRTC();
-            console.log('Media devices start successfully.');
-        } catch (error) {
-            console.error('Error on start', error);
-        }
-    });
-
-    // Listen for the tab activation event
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        // Check if the 'Webcam' tab is activated
-        if ($(e.target).attr('href') === '#tabWebcam') {
-            startWebRTC(); // Call the startWebRTC function
-        }
-    });
+            await populateSources();
+        });
+    }
 });

@@ -1,0 +1,18 @@
+[
+    {
+        "element": "#webrtcStatus",
+        "intro": "Check your camera and microphone in the preview. You are not live until you choose Start broadcast."
+    },
+    {
+        "element": "#webcamMediaControls",
+        "intro": "Start broadcast shares your camera and microphone. End broadcast stops sharing and returns to the preview."
+    },
+    {
+        "element": "#mediaSelector",
+        "intro": "Choose your camera and microphone here. Screen sharing is under Advanced settings."
+    },
+    {
+        "element": "#webrtcChatPanel",
+        "intro": "Open Chat to read messages without covering your preview or controls."
+    }
+]

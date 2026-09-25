@@ -1,52 +1,17 @@
-<div class="text-center showWhenIsNotLive" style="display: none;">
-    <button
-        type="button"
-        id="startLive"
-        class="btn btn-success oval-menu animate__animated animate__bounceIn showWhenWebCamIsOn"
-        onclick="startWebcamLive(rtmpURLEncrypted);"
-        title="<?php echo __('Click here to go live!'); ?>" data-toggle="tooltip" >
-        <i class="fa fa-play"></i> Go Live
+<div class="webrtc-actions" id="webcamMediaControls">
+    <button type="button" id="startWebRTC" class="btn btn-primary" onclick="prepareWebcam();">
+        <i class="fa-solid fa-camera" aria-hidden="true"></i> <?php echo __('Prepare camera and microphone'); ?>
     </button>
-
-    <button
-        type="button"
-        id="stopWebRTC"
-        class="btn btn-danger oval-menu animate__animated animate__bounceIn showWhenWebCamIsOn"
-        style="-webkit-animation-delay: .2s; animation-delay: .2s;"
-        title="<?php echo __('Stop your webcam'); ?>" data-toggle="tooltip" >
-        <div>
-            <i class="fa-solid fa-camera"></i>
-            <i class="fa-solid fa-slash" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
-        </div>
+    <button type="button" id="startLive" class="btn btn-success hidden" onclick="startWebcamLive(rtmpURLEncrypted);">
+        <i class="fa fa-play" aria-hidden="true"></i> <?php echo __('Start broadcast'); ?>
     </button>
-
-    <button
-        type="button"
-        id="startWebRTC"
-        class="btn btn-success oval-menu animate__animated animate__bounceIn showWhenWebCamIsOff"
-        style="-webkit-animation-delay: .2s; animation-delay: .2s;"
-        title="<?php echo __('Start your webcam'); ?>" data-toggle="tooltip" >
-        <i class="fa-solid fa-camera"></i>
+    <button type="button" id="stopLive" class="btn btn-danger hidden" onclick="stopWebcamLive(rtmpURLEncrypted);">
+        <i class="fa fa-stop" aria-hidden="true"></i> <?php echo __('End broadcast'); ?>
     </button>
-
-    <button
-        type="button"
-        id="toggleMediaSelectorButton"
-        class="btn btn-default oval-menu animate__animated animate__bounceIn"
-        onclick="toggleMediaSelector();"
-        style="-webkit-animation-delay: .4s; animation-delay: .4s;"
-        title="<?php echo __('Change your camera or microphone settings'); ?>" data-toggle="tooltip" >
-        <i class="fa-solid fa-gear"></i>
+    <button type="button" id="stopWebRTC" class="btn btn-default hidden" onclick="stopWebRTC();">
+        <i class="fa-solid fa-video-slash" aria-hidden="true"></i> <?php echo __('Turn off preview'); ?>
     </button>
-</div>
-
-<div class="text-center showWhenIsLive" style="display: none;">
-    <button
-        type="button"
-        id="stopLive"
-        class="btn btn-danger oval-menu animate__animated animate__bounceIn"
-        onclick="stopWebcamLive(rtmpURLEncrypted);"
-        title="<?php echo __('Stop your live video'); ?>" data-toggle="tooltip" >
-        <i class="fa fa-stop"></i> Stop
+    <button type="button" id="retryWebRTC" class="btn btn-primary hidden" onclick="retryWebRTC();">
+        <i class="fa fa-refresh" aria-hidden="true"></i> <?php echo __('Try again'); ?>
     </button>
 </div>

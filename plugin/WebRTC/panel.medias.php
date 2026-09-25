@@ -1,31 +1,26 @@
-<div class="clearfix" style="display: none; margin-bottom: 10px;" id="mediaSelector">
-    <!-- Video Input Selection -->
-    <div class="col-sm-3 col-xs-6">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-video-camera"></i></span>
-            <select id="videoSource" class="form-control">
-                <option value="">Select Video Source</option>
-            </select>
+<details id="mediaSelector" class="webrtc-settings">
+    <summary id="toggleMediaSelectorButton"><?php echo __('Camera and microphone'); ?></summary>
+    <fieldset id="webrtcDeviceFields">
+        <legend class="sr-only"><?php echo __('Camera and microphone'); ?></legend>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="videoSource"><?php echo __('Camera'); ?></label>
+                <select id="videoSource" class="form-control"><option value=""><?php echo __('Default'); ?></option></select>
+            </div>
+            <div class="col-sm-6 form-group">
+                <label for="audioSource"><?php echo __('Microphone'); ?></label>
+                <select id="audioSource" class="form-control"><option value=""><?php echo __('Default'); ?></option></select>
+            </div>
         </div>
-    </div>
-    <!-- Audio Input Selection -->
-    <div class="col-sm-3 col-xs-6">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-microphone"></i></span>
-            <select id="audioSource" class="form-control">
-                <option value="">Select Audio Source</option>
-            </select>
-        </div>
-    </div>
-    <!-- Screen Share Button -->
-    <div class="col-sm-3 col-xs-6">
-        <button type="button" id="startScreenShare" class="btn btn-primary btn-block">
-            <i class="fa fa-desktop"></i> Screen
+        <button type="button" id="applyChanges" class="btn btn-default">
+            <i class="fa fa-check" aria-hidden="true"></i> <?php echo __('Update preview'); ?>
         </button>
-    </div>
-    <div class="col-sm-3 col-xs-6">
-        <button type="button" id="applyChanges" class="btn btn-success btn-block ">
-            <i class="fa fa-check"></i> <?php echo __('Confirm setup'); ?>
-        </button>
-    </div>
-</div>
+        <details class="webrtc-advanced">
+            <summary><?php echo __('Advanced settings'); ?></summary>
+            <button type="button" id="startScreenShare" class="btn btn-default">
+                <i class="fa fa-desktop" aria-hidden="true"></i> <?php echo __('Share screen'); ?>
+            </button>
+            <p class="help-block"><?php echo __('Screen audio depends on your browser and the source you share.'); ?></p>
+        </details>
+    </fieldset>
+</details>

@@ -10,72 +10,75 @@ let isLive = false; // Track live status
 socketWebRTC.on('connect_error', (error) => {
     setIsWebcamServerNotConnected();
     console.error('Connection error:', error.message);
-    //avideoToastError('Unable to connect to the webcam server. Please check your connection and try again.');
+    setWebRTCError(__('Unable to connect. Check your internet connection and try again.'));
 });
 
 // Handle successful connection
 socketWebRTC.on('connect', () => {
     setIsWebcamServerConnected();
-    avideoToastSuccess('Successfully connected to the webcam server.');
+    if (webrtcStopPending) {
+        socketWebRTC.emit('stop-live', { rtmpURLEncrypted });
+    }
+    requestNotifications();
 });
 
 // Handle disconnection
 socketWebRTC.on('disconnect', (reason) => {
     setIsWebcamServerNotConnected();
-    avideoToastError(`Disconnected from the webcam server. Reason: ${reason}`);
+
     console.log('Disconnected from the server:', reason);
     if (reason === 'io server disconnect') {
         socketWebRTC.connect(); // Optionally reconnect
-        avideoToastWarning('Reconnecting to the server...');
+
     }
 });
 
 // Handle reconnection attempts
-socketWebRTC.on('reconnect_attempt', () => {
+socketWebRTC.io.on('reconnect_attempt', () => {
     console.log('Attempting to reconnect...');
-    avideoToastInfo('Attempting to reconnect to the webcam server...');
+    renderWebRTCStudio();
 });
 
 // Handle live-start
 socketWebRTC.on('live-start', ({ rtmpURL }) => {
     console.log('live-start', rtmpURL);
-    avideoToastSuccess(`<i class="fa-solid fa-sync fa-spin"></i> Live streaming connecting...`);
-    setIsLive();
+    // The forwarding process has started; wait for RTMP status before saying Live.
+    if (webrtcStopPending) socketWebRTC.emit('stop-live', { rtmpURLEncrypted });
+    renderWebRTCStudio();
     requestNotifications();
 });
 
 // Handle live-resumed
 socketWebRTC.on('live-resumed', ({ rtmpURL }) => {
     console.log('live-resumed', rtmpURL);
-    avideoToastSuccess(`Live streaming resumed.`);
-    setIsLive();
+    if (webrtcStopPending) socketWebRTC.emit('stop-live', { rtmpURLEncrypted });
     requestNotifications();
 });
 
 // Handle live-stopped
 socketWebRTC.on('live-stopped', ({ rtmpURL, message }) => {
     console.log('live-stopped', rtmpURL, message);
-    avideoToastWarning(`${message}`);
-    setIsNotLive();
+    finishWebRTCStop();
     requestNotifications();
 });
 
 socketWebRTC.on('stream-will-stop', ({ rtmpURL, message }) => {
     console.log('stream-will-stop', rtmpURL, message);
-    avideoToastWarning(`<i class="fa-solid fa-triangle-exclamation fa-beat-fade"></i> ${message}`, 30000);
+    avideoToastWarning(__('Your broadcast will end soon. Check your connection.'), 30000);
 });
 
 // Handle general errors
 socketWebRTC.on('error', ({ message }) => {
     console.error(`Error: ${message}`);
-    avideoToastError(`An error occurred: ${message}`);
+    if (isPublishing || isLive) failWebRTCPublish(__('The broadcast was interrupted. Please try again.'));
+    else setWebRTCError(__('The live service could not complete the request. Please try again.'));
     requestNotifications();
 });
 
 // Handle FFMPEG errors
 socketWebRTC.on('ffmpeg-error', ({ code }) => {
     console.error(`FFMPEG Error: ${code}`);
-    avideoToastError(`FFMPEG encountered an error. Error code: ${code}`);
+    failWebRTCPublish(__('The broadcast was interrupted. Please try again.'));
     requestNotifications();
 });
 
@@ -93,24 +96,29 @@ socketWebRTC.on('live-time', ({ startTime, elapsedSeconds, remainingSeconds }) =
 
 // Handle RTMP status
 socketWebRTC.on('rtmp-status', ({ rtmpURL, isRunning }) => {
-    if (isRunning) {
-        console.log(`This live is running with RTMP URL: ${rtmpURL}`);
-        //avideoToastSuccess(`Live stream is running. RTMP URL: ${rtmpURL}`);
-        setIsLive();
-    } else {
-        console.log(`This live is not running`);
-        //avideoToastWarning('Live stream is not running.');
-        setIsNotLive();
-    }
-
-    // Clear the timeout since we received a response
+    webrtcStatusKnown = true;
     clearTimeout(liveStatusTimeout);
+    if (isRunning) {
+        if (webrtcStopPending) socketWebRTC.emit('stop-live', { rtmpURLEncrypted });
+        setIsLive();
+    } else if (webrtcStopPending) {
+        finishWebRTCStop();
+    } else if (!isPublishing) {
+        // A status reply sent before join must not cancel an in-flight start.
+        setIsNotLive();
+    } else {
+        // The server may acknowledge join before its forwarding process is ready.
+        setTimeout(() => {
+            if (isPublishing && socketWebRTC.connected) checkRTMPStatus();
+        }, 1000);
+    }
+    renderWebRTCStudio();
 });
 
 // Handle stream-stopped
 socketWebRTC.on('stream-stopped', ({ rtmpURL, reason }) => {
     console.log(`Stream for ${rtmpURL} stopped: ${reason}`);
-    avideoToastWarning(`Stream stopped. ${reason}`);
+    avideoToastWarning(__('Broadcast ended.'));
     requestNotifications();
-    setIsNotLive();
+    finishWebRTCStop();
 });

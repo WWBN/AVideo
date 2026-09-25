@@ -1,0 +1,127 @@
+.webrtc-studio {
+    --webrtc-preview-bg: #14181e;
+    --webrtc-preview-text: #fff;
+    --webrtc-live-bg: #a91e2c;
+    --webrtc-start-bg: #236b3a;
+    --webrtc-focus-color: #2175bf;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.webrtc-page { max-width: 960px; padding-top: 16px; }
+.webrtc-studio .webrtc-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.webrtc-studio .panel-body { display: flex; flex-direction: column; gap: 16px; }
+.webrtc-studio .panel-body::before, .webrtc-studio .panel-body::after { display: none; }
+.webrtc-studio .webrtc-status { margin: 0; }
+.webrtc-studio .webrtc-feedback { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.webrtc-studio .webrtc-feedback .webrtc-status { flex: 1; min-width: 0; }
+.webrtc-studio .webrtc-feedback .startTourBtn { flex-shrink: 0; }
+.webrtc-studio .webrtc-status p { margin: 6px 0 0; }
+.webrtc-studio .webrtc-preview { position: relative; background: var(--webrtc-preview-bg); border-radius: 8px; overflow: hidden; }
+.webrtc-studio #localVideo { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; max-height: 60vh; object-fit: contain; background: var(--webrtc-preview-bg); }
+.webrtc-studio .webrtc-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 40px 16px; text-align: center; color: var(--webrtc-preview-text); }
+.webrtc-studio .webrtc-placeholder i { font-size: 32px; }
+.webrtc-studio .webrtc-preview-badge { position: absolute; top: 12px; left: 12px; padding: 6px 12px; border-radius: 6px; color: var(--webrtc-preview-text); background: var(--webrtc-preview-bg); font-weight: bold; }
+.webrtc-studio[data-state="live"] .webrtc-preview-badge { background: var(--webrtc-live-bg); }
+.webrtc-studio .webrtc-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.webrtc-studio .btn { min-height: 44px; white-space: normal; border-radius: 6px; }
+.webrtc-studio .webrtc-actions .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex: 1 1 160px; }
+.webrtc-studio .webrtc-actions i { flex-shrink: 0; margin: 0; line-height: 1; }
+.webrtc-studio .btn-success { color: var(--webrtc-preview-text); background: var(--webrtc-start-bg); border-color: var(--webrtc-start-bg); }
+.webrtc-studio .btn-danger { color: var(--webrtc-preview-text); background: var(--webrtc-live-bg); border-color: var(--webrtc-live-bg); }
+.webrtc-studio summary { cursor: pointer; min-height: 44px; padding: 12px 0; font-weight: bold; }
+.webrtc-studio .webrtc-settings, .webrtc-studio .webrtc-chat { border-top: 1px solid; border-color: inherit; }
+.webrtc-studio .webrtc-chat { order: 5; }
+.webrtc-studio .webrtc-sidebar { display: contents; }
+.webrtc-studio .webrtc-chat iframe { display: block; position: static; width: 100%; height: 360px; max-height: 60vh; border: 0; }
+.webrtc-studio .webrtc-advanced { margin-top: 12px; }
+.webrtc-studio .webrtc-settings .row { margin-left: -6px; margin-right: -6px; }
+.webrtc-studio .webrtc-settings .form-group { padding-left: 6px; padding-right: 6px; }
+.webrtc-studio .form-control { height: auto; min-height: 44px; font-size: 16px; }
+.webrtc-studio :is(button, select, summary):focus-visible { outline: 3px solid var(--webrtc-focus-color); outline-offset: 3px; }
+@media (max-width: 767px) {
+    .webrtc-studio .panel-body { padding: 12px; gap: 12px; }
+    .webrtc-studio .webrtc-actions .btn { flex-basis: 100%; }
+    .webrtc-page { padding: 8px; }
+}
+
+/* The standalone/iframe studio uses the viewport instead of the Live tab's card layout. */
+.quickGoLiveMode .webrtc-page {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    height: 100dvh;
+    padding: 0;
+}
+.quickGoLiveMode .webrtc-studio {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+}
+.quickGoLiveMode .webrtc-heading {
+    display: none;
+}
+.quickGoLiveMode .webrtc-studio > .panel-body {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    grid-template-areas: "preview sidebar" "feedback sidebar" "actions sidebar";
+    padding: 12px max(16px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    gap: 12px 16px;
+}
+.quickGoLiveMode .webrtc-feedback { grid-area: feedback; }
+.quickGoLiveMode .webrtc-status { padding: 8px 12px; }
+.quickGoLiveMode .webrtc-status p { margin-top: 3px; }
+.quickGoLiveMode .webrtc-studio[data-state="preview"] .webrtc-status p { display: none; }
+.quickGoLiveMode .webrtc-preview { grid-area: preview; min-width: 0; min-height: 0; }
+.quickGoLiveMode .webrtc-studio #localVideo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    aspect-ratio: auto;
+}
+.quickGoLiveMode .webrtc-actions { grid-area: actions; justify-content: center; }
+.quickGoLiveMode .webrtc-actions .btn { flex: 0 1 240px; min-height: 48px; }
+.quickGoLiveMode .webrtc-sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 8px 8px;
+}
+.quickGoLiveMode .webrtc-sidebar .webrtc-settings { border-top: 0; }
+.quickGoLiveMode .webrtc-sidebar summary { display: list-item; list-style-position: inside; }
+.quickGoLiveMode .webrtc-sidebar .col-sm-6 { width: 100%; float: none; }
+.quickGoLiveMode .webrtc-chat { margin-top: 12px; }
+.quickGoLiveMode .webrtc-chat[open] { flex: 1; display: flex; flex-direction: column; }
+.quickGoLiveMode .webrtc-chat iframe { flex: 1; min-height: 180px; height: 100%; max-height: none; }
+@media (min-width: 768px) {
+    .quickGoLiveMode .webrtc-chat iframe { height: calc(100dvh - 133px); }
+    .quickGoLiveMode .webrtc-sidebar:has(.webrtc-settings[open]) .webrtc-chat iframe { height: calc(100dvh - 403px); }
+}
+@media (max-width: 767px) {
+    .quickGoLiveMode .webrtc-studio > .panel-body {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(100px, 1fr) auto auto auto;
+        grid-template-areas: "preview" "feedback" "actions" "sidebar";
+        padding: 8px max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+        gap: 8px;
+        overflow-y: auto;
+    }
+    .quickGoLiveMode .webrtc-actions { flex-wrap: nowrap; }
+    .quickGoLiveMode .webrtc-actions .btn { flex: 1 1 0; min-width: 0; padding: 8px; }
+    .quickGoLiveMode .webrtc-sidebar { max-height: 35vh; max-height: 35dvh; padding: 0 6px; }
+    .quickGoLiveMode .webrtc-chat { margin-top: 0; }
+    .quickGoLiveMode .webrtc-chat iframe { flex: none; height: 260px; }
+}
