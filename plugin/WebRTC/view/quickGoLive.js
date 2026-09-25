@@ -26,10 +26,8 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.status === "success") {
                     avideoToastSuccess(__('Opening live studio...'));
-                    // Add autoStart parameter to trigger automatic streaming
-                    var url = response.liveUrl + (response.liveUrl.indexOf('?') === -1 ? '?' : '&') + 'autoStart=1';
-                    // Open in fullscreen modal instead of redirecting
-                    avideoModalIframeFull(url);
+                    // Open the WebRTC setup screen (preview only); publishing requires explicit Confirm + Start.
+                    avideoModalIframeFull(response.liveUrl);
                     // Reset button after modal opens
                     btn.prop("disabled", false);
                     btn.html(originalButtonHtml);

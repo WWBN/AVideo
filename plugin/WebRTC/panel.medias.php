@@ -25,7 +25,7 @@
     </div>
     <div class="col-sm-3 col-xs-6">
         <button type="button" id="applyChanges" class="btn btn-success btn-block ">
-            <i class="fa fa-check"></i>
+            <i class="fa fa-check"></i> <?php echo __('Confirm setup'); ?>
         </button>
     </div>
 </div>
