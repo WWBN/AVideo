@@ -60,5 +60,12 @@ $intent = $stripe->getIntent($value, $currency, @$_REQUEST['description'], $meta
 $obj->intent = $intent;
 $obj->client_secret = @$intent->client_secret;
 $obj->error = empty($obj->client_secret);
+$obj->already_paid = !empty($intent) && $intent->status === 'succeeded';
+if ($obj->already_paid) {
+    $obj->msg = __('Payment already processed. No new charge was made.');
+}
+if ($obj->error) {
+    $obj->msg = empty($getIntentErrorResponse) ? __('An error occurred') : __($getIntentErrorResponse);
+}
 die(json_encode($obj));
 ?>

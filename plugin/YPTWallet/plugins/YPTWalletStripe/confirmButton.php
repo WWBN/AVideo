@@ -48,6 +48,7 @@ $uid = uniqid();
             </div>
             <!-- Used to display form errors. -->
             <div id="card-errors<?php echo $uid; ?>" role="alert"></div>
+            <div id="payment-status<?php echo $uid; ?>" role="status" aria-live="polite"></div>
         </div>
         <div class="panel-footer">
 
@@ -104,8 +105,40 @@ $uid = uniqid();
 
     // Handle form submission.
     var form<?php echo $uid; ?> = document.getElementById('payment-form<?php echo $uid; ?>');
+    var paymentPending<?php echo $uid; ?> = false;
+    function paymentMessage<?php echo $uid; ?>(message) {
+        $('#payment-status<?php echo $uid; ?>').text(message);
+    }
+    function paymentError<?php echo $uid; ?>(message) {
+        paymentPending<?php echo $uid; ?> = false;
+        $(form<?php echo $uid; ?>).find('button').prop('disabled', false);
+        modal.hidePleaseWait();
+        paymentMessage<?php echo $uid; ?>(message);
+        avideoAlertError(message);
+    }
+    function paymentComplete<?php echo $uid; ?>(message) {
+        // Keep the button disabled until navigation, including in paymentsTest mode.
+        modal.hidePleaseWait();
+        paymentMessage<?php echo $uid; ?>(message);
+        avideoToastSuccess(message);
+        updateYPTWallet();
+        setTimeout(function() {
+            <?php
+            if (empty($global['paymentsTest'])) {
+                $url = YPTWallet::getAddFundsSuccessRedirectURL();
+                echo empty($url) ? 'location.reload();' : 'window.top.location.href=' . json_encode($url) . ';';
+            }
+            ?>
+        }, 3000);
+    }
     form<?php echo $uid; ?>.addEventListener('submit', function (event) {
         event.preventDefault();
+        if (paymentPending<?php echo $uid; ?>) {
+            return;
+        }
+        paymentPending<?php echo $uid; ?> = true;
+        $(form<?php echo $uid; ?>).find('button').prop('disabled', true);
+        paymentMessage<?php echo $uid; ?>(<?php echo json_encode(__('Processing payment. Please wait and do not submit again.')); ?>);
         modal.showPleaseWait();
         $.ajax({
             url: webSiteRootURL+'plugin/StripeYPT/getIntent.json.php',
@@ -118,41 +151,38 @@ $uid = uniqid();
             },
             type: 'post',
             success: function (response) {
-                modal.hidePleaseWait();
+                if (response.already_paid) {
+                    paymentComplete<?php echo $uid; ?>(response.msg);
+                    return;
+                }
                 if (!response.error) {
-                    console.log(response);
+                    // Allow Stripe's authentication dialog; the submit guard stays active.
+                    modal.hidePleaseWait();
                     stripe<?php echo $uid; ?>.confirmCardPayment(
                             response.client_secret,{
                                 payment_method: {card: card<?php echo $uid; ?>}
                             }
                     ).then(function (result) {
-                        console.log(result);
                         if (result.error) {
                             // Inform the user if there was an error.
                             var errorElement = document.getElementById('card-errors<?php echo $uid; ?>');
                             errorElement.textContent = result.error.message;
-                            avideoAlertError(result.error.message);
+                            paymentError<?php echo $uid; ?>(result.error.message);
+                        } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+                            paymentComplete<?php echo $uid; ?>(<?php echo json_encode(__('Payment processed successfully.')); ?>);
                         } else {
-                            modal.showPleaseWait();
-                            // Send the token to your server.
-                            avideoToast("<?php echo __("Payment Success"); ?>");
-                            updateYPTWallet();
-                            setTimeout(function(){
-                                <?php
-                                if (empty($global['paymentsTest'])) {
-                                    $url = YPTWallet::getAddFundsSuccessRedirectURL();
-                                    echo empty($url) ? 'location.reload();' : "window.top.location.href='{$url}'";
-                                }else{
-                                    echo 'modal.hidePleaseWait();';
-                                }
-                                ?>
-                            }, 3000);
+                            modal.hidePleaseWait();
+                            paymentMessage<?php echo $uid; ?>(<?php echo json_encode(__('Payment is still processing. Please wait and do not submit again.')); ?>);
                         }
+                    }).catch(function() {
+                        paymentError<?php echo $uid; ?>(<?php echo json_encode(__('Could not confirm the payment status. Please try again to check the same payment.')); ?>);
                     });
                 } else {
-                    avideoAlertError(response.msg);
+                    paymentError<?php echo $uid; ?>(response.msg);
                 }
-
+            },
+            error: function() {
+                paymentError<?php echo $uid; ?>(<?php echo json_encode(__('Could not confirm the payment status. Please try again to check the same payment.')); ?>);
             }
         });
 

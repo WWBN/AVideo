@@ -112,7 +112,8 @@ class StripeYPT extends PluginAbstract
 
     public function getIntent($total = '1.00', $currency = "USD", $description = "", $metadata = array(), $customer = "", $future_usage = "")
     {
-        global $global, $config;
+        global $global, $config, $getIntentErrorResponse;
+        $getIntentErrorResponse = '';
         $this->start();
         $total = number_format(floatval($total), 2, "", "");
         $users_id = User::getId();
@@ -138,15 +139,144 @@ class StripeYPT extends PluginAbstract
         }
         _error_log("StripeYPT::getIntent $total , $currency, $description");
         try {
-            $intent = \Stripe\PaymentIntent::create($parameters);
+            $intent = !empty($metadata['singlePayment']) && $users_id > 0
+                ? $this->getSinglePaymentIntentLocked($parameters)
+                : \Stripe\PaymentIntent::create($parameters);
 
             _error_log("StripeYPT::getIntent success " . json_encode($intent));
             return $intent;
-        } catch (Exception $exc) {
+        } catch (\Throwable $exc) {
             _error_log("StripeYPT::getIntent error " . $exc->getMessage());
             _error_log($exc->getTraceAsString());
         }
         return false;
+    }
+
+    private function getSinglePaymentIntentLocked($parameters)
+    {
+        global $global, $getIntentErrorResponse;
+        // Unlike cache files, this state must survive cache cleanup and PHP requests.
+        // No existing payment-attempt store exists in the file helpers or StripeYPT.
+        $directory = $global['systemRootPath'] . 'videos/stripe-payment-locks/';
+        if (!is_dir($directory) && !@mkdir($directory, 0700, true) && !is_dir($directory)) {
+            throw new \RuntimeException('Cannot create Stripe payment lock directory');
+        }
+        $settings = $this->getDataObject();
+        $scope = hash('sha256', $global['webSiteRootURL'] . '|' . $settings->Restrictedkey . '|' . User::getId());
+        $statePath = $directory . $scope . '.php';
+        $file = @fopen($directory . $scope . '.lock', 'c+');
+        if (!$file) {
+            throw new \RuntimeException('Cannot open Stripe payment lock');
+        }
+        $locked = false;
+        try {
+            $locked = flock($file, LOCK_EX | LOCK_NB);
+            if (!$locked) {
+                $getIntentErrorResponse = 'A payment request is already being processed. Please wait and try again.';
+                throw new \RuntimeException('Stripe payment lock busy');
+            }
+            $hasState = is_file($statePath);
+            $contents = $hasState ? file_get_contents($statePath) : '';
+            if ($contents === false) {
+                throw new \RuntimeException('Cannot read Stripe payment lock state');
+            }
+            $prefix = "<?php exit; ?>\n";
+            $state = $contents === '' ? [] : json_decode(substr($contents, strlen($prefix)), true);
+            if ($hasState && (strpos($contents, $prefix) !== 0 || !is_array($state) || empty($state['key']) || empty($state['created']) || empty($state['fingerprint']))) {
+                throw new \RuntimeException('Invalid Stripe payment lock state; reconciliation required');
+            }
+            $fingerprint = hash('sha256', json_encode($parameters));
+            if (!empty($state)) {
+                if (empty($state['intent'])) {
+                    // A timeout may have hidden a successful create. Replay its original key,
+                    // never generate a new key after Stripe's retention window has elapsed.
+                    if ($state['fingerprint'] !== $fingerprint || time() - $state['created'] >= 23 * 3600) {
+                        throw new \RuntimeException('Unresolved Stripe payment creation; reconciliation required');
+                    }
+                    $intent = $this->createSinglePaymentIntent($parameters, $state, $statePath);
+                    $state['intent'] = $intent->id;
+                    $this->saveSinglePaymentState($statePath, $state);
+                }
+                $intent = \Stripe\PaymentIntent::retrieve($state['intent']);
+                if ($intent->status === 'succeeded') {
+                    // Start the guard when success is observed, not when the charge was
+                    // created (3DS confirmation can complete much later).
+                    if (empty($state['completed_at'])) {
+                        $state['completed_at'] = time();
+                        $this->saveSinglePaymentState($statePath, $state);
+                    }
+                    if (time() - $state['completed_at'] < 300) {
+                        if ($state['fingerprint'] === $fingerprint) {
+                            return $intent;
+                        }
+                        $getIntentErrorResponse = 'Your previous payment was processed. Please wait five minutes before making another payment. No new charge was made.';
+                        throw new \RuntimeException('Stripe payment completion cooldown');
+                    }
+                } elseif ($intent->status !== 'canceled') {
+                    if (in_array($intent->status, ['processing', 'requires_capture'], true)) {
+                        $getIntentErrorResponse = 'A payment request is already being processed. Please wait and try again.';
+                        throw new \RuntimeException('Stripe payment still processing');
+                    }
+                    if (time() - $state['created'] < 900) {
+                        if ($state['fingerprint'] === $fingerprint) {
+                            return $intent;
+                        }
+                        $getIntentErrorResponse = 'Another payment is pending. Please finish it or wait 15 minutes before starting a different payment.';
+                        throw new \RuntimeException('Different Stripe payment already pending');
+                    }
+                    // Expiry alone is not sufficient: invalidate the old client secret first.
+                    // If cancellation races with confirmation or fails, do not create another.
+                    $intent = $intent->cancel();
+                    if ($intent->status !== 'canceled') {
+                        throw new \RuntimeException('Previous Stripe payment could not be canceled');
+                    }
+                }
+            }
+            $state = ['key' => 'avideo_payment_' . bin2hex(random_bytes(24)), 'created' => time(), 'fingerprint' => $fingerprint];
+            $this->saveSinglePaymentState($statePath, $state);
+            $intent = $this->createSinglePaymentIntent($parameters, $state, $statePath);
+            $state['intent'] = $intent->id;
+            $this->saveSinglePaymentState($statePath, $state);
+            return $intent;
+        } finally {
+            if ($locked) {
+                flock($file, LOCK_UN);
+            }
+            fclose($file);
+            // Never unlink a flock file: another worker may already have it open.
+        }
+    }
+
+    private function createSinglePaymentIntent($parameters, $state, $statePath)
+    {
+        try {
+            return \Stripe\PaymentIntent::create($parameters, ['idempotency_key' => $state['key']]);
+        } catch (\Stripe\Exception\InvalidRequestException $exception) {
+            // A definite validation rejection (e.g. below Stripe's minimum amount)
+            // can be corrected. Ambiguous/network/idempotency failures keep the key.
+            if ($exception->getHttpStatus() === 400 && $exception->getStripeCode() !== 'idempotency_key_in_use') {
+                if (!unlink($statePath)) {
+                    throw new \RuntimeException('Cannot clear rejected Stripe payment attempt', 0, $exception);
+                }
+            }
+            throw $exception;
+        }
+    }
+
+    private function saveSinglePaymentState($statePath, $state)
+    {
+        // Replace state atomically; a crash must not erase the saved idempotency key.
+        $contents = "<?php exit; ?>\n" . json_encode($state);
+        $temporary = $statePath . '.' . bin2hex(random_bytes(8)) . '.php';
+        try {
+            if (file_put_contents($temporary, $contents) !== strlen($contents) || !rename($temporary, $statePath)) {
+                throw new \RuntimeException('Cannot persist Stripe payment attempt');
+            }
+        } finally {
+            if (is_file($temporary)) {
+                unlink($temporary);
+            }
+        }
     }
 
     public function setUpPayment($total = '1.00', $currency = "USD", $description = "")
