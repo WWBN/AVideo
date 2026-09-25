@@ -40,7 +40,7 @@ jobs:
         run: node .github/release/release.mjs plan
         env:
           GH_TOKEN: ${{ github.token }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: release-plan
           path: .github/release/release-plan.json
