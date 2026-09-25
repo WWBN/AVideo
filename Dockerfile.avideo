@@ -1,11 +1,11 @@
 FROM ubuntu:26.04
 
-LABEL maintainer="Daniel Neto <developer@streamphp.com>" \
+LABEL maintainer="Poc  <poc@poc.com>" \
       org.label-schema.schema-version="2.0" \
       org.label-schema.version="2.0.0" \
       org.label-schema.name="avideo-platform" \
       org.label-schema.description="Audio Video Platform" \
-      org.label-schema.url="https://github.com/WWBN/AVideo" \
+#      org.label-schema.url="https://github.com/WWBN/AVideo" \
       org.label-schema.vendor="WWBN"
 
 ARG DEBIAN_FRONTEND=noninteractive

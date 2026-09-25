@@ -128,3 +128,4 @@ vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/
 .github/prompts/avideo-github-issue-answer.prompt.md
 .claude/*
 CLAUDE.md
+node_modules
