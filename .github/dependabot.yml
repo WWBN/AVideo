@@ -18,6 +18,11 @@ updates:
       fullcalendar:
         patterns:
           - "@fullcalendar/*"
+    # The calendar uses v6 plugins and global bundles. A major upgrade needs
+    # a coordinated migration; updating only core to v7 breaks npm ci (#10618).
+    ignore:
+      - dependency-name: "@fullcalendar/*"
+        update-types: ["version-update:semver-major"]
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"

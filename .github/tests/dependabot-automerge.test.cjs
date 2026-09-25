@@ -25,8 +25,10 @@ async function simulate(options = {}) {
   }));
   const merged = [];
   const failures = [];
+  const errors = [];
   const warnings = [];
   const summary = [];
+  let summaryText = '';
   const github = {
     rest: {
       pulls: {
@@ -48,15 +50,16 @@ async function simulate(options = {}) {
     }
   };
   await run(github, { repo: { owner: 'WWBN', repo: 'AVideo' } }, {
-    info() {}, warning: message => warnings.push(message), error() {}, setFailed: message => failures.push(message),
+    info() {}, warning: message => warnings.push(message), error: message => errors.push(message), setFailed: message => failures.push(message),
     summary: {
       addHeading() { return this; },
-      addRaw() { return this; },
+      addRaw(value) { summaryText += value; return this; },
       addList(items) { summary.push(...items); return this; },
-      async write() { options.onSummary?.(summary); }
+      async write() { options.onSummary?.(summary, summaryText); }
     }
   });
   options.onWarnings?.(warnings);
+  options.onErrors?.(errors);
   return { merged, failures };
 }
 
@@ -113,20 +116,27 @@ test('permission errors fail the workflow instead of silently succeeding', async
   assert.equal(result.failures.length, 1);
 });
 
-test('workflow permission restriction reports manual merge without failing automation', async () => {
+test('workflow permission restriction fails automation with actionable setup instructions', async () => {
   let warnings;
+  let errors;
   let summary;
+  let summaryText;
   const result = await simulate({
     error: {
       status: 403,
       message: 'refusing to allow a GitHub App to create or update workflow `.github/workflows/release.yml` without `workflows` permission'
     },
     onWarnings: value => { warnings = value; },
-    onSummary: value => { summary = value; }
+    onErrors: value => { errors = value; },
+    onSummary: (value, text) => { summary = value; summaryText = text; }
   });
-  assert.deepEqual(result, { merged: [], failures: [] });
-  assert.equal(warnings.length, 1);
-  assert.match(warnings[0], /#123: manual merge required/);
+  assert.equal(result.merged.length, 0);
+  assert.equal(result.failures.length, 1);
+  assert.equal(warnings.length, 0);
+  assert.equal(errors.length, 1);
+  assert.match(errors[0], /#123: configure the DEPENDABOT_AUTOMERGE_TOKEN Actions secret/);
+  assert.match(summaryText, /Contents and Workflows write access/);
+  assert.match(summaryText, /workflow_dispatch on master/);
   assert.deepEqual(summary, ['https://github.com/WWBN/AVideo/pull/123']);
 });
 

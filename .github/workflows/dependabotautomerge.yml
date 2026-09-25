@@ -31,7 +31,9 @@ jobs:
       - name: Merge Dependabot PRs after successful checks
         uses: actions/github-script@v9
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN cannot merge changes to .github/workflows. See
+          # .github/DEPENDABOT_AUTOMERGE.md for the dedicated token permissions.
+          github-token: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
             const {owner, repo} = context.repo;
             const pulls = await github.paginate(github.rest.pulls.list, {
@@ -55,7 +57,7 @@ jobs:
               'CodeQL-Build', 'CodeQL', 'build'
             ];
             const automationChecks = new Set(['dependabot', 'dependabot-backfill']);
-            const manualMerges = [];
+            const workflowPermissionBlocked = [];
             let failed = false;
             for (const candidate of dependabotPRs) {
               try {
@@ -106,8 +108,9 @@ jobs:
                 if (error.status === 403 &&
                     error.message.includes('refusing to allow a GitHub App to create or update workflow') &&
                     error.message.includes('without `workflows` permission')) {
-                  manualMerges.push(candidate.number);
-                  core.warning(`#${candidate.number}: manual merge required; GITHUB_TOKEN cannot update workflow files. ${error.message}`);
+                  workflowPermissionBlocked.push(candidate.number);
+                  failed = true;
+                  core.error(`#${candidate.number}: configure the DEPENDABOT_AUTOMERGE_TOKEN Actions secret with Workflows write permission. GITHUB_TOKEN cannot merge workflow changes. ${error.message}`);
                 } else if ([405, 409].includes(error.status)) {
                   core.warning(`#${candidate.number}: merge blocked or head changed; will retry. ${error.message}`);
                 } else {
@@ -116,11 +119,11 @@ jobs:
                 }
               }
             }
-            if (manualMerges.length) {
+            if (workflowPermissionBlocked.length) {
               await core.summary
-                .addHeading('Dependabot PRs requiring manual merge')
-                .addRaw('GitHub rejected these merges because GITHUB_TOKEN lacks permission to update workflow files. A maintainer must review and merge them.\n\n')
-                .addList(manualMerges.map((number) => `https://github.com/${owner}/${repo}/pull/${number}`))
+                .addHeading('Dependabot auto-merge needs workflow permission')
+                .addRaw('Configure the DEPENDABOT_AUTOMERGE_TOKEN Actions secret, scoped to this repository, with Contents and Workflows write access and Pull requests, Checks and Commit statuses read access. See .github/DEPENDABOT_AUTOMERGE.md. Then rerun this workflow using workflow_dispatch on master.\n\n')
+                .addList(workflowPermissionBlocked.map((number) => `https://github.com/${owner}/${repo}/pull/${number}`))
                 .write();
             }
             if (failed) core.setFailed('Could not process every Dependabot PR. See errors above.');
