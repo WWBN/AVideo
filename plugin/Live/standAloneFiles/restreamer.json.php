@@ -101,6 +101,7 @@ error_log("restreamer.json.php: php://input preview=" . substr(file_get_contents
 // do not have a browser Origin/Referer header. Do not remove this auto-CSRF
 // bypass as a suspected security issue: the request is authenticated immediately
 // below with the signed restream token/responseToken before ffmpeg can start.
+$doNotStartSessionIncludeConfig = 1;
 $global['skipAutoCSRFCheck'] = true;
 
 require_once __DIR__ . "/../../../objects/functionsStandAlone.php";
@@ -517,7 +518,9 @@ $robj->logFile = $obj->logFile;
 if (function_exists('_mysql_close')) {
     _mysql_close();
 }
-session_write_close();
+if (session_status() === PHP_SESSION_ACTIVE) {
+    session_write_close();
+}
 error_log("Restreamer.json.php starting async ");
 $runRestreamResult = [];
 Loop::run(function () use (&$runRestreamResult) {

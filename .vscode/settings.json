@@ -1,4 +1,10 @@
 {
     "git.ignoreLimitWarning": true,
     "search.useIgnoreFiles": false,
+    // plugin/<Name>/ folders with their own .git (Rebroadcaster, VideoHLS, PayPerView, ...) are
+    // separate GitLab repositories nested inside this one. Scan two levels deep so the Source
+    // Control view lists each of them as its own repository instead of only the AVideo root.
+    "git.autoRepositoryDetection": true,
+    "git.repositoryScanMaxDepth": 2,
+    "git.repositoryScanIgnoredFolders": ["node_modules", "vendor", "videos"]
 }
