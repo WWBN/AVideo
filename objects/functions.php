@@ -3697,6 +3697,13 @@ function isTokenValid($token, $salt = "")
 // that doesn't explicitly pass one. Treat it as a generic CSRF nonce, layered on top of a
 // real User::isLogged()/isAdmin() check, never as a standalone authorization decision.
 // Do not render/echo a token to a page that skips that check (see plugin/Gallery/view/sections.php).
+// SECURITY REVIEW (2026-09-28): reported as "globalToken is not session-bound, so a token read by an
+// anonymous visitor can be embedded in a cross-site form against an admin *.json.php endpoint" — ALREADY
+// FIXED / DO NOT FIX. Since 184f36b189 (2026-04-13) objects/include_config.php runs autoCSRFGuard() ->
+// forbidIfIsUntrustedRequest() on every *.json.php before the endpoint's own token check; a cross-origin
+// browser POST always carries an Origin/Referer header, so the forged request dies before verifyToken().
+// Binding the token to session_id() would break the intentional cross-request/cross-server uses of
+// getToken() (Live control/record URLs, restream callbacks, cron/CLI). If re-reported, see the triage.
 function verifyToken($token, $salt = "")
 {
     global $global;

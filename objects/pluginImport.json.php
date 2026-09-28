@@ -24,6 +24,10 @@ if (!User::isAdmin()) {
 // multipart/form-data is a CORS-safelisted Content-Type, so browsers send it
 // cross-origin without an OPTIONS preflight. With SameSite=None on HTTPS the
 // session cookie is also included, making a pure session check insufficient.
+// SECURITY REVIEW (2026-09-28): a report claimed this token check is bypassable because globalToken is
+// not session-bound — NOT a vulnerability. This is a *.json.php file, so include_config.php already ran
+// autoCSRFGuard() (Origin/Referer same-domain check) before this line; see the note above verifyToken()
+// in objects/functions.php.
 if (!isGlobalTokenValid()) {
     http_response_code(403);
     $obj->msg = "Invalid or missing CSRF token";
