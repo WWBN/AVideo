@@ -52,7 +52,7 @@
     "pouchdb": "^9.0.0",
     "socket.io-client": "^4.8.4",
     "sweetalert": "^2.1.2",
-    "tinymce": "^8.9.1",
+    "tinymce": "^8.9.2",
     "tinymce-langs": "^1.0.0",
     "video.js": "^8.24.1",
     "videojs-contrib-ads": "^7.5.2",
