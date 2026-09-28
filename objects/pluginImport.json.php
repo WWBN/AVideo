@@ -78,6 +78,13 @@ if (strcasecmp($extension, 'zip') == 0) {
 
     // Collect all entry names and determine the plugin directory name
     $pluginDirName = null;
+    // SECURITY REVIEW (2026-09-28): reported as "blocklist omits .php, so a ZIP can ship a webshell next
+    // to the main plugin file" — ADMIN SELF-ACTION / DO NOT FIX. Installing a plugin IS installing
+    // arbitrary PHP: the required PluginName/PluginName.php is itself executable code that AVideoPlugin
+    // runs on every request, so extra .php files add no capability the admin does not already exercise.
+    // Blocking .php (or denying PHP execution under plugin/) would break every plugin. This endpoint is
+    // admin-only, origin-guarded (autoCSRFGuard) and token-checked, and can be disabled entirely with
+    // $global['disableAdvancedConfigurations']. If re-reported, see the triage instead of re-patching.
     $dangerousExtensions = ['phtml', 'pht', 'phar', 'shtml', 'cgi', 'pl', 'py', 'sh', 'bash', 'exe', 'bat', 'cmd', 'com', 'vbs', 'jsp', 'asp', 'aspx', 'htaccess'];
 
     for ($i = 0; $i < $zip->numFiles; $i++) {
@@ -158,6 +165,7 @@ if (strcasecmp($extension, 'zip') == 0) {
     }
 
     // Validate that the main plugin file extends PluginAbstract
+    // (structure check only, not a code-safety check — see the SECURITY REVIEW note above)
     $mainFileContent = $zip->getFromName($mainPluginFile);
     if ($mainFileContent === false || !preg_match('/class\s+\w+\s+extends\s+PluginAbstract\b/i', $mainFileContent)) {
         $zip->close();
