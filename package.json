@@ -50,7 +50,7 @@
     "moment-timezone": "^0.6.4",
     "nosleep.js": "^0.12.0",
     "pouchdb": "^9.0.0",
-    "socket.io-client": "^4.8.3",
+    "socket.io-client": "^4.8.4",
     "sweetalert": "^2.1.2",
     "tinymce": "^8.9.1",
     "tinymce-langs": "^1.0.0",
