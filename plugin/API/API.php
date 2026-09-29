@@ -126,9 +126,10 @@ class API extends PluginAbstract
             if (!empty($parameters['encodedPass']) && strtolower($parameters['encodedPass']) === 'false') {
                 $parameters['encodedPass'] = false;
             }
-            if (!empty($parameters['user']) && !empty($parameters['password'])) {
-                // This verifies the password for every APIName, not just signIn, so it must
-                // share signIn's budget - otherwise it's an unthrottled login oracle.
+            if (!empty($parameters['user']) && !empty($parameters['password']) && !User::isLogged()) {
+                // User::login() does not verify credentials when a session is already logged in.
+                // Count actual authentication attempts only; normal session requests must
+                // not exhaust the login budget. Anonymous attempts still share signIn's limit.
                 $this->checkRateLimit('sign_in', 10, 300);
                 $user = new User("", $parameters['user'], $parameters['password']);
                 $user->login(false, @$parameters['encodedPass']);
@@ -162,12 +163,13 @@ class API extends PluginAbstract
             if (!empty($parameters['pass'])) {
                 $parameters['password'] = $parameters['pass'];
             }
-            if (!empty($parameters['user']) && !empty($parameters['password'])) {
+            if (!empty($parameters['user']) && !empty($parameters['password']) && !User::isLogged()) {
                 if (!empty($parameters['encodedPass']) && strtolower($parameters['encodedPass']) === 'false') {
                     $parameters['encodedPass'] = false;
                 }
-                // This verifies the password for every APIName, not just signIn, so it must
-                // share signIn's budget - otherwise it's an unthrottled login oracle.
+                // User::login() does not verify credentials when a session is already logged in.
+                // Count actual authentication attempts only; normal session requests must
+                // not exhaust the login budget. Anonymous attempts still share signIn's limit.
                 $this->checkRateLimit('sign_in', 10, 300);
                 $user = new User("", $parameters['user'], $parameters['password']);
                 $user->login(false, @$parameters['encodedPass']);
@@ -5748,14 +5750,16 @@ class API extends PluginAbstract
 
             // Validate credentials WITHOUT creating session (isolated check)
             $tempUser = new User(0, $username, $password);
-            $loginResult = $tempUser->login(false, !empty($parameters['encodedPass']));
+            // login() trusts an existing session; this operation requires reauthentication.
+            $this->checkRateLimit('user_deactivation', 10, 300);
+            $verifiedUserId = $tempUser->getVerifiedCredentialsUserId(!empty($parameters['encodedPass']));
 
-            if ($loginResult !== User::USER_LOGGED) {
+            if (empty($verifiedUserId)) {
                 return new ApiObject("Invalid credentials");
             }
 
             // Verify the authenticated user matches the target user
-            if ($tempUser->getId() != $users_id) {
+            if ($verifiedUserId !== $users_id) {
                 return new ApiObject("You can only deactivate your own account");
             }
 
@@ -5774,7 +5778,9 @@ class API extends PluginAbstract
         }
 
         // Rate limiting check (prevent abuse)
-        $this->checkRateLimit('user_deactivation', 10, 300); // 10 attempts per 5 minutes
+        if (!$isSelfDeactivation) {
+            $this->checkRateLimit('user_deactivation', 10, 300); // 10 attempts per 5 minutes
+        }
 
         // Execute the deactivation
         $targetUser->setStatus('i');

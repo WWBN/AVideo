@@ -71,12 +71,13 @@ EOF
 )
 
   # Generate self-signed certificate with OpenSSL
+  # Use a short-lived development certificate; clients must still trust it explicitly.
   openssl req -x509 \
     -out ${TLS_CERTIFICATE_FILE} -keyout ${TLS_CERTIFICATE_KEY} \
     -newkey rsa:4096 \
     -nodes \
     -sha256 \
-    -days 3650 \
+    -days 397 \
     -subj "/C=NN/L=Earth/O=AVideo/OU=Development/CN=${SERVER_NAME}" \
     -extensions EXT \
     -config <(echo "${CONFIG}")

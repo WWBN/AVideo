@@ -12,6 +12,8 @@ For every task related to security in any way—including security advisories, v
 
 Treat that prompt as the canonical and authoritative repository policy for security investigation, classification, regression analysis, fix decisions, testing, and reporting. Follow all applicable requirements from it. If another repository instruction conflicts with that prompt on a security matter, the canonical security prompt takes precedence; continue following all non-conflicting repository instructions.
 
+Local exception authorized by the repository owner: if `avideo-security-advisory-triage.prompt.md` cannot be found after checking the referenced path and searching the repository, skip that missing prompt and continue the task using this file and the available applicable instructions, especially `avideo-security.instructions.md`. Note the missing reference; do not repeatedly ask for it or block work because of its absence. This exception does not waive the security requirements in the available instructions.
+
 Do not copy or restate the detailed security policy here. Update the canonical prompt only, so GitHub Copilot and Codex use the same source of truth.
 
 ## Project Overview

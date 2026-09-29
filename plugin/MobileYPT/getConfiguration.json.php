@@ -47,6 +47,12 @@ if(!empty($chat2)){
     $objMM->chat2ShowOnUserVideos = false;
 }
 
+// Lets the app hide features whose plugin is disabled on this site.
+$objMM->plugins = array(
+    'Live' => !empty(AVideoPlugin::isEnabledByName('Live')),
+    'UserNotifications' => !empty(AVideoPlugin::isEnabledByName('UserNotifications')),
+);
+
 $objMM->stats = getStatsNotifications();
 // never echo streams the caller isn't authorized to see (same reasoning as plugin/Live/stats.json.php)
 unset($objMM->stats['hidden_applications']);

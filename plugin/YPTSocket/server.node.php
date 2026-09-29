@@ -8,6 +8,22 @@ if (!isCommandLineInterface()) {
 
 ob_end_flush();
 
+// The published executable targets Linux x86-64. Other architectures run the
+// official source checkout with their native Node runtime when it is available;
+// otherwise fall through to the executable, which may still run under emulation.
+$architecture = strtolower(php_uname('m'));
+if (PHP_OS_FAMILY !== 'Linux' || !in_array($architecture, ['x86_64', 'amd64'], true)) {
+    $sourceEntry = __DIR__ . '/AVideo-Socket/server.js';
+    $node = trim((string) shell_exec('command -v node 2>/dev/null'));
+    if (!empty($node) && is_file($sourceEntry) && is_dir(__DIR__ . '/AVideo-Socket/node_modules')) {
+        killStalePhpWorkers();
+        echo "🚀 Executing AVideo-Socket source with node on {$architecture}...\n";
+        passthru(escapeshellarg($node) . ' ' . escapeshellarg($sourceEntry) . ' --force-kill-port', $exitCode);
+        exit($exitCode);
+    }
+    fwrite(STDERR, "YPTSocket: the yptsocket executable targets Linux x86-64. For {$architecture}, install Node.js and the official WWBN/AVideo-Socket source with its npm dependencies in plugin/YPTSocket/AVideo-Socket. Trying the executable anyway...\n");
+}
+
 echo "📁 Checking for updates to yptsocket executable...\n";
 
 $baseDir = __DIR__ . '/nodeSocket';
@@ -57,6 +73,23 @@ function downloadURL($url, $timeout = 60) {
         echo "   ⚠️ file_get_contents failed: " . ($err ? $err['message'] : 'unknown error') . "\n";
     }
     return $result;
+}
+
+/**
+ * Kill PHP worker processes left behind by a previous socket process.
+ */
+function killStalePhpWorkers() {
+    echo "🛑 Checking for running PHP worker processes...\n";
+    $phpWorkerOutput = [];
+    exec("pgrep -f 'php " . __DIR__ . "/worker.php'", $phpWorkerOutput);
+    if (!empty($phpWorkerOutput)) {
+        foreach ($phpWorkerOutput as $pid) {
+            echo "🔪 Killing PHP worker process with PID: $pid\n";
+            exec("kill -9 $pid");
+        }
+    } else {
+        echo "✅ No running PHP worker process found.\n";
+    }
 }
 
 // Ensure nodeSocket folder exists
@@ -126,17 +159,7 @@ if ($remoteVersion > $localVersion || !is_file($localBinaryPath)) {
 }
 
 // 🔥 Kill PHP worker processes before starting socket
-echo "🛑 Checking for running PHP worker processes...\n";
-$phpWorkerOutput = [];
-exec("pgrep -f 'php " . __DIR__ . "/worker.php'", $phpWorkerOutput);
-if (!empty($phpWorkerOutput)) {
-    foreach ($phpWorkerOutput as $pid) {
-        echo "🔪 Killing PHP worker process with PID: $pid\n";
-        exec("kill -9 $pid");
-    }
-} else {
-    echo "✅ No running PHP worker process found.\n";
-}
+killStalePhpWorkers();
 
 // 4. Execute the binary
 echo "🚀 Executing yptsocket with --force-kill-port...\n";

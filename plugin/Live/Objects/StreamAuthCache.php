@@ -244,8 +244,11 @@ class StreamAuthCache
                 $user = new User($decoded->u);
                 _error_log("StreamAuthCache::processPreauthorization - Using valid user hash for user ID: {$decoded->u}");
             } else {
-                // Normal password authentication
-                $user = new User(0, $username, $password);
+                // Normal password authentication. new User(0, $user, $pass) only stores the
+                // pair and never loads the id, so verify the credentials (active users only)
+                // and load the user by the verified id. Does not touch the current session.
+                $users_id = (new User(0, $username, $password))->getVerifiedCredentialsUserId();
+                $user = new User($users_id);
             }
 
             if (empty($user->getBdId())) {

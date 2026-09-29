@@ -63,12 +63,13 @@ if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ] && [ "${HAS_LETSENCRYPT_CERTIFIC
   CONFIG="${CONFIG}extendedKeyUsage=serverAuth\n"
   CONFIG="${CONFIG}\n"
 
+  # Use a short-lived development certificate; clients must still trust it explicitly.
   openssl req -x509 \
     -out "${TLS_CERTIFICATE_FILE}" -keyout "${TLS_CERTIFICATE_KEY}" \
     -newkey rsa:4096 \
     -nodes \
     -sha256 \
-    -days 3650 \
+    -days 397 \
     -subj "/C=NN/L=Earth/O=avideo/OU=DEV/CN=localhost" \
     -extensions EXT -config <(printf "${CONFIG}")
 

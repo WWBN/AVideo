@@ -34,7 +34,7 @@ class CookieAlert extends PluginAbstract {
     
     private function doNotShow(){
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
-        if(isEmbed() || preg_match("/embed/i", $baseName) || preg_match("/chat2/i", $baseName) || !empty($_GET['embed'])){
+        if(isEmbed() || isAVideoMobileApp() || preg_match("/embed/i", $baseName) || preg_match("/chat2/i", $baseName) || !empty($_GET['embed'])){
             return true;
         }
         return false;

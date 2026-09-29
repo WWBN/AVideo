@@ -13,4 +13,4 @@ Do not load the full body of prompts that are unrelated to the current task; the
 
 The files under `.github/` are the source of truth for both GitHub Copilot and Codex. Do not copy or restate their detailed rules in `AGENTS.md`. Update the applicable Copilot instruction or prompt file so both agents receive the same future changes.
 
-If a required instruction or selected prompt cannot be read completely, do not continue the affected work until the missing guidance is available; report the problem explicitly.
+If a required instruction or selected prompt cannot be read completely, do not continue the affected work until the missing guidance is available; report the problem explicitly. Exception: when `avideo-security-advisory-triage.prompt.md` is missing, follow the local fallback documented in `.github/copilot-instructions.md` and continue with the available instructions without requesting that file again.

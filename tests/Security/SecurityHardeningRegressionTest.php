@@ -279,4 +279,25 @@ class SecurityHardeningRegressionTest extends TestCase
         $this->assertStringContainsString("BootGrid::getCollationSafeLike('t.name'", $video);
         $this->assertStringNotContainsString('t.name LIKE', $video);
     }
+
+    /**
+     * @test
+     * Regression: new User(0, $user, $pass) never loads the id, so live
+     * preauthorization with a normal password always failed with
+     * "Invalid credentials". It must verify the credentials first and then
+     * load the user by the verified id, without logging the session in.
+     */
+    public function testLivePreauthorizationVerifiesPasswordCredentials()
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/Live/Objects/StreamAuthCache.php');
+        $start = strpos($source, 'public static function processPreauthorization(');
+        $method = substr($source, $start);
+
+        $this->assertStringContainsString('->getVerifiedCredentialsUserId()', $method);
+        $this->assertStringContainsString('$user = new User($users_id);', $method);
+        $this->assertStringNotContainsString('->login(', $method);
+
+        $user = file_get_contents(dirname(__DIR__, 2) . '/objects/user.php');
+        $this->assertStringContainsString('public function getVerifiedCredentialsUserId(', $user);
+    }
 }

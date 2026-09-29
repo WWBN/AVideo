@@ -1267,6 +1267,14 @@ if (typeof gtag !== \"function\") {
     public const REQUIRE2FA = 4;
     public const SYSTEM_ERROR = 5;
 
+    /** Verify this credential pair without trusting or changing the current session. */
+    public function getVerifiedCredentialsUserId($encodedPass = false)
+    {
+        $user = $this->find($this->user, $this->password, true, $encodedPass);
+        // Legacy username/email lookups can return an inactive row despite mustBeactive.
+        return empty($user['id']) || ($user['status'] ?? '') !== 'a' ? 0 : (int) $user['id'];
+    }
+
     public function login($noPass = false, $encodedPass = false, $ignoreEmailVerification = false)
     {
         global $global, $advancedCustom, $advancedCustomUser, $config;

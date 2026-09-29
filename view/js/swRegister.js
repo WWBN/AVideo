@@ -33,10 +33,10 @@ function serviceWorkerRegister() {
     if (typeof webSiteRootURL == 'undefined') {
         webSiteRootURL = getQueryParamFromScriptTag('webSiteRootURL');
 
-        const urlRegex = /^(https?:\/\/)?[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
+        const urlRegex = /^(https?:\/\/)?(localhost\b|[\w\-]+(\.[\w\-]+)+)[:/#?]?.*$/;
 
         if (typeof webSiteRootURL == 'undefined' || !urlRegex.test(webSiteRootURL)) {
-            console.log('Service Worker NOT Registered', webSiteRootURL, queryString, urlParams);
+            console.log('Service Worker NOT Registered', webSiteRootURL);
             setTimeout(function () {
                 serviceWorkerRegister();
             }, 100);
@@ -44,9 +44,24 @@ function serviceWorkerRegister() {
         }
     }
     if ('serviceWorker' in navigator) {
-        var newURL = swapOriginsFromDomains(webSiteRootURL, window.location.href);
-        //console.log('Service Worker trying to Register', newURL, window.location.href, webSiteRootURL);
         try {
+            var newURL = swapOriginsFromDomains(webSiteRootURL, window.location.href);
+            // WebView worker navigations can lose the app User-Agent. Remove only
+            // this site's registration, preserving other applications on the origin.
+            if (/AVideoMobileApp/.test(navigator.userAgent)) {
+                if (typeof navigator.serviceWorker.getRegistrations === 'function') {
+                    navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                        return Promise.all(registrations.map(function (registration) {
+                            if (registration.scope === newURL) {
+                                return registration.unregister();
+                            }
+                        }));
+                    }).catch(function (e) {
+                        console.log('serviceWorkerRegister cleanup ERROR', e);
+                    });
+                }
+                return false;
+            }
             navigator.serviceWorker
                 .register(newURL + 'sw.js?' + Math.random())
                 .then(() => {
