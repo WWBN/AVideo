@@ -421,7 +421,8 @@ class YPTSocket extends PluginAbstract
     {
         $obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
         if (!empty($obj->enableCalls)) {
-            echo 'callerNewConnection(response);';
+            // caller.js is not loaded on every page (e.g. embeds used by the mobile app).
+            echo 'if(typeof callerNewConnection !== \'undefined\'){callerNewConnection(response);}';
         }
         echo 'socketNewConnection(response);';
         return '';
