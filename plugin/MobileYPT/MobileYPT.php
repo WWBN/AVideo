@@ -73,6 +73,47 @@ class MobileYPT extends PluginAbstract
         self::getCheckMP3($videos_id);
     }
 
+    /**
+     * First page endpoint embedded by getConfiguration.json.php (per logged user).
+     */
+    public static function getFirstPageEndpoint()
+    {
+        global $global;
+        if (AVideoPlugin::isEnabledByName('YouPHPFlix2')) {
+            $firstPage = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=YouPHPFlix2&APIName=firstPage";
+        } else {
+            $firstPage = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=Gallery&APIName=firstPage";
+        }
+        if (User::isLogged()) {
+            $firstPage = addQueryStringParameter($firstPage, 'rowCount', 50);
+            $firstPage = addQueryStringParameter($firstPage, 'user', User::getUserName());
+            $firstPage = addQueryStringParameter($firstPage, 'pass', User::getUserPass());
+            $firstPage = addQueryStringParameter($firstPage, 'webSiteRootURL', $global['webSiteRootURL']);
+        }
+        return $firstPage;
+    }
+
+    /**
+     * Users blocked by the logged viewer (ReportVideo plugin). The first page is
+     * assembled from cached, unauthenticated section requests, so the app hides
+     * these authors' rows itself; search and category lists are already filtered
+     * by the server for authenticated requests.
+     */
+    public static function getBlockedUsersIds()
+    {
+        if (!User::isLogged() || !AVideoPlugin::loadPluginIfEnabled('ReportVideo')) {
+            return array();
+        }
+        $ids = array();
+        foreach (ReportVideo::getAllReportedUsersIdFromUser(User::getId()) as $id) {
+            $id = intval($id);
+            if ($id > 0) {
+                $ids[$id] = $id;
+            }
+        }
+        return array_values($ids);
+    }
+
     public function onNewVideo($videos_id)
     {
         self::getCheckMP3($videos_id);

@@ -12,17 +12,8 @@ allowOrigin();
 $objMM = AVideoPlugin::getObjectData("MobileYPT");
 
 $customizeUser = AVideoPlugin::getDataObject('CustomizeUser');
-if(AVideoPlugin::isEnabledByName('YouPHPFlix2')){
-    $firstPage = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=YouPHPFlix2&APIName=firstPage";
-}else{
-    $firstPage = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=Gallery&APIName=firstPage";
-}
-if(User::isLogged()){
-    $firstPage = addQueryStringParameter($firstPage, 'rowCount', 50);
-    $firstPage = addQueryStringParameter($firstPage, 'user', User::getUserName());
-    $firstPage = addQueryStringParameter($firstPage, 'pass', User::getUserPass());
-    $firstPage = addQueryStringParameter($firstPage, 'webSiteRootURL', $global['webSiteRootURL']);
-}
+// shared with MobileYPT::deleteFirstPageCache(), which must build the same cache key
+$firstPage = MobileYPT::getFirstPageEndpoint();
 $objMM->firstPageEndpoint = $firstPage;
 
 //$content = url_get_contents($objMM->firstPageEndpoint, "", 0, true, true);
@@ -63,6 +54,8 @@ if (empty($advancedCustom) || empty($advancedCustom->disableContactLeftMenu)) {
 }
 $objMM->privacyPolicyURL = empty($objMM->privacyPolicyURL) ? '' : trim((string) $objMM->privacyPolicyURL);
 $objMM->termsOfUseURL = empty($objMM->termsOfUseURL) ? '' : trim((string) $objMM->termsOfUseURL);
+// Authors the viewer blocked: the app hides their rows in every list (see MobileYPT::getBlockedUsersIds)
+$objMM->blockedUsersIds = MobileYPT::getBlockedUsersIds();
 
 $objMM->stats = getStatsNotifications();
 // never echo streams the caller isn't authorized to see (same reasoning as plugin/Live/stats.json.php)
