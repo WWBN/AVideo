@@ -51,7 +51,18 @@ if(!empty($chat2)){
 $objMM->plugins = array(
     'Live' => !empty(AVideoPlugin::isEnabledByName('Live')),
     'UserNotifications' => !empty(AVideoPlugin::isEnabledByName('UserNotifications')),
+    'ReportVideo' => !empty(AVideoPlugin::isEnabledByName('ReportVideo')),
 );
+
+// Published contact information for the app (Settings > About). Empty when the site hides the contact page.
+$advancedCustom = AVideoPlugin::getDataObjectIfEnabled('CustomizeAdvanced');
+if (empty($advancedCustom) || empty($advancedCustom->disableContactLeftMenu)) {
+    $objMM->contactURL = "{$global['webSiteRootURL']}contact";
+} else {
+    $objMM->contactURL = '';
+}
+$objMM->privacyPolicyURL = empty($objMM->privacyPolicyURL) ? '' : trim((string) $objMM->privacyPolicyURL);
+$objMM->termsOfUseURL = empty($objMM->termsOfUseURL) ? '' : trim((string) $objMM->termsOfUseURL);
 
 $objMM->stats = getStatsNotifications();
 // never echo streams the caller isn't authorized to see (same reasoning as plugin/Live/stats.json.php)

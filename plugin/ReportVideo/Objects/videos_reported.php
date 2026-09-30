@@ -87,6 +87,32 @@ class VideosReported extends ObjectYPT {
         return $rows;
     }
 
+    /**
+     * Video reports (rows with a videos_id) for the admin listing, newest first.
+     */
+    static function getAllReports($limit = 500) {
+        global $global;
+        if(!self::isTableInstalled()){
+            return array();
+        }
+        $limit = intval($limit);
+        if ($limit <= 0) {
+            $limit = 500;
+        }
+        $sql = "SELECT r.*, v.title AS video_title, v.status AS video_status, v.users_id AS video_users_id, "
+            . " u.user AS reporter_user FROM " . static::getTableName() . " r "
+            . " LEFT JOIN videos v ON v.id = r.videos_id "
+            . " LEFT JOIN users u ON u.id = r.users_id "
+            . " WHERE r.videos_id IS NOT NULL ORDER BY r.created DESC LIMIT ?";
+        $res = sqlDAL::readSql($sql, "i", array($limit));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        if ($res == false) {
+            return array();
+        }
+        return $fullData;
+    }
+
     function getId() {
         return $this->id;
     }

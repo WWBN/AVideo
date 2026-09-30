@@ -59,6 +59,10 @@ class MobileYPT extends PluginAbstract
 
         $obj->enableLivePublisher = true;
         $obj->enableAudioPlayer = true;
+        $obj->privacyPolicyURL = '';
+        self::addDataObjectHelper('privacyPolicyURL', 'Privacy policy URL', 'Link shown in the mobile app (Settings > About). Leave it empty to hide the link');
+        $obj->termsOfUseURL = '';
+        self::addDataObjectHelper('termsOfUseURL', 'Terms of use URL', 'Optional link shown in the mobile app next to the EULA text. Leave it empty to hide the link');
 
         return $obj;
     }

@@ -2245,6 +2245,11 @@ if (!class_exists('Video')) {
                     TimeLogEnd($tlogName, __LINE__, $tolerance / 2);
 
                     $row['externalOptions'] = _json_decode($row['externalOptions']);
+                    if (!is_object($row['externalOptions'])) {
+                        // NULL/invalid externalOptions (imported rows) must still carry privacyInfo,
+                        // otherwise clients cannot tell that the video is restricted
+                        $row['externalOptions'] = new stdClass();
+                    }
                     //var_dump($row['externalOptions']);exit;
                     if (empty($row['externalOptions']->privacyInfo)) {
                         $row['externalOptions']->privacyInfo = self::updatePrivacyInfo($row['id']);

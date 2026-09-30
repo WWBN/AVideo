@@ -2465,6 +2465,7 @@ class API extends PluginAbstract
             $includeResponses = !empty($parameters['includeResponses']);
             $obj = Comment::getAllComments($parameters['videos_id'], 'NULL', 0, $includeResponses);
             $obj = Comment::addExtraInfo($obj);
+            $obj = self::removeBlockedUsersComments($obj);
             return new ApiObject("", false, $obj);
         } else {
             return new ApiObject("Video ID is required");
@@ -5807,6 +5808,229 @@ class API extends PluginAbstract
         }
 
         return new ApiObject($msg, $obj->error, $obj);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * Permanently deletes a user account together with the user's videos and the related
+     * records handled by User::delete() (comments, likes, playlists, subscriptions, wallet,
+     * live history, ...). Mobile apps use it to offer account deletion inside the app; the web
+     * equivalent is plugin/CustomizeUser/confirmDeleteUser.json.php.
+     *
+     * Required Parameters:
+     * - 'users_id' (int): The ID of the account to delete.
+     *
+     * Authorization Options (one of the following):
+     * - Admin session with the user management permission: can delete other users (not themselves).
+     * - Self-deletion: the account owner sends 'user', 'pass' and 'captcha'. The credentials are
+     *   verified again (an existing session is not trusted) and must belong to 'users_id'.
+     *
+     * APISecret alone is not accepted: User::delete() and Video::delete() authorize with the session user.
+     *
+     * @example
+     * {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&users_id=123&user=john&pass=password123&captcha=AB123
+     *
+     * @return \ApiObject
+     * - response: object containing `users_id`, `deleted_videos`, `deleted`, `authorization_method` and `error`.
+     * - error: true if authorization fails, users_id is missing, user not found, CAPTCHA invalid,
+     *   a video could not be removed or the account row could not be deleted.
+     */
+    #[OA\Post(
+        path: "/api/user_delete",
+        summary: "Permanently delete a user account",
+        description: "Deletes the user's videos and the user record with its related data. Authorization: admin with user management permission, or the account owner with credentials and CAPTCHA.",
+        tags: ["Users"],
+        parameters: [
+            new OA\Parameter(name: "users_id", in: "query", required: true, schema: new OA\Schema(type: "integer"), description: "ID of the account to delete"),
+            new OA\Parameter(name: "user", in: "query", required: false, schema: new OA\Schema(type: "string"), description: "Username for self-deletion"),
+            new OA\Parameter(name: "pass", in: "query", required: false, schema: new OA\Schema(type: "string"), description: "Password for self-deletion"),
+            new OA\Parameter(name: "captcha", in: "query", required: false, schema: new OA\Schema(type: "string"), description: "CAPTCHA code for self-deletion verification")
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                content: new OA\JsonContent(ref: "#/components/schemas/ApiObject"),
+                description: "Returns the result of the account deletion"
+            )
+        ]
+    )]
+
+    public function set_api_user_delete($parameters)
+    {
+        global $global;
+
+        forbidIfNotPost();
+
+        if (empty($parameters['users_id'])) {
+            return new ApiObject("users_id parameter is required");
+        }
+
+        $users_id = intval($parameters['users_id']);
+        if ($users_id <= 0) {
+            return new ApiObject("Invalid users_id provided");
+        }
+
+        $targetUser = new User($users_id);
+        if (empty($targetUser->getUser())) {
+            return new ApiObject("User not found");
+        }
+
+        $currentUserId = intval(User::getId());
+        $canAdminUsers = User::isLogged() && Permissions::canAdminUsers();
+        $isSelfDeletion = false;
+
+        if ($canAdminUsers) {
+            if ($currentUserId === $users_id) {
+                return new ApiObject("Admins cannot delete themselves through the API");
+            }
+            $authMethod = 'Admin';
+        } else {
+            if (empty($parameters['user']) || empty($parameters['pass'])) {
+                return new ApiObject("Access denied. You need the user management permission or must authenticate as the account being deleted");
+            }
+
+            // CAPTCHA validation required for self-deletion
+            if (empty($parameters['captcha'])) {
+                return new ApiObject("CAPTCHA verification is required for account deletion");
+            }
+
+            require_once $global['systemRootPath'] . 'objects/captcha.php';
+            if (!Captcha::validation($parameters['captcha'])) {
+                _error_log("API set_api_user_delete: Invalid CAPTCHA attempt from IP " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
+                return new ApiObject("Invalid CAPTCHA code");
+            }
+
+            $username = trim(strip_tags($parameters['user']));
+            $password = $parameters['pass'];
+
+            if (empty($username) || empty($password)) {
+                return new ApiObject("Invalid credentials provided");
+            }
+
+            // Verify the credentials again WITHOUT trusting the current session
+            $tempUser = new User(0, $username, $password);
+            $this->checkRateLimit('user_deletion', 10, 300);
+            $verifiedUserId = $tempUser->getVerifiedCredentialsUserId(!empty($parameters['encodedPass']));
+
+            if (empty($verifiedUserId)) {
+                return new ApiObject("Invalid credentials");
+            }
+
+            if ($verifiedUserId !== $users_id) {
+                return new ApiObject("You can only delete your own account");
+            }
+
+            // Video::delete() and User::delete() authorize with the session user
+            if ($currentUserId !== $users_id) {
+                return new ApiObject("The active session does not belong to the account being deleted");
+            }
+
+            $isSelfDeletion = true;
+            $authMethod = 'SelfDeletion';
+        }
+
+        if ($users_id === 1) {
+            return new ApiObject("The super admin account cannot be deleted through the API");
+        }
+
+        if (!$isSelfDeletion) {
+            $this->checkRateLimit('user_deletion', 10, 300); // 10 attempts per 5 minutes
+        }
+
+        $obj = new stdClass();
+        $obj->users_id = $users_id;
+        $obj->deleted_videos = 0;
+        $obj->deleted = false;
+        $obj->authorization_method = $authMethod;
+        $obj->timestamp = date('Y-m-d H:i:s');
+
+        try {
+            // videos.users_id is ON DELETE NO ACTION: remove all owned videos first.
+            // getAllVideosLight() applies request/plugin filters and memoizes its reads;
+            // use fresh owner-only batches so pagination, filters and cache cannot skip videos.
+            while (true) {
+                $res = sqlDAL::readSql('SELECT id FROM videos WHERE users_id = ? ORDER BY id LIMIT 100', 'i', array($users_id), true);
+                if ($res === false) {
+                    throw new RuntimeException('Could not list videos for account deletion');
+                }
+                $videos = sqlDAL::fetchAllAssoc($res);
+                sqlDAL::close($res);
+                if (empty($videos)) {
+                    break;
+                }
+                $failedVideos = 0;
+                foreach ($videos as $value) {
+                    $video = new Video('', '', intval($value['id']));
+                    if (intval($video->getUsers_id()) === $users_id && $video->delete()) {
+                        $obj->deleted_videos++;
+                    } else {
+                        $failedVideos++;
+                    }
+                }
+                if ($failedVideos > 0) {
+                    $obj->error = true;
+                    _error_log("API user deletion stopped: {$failedVideos} video(s) could not be removed for user {$users_id}");
+                    return new ApiObject("Could not delete {$failedVideos} video(s); the account was not deleted", true, $obj);
+                }
+            }
+            $obj->deleted = !empty($targetUser->delete());
+        } catch (\Throwable $th) {
+            $obj->error = true;
+            _error_log('API user deletion failed: ' . $th->getMessage());
+            return new ApiObject('An error occurred', true, $obj);
+        }
+
+        $obj->error = !$obj->deleted;
+
+        if ($obj->error) {
+            $msg = 'Failed to delete the user';
+            _error_log("SECURITY: Failed user deletion attempt - User ID: $users_id, Auth: $authMethod, IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
+        } else {
+            $msg = 'User deleted';
+            _error_log("AUDIT: User deleted - Target: $users_id, Auth: $authMethod, Executor: $currentUserId, IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
+            if ($isSelfDeletion) {
+                // Revoke the session that performed the deletion
+                User::logoff();
+            }
+        }
+
+        return new ApiObject($msg, $obj->error, $obj);
+    }
+
+    /**
+     * Hides comments written by users the current user has blocked (ReportVideo plugin).
+     * The web player does not filter comments; the mobile apps expect the block to hide them.
+     */
+    private static function removeBlockedUsersComments($comments)
+    {
+        if (empty($comments) || !is_array($comments) || !User::isLogged()) {
+            return $comments;
+        }
+        $plugin = AVideoPlugin::loadPluginIfEnabled('ReportVideo');
+        if (empty($plugin)) {
+            return $comments;
+        }
+        $blocked = ReportVideo::getAllReportedUsersIdFromUser(User::getId());
+        if (empty($blocked)) {
+            return $comments;
+        }
+        $blocked = array_map('intval', $blocked);
+        $filtered = array();
+        foreach ($comments as $comment) {
+            if (!is_array($comment)) {
+                $filtered[] = $comment;
+                continue;
+            }
+            if (in_array(intval(@$comment['users_id']), $blocked, true)) {
+                continue;
+            }
+            if (!empty($comment['responses']) && is_array($comment['responses'])) {
+                $comment['responses'] = self::removeBlockedUsersComments($comment['responses']);
+            }
+            $filtered[] = $comment;
+        }
+        return $filtered;
     }
 
     /**

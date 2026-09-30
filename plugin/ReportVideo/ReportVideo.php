@@ -42,6 +42,31 @@ class ReportVideo extends PluginAbstract
         return "2.3";
     }
 
+    public function getPluginMenu()
+    {
+        global $global;
+        $filename = $global['systemRootPath'] . 'plugin/ReportVideo/pluginMenu.html';
+        return file_get_contents($filename);
+    }
+
+    /**
+     * Free text typed by the reporter: no HTML, at most 255 chars (videos_reported.obs)
+     */
+    public static function sanitizeReportReason($obs)
+    {
+        if (!is_scalar($obs)) {
+            return '';
+        }
+        $obs = trim(strip_tags((string) $obs));
+        $obs = preg_replace('/\s+/', ' ', $obs);
+        if (function_exists('mb_substr')) {
+            $obs = mb_substr($obs, 0, 255);
+        } else {
+            $obs = substr($obs, 0, 255);
+        }
+        return $obs;
+    }
+
     public function updateScript()
     {
         global $global;
@@ -153,22 +178,38 @@ class ReportVideo extends PluginAbstract
         return str_replace($replace, $words, $text);
     }
 
-    public function report($users_id, $videos_id)
+    /**
+     * Stores a report and notifies by email.
+     * @param int $users_id the reporter
+     * @param int $videos_id the reported video
+     * @param string $obs optional reason typed by the reporter (kept in videos_reported.obs, 255 chars)
+     */
+    public function report($users_id, $videos_id, $obs = '')
     {
         global $global, $config;
+        $obs = self::sanitizeReportReason($obs);
         // check if this user already report this video
         $report = VideosReported::getFromDbUserAndVideo($users_id, $videos_id);
         $resp = new stdClass();
         $resp->error = true;
         $resp->msg = "Report not made";
+        // true once the report row exists, even when the notification emails fail
+        $resp->saved = false;
 
         if (empty($report)) {
             //save it on the database
             $reportObj = new VideosReported(0);
             $reportObj->setUsers_id($users_id);
             $reportObj->setVideos_id($videos_id);
+            $reportObj->setObs($obs);
             if ($reportObj->save()) {
-                $body = $this->getTemplateText($videos_id, $this->replaceText($users_id, $videos_id, __("The <a href='{videoLink}'>{videoName}</a> video was reported as inappropriate from {user} ")));
+                $resp->saved = true;
+                $message = __("The <a href='{videoLink}'>{videoName}</a> video was reported as inappropriate from {user} ");
+                if (!empty($obs)) {
+                    // getTemplateText() decodes entities, so escape twice to keep the reason as text
+                    $message .= '<br>' . __('Reason') . ': ' . htmlspecialchars(htmlspecialchars($obs));
+                }
+                $body = $this->getTemplateText($videos_id, $this->replaceText($users_id, $videos_id, $message));
                 $subject = $this->replaceText($users_id, $videos_id, __("The {videoName} video was reported as inappropriate"));
                 // notify video owner from user id
                 $user = new User($users_id);
@@ -220,6 +261,7 @@ class ReportVideo extends PluginAbstract
             if ($reportObj->save()) {
                 $resp->msg = "";
                 $resp->error = false;
+                self::clearVideoListsCache();
             } else {
                 $resp->msg = __("Error on block this user");
             }
@@ -247,6 +289,7 @@ class ReportVideo extends PluginAbstract
             if ($reportObj->delete()) {
                 $resp->msg = "";
                 $resp->error = false;
+                self::clearVideoListsCache();
             } else {
                 $resp->msg = __("Error on unblock this user");
             }
@@ -257,6 +300,20 @@ class ReportVideo extends PluginAbstract
             _error_log("Block user: " . $resp->msg);
         }
         return $resp;
+    }
+
+    /**
+     * Video lists are cached per user and request (VideosListCacheHandler, 1 hour in the API);
+     * a block changes what the blocker may see, so invalidate before returning to the app.
+     */
+    private static function clearVideoListsCache()
+    {
+        try {
+            $videosListCache = new VideosListCacheHandler();
+            $videosListCache->deleteCache(false, false);
+        } catch (\Throwable $th) {
+            _error_log('ReportVideo clearVideoListsCache: ' . $th->getMessage());
+        }
     }
 
     public static function isBlocked($reported_users_id, $users_id = 0)
