@@ -50,7 +50,7 @@ jobs:
       uses: actions/checkout@v7
       with:
         repository: WWBN/AVideo-Encoder
-        ref: 8f7404baa437b485f1115f79abb6b596c80a363d
+        ref: 48d1d3306bface8b6ecdcec589681851de34fec3
         path: .compose/encoder
 
     - name: Checkout Encoder Network for cross-project installer tests
