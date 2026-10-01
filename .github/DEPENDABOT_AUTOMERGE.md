@@ -54,6 +54,19 @@ calendar consumers and packages are migrated together. Minor and patch updates
 remain eligible. Do not use `--force` or `--legacy-peer-deps` to bypass this failure.
 This policy does not repair or merge the already-open incompatible PR.
 
+## Release tooling (`.github/release`)
+
+The release script imports `@semantic-release/commit-analyzer` and
+`@semantic-release/release-notes-generator` only as libraries. npm would also install their
+`semantic-release` peer, which pulls the whole npm CLI. Its bundled dependencies (`undici`,
+`ip-address`, `brace-expansion`) cannot be changed by Dependabot, so their security alerts ended
+in `security_update_not_possible` and were never auto-merged.
+
+`.github/release/.npmrc` therefore sets `legacy-peer-deps=true` for that folder only. This is
+not a bypass of a real incompatibility: the peer is never loaded. The rule above for the
+frontend packages in the repository root still applies. `.github/tests/release-tooling.test.cjs`
+fails if a regenerated lockfile brings the peer back, so such a Dependabot PR is not merged.
+
 ## Local verification
 
 ```sh

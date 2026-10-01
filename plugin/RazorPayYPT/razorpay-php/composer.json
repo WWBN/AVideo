@@ -27,10 +27,6 @@
         "rmccue/requests": "v1.8.0",
         "ext-json": "*"
     },
-    "require-dev": {
-        "raveren/kint": "1.*",
-        "phpunit/phpunit": "~4.8|~5.0"
-    },
     "autoload": {
         "psr-4": {
             "Razorpay\\Api\\": "src/",
