@@ -180,6 +180,9 @@ class EncoderInstallerIntegrationTest extends TestCase
             $this->assertFalse(version_compare($version, $match[1], '<'), 'Fresh installation has a pending migration: ' . basename($migration));
         }
         $this->assertSame(1, $this->connection->query("SHOW COLUMNS FROM " . $data['tablesPrefix'] . "encoder_queue LIKE 'retry_count'")->num_rows);
+        foreach (['encoder_queue_monitor', 'encoder_monitor_state'] as $monitorTable) {
+            $this->assertSame(1, $this->connection->query("SHOW TABLES LIKE '" . $data['tablesPrefix'] . $monitorTable . "'")->num_rows, $monitorTable);
+        }
         $path = $this->fixture->path('videos/configuration.php');
         $this->assertSame(0, $this->fixture->run(['-l', $path])['exit']);
         $configuration = file_get_contents($path);

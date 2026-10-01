@@ -191,6 +191,16 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   the restricted key to have **Charges: Read** (the rest of the flow only needs PaymentIntents);
   without it the guard logs a warning and degrades to the 5-minute observation fallback. Covered by
   `tests/Unit/StripeSinglePaymentCheckoutTest.php`.
+- **Encoder monitor alerts**: the Encoder has no users table and no mailer. Its every-minute cron
+  (`.compose/encoder/install/cron.php` → `EncoderMonitor`) detects slow/failed/stuck jobs and asks
+  the job's own Streamer to e-mail the owner via `objects/aVideoEncoderAlert.json.php`
+  (`EncoderAlert` builds the mail; the recipient always comes from the Streamer DB). Encoder
+  callback responses must never contain `videos_id`/`video_id`/`video_id_hash` unless intended:
+  `Encoder::sendToStreamer()` saves those into the job (and would insert a row for the unsaved job
+  object used by system alerts). The cron belongs to the Encoder installation (one Encoder serves
+  many Streamers, in any folder): install it with `install/installCron.php` from the Encoder itself,
+  never from a Streamer's `deploy/` crontab, and run it as the web server user, not root. Covered by
+  `.compose/encoder/tests/encoder-monitor-regression.php` and `tests/Unit/EncoderAlertTest.php`.
 - **Manual testing required**: changes to FFmpeg/encoding, HLS packaging, live streaming
   (RTMP/on_publish flows), CDN/storage backends, payments (PayPal/Stripe/AuthorizeNet/Blockonomics),
   or third-party auth/social-login providers cannot be fully verified by automated tests in this
