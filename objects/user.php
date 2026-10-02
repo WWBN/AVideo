@@ -4026,7 +4026,7 @@ if (typeof gtag !== \"function\") {
     {
         $sql = "SELECT
                 CASE
-                    WHEN created IS NULL OR created = '0000-00-00 00:00:00' THEN '2000-01-01'
+                    WHEN created IS NULL OR created < '1000-01-01' THEN '2000-01-01'
                     ELSE DATE(created)
                 END AS day,
                 COUNT(*) AS total
