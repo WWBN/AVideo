@@ -300,4 +300,29 @@ class SecurityHardeningRegressionTest extends TestCase
         $user = file_get_contents(dirname(__DIR__, 2) . '/objects/user.php');
         $this->assertStringContainsString('public function getVerifiedCredentialsUserId(', $user);
     }
+
+    /**
+     * @test
+     * Regression (CVE-2026-105089, incomplete fix of GHSA-v7vx-v9q9-qhw3):
+     * setTrailer1() only applies FILTER_VALIDATE_URL, which accepts raw quotes,
+     * angle brackets, HTML entities and javascript: URLs. Every template that
+     * renders trailer1 must require isValidURL() and HTML-escape the output.
+     */
+    public function testTrailerTemplatesValidateAndEscapeTrailerUrl()
+    {
+        $root = dirname(__DIR__, 2);
+        $sinks = [
+            '/plugin/YouPHPFlix2/view/row_info.php' => '$value[\'trailer1\']',
+            '/plugin/YouPHPFlix2/view/BigVideoButtons.php' => '$video[\'trailer1\']',
+            '/plugin/YouPHPFlix2/view/BigVideo.php' => '$video[\'trailer1\']',
+            '/view/channelPlaylistItems.php' => '$serie[\'trailer1\']',
+        ];
+        foreach ($sinks as $file => $var) {
+            $source = file_get_contents($root . $file);
+            $this->assertStringContainsString("isValidURL({$var})", $source, $file);
+            $this->assertStringNotContainsString("!empty({$var})", $source, $file);
+            $this->assertMatchesRegularExpression('/echo htmlspecialchars\([^;]*parseVideos\(' . preg_quote($var, '/') . '/', $source, $file);
+            $this->assertDoesNotMatchRegularExpression('/echo (addQueryStringParameter\()?parseVideos\(' . preg_quote($var, '/') . '/', $source, $file);
+        }
+    }
 }

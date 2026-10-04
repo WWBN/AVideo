@@ -29,9 +29,9 @@
         <span class=""><?php echo __("Play"); ?></span>
     </a>
     <?php
-    if (!empty($video['trailer1'])) {
+    if (isValidURL($video['trailer1'])) {
         ?>
-        <a href="#" class="btn btn-default" onclick="flixFullScreen('<?php echo parseVideos($video['trailer1'], 1, 0, 0, 0, 1); ?>', '');return false;">
+        <a href="#" class="btn btn-default" onclick="flixFullScreen('<?php echo htmlspecialchars(parseVideos($video['trailer1'], 1, 0, 0, 0, 1), ENT_QUOTES, 'UTF-8'); ?>', '');return false;">
             <span class="fa fa-film"></span>
             <span class=""><?php echo __("Trailer"); ?></span>
         </a>

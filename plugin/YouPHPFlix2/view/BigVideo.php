@@ -23,10 +23,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     ?>
         <div class="flix-hero" id="bigVideo" style="background-image: url('<?php echo $poster; ?>');">
             <?php
-            if (!isMobile() && !empty($video['trailer1'])) {
+            if (!isMobile() && isValidURL($video['trailer1'])) {
             ?>
                 <div id="bg_container">
-                    <iframe src="<?php echo addQueryStringParameter(parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 0, 'cover'), 'objectFit', 'cover'); ?>" frameborder="0" allowtransparency="true" allow="autoplay" tabindex="-1" aria-hidden="true"></iframe>
+                    <iframe src="<?php echo htmlspecialchars(addQueryStringParameter(parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 0, 'cover'), 'objectFit', 'cover'), ENT_QUOTES, 'UTF-8'); ?>" frameborder="0" allowtransparency="true" allow="autoplay" tabindex="-1" aria-hidden="true"></iframe>
                 </div>
                 <div id="bg_container_overlay"></div>
             <?php

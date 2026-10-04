@@ -177,9 +177,9 @@ unset($_POST['current']);
                                         <?php echo humanTiming(strtotime($serie['created']), 0, true, true); ?>
 
                                         <?php
-                                        if (!empty($serie['trailer1'])) {
+                                        if (isValidURL($serie['trailer1'])) {
                                         ?>
-                                            <button class="btn btn-xs btn-warning" onclick="avideoModalIframe('<?php echo parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'); ?>');">
+                                            <button class="btn btn-xs btn-warning" onclick="avideoModalIframe('<?php echo htmlspecialchars(parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'), ENT_QUOTES, 'UTF-8'); ?>');">
                                                 <span class="fa fa-film"></span>
                                                 <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
                                             </button>
