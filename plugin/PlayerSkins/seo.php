@@ -85,8 +85,8 @@ $keywords3 = implode(', ', $keywords2);
         ?>
             <article>
                 <h3>
-                    <a href="<?php echo Video::getURL($value['id']); ?>" title="<?php echo $value['title']; ?>">
-                        <?php echo $value['title']; ?>
+                    <a href="<?php echo Video::getURL($value['id']); ?>" title="<?php echo htmlspecialchars($value['title'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <?php echo htmlspecialchars($value['title'], ENT_QUOTES, 'UTF-8'); ?>
                     </a>
                 </h3>
                 <?php

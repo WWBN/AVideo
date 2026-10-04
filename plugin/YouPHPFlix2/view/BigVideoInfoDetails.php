@@ -9,7 +9,7 @@ if (!empty($ads1)) {
 }
 ?>
 
-<h2 class="infoTitle" style=""><?php echo $video['title']; ?></h2>
+<h2 class="infoTitle" style=""><?php echo htmlspecialchars($video['title'], ENT_QUOTES, 'UTF-8'); ?></h2>
 <div class="infoDetails">
     <?php
     if (!empty($video['rate'])) {

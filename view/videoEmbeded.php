@@ -360,7 +360,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <!-- article -->
         <div id="main-video" class="bgWhite list-group-item ypt-article" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
             <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
-                <?php echo $video['title']; ?>
+                <?php echo htmlspecialchars($video['title'], ENT_QUOTES, 'UTF-8'); ?>
             </h1>
             <?php echo Video::htmlDescription($video['description']); ?>
             <script>

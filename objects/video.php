@@ -667,6 +667,8 @@ if (!class_exists('Video')) {
             }
             //$this->setTitle((trim($this->title)));
             $this->title = ((safeString($this->title)));
+            // same quote handling as setTitle(): this second safeString() pass can decode &quot; into a raw quote
+            $this->title = str_replace(['"', "\\"], ["''", ""], $this->title);
             $this->description = (($this->description));
 
             if (empty($this->users_id)) {

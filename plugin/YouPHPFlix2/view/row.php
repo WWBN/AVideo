@@ -88,7 +88,7 @@ TimeLogStart($timeLog3);
                                                                                                                                     }
                                                                                                                                     if (!empty($obj->titleLabel)) {
                                                                                                                                                 ?>
-                            <h4 style="<?php echo $obj->titleLabelCSS; ?>"><?php echo $value['title']; ?></h4>
+                            <h4 style="<?php echo $obj->titleLabelCSS; ?>"><?php echo htmlspecialchars($value['title'], ENT_QUOTES, 'UTF-8'); ?></h4>
                         <?php
                                                                                                                                     }
                         ?>

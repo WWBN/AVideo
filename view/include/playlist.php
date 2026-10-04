@@ -164,7 +164,7 @@ if (!empty($videoSerie)) {
                             } ?>
                         </div>
                         <div class="pull-left videosDetails">
-                            <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>
+                            <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo htmlspecialchars($value['title'], ENT_QUOTES, 'UTF-8'); ?></strong></div>
                             <div class="details row" itemprop="description">
                                 <div>
                                     <span class="<?php echo @$value['iconClass']; ?>"></span>

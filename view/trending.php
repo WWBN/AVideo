@@ -55,7 +55,7 @@ $_page->setExtraStyles(
                 foreach ($videos as $key => $value) {
                 ?>
                     <div class="col-lg-12 searchResult thumbsImage mb-2 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp', 'trending', 0.2); ?> overflow: hidden;">
-                        <a class="galleryLink col-sm-4 col-md-4 col-lg-4" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
+                        <a class="galleryLink col-sm-4 col-md-4 col-lg-4" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo htmlspecialchars($value['title'], ENT_QUOTES, 'UTF-8'); ?>">
                             <?php
                             $images = Video::getImageFromFilename($value['filename'], $value['type']);
                             $imgGif = $images->thumbsGif;
@@ -76,8 +76,8 @@ $_page->setExtraStyles(
                             </div>
                         </a>
                         <div class=" col-sm-8 col-md-8 col-lg-8">
-                            <a class="h6 galleryLink col-lg-12" style="font-size: 1.5em;" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
-                                <strong><?php echo $value['title']; ?></strong>
+                            <a class="h6 galleryLink col-lg-12" style="font-size: 1.5em;" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo htmlspecialchars($value['title'], ENT_QUOTES, 'UTF-8'); ?>">
+                                <strong><?php echo htmlspecialchars($value['title'], ENT_QUOTES, 'UTF-8'); ?></strong>
                             </a>
 
                             <div class="galeryDetails col-lg-12" style="overflow: hidden;">
@@ -135,7 +135,7 @@ $_page->setExtraStyles(
                                             <?php echo User::getNameIdentificationById($value['users_id']); ?>
                                         </a>
                                         <?php if ((!empty($value['description'])) && !empty($obj->Description)) { ?>
-                                            <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', $value['description']); ?> </div>"><?php echo __("Description"); ?></button>
+                                            <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo htmlspecialchars($value['title'], ENT_QUOTES, 'UTF-8'); ?>" data-content="<div> <?php echo str_replace('"', '&quot;', $value['description']); ?> </div>"><?php echo __("Description"); ?></button>
                                         <?php } ?>
                                     </div>
                                 <?php

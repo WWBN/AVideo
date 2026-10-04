@@ -384,6 +384,8 @@ function safeString($text, $strict = false, $try = 0)
     $text = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '', $text);
     $text = preg_replace('/(&#x*[0-9A-F]+);*/iu', '', $text);
     $text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
+    // decoding can turn nested entities (e.g. &&amp;lt;lt;) into real tags, strip them again
+    $text = strip_tags($text);
 
     if ($strict) {
         $text = filter_var($text, FILTER_SANITIZE_FULL_SPECIAL_CHARS);

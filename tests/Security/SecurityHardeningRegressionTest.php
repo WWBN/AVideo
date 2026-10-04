@@ -325,4 +325,47 @@ class SecurityHardeningRegressionTest extends TestCase
             $this->assertDoesNotMatchRegularExpression('/echo (addQueryStringParameter\()?parseVideos\(' . preg_quote($var, '/') . '/', $source, $file);
         }
     }
+
+    /**
+     * @test
+     * Regression (CVE-2026-105086): setTitle() and save() both run safeString(),
+     * which decodes entities last, so a doubly-encoded title such as
+     * &&&amp;amp;lt;lt;img ...&&&amp;amp;gt;gt; was stored as a real <img> tag
+     * (or a raw double quote). The stored title must never contain either.
+     */
+    public function testVideoTitleDoubleEncodingCannotProduceTagsOrQuotes()
+    {
+        $root = dirname(__DIR__, 2);
+        if (!function_exists('safeStringRegressionCopy')) {
+            preg_match('/\nfunction safeString\(.*?\n}\n/s', str_replace("\r\n", "\n", file_get_contents($root . '/objects/functions.php')), $m);
+            $this->assertNotEmpty($m);
+            eval(str_replace(['function safeString(', 'return safeString('], ['function safeStringRegressionCopy(', 'return safeStringRegressionCopy('], $m[0]));
+        }
+
+        $video = file_get_contents($root . '/objects/video.php');
+        $this->assertStringContainsString(
+            "\$this->title = ((safeString(\$this->title)));\n            // same quote handling as setTitle()",
+            str_replace("\r\n", "\n", $video)
+        );
+
+        $quotes = function ($title) {
+            return str_replace(['"', "\\"], ["''", ""], $title);
+        };
+        $payloads = [
+            '&&&amp;amp;lt;lt;img src=x onerror=alert(1)&&&amp;amp;gt;gt;',
+            'x &&&amp;amp;quot;quot; onmouseover=alert(1) y',
+            '&&&&amp;amp;amp;amp;lt;lt;lt;lt;svg onload=alert(1)&&&&amp;amp;amp;amp;gt;gt;gt;gt;',
+        ];
+        foreach ($payloads as $payload) {
+            $stored = $payload;
+            for ($i = 0; $i < 3; $i++) { // setTitle() and then repeated save() calls
+                $stored = $quotes(safeStringRegressionCopy($stored));
+                $this->assertDoesNotMatchRegularExpression('/<[a-z!\/]/i', $stored, $payload);
+                $this->assertStringNotContainsString('"', $stored, $payload);
+            }
+        }
+
+        $this->assertSame('Tom & Jerry', $quotes(safeStringRegressionCopy('Tom & Jerry')));
+        $this->assertSame("Rock 'n' Roll", $quotes(safeStringRegressionCopy("Rock 'n' Roll")));
+    }
 }
