@@ -6,6 +6,9 @@ if (!file_exists($configFile)) {
     $configFile = $path['dirname'] . "/" . $configFile;
 }
 $global['bypassSameDomainCheck'] = 1;
+// API clients may send another account's user/pass while still holding an old session cookie:
+// User::loginFromRequest() then logs the old session off and signs in the requested account
+$global['switchUserFromRequestCredentials'] = 1;
 
 require_once $configFile;
 require_once $global['systemRootPath'].'plugin/API/API.php';
@@ -38,7 +41,10 @@ $parameters = array_merge($_GET, $_POST, $input);
 // logged in — so a forged user/pass does not prove the caller isn't just riding the
 // victim's ambient cookie. Only trust an already-authenticated ambient session; require
 // it to arrive as a same-origin POST so a cross-site GET/POST navigation can't reuse it.
-$ambientlyLoggedIn = User::isLogged();
+// Plugins' getStart() (CustomizeUser, Live, Meet) already call User::loginFromRequest() during
+// bootstrap, so a session logged in (or confirmed) by THIS request's user/pass is not ambient; the
+// flag is only set after that password was actually checked, never for a cookie session alone.
+$ambientlyLoggedIn = User::isLogged() && empty($global['loggedInFromRequestCredentials']);
 $hasExplicitCredentials = API::isAPISecretValid() || (!$ambientlyLoggedIn && !empty($parameters['user']) && (!empty($parameters['pass']) || !empty($parameters['password'])));
 if (!$hasExplicitCredentials) {
     if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {

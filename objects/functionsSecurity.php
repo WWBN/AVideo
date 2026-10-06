@@ -982,6 +982,23 @@ function rateLimitIncrementAndGet(string $key, int $timeWindow): int
 }
 
 /**
+ * Gives back one attempt taken by rateLimitIncrementAndGet() in the current window, for
+ * counters that reserve a slot up front and only keep it when the attempt fails.
+ */
+function rateLimitDecrement(string $key, int $timeWindow): void
+{
+    $hashedKey = hash('sha256', $key, true);
+    $sql = "UPDATE rate_limits SET attempts = attempts - 1 WHERE ratelimit_key = ? AND expires_at > NOW() AND attempts > 0";
+    if (sqlDAL::writeSql($sql, 's', [$hashedKey]) === false) {
+        // same legacy cache fallback rateLimitIncrementAndGet() uses when the table is unavailable
+        $attempts = intval(ObjectYPT::getCacheGlobal($key, $timeWindow, false, true, true));
+        if ($attempts > 0) {
+            ObjectYPT::setCacheGlobal($key, $attempts - 1, true, true);
+        }
+    }
+}
+
+/**
  * Enforce a rate limit for the current endpoint.
  *
  * Kills the request with HTTP 429 + JSON body if the caller has exceeded

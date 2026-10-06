@@ -132,7 +132,10 @@ class API extends PluginAbstract
                 // not exhaust the login budget. Anonymous attempts still share signIn's limit.
                 $this->checkRateLimit('sign_in', 10, 300);
                 $user = new User("", $parameters['user'], $parameters['password']);
-                $user->login(false, @$parameters['encodedPass']);
+                if ($user->login(false, @$parameters['encodedPass']) === User::TOO_MANY_FAILED_ATTEMPTS) {
+                    http_response_code(429);
+                    return new ApiObject("Too many failed login attempts. Try again later");
+                }
             }
             $APIName = $parameters['APIName'];
             if (method_exists($this, "set_api_$APIName")) {
@@ -172,7 +175,10 @@ class API extends PluginAbstract
                 // not exhaust the login budget. Anonymous attempts still share signIn's limit.
                 $this->checkRateLimit('sign_in', 10, 300);
                 $user = new User("", $parameters['user'], $parameters['password']);
-                $user->login(false, @$parameters['encodedPass']);
+                if ($user->login(false, @$parameters['encodedPass']) === User::TOO_MANY_FAILED_ATTEMPTS) {
+                    http_response_code(429);
+                    return new ApiObject("Too many failed login attempts. Try again later");
+                }
             }
             $APIName = $parameters['APIName'];
             if (method_exists($this, "get_api_$APIName")) {

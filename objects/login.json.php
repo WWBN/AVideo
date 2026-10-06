@@ -239,6 +239,12 @@ if ($resp === User::CAPTCHA_ERROR) {
     die(json_encode($object));
 }
 
+if ($resp === User::TOO_MANY_FAILED_ATTEMPTS) {
+    // HTTP 200 like the other errors here: view/userLogin.php only handles the ajax success callback
+    $object->error = __("Too many failed login attempts. Try again later.");
+    die(json_encode($object));
+}
+
 if ($resp === User::REQUIRE2FA) {
     _error_log("login.json.php 2fa login is required");
     $object->error = __("2FA login is required");

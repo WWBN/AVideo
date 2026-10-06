@@ -2,6 +2,7 @@
 // Executes the real dispatchers with isolated authentication/rate-limit fixtures.
 // No database, live credentials, or server mutation is involved.
 class User {
+    const TOO_MANY_FAILED_ATTEMPTS = 6;
     public static $logged = false;
     public static $attempts = 0;
     public function __construct($id, $user, $password) {}

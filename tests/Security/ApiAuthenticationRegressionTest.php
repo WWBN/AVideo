@@ -22,6 +22,8 @@ class ApiAuthenticationRegressionTest extends TestCase
             'deactivation reauthentication' => ['api-deactivation-regression.php', 'API deactivation regression: passed'],
             'session request budget' => ['api-session-rate-limit-regression.php', 'API session rate-limit regression: passed'],
             'account deletion' => ['api-user-delete-regression.php', 'API user delete regression: passed'],
+            'set CSRF guard' => ['api-set-csrf-guard-regression.php', 'API set CSRF guard regression: passed'],
+            'failed login penalty' => ['login-failed-attempts-regression.php', 'Login failed-attempts regression: passed'],
         ];
     }
 }

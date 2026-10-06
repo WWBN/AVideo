@@ -219,6 +219,21 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   the current list: `email`, `password`, `isAdmin`, permission flags, PII, etc.) — when adding a
   new endpoint that joins the `users` table, follow this same filtering pattern.
 - Keep OpenAPI attributes (`#[OA\...]`) in sync when changing API method signatures.
+- Any request carrying `user`+`pass` is already logged in before the endpoint code runs:
+  `AVideoPlugin::getStart()` (every request) → `CustomizeUser::getStart()` → `User::loginFromRequest()`.
+  So `User::isLogged()` cannot tell "this request's credentials" from "an ambient cookie session"; use
+  `$global['loggedInFromRequestCredentials']` (set only after the request's password was actually
+  checked: a fresh login, or a cookie session whose user/pass verify to that same session user), as the
+  CSRF guard in `plugin/API/set.json.php` does. Only the API entry points (`plugin/API/get|set.json.php`
+  set `$global['switchUserFromRequestCredentials']`) replace a cookie session with another account's
+  verified user/pass; normal pages never switch accounts. `USER_LOGGED` is `0`, so code inside
+  `if ($response) { switch ... case self::USER_LOGGED` in `loginFromRequest()` never runs. Covered by `tests/api-set-csrf-guard-regression.php`.
+- Every password check in `User::login()` (form, API, user/pass in any URL, remember-me cookie) has a
+  failed-attempt penalty: 10 failures per account+IP and 100 per IP in 15 min (overridable with
+  `$global['failedLoginMaxPerAccount']` / `failedLoginMaxPerIP`), successes are refunded, and while
+  blocked `login()` returns `User::TOO_MANY_FAILED_ATTEMPTS` without checking the password. It must not
+  end the request: Encoder callbacks still authenticate through `video_id_hash` after a failed user/pass.
+  Covered by `tests/login-failed-attempts-regression.php`.
 
 ### Backward Compatibility
 - Do not change public APIs (core PHP classes/functions, plugin hooks, the `plugin/API/` HTTP API,

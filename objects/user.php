@@ -1266,6 +1266,10 @@ if (typeof gtag !== \"function\") {
     public const CAPTCHA_ERROR = 3;
     public const REQUIRE2FA = 4;
     public const SYSTEM_ERROR = 5;
+    public const TOO_MANY_FAILED_ATTEMPTS = 6;
+    public const FAILED_LOGIN_WINDOW = 900;
+    private static $failedLoginState = [];
+    private static $loginCheckedPassword = false;
 
     /** Verify this credential pair without trusting or changing the current session. */
     public function getVerifiedCredentialsUserId($encodedPass = false)
@@ -1302,10 +1306,18 @@ if (typeof gtag !== \"function\") {
             $encodedPass = false;
         }
 
+        if (!$noPass && !self::reserveLoginAttempt($this->user)) {
+            return self::TOO_MANY_FAILED_ATTEMPTS;
+        }
+
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
+            if (!empty($user)) {
+                self::$loginCheckedPassword = true;
+                self::refundLoginAttempt($this->user);
+            }
         }
 
         if (!isAVideoMobileApp() && !isAVideoEncoder() && !self::checkLoginAttempts()) {
@@ -1438,6 +1450,91 @@ if (typeof gtag !== \"function\") {
         _unsetcookie('credentials');
     }
 
+    private static function getFailedLoginBuckets($user)
+    {
+        global $global;
+        $ip = getRealIpAddr();
+        $perAccount = !empty($global['failedLoginMaxPerAccount']) ? intval($global['failedLoginMaxPerAccount']) : 10;
+        $perIP = !empty($global['failedLoginMaxPerIP']) ? intval($global['failedLoginMaxPerIP']) : 100;
+        return [
+            "login_failed_account_{$ip}_" . mb_strtolower(trim((string) $user)) => $perAccount,
+            "login_failed_ip_{$ip}" => $perIP,
+        ];
+    }
+
+    /**
+     * Failed-login penalty for every password check (login form, API, user/pass in any URL,
+     * remember-me cookie). The slot is reserved atomically before the check, so parallel requests
+     * cannot all slip under the cap, and refundLoginAttempt() gives it back when the password is
+     * right, so only failures count. Returns false while the caller must wait for the window.
+     */
+    private static function reserveLoginAttempt($user)
+    {
+        if (isCommandLineInterface()) {
+            return true;
+        }
+        $id = mb_strtolower(trim((string) $user));
+        // bootstrap, the API and login.json.php may check the same credentials in one request
+        if (isset(self::$failedLoginState[$id])) {
+            return self::$failedLoginState[$id] !== 'blocked';
+        }
+        $reserved = [];
+        foreach (self::getFailedLoginBuckets($user) as $key => $maxFailures) {
+            $reserved[] = $key;
+            if (rateLimitIncrementAndGet($key, self::FAILED_LOGIN_WINDOW) > $maxFailures) {
+                // no password is checked while blocked, so the blocked attempt itself must not count
+                foreach ($reserved as $reservedKey) {
+                    rateLimitDecrement($reservedKey, self::FAILED_LOGIN_WINDOW);
+                }
+                _error_log("login blocked after too many failed attempts bucket={$key} ip=" . getRealIpAddr(), AVideoLog::$SECURITY);
+                self::$failedLoginState[$id] = 'blocked';
+                return false;
+            }
+        }
+        self::$failedLoginState[$id] = 'reserved';
+        return true;
+    }
+
+    private static function refundLoginAttempt($user)
+    {
+        $id = mb_strtolower(trim((string) $user));
+        if ((self::$failedLoginState[$id] ?? '') !== 'reserved') {
+            return;
+        }
+        self::$failedLoginState[$id] = 'refunded';
+        foreach (array_keys(self::getFailedLoginBuckets($user)) as $key) {
+            rateLimitDecrement($key, self::FAILED_LOGIN_WINDOW);
+        }
+    }
+
+    /**
+     * For a request that already carries a logged-in session: the users_id the request's own user/pass
+     * verify to, or 0. Checked without re-login (no session regeneration). A cross-site request riding
+     * the victim's cookie cannot get the victim's id without the victim's password; the check counts
+     * toward the failed-login penalty. Another account is only checked where it can be switched to.
+     */
+    private static function getRequestCredentialsUsersId()
+    {
+        global $global;
+        $requestUser = trim((string) ($_REQUEST['user'] ?? ''));
+        $sessionUser = $_SESSION['user'] ?? [];
+        $isSessionUser = strcasecmp($requestUser, (string) ($sessionUser['user'] ?? '')) === 0
+            || strcasecmp($requestUser, (string) ($sessionUser['email'] ?? '')) === 0;
+        if (empty($sessionUser['id']) || empty($_REQUEST['pass'])
+            || (!$isSessionUser && empty($global['switchUserFromRequestCredentials']))) {
+            return 0;
+        }
+        if (!self::reserveLoginAttempt($requestUser)) {
+            return 0;
+        }
+        $user = new User(0, $requestUser, $_REQUEST['pass']);
+        $users_id = $user->getVerifiedCredentialsUserId($_REQUEST['encodedPass'] ?? false);
+        if ($users_id) {
+            self::refundLoginAttempt($requestUser);
+        }
+        return $users_id;
+    }
+
     public static function isCaptchaNeed()
     {
         global $advancedCustomUser;
@@ -1568,6 +1665,10 @@ if (typeof gtag !== \"function\") {
                 $user = new User(0, $userCookie->user, $userCookie->pass);
                 $resp = $user->login(false, true);
                 //_error_log("user::recreateLoginFromCookie: resp=$resp");
+                if ($resp === self::TOO_MANY_FAILED_ATTEMPTS) {
+                    // keep the remember-me cookie; it is checked again once the penalty window ends
+                    return false;
+                }
 
                 $userCookie = User::getUserCookieCredentials();
                 // Compare against the session id login() actually set, not $user->id: the
@@ -3433,9 +3534,22 @@ if (typeof gtag !== \"function\") {
             // causes a race condition when parallel requests all start from the same
             // session ID: the first one to regenerate deletes the session file that
             // the others (and iframes) are still using.
+            $requestUsersId = !empty($_SESSION['user']['id']) ? self::getRequestCredentialsUsersId() : 0;
+            if (!empty($_SESSION['user']['id']) && $requestUsersId && $requestUsersId !== (int) $_SESSION['user']['id']) {
+                // only API clients (plugin/API get/set.json.php) switch account: on normal pages a link
+                // with someone else's user/pass must not log the visitor out of their own account
+                if (!empty($global['switchUserFromRequestCredentials'])) {
+                    _error_log("loginFromRequest switching session user from {$_SESSION['user']['id']} to {$requestUsersId}");
+                    self::logoff();
+                }
+            }
             if (!empty($_SESSION['user']['id'])) {
                 $global['bypassSameDomainCheck'] = 1;
                 $_REQUEST['do_not_login'] = 1;
+                // clients that keep the session cookie (Postman, apps) still send explicit credentials
+                if ($requestUsersId === (int) $_SESSION['user']['id']) {
+                    $global['loggedInFromRequestCredentials'] = 1;
+                }
                 if ($isEncoderRequest) {
                     _error_log('loginFromRequest: encoder auth skipped because session already authenticated sessionUserId=' . (int)$_SESSION['user']['id'] . ' requestUser=' . ($_REQUEST['user'] ?? 'empty'));
                 }
@@ -3450,7 +3564,14 @@ if (typeof gtag !== \"function\") {
             // Pass the raw value through (not !empty()) so login()'s own
             // strtolower($encodedPass) === 'false' normalization can still treat
             // the literal string "false" as false - !empty('false') would be true.
+            self::$loginCheckedPassword = false;
             $response = $user->login(false, $_REQUEST['encodedPass'] ?? false);
+            if ($response === self::USER_LOGGED && self::$loginCheckedPassword) {
+                // this request's own user/pass created the session, not a pre-existing or remember-me
+                // cookie (login() can return USER_LOGGED for those without checking this password);
+                // plugin/API/set.json.php relies on this to tell explicit credentials from ambient ones
+                $global['loggedInFromRequestCredentials'] = 1;
+            }
             if ($isEncoderRequest) {
                 _error_log('loginFromRequest: encoder first attempt result=' . json_encode($response)
                     . ' encodedPassFlag=' . (int)!empty($_REQUEST['encodedPass'])
@@ -3476,6 +3597,9 @@ if (typeof gtag !== \"function\") {
                         break;
                     case self::SYSTEM_ERROR:
                         _error_log("loginFromRequest SYSTEM_ERROR {$_REQUEST['user']}");
+                        break;
+                    case self::TOO_MANY_FAILED_ATTEMPTS:
+                        _error_log("loginFromRequest TOO_MANY_FAILED_ATTEMPTS {$_REQUEST['user']}");
                         break;
                     default:
                         _error_log("loginFromRequest UNDEFINED {$_REQUEST['user']}");
