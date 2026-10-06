@@ -330,6 +330,10 @@ if (!empty($_GET['type'])) {
 // explicit — see objects/functionsSecurity.php → autoCSRFGuard() /
 // autoRateLimitGuard() for the full bypass documentation (exact-name list,
 // fnmatch pattern list, or a $global flag set before configuration.php loads).
+// SECURITY REVIEW (2026-10-06): reported that this misses non-.json.php endpoints and should
+// guard every file by default — DO NOT FIX here: page renders, embeds, RTMP/IPN/webhook callbacks
+// and other cross-origin legitimate callers are plain *.php. Mutating non-.json.php endpoints
+// call forbidIfIsUntrustedRequest() explicitly instead (see objects/playlistStatus.php).
 if (
     isset($_SERVER['REQUEST_METHOD']) &&
     substr($baseName, -9) === '.json.php'

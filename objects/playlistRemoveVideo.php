@@ -6,6 +6,8 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+// filename does not end in .json.php, so autoCSRFGuard() never runs for this endpoint
+forbidIfIsUntrustedRequest('playlistRemoveVideo');
 enforceRateLimit('playlist_remove_video_legacy', 120, 60);
 if (!User::isLogged()) {
     forbiddenPage('Permission denied', true);

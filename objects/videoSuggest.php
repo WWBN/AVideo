@@ -4,6 +4,8 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+// filename does not end in .json.php, so autoCSRFGuard() never runs for this endpoint
+forbidIfIsUntrustedRequest('videoSuggest');
 
 $obj = new stdClass();
 $obj->msg = '';

@@ -368,4 +368,18 @@ class SecurityHardeningRegressionTest extends TestCase
         $this->assertSame('Tom & Jerry', $quotes(safeStringRegressionCopy('Tom & Jerry')));
         $this->assertSame("Rock 'n' Roll", $quotes(safeStringRegressionCopy("Rock 'n' Roll")));
     }
+
+    public function testLegacyNonJsonMutatingEndpointsRejectCrossOriginRequests()
+    {
+        // autoCSRFGuard() only runs for *.json.php, so these must guard themselves before mutating
+        $root = dirname(__DIR__, 2);
+        foreach (['playlistStatus', 'playlistRemoveVideo', 'videoSuggest', 'videoPinOnChannel'] as $name) {
+            $source = file_get_contents("{$root}/objects/{$name}.php");
+            $guard = strpos($source, "forbidIfIsUntrustedRequest('{$name}');");
+            $this->assertNotFalse($guard, "{$name}.php must call forbidIfIsUntrustedRequest()");
+            $this->assertMatchesRegularExpression('/->(save|addVideo)\(/', $source, $name);
+            preg_match('/->(save|addVideo)\(/', $source, $m, PREG_OFFSET_CAPTURE);
+            $this->assertLessThan($m[0][1], $guard, "{$name}.php must check the request origin before mutating");
+        }
+    }
 }
