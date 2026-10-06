@@ -2,10 +2,12 @@
 use OpenApi\Attributes as OA;
 $configFile = __DIR__ . '/../../videos/configuration.php';
 require_once $configFile;
+require_once __DIR__ . '/API.php';
 
-if (!User::isAdmin()) {
-    forbiddenPage('You need to be an admin to access this page');
+if (!API::canAccessDocumentation()) {
+    forbiddenPage('API documentation access denied. Your IP: ' . getRealIpAddr() . '. Ask the administrator to add this IP to the API documentation allowed IPs.', true);
 }
+header('Cache-Control: private, no-store');
 
 ?>
 <!-- HTML for static distribution bundle build -->

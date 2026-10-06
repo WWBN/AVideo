@@ -19,6 +19,7 @@ class ApiAuthenticationRegressionTest extends TestCase
     public function regressionScripts(): array
     {
         return [
+            'documentation IP access' => ['api-documentation-access-regression.php', 'API documentation access regression: passed'],
             'deactivation reauthentication' => ['api-deactivation-regression.php', 'API deactivation regression: passed'],
             'session request budget' => ['api-session-rate-limit-regression.php', 'API session rate-limit regression: passed'],
             'account deletion' => ['api-user-delete-regression.php', 'API user delete regression: passed'],

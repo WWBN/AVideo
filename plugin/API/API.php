@@ -105,7 +105,37 @@ class API extends PluginAbstract
         $obj = new stdClass();
         $obj->APISecret = md5($global['salt'] . $global['systemRootPath'] . 'API');
         $obj->standAloneFFMPEG = '';
+        $obj->documentationAllowedIPs = '';
+        self::addDataObjectHelper('documentationAllowedIPs', 'Documentation allowed IPs', 'Allow these exact IPv4/IPv6 addresses to access Swagger documentation without login. Separate addresses with commas or spaces. Empty means admin only. This does not authorize API operations. Everyone sharing an allowed IP has access. Forwarded IPs require configured trusted proxies.');
         return $obj;
+    }
+
+    public static function canAccessDocumentation()
+    {
+        if (User::isAdmin()) {
+            return true;
+        }
+
+        $obj = AVideoPlugin::getObjectDataIfEnabled('API');
+        if (empty($obj->documentationAllowedIPs) || !is_string($obj->documentationAllowedIPs)) {
+            return false;
+        }
+        // Do not authorize the loopback fallback when the peer address is missing.
+        if (getRemoteAddrFromServerArray($_SERVER) === '') {
+            return false;
+        }
+        $ip = getRealIpAddr();
+        if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+            return false;
+        }
+        $packedIP = inet_pton($ip);
+        $allowedIPs = preg_split('/[\s,;]+/', trim($obj->documentationAllowedIPs), -1, PREG_SPLIT_NO_EMPTY);
+        foreach ($allowedIPs as $allowedIP) {
+            if (filter_var($allowedIP, FILTER_VALIDATE_IP) && inet_pton($allowedIP) === $packedIP) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function getPluginMenu()
