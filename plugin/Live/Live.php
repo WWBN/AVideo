@@ -632,7 +632,7 @@ class Live extends PluginAbstract
         self::addDataObjectHelper('saveLiveIsTheDefault', 'Save Live is the Default', 'https://github.com/WWBN/AVideo/wiki/Record-Live-Stream');
         $obj->useAadaptiveMode = false;
         self::addDataObjectHelper('useAadaptiveMode', 'Adaptive mode', 'https://github.com/WWBN/AVideo/wiki/Adaptive-Bitrates-on-Livestream');
-        $obj->protectLive = false;
+        $obj->protectLive = false; // SECURITY REVIEW (2026-10-06): opt-in on purpose, do not flip the default — see the comment in LiveStreamObject::getM3U8()
         self::addDataObjectHelper('protectLive', 'Live Protection', 'With this your encryption key will be protected, and only your site player will be able to play your videos, download tools will not be able to download your video. if you want to share your live externally you can use the embed and you will still be protected. but if you want to use the m3u8 file you must disable this');
         $obj->doNotShowLiveOnVideosList = false;
         self::addDataObjectHelper('doNotShowLiveOnVideosList', 'Do not show live on videos list', 'We will not show the live thumbs on the main Gallery page');
@@ -5115,6 +5115,12 @@ class LiveStreamObject
             $playerServer = "https://{$dockerVars->SERVER_NAME}:{$dockerVars->NGINX_HTTPS_PORT}/live/";
             //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) {$playerServer} ".__LINE__);
         }
+        // SECURITY REVIEW (2026-10-06): reported as "PPV/private live bypass: raw HLS URL is unauthenticated and shareable when
+        // protectLive=false" — NOT a vulnerability / DO NOT FIX. The URL is only rendered after the page-level checks
+        // (userCanSeeTransmition() + PayPerViewLive::getModeYouTubeLive() in the live/embed pages), so only an authorized viewer
+        // ever obtains it; sharing it is link-sharing by that viewer. Media-layer HLS on the live server is unauthenticated by
+        // design (see the SECURITY REVIEW in deploy/nginx/nginx.conf), and even with protectLive m3u8.php rewrites segments to
+        // absolute media-server URLs. protectLive stays opt-in because it breaks external m3u8 consumers (see its helper text).
         if ($o->protectLive && empty($doNotProtect)) {
             $url = "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$this->live_servers_id}&uuid=" . encryptString($uuid);
             //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) ".__LINE__." {$url}");

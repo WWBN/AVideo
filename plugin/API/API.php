@@ -3076,6 +3076,11 @@ class API extends PluginAbstract
 
         $obj->livestream["users_id"] = $user->getBdId();
         $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
+        // SECURITY REVIEW (2026-10-06): reported as "password hash disclosed in livestream.server" — NOT a vulnerability / DO NOT FIX.
+        // Without APISecret users_id is forced to the caller, so only the owner sees their own hash; APISecret is the install-wide
+        // master credential (Section 11). ?p= is the legacy RTMP publish credential checked by plugin/Live/on_publish.php and is
+        // not accepted for login (encryptPasswordVerify() blocks pass-the-hash). Kept for legacy publishing clients (field since 2020);
+        // newer clients use the hash-free server_v2/server_v3+key_v3 below. Do not change this value without checking those clients.
         $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
         $obj->livestream["server_v2"] = Live::getRTMPLinkWithOutKey($user->getBdId());
         // those are for the ypt mobile app
