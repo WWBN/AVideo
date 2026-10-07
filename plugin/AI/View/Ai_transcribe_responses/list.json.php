@@ -10,6 +10,11 @@ if (!User::isAdmin()) {
 $rows = Ai_transcribe_responses::getAll();
 $total = Ai_transcribe_responses::getTotal();
 
+foreach ($rows as $key => $value) {
+    // The DataTable text renderer and edit textarea both consume plain text.
+    $rows[$key]['text'] = htmlspecialchars_decode((string) $value['text'], ENT_QUOTES);
+}
+
 $response = array(
     'data' => $rows,
     'draw' => intval(@$_REQUEST['draw']),

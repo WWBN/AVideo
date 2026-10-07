@@ -38,11 +38,10 @@ class Ai_metatags_responses extends ObjectYPT {
     }
 
     // SECURITY: professionalDescription/casualDescription/shortSummary/metaDescription/rratingJustification
-    // (and each videoTitles/keywords array item) are rendered via a raw HTML-injection sink
-    // ($('<div>' + content + '</div>')) in plugin/AI/page.php's processAIResponse(). This content
-    // is AI-generated from the video's own title/description (attacker-controllable via the
-    // uploader, indirect prompt injection), so it is escaped here the same way
-    // VastCampaignsLogs::setType()/Comment::setComment() escape untrusted stored text.
+    // (and each videoTitles/keywords array item) are rendered via a raw HTML sink
+    // ($('<div>' + content + '</div>')) in plugin/AI/page.php's processAIResponse(), so they are escaped
+    // here as hardening. This is NOT a vulnerability class: the content is written only by the trusted AI
+    // service callback or admin CRUD; a user can only influence what the AI reads (see GHSA-w7pr-xwjg-mq8j).
     function setVideoTitles($videoTitles) {
         if(!is_string($videoTitles)){
             if(is_array($videoTitles)){

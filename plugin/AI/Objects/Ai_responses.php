@@ -348,7 +348,8 @@ class Ai_responses extends ObjectYPT
     {
         $rows = self::getValidTranscriptions($videos_id);
         if (!empty($rows)) {
-            return $rows['text'];
+            // AI context needs the original text, not its HTML storage representation.
+            return htmlspecialchars_decode($rows['text'], ENT_QUOTES);
         }
         return '';
     }

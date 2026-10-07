@@ -426,4 +426,16 @@ class SecurityHardeningRegressionTest extends TestCase
         $this->assertNotFalse($guard);
         $this->assertLessThan(strpos($edit, '->save('), $guard);
     }
+
+    public function testAiTranscriptionTextIsEscapedBeforeStorage()
+    {
+        // GHSA-w7pr-xwjg-mq8j: transcription/translation text is AI output rendered as HTML by
+        // processAIResponse() in plugin/AI/page.php, like the already-escaped Ai_metatags_responses fields
+        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/AI/Objects/Ai_transcribe_responses.php');
+        $start = strpos($source, 'function setText(');
+        $this->assertNotFalse($start);
+        $method = substr($source, $start, strpos($source, '}', $start) - $start);
+
+        $this->assertStringContainsString("\$this->text = htmlspecialchars((string) \$text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');", $method);
+    }
 }

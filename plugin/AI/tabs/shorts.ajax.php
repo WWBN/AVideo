@@ -52,7 +52,9 @@ function getTranscriptionJson($start, $end, $transcriptionJson)
     foreach ($transcriptionJson as $key => $value) {
         if ($start <= $value->startInSeconds && $end >= $value->endInSeconds) {
             $parts = explode('.', $value->start);
-            $lines[] = "<p><strong>{$parts[0]}</strong> $value->text</p>";
+            $time = htmlspecialchars($parts[0], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            $text = htmlspecialchars($value->text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            $lines[] = "<p><strong>{$time}</strong> $text</p>";
             //$lines[] = "<p><strong>{$value->start}:</strong> $start <= $value->startInSeconds && $end >= $value->endInSeconds</p>";
         }
     }
@@ -186,7 +188,7 @@ $bookmark = AVideoPlugin::isEnabledByName('Bookmark');
                                 </div>
                             </div>
                             <form id="cutVideoForm<?= $key ?>" class="hidden" style="display: none;">
-                                <textarea name="title"><?= $value->shortTitle ?></textarea>
+                                <textarea name="title"><?= htmlspecialchars($value->shortTitle, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></textarea>
                                 <textarea name="videos_id"><?= $videos_id ?></textarea>
                                 <textarea name="startTimeInSeconds"><?= $value->startTimeInSeconds ?></textarea>
                                 <textarea name="endTimeInSeconds"><?= $value->endTimeInSeconds ?></textarea>

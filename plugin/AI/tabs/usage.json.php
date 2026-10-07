@@ -46,6 +46,7 @@ foreach ($obj->response as $key => $value) {
             $obj->response[$key]['type'] = "ERROR: {$value['ai_type']} ";
         }
     }
+    $obj->response[$key]['type'] = htmlspecialchars($obj->response[$key]['type'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 $obj->error = empty($obj->response) && !is_array($obj->response);

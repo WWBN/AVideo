@@ -64,9 +64,13 @@ class Ai_transcribe_responses extends ObjectYPT
         $this->duration = $duration;
     }
 
+    // SECURITY REVIEW (2026-10-07, GHSA-w7pr-xwjg-mq8j): hardening only, NOT a vulnerability - text is
+    // written only by the trusted AI service (receiveAsync.json.php, server-encrypted token) or admin CRUD;
+    // users cannot write it. Escaped anyway because processAIResponse() and the admin DataTable render HTML.
+    // Preserve literal entities and replace invalid UTF-8 without stripping transcript content.
     function setText($text)
     {
-        $this->text = $text;
+        $this->text = htmlspecialchars((string) $text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 
     function setTotal_price($total_price)
@@ -160,7 +164,7 @@ class Ai_transcribe_responses extends ObjectYPT
         if (empty($this->size_in_bytes)) {
             $this->size_in_bytes = strlen($this->vtt);
             if (empty($this->size_in_bytes)) {
-                $this->size_in_bytes = strlen($this->text);
+                $this->size_in_bytes = strlen(htmlspecialchars_decode((string) $this->text, ENT_QUOTES));
             }
         }
         return parent::save();

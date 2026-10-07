@@ -159,13 +159,13 @@ $('#Ai_transcribe_responsesai_responses_id').val('');
         "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/AI/View/Ai_transcribe_responses/list.json.php",
         "columns": [
         {"data": "ai"},
-{"data": "vtt"},
-{"data": "language"},
-{"data": "duration"},
-{"data": "text"},
+{"data": "vtt", "render": $.fn.dataTable.render.text()},
+{"data": "language", "render": $.fn.dataTable.render.text()},
+{"data": "duration", "render": $.fn.dataTable.render.text()},
+{"data": "text", "render": $.fn.dataTable.render.text()},
 {"data": "total_price"},
 {"data": "size_in_bytes"},
-{"data": "mp3_url"},
+{"data": "mp3_url", "render": $.fn.dataTable.render.text()},
         {
         sortable: false,
                 data: null,
