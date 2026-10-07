@@ -731,6 +731,12 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         }
     }
 
+    // Process Panda Video links: its player uses its own parameters (e.g. controls is a list of
+    // control names), so the generic YouTube-style params below would hide the controls
+    if (strpos($link, '.pandavideo.com') !== false) {
+        return $link;
+    }
+
     // Process AVideo links
     if (strpos($link, '/evideo/') !== false) {
         preg_match('/(http.+)\/evideo\/([a-zA-Z0-9_-]+)/i', $link, $matches);
