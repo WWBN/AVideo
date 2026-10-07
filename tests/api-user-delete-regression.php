@@ -6,11 +6,15 @@ class User {
     public static $logged = true;
     public static $deleted = 0;
     public static $loggedOff = 0;
-    public function __construct($id, $user = '', $password = '') {}
+    public static $actorIsAdmin = false;
+    public static $adminIds = [];
+    private $id;
+    public function __construct($id, $user = '', $password = '') { $this->id = $id; }
     public function getUser() { return 'fixture'; }
     public static function getId() { return self::$sessionId; }
     public static function isLogged() { return self::$logged; }
-    public static function isAdmin() { return false; }
+    public static function isAdmin() { return self::$actorIsAdmin; }
+    public function getIsAdmin() { return in_array($this->id, self::$adminIds, true) ? 1 : 0; }
     public function login($noPass, $encoded) { throw new RuntimeException('Must not trust login() for reauthentication'); }
     public function getVerifiedCredentialsUserId($encoded) { return self::$verifiedId; }
     public function delete() {
@@ -25,6 +29,17 @@ class User {
 class Permissions {
     public static $canAdminUsers = false;
     public static function canAdminUsers() { return self::$canAdminUsers; }
+}
+class UserAccountMutationLock {
+    public static $result = true;
+    public static $promoteOnAcquire = false;
+    private $users_id;
+    public function __construct($users_id) { $this->users_id = $users_id; }
+    public static function acquire($users_id) {
+        if (self::$promoteOnAcquire) User::$adminIds = [$users_id];
+        return self::$result ? new self($users_id) : false;
+    }
+    public function getIsAdmin() { return in_array($this->users_id, User::$adminIds, true) ? 1 : 0; }
 }
 class Video {
     public static $rows = [];
@@ -85,6 +100,8 @@ function resetFixtures($rows) {
     Video::$rows = $rows;
     Video::$cachedRows = null;
     sqlDAL::$failRead = false;
+    UserAccountMutationLock::$result = true;
+    UserAccountMutationLock::$promoteOnAcquire = false;
 }
 try {
     $source = file_get_contents(dirname(__DIR__) . '/plugin/API/API.php');
@@ -150,6 +167,31 @@ try {
     User::$sessionId = 7;
     if ((new DeletionFixture())->set_api_user_delete(['users_id' => 7])->error !== true || User::$deleted !== 0) {
         throw new RuntimeException('Admins must not delete themselves');
+    }
+    // 5b. a delegated "Users Admin" (not a real admin) must not delete an admin account or its videos
+    resetFixtures($videos);
+    User::$sessionId = 5; User::$adminIds = [7];
+    if ((new DeletionFixture())->set_api_user_delete(['users_id' => 7])->error !== true || User::$deleted !== 0 || Video::$deleted !== 0) {
+        throw new RuntimeException('A delegated users admin must not delete an admin account');
+    }
+    resetFixtures($videos);
+    User::$actorIsAdmin = true;
+    if ((new DeletionFixture())->set_api_user_delete(['users_id' => 7])->error !== false || User::$deleted !== 1) {
+        throw new RuntimeException('A real admin must still delete another admin account');
+    }
+    User::$actorIsAdmin = false; User::$adminIds = [];
+    resetFixtures($videos);
+    UserAccountMutationLock::$promoteOnAcquire = true;
+    $r = (new DeletionFixture())->set_api_user_delete(['users_id' => 7]);
+    if (!$r->error || User::$deleted || Video::$deleted) {
+        throw new RuntimeException('A concurrent promotion must be checked before deleting any videos');
+    }
+    User::$adminIds = [];
+    resetFixtures($videos);
+    UserAccountMutationLock::$result = false;
+    $r = (new DeletionFixture())->set_api_user_delete(['users_id' => 7]);
+    if (!$r->error || User::$deleted || Video::$deleted) {
+        throw new RuntimeException('Lock failure must not delete any videos or account');
     }
     // 6. super admin is never deleted through the API
     resetFixtures($videos);

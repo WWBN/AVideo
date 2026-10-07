@@ -5925,6 +5925,10 @@ class API extends PluginAbstract
             if ($currentUserId === $users_id) {
                 return new ApiObject("Admins cannot delete themselves through the API");
             }
+            // a delegated "Users Admin" (Permissions::canAdminUsers()) must not delete an admin account
+            if ($targetUser->getIsAdmin() && !User::isAdmin()) {
+                return new ApiObject("Only an admin can delete an admin account");
+            }
             $authMethod = 'Admin';
         } else {
             if (empty($parameters['user']) || empty($parameters['pass'])) {
@@ -5977,6 +5981,18 @@ class API extends PluginAbstract
 
         if (!$isSelfDeletion) {
             $this->checkRateLimit('user_deletion', 10, 300); // 10 attempts per 5 minutes
+        }
+
+        $accountMutationLock = UserAccountMutationLock::acquire($users_id);
+        if (!$accountMutationLock) {
+            return new ApiObject('Could not lock the account for deletion');
+        }
+        $targetUser = new User($users_id);
+        if (empty($targetUser->getUser())) {
+            return new ApiObject('User not found');
+        }
+        if ($accountMutationLock->getIsAdmin() && !User::isAdmin()) {
+            return new ApiObject('Only an admin can delete an admin account');
         }
 
         $obj = new stdClass();

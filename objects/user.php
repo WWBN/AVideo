@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'UserAccountMutationLock.php';
 
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../';
@@ -796,6 +797,14 @@ if (typeof gtag !== \"function\") {
     public function save($updateUserGroups = false)
     {
         global $global, $config, $advancedCustom, $advancedCustomUser;
+        // All existing-account writes, including promotion, serialize with deletion/edit guards.
+        if (!empty($this->id)) {
+            $accountMutationLock = UserAccountMutationLock::acquire($this->id);
+            if (!$accountMutationLock) {
+                _error_log('User save could not lock account: ' . $this->id, AVideoLog::$ERROR);
+                return false;
+            }
+        }
         if (is_object($config) && $config->currentVersionLowerThen('5.6')) {
             // they don't have analytics code
             return false;
@@ -1187,6 +1196,15 @@ if (typeof gtag !== \"function\") {
                 _error_log('Delete user error, users_id does not match: [' . self::getId() . '] !== [' . $this->id . ']');
                 return false;
             }
+        }
+        $accountMutationLock = UserAccountMutationLock::acquire($this->id);
+        if (!$accountMutationLock) {
+            return false;
+        }
+        // Re-read after locking: this object may predate a concurrent admin promotion.
+        if (!empty($accountMutationLock->getIsAdmin()) && !self::isAdmin() && !isCommandLineInterface()) {
+            _error_log('Delete user error, only an admin can delete an admin account: [' . $this->id . ']', AVideoLog::$SECURITY);
+            return false;
         }
 
         global $global;
@@ -4070,6 +4088,10 @@ if (typeof gtag !== \"function\") {
 
     static function swapUser($users_id)
     {
+        // SECURITY REVIEW (2026-10-07): GHSA-mp89-8x4j-2grx reported that a delegated "Users Admin" can swap into
+        // any non-admin user — NOT a vulnerability / DO NOT FIX: "Use this user" is a support tool built for that
+        // role, which can already edit those users' password/email via objects/userAddNew.json.php; admin targets
+        // are blocked in plugin/CustomizeUser/swapUser.json.php. If re-reported, see the advisory thread.
         if (!Permissions::canAdminUsers()) {
             return false;
         }

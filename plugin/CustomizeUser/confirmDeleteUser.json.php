@@ -35,7 +35,16 @@ if (empty($obj->users_id)) {
     die(json_encode($obj));
 }
 
+$accountMutationLock = UserAccountMutationLock::acquire($obj->users_id);
+if (!$accountMutationLock) {
+    $obj->msg = 'Could not lock the account for deletion';
+    die(json_encode($obj));
+}
 $user = new User($obj->users_id);
+// checked before the videos are deleted; a delegated "Users Admin" must not delete an admin account
+if ($accountMutationLock->getIsAdmin() && !User::isAdmin()) {
+    forbiddenPage('Only an admin can delete an admin account');
+}
 
 
 $videos = Video::getAllVideosLight('', $obj->users_id);

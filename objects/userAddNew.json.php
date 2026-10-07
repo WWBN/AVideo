@@ -25,6 +25,20 @@ if(!isTokenValid($_REQUEST['securityToken'])){
     forbiddenPage('Security token is invalid');
 }
 
+// a delegated "Users Admin" must not edit an admin account (saving would also demote it, see User::setIsAdmin());
+// the users manager already hides the admin rows' commands from non-admins
+if (!empty($_POST['id'])) {
+    $accountMutationLock = UserAccountMutationLock::acquire($_POST['id']);
+    if (!$accountMutationLock) {
+        forbiddenPage('Could not lock the account for editing', true);
+    }
+}
+if (!empty($_POST['id']) && !User::isAdmin()) {
+    if ($accountMutationLock->getIsAdmin()) {
+        forbiddenPage('Only an admin can edit an admin account');
+    }
+}
+
 _session_write_close();
 if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
     if (filter_var($_POST['user'], FILTER_VALIDATE_EMAIL)) {

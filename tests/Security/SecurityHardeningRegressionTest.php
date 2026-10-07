@@ -399,4 +399,31 @@ class SecurityHardeningRegressionTest extends TestCase
         $this->assertStringContainsString('!isSSRFSafeURL($currentUrl)', $function);
         $this->assertStringNotContainsString('get_headers($url, 1)', $function);
     }
+
+    public function testDelegatedUsersAdminCannotDeleteOrEditAdminAccounts()
+    {
+        // GHSA-mp89-8x4j-2grx: Permissions::canAdminUsers() is a delegated role; admin targets need User::isAdmin()
+        $root = dirname(__DIR__, 2);
+
+        $user = file_get_contents("{$root}/objects/user.php");
+        $start = strpos($user, 'public function delete()');
+        $method = substr($user, $start, strpos($user, 'DELETE FROM', $start) - $start);
+        $this->assertStringContainsString('!empty($accountMutationLock->getIsAdmin()) && !self::isAdmin()', $method);
+
+        // the endpoints must refuse before deleting the target's videos
+        $confirm = file_get_contents("{$root}/plugin/CustomizeUser/confirmDeleteUser.json.php");
+        $guard = strpos($confirm, '$accountMutationLock->getIsAdmin() && !User::isAdmin()');
+        $this->assertNotFalse($guard);
+        $this->assertLessThan(strpos($confirm, '$video->delete()'), $guard);
+
+        $api = file_get_contents("{$root}/plugin/API/API.php");
+        $guard = strpos($api, '$accountMutationLock->getIsAdmin() && !User::isAdmin()');
+        $this->assertNotFalse($guard);
+        $this->assertLessThan(strpos($api, '$video->delete()', $guard), $guard);
+
+        $edit = file_get_contents("{$root}/objects/userAddNew.json.php");
+        $guard = strpos($edit, '$accountMutationLock->getIsAdmin()');
+        $this->assertNotFalse($guard);
+        $this->assertLessThan(strpos($edit, '->save('), $guard);
+    }
 }
