@@ -6125,8 +6125,46 @@ function getHeaderContentTypeFromURL($url)
 {
     // SECURITY: isValidURL() only checks format, not destination - require isSSRFSafeURL()
     // since $url here can be an attacker-controlled videoLink (Video::getIncludeType()).
-    if (isValidURL($url) && isSSRFSafeURL($url) && $type = get_headers($url, 1)["Content-Type"]) {
-        return $type;
+    if (!isValidURL($url) || !isSSRFSafeURL($url)) {
+        return false;
+    }
+    // SECURITY: get_headers() follows redirects without re-checking them, so a safe URL could
+    // redirect to an internal host. Follow redirects manually and re-validate every hop,
+    // same as url_get_contents().
+    $options = stream_context_get_options(stream_context_get_default());
+    // Preserve the stream wrapper's existing request limit and configured options.
+    $maxRequests = max(1, (int) ($options['http']['max_redirects'] ?? 20));
+    $options['http']['follow_location'] = 0;
+    $context = stream_context_create($options);
+    $currentUrl = $url;
+    for ($redirectCount = 0; $redirectCount < $maxRequests; $redirectCount++) {
+        $headers = get_headers($currentUrl, false, $context);
+        if (empty($headers)) {
+            return false;
+        }
+        $type = false;
+        $location = '';
+        $status = '';
+        foreach ($headers as $header) {
+            if (preg_match('/^HTTP\/\S+\s+\d{3}\b/i', $header)) {
+                // An informational response may precede the actual response headers.
+                $status = $header;
+                $type = false;
+                $location = '';
+            } elseif (preg_match('/^Content-Type:\s*(.+)$/i', $header, $matches)) {
+                $type = trim($matches[1]);
+            } elseif (preg_match('/^Location:\s*(.+)$/i', $header, $matches)) {
+                $location = trim($matches[1]);
+            }
+        }
+        if ($location === '' || !preg_match('/^HTTP\/\S+\s+3\d\d\b/i', $status)) {
+            return $type;
+        }
+        $currentUrl = ssrfResolveRedirectURL($currentUrl, $location);
+        if (empty($currentUrl) || !isSSRFSafeURL($currentUrl)) {
+            _error_log("getHeaderContentTypeFromURL: blocked unsafe redirect from {$url} to {$location}", AVideoLog::$SECURITY);
+            return false;
+        }
     }
     return false;
 }

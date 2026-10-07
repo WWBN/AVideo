@@ -382,4 +382,21 @@ class SecurityHardeningRegressionTest extends TestCase
             $this->assertLessThan($m[0][1], $guard, "{$name}.php must check the request origin before mutating");
         }
     }
+
+    public function testHeaderContentTypeRevalidatesEveryRedirectHop()
+    {
+        // GHSA-m8q2-35pq-qrmc: get_headers() follows redirects by default, so a videoLink that
+        // passes isSSRFSafeURL() could 302 to an internal host. Redirects must be followed manually.
+        $source = file_get_contents(dirname(__DIR__, 2) . '/objects/functions.php');
+        $start = strpos($source, 'function getHeaderContentTypeFromURL(');
+        $this->assertNotFalse($start);
+        $end = strpos($source, "\nfunction ", $start + 1);
+        $function = substr($source, $start, $end - $start);
+
+        $this->assertStringContainsString("\$options['http']['follow_location'] = 0", $function);
+        $this->assertStringContainsString('get_headers($currentUrl, false, $context)', $function);
+        $this->assertStringContainsString('ssrfResolveRedirectURL($currentUrl, $location)', $function);
+        $this->assertStringContainsString('!isSSRFSafeURL($currentUrl)', $function);
+        $this->assertStringNotContainsString('get_headers($url, 1)', $function);
+    }
 }
