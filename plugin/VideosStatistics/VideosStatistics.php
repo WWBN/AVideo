@@ -371,6 +371,10 @@ class VideosStatistics extends PluginAbstract {
         $obj = AVideoPlugin::getDataObject('VideosStatistics');
         if(!empty($obj->autoCleanStatisticsTable)){
             $interval = intval($obj->autoCleanStatisticsTable->value);
+            if ($interval <= 0) {
+                // 0 is "Do not delete": INTERVAL 0 DAY would delete every record
+                return false;
+            }
             $sql = "DELETE FROM videos_statistics
             WHERE created < NOW() - INTERVAL {$interval} DAY;";
             return sqlDAL::writeSql($sql);

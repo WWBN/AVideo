@@ -14,5 +14,8 @@ if(!User::isAdmin()){
 }
 
 $obj->error = empty(VideosStatistics::autoCleanStatisticsTable());
+if ($obj->error) {
+    $obj->msg = __('Nothing was deleted. Check the "Auto clean statistics table" option');
+}
 
 echo json_encode($obj);
