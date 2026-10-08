@@ -606,6 +606,13 @@ class Comment {
     static function fixCommentText($subject) {
         $search = ['\n'];
         $replace = ["<br/>"];
-        return stripslashes(str_replace($search, $replace, $subject));
+        // Preserve attributes already escaped by markDownToHTML(), including URL backslashes.
+        $parts = preg_split('/(<[^>]*>)/', $subject, -1, PREG_SPLIT_DELIM_CAPTURE);
+        foreach ($parts as $key => $part) {
+            if ($part !== '' && $part[0] !== '<') {
+                $parts[$key] = stripslashes(str_replace($search, $replace, $part));
+            }
+        }
+        return implode('', $parts);
     }
 }

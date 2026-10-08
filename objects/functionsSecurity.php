@@ -514,7 +514,10 @@ class ParsedownSafeWithLinks extends Parsedown
         $style = '';
         if (preg_match('/\bsrc\s*=\s*"([^"]*)"|\bsrc\s*=\s*\'([^\']*)\'/i', $rawAttrs, $m)) {
             $url = !empty($m[2]) ? $m[2] : $m[1];
-            if (!preg_match('/^(javascript:|vbscript:|data:)/i', $url)) {
+            // Browsers ignore surrounding whitespace and embedded URL control characters.
+            $schemeCheck = preg_replace('/[\x00-\x20]/', '', $url);
+            if (!preg_match('/^[a-z][a-z0-9+.-]*:/i', $schemeCheck)
+                || preg_match('/^(https?:\/\/|mailto:)/i', $schemeCheck)) {
                 $src = htmlspecialchars($url, ENT_QUOTES);
             }
         }
@@ -535,15 +538,10 @@ class ParsedownSafeWithLinks extends Parsedown
 
     protected function blockMarkup($Line)
     {
-        $tag = '';
-        if (preg_match('/^<(\w[\w-]*)(\s[^>]*)?>/', $Line['text'], $m)) {
-            $tag = strtolower($m[1]);
-        }
-        if ($tag !== 'a' && $tag !== 'img') {
-            // Escape everything else — mimic safeMode behaviour
-            return null;
-        }
-        return parent::blockMarkup($Line);
+        // Never emit a raw HTML block: the parent copies the tag (with onerror etc.) and every
+        // following line verbatim. Returning null makes the line a paragraph, so <a>/<img> go
+        // through inlineMarkup() and its sanitizers, and any other markup is escaped.
+        return null;
     }
 
     protected function inlineLink($Excerpt)
@@ -596,12 +594,12 @@ class ParsedownSafeWithLinks extends Parsedown
         }
 
         // <a ...>
-        if (preg_match('/^<a(\s[^>]*)>/i', $Excerpt['text'], $m)) {
+        if (preg_match('/^<a((?:\s+' . $this->regexHtmlAttribute . ')*)\s*>/i', $Excerpt['text'], $m)) {
             return ['element' => ['rawHtml' => self::sanitizeATag($m[1])], 'extent' => strlen($m[0])];
         }
 
         // <img ...>
-        if (preg_match('/^<img(\s[^>]*)\s*\/?>/i', $Excerpt['text'], $m)) {
+        if (preg_match('/^<img((?:\s+' . $this->regexHtmlAttribute . ')*)\s*\/?>/i', $Excerpt['text'], $m)) {
             $tag = self::sanitizeImgTag($m[1]);
             if ($tag === null) {
                 return null;
@@ -623,19 +621,27 @@ function markDownToHTML($text) {
     // Convert Markdown to HTML; <a> and <img> are sanitized, everything else is escaped
     $html = $parsedown->text($text);
 
-    // Convert new lines to <br> tags
-    $html = nl2br($html);
-
     // Convert bare URLs to clickable links with target="_blank"
-    $html = preg_replace_callback(
-        '/\b[^"\'\s<]https?:\/\/[^\s<"\']+/i',
-        function ($matches) {
-            $url = $matches[0];
-            $escapedUrl = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
-            return '<a href="' . $escapedUrl . '" target="_blank" rel="noopener noreferrer">' . $escapedUrl . '</a>';
-        },
-        $html
-    );
+    // Only in text between tags: inside an attribute value (alt/title/class/style) the inserted
+    // quotes would close the attribute and turn the rest of the URL into attributes (onerror=...).
+    $parts = preg_split('/(<[^>]*>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
+    foreach ($parts as $key => $part) {
+        if ($part === '' || $part[0] === '<') {
+            continue;
+        }
+        // Attribute values can contain newlines; inserting <br> there breaks tag boundaries.
+        $part = nl2br($part);
+        $parts[$key] = preg_replace_callback(
+            '/\b[^"\'\s<]https?:\/\/[^\s<"\']+/i',
+            function ($matches) {
+                $url = $matches[0];
+                $escapedUrl = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+                return '<a href="' . $escapedUrl . '" target="_blank" rel="noopener noreferrer">' . $escapedUrl . '</a>';
+            },
+            $part
+        );
+    }
+    $html = implode('', $parts);
 
     // Add classes to images produced by markdown image syntax ![alt](url)
     // Only add class to <img> tags that do not already have a class attribute
@@ -667,8 +673,26 @@ function linkifyTimestamps($text) {
         return "<a href='javascript:void(0)' onclick=\"console.log('objects-functionsSecurity.php player.currentTime');player.currentTime($seconds);\">$timestamp</a>";
     };
 
-    // Replace timestamps with links
-    return preg_replace_callback($pattern, $callback, $text);
+    // Reuse the Markdown tag split: never insert quotes into attributes or nest existing links.
+    $parts = preg_split('/(<[^>]*>)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+    $anchorDepth = 0;
+    foreach ($parts as $key => $part) {
+        if ($part === '') {
+            continue;
+        }
+        if ($part[0] === '<') {
+            if (preg_match('/^<a(?:\s|>)/i', $part)) {
+                $anchorDepth++;
+            } elseif (preg_match('/^<\/a\s*>/i', $part)) {
+                $anchorDepth = max(0, $anchorDepth - 1);
+            }
+            continue;
+        }
+        if ($anchorDepth === 0) {
+            $parts[$key] = preg_replace_callback($pattern, $callback, $part);
+        }
+    }
+    return implode('', $parts);
 }
 
 function getAToken()
