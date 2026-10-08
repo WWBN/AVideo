@@ -34,6 +34,8 @@ class EncoderAlert
             'queue_position' => max(0, intval(@$request['queue_position'])),
             'reason' => in_array($reason, self::REASONS, true) ? $reason : 'unknown',
             'retention_days' => max(0, intval(@$request['retention_days'])),
+            // Older Encoders do not send it; they repeat once per day.
+            'reminder_minutes' => isset($request['reminder_minutes']) ? max(0, intval($request['reminder_minutes'])) : 1440,
         ];
     }
 
@@ -61,6 +63,8 @@ class EncoderAlert
             'errors_last_hour' => max(0, intval(@$request['errors_last_hour'])),
             'last_error' => function_exists('mb_substr') ? mb_substr($lastError, 0, 200) : substr($lastError, 0, 200),
             'encoder_url' => $encoderURL,
+            // Older Encoders do not send it; the footer then stays generic.
+            'reminder_minutes' => isset($request['reminder_minutes']) ? max(0, intval($request['reminder_minutes'])) : 0,
         ];
     }
 
@@ -103,33 +107,41 @@ class EncoderAlert
     public static function buildOwnerEmail(array $alert, $videoTitle, $ownerName, $manageURL)
     {
         $plainTitle = trim(preg_replace('/\s+/', ' ', strip_tags((string) $videoTitle)));
-        $title = '<strong>' . htmlspecialchars($plainTitle, ENT_QUOTES, 'UTF-8') . '</strong>';
+        $safeTitle = htmlspecialchars($plainTitle, ENT_QUOTES, 'UTF-8');
+        $title = '<strong>' . $safeTitle . '</strong>';
         $time = htmlspecialchars(self::formatMinutes($alert['minutes']), ENT_QUOTES, 'UTF-8');
         $isError = strpos($alert['type'], 'error') === 0;
+        $isWaiting = strpos($alert['type'], 'waiting') === 0;
 
         switch ($alert['type']) {
             case 'waiting':
                 $subject = __('Your video "%s" is waiting to be processed', true);
+                $heading = __('Your video is waiting in the queue');
                 $lead = sprintf(__('Your video %s has been waiting in the encoding queue for %s.'), $title, $time);
                 break;
             case 'waiting_reminder':
                 $subject = __('Reminder: your video "%s" is still waiting to be processed', true);
+                $heading = __('Your video is still waiting in the queue');
                 $lead = sprintf(__('Your video %s is still waiting in the encoding queue after %s.'), $title, $time);
                 break;
             case 'processing':
                 $subject = __('Your video "%s" is taking longer than usual to process', true);
+                $heading = __('Your video is taking longer than usual');
                 $lead = sprintf(__('Your video %s has been processing for %s, which is longer than usual.'), $title, $time);
                 break;
             case 'processing_reminder':
                 $subject = __('Reminder: your video "%s" is still processing', true);
+                $heading = __('Your video is still processing');
                 $lead = sprintf(__('Your video %s is still processing after %s.'), $title, $time);
                 break;
             case 'error':
                 $subject = __('Your video "%s" could not be processed', true);
+                $heading = __('Your video could not be processed');
                 $lead = sprintf(__('Your video %s could not be processed by the encoder.'), $title);
                 break;
             default: // error_reminder
                 $subject = __('Your video "%s" still could not be processed', true);
+                $heading = __('Your video still could not be processed');
                 $lead = sprintf(__('Your video %s has been in error for %s and was not processed.'), $title, $time);
                 break;
         }
@@ -138,41 +150,53 @@ class EncoderAlert
         $name = trim(strip_tags((string) $ownerName));
         $paragraphs[] = empty($name) ? __('Hello,') : sprintf(__('Hello %s,'), htmlspecialchars($name, ENT_QUOTES, 'UTF-8'));
         $paragraphs[] = $lead;
+        $details = [];
+        if ($plainTitle !== '') {
+            $details[__('Video')] = $safeTitle;
+        }
         if ($isError) {
+            $tone = 'error';
+            $badge = __('Failed');
             $paragraphs[] = self::getReasonText($alert['reason']);
+            if ($alert['type'] === 'error_reminder') {
+                $details[__('In error for')] = $time;
+            }
             if ($alert['reason'] === 'transfer_failed') {
                 // The encoded files are kept, so the administrator can retry without a new upload.
-                $action = __('The converted files were kept. Contact the site administrator to retry the transfer; you do not need to upload the video again.');
+                $notice = __('The converted files were kept. Contact the site administrator to retry the transfer; you do not need to upload the video again.');
             } else {
-                $action = __('Please upload the video again. If it fails again, contact the site administrator.');
+                $notice = __('Please upload the video again. If it fails again, contact the site administrator.');
             }
-            if (!empty($alert['queue_id'])) {
-                $action .= ' ' . sprintf(__('Reference: encoder job #%d.'), $alert['queue_id']);
-            }
-            $paragraphs[] = $action;
         } else {
+            $tone = $isWaiting ? 'info' : 'warning';
+            $badge = $isWaiting ? __('Waiting') : __('Processing');
             $stage = self::getStatusLabel($alert['queue_status']);
             if (!empty($stage)) {
-                $paragraphs[] = sprintf(__('Current stage: %s.'), $stage);
+                $details[__('Current stage')] = $stage;
             }
-            if (strpos($alert['type'], 'waiting') === 0 && !empty($alert['queue_position'])) {
-                $paragraphs[] = sprintf(__('Position in the queue: %d.'), $alert['queue_position']);
+            $details[$isWaiting ? __('Waiting for') : __('Processing for')] = $time;
+            if ($isWaiting && !empty($alert['queue_position'])) {
+                $details[__('Position in the queue')] = intval($alert['queue_position']);
             }
-            $paragraphs[] = __('Large or long videos can take more time. You do not need to upload the video again.');
+            $notice = __('Large or long videos can take more time. You do not need to upload the video again.');
         }
-        if (!empty($manageURL)) {
-            $url = htmlspecialchars($manageURL, ENT_QUOTES, 'UTF-8');
-            $paragraphs[] = __('Manage your video') . ': <a href="' . $url . '">' . $url . '</a>';
+        if (!empty($alert['queue_id'])) {
+            $details[__('Reference')] = sprintf(__('Encoder job #%d'), $alert['queue_id']);
         }
-        $footer = __('We will send at most one reminder per day while the status does not change.');
-        if (!empty($alert['retention_days'])) {
-            $footer .= ' ' . sprintf(__('Reminders stop after %d days.'), $alert['retention_days']);
+
+        $footer = [];
+        if ($alert['reminder_minutes'] === 1440) {
+            $footer[] = __('We will send at most one reminder per day while the status does not change.');
+        } elseif ($alert['reminder_minutes'] > 0) {
+            $footer[] = sprintf(__('We will send at most one reminder every %s while the status does not change.'), htmlspecialchars(self::formatMinutes($alert['reminder_minutes']), ENT_QUOTES, 'UTF-8'));
         }
-        $paragraphs[] = '<small>' . $footer . '</small>';
+        if (!empty($footer) && !empty($alert['retention_days'])) {
+            $footer[] = sprintf(__('Reminders stop after %d days.'), $alert['retention_days']);
+        }
 
         return [
             'subject' => sprintf($subject, $plainTitle),
-            'body' => '<p>' . implode('</p><p>', $paragraphs) . '</p>',
+            'body' => self::renderEmail($tone, $badge, $heading, $paragraphs, $details, $notice, __('Manage your video'), (string) $manageURL, implode(' ', $footer)),
         ];
     }
 
@@ -181,11 +205,17 @@ class EncoderAlert
      */
     public static function buildSystemEmail(array $alert)
     {
+        $details = [];
+        if (!empty($alert['encoder_url'])) {
+            $details[__('Encoder')] = htmlspecialchars($alert['encoder_url'], ENT_QUOTES, 'UTF-8');
+        }
         switch ($alert['check']) {
             case 'disk_low':
                 $subject = __('Encoder alert: low disk space', true);
+                $heading = __('The encoder is running out of disk space');
+                $tone = 'error';
                 $percent = empty($alert['disk_total']) ? 0 : round($alert['disk_free'] * 100 / $alert['disk_total'], 1);
-                $details = sprintf(
+                $lead = sprintf(
                     __('Only %s of %s is free (%s%%). Encodings fail when the disk is full. Delete old files or add storage.'),
                     htmlspecialchars(humanFileSize($alert['disk_free']), ENT_QUOTES, 'UTF-8'),
                     htmlspecialchars(humanFileSize($alert['disk_total']), ENT_QUOTES, 'UTF-8'),
@@ -194,7 +224,9 @@ class EncoderAlert
                 break;
             case 'queue_stalled':
                 $subject = __('Encoder alert: the encoding queue is stalled', true);
-                $details = sprintf(
+                $heading = __('The encoding queue is stalled');
+                $tone = 'warning';
+                $lead = sprintf(
                     __('%d videos are waiting, the oldest for %s, and nothing is processing. The cron tried to restart the queue. Check the encoder log and the queue page.'),
                     $alert['waiting'],
                     htmlspecialchars(self::formatMinutes($alert['oldest_waiting_minutes']), ENT_QUOTES, 'UTF-8')
@@ -202,22 +234,90 @@ class EncoderAlert
                 break;
             default: // error_spike
                 $subject = __('Encoder alert: many videos failed in the last hour', true);
-                $details = sprintf(__('%d videos failed in the last hour.'), $alert['errors_last_hour']);
+                $heading = __('Many videos failed in the last hour');
+                $tone = 'error';
+                $lead = sprintf(__('%d videos failed in the last hour.'), $alert['errors_last_hour']);
                 if (!empty($alert['last_error'])) {
-                    $details .= ' ' . __('Last error') . ': <code>' . htmlspecialchars($alert['last_error'], ENT_QUOTES, 'UTF-8') . '</code>';
+                    $details[__('Last error')] = '<code style="font-family:Consolas,Menlo,monospace;font-size:12px;font-weight:normal;">' . htmlspecialchars($alert['last_error'], ENT_QUOTES, 'UTF-8') . '</code>';
                 }
                 break;
         }
-        $paragraphs = [];
-        if (!empty($alert['encoder_url'])) {
-            $url = htmlspecialchars($alert['encoder_url'], ENT_QUOTES, 'UTF-8');
-            $paragraphs[] = __('Encoder') . ': <a href="' . $url . '">' . $url . '</a>';
+        $footer = __('You receive this because your account is an administrator of this encoder.');
+        if (!empty($alert['reminder_minutes'])) {
+            $footer .= ' ' . sprintf(__('The same alert is repeated at most every %s while the problem continues.'), htmlspecialchars(self::formatMinutes($alert['reminder_minutes']), ENT_QUOTES, 'UTF-8'));
+        } else {
+            $footer .= ' ' . __('The same alert is repeated at most every few hours while the problem continues.');
         }
-        $paragraphs[] = $details;
-        $paragraphs[] = '<small>' . __('You receive this because your account is an administrator of this encoder. The same alert is repeated at most every few hours while the problem continues.') . '</small>';
         return [
             'subject' => $subject,
-            'body' => '<p>' . implode('</p><p>', $paragraphs) . '</p>',
+            'body' => self::renderEmail($tone, __('Encoder alert'), $heading, [$lead], $details, '', __('Open the encoder'), $alert['encoder_url'], $footer),
         ];
+    }
+
+    /**
+     * Lays out the alert inside view/include/emailTemplate.html (added by sendSiteEmail()).
+     * Tables and inline styles only, because most e-mail clients drop <style> blocks.
+     * Every text argument must already be escaped HTML; only $buttonURL is escaped here.
+     */
+    private static function renderEmail($tone, $badge, $heading, array $paragraphs, array $details, $notice, $buttonLabel, $buttonURL, $footer)
+    {
+        $tones = [
+            'info' => ['#2563eb', '#eff6ff', '#1e40af'],
+            'warning' => ['#d97706', '#fffbeb', '#92400e'],
+            'error' => ['#dc2626', '#fef2f2', '#991b1b'],
+        ];
+        list($accent, $soft, $ink) = isset($tones[$tone]) ? $tones[$tone] : $tones['info'];
+        $font = 'font-family:Arial,Helvetica,sans-serif;';
+        $layout = 'role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"';
+
+        $html = '<table ' . $layout . ' style="border-collapse:collapse;' . $font . 'color:#1f2937;">';
+        $html .= '<tr><td style="border-top:4px solid ' . $accent . ';padding:24px 0 4px 0;">'
+            . '<span style="display:inline-block;padding:4px 12px;border-radius:12px;background-color:' . $soft . ';color:' . $ink . ';' . $font . 'font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">' . $badge . '</span>'
+            . '<h2 style="margin:16px 0 0 0;' . $font . 'font-size:22px;line-height:1.3;font-weight:bold;color:#111827;text-align:left;">' . $heading . '</h2>'
+            . '</td></tr>';
+
+        $html .= '<tr><td style="padding:12px 0 4px 0;">';
+        foreach ($paragraphs as $paragraph) {
+            $html .= '<p style="margin:0 0 12px 0;' . $font . 'font-size:15px;line-height:1.6;color:#374151;">' . $paragraph . '</p>';
+        }
+        $html .= '</td></tr>';
+
+        if (!empty($details)) {
+            $rows = '';
+            $remaining = count($details);
+            foreach ($details as $label => $value) {
+                $border = --$remaining > 0 ? 'border-bottom:1px solid #e5e7eb;' : '';
+                $rows .= '<tr>'
+                    . '<td width="38%" style="padding:10px 16px;' . $border . $font . 'font-size:13px;line-height:1.4;color:#6b7280;vertical-align:top;">' . $label . '</td>'
+                    . '<td style="padding:10px 16px;' . $border . $font . 'font-size:14px;line-height:1.4;font-weight:bold;color:#111827;vertical-align:top;word-break:break-word;">' . $value . '</td>'
+                    . '</tr>';
+            }
+            $html .= '<tr><td style="padding:8px 0;"><table ' . $layout . ' style="border-collapse:separate;border:1px solid #e5e7eb;border-radius:8px;background-color:#f9fafb;">' . $rows . '</table></td></tr>';
+        }
+
+        if ($notice !== '') {
+            $html .= '<tr><td style="padding:8px 0;"><table ' . $layout . '><tr>'
+                . '<td style="border-left:4px solid ' . $accent . ';border-radius:4px;background-color:' . $soft . ';padding:12px 16px;' . $font . 'font-size:14px;line-height:1.5;color:' . $ink . ';">' . $notice . '</td>'
+                . '</tr></table></td></tr>';
+        }
+
+        if ($buttonURL !== '') {
+            $url = htmlspecialchars($buttonURL, ENT_QUOTES, 'UTF-8');
+            $html .= '<tr><td align="center" style="padding:20px 0 8px 0;text-align:center;">'
+                . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;width:auto;"><tr>'
+                . '<td bgcolor="#2563eb" style="border-radius:6px;background-color:#2563eb;">'
+                . '<a href="' . $url . '" style="display:inline-block;padding:12px 28px;' . $font . 'font-size:15px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:6px;">' . $buttonLabel . '</a>'
+                . '</td></tr></table>'
+                . '<p style="margin:12px 0 0 0;' . $font . 'font-size:12px;line-height:1.5;color:#6b7280;word-break:break-all;">' . __('If the button does not work, copy this link into your browser:')
+                . '<br><a href="' . $url . '" style="color:#2563eb;">' . $url . '</a></p>'
+                . '</td></tr>';
+        }
+
+        if ($footer !== '') {
+            $html .= '<tr><td style="padding:24px 0 0 0;"><table ' . $layout . '><tr>'
+                . '<td style="border-top:1px solid #e5e7eb;padding:16px 0 0 0;' . $font . 'font-size:12px;line-height:1.5;color:#6b7280;">' . $footer . '</td>'
+                . '</tr></table></td></tr>';
+        }
+        return $html . '</table>';
     }
 }

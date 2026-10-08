@@ -64,7 +64,10 @@ class EncoderAlertTest extends TestCase
     {
         $mail = EncoderAlert::buildOwnerEmail($this->owner(), 'Clip', 'Ann', '');
         $this->assertStringContainsString('taking longer than usual', $mail['subject']);
-        $this->assertStringContainsString('Current stage: Encoding.', $mail['body']);
+        $this->assertMatchesRegularExpression('/Current stage<\/td><td[^>]*>Encoding<\/td>/', $mail['body']);
+        $this->assertMatchesRegularExpression('/Processing for<\/td><td[^>]*>65 minutes<\/td>/', $mail['body']);
+        $this->assertStringContainsString('Your video is taking longer than usual', $mail['body']);
+        $this->assertStringContainsString('#d97706', $mail['body']);
         $this->assertStringContainsString('You do not need to upload the video again.', $mail['body']);
         $this->assertStringContainsString('Reminders stop after 7 days.', $mail['body']);
         $this->assertStringNotContainsString('<a href', $mail['body']);
@@ -73,7 +76,7 @@ class EncoderAlertTest extends TestCase
     public function testWaitingAlertShowsTheQueuePosition()
     {
         $mail = EncoderAlert::buildOwnerEmail($this->owner(['type' => 'waiting', 'queue_status' => 'queue', 'queue_position' => 3]), 'Clip', '', '');
-        $this->assertStringContainsString('Position in the queue: 3.', $mail['body']);
+        $this->assertMatchesRegularExpression('/Position in the queue<\/td><td[^>]*>3<\/td>/', $mail['body']);
         $this->assertStringContainsString('Hello,', $mail['body']);
     }
 
@@ -82,7 +85,8 @@ class EncoderAlertTest extends TestCase
         $mail = EncoderAlert::buildOwnerEmail($this->owner(['type' => 'error', 'queue_status' => 'error', 'reason' => 'conversion_failed']), 'Clip', 'Ann', '');
         $this->assertStringContainsString('could not be processed', $mail['subject']);
         $this->assertStringContainsString('could not be converted', $mail['body']);
-        $this->assertStringContainsString('Reference: encoder job #77.', $mail['body']);
+        $this->assertStringContainsString('Encoder job #77', $mail['body']);
+        $this->assertStringContainsString('#dc2626', $mail['body']);
         $this->assertStringContainsString('upload the video again', $mail['body']);
 
         $mail = EncoderAlert::buildOwnerEmail($this->owner(['type' => 'error_reminder', 'minutes' => 1500, 'reason' => 'worker_stopped']), 'Clip', 'Ann', '');
@@ -103,6 +107,20 @@ class EncoderAlertTest extends TestCase
     {
         $mail = EncoderAlert::buildOwnerEmail($this->owner(), 'Clip', 'Ann', 'https://site.test/mvideos?video_id=5&x="><script>');
         $this->assertStringContainsString('href="https://site.test/mvideos?video_id=5&amp;x=&quot;&gt;&lt;script&gt;"', $mail['body']);
+    }
+
+    public function testReminderFooterFollowsTheEncoderInterval()
+    {
+        // Older Encoders send no interval: they repeat once per day.
+        $this->assertSame(1440, $this->owner()['reminder_minutes']);
+
+        $mail = EncoderAlert::buildOwnerEmail($this->owner(['reminder_minutes' => 360]), 'Clip', 'Ann', '');
+        $this->assertStringContainsString('one reminder every 360 minutes', $mail['body']);
+        $this->assertStringNotContainsString('per day', $mail['body']);
+
+        $mail = EncoderAlert::buildOwnerEmail($this->owner(['reminder_minutes' => 0]), 'Clip', 'Ann', '');
+        $this->assertStringNotContainsString('reminder', $mail['body']);
+        $this->assertStringNotContainsString('Reminders stop', $mail['body']);
     }
 
     public function testSystemAlertValidation()
@@ -132,5 +150,10 @@ class EncoderAlertTest extends TestCase
 
         $stalled = EncoderAlert::buildSystemEmail(EncoderAlert::readSystemAlert(['check' => 'queue_stalled', 'waiting' => 4, 'oldest_waiting_minutes' => 45]));
         $this->assertStringContainsString('4 videos are waiting, the oldest for 45 minutes', $stalled['body']);
+        $this->assertStringContainsString('every few hours', $stalled['body']);
+        $this->assertStringNotContainsString('<a href', $stalled['body']);
+
+        $repeat = EncoderAlert::buildSystemEmail(EncoderAlert::readSystemAlert(['check' => 'queue_stalled', 'reminder_minutes' => 360]));
+        $this->assertStringContainsString('repeated at most every 360 minutes', $repeat['body']);
     }
 }
