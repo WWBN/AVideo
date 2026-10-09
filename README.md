@@ -52,7 +52,7 @@ AVideo is a self-hosted video platform for publishing, managing, and monetizing 
 
 <p align="center">
   <a href="https://tutorials.avideo.com/">
-    <img src="docs/images/avideo-tutorials.jpg" alt="AVideo Tutorials home page with a searchable video gallery" width="960"/>
+    <img width="1000" height="555" alt="chrome-capture-2026-10-09" src="https://github.com/user-attachments/assets/37a1c119-792d-46ac-a84a-b96c3e8f9946" />
   </a>
 </p>
 
