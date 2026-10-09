@@ -128,6 +128,16 @@ Start with the website and the features you want to offer:
 
 The Docker Compose option below installs the bundled components together. You can begin with recorded videos and configure live broadcasting or remote storage as you need them.
 
+### Why use your own Encoder?
+
+A public Encoder is an option for a publicly reachable site. Install a [private Encoder](https://github.com/WWBN/AVideo/wiki/Private-Encoder) when you need:
+
+- **Your own processing capacity:** uploads use your queue instead of sharing a public service. Processing speed depends on your server and workload.
+- **Control over your files:** keep video conversion on infrastructure you control instead of sending files to a public service.
+- **A site on a private network:** a public Encoder cannot send finished videos back to a site reachable only inside your network, such as `localhost` or a home or office network. Your own Encoder must be able to reach the site.
+
+The Encoder can share the website's server for a small installation, or run on another server as uploads grow. Docker Compose already includes an Encoder.
+
 ## Quickstart (Docker Compose)
 
 The included Compose stack runs the Streamer, Encoder, live server, databases, and cache. You need a Linux server with Docker and the Docker Compose plugin.
@@ -282,6 +292,21 @@ Use a fresh Ubuntu Server with `sudo` access and no hosting control panel such a
 4. Sign in as `admin` with the password you chose.
 5. Add a [private Encoder](https://github.com/WWBN/AVideo/wiki/Private-Encoder) if you need video conversion. Configure a [live server](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream) if you need live broadcasts.
 
+For a video walkthrough, watch [Installing AVideo for Ubuntu 24](https://tutorials.avideo.com/video/184/installing-avideo-for-ubuntu-24-tutorial). Follow the written installation guide for the current commands.
+
+<details>
+<summary>Older installation references (for existing sites)</summary>
+
+These pages describe older Ubuntu and AVideo setups and may be archived or superseded. For a new installation, use the guide above. For an existing site, start with the [backup](https://github.com/WWBN/AVideo/wiki/How-to-make-a-backup) and [update](https://github.com/WWBN/AVideo/wiki/How-to-Update-your-AVideo-Platform) guides.
+
+- [Ubuntu 22.x](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-22.x-for-AVideo-Platform-version-11.x-or-newer)
+- [Ubuntu 20.x](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-20.x-for-AVideo-Platform-version-11.x-or-newer)
+- [Ubuntu 18.x](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-18.x-for-AVideo-Platform-version-4.x-or-newer)
+- [Ubuntu 16.x](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-16.x-For-AVideo-Platform-version-4.x-or-newer)
+- [Original Streamer and Encoder video tutorial](https://tutorials.avideo.com/video/10/streamer-and-encoder) — based on older AVideo versions.
+
+</details>
+
 ### Publish your first video
 
 After either installation:
@@ -308,8 +333,8 @@ For sizing and deployment planning, see [hardware and server requirements](https
 ## Features and plugins
 
 - **Video library:** uploads, channels, categories, playlists, search, comments, and user management.
-- **Live broadcasts:** [live streaming](https://github.com/WWBN/AVideo/wiki/Live-Plugin), recording, restreaming, and [chat](https://github.com/WWBN/AVideo/wiki/Chat2-Plugin).
-- **HLS and offline viewing:** [VideoHLS](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin) for adaptive playback and encryption, and [VideoOffline](https://github.com/WWBN/AVideo/wiki/VideoOffline-Plugin) for offline viewing.
+- **Live broadcasts:** [live streaming](https://github.com/WWBN/AVideo/wiki/Live-Plugin), recording, [restreaming to other platforms](https://github.com/WWBN/AVideo/wiki/Live-Plugin#restream), and [chat](https://github.com/WWBN/AVideo/wiki/Chat2-Plugin).
+- **HLS:** [VideoHLS](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin) for adaptive playback, encryption, and [download protection](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin#download-protection). Download protection makes saving HLS videos harder; it does not prevent screen recording.
 - **Monetization:** [subscriptions, pay-per-view, advertising, fan memberships, and creator donations](#monetization).
 - **Storage and delivery:** local storage, external storage providers, and CDN options. See [storage options](https://github.com/WWBN/AVideo/wiki/Storage-Options).
 - **Integrations:** the [AVideo API](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-API) for external applications and custom development.
@@ -328,7 +353,9 @@ Open a demo and sign in with one of the public test accounts below:
 
 These are shared, public demo accounts. Choose your own administrator password when installing your site.
 
-[Tutorials](https://tutorials.avideo.com/) — videos about setup and features.
+**Flix demo payments are real:** paid subscriptions use real money. Review the price, billing period, and renewal terms on the [Flix subscription plans](https://flix.avideo.com/plugin/Subscription/showPlans.php?redirectUri=https%3A%2F%2Fflix.avideo.com) before paying.
+
+[Tutorials / Gallery demo](https://tutorials.avideo.com/) — videos about setup and features, with likes, channel subscriptions, and comments for signed-in users. **Video uploads are disabled on this demo.**
 
 ## Documentation and support
 
