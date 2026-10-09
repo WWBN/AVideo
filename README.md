@@ -48,7 +48,7 @@ Thank you for your continued support and for standing with open-source freedom.
 
 AVideo is a self-hosted video platform for publishing, managing, and monetizing on-demand videos and live broadcasts on your own infrastructure.
 
-**[Try the live demo](https://demo.avideo.com/)** · [Quickstart](#quickstart-docker-compose) · [Installation](#installation) · [Wiki](https://github.com/WWBN/AVideo/wiki) · [Website](https://streamphp.com/) · [Releases](https://github.com/WWBN/AVideo/releases)
+**[Try the live demo](https://demo.avideo.com/)** · [Use cases](#use-cases) · [White label and layouts](#white-label-and-layouts) · [Monetization](#monetization) · [Content tools](#content-tools-and-platform-growth) · [Quickstart](#quickstart-docker-compose) · [Installation](#installation) · [How it works](#how-your-site-works) · [Wiki](https://github.com/WWBN/AVideo/wiki) · [Website](https://streamphp.com/) · [Releases](https://github.com/WWBN/AVideo/releases)
 
 <p align="center">
   <a href="https://tutorials.avideo.com/">
@@ -57,6 +57,76 @@ AVideo is a self-hosted video platform for publishing, managing, and monetizing 
 </p>
 
 <p align="center"><em>The video gallery on <a href="https://tutorials.avideo.com/">AVideo Tutorials</a>, a running AVideo installation.</em></p>
+
+## Use cases
+
+| Use case | How you can use AVideo |
+| --- | --- |
+| **Community video portal** | Let creators publish videos and organize discovery around [Gallery sections](https://github.com/WWBN/AVideo/wiki/Gallery-Plugin) and [channels](https://github.com/WWBN/AVideo/wiki/FirstPageChannelList-Plugin). |
+| **Education and staff training** | Publish recorded lessons and tutorials, with [user groups](https://github.com/WWBN/AVideo/wiki/Create-non-public-videos-and-deal-with-user-groups) controlling access for students, teams, or members. |
+| **Premium video catalog** | Present films, series, or lessons in a [Flix layout](https://github.com/WWBN/AVideo/wiki/Configure-a-Netflix-Clone-Page), and sell [memberships](https://github.com/WWBN/AVideo/wiki/Subscription-Plugin) or [individual video access](https://github.com/WWBN/AVideo/wiki/PayPerView-Plugin). |
+| **Live events** | [Broadcast](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream) conferences, concerts, or sports, with optional [paid event tickets](https://github.com/WWBN/AVideo/wiki/PayPerView-Live-Plugin). |
+| **Churches and nonprofit communities** | Share recorded talks and [live broadcasts](https://github.com/WWBN/AVideo/wiki/Live-Plugin), with optional [donation links or wallet donations](https://github.com/WWBN/AVideo/wiki/How-To-Make-Money-on-AVideo-Platform#6-accept-donations) to support creators. |
+
+## White label and layouts
+
+AVideo can run as a video website under your own brand. Start with [Site Design and Templates](https://github.com/WWBN/AVideo/wiki/Site-Design-and-Templates):
+
+- **Your identity:** use your own domain, site title, logo, and favicon. Configure these through the site settings; see the [Quick Start Guide](https://github.com/WWBN/AVideo/wiki/Quick-Start-Guide).
+- **White-label branding:** the paid [Customize plugin](https://github.com/WWBN/AVideo/wiki/Customize-Plugin) lets you replace the **Powered by AVideo** footer, customize the About page and site colors, and replace default placeholder images.
+- **Custom design:** add your own [CSS or JavaScript](https://github.com/WWBN/AVideo/wiki/Add-Custom-CSS-or-JavaScript), or build a [separate frontend](https://github.com/WWBN/AVideo/wiki/Build-Your-Own-Frontend) connected to the AVideo API.
+
+Choose a presentation that fits your content:
+
+| Layout | Presentation | Guide |
+| --- | --- | --- |
+| **Gallery** | A video portal with sections for categories, trending videos, playlists, and channels. | [Gallery plugin](https://github.com/WWBN/AVideo/wiki/Gallery-Plugin) |
+| **Flix** | A movie or series catalog with featured artwork and horizontal content rows. | [Configure the Flix layout](https://github.com/WWBN/AVideo/wiki/Configure-a-Netflix-Clone-Page) |
+| **Channels** | Put creators and their channels at the center of browsing. | [FirstPageChannelList plugin](https://github.com/WWBN/AVideo/wiki/FirstPageChannelList-Plugin) |
+| **Player first page** | Open directly to a video player and related content. | [Homepage Layout Options](https://github.com/WWBN/AVideo/wiki/Homepage-Layout-Options) |
+| **React frontend** | Develop your own viewer interface as a separate application using the API and embed player. | [Build Your Own Frontend](https://github.com/WWBN/AVideo/wiki/Build-Your-Own-Frontend) |
+
+The built-in homepage layouts are free and selected in **Admin Panel → Design → First Page Style**. The React frontend is deployed separately. See [layout options](https://github.com/WWBN/AVideo/wiki/Homepage-Layout-Options) for the differences.
+
+You can also choose [light and dark themes](https://github.com/WWBN/AVideo/wiki/Dark-&-Light-Themes), change the [player appearance](https://github.com/WWBN/AVideo/wiki/Player-and-PlayerSkins-Plugin), and adjust menus, buttons, and extra HTML with the free [CustomizeAdvanced plugin](https://github.com/WWBN/AVideo/wiki/Advanced-Customization-Plugin).
+
+## Monetization
+
+You can combine several revenue models on the same site. See the [monetization overview](https://github.com/WWBN/AVideo/wiki/How-To-Make-Money-on-AVideo-Platform) for setup and payment flows.
+
+| Model | How it works | Guide |
+| --- | --- | --- |
+| **Subscriptions** | Sell membership plans that unlock a premium video library for the subscription period. | [Subscription](https://github.com/WWBN/AVideo/wiki/Subscription-Plugin) |
+| **Pay-per-view** | Charge for time-limited access to individual videos or tickets to live events. | [Video PPV](https://github.com/WWBN/AVideo/wiki/PayPerView-Plugin) · [Live PPV](https://github.com/WWBN/AVideo/wiki/PayPerView-Live-Plugin) |
+| **Advertising** | Show banner, overlay, or video ads; run your own campaigns or connect a VAST/VMAP ad provider. | [Advertising options](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Advertising) |
+| **Fan memberships** | Creators sell access to their own fans-only videos and broadcasts, with an optional share for the site owner. | [FansSubscriptions](https://github.com/WWBN/AVideo/wiki/FansSubscriptions-Plugin) |
+| **Creator donations** | Let viewers support creators through external donation links or transfers from their site wallet. | [Donation options](https://github.com/WWBN/AVideo/wiki/How-To-Make-Money-on-AVideo-Platform#6-accept-donations) |
+
+Subscription, PayPerView, PayPerView Live, and FansSubscriptions are paid add-ons. Advertising includes free plugins and the paid GoogleAds IMA integration; see each guide for requirements.
+
+Wallet-based purchases require [YPTWallet](https://github.com/WWBN/AVideo/wiki/YPTWallet-Usage) and a configured payment gateway, such as [PayPal](https://github.com/WWBN/AVideo/wiki/PayPalYPT-Plugin) or [Stripe](https://github.com/WWBN/AVideo/wiki/StripeYPT-Plugin). Payment-provider fees and infrastructure costs apply; configure prices and creator shares for your business model.
+
+For sites with multiple creators, see [creator payment options](https://github.com/WWBN/AVideo/wiki/Options-for-Paying-Content-Producers) for sales commissions, wallet withdrawals, and direct creator payments through the supported Stripe PPV configuration.
+
+## Content tools and platform growth
+
+- **AI publishing tools:** request transcriptions, translations, dubbing, metadata suggestions, and suggested short clips. The included AI plugin uses a service paid with Marketplace credits; transcription and dubbing also require paid plugins. See [AI tools and requirements](https://github.com/WWBN/AVideo/wiki/AI-Plugin).
+- **More content formats:** publish video and audio, plus PDFs and images through the enabled upload options. Combine recorded lessons or talks with supporting materials. See [content types and upload methods](https://github.com/WWBN/AVideo/wiki/About-Video-Upload).
+- **Embeds and integrations:** place the [AVideo player on another website](https://github.com/WWBN/AVideo/wiki/Video-Embed-URL-for-AVideo), connect applications through the [API](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-API), or automate [uploads from external applications](https://github.com/WWBN/AVideo/wiki/Upload-videos-from-third-party-applications).
+- **Grow your infrastructure:** run a [private Encoder](https://github.com/WWBN/AVideo/wiki/Private-Encoder) on a separate server, choose [remote storage](https://github.com/WWBN/AVideo/wiki/Storage-Options), and add [CDN delivery](https://github.com/WWBN/AVideo/wiki/CDN-Plugin) to reduce origin traffic as your audience grows. Storage plugins, provider accounts, and CDN services can add costs; see [capacity planning](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Hardware-Requirements).
+
+## What do I need to install?
+
+Start with the website and the features you want to offer:
+
+| What you want to do | What you need | What it does for you |
+| --- | --- | --- |
+| **Run your video website** | Streamer — this repository — with its database and media storage. | Provides the home page, video pages, search, channels, user accounts, and administration. |
+| **Upload videos that need conversion** | [Encoder](https://github.com/WWBN/AVideo/wiki/Private-Encoder). | Prepares video files for browser playback. It can run on the same server as your site. |
+| **Broadcast live** | [Live server](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream). | Receives your broadcast and delivers it to visitors watching on your site. |
+| **Use remote media storage** | An optional [storage plugin and provider](https://github.com/WWBN/AVideo/wiki/Storage-Options), such as S3 or B2. | Keeps media on a storage provider; local disk is the default starting option. |
+
+The Docker Compose option below installs the bundled components together. You can begin with recorded videos and configure live broadcasting or remote storage as you need them.
 
 ## Quickstart (Docker Compose)
 
@@ -87,7 +157,73 @@ Wait for the initial installation to finish, open `https://your-domain.com/`, an
 
 See the [Docker guide](https://github.com/WWBN/AVideo/wiki/Running-AVideo-with-Docker) for certificates, persistent data, backups, updates, and troubleshooting.
 
-## Architecture
+## How your site works
+
+Each diagram answers a different question:
+
+| Diagram | What it explains |
+| --- | --- |
+| [1. Visitor navigation](#diagram-1-visitor-navigation) | How visitors find and watch content on your site. |
+| [2. Video publication](#diagram-2-video-publication) | How an upload becomes a published video, with or without conversion. |
+| [3. Video processing](#diagram-3-video-processing-in-the-encoder) | What happens while the Encoder prepares an uploaded video. |
+| [4. System components](#diagram-4-system-components) | How the website, Encoder, live server, database, and storage connect. Optional technical detail. |
+
+### Diagram 1: Visitor navigation
+
+**Purpose:** Shows the steps a visitor takes to find and watch a video or live broadcast. Your theme, settings, and enabled plugins determine the exact layout and available features.
+
+```mermaid
+flowchart LR
+    Home["Open your site"] --> Browse["Browse or search<br/>videos, categories, channels"]
+    Browse --> Choose["Choose a video<br/>or an available live broadcast"]
+    Choose --> Watch["Watch on a computer<br/>or phone"]
+    Watch -.->|optional| Account["Sign in and interact"]
+```
+
+When enabled and permitted by your settings, signed-in visitors can comment and use playlists.
+
+### Diagram 2: Video publication
+
+**Purpose:** Shows the overall path from uploading a file to making the video available on your site. The Encoder prepares files that need conversion; already compatible files can use direct upload.
+
+```mermaid
+flowchart LR
+    Upload["Upload a video"] --> Convert{"Needs conversion?"}
+    Convert -->|Yes| Encoder["Encoder prepares<br/>the video"]
+    Convert -->|Already compatible| Ready["Video ready<br/>on your site"]
+    Encoder --> Ready
+    Ready --> Publish["Publication follows<br/>your site settings"]
+    Publish --> Watch["Visitors watch<br/>the published video"]
+```
+
+Choose the title, category, and publication options for your content, and allow processing to finish before checking playback. Embedded videos remain hosted by their external provider. See [upload options](https://github.com/WWBN/AVideo/wiki/About-Video-Upload) for the available methods.
+
+### Diagram 3: Video processing in the Encoder
+
+**Purpose:** Shows what happens behind the scenes when you choose an upload method that uses the Encoder. The Encoder is the service that prepares video files for playback on your website.
+
+```mermaid
+flowchart TB
+    Upload["Video uploaded<br/>for conversion"] --> Queue["Wait for its turn<br/>in the Encoder queue"]
+    Queue --> Prepare["Prepare playback versions<br/>and preview images"]
+    Prepare --> Transfer["Transfer prepared media<br/>back to your website"]
+    Transfer --> Storage["Save media in<br/>the configured storage"]
+    Storage --> Ready["Website updates the video<br/>and applies publication settings"]
+    Ready --> Watch["Visitors watch through<br/>the website player"]
+```
+
+Preparation can produce different video qualities and cover or preview images. The exact formats, qualities, and images depend on your Encoder settings and enabled features. Media can stay on the server or use a supported remote storage plugin.
+
+After the file upload finishes, the video can still be waiting in the queue or undergoing conversion and transfer. Wait for the job to finish, then check playback on your site. Direct uploads of already compatible files and external embeds follow their own paths; they skip this conversion workflow. See [upload methods](https://github.com/WWBN/AVideo/wiki/About-Video-Upload) for the differences.
+
+For live broadcasts, you send a live feed to the live server, and visitors open the broadcast on your website. Follow the [live setup guide](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream) when you are ready to add this feature.
+
+<details>
+<summary>Technical architecture and decisions (for server administrators)</summary>
+
+### Diagram 4: System components
+
+**Purpose:** Shows how the installed services connect, including recorded video and live broadcasting. This is a component overview for server administrators.
 
 The Streamer handles the website and application data; the Encoder processes uploads; the live server handles broadcast ingest and delivery. Socket carries real-time application messages.
 
@@ -119,9 +255,7 @@ This diagram shows logical components. In the [included Compose stack](docker-co
 | **MariaDB / MySQL** | Stores users, video metadata, settings, and the Encoder queue in their respective databases. | Every Streamer installation; the Encoder also has its own database. |
 | **[Storage](https://github.com/WWBN/AVideo/wiki/Storage-Options)** | Stores media on local disk or through providers such as S3 and Backblaze B2. | Local disk by default; remote storage depends on your deployment and plugins. |
 
-The Streamer can also accept files already prepared for browser playback or embed videos hosted elsewhere. Those workflows do not require encoding every upload. See [upload options](https://github.com/WWBN/AVideo/wiki/About-Video-Upload).
-
-## Technical decisions
+### Technical decisions
 
 | Choice | What it enables | Operational trade-off |
 | --- | --- | --- |
@@ -131,6 +265,8 @@ The Streamer can also accept files already prepared for browser playback or embe
 | **WebSocket messages through YPTSocket** | Real-time application events can reach browsers independently of video delivery. | Requires a running Socket process and a browser-accessible WebSocket endpoint. |
 | **Relational data separate from media files** | MySQL/MariaDB stores application data while local disk or storage plugins hold the media. | Backups must cover both the databases and media; cloud providers add configuration and usage costs. |
 | **Plugins for optional features** | Add monetization, storage, and integrations to suit each installation. | Feature availability depends on installed plugins; some are distributed separately and require purchase. |
+
+</details>
 
 ## Installation
 
@@ -174,7 +310,7 @@ For sizing and deployment planning, see [hardware and server requirements](https
 - **Video library:** uploads, channels, categories, playlists, search, comments, and user management.
 - **Live broadcasts:** [live streaming](https://github.com/WWBN/AVideo/wiki/Live-Plugin), recording, restreaming, and [chat](https://github.com/WWBN/AVideo/wiki/Chat2-Plugin).
 - **HLS and offline viewing:** [VideoHLS](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin) for adaptive playback and encryption, and [VideoOffline](https://github.com/WWBN/AVideo/wiki/VideoOffline-Plugin) for offline viewing.
-- **Monetization:** [subscriptions](https://github.com/WWBN/AVideo/wiki/Subscription-Plugin), [pay-per-view](https://github.com/WWBN/AVideo/wiki/PayPerView-Plugin), [video ads](https://github.com/WWBN/AVideo/wiki/AD_Server-Plugin), and [VAST/VMAP integration](https://github.com/WWBN/AVideo/wiki/GoogleAds_IMA---Videos-Ads-on-your-page).
+- **Monetization:** [subscriptions, pay-per-view, advertising, fan memberships, and creator donations](#monetization).
 - **Storage and delivery:** local storage, external storage providers, and CDN options. See [storage options](https://github.com/WWBN/AVideo/wiki/Storage-Options).
 - **Integrations:** the [AVideo API](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-API) for external applications and custom development.
 
