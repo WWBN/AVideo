@@ -1,5 +1,3 @@
-[فارسی](README.fa.md)
-
 # First thing...
 
 I thank God for graciously, through His mercy, giving me all the necessary knowledge acquired throughout my life and throughout the development of this project. It is only through His grace and provision that this was possible, and I am truly grateful for His presence every step of the way.
@@ -46,130 +44,162 @@ Although we firmly believe that **YouPHPTube** has always been an **independent,
 Thank you for your continued support and for standing with open-source freedom.
 
 
-## Introduction to AVideo
+# AVideo
 
-AVideo is a versatile and advanced video streaming platform tailored for individual content creators, businesses, and developers alike. It stands out with its robust suite of features that enable users to host, manage, and monetize video content with remarkable efficiency. This introduction aims to shed light on the key functionalities of AVideo, highlighting how each feature can enhance user experience and content outreach. For a more detailed understanding, please follow the provided links.
+AVideo is a self-hosted video platform for publishing, managing, and monetizing on-demand videos and live broadcasts on your own infrastructure.
 
-## 🌟 Key Features of AVideo
+**[Try the live demo](https://demo.avideo.com/)** · [Quickstart](#quickstart-docker-compose) · [Installation](#installation) · [Wiki](https://github.com/WWBN/AVideo/wiki) · [Website](https://streamphp.com/) · [Releases](https://github.com/WWBN/AVideo/releases)
 
-1. **🔒 Advanced Security & Content Protection**: Safeguard your video content with AVideo’s [encrypted HLS streaming](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin), protecting both on-demand and live streams. Encryption keys are securely managed to ensure only authorized players can access your content, offering a strong defense against unauthorized access.
+<p align="center">
+  <a href="https://tutorials.avideo.com/">
+    <img src="docs/images/avideo-tutorials.jpg" alt="AVideo Tutorials home page with a searchable video gallery" width="960"/>
+  </a>
+</p>
 
-2. **📡 Secure Livestreaming with Recording**: Host live events with confidence using AVideo’s [secure livestreaming](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream) capabilities, backed by encrypted HLS protection. Engage viewers in real-time, record live streams for future access, and enhance interaction through integrated [chat features](https://github.com/WWBN/AVideo/wiki/Chat2-Plugin) for a more immersive experience.
+<p align="center"><em>The video gallery on <a href="https://tutorials.avideo.com/">AVideo Tutorials</a>, a running AVideo installation.</em></p>
 
-3. **🔄 Restreaming & Multi-Platform Broadcasting**: Extend your livestream’s reach by rebroadcasting content across multiple platforms simultaneously. [Restreaming capabilities](https://github.com/WWBN/AVideo/wiki/Live-Plugin#restream) make it easy to connect with audiences wherever they are.
+## Quickstart (Docker Compose)
 
-4. **📋 User-Generated Channels & Playlists**: Empower users to create custom channels and playlists, helping organize and promote thematic content curation. Boost engagement and community-building by letting viewers personalize their viewing experience.
+The included Compose stack runs the Streamer, Encoder, live server, databases, and cache. You need a Linux server with Docker and the Docker Compose plugin.
 
-5. **💰 Monetization Options**: Maximize revenue with AVideo’s flexible [subscription](https://github.com/WWBN/AVideo/wiki/Subscription-Plugin) and [Pay-Per-View](https://github.com/WWBN/AVideo/wiki/PayPerView-Plugin) options. Expand monetization opportunities, allowing users to support premium content and exclusive live events.
+```bash
+git clone https://github.com/WWBN/AVideo.git
+cd AVideo
+cp -n env.example .env
+```
 
-6. **📢 Ad Integration & Promotion**: Increase revenue with targeted [video ad placements](https://github.com/WWBN/AVideo/wiki/AD_Server-Plugin) and support for [VAST and VMAP ads](https://github.com/WWBN/AVideo/wiki/GoogleAds_IMA---Videos-Ads-on-your-page), enhancing your platform's profitability and reach.
+Edit `.env` before the first start:
 
-7. **☁️ Scalable Cloud Storage**: Rely on secure and scalable storage solutions with options like S3, B2, FTP, and more, ensuring seamless video delivery even during high traffic peaks. [Learn More](https://github.com/WWBN/AVideo/wiki/Storage-Options).
+- Set `SERVER_NAME` to your domain, without `https://` or a path.
+- Set `CONTACT_EMAIL` and `WEBSITE_TITLE`.
+- Set strong, unique values for `SYSTEM_ADMIN_PASSWORD` and `DB_MYSQL_PASSWORD`.
+- Adjust `CPUS_LIMIT` and `MEMORY_LIMIT` to your server's capacity.
 
-8. **🔗 Third-Party Integration & API**: Extend platform capabilities by connecting third-party apps with AVideo’s [API](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-API), offering flexibility for tailored integrations and custom development.
+Your domain must point to the server, with ports **80** and **443** open for HTTPS certificate setup. Then start the stack:
 
-9. **📥 Offline Viewing & Secure Downloads**: Allow viewers to download and watch videos offline with AVideo’s [offline video saving](https://github.com/WWBN/AVideo/wiki/VideoOffline-Plugin) feature, while maintaining strict [content protection](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin#download-protection) to prevent unauthorized distribution.
+```bash
+docker compose up -d --build
+docker compose ps
+docker compose logs -f avideo
+```
 
-## Your Comprehensive Video Streaming Solution
+Wait for the initial installation to finish, open `https://your-domain.com/`, and sign in as `admin` with your `SYSTEM_ADMIN_PASSWORD`. Press `Ctrl+C` to stop watching the logs; the containers keep running.
 
-At AVideo, we provide more than just a platform; we offer a comprehensive solution for hosting, managing, monetizing, and expanding your video content. Embrace the future of video streaming and unlock the full potential of your content with AVideo.
+See the [Docker guide](https://github.com/WWBN/AVideo/wiki/Running-AVideo-with-Docker) for certificates, persistent data, backups, updates, and troubleshooting.
 
-# 📚 How AVideo is Organized
+## Architecture
 
-AVideo is a comprehensive platform, divided into three key components:
+The Streamer handles the website and application data; the Encoder processes uploads; the live server handles broadcast ingest and delivery. Socket carries real-time application messages.
 
-- **Streamer**: The core component for playing and managing videos. It acts as the main interface for users to interact with video content.
-- **Encoder**: This tool converts your videos into a web-compatible format, ensuring they are ready for streaming on various devices and platforms.
-- **Live Server**: Specifically designed for broadcasting live videos, this component is essential for real-time streaming capabilities.
+```mermaid
+flowchart TB
+    Browser["Browser / player"] <-->|HTTPS| Streamer["Streamer<br/>PHP + Apache"]
+    Streamer -->|conversion jobs| Encoder["Encoder<br/>FFmpeg / FFprobe"]
+    Encoder -->|processed media| Streamer
+    Streamer -->|site data| Database[("MariaDB / MySQL<br/>Site and Encoder databases")]
+    Encoder -->|encoding queue| Database
+    Streamer <-->|application events| Socket["Socket<br/>YPTSocket"]
+    Socket <-->|WebSocket messages| Browser
+    Publisher["OBS / broadcaster"] -->|RTMP| Live["Live server<br/>nginx-rtmp"]
+    Live -->|publish / play callbacks| Streamer
+    Live -->|HLS playback| Browser
+    Streamer -->|media files| Local[("Local storage")]
+    Streamer -.->|optional storage plugins| Cloud[("S3 / Backblaze B2")]
+    Cloud -.->|video playback| Browser
+```
 
-## 🔍 Why Do I Need the Encoder?
+This diagram shows logical components. In the [included Compose stack](docker-compose.yml), Streamer, Encoder, and Socket run inside the `avideo` container; `live`, `database`, `database_encoder`, and `memcached` run as separate services. S3/B2 is optional and requires a provider account and the corresponding storage plugin.
 
-Installing your own encoder can be beneficial for several reasons:
+| Component | Purpose | When you need it |
+| --- | --- | --- |
+| **Streamer** — this repository | The website, player, video library, user accounts, and administration. | Every AVideo installation. |
+| **[Encoder](https://github.com/WWBN/AVideo-Encoder)** | Converts uploaded video and audio into formats suitable for browser playback. | When uploads need conversion. It can run on the same server or a separate server. |
+| **[Live server](https://github.com/WWBN/AVideo/wiki/Live-Plugin)** | Receives live broadcasts and delivers them to viewers, typically using NGINX with RTMP and HLS. | When you want live streaming. |
+| **[Socket](https://github.com/WWBN/AVideo/wiki/Socket-Plugin)** | Delivers real-time application messages through YPTSocket. | Features that use real-time updates; it runs as a long-lived PHP process. |
+| **MariaDB / MySQL** | Stores users, video metadata, settings, and the Encoder queue in their respective databases. | Every Streamer installation; the Encoder also has its own database. |
+| **[Storage](https://github.com/WWBN/AVideo/wiki/Storage-Options)** | Stores media on local disk or through providers such as S3 and Backblaze B2. | Local disk by default; remote storage depends on your deployment and plugins. |
 
-- **Faster Performance**: Having your own encoder might provide faster processing compared to using a public encoder server.
-- **Privacy**: If privacy in video processing is a concern, a private encoder ensures that your content remains confidential.
-- **Network Compatibility**: In cases where your server is on a private network without a public IP address or uses an IP within specific ranges (10.0.0.0/8, 127.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), having your own encoder is essential for proper communication with the streamer site.
+The Streamer can also accept files already prepared for browser playback or embed videos hosted elsewhere. Those workflows do not require encoding every upload. See [upload options](https://github.com/WWBN/AVideo/wiki/About-Video-Upload).
 
-## 📜 Agreement on the Purpose of Software Installation
+## Technical decisions
 
-AVideo is dedicated to promoting positive and ethical content creation. As such, we firmly stipulate that:
+| Choice | What it enables | Operational trade-off |
+| --- | --- | --- |
+| **PHP + Apache for the Streamer** | Deployment on a LAMP stack, using the supplied `.htaccess` routing rules. | The server must provide compatible PHP extensions and Apache configuration. |
+| **A separate Encoder component** | Video conversion can run on a different server, keeping encoding CPU load away from the website. | The Encoder and Streamer must communicate and transfer the processed media. |
+| **nginx-rtmp + HLS for live video** | Broadcasters publish with RTMP; viewers play HLS in the browser. | A live server, its callbacks, and sufficient bandwidth must be configured. |
+| **WebSocket messages through YPTSocket** | Real-time application events can reach browsers independently of video delivery. | Requires a running Socket process and a browser-accessible WebSocket endpoint. |
+| **Relational data separate from media files** | MySQL/MariaDB stores application data while local disk or storage plugins hold the media. | Backups must cover both the databases and media; cloud providers add configuration and usage costs. |
+| **Plugins for optional features** | Add monetization, storage, and integrations to suit each installation. | Feature availability depends on installed plugins; some are distributed separately and require purchase. |
 
-- This Software must be used for Good, never for Evil.
-- The creation of content related to sexually explicit material, pornography, or adult themes using this software is strictly prohibited.
-- Any such usage is against the values and principles of our platform and is not permitted under any circumstances.
+## Installation
 
-# 🌐 Demonstration Sites
+For Docker, use the [quickstart](#quickstart-docker-compose) and [Docker installation guide](https://github.com/WWBN/AVideo/wiki/Running-AVideo-with-Docker). For an installation directly on a server, follow the Ubuntu steps below.
 
-Explore our AVideo Platform through various demo sites, each showcasing different features and functionalities:
+### Ubuntu server
 
-- **[AVideo Platform Full-Access Demo](http://demo.avideo.com/)**
-  Experience full access to our demo site, including admin privileges.
-  **Admin Access**:
-  - **User**: admin
-  - **Password**: 123
-  **Non-Admin Access** (for commenting only):
-  - **User**: test
-  - **Password**: test
+Use a fresh Ubuntu Server with `sudo` access and no hosting control panel such as cPanel, Plesk, or Webmin. The installation guide assumes direct control of Apache, PHP, the database, and system packages.
 
-- **[AVideo Platform Flix Demo](https://flix.avideo.com/)**
-  Discover the Flix Style site of AVideo Platform. Subscribe with real money via PayPal to access private videos.
-  **Test User Access**:
-  - **User**: test
-  - **Password**: test
+1. Point your domain to the server and open ports **80** and **443**.
+2. Follow the [Ubuntu installation guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-24.x-for-AVideo-Platform) to install the dependencies, download AVideo, and configure HTTPS.
+3. Open `https://your-domain.com/install/`. Resolve any failed required checks, enter the database and site settings, and choose your administrator password. See the [installation setup page](https://github.com/WWBN/AVideo/wiki/Installation-Setup-Page) for each field.
+4. Sign in as `admin` with the password you chose.
+5. Add a [private Encoder](https://github.com/WWBN/AVideo/wiki/Private-Encoder) if you need video conversion. Configure a [live server](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream) if you need live broadcasts.
 
-- **[AVideo Platform Gallery Demo](https://tutorials.avideo.com/)**
-  Explore our Video Gallery, which also serves as a tutorial site. Engage with the content through login, subscription, likes, dislikes, and comments. (Note: Uploading videos is not permitted.)
+### Publish your first video
 
-# 🖥️ Server Requirements
+After either installation:
 
-Ensure your server meets the following prerequisites to run the AVideo Platform efficiently. All required tools are freely available.
+1. Open the **Admin Panel**, set the site name and logo, and configure email.
+2. Run **Health Check** and follow the [Quick Start Guide](https://github.com/WWBN/AVideo/wiki/Quick-Start-Guide) to finish configuration and scheduled tasks.
+3. Upload a short test video. If using the Encoder, wait for conversion and transfer to finish.
+4. Confirm playback in a private browser window and on a phone before inviting users.
 
-[![Minimum PHP Version](https://img.shields.io/badge/PHP-8.0%2B-blue)](https://php.net/) - **PHP**: Version 8.0 or higher is required for optimal performance and security.
+## Server requirements
 
-[![Minimum MySQL Version](https://img.shields.io/badge/MySQL-5.0%2B-blue)](https://www.mysql.com/) - **MySQL**: AVideo requires MySQL version 5.0 or higher to manage its databases effectively.
+| Requirement | Details |
+| --- | --- |
+| **PHP** | **8.1 or later**, as required by [Composer](composer.json) and the installer. Use a maintained PHP release compatible with your installation. |
+| **PHP extensions** | `mysqli`, `curl`, `gd`, `mbstring`, `zip`, `zlib`, and `openssl` are checked by the installer. Additional features may need other extensions. |
+| **Database** | MySQL or MariaDB. Follow the installation guide for the database setup. |
+| **Web server** | Apache 2.x with `mod_rewrite` and support for the supplied `.htaccess` rules. |
+| **Application dependencies** | The supplied `vendor/` and `node_modules/` assets. The installer checks for missing dependencies. |
+| **Media tools** | FFmpeg, FFprobe, and ExifTool for media processing; requirements vary by component and feature. |
+| **Capacity** | Disk space for media and processing, CPU for encoding, and bandwidth for viewers. |
 
-[![Minimum Apache Version](https://img.shields.io/badge/Apache-2.x%20%28mod__rewrite%29-blue)](https://httpd.apache.org/) - **Apache**: Utilize Apache web server version 2.x with mod_rewrite module enabled for URL rewriting capabilities.
+For sizing and deployment planning, see [hardware and server requirements](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Hardware-Requirements).
 
-[![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo?include_prereleases&label=AVideo&style=flat-square)](https://github.com/WWBN/AVideo/releases) - Stay up-to-date with the latest releases of AVideo.
+## Features and plugins
 
-For an in-depth look at the hardware requirements and additional server configurations, please visit our comprehensive guide: [AVideo Platform Hardware Requirements](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Hardware-Requirements).
+- **Video library:** uploads, channels, categories, playlists, search, comments, and user management.
+- **Live broadcasts:** [live streaming](https://github.com/WWBN/AVideo/wiki/Live-Plugin), recording, restreaming, and [chat](https://github.com/WWBN/AVideo/wiki/Chat2-Plugin).
+- **HLS and offline viewing:** [VideoHLS](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin) for adaptive playback and encryption, and [VideoOffline](https://github.com/WWBN/AVideo/wiki/VideoOffline-Plugin) for offline viewing.
+- **Monetization:** [subscriptions](https://github.com/WWBN/AVideo/wiki/Subscription-Plugin), [pay-per-view](https://github.com/WWBN/AVideo/wiki/PayPerView-Plugin), [video ads](https://github.com/WWBN/AVideo/wiki/AD_Server-Plugin), and [VAST/VMAP integration](https://github.com/WWBN/AVideo/wiki/GoogleAds_IMA---Videos-Ads-on-your-page).
+- **Storage and delivery:** local storage, external storage providers, and CDN options. See [storage options](https://github.com/WWBN/AVideo/wiki/Storage-Options).
+- **Integrations:** the [AVideo API](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-API) for external applications and custom development.
 
-# Crucial Advisory: Strictly Avoid Using Control Panels for Installation
+Availability depends on the plugins installed and enabled. Some plugins are distributed separately and require purchase; review their documentation and the [marketplace](https://streamphp.com/marketplace/) before planning your deployment.
 
-**Important**: For the installation of the Streamer, Encoder, and Livestream components, it is imperative to use a Linux distribution, specifically Ubuntu, **without any type of control panel**. This includes avoiding panels like cPanel, Plesk, Webmin, VestaCP, and similar.
+## Demos
 
-Control panels significantly interfere with the necessary system access and processes required for a successful installation. They restrict the installation of essential libraries and the compilation of critical software, such as Nginx for the Livestream component.
+- [Platform demo](https://demo.avideo.com/) — explore the main interface.
+- [Flix demo](https://flix.avideo.com/) — explore an alternative layout.
+- [Tutorials](https://tutorials.avideo.com/) — videos about setup and features.
 
-**Please be advised**: Installing our system on a server with any control panel is highly discouraged and is likely to result in installation failure. We cannot provide support or guarantee success in such scenarios. For a smooth and functional installation, it is essential to follow this guideline strictly.
+## Documentation and support
 
-# Installation Guide for AVideo on Ubuntu
+| Resource | Use it for |
+| --- | --- |
+| [Wiki](https://github.com/WWBN/AVideo/wiki) | Installation, configuration, and plugin documentation. |
+| [Admin Manual](https://github.com/WWBN/AVideo/wiki/Admin-Manual) | Managing users, videos, settings, and plugins. |
+| [Updates](https://github.com/WWBN/AVideo/wiki/How-to-Update-your-AVideo-Platform) and [releases](https://github.com/WWBN/AVideo/releases) | Keeping an existing installation current. |
+| [Backups](https://github.com/WWBN/AVideo/wiki/How-to-make-a-backup) | Saving and restoring site data. |
+| [Troubleshooting](https://github.com/WWBN/AVideo/wiki/How-to-find-errors-on-AVideo-Platform) | Finding logs and diagnosing errors. |
+| [GitHub Issues](https://github.com/WWBN/AVideo/issues) | Reporting bugs with reproduction steps, versions, and relevant logs. Remove passwords and other secrets before posting. |
+| [Professional support](https://streamphp.com/marketplace/) | Paid installation, plugins, and consulting from Daniel Neto. |
 
-Embarking on the installation of AVideo on your Ubuntu system? You're in the right place. Our comprehensive tutorials are tailored to guide you through every step of the installation process on various Ubuntu versions, including a Docker-based setup.
+## License and intended use
 
-🎬 **Video Tutorial**
-- For a foundational understanding, check out our [Video Tutorial](https://tutorials.avideo.com/video/10/streamer-and-encoder). Though it's based on older versions of AVideo, it provides an excellent introduction to the installation process.
+See [LICENSE](LICENSE) for the software license, including its requirement that the software be used for Good, not Evil.
 
-🐧 **Ubuntu-Specific Installation Guides**
-- Tailor your installation to your specific Ubuntu version:
-  - 📘 [Ubuntu 16.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-16.x-For-AVideo-Platform-version-4.x-or-newer)
-  - 📗 [Ubuntu 18.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-18.x-for-AVideo-Platform-version-4.x-or-newer)
-  - 📙 [Ubuntu 20.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-20.x-for-AVideo-Platform-version-11.x-or-newer)
-  - 📔 [Ubuntu 22.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-22.x-for-AVideo-Platform-version-11.x-or-newer)
-  - 📒 [Ubuntu 24.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-24.x-for-AVideo-Platform)
-
-🐳 **Docker Installation**
-- For a Docker-based setup, follow our [Docker Installation Guide](https://github.com/WWBN/AVideo/wiki/Running-AVideo-with-Docker) to streamline your experience.
-
-These tutorials cover the entire scope of downloading, installing AVideo, and setting up required dependencies. By following them, you can efficiently prepare your Ubuntu system for AVideo.
-
-# 📘 Usage
-
-For comprehensive administrative guidance, refer to the [Admin Manual](https://github.com/WWBN/AVideo/wiki/Admin-manual). This resource provides detailed instructions on how to manage and optimize your AVideo platform effectively.
-
-# 🛠️ Errors and Troubleshooting
-
-Encountered an issue? Don't worry! Our [error identification guide](https://github.com/WWBN/AVideo/wiki/How-to-find-errors-on-AVideo-Platform) is designed to help you troubleshoot and resolve common problems efficiently.
-
-## 🌟 AVideo Platform Certified Support
-
-Require specialized assistance? Our team of certified AVideo Platform developers is here to help. For professional support and expert consulting on installation, consulting, or plugins, reach out to [Daniel Neto](https://streamphp.com/marketplace/). We're committed to ensuring a seamless and effective AVideo installation and setup.
+The project's installation agreement prohibits using this software to create sexually explicit material, pornography, or adult-themed content.
