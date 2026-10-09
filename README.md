@@ -318,9 +318,17 @@ Availability depends on the plugins installed and enabled. Some plugins are dist
 
 ## Demos
 
-- [Platform demo](https://demo.avideo.com/) — explore the main interface.
-- [Flix demo](https://flix.avideo.com/) — explore an alternative layout.
-- [Tutorials](https://tutorials.avideo.com/) — videos about setup and features.
+Open a demo and sign in with one of the public test accounts below:
+
+| Demo | Access | Username | Password |
+| --- | --- | --- | --- |
+| [Platform demo](https://demo.avideo.com/) | Administrator — explore the admin panel | `admin` | `123` |
+| [Platform demo](https://demo.avideo.com/) | Non-admin test account — commenting | `test` | `test` |
+| [Flix demo](https://flix.avideo.com/) | Test user — explore the Flix layout | `test` | `test` |
+
+These are shared, public demo accounts. Choose your own administrator password when installing your site.
+
+[Tutorials](https://tutorials.avideo.com/) — videos about setup and features.
 
 ## Documentation and support
 
