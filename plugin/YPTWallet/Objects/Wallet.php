@@ -133,13 +133,15 @@ class Wallet extends ObjectYPT {
     static function getFromUserForUpdate($users_id) {
         global $global;
         $users_id = intval($users_id);
-        $stmt = $global['mysqli']->prepare(
-            "SELECT * FROM " . static::getTableName() . " WHERE users_id = ? LIMIT 1 FOR UPDATE"
+        $result = sqlDAL::readSql(
+            "SELECT * FROM " . static::getTableName() . " WHERE users_id = ? LIMIT 1 FOR UPDATE",
+            'i', [$users_id], true
         );
-        $stmt->bind_param("i", $users_id);
-        $stmt->execute();
-        $row = $stmt->get_result()->fetch_assoc();
-        $stmt->close();
+        if (!$result) {
+            return false;
+        }
+        $row = sqlDAL::fetchAssoc($result);
+        sqlDAL::close($result);
         if (empty($row)) {
             return false;
         }

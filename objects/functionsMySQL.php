@@ -140,6 +140,13 @@ function getMySQLDate()
 function _mysql_connect($persistent = false, $try = 0)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed, $mysql_connect_is_persistent, $isStandAlone;
+    // Reconnecting would lose the payment transaction and its advisory lock.
+    if (isset($global['mysqlTransactionConnection'])) {
+        if ($global['mysqli'] !== $global['mysqlTransactionConnection'] || !_mysql_is_open()) {
+            throw new RuntimeException('Payment database connection lost; retry delivery');
+        }
+        return true;
+    }
     if (!empty($isStandAlone)) {
         _error_log('StandAlone Mode');
         return false;
@@ -228,6 +235,11 @@ function _mysql_commit()
  */
 function canCloseConnection()
 {
+    global $global;
+    // Wallet socket notifications must not close the connection holding the payment lock.
+    if (isset($global['mysqlTransactionConnection'])) {
+        return false;
+    }
     // Do not close connection on the main frontend rendering page
     if (!empty($_SERVER['SCRIPT_NAME']) && $_SERVER['SCRIPT_NAME'] === '/view/modeYoutube.php') {
         return false;
@@ -365,6 +377,91 @@ function setDefaultSort($defaultSortColumn, $defaultSortOrder)
 
 
 
+function getPrivateMySQLDumpInstancePrefix()
+{
+    global $global;
+    $systemRootPath = realpath($global['systemRootPath'] ?? '');
+    if ($systemRootPath === false) {
+        return false;
+    }
+    $systemRootPath = str_replace('\\', '/', $systemRootPath);
+    if (DIRECTORY_SEPARATOR === '\\') {
+        $systemRootPath = strtolower($systemRootPath);
+    }
+    return 'avideo-mysql-' . hash('sha256', $systemRootPath);
+}
+
+/** Allocate CLI backups outside the application and public media directories. */
+function createPrivateMySQLDumpPath()
+{
+    global $global;
+    $tempRoot = realpath(sys_get_temp_dir());
+    if ($tempRoot === false) {
+        return false;
+    }
+    foreach ([$global['systemRootPath'], Video::getStoragePath()] as $publicRoot) {
+        $publicRoot = realpath($publicRoot);
+        if ($publicRoot === false) {
+            return false;
+        }
+        $temp = strtolower(str_replace('\\', '/', $tempRoot)) . '/';
+        $public = strtolower(rtrim(str_replace('\\', '/', $publicRoot), '/')) . '/';
+        if (strpos($temp, $public) === 0) {
+            return false;
+        }
+    }
+    $instancePrefix = getPrivateMySQLDumpInstancePrefix();
+    if ($instancePrefix === false) {
+        return false;
+    }
+    $directory = $tempRoot . DIRECTORY_SEPARATOR . $instancePrefix . '-' . _uniqid();
+    if (!mkdir($directory, 0700) || !chmod($directory, 0700)) {
+        return false;
+    }
+    $path = $directory . DIRECTORY_SEPARATOR . 'database.sql';
+    $handle = fopen($path, 'x');
+    if ($handle === false) {
+        @rmdir($directory);
+        return false;
+    }
+    fclose($handle);
+    if (!chmod($path, 0600)) {
+        @unlink($path);
+        @rmdir($directory);
+        return false;
+    }
+    return $path;
+}
+
+function getMySQLDumpFilesForRestore()
+{
+    global $global;
+    $legacyPattern = rtrim($global['systemRootPath'], '/\\') . DIRECTORY_SEPARATOR . 'videos'
+        . DIRECTORY_SEPARATOR . 'mysqldump-*.sql';
+    $files = glob($legacyPattern);
+    if ($files === false) {
+        $files = [];
+    }
+
+    $instancePrefix = getPrivateMySQLDumpInstancePrefix();
+    $tempRoot = realpath(sys_get_temp_dir());
+    if ($instancePrefix !== false && $tempRoot !== false) {
+        $privatePattern = $tempRoot . DIRECTORY_SEPARATOR . $instancePrefix . '-*'
+            . DIRECTORY_SEPARATOR . 'database.sql';
+        $privateFiles = glob($privatePattern);
+        if ($privateFiles !== false) {
+            $files = array_merge($files, $privateFiles);
+        }
+    }
+
+    $files = array_values(array_filter($files, 'is_file'));
+    usort($files, function ($left, $right) {
+        return filemtime($left) <=> filemtime($right);
+    });
+    return $files;
+}
+
+
 /**
  * Function to dump MySQL database with optional parameters for exclusion and custom options.
  *
@@ -454,8 +551,8 @@ function dumpMySQLDatabase($filePath, $extraOptions = [], &$status = [], $bfile 
     }
 
     // Specify the file path to save the dump
-    $cmd .= " > {$filePath}";
-    _error_log("Executing dump command: $cmd");
+    $cmd .= " > " . escapeshellarg($filePath);
+    _error_log("Starting database dump");
 
     // Update lock file before executing the dump
     $status['step'] = 'Running mysqldump';
@@ -467,7 +564,7 @@ function dumpMySQLDatabase($filePath, $extraOptions = [], &$status = [], $bfile 
 
     // Check if the dump was successful
     if ($result !== 0 || !file_exists($filePath) || filesize($filePath) == 0) {
-        _error_log("Error occurred while taking the database dump. Command: $cmd");
+        _error_log("Database dump failed; exit code=" . intval($result));
         return false;
     }
 

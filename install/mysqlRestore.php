@@ -21,8 +21,12 @@ ob_end_flush();
 
 // Example usage
 $globPattern = "{$global['systemRootPath']}videos/mysqldump-*.sql";
-echo "Searching [{$globPattern}]" . PHP_EOL;
-$glob = glob($globPattern);
+echo "Searching [{$globPattern}] and private backups for this installation" . PHP_EOL;
+$glob = getMySQLDumpFilesForRestore();
+if (empty($glob)) {
+    echo "No database dump files found." . PHP_EOL;
+    exit(1);
+}
 foreach ($glob as $key => $file) {
     echo "($key) {$file} " . humanFileSize(filesize($file)) . PHP_EOL;
 }
@@ -38,8 +42,13 @@ if (isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == '-1') {
         $filename = end($glob);
     } else {
         $option = intval($option);
-        $filename = $glob[$option];
+        $filename = $glob[$option] ?? '';
     }
+}
+
+if (empty($filename) || !is_file($filename)) {
+    echo "No valid database dump was selected." . PHP_EOL;
+    exit(1);
 }
 
 // Restore the selected file

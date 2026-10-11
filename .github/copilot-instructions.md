@@ -191,6 +191,28 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   the restricted key to have **Charges: Read** (the rest of the flow only needs PaymentIntents);
   without it the guard logs a warning and degrades to the 5-minute observation fallback. Covered by
   `tests/Unit/StripeSinglePaymentCheckoutTest.php`.
+- **Payment webhooks (Stripe/Razorpay)**: verified deliveries go through
+  `YPTWallet::processPaymentOnce()` (global `GET_LOCK` + transaction + zero-value `paymentProcessed`
+  markers in `wallet_log`, hidden from the user list by `value != 0`). An exception rolls everything
+  back and the IPN answers 500 so the provider retries; a `false` from `processSubscriptionIPN()` means
+  "not an AVideo payment" and must stay HTTP 200 — `isSubscriptionPayment()` matches every
+  `charge.succeeded` without `singlePayment`, including `setUpPayment()` charges that have no
+  customer/metadata. Wrap the subscription renewal in `runPaymentStep()` (SQL savepoint): a failed
+  renewal is undone alone and the credit is kept, otherwise a deterministic failure retries forever.
+  Never use `mysqli::rollback($flags, $name)` for savepoints (it rolls back the whole transaction).
+  Inside the payment a failed wallet-log insert aborts it, so `WalletLog` setters cut values to the column
+  sizes (`description` VARCHAR(255), `json_data` TEXT) — there is no `sql_mode` override and strict mode is
+  the MySQL/MariaDB default. Covered by `tests/Security/PaymentWebhookIdempotencyTest.php`,
+  `RazorpayVerifiedWebhookTest.php` and the opt-in real-database
+  `tests/Integration/PaymentWalletMySQLIntegrationTest.php` (`AVIDEO_PAYMENT_MYSQL_TESTS=1`).
+- **Test fixtures that eval real code**: an included fixture shares the includer's variable scope. Never
+  use generic top-level names (`$root`, `$path`) in a fixture, and never let a test or simulation write
+  under the repository (`videos/configuration.php` is real, gitignored, and holds the site secrets).
+- **Outbound TLS verification**: connections to admin-configured services (Encoder queue, SMTP,
+  WordPress login, CloneSite) verify certificates only when `shouldVerifySSLCertificates()` is true
+  (CustomizeAdvanced `verifySSLCertificates`, or `$global['verifySSLCertificates']`, off by default):
+  the Docker stack and many installs use self-signed certificates. The fixed public BTC marketplace
+  uses `shouldVerifySSLCertificates(true)`. Do not hardcode `verify_peer => true` in those callers.
 - **Encoder monitor alerts**: the Encoder has no users table and no mailer. Its every-minute cron
   (`.compose/encoder/install/cron.php` → `EncoderMonitor`) detects slow/failed/stuck jobs and asks
   the job's own Streamer to e-mail the owner via `objects/aVideoEncoderAlert.json.php`

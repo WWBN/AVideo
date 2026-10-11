@@ -873,51 +873,84 @@ class StripeYPT extends PluginAbstract
     function processSubscriptionIPN($payload)
     {
         global $global;
+        $logContext = self::getPaymentLogContext($payload);
         if (!is_object($payload) || empty($payload->data->object->customer)) {
-            _error_log("processSubscriptionIPN: ERROR", AVideoLog::$ERROR);
+            // e.g. setUpPayment() charges: not an AVideo subscription, acknowledged without changes.
+            _error_log("processSubscriptionIPN: ignored, the payment has no customer {$logContext}", AVideoLog::$WARNING);
             return false;
         }
-        $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
-        //$plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
+        $pluginS = AVideoPlugin::loadPluginIfEnabled('YPTWallet');
         $metadata = self::getMetadataOrFromSubscription($payload);
-        if (empty($metadata)) {
-            _error_log("processSubscriptionIPN: ERROR Metadata not found " . json_encode($payload), AVideoLog::$ERROR);
+        if (empty($metadata['users_id'])) {
+            _error_log("processSubscriptionIPN: ignored, users_id metadata not found {$logContext}", AVideoLog::$WARNING);
             return false;
         }
         $payment_amount = self::getAmountPaidFromPayload($payload);
-        if (!AVideoPlugin::isEnabledByName('Subscription') || !class_exists('Subscription')) {
-            if (!AVideoPlugin::isEnabledByName('DiskUploadQuota') || !class_exists('DiskUploadQuota')) {
-                _error_log("processSubscriptionIPN: ERROR Subscription not found " . json_encode(array($payload, $metadata)), AVideoLog::$WARNING);
-                if (!empty($metadata['users_id'])) {
-                    $pluginS->addBalance($metadata['users_id'], $payment_amount, "Stripe recurrent (no plan detected): " . $payload->data->object->description, json_encode($payload));
-                }
-            } else {
-                $ipnFIle = "{$global['systemRootPath']}plugin/DiskUploadQuota/Subscription/Stripe/ipn.php";
-                require_once $ipnFIle;
-                exit;
-            }
-        } else {
-            $plan = Subscription::getOrCreateStripeSubscription($metadata['users_id'], $metadata['plans_id'], $payload->data->object->customer);
-            if (!empty($plan)) {
-                $users_id = @$plan['users_id'];
-                $plans_id = @$plan['subscriptions_plans_id'];
-                if (!empty($users_id)) {
-                    $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent: " . $payload->data->object->description, json_encode($payload));
-                    if (!empty($plans_id)) {
-                        $obj = Subscription::renew($users_id, $plans_id);
-                        if (!empty($obj->error)) {
-                            _error_log("processSubscriptionIPN: ERROR Subscription::renew " . json_encode($obj), AVideoLog::$ERROR);
-                        }
-                    } else {
-                        _error_log("processSubscriptionIPN: ERROR plans_id not found", AVideoLog::$ERROR);
-                    }
-                } else {
-                    _error_log("processSubscriptionIPN: ERROR User not found", AVideoLog::$ERROR);
-                }
-            } else {
-                _error_log("processSubscriptionIPN: ERROR Plan not found", AVideoLog::$ERROR);
-            }
+        $logContext .= " users_id={$metadata['users_id']} plans_id=" . intval($metadata['plans_id'] ?? 0) . " amount={$payment_amount}";
+        $hasSubscription = AVideoPlugin::isEnabledByName('Subscription') && class_exists('Subscription');
+        if (!$hasSubscription && AVideoPlugin::isEnabledByName('DiskUploadQuota') && class_exists('DiskUploadQuota')) {
+            // This separate integration owns its payment processing; preserve its dispatch contract.
+            _error_log("processSubscriptionIPN: handled by DiskUploadQuota {$logContext}");
+            $ipnFIle = "{$global['systemRootPath']}plugin/DiskUploadQuota/Subscription/Stripe/ipn.php";
+            require_once $ipnFIle;
+            exit;
         }
+        _error_log("processSubscriptionIPN: processing {$logContext}");
+        return $pluginS->processPaymentOnce('stripe', self::getPaymentIds($payload), $metadata['users_id'],
+            function () use ($pluginS, $payload, $metadata, $payment_amount, $hasSubscription, $logContext) {
+                if (!$hasSubscription) {
+                    $pluginS->addBalance($metadata['users_id'], $payment_amount,
+                        'Stripe recurrent (no plan detected): ' . ($payload->data->object->description ?? ''), json_encode($payload));
+                    return true;
+                }
+                $plan = Subscription::getOrCreateStripeSubscription($metadata['users_id'], $metadata['plans_id'], $payload->data->object->customer);
+                if (empty($plan['users_id']) || empty($plan['subscriptions_plans_id'])) {
+                    // Keep the money: credit the payer so the subscription can be renewed manually.
+                    _error_log("processSubscriptionIPN: subscription not found, only the wallet was credited {$logContext}", AVideoLog::$ERROR);
+                    $pluginS->addBalance($metadata['users_id'], $payment_amount,
+                        'Stripe recurrent (subscription not found): ' . ($payload->data->object->description ?? ''), json_encode($payload));
+                    return true;
+                }
+                $pluginS->addBalance($plan['users_id'], $payment_amount,
+                    'Stripe recurrent: ' . ($payload->data->object->description ?? ''), json_encode($payload));
+                $renewed = $pluginS->runPaymentStep(function () use ($plan, $logContext) {
+                    $renew = Subscription::renew($plan['users_id'], $plan['subscriptions_plans_id']);
+                    if (!isset($renew->error) || $renew->error) {
+                        _error_log('processSubscriptionIPN: Subscription::renew failed: ' . ($renew->msg ?? '') . " {$logContext}", AVideoLog::$ERROR);
+                        return false;
+                    }
+                    return true;
+                }, 'Stripe subscription renewal');
+                if (!$renewed) {
+                    _error_log("processSubscriptionIPN: payment credited to the wallet but the renewal was undone; renew it manually {$logContext}", AVideoLog::$ERROR);
+                }
+                return true;
+            });
+    }
+
+    /** Invoice and charge notifications can describe the same payment. */
+    public static function getPaymentIds($payload)
+    {
+        $object = $payload->data->object;
+        $ids = [$object->id ?? null, $payload->id ?? null];
+        foreach (['invoice', 'charge'] as $field) {
+            $value = $object->$field ?? null;
+            $ids[] = is_object($value) ? ($value->id ?? null) : $value;
+        }
+        return array_values(array_unique(array_filter($ids, function ($id) {
+            return is_string($id) && $id !== '';
+        })));
+    }
+
+    /**
+     * Non-secret identifiers of a Stripe event, to find it in the logs and in the Stripe dashboard.
+     */
+    public static function getPaymentLogContext($payload)
+    {
+        $object = $payload->data->object ?? null;
+        $customer = $object->customer ?? '';
+        return 'event=' . ($payload->id ?? '') . ' type=' . ($payload->type ?? '') . ' object=' . ($object->id ?? '')
+            . ' customer=' . (is_string($customer) ? $customer : ($customer->id ?? ''));
     }
 
     /**
@@ -1020,19 +1053,22 @@ class StripeYPT extends PluginAbstract
 
     function processSinglePaymentIPN($payload)
     {
-        if (!is_object($payload)) {
-            _error_log("Stripe processSinglePaymentIPN  empty payload");
+        $logContext = self::getPaymentLogContext($payload);
+        if (!is_object($payload) || empty($payload->data->object->metadata->users_id)
+            || empty($payload->data->object->id)) {
+            _error_log("Stripe processSinglePaymentIPN: ignored, users_id metadata not found {$logContext}", AVideoLog::$WARNING);
             return false;
         }
-        $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+        $pluginS = AVideoPlugin::loadPluginIfEnabled('YPTWallet');
         $payment_amount = StripeYPT::addDot($payload->data->object->amount);
         $users_id = $payload->data->object->metadata->users_id;
-        if (!empty($users_id)) {
-            _error_log("Stripe processSinglePaymentIPN users_id={$users_id} payment_amount={$payment_amount} {$payload->data->object->description}");
-            $pluginS->addBalance($users_id, $payment_amount, "Stripe single payment: " . $payload->data->object->description, json_encode($payload));
-        } else {
-            _error_log("Stripe processSinglePaymentIPN users_id is empty payment_amount={$payment_amount}");
-        }
+        _error_log("Stripe processSinglePaymentIPN: processing {$logContext} users_id={$users_id} amount={$payment_amount}");
+        return $pluginS->processPaymentOnce('stripe', self::getPaymentIds($payload), $users_id,
+            function () use ($pluginS, $users_id, $payment_amount, $payload) {
+                $pluginS->addBalance($users_id, $payment_amount,
+                    'Stripe single payment: ' . ($payload->data->object->description ?? ''), json_encode($payload));
+                return true;
+            });
     }
 
     function getAllSubscriptions($status = 'active')

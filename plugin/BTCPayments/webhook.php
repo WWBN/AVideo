@@ -17,13 +17,14 @@ $resp = new stdClass();
 
 _error_log('BTC::webhook - Received webhook for invoiceId: ' . $_REQUEST['invoiceId'], AVideoLog::$DEBUG);
 
-$resp->url = BTCPayments::getMarketplaceURL('invoice.verify.json.php');
-$resp->url = addQueryStringParameter($resp->url, 'invoiceId', $_REQUEST['invoiceId']);
-$resp->url = addQueryStringParameter($resp->url, 'BTCMarketPlaceKey', $obj->BTCMarketPlaceKey);
+$verificationURL = BTCPayments::getMarketplaceURL('invoice.verify.json.php');
+$verificationURL = addQueryStringParameter($verificationURL, 'invoiceId', $_REQUEST['invoiceId']);
+$verificationURL = addQueryStringParameter($verificationURL, 'BTCMarketPlaceKey', $obj->BTCMarketPlaceKey);
 
 _error_log('BTC::webhook - Calling marketplace verification URL (redacted key)', AVideoLog::$DEBUG);
 
-$resp->content = url_get_contents($resp->url, '', 0, false, false, false);
+// The marketplace is a fixed public HTTPS server: verified unless $global['verifySSLCertificates'] = 0.
+$resp->content = url_get_contents($verificationURL, '', 0, false, false, false, shouldVerifySSLCertificates(true));
 if (empty($resp->content)) {
     _error_log('BTC::webhook - ERROR: Empty response from marketplace verification', AVideoLog::$ERROR);
     forbiddenPage('Empty Content');

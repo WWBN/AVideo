@@ -915,7 +915,7 @@ class LiveRestreamWatchdog
      * Masks a secret/identifier for logging: keeps only a short, non-reversible prefix, never the
      * full stream key/URL/token.
      */
-    private static function maskSecret($value)
+    public static function maskSecret($value)
     {
         if (empty($value)) {
             return '';

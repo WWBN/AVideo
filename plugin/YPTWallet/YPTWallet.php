@@ -391,6 +391,142 @@ class YPTWallet extends PluginAbstract
         return $value;
     }
 
+    private static $paymentTransactionActive = false;
+
+    /** Process verified provider deliveries atomically, using the existing wallet ledger. */
+    public function processPaymentOnce($provider, $paymentIds, $users_id, callable $process)
+    {
+        global $global, $mysqlDatabase;
+        $users_id = intval($users_id);
+        $paymentIds = array_values(array_unique(array_filter($paymentIds, function ($id) {
+            return is_string($id) && $id !== '';
+        })));
+        // Provider payment IDs are not secrets; they let admins find the payment in the provider dashboard.
+        $logContext = "provider={$provider} users_id={$users_id} payment_ids=" . implode(',', $paymentIds);
+        if ($users_id <= 0 || empty($paymentIds) || self::$paymentTransactionActive
+            || isset($global['mysqlTransactionConnection'])) {
+            throw new RuntimeException("Invalid or nested payment delivery {$logContext}");
+        }
+        $db = $global['mysqli'];
+        // Serialize ledger claims across users/providers, including first wallet creation.
+        $lockName = 'avideo-payment-' . substr(hash('sha256', (string) $mysqlDatabase), 0, 48);
+        $stmt = $db->prepare('SELECT GET_LOCK(?, 10) AS acquired');
+        if (!$stmt) {
+            throw new RuntimeException("Cannot acquire payment lock {$logContext} db_error=" . ($db->error ?? ''));
+        }
+        $stmt->bind_param('s', $lockName);
+        if (!$stmt->execute()) {
+            throw new RuntimeException("Cannot acquire payment lock {$logContext} db_error=" . ($db->error ?? ''));
+        }
+        $acquired = 0;
+        $stmt->bind_result($acquired);
+        $stmt->fetch();
+        $stmt->close();
+        if ((int) $acquired !== 1) {
+            _error_log("processPaymentOnce: another payment is being processed, the provider will retry {$logContext}", AVideoLog::$WARNING);
+            throw new RuntimeException("Payment is busy; retry delivery {$logContext}");
+        }
+        _error_log("processPaymentOnce: start {$logContext}");
+        $transactionStarted = false;
+        $global['mysqlTransactionConnection'] = $db;
+        $global['mysqlTransactionError'] = false;
+        try {
+            if (!$db->begin_transaction()) {
+                throw new RuntimeException('Cannot begin payment transaction');
+            }
+            $transactionStarted = true;
+            self::$paymentTransactionActive = true;
+            $wallet = $this->getOrCreateWallet($users_id);
+            if (empty($wallet->getId())) {
+                throw new RuntimeException('Cannot create payment wallet');
+            }
+            if (WalletLog::hasProcessedPayment($provider, $paymentIds, $wallet->getId())) {
+                $db->rollback();
+                _error_log("processPaymentOnce: already processed, duplicate delivery ignored {$logContext}");
+                return true;
+            }
+            if ($process() !== true) {
+                throw new RuntimeException('Payment processing failed');
+            }
+            if (!empty($global['mysqlTransactionError'])) {
+                throw new \mysqli_sql_exception('Payment database operation failed');
+            }
+            $wallet = $this->getOrCreateWallet($users_id);
+            foreach ($paymentIds as $paymentId) {
+                $key = hash('sha256', $provider . ':' . $paymentId);
+                if (!WalletLog::addLog($wallet->getId(), 0, $wallet->getBalance(),
+                    "Processed {$provider} payment {$paymentId}", '{}', 'success', 'paymentProcessed', $key)) {
+                    throw new RuntimeException('Cannot record processed payment');
+                }
+            }
+            if (!$db->commit()) {
+                throw new RuntimeException('Cannot commit payment');
+            }
+            _error_log("processPaymentOnce: done {$logContext}");
+            return true;
+        } catch (Throwable $error) {
+            $dbError = $db->error ?? ''; // read before rollback() clears it
+            if ($transactionStarted) {
+                $db->rollback();
+                ObjectYPT::clearSessionCache();
+            }
+            _error_log("processPaymentOnce: FAILED and rolled back, nothing was credited; the provider will retry {$logContext} error="
+                . get_class($error) . ': ' . $error->getMessage() . " db_error={$dbError}", AVideoLog::$ERROR);
+            throw $error;
+        } finally {
+            self::$paymentTransactionActive = false;
+            unset($global['mysqlTransactionConnection'], $global['mysqlTransactionError']);
+            $stmt = $db->prepare('SELECT RELEASE_LOCK(?)');
+            if ($stmt) {
+                $stmt->bind_param('s', $lockName);
+                $stmt->execute();
+                $stmt->close();
+            } else {
+                // MySQL also releases the lock when this connection closes at the end of the request.
+                _error_log("processPaymentOnce: could not release the payment lock {$logContext}", AVideoLog::$WARNING);
+            }
+        }
+    }
+
+    /**
+     * Runs an optional part of a verified payment (e.g. the subscription renewal) inside the
+     * payment transaction. If it fails, only that part is undone (savepoint), so the payment
+     * credit and its processed marker are still committed and the provider does not retry forever.
+     */
+    public function runPaymentStep(callable $step, $label = 'payment step')
+    {
+        global $global;
+        if (!self::$paymentTransactionActive) {
+            return $step() === true;
+        }
+        $db = $global['mysqli'];
+        // mysqli::rollback($flags, $name) does not roll back to a savepoint, so use explicit SQL.
+        if (!$db->query('SAVEPOINT avideo_payment_step')) {
+            throw new RuntimeException("Cannot start {$label} db_error=" . ($db->error ?? ''));
+        }
+        try {
+            $done = $step() === true;
+        } catch (Throwable $error) {
+            if ($error instanceof \mysqli_sql_exception) {
+                throw $error;
+            }
+            _error_log("runPaymentStep: {$label} failed: " . get_class($error) . ': ' . $error->getMessage(), AVideoLog::$ERROR);
+            $done = false;
+        }
+        if (!empty($global['mysqlTransactionError'])) {
+            throw new \mysqli_sql_exception('Payment database operation failed');
+        }
+        if ($done) {
+            $db->query('RELEASE SAVEPOINT avideo_payment_step');
+            return true;
+        }
+        if (!$db->query('ROLLBACK TO SAVEPOINT avideo_payment_step')) {
+            throw new RuntimeException("Cannot undo failed {$label} db_error=" . ($db->error ?? ''));
+        }
+        ObjectYPT::clearSessionCache();
+        return false;
+    }
+
     /**
      *
      * @param string $users_id
@@ -412,13 +548,22 @@ class YPTWallet extends PluginAbstract
             $description .= " Rate Exchanged {$originalValueFormated} => {$valueFormated} ";
         }
         $wallet = $this->getOrCreateWallet($users_id);
+        if (self::$paymentTransactionActive) {
+            $wallet = Wallet::getFromUserForUpdate($users_id);
+            if (!$wallet) {
+                throw new RuntimeException('Payment wallet not found');
+            }
+        }
         $balance = $wallet->getBalance();
         _error_log("YPTWallet::addBalance BEFORE (user_id={$users_id}) (balance={$balance})");
         $newBalance = $balance + $value;
         $wallet->setBalance($newBalance);
         $wallet_id = $wallet->save();
 
-        WalletLog::addLog($wallet_id, $value, $balance, $description, $json_data, "success", "addBalance");
+        $log_id = WalletLog::addLog($wallet_id, $value, $balance, $description, $json_data, "success", "addBalance");
+        if (self::$paymentTransactionActive && (empty($wallet_id) || empty($log_id))) {
+            throw new RuntimeException('Payment credit could not be saved');
+        }
 
         if (!empty($mainWallet_user_id)) {
             $wallet = $this->getOrCreateWallet($mainWallet_user_id);
@@ -516,12 +661,18 @@ class YPTWallet extends PluginAbstract
         // Use a transaction with SELECT…FOR UPDATE to eliminate the TOCTOU race condition.
         // Concurrent transfers from the same sender block on the row lock instead of reading
         // a stale balance, preventing balance creation from nothing.
-        mysqlBeginTransaction();
+        $ownsTransaction = !self::$paymentTransactionActive;
+        if ($ownsTransaction) {
+            mysqlBeginTransaction();
+        }
 
         // Lock sender row and load into Wallet object
+        // Nothing was written yet: inside a payment just report false and keep its transaction.
         $senderWallet = Wallet::getFromUserForUpdate($fromUserId);
         if (!$senderWallet) {
-            mysqlRollback();
+            if ($ownsTransaction) {
+                mysqlRollback();
+            }
             _error_log("transferBalance: sender wallet not found, $fromUserId");
             return false;
         }
@@ -530,7 +681,9 @@ class YPTWallet extends PluginAbstract
         $senderNewBalance = $senderBalance - $amount;
 
         if ($senderNewBalance < 0) {
-            mysqlRollback();
+            if ($ownsTransaction) {
+                mysqlRollback();
+            }
             _error_log("transferBalance: insufficient balance. fromUserId={$fromUserId}, toUserId={$toUserId}, amount={$amount}, currentBalance={$senderBalance}, resultingBalance={$senderNewBalance}. Transfer canceled to avoid negative balance. " . json_encode(debug_backtrace()));
             return false;
         }
@@ -548,10 +701,19 @@ class YPTWallet extends PluginAbstract
 
         $logIdFrom = WalletLog::addLog($senderWalletId, "-" . $amount, $senderBalance, $descriptionFrom, "{}", "success", "transferBalance to");
 
-        // Lock receiver row and load into Wallet object
+        // Lock receiver row and load into Wallet object. A receiver who never had a wallet (e.g. the
+        // site owner receiving renewals) gets one, as the previous getWallet()-based code did on save.
         $receiverWallet = Wallet::getFromUserForUpdate($toUserId);
+        if (!$receiverWallet && Wallet::getOrCreateFromUser($toUserId)) {
+            $receiverWallet = Wallet::getFromUserForUpdate($toUserId);
+        }
         if (!$receiverWallet) {
-            mysqlRollback();
+            if ($ownsTransaction) {
+                mysqlRollback();
+            } else {
+                // The sender was already debited; the caller's payment step must undo it.
+                throw new RuntimeException("Payment wallet transfer failed: receiver wallet not found, $toUserId");
+            }
             _error_log("transferBalance: receiver wallet not found, $toUserId");
             return false;
         }
@@ -567,7 +729,13 @@ class YPTWallet extends PluginAbstract
 
         $logIdTo = WalletLog::addLog($receiverWalletId, $amount, $receiverBalance, $descriptionTo, "{}", "success", "transferBalance from");
 
-        mysqlCommit();
+        if (self::$paymentTransactionActive && (empty($senderWalletId) || empty($receiverWalletId)
+            || empty($logIdFrom) || empty($logIdTo))) {
+            throw new RuntimeException('Payment wallet transfer could not be saved');
+        }
+        if ($ownsTransaction) {
+            mysqlCommit();
+        }
 
         return [
             'log_id_from' => $logIdFrom,

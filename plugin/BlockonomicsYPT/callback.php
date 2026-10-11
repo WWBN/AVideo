@@ -24,6 +24,7 @@ $status = $_GET['status'];
 $addr = $_GET['addr'];
 //Match secret for security
 if ($_GET['secret'] != $obj->Secret) {
+    _error_log("Blockonomics Callback: secret is not matching", AVideoLog::$SECURITY);
     echo "Secret is not matching.";
     return;
 }
@@ -32,6 +33,7 @@ $order = new BlockonomicsOrder(0);
 $order->loadFromAddress($addr);
 
 if (empty($order->getId())) {
+    _error_log("Blockonomics Callback: address not found addr=" . preg_replace('/[^a-z0-9]/i', '', (string) $addr), AVideoLog::$WARNING);
     echo "Address not found.";
     return;
 }
@@ -68,6 +70,9 @@ $order->setStatus($new_status);
 
 $order->save();
 
-_error_log("Blockonomics Callback: GET=".  json_encode($_GET));
-_error_log("Blockonomics Callback: order=".  json_encode($order));
+// txid/addr/value are public blockchain data; the callback secret is never logged.
+_error_log("Blockonomics Callback: processed status=" . intval($new_status) . " received_status=" . intval($status)
+    . " order_id=" . intval($order->getId()) . " users_id=" . intval($order->getUsers_id())
+    . " txid=" . preg_replace('/[^a-z0-9]/i', '', (string) $txid) . " addr=" . preg_replace('/[^a-z0-9]/i', '', (string) $addr)
+    . " value=" . floatval($value));
 ?>

@@ -664,6 +664,9 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function cleanCacheName($name)
     {
+        // Cache names always use '/' (e.g. "firstPage/home"); on Windows split them the same way
+        // as on Linux, otherwise clearCache(true) cannot find the firstPage directory. No-op on Linux.
+        $name = str_replace('/', DIRECTORY_SEPARATOR, (string) $name);
         $parts = explode(DIRECTORY_SEPARATOR, $name);
 
         $lastPart = sha1(array_pop($parts));

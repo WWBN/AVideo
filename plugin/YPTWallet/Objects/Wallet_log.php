@@ -41,7 +41,8 @@ class WalletLog extends ObjectYPT {
 
     function setDescription($description) {
         // stored raw description reaches the admin wallet log DataTable unescaped, so sanitize on write
-        $this->description = xss_esc($description);
+        // description is VARCHAR(255): strict-mode MySQL rejects the whole row (and a payment with it) if longer
+        $this->description = mb_substr((string) xss_esc($description), 0, 255, 'UTF-8');
     }
 
     function setWallet_id($wallet_id) {
@@ -49,7 +50,8 @@ class WalletLog extends ObjectYPT {
     }
 
     function setJson_data($json_data) {
-        $this->json_data = $json_data;
+        // json_data is TEXT (65535 bytes): cut at a UTF-8 character boundary instead of failing the insert
+        $this->json_data = is_string($json_data) ? mb_strcut($json_data, 0, 65535, 'UTF-8') : $json_data;
     }
 
     function getStatus() {
@@ -167,6 +169,53 @@ class WalletLog extends ObjectYPT {
             return false;
         }
         return self::getTotalFromWallet($wallet['id'], $dontReturnEmpty);
+    }
+
+    /** Includes credits made before the idempotency marker was introduced. */
+    static function hasProcessedPayment($provider, array $paymentIds, $wallet_id)
+    {
+        global $global;
+        foreach ($paymentIds as $paymentId) {
+            $key = hash('sha256', $provider . ':' . $paymentId);
+            $stmt = $global['mysqli']->prepare("SELECT id FROM wallet_log WHERE type = 'paymentProcessed' AND information = ? LIMIT 1 FOR UPDATE");
+            if (!$stmt) {
+                throw new RuntimeException('Cannot check processed payment: ' . ($global['mysqli']->error ?? ''));
+            }
+            $stmt->bind_param('s', $key);
+            if (!$stmt->execute()) {
+                throw new RuntimeException('Cannot check processed payment');
+            }
+            $stmt->bind_result($id);
+            $found = $stmt->fetch();
+            $stmt->close();
+            if ($found === false) {
+                throw new RuntimeException('Cannot read processed payment');
+            }
+            if ($found) {
+                return true;
+            }
+            // Provider IDs are looked up as JSON strings, never interpolated into SQL.
+            $needle = json_encode($paymentId);
+            $description = $provider === 'stripe' ? 'Stripe %' : 'RazorPay %';
+            $stmt = $global['mysqli']->prepare("SELECT id FROM wallet_log WHERE wallet_id = ? AND type = 'addBalance' AND status = 'success' AND description LIKE ? AND LOCATE(?, json_data) > 0 LIMIT 1 FOR UPDATE");
+            if (!$stmt) {
+                throw new RuntimeException('Cannot check processed payment: ' . ($global['mysqli']->error ?? ''));
+            }
+            $stmt->bind_param('iss', $wallet_id, $description, $needle);
+            if (!$stmt->execute()) {
+                throw new RuntimeException('Cannot check processed payment');
+            }
+            $stmt->bind_result($id);
+            $found = $stmt->fetch();
+            $stmt->close();
+            if ($found === false) {
+                throw new RuntimeException('Cannot read processed payment');
+            }
+            if ($found) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static function addLog($wallet_id, $value, $previous_wallet_balance, $description="", $json_data="{}", $status="success", $type="", $information=''){

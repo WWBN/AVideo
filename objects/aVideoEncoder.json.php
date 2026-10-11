@@ -49,12 +49,7 @@ function dieJsonResponse($obj, $context = '')
     $json = _json_encode($obj);
     if ($json === false || $json === '') {
         $jsonError = json_last_error_msg();
-        $objectDump = print_r($obj, true);
-        if (strlen($objectDump) > 4000) {
-            $objectDump = substr($objectDump, 0, 4000) . '... [truncated]';
-        }
         _error_log("aVideoEncoder.json: JSON encode failed context={$context} error={$jsonError}");
-        _error_log("aVideoEncoder.json: JSON encode object dump context={$context} {$objectDump}");
 
         $fallback = [
             'error' => true,
@@ -120,6 +115,34 @@ function getEncoderAuthDebugSummary()
     return json_encode($summary);
 }
 
+/** Request fields for diagnostics without credentials or upload capabilities (also inside return_vars). */
+function getEncoderRequestDebugSummary()
+{
+    $hidden = ['pass', 'password', 'encodedPass', 'video_id_hash', 'encoderChunkToken'];
+    $request = $_REQUEST;
+    foreach ($hidden as $key) {
+        if (isset($request[$key])) {
+            $request[$key] = '[redacted]';
+        }
+    }
+    if (!empty($request['return_vars'])) {
+        $returnVars = is_string($request['return_vars']) ? json_decode($request['return_vars'], true) : null;
+        if (is_array($returnVars)) {
+            foreach ($hidden as $key) {
+                if (isset($returnVars[$key])) {
+                    $returnVars[$key] = '[redacted]';
+                }
+            }
+        }
+        $request['return_vars'] = is_array($returnVars) ? $returnVars : '[not logged]';
+    }
+    $json = json_encode($request);
+    if (strlen($json) > 4000) {
+        $json = substr($json, 0, 4000) . '... [truncated]';
+    }
+    return $json;
+}
+
 $global['bypassSameDomainCheck'] = 1;
 if (empty($_REQUEST)) {
     $obj->msg = ("Your POST data is empty, maybe your video file is too big for the host");
@@ -135,7 +158,6 @@ if (empty($global['allowedExtension'])) {
 }
 if (empty($_REQUEST['format']) || !in_array($_REQUEST['format'], $global['allowedExtension'])) {
     $obj->msg = "aVideoEncoder.json: ERROR Extension not allowed File {$_REQUEST['format']}";
-    _error_log($obj->msg . ": " . json_encode($_REQUEST));
     dieJsonResponse($obj, 'invalid-format-extension');
 }
 
@@ -150,7 +172,6 @@ if (!isset($_REQUEST['encodedPass'])) {
 }
 _error_log("aVideoEncoder.json: auth summary before useVideoHashOrLogin " . getEncoderAuthDebugSummary());
 useVideoHashOrLogin();
-_error_log("aVideoEncoder.json: after useVideoHashOrLogin - User::getId()=" . User::getId() . " isLogged=" . (User::isLogged() ? 'true' : 'false') . " videos_id=" . @$_REQUEST['videos_id'] . " video_id_hash=" . @$_REQUEST['video_id_hash']);
 _error_log("aVideoEncoder.json: auth summary after useVideoHashOrLogin " . getEncoderAuthDebugSummary());
 if (!User::canUpload()) {
     $obj->code = 'streamer_access_denied';
@@ -171,7 +192,7 @@ if (!empty($_REQUEST['videos_id'])) {
     }
 }
 
-_error_log("aVideoEncoder.json: start to receive: " . json_encode($_REQUEST));
+_error_log("aVideoEncoder.json: start to receive: " . getEncoderRequestDebugSummary());
 
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", @$_REQUEST['videos_id'], true);
@@ -216,7 +237,6 @@ if (!empty($_REQUEST['duration'])) {
 $status = $video->setAutoStatus();
 
 $video->setVideoDownloadedLink($_REQUEST['videoDownloadedLink']);
-_error_log("aVideoEncoder.json: Encoder receiving post " . json_encode($_REQUEST));
 //_error_log(print_r($_REQUEST, true));
 if (preg_match("/(mp3|wav|ogg)$/i", $_REQUEST['format'])) {
     $obj->lines[] = __LINE__;

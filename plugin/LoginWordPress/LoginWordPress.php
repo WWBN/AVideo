@@ -114,7 +114,10 @@ class LoginWordPress extends PluginAbstract {
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $CURLOPT_HTTPHEADER);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        // Off by default (self-signed WordPress sites); see shouldVerifySSLCertificates().
+        $verifySSL = shouldVerifySSLCertificates();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $verifySSL);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $verifySSL ? 2 : 0);
 
         $data = curl_exec($ch);
         $info = curl_getinfo($ch);

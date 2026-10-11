@@ -4233,23 +4233,32 @@ if (!class_exists('Video')) {
          */
         public static function postToEncoderQueue($postFields)
         {
-            global $config;
+            global $config, $global;
 
             $target = $config->getEncoderURL() . 'queue';
             _error_log('postToEncoderQueue: SEND To QUEUE: (' . $target . ') videos_id=' . intval($postFields['videos_id'] ?? 0));
 
             $obj = new stdClass();
             $obj->error = true;
-
             $curl = curl_init();
-            curl_setopt_array($curl, [
+            // Off by default (self-signed Encoders); see shouldVerifySSLCertificates().
+            $verifySSL = shouldVerifySSLCertificates();
+            $curlOptions = [
                 CURLOPT_URL => $target,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => $postFields,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false,
-            ]);
+                CURLOPT_SSL_VERIFYPEER => $verifySSL,
+                CURLOPT_SSL_VERIFYHOST => $verifySSL ? 2 : 0,
+            ];
+            $localCertificatePath = getenv('TLS_CERTIFICATE_FILE');
+            if ($verifySSL && isSameDomain($target, $global['webSiteRootURL'] ?? '')
+                && is_string($localCertificatePath)
+                && $localCertificatePath !== ''
+                && is_file($localCertificatePath)) {
+                $curlOptions[CURLOPT_CAINFO] = $localCertificatePath;
+            }
+            curl_setopt_array($curl, $curlOptions);
 
             $r = curl_exec($curl);
             $obj->response = $r;

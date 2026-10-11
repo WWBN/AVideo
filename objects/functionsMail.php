@@ -33,11 +33,13 @@ function setSiteSendMessage(\PHPMailer\PHPMailer\PHPMailer &$mail)
         } else {
             _error_log("Debug disabled on the SMTP Email");
         }
+        // Off by default (self-signed SMTP certificates); see shouldVerifySSLCertificates().
+        $verifySSL = shouldVerifySSLCertificates();
         $mail->SMTPOptions = [
             'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true,
+                'verify_peer' => $verifySSL,
+                'verify_peer_name' => $verifySSL,
+                'allow_self_signed' => !$verifySSL,
             ],
         ];
         $mail->SMTPAuth = $config->getSmtpAuth(); // authentication enabled

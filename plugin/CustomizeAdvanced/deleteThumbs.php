@@ -2,6 +2,7 @@
 
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
+forbidIfIsUntrustedRequest('deleteThumbs');
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";

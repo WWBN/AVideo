@@ -2035,11 +2035,36 @@ function url_get_response($url)
     return $responseObj;
 }
 
-function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false, $requireSSRFSafe = true)
+/**
+ * Whether TLS certificates are verified on connections to services the admin configures
+ * (Encoder, SMTP, WordPress login, CloneSite). Off by default so self-signed and private
+ * certificates keep working. Turn it on in CustomizeAdvanced ("Verify SSL certificates"), or
+ * force it on/off for every caller with $global['verifySSLCertificates'] = 1; (or 0;) in
+ * videos/configuration.php. $default applies when neither is set.
+ */
+function shouldVerifySSLCertificates($default = false)
+{
+    global $global;
+    if (isset($global['verifySSLCertificates'])) {
+        return !empty($global['verifySSLCertificates']);
+    }
+    if (class_exists('AVideoPlugin')) {
+        $advancedCustom = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+        if (!empty($advancedCustom->verifySSLCertificates)) {
+            return true;
+        }
+    }
+    return !empty($default);
+}
+
+function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false, $requireSSRFSafe = true, $verifyTLS = false, $failOnError = false)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
+    if ($verifyTLS || $failOnError) {
+        $debug = false; // Sensitive URLs may contain credentials in query parameters.
+    }
     if (!isValidURLOrPath($url)) {
-        _error_log('url_get_contents Cannot download ' . $url);
+        _error_log(($verifyTLS || $failOnError) ? 'Verified remote request: invalid URL' : 'url_get_contents Cannot download ' . $url);
         return false;
     }
     // Default-safe: only applies to real http(s) URLs (isValidURL()), never to
@@ -2054,10 +2079,10 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
     // in Docker. The original $url is still same-origin, so isSSRFSafeURL()'s own
     // webSiteRootURL same-origin shortcut correctly allows it here.
     if ($requireSSRFSafe && isValidURL($url) && !isSSRFSafeURL($url)) {
-        _error_log('url_get_contents blocked by SSRF protection ' . $url);
+        _error_log(($verifyTLS || $failOnError) ? 'Verified remote request blocked by SSRF protection' : 'url_get_contents blocked by SSRF protection ' . $url);
         return false;
     }
-    if (isDocker() && str_starts_with($url, $global['webSiteRootURL'])) {
+    if (!$verifyTLS && isDocker() && str_starts_with($url, $global['webSiteRootURL'])) {
         // this is a docker and it is pointing to the local host, so we need to change
         $url = str_replace($global['webSiteRootURL'], 'http://localhost/', $url);
     }
@@ -2065,7 +2090,8 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
         _error_log("url_get_contents: Start $url, $ctx, $timeout " . getSelfURI() . " " . getRealIpAddr() . " " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     }
 
-    $response = try_get_contents_from_local($url);
+    // Strict remote downloads must not substitute a stale file from another host.
+    $response = ($verifyTLS || $failOnError) ? false : try_get_contents_from_local($url);
     if (!empty($response)) {
         return $response;
     }
@@ -2098,9 +2124,9 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
                 'follow_location' => 0,
             ],
             'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true,
+                'verify_peer' => (bool) $verifyTLS,
+                'verify_peer_name' => (bool) $verifyTLS,
+                'allow_self_signed' => !$verifyTLS,
             ],
         ];
         if (!empty($timeout)) {
@@ -2113,6 +2139,14 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
         $context = stream_context_create($opts);
     } else {
         $context = $ctx;
+    }
+    // Sensitive callers opt in without changing legacy private-network integrations.
+    // A custom context or fallback must never turn certificate checks back off.
+    if ($verifyTLS) {
+        stream_context_set_option($context, 'ssl', 'verify_peer', true);
+        stream_context_set_option($context, 'ssl', 'verify_peer_name', true);
+        stream_context_set_option($context, 'ssl', 'allow_self_signed', false);
+        stream_context_set_option($context, 'http', 'follow_location', 0);
     }
     if (ini_get('allow_url_fopen')) {
         if ($debug) {
@@ -2148,7 +2182,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
                 if ($redirectTarget) {
                     $redirectTarget = ssrfResolveRedirectURL($currentUrl, $redirectTarget);
                     if (empty($redirectTarget)) {
-                        _error_log("url_get_contents: invalid redirect from {$currentUrl}");
+                        _error_log(($verifyTLS || $failOnError) ? 'Verified remote request: invalid redirect' : "url_get_contents: invalid redirect from {$currentUrl}");
                         return false;
                     }
                     // SECURITY: Re-validate the redirect destination before following it.
@@ -2159,9 +2193,14 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
                     // DNS TOCTOU fix: capture $redirectHopIP so we can pin it via
                     // CURLOPT_RESOLVE for the next hop, eliminating the race window
                     // between the isSSRFSafeURL() check above and the actual TCP connect.
+                    if ($verifyTLS && parse_url($currentUrl, PHP_URL_SCHEME) === 'https'
+                        && parse_url($redirectTarget, PHP_URL_SCHEME) !== 'https') {
+                        _error_log('Verified remote request: HTTPS to HTTP redirect blocked');
+                        return false;
+                    }
                     $redirectHopIP = null;
                     if (!isSSRFSafeURL($redirectTarget, $redirectHopIP)) {
-                        _error_log("url_get_contents: blocked unsafe redirect from {$currentUrl} to {$redirectTarget}");
+                        _error_log(($verifyTLS || $failOnError) ? 'Verified remote request: unsafe redirect' : "url_get_contents: blocked unsafe redirect from {$currentUrl} to {$redirectTarget}");
                         return false;
                     }
                     // When cURL is available, switch to a DNS-pinned cURL call for this
@@ -2171,11 +2210,15 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
                     // Same-origin URLs ($redirectHopIP empty) and custom stream
                     // contexts fall through to the file_get_contents path as before.
                     if (!empty($redirectHopIP) && empty($ctx) && function_exists('curl_init')) {
-                        $pinnedContent = ssrfPinnedFetch($redirectTarget, $redirectHopIP, !empty($timeout) ? $timeout : 0);
+                        $pinnedContent = ssrfPinnedFetch($redirectTarget, $redirectHopIP, !empty($timeout) ? $timeout : 0, 5, $verifyTLS, $failOnError);
                         return $pinnedContent !== false ? remove_utf8_bom((string) $pinnedContent) : false;
                     }
                     $currentUrl = $redirectTarget;
                     continue;
+                }
+                if ($failOnError && (empty($http_response_header[0])
+                    || !preg_match('/^HTTP\/\S+\s+2\d\d\s/i', $http_response_header[0]))) {
+                    return false;
                 }
                 // No redirect -- this is the final response body we wanted.
                 $tmp = $fetched;
@@ -2196,7 +2239,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
             if ($debug) {
                 _error_log("url_get_contents: allow_url_fopen ERROR " . $e->getMessage() . "  {$url}");
             }
-            return "url_get_contents: " . $e->getMessage();
+            return ($verifyTLS || $failOnError) ? false : "url_get_contents: " . $e->getMessage();
         }
     }
     if (function_exists('curl_init')) {
@@ -2207,8 +2250,8 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
         curl_setopt($ch, CURLOPT_USERAGENT, $agent);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $verifyTLS ? 2 : 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, (bool) $verifyTLS);
 
         if (!empty($session_cookie)) {
             curl_setopt($ch, CURLOPT_COOKIE, $session_cookie);
@@ -2218,14 +2261,27 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout + 10);
         }
         $output = curl_exec($ch);
+        $httpCode = $failOnError ? curl_getinfo($ch, CURLINFO_HTTP_CODE) : 0;
+        if ($failOnError && ($httpCode < 200 || $httpCode >= 300)) {
+            $output = false;
+        }
+        if ($verifyTLS && $output === false) {
+            // The URL is not logged: it may carry credentials (e.g. marketplace or clone keys).
+            _error_log('Verified remote request failed: ' . curl_error($ch));
+        }
         curl_close($ch);
         if ($debug) {
             _error_log("url_get_contents: CURL SUCCESS {$url}");
         }
-        return remove_utf8_bom($output);
+        return ($verifyTLS || $failOnError) && $output === false ? false : remove_utf8_bom($output);
     }
     if ($debug) {
         _error_log("url_get_contents: Nothing yet  {$url}");
+    }
+
+    if ($verifyTLS || $failOnError) {
+        // The legacy wget fallback does not enforce strict transport/response checks.
+        return false;
     }
 
     // try wget
@@ -4622,18 +4678,18 @@ function isSSRFSafeURL($url, &$resolvedIP = null)
  * @param int         $maxRedirects Maximum number of redirects to follow.
  * @return string|false           Response body, or false on failure.
  */
-function ssrfPinnedFetch($url, $resolvedIP = null, $timeout = 0, $maxRedirects = 5)
+function ssrfPinnedFetch($url, $resolvedIP = null, $timeout = 0, $maxRedirects = 5, $verifyTLS = false, $failOnError = false)
 {
     // Same-origin URLs pass isSSRFSafeURL via the early-return shortcut without
     // resolving DNS, so $resolvedIP stays null. Fall back to url_get_contents()
     // to keep Docker loopback rewriting and session-cookie handling intact.
     if (empty($resolvedIP)) {
-        return url_get_contents($url, '', $timeout);
+        return url_get_contents($url, '', $timeout, false, false, true, $verifyTLS, $failOnError);
     }
 
     if (!function_exists('curl_init')) {
-        _error_log("ssrfPinnedFetch: cURL unavailable, DNS pinning disabled for {$url}");
-        return url_get_contents($url, '', $timeout);
+        _error_log(($verifyTLS || $failOnError) ? 'Verified pinned request failed' : "ssrfPinnedFetch: cURL unavailable, DNS pinning disabled for {$url}");
+        return url_get_contents($url, '', $timeout, false, false, true, $verifyTLS, $failOnError);
     }
 
     $currentUrl = $url;
@@ -4646,7 +4702,7 @@ function ssrfPinnedFetch($url, $resolvedIP = null, $timeout = 0, $maxRedirects =
         $port   = (int)($parsed['port'] ?? ($scheme === 'https' ? 443 : 80));
 
         if (empty($host) || !in_array($scheme, ['http', 'https'])) {
-            _error_log("ssrfPinnedFetch: invalid URL {$currentUrl}");
+            _error_log(($verifyTLS || $failOnError) ? 'Verified pinned request failed' : "ssrfPinnedFetch: invalid URL {$currentUrl}");
             return false;
         }
 
@@ -4654,8 +4710,8 @@ function ssrfPinnedFetch($url, $resolvedIP = null, $timeout = 0, $maxRedirects =
         curl_setopt($ch, CURLOPT_URL,            $currentUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);  // redirects are validated below
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, (bool) $verifyTLS);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $verifyTLS ? 2 : 0);
         curl_setopt($ch, CURLOPT_USERAGENT,      getSelfUserAgent());
         curl_setopt($ch, CURLOPT_HEADER,         true);
         if ($timeout > 0) {
@@ -4674,7 +4730,7 @@ function ssrfPinnedFetch($url, $resolvedIP = null, $timeout = 0, $maxRedirects =
         curl_close($ch);
 
         if ($response === false) {
-            _error_log("ssrfPinnedFetch: cURL error for {$currentUrl}: {$curlError}");
+            _error_log(($verifyTLS || $failOnError) ? "Verified pinned request failed: {$curlError}" : "ssrfPinnedFetch: cURL error for {$currentUrl}: {$curlError}");
             return false;
         }
 
@@ -4683,28 +4739,32 @@ function ssrfPinnedFetch($url, $resolvedIP = null, $timeout = 0, $maxRedirects =
 
         if ($httpCode >= 300 && $httpCode < 400) {
             if ($redirectCount >= $maxRedirects) {
-                _error_log("ssrfPinnedFetch: too many redirects for {$url}");
+                _error_log(($verifyTLS || $failOnError) ? 'Verified pinned request failed' : "ssrfPinnedFetch: too many redirects for {$url}");
                 return false;
             }
             if (!preg_match('/^Location:\s*(.+)$/im', $responseHeaders, $m)) {
-                _error_log("ssrfPinnedFetch: redirect {$httpCode} without Location for {$currentUrl}");
+                _error_log(($verifyTLS || $failOnError) ? 'Verified pinned request failed' : "ssrfPinnedFetch: redirect {$httpCode} without Location for {$currentUrl}");
                 return false;
             }
 
             $redirectUrl = ssrfResolveRedirectURL($currentUrl, trim($m[1]));
             if (empty($redirectUrl)) {
-                _error_log("ssrfPinnedFetch: invalid redirect Location from {$currentUrl}");
+                _error_log(($verifyTLS || $failOnError) ? 'Verified pinned request failed' : "ssrfPinnedFetch: invalid redirect Location from {$currentUrl}");
                 return false;
             }
 
+            if ($verifyTLS && $scheme === 'https' && parse_url($redirectUrl, PHP_URL_SCHEME) !== 'https') {
+                _error_log('Verified pinned request: HTTPS to HTTP redirect blocked');
+                return false;
+            }
             $nextIP = null;
             if (!isSSRFSafeURL($redirectUrl, $nextIP)) {
-                _error_log("ssrfPinnedFetch: blocked unsafe redirect from {$currentUrl} to {$redirectUrl}");
+                _error_log(($verifyTLS || $failOnError) ? 'Verified pinned request failed' : "ssrfPinnedFetch: blocked unsafe redirect from {$currentUrl} to {$redirectUrl}");
                 return false;
             }
 
             if (empty($nextIP)) {
-                return url_get_contents($redirectUrl, '', $timeout);
+                return url_get_contents($redirectUrl, '', $timeout, false, false, true, $verifyTLS, $failOnError);
             }
 
             $currentUrl = $redirectUrl;
@@ -4712,10 +4772,13 @@ function ssrfPinnedFetch($url, $resolvedIP = null, $timeout = 0, $maxRedirects =
             continue;
         }
 
+        if ($failOnError && ($httpCode < 200 || $httpCode >= 300)) {
+            return false;
+        }
         return $body;
     }
 
-    _error_log("ssrfPinnedFetch: too many redirects for {$url}");
+    _error_log(($verifyTLS || $failOnError) ? 'Verified pinned request failed' : "ssrfPinnedFetch: too many redirects for {$url}");
     return false;
 }
 

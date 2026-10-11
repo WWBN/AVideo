@@ -68,11 +68,13 @@ function getDurationFromFile($file)
     return $duration;
 }
 
-function wget($url, $filename, $debug = false)
+function wget($url, $filename, $debug = false, $verifyTLS = false, $failOnError = false)
 {
     if (empty($url) || $url == "php://input" || !isValidURL($url)) {
         return false;
     }
+    // Strict callers (verified TLS or $failOnError) never accept an error page or a partial file.
+    $strict = $verifyTLS || $failOnError;
     if ($lockfilename = wgetIsLocked($url)) {
         if ($debug) {
             _error_log("wget: ERROR the url is already downloading {$lockfilename} $url, $filename");
@@ -89,27 +91,41 @@ function wget($url, $filename, $debug = false)
         // so we must disable redirects here too.
         $noRedirectCtx = stream_context_create(['http' => ['follow_location' => 0]]);
         $content = @file_get_contents($url, false, $noRedirectCtx);
-        if (!empty($content) && file_put_contents($filename, $content) > 100) {
-            wgetRemoveLock($url);
-            return true;
+        $successfulResponse = !empty($http_response_header[0])
+            && preg_match('/^HTTP\/\S+\s+2\d\d\s/i', $http_response_header[0]);
+        if ((!$strict || $successfulResponse) && !empty($content)) {
+            $written = file_put_contents($filename, $content);
+            if ($written === strlen($content) && $written > 100) {
+                wgetRemoveLock($url);
+                return true;
+            }
+            // A disk-full/short write must never become a partial SQL restore.
+            @unlink($filename);
         }
         wgetRemoveLock($url);
         return false;
     }
 
-    $filename = escapeshellarg($filename);
-    $url = escapeshellarg($url);
+    $quotedFilename = escapeshellarg($filename);
+    $quotedURL = escapeshellarg($url);
     // SECURITY: --max-redirect=0 tells wget to NOT follow any HTTP redirects.
     // By default wget follows up to 20 redirects. An attacker that can make us
     // fetch a URL they control could redirect us to an internal server address,
     // bypassing the isSSRFSafeURL() check that was only done on the original URL.
     // With --max-redirect=0, wget fetches exactly the URL we give it and stops.
-    $cmd = "wget --tries=1 --max-redirect=0 {$url} -O {$filename} --no-check-certificate";
+    $certificateOption = $verifyTLS ? '' : ' --no-check-certificate';
+    $cmd = "wget --tries=1 --max-redirect=0 {$quotedURL} -O {$quotedFilename}{$certificateOption}";
     if ($debug) {
         _error_log("wget Start ({$cmd}) ");
     }
     //echo $cmd;
-    exec($cmd);
+    exec($cmd, $output, $exitCode);
+    if ($exitCode !== 0) {
+        _error_log("wget: ERROR exit code {$exitCode}, download discarded");
+        @unlink($filename);
+        wgetRemoveLock($url);
+        return false;
+    }
     wgetRemoveLock($url);
     if (!file_exists($filename)) {
         _error_log("wget: ERROR the url does not download $url, $filename");
@@ -117,7 +133,8 @@ function wget($url, $filename, $debug = false)
     }
     if ($_SERVER['SCRIPT_NAME'] !== '/plugin/Live/m3u8.php' && empty(filesize($filename))) {
         _error_log("wget: ERROR the url download but is empty $url, $filename");
-        return true;
+        @unlink($filename);
+        return false;
     }
     return file_exists($filename);
 }

@@ -32,7 +32,9 @@ function make_path($path) {
 }
 function rrmdirCommandLine($path, $async = false) { return rrmdir($path); }
 function rrmdir($path) {
-    if (strpos($path, Fixture::$root . '/') !== 0) {
+    // FilesystemIterator returns "\" on Windows; compare with one separator style.
+    $normalizedRoot = rtrim(str_replace('\\', '/', Fixture::$root), '/') . '/';
+    if (strpos(str_replace('\\', '/', $path), $normalizedRoot) !== 0) {
         throw new \RuntimeException('Refusing to remove a path outside the test fixture');
     }
     if (!is_dir($path)) {

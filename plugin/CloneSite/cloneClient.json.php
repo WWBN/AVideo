@@ -77,8 +77,10 @@ if (!file_exists($photosDir)) {
 $url = $objClone->cloneSiteURL . "plugin/CloneSite/cloneServer.json.php?url=" . urlencode($global['webSiteRootURL']) . "&key={$objClone->myKey}&useRsync=" . intval($objClone->useRsync);
 // check if it respond
 $log->add("Clone (1 of {$totalSteps}): Asking the Server the database and the files");
-$content = url_get_contents($url, "", 3600, true, false, false);
-_error_log("Clone: url_get_contents($url) respond: ($content)");
+// Off by default (self-signed clone servers); see shouldVerifySSLCertificates().
+$verifySSL = shouldVerifySSLCertificates();
+$content = url_get_contents($url, "", 3600, false, false, false, $verifySSL, true);
+_error_log("Clone: Server response received, bytes=" . strlen((string) $content));
 //var_dump($url, $content);exit;
 $json = _json_decode($content);
 
@@ -114,26 +116,25 @@ foreach ($json->photoFiles as $key => $value) {
 // get dump file
 $sqlFile = "{$clonesDir}{$json->sqlFile}";
 $sqlURL = "{$objClone->cloneSiteURL}videos/clones/{$json->sqlFile}";
-$cmd = "wget -O " . escapeshellarg($sqlFile) . " " . escapeshellarg($sqlURL);
-$log->add("Clone (2 of {$totalSteps}): Geting MySQL Dump file [$cmd]");
-exec($cmd . " 2>&1", $output, $return_val);
-if ($return_val !== 0) {
-    $log->add("Clone Error: " . print_r($output, true));
-}
-
-if(!file_exists($sqlFile) || empty(filesize($sqlFile))){
-    $log->add("Clone Error: on download file, trying again" . json_encode($output));
-    $content = url_get_contents($sqlURL, '', 0, false, false, false);
-    if(!empty($content)){
-        _file_put_contents($sqlFile, $content);
+$log->add("Clone (2 of {$totalSteps}): Getting MySQL Dump file");
+// Never restore a stale or partial dump after a failed download.
+@unlink($sqlFile);
+if (!wget($sqlURL, $sqlFile, false, $verifySSL, true)) {
+    $content = url_get_contents($sqlURL, '', 3600, false, false, false, $verifySSL, true);
+    if ($content !== false && $content !== '') {
+        if (_file_put_contents($sqlFile, $content) !== strlen($content)) {
+            @unlink($sqlFile);
+        }
     }
 }
-
-if(!file_exists($sqlFile) || empty(filesize($sqlFile))){
-    $log->add("Clone Error: on download file we will continue anyway");
-}else{
-    $log->add("Clone: Nice! we got the MySQL Dump file [{$sqlURL}] " . humanFileSize(filesize($sqlFile)));
+clearstatcache(true, $sqlFile);
+if (!file_exists($sqlFile) || empty(filesize($sqlFile))) {
+    @unlink($sqlFile);
+    $resp->msg = 'Clone SQL download failed; database was not restored';
+    $log->add($resp->msg);
+    die(json_encode($resp));
 }
+$log->add("Clone: MySQL Dump received " . humanFileSize(filesize($sqlFile)));
 
 /*
 //$log->add("Clone: MySQL Dump $file");
@@ -288,7 +289,7 @@ if (empty($objClone->useRsync)) {
 $url = $url . "&deleteDump={$json->sqlFile}";
 // check if it respond
 $log->add("Clone (6 of {$totalSteps}): Notify Server to Delete Dump");
-$content2 = url_get_contents($url, '', 0, false, false, false);
+$content2 = url_get_contents($url, '', 0, false, false, false, $verifySSL, true);
 //var_dump($url, $content);exit;
 $json2 = _json_decode($content);
 if (!empty($json2->error)) {

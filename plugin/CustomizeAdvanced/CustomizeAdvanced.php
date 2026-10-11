@@ -549,6 +549,9 @@ Disallow: *action=tagsearch*
         $obj->showHumanTimingOnVideoItemDateFormat = "Y-m-d H:i";
         self::addDataObjectHelper('showHumanTimingOnVideoItemDateFormat', 'Show human timing on video item date format', 'This will set the date format for the human timing, you can use any format supported by PHP date function, like "Y-m-d H:i:s"');
 
+        $obj->verifySSLCertificates = false;
+        self::addDataObjectHelper('verifySSLCertificates', 'Verify SSL certificates', 'Check the HTTPS/TLS certificates of the Encoder, SMTP server, WordPress login and CloneSite server. Leave it unchecked if any of them uses a self-signed or private certificate. $global[\'verifySSLCertificates\'] in videos/configuration.php overrides this option');
+
         return $obj;
     }
 

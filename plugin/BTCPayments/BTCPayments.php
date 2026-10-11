@@ -230,7 +230,8 @@ class BTCPayments extends PluginAbstract
         _error_log('BTC::createBTCPayInvoice - Amount: ' . $amount . ', Currency: ' . $objWallet->currency . ', UseTestNet: ' . ($obj->useTestNet ? 'true' : 'false'), AVideoLog::$DEBUG);
         _error_log('BTC::createBTCPayInvoice - Request Data: ' . json_encode($data), AVideoLog::$DEBUG);
 
-        $content = url_get_contents($url, '', 0, false, false, false);
+        // The marketplace is a fixed public HTTPS server: verified unless $global['verifySSLCertificates'] = 0.
+        $content = url_get_contents($url, '', 0, false, false, false, shouldVerifySSLCertificates(true));
 
         if (empty($content)) {
             _error_log('BTC::createBTCPayInvoice - ERROR: Empty response from marketplace', AVideoLog::$ERROR);

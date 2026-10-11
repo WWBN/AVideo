@@ -13,9 +13,12 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->liveTransmitionHistory_id = 0;
 
-_error_log("NGINX ON Publish POST: " . json_encode($_POST), AVideoLog::$DEBUG, true);
-_error_log("NGINX ON Publish GET: " . json_encode($_GET), AVideoLog::$DEBUG, true);
-_error_log("NGINX ON Publish php://input " . file_get_contents("php://input"), AVideoLog::$DEBUG, true);
+// Diagnostics never log the password, encrypted tokens or the full stream key (only a masked prefix).
+$tcurlParts = parse_url((string) (empty($_POST['tcurl']) ? @$_POST['swfurl'] : $_POST['tcurl']));
+_error_log("Live publish: request received name=" . LiveRestreamWatchdog::maskSecret(@$_POST['name'])
+    . " app=" . @$_POST['app'] . " addr=" . @$_POST['addr']
+    . " url=" . @$tcurlParts['scheme'] . "://" . @$tcurlParts['host'] . (empty($tcurlParts['port']) ? '' : ":{$tcurlParts['port']}") . @$tcurlParts['path']
+    . " post_params=" . implode(',', array_keys($_POST)), AVideoLog::$DEBUG, true);
 
 // get GET parameters
 $url = $_POST['tcurl'];
@@ -47,8 +50,9 @@ if (empty($_GET['p'])) {
         if (!empty($objE->users_id)) {
             $user = new User($objE->users_id);
             $_GET['p'] = $user->getPassword();
+            _error_log("Live publish: encrypted token accepted users_id=" . intval($objE->users_id), AVideoLog::$DEBUG, true);
         } else {
-            _error_log("NGINX ON Publish encryption token error: " . json_encode($objE), AVideoLog::$WARNING, true);
+            _error_log("Live publish: invalid encrypted token", AVideoLog::$WARNING, true);
         }
     }else if (!empty($_REQUEST['s'])) {
         if (strpos($_REQUEST['s'], '/') !== false) {
@@ -64,21 +68,22 @@ if (empty($_GET['p'])) {
 
         if(!empty($name)){
             $lt = LiveTransmition::getFromKey($name);
-            _error_log("NGINX ON Publish encryption getFromKey($name)", AVideoLog::$DEBUG, true);
+            _error_log("Live publish: looking up decrypted stream key " . LiveRestreamWatchdog::maskSecret($name), AVideoLog::$DEBUG, true);
             if(!empty($lt) && !empty($lt['users_id'])){
                 $name = Live::cleanUpKey($_POST['name']);
                 if($name == $lt['key']){
                     $user = new User($lt['users_id']);
                     $_GET['p'] = $user->getPassword();
-                    _error_log("NGINX ON Publish encryption token found users_id: [{$lt['users_id']}] {$name} == {$lt['key']}", AVideoLog::$DEBUG, true);
+                    _error_log("Live publish: encrypted token matched stream users_id=" . intval($lt['users_id']), AVideoLog::$DEBUG, true);
                 }else{
-                    _error_log("NGINX ON Publish encryption token keys doe not matchd: {$name} == {$lt['key']}", AVideoLog::$WARNING, true);
+                    _error_log("Live publish: encrypted token does not match stream users_id=" . intval($lt['users_id'])
+                        . " name=" . LiveRestreamWatchdog::maskSecret($name) . " expected=" . LiveRestreamWatchdog::maskSecret($lt['key']), AVideoLog::$WARNING, true);
                 }
             }else{
-                _error_log("NGINX ON Publish encryption token error livetransmition error: [{$name}] ".json_encode($lt), AVideoLog::$WARNING, true);
+                _error_log("Live publish: stream not found for encrypted token key=" . LiveRestreamWatchdog::maskSecret($name), AVideoLog::$WARNING, true);
             }
         }else{
-            _error_log("NGINX ON Publish could not decrypt $_GET[s]: [{$_REQUEST['s']}] ", AVideoLog::$WARNING, true);
+            _error_log("Live publish: could not decrypt token", AVideoLog::$WARNING, true);
         }
 
     }
@@ -88,13 +93,13 @@ if (empty($_GET['p']) && !empty($_POST['p'])) {
     $_GET['p'] = $_POST['p'];
 }
 
-_error_log("NGINX ON Publish parse_url: " . json_encode($parts), AVideoLog::$DEBUG, true);
-_error_log("NGINX ON Publish parse_str: " . json_encode($_GET), AVideoLog::$DEBUG, true);
+_error_log("Live publish: parsed publishing parameters query_params=" . implode(',', array_keys((array) $_GET))
+    . " hasPassword=" . (empty($_GET['p']) ? 0 : 1), AVideoLog::$DEBUG, true);
 
 $_GET = object_to_array($_GET);
 
 if ($_POST['name'] == 'live') {
-    _error_log("NGINX ON Publish wrong name {$_POST['p']}", AVideoLog::$WARNING, true);
+    _error_log("Live publish: normalizing publishing name", AVideoLog::$WARNING, true);
     // fix name for streamlab
     $pParts = explode("/", $_POST['p']);
     if (!empty($pParts[1])) {
@@ -136,7 +141,9 @@ if (!empty($activeLive)) {
     }
 }
 
-_error_log("isReconnection=".json_encode(array($isReconnection, $activeLive, $_POST['name'], $live_servers_id, $getLatestSQL)), AVideoLog::$DEBUG, true);
+_error_log("Live publish: isReconnection=" . json_encode($isReconnection)
+    . " active_history_id=" . intval(@$activeLive['id']) . " live_servers_id=" . intval($live_servers_id)
+    . " name=" . LiveRestreamWatchdog::maskSecret($_POST['name']), AVideoLog::$DEBUG, true);
 /*
     $code = 301;
     header("Location: {$_POST['name']}");
@@ -147,7 +154,7 @@ _error_log("isReconnection=".json_encode(array($isReconnection, $activeLive, $_P
 
 if (!empty($_GET['p'])) {
     $_GET['p'] = str_replace("/", "", $_GET['p']);
-    _error_log("NGINX ON Publish check if key exists ({$_POST['name']})");
+    _error_log("Live publish: checking stream key " . LiveRestreamWatchdog::maskSecret($_POST['name']));
     $obj->row = LiveTransmition::keyExists($_POST['name']);
     //_error_log("NGINX ON Publish key exists return " . json_encode($obj->row));
     if (!empty($obj->row)) {
@@ -172,10 +179,12 @@ if (!empty($_GET['p'])) {
         } elseif (empty($_GET['p'])) {
             _error_log("NGINX ON Publish error, Password is empty");
         } else {
-            _error_log("NGINX ON Publish error, Password does not match ({$_GET['p']}) expect (" . $user->getPassword() . ")");
+            _error_log("Live publish: password mismatch users_id=" . intval($obj->row['users_id'])
+                . " name=" . LiveRestreamWatchdog::maskSecret($_POST['name']) . " addr=" . @$_POST['addr']);
         }
     } else {
-        _error_log("NGINX ON Publish error, Transmition name not found ({$_POST['name']}) ", AVideoLog::$SECURITY);
+        _error_log("Live publish: stream not found name=" . LiveRestreamWatchdog::maskSecret($_POST['name'])
+            . " addr=" . @$_POST['addr'], AVideoLog::$SECURITY);
     }
 } else {
     _error_log("NGINX ON Publish error, Password not found ", AVideoLog::$SECURITY);
@@ -184,7 +193,7 @@ if (!empty($_GET['p'])) {
     $streamKey = Live::cleanUpKey($_POST['name']);
     $clientIp = $_POST['addr']; // Get real client IP from NGINX
 
-    _error_log("NGINX ON Publish checking pre-authorization for Key: {$streamKey}, IP: {$clientIp}");
+    _error_log("Live publish: checking pre-authorization key=" . LiveRestreamWatchdog::maskSecret($streamKey) . " addr={$clientIp}");
 
     $preAuth = StreamAuthCache::get($streamKey, $clientIp);
 
@@ -243,7 +252,9 @@ if (!empty($obj) && empty($obj->error)) {
     }
      *
      */
-    _error_log("NGINX ON Publish success ({$obj->liveTransmitionHistory_id}, {$obj->row['users_id']}, {$_POST['name']}, {$live_servers_id})");
+    _error_log("Live publish: publishing accepted history_id=" . intval($obj->liveTransmitionHistory_id)
+        . " users_id=" . intval($obj->row['users_id'] ?? 0) . " name=" . LiveRestreamWatchdog::maskSecret($_POST['name'])
+        . " live_servers_id=" . intval($live_servers_id) . " isReconnection=" . json_encode($isReconnection));
     /*$dropURL = Live::getDropURL($_POST['name'], $live_servers_id);
 
     $dropResponse = url_get_contents($dropURL);
@@ -274,7 +285,7 @@ if (!empty($obj) && empty($obj->error)) {
                 . ' ' . escapeshellarg((string) $users_id)
                 . ' ' . escapeshellarg((string) $m3u8)
                 . ' ' . escapeshellarg((string) $obj->liveTransmitionHistory_id);
-            _error_log("NGINX Live::on_publish YPTSocket start  ($command)");
+            _error_log("Live publish: sending socket notification users_id=" . intval($users_id) . " history_id=" . intval($liveTransmitionHistory_id));
             $pid = execAsync($command);
             _error_log("NGINX Live::on_publish YPTSocket end ".json_encode($pid));
         }
@@ -286,7 +297,9 @@ if (!empty($obj) && empty($obj->error)) {
     //exit;
 } else {
     AVideoPlugin::on_publish_denied($_POST['name']);
-    _error_log("NGINX ON Publish denied ".User::getLastUserCanStreamReason().' '. json_encode($obj), AVideoLog::$SECURITY);
+    _error_log("Live publish: publishing denied name=" . LiveRestreamWatchdog::maskSecret($_POST['name'])
+        . " users_id=" . intval($obj->row['users_id'] ?? 0) . " addr=" . @$_POST['addr']
+        . " hasPassword=" . (empty($_GET['p']) ? 0 : 1) . " reason=" . User::getLastUserCanStreamReason(), AVideoLog::$SECURITY);
     http_response_code(401);
     header("HTTP/1.1 401 Unauthorized Error");
     exit;

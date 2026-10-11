@@ -49,6 +49,19 @@ if(function_exists('isDocker') && isDocker()){
 class sqlDAL
 {
 
+    // A provider payment must abort on SQL failure even if a plugin catches the exception.
+    private static function throwPaymentError($message, $code = 0, $stmt = null)
+    {
+        global $global;
+        if (isset($global['mysqlTransactionConnection'])) {
+            $global['mysqlTransactionError'] = true;
+            if ($stmt) {
+                $stmt->close();
+            }
+            throw new mysqli_sql_exception($message, (int) $code);
+        }
+    }
+
     public static function executeFile($filename)
     {
         global $global, $isStandAlone;
@@ -157,6 +170,7 @@ class sqlDAL
         try {
             $stmt = $global['mysqli']->prepare($preparedStatement);
         } catch (mysqli_sql_exception $e) {
+            self::throwPaymentError($e->getMessage(), $e->getCode());
             if (preg_match('/Table .*rate_limits.* doesn\'t exist/i', $e->getMessage())) {
                 // Silent - rateLimitIncrementAndGet() already logs this condition
                 // itself, throttled to once per 5 minutes.
@@ -171,6 +185,7 @@ class sqlDAL
         }
 
         if (!$stmt) {
+            self::throwPaymentError($global['mysqli']->error, $global['mysqli']->errno);
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error .
                 " preparedStatement = " . json_encode($preparedStatement) .
                 " formats = " . json_encode($formats));
@@ -178,12 +193,14 @@ class sqlDAL
         }
         //var_dump($preparedStatement, $formats, $values);exit;
         if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
+            self::throwPaymentError('Cannot bind payment database write');
             log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match ({$preparedStatement}) with formats ({$formats})");
             return false;
         }
         try {
             $stmt->execute();
         } catch (Exception $exc) {
+            self::throwPaymentError($exc->getMessage(), $exc->getCode());
             if (empty($try) && $stmt->errno == 2006) { //MySQL server has gone away
                 _mysql_close();
                 _mysql_connect();
@@ -247,6 +264,7 @@ class sqlDAL
         }
 
         if ($stmt->errno !== 0) {
+            self::throwPaymentError($stmt->error, $stmt->errno, $stmt);
             //log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
             /*
               if(empty($global['mysqli_charset']) && preg_match('/collation utf8/', $stmt->error)){
@@ -371,6 +389,7 @@ class sqlDAL
                 try {
                     $stmt = $global['mysqli']->prepare($preparedStatement);
                 } catch (Exception $exc) {
+                    self::throwPaymentError($exc->getMessage(), $exc->getCode());
                     log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: ({$global['mysqli']->errno}) ({$global['mysqli']->error}) " .
                         " preparedStatement = " . json_encode($preparedStatement) .
                         " formats = " . json_encode($formats) .
@@ -389,20 +408,28 @@ class sqlDAL
                 }
 
                 if (empty($stmt)) {
+                    self::throwPaymentError($global['mysqli']->error, $global['mysqli']->errno);
                     log_error("[sqlDAL::readSql] (stmt) is empty {$preparedStatement} with formats {$formats}");
                     $wasSTMTError = true;
                     return false;
                 }
 
                 if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
+                    self::throwPaymentError('Cannot bind payment database read');
                     log_error("[sqlDAL::readSql] (mysqlnd) eval_mysql_bind failed: values and params in stmt don't match {$preparedStatement} with formats {$formats}");
                     return false;
                 }
                 $TimeLog = "[$preparedStatement], $formats, " . json_encode($values) . ", $refreshCache";
                 TimeLogStart($TimeLog);
-                $stmt->execute();
-                $readSqlCached[$crc] = $stmt->get_result();
+                try {
+                    $stmt->execute();
+                    $readSqlCached[$crc] = $stmt->get_result();
+                } catch (mysqli_sql_exception $error) {
+                    self::throwPaymentError($error->getMessage(), $error->getCode());
+                    throw $error;
+                }
                 if ($stmt->errno !== 0) {
+                    self::throwPaymentError($stmt->error, $stmt->errno, $stmt);
                     log_error('Error in readSql (mysqlnd): (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
                     $stmt->close();
                     $disableMysqlNdMethods = true;
@@ -452,19 +479,41 @@ class sqlDAL
              * @var array $global
              * @var object $global['mysqli']
              */
-            if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
+            try {
+                $stmt = $global['mysqli']->prepare($preparedStatement);
+            } catch (mysqli_sql_exception $error) {
+                self::throwPaymentError($error->getMessage(), $error->getCode());
+                throw $error;
+            }
+            if (!$stmt) {
+                self::throwPaymentError($global['mysqli']->error, $global['mysqli']->errno);
                 log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . " ({$preparedStatement})");
                 return false;
             }
 
             if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
+                self::throwPaymentError('Cannot bind payment database read');
                 log_error("[sqlDAL::readSql] (no mysqlnd) eval_mysql_bind failed: values and params in stmt don't match {$preparedStatement} with formats {$formats}");
                 return false;
             }
 
-            $stmt->execute();
-            $result = self::iimysqli_stmt_get_result($stmt);
+            try {
+                $stmt->execute();
+            } catch (mysqli_sql_exception $error) {
+                self::throwPaymentError($error->getMessage(), $error->getCode());
+                throw $error;
+            }
             if ($stmt->errno !== 0) {
+                self::throwPaymentError($stmt->error, $stmt->errno, $stmt);
+            }
+            try {
+                $result = self::iimysqli_stmt_get_result($stmt);
+            } catch (mysqli_sql_exception $error) {
+                self::throwPaymentError($error->getMessage(), $error->getCode());
+                throw $error;
+            }
+            if ($stmt->errno !== 0) {
+                self::throwPaymentError($stmt->error, $stmt->errno, $stmt);
                 log_error('Error in readSql (no mysqlnd): (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
                 $stmt->close();
                 $readSqlCached[$crc] = false;
@@ -678,6 +727,7 @@ class sqlDAL
         $ret = new iimysqli_result();
         $field_array = [];
         if (!$metadata) {
+            self::throwPaymentError($stmt->error, $stmt->errno, $stmt);
             die("Execute query error, because: {$stmt->error}");
         }
         $tmpFields = $metadata->fetch_fields();
@@ -713,7 +763,16 @@ class sqlDAL
         if (!eval($code)) {
             return false;
         };
-        if (!mysqli_stmt_fetch($result->stmt)) {
+        try {
+            $fetched = mysqli_stmt_fetch($result->stmt);
+        } catch (mysqli_sql_exception $error) {
+            self::throwPaymentError($error->getMessage(), $error->getCode(), $result->stmt);
+            throw $error;
+        }
+        if (!$fetched) {
+            if ($result->stmt->errno !== 0) {
+                self::throwPaymentError($result->stmt->error, $result->stmt->errno, $result->stmt);
+            }
             return false;
         };
         return $ret;
@@ -732,7 +791,16 @@ class sqlDAL
         if (!eval($code)) {
             return false;
         };
-        if (!mysqli_stmt_fetch($result->stmt)) {
+        try {
+            $fetched = mysqli_stmt_fetch($result->stmt);
+        } catch (mysqli_sql_exception $error) {
+            self::throwPaymentError($error->getMessage(), $error->getCode(), $result->stmt);
+            throw $error;
+        }
+        if (!$fetched) {
+            if ($result->stmt->errno !== 0) {
+                self::throwPaymentError($result->stmt->error, $result->stmt->errno, $result->stmt);
+            }
             return false;
         };
         return $ret;

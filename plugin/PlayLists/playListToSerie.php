@@ -21,11 +21,12 @@ if (empty($serie_playlists_id)) {
 }
 
 $pl = new PlayList($serie_playlists_id);
-if (!PlayLists::canManagePlaylist($playlists_id)) {
+if (!PlayLists::canManagePlaylist($serie_playlists_id)) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
 $msg = "";
 if (!empty($_GET['action'])) {
+    forbidIfIsUntrustedRequest('playListToSerie');
     switch ($_GET['action']) {
         case 'delete':
             $id = PlayLists::removeSerie($serie_playlists_id);
