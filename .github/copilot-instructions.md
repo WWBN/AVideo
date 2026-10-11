@@ -173,6 +173,17 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   (`on_publish.php`, `on_play.php`, `on_publish_done.php`, `on_record_done.php`, etc.) called by
   the Nginx/RTMP live server component. These are integration points with an external process —
   do not change their expected request/response contract without checking the live-server side.
+- **WebRTC2RTMP server** (`plugin/WebRTC/`, closed-source binary on port 3000, started by the
+  Scheduler cron through `WebRTC::executeEveryMinute()`): it reads
+  `/etc/letsencrypt/live/<domain>/fullchain.pem` only at startup, so after certbot renews it keeps
+  serving the old certificate and browsers fail with "Unable to connect" once that one expires.
+  `restartIfCertificateIsOutdated()` compares the served certificate with the one on disk and restarts
+  only when the server has no child processes (its ffmpeg = a WebRTC live), at most once per hour.
+  `startServer()` checks and launches under `videos/WebRTC2RTMP.lock` and also refuses while a process
+  of the same binary is still starting (port not open yet), so concurrent callers (cron, `quickGoLive`,
+  `tools/`) never start a second instance. Its `WebRTC2RTMP.json` heartbeat is written by the binary.
+  `htop` lists the binary's threads (and its `sh -c` wrapper) as separate lines with the same
+  command — check `ss -ltnp` before assuming there are duplicate instances.
 - **HLS / VideoHLS**: HLS packaging, encryption keys, and download protection
   (`plugin/VideoHLS/`) gate access to on-demand and live content; do not weaken key/token checks
   when touching this path.

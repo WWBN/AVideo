@@ -56,8 +56,128 @@ class WebRTC extends PluginAbstract
         self::checkAndUpdate();
         $obj = AVideoPlugin::getDataObject('WebRTC');
         if (!empty($obj->autoStartServerIfIsInactive)) {
+            self::restartIfCertificateIsOutdated();
             self::startIfIsInactive();
         }
+    }
+
+    /**
+     * WebRTC2RTMP reads the SSL certificate only when it starts. After certbot renews it the server
+     * keeps serving the old one until it expires, and browsers then refuse to connect.
+     * Restart it when the certificate on disk is newer than the one it serves, but never while it
+     * forwards a live (its ffmpeg children) and at most once per hour.
+     */
+    static function restartIfCertificateIsOutdated()
+    {
+        $obj = AVideoPlugin::getDataObject('WebRTC');
+        $json = self::getJson();
+        if (empty($json) || empty($json->domain)) {
+            return false;
+        }
+        $diskValidTo = self::getCertificateFileValidTo($json->domain);
+        if (empty($diskValidTo)) {
+            return false;
+        }
+        $servedValidTo = self::getServedCertificateValidTo($obj->port, $json->domain);
+        if (empty($servedValidTo) || $diskValidTo <= $servedValidTo) {
+            return false;
+        }
+        $pid = getPIDUsingPort($obj->port);
+        if (empty($pid)) {
+            return false;
+        }
+        $served = date('Y-m-d H:i:s', $servedValidTo);
+        $disk = date('Y-m-d H:i:s', $diskValidTo);
+        if (self::hasChildProcesses($pid) !== false) {
+            _error_log("WebRTC: SSL certificate was renewed (served={$served} disk={$disk}), restart postponed, PID {$pid} may be forwarding a live");
+            return false;
+        }
+        if (!isProcessOlderThan($pid, 3600)) {
+            return false;
+        }
+        _error_log("WebRTC: SSL certificate was renewed (served={$served} disk={$disk}), restarting PID {$pid}");
+        self::stopServer();
+        for ($i = 0; $i < 10 && isLocalPortOpen($obj->port); $i++) {
+            sleep(1);
+        }
+        return self::startServer();
+    }
+
+    /**
+     * Expiration of the certificate WebRTC2RTMP loads: /etc/letsencrypt/live/{domain}/fullchain.pem
+     */
+    static function getCertificateFileValidTo($domain)
+    {
+        if (!preg_match('/^[a-z0-9.-]+$/i', $domain)) {
+            return false;
+        }
+        $file = "/etc/letsencrypt/live/{$domain}/fullchain.pem";
+        if (!is_readable($file)) {
+            return false;
+        }
+        $cert = openssl_x509_parse(file_get_contents($file));
+        return empty($cert['validTo_time_t']) ? false : intval($cert['validTo_time_t']);
+    }
+
+    /**
+     * Expiration of the certificate the local server is serving right now
+     */
+    static function getServedCertificateValidTo($port, $domain)
+    {
+        // Only reads the certificate of our own local server; it must work even when that one has expired
+        $context = stream_context_create(array('ssl' => array(
+            'capture_peer_cert' => true,
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true,
+            'peer_name' => $domain,
+        )));
+        $fp = @stream_socket_client('ssl://127.0.0.1:' . intval($port), $errno, $errstr, 5, STREAM_CLIENT_CONNECT, $context);
+        if (!$fp) {
+            return false;
+        }
+        $params = stream_context_get_params($fp);
+        fclose($fp);
+        if (empty($params['options']['ssl']['peer_certificate'])) {
+            return false;
+        }
+        $cert = openssl_x509_parse($params['options']['ssl']['peer_certificate']);
+        return empty($cert['validTo_time_t']) ? false : intval($cert['validTo_time_t']);
+    }
+
+    /**
+     * @return bool|null null when it cannot be checked
+     */
+    static function hasChildProcesses($pid)
+    {
+        if (isWindowsServer()) {
+            return null;
+        }
+        exec('pgrep -P ' . intval($pid), $output, $retval);
+        if ($retval === 1) {
+            return false;
+        }
+        return ($retval === 0) ? true : null;
+    }
+
+    /**
+     * PIDs of WebRTC2RTMP processes running this installation's executable, listening or not
+     */
+    static function getServerPids()
+    {
+        if (isWindowsServer()) {
+            return array();
+        }
+        $file = self::getWebRTC2RTMPFile();
+        exec('pgrep -x WebRTC2RTMP', $output, $retval);
+        $pids = array();
+        foreach ($output as $pid) {
+            $cmd = getCommandByPid(intval($pid));
+            if (!empty($cmd) && reset($cmd) === $file) {
+                $pids[] = intval($pid);
+            }
+        }
+        return $pids;
     }
 
     static function startIfIsInactive()
@@ -143,6 +263,12 @@ class WebRTC extends PluginAbstract
     {
         global $global;
         return "{$global['systemRootPath']}videos/WebRTC2RTMP.log";
+    }
+
+    static function getWebRTC2RTMPLockFile()
+    {
+        global $global;
+        return "{$global['systemRootPath']}videos/WebRTC2RTMP.lock";
     }
 
     static function updateFileIfNeed()
@@ -234,13 +360,28 @@ class WebRTC extends PluginAbstract
 
         // Try to execute the command
         if (is_executable($file)) {
-            if(isLocalPortOpen($obj->port)){
-                error_log("Port $obj->port is already open");
+            // The cron, quickGoLive and the tools may call this at the same time: check and launch under one lock
+            $lockFile = self::getWebRTC2RTMPLockFile();
+            $lock = @fopen($lockFile, 'c');
+            if ($lock) {
+                @chmod($lockFile, 0666); // the cron (root) and the web server user share it
+            } else {
+                $lock = @fopen($lockFile, 'r');
+            }
+            if (empty($lock)) {
+                _error_log("WebRTC: could not open the lock file {$lockFile}");
+            } else if (!flock($lock, LOCK_EX | LOCK_NB)) {
+                fclose($lock);
+                error_log("WebRTC server is already being started by another process");
                 return false;
-            }else{
-                $command = "{$file} --port={$obj->port} > $log ";
-                error_log("Port $obj->port is not open, start the server with command: $command");
-                return execAsync($command);
+            }
+            try {
+                return self::launchServer($obj->port, $file, $log);
+            } finally {
+                if (!empty($lock)) {
+                    flock($lock, LOCK_UN);
+                    fclose($lock);
+                }
             }
         } else {
             error_log("Unable to make {$file} executable.");
@@ -248,9 +389,34 @@ class WebRTC extends PluginAbstract
         }
     }
 
+    private static function launchServer($port, $file, $log)
+    {
+        if (isLocalPortOpen($port)) {
+            error_log("Port $port is already open");
+            return false;
+        }
+        // A server that is still starting is not listening yet; one that never opened the port is stuck
+        foreach (self::getServerPids() as $pid) {
+            if (self::hasChildProcesses($pid) !== false || !isProcessOlderThan($pid, 120)) {
+                error_log("WebRTC server PID {$pid} is already running but port {$port} is not open");
+                return false;
+            }
+            _error_log("WebRTC server PID {$pid} did not open port {$port}, killing it");
+            killProcess($pid);
+        }
+        $command = "{$file} --port={$port} > $log ";
+        error_log("Port $port is not open, start the server with command: $command");
+        $pid = execAsync($command);
+        // Keep the lock until the new process exists, so a concurrent call finds it
+        for ($i = 0; $i < 50 && empty(self::getServerPids()); $i++) {
+            usleep(100000);
+        }
+        return $pid;
+    }
+
     static function stopServer()
     {
-        _error_log('Starting WebRTC Server');
+        _error_log('Stopping WebRTC Server');
         global $global;
         $obj = AVideoPlugin::getDataObject('WebRTC');
         return killProcessRuningOnPort($obj->port);
