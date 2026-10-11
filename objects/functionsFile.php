@@ -231,6 +231,8 @@ function try_get_contents_from_local($url)
 {
     if (substr($url, 0, 1) === '/') {
         // it is not a URL
+        // SECURITY REVIEW (2026-10-11): no containment check here on purpose; url_get_contents() already
+        // limits local paths with isValidURLOrPath(). See the GHSA-92c3-6rq2-q65q comment there.
         return file_get_contents($url);
     }
     global $global;

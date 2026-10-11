@@ -161,7 +161,9 @@ switch ($_REQUEST['type']) {
                 $imageUrl = $_REQUEST['response']['data'][0]['url'];
                 // SSRF Protection: url_get_contents() validates the URL and all redirect
                 // hops via isSSRFSafeURL() with follow_location=0, preventing redirect-based bypass.
-                $imageContent = url_get_contents($imageUrl);
+                // The AI service always returns an http(s) image URL; isValidURL() keeps local paths
+                // and php://input out, since url_get_contents() reads those without the SSRF check.
+                $imageContent = isValidURL($imageUrl) ? url_get_contents($imageUrl) : false;
                 if ($imageContent === false) {
                     rateLimitedLog('AI-receiveAsync-image-ssrf-' . md5($imageUrl), 'AI: ' . basename(__FILE__) . ' line=' . __LINE__ . ' SSRF protection blocked URL or fetch failed: ' . $imageUrl);
                 } else {

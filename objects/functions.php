@@ -5041,6 +5041,14 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true)
                 return false;
             }
 
+            // SECURITY REVIEW (2026-10-11): GHSA-92c3-6rq2-q65q reported that checking the raw $str lets a
+            // '/var/www/...' path with '../' segments read files outside these folders — NOT a vulnerability /
+            // DO NOT FIX here: no lower-privileged caller passes request data to url_get_contents() as a local
+            // path (the reported AI image callback is reachable only by the trusted AI service and now requires
+            // isValidURL()). The raw check is kept because a symlinked videos/ dir (supported, see
+            // getVideosDirectoryUsageInfo()) realpath()s outside these prefixes, and local reads such as progress
+            // files would break. Callers that pass request values must check isValidURL() first.
+            // If re-reported, see the full triage in the advisory thread instead of re-patching.
             $pathsToCheck = [$absolutePath, $str];
 
             foreach ($pathsToCheck as $value) {
