@@ -156,6 +156,12 @@ if (file_exists($path)) {
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
     }
+    // SECURITY REVIEW (2026-10-12): reported as "mp4/webm/mp3/ogg served with no canWatchVideo()/PPV/password
+    // check" (GHSA-cw75-r7cf-9652) — NOT a vulnerability / DO NOT FIX. Streaming media by its random filename
+    // without a per-request ACL is the deliberate default (see the 2026-10-05 note in
+    // objects/htaccess_for_videos.conf); sites that need file-layer ACLs enable SecureVideosDirectory, whose
+    // xsendfilePreVideoPlay() hook runs below. Do not add canWatchVideo() here: players, Chromecast/AirPlay,
+    // the Mobile App and CloneSite fetch these URLs without a session.
     if (preg_match("/(mp4|webm|m3u8|mp3|ogg)/i", $path_parts['extension'])) {
         if (isAVideoEncoderOnSameDomain() || empty($_GET['ignoreXsendfilePreVideoPlay'])) {
             AVideoPlugin::xsendfilePreVideoPlay();
