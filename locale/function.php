@@ -21,7 +21,9 @@ function includeLangFile() {
     if(empty($_SESSION['language'])){
         $_SESSION['language'] = '';
     }
-    $_SESSION['language'] = str_replace('../', '', $_SESSION['language']);
+    if (!isValidLanguageCode($_SESSION['language'])) {
+        $_SESSION['language'] = '';
+    }
     setSiteLang();
     @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 
@@ -247,11 +249,9 @@ function setLanguage($lang) {
         return false;
     }
 
-    $lang = str_replace('../', '', $lang);
-
     $file = "{$global['systemRootPath']}locale/{$lang}.php";
     _session_start();
-    if (file_exists($file)) {
+    if (isValidLanguageCode($lang) && file_exists($file)) {
         $_SESSION['language'] = $lang;
         include_once $file;
         return true;
@@ -259,7 +259,7 @@ function setLanguage($lang) {
         //_error_log('setLanguage: File does not exists 1 ' . $file);
         $lang = strtolower($lang);
         $file = "{$global['systemRootPath']}locale/{$lang}.php";
-        if (file_exists($file)) {
+        if (isValidLanguageCode($lang) && file_exists($file)) {
             $_SESSION['language'] = $lang;
             include_once $file;
             return true;
@@ -267,7 +267,7 @@ function setLanguage($lang) {
             $parts = explode('_', $lang);
             $lang = $parts[0];
             $file = "{$global['systemRootPath']}locale/{$lang}.php";
-            if (file_exists($file)) {
+            if (isValidLanguageCode($lang) && file_exists($file)) {
                 $_SESSION['language'] = $lang;
                 include_once $file;
                 return true;
@@ -277,6 +277,15 @@ function setLanguage($lang) {
         }
     }
     return false;
+}
+
+// A language code names a translation file in locale/ (en_US, pt_BR, zh_Hant_TW). It comes from
+// ?lang=, the Accept-Language header or the session, so it must never contain a path.
+function isValidLanguageCode($lang) {
+    if (!is_string($lang) || !preg_match('/^[a-z0-9_-]+$/i', $lang)) {
+        return false;
+    }
+    return !in_array(strtolower($lang), ['index', 'function', 'save'], true);
 }
 
 function getLanguage() {
