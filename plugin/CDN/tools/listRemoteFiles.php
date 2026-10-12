@@ -5,6 +5,11 @@ $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
 require_once $global['systemRootPath'] . 'plugin/CDN/CDN.php';
 
+// Web tool (not CLI): once an admin sets $basePath below it lists the storage bucket, so only admins may open it.
+if (!User::isAdmin()) {
+    forbiddenPage('Permission denied');
+}
+
 error_reporting(E_ALL); // Report all errors and warnings
 ini_set('display_errors', 1); // Show errors on the page
 ini_set('display_startup_errors', 1); // Show startup errors
