@@ -534,6 +534,7 @@ function renderWebRTCStudio() {
     $('#startWebRTC').toggleClass('hidden', preview || active).prop('disabled', webrtcMediaBusy);
     $('#startLive').toggleClass('hidden', !preview || active).prop('disabled', webrtcMediaBusy || !connected || !webrtcStatusKnown);
     $('#stopWebRTC').toggleClass('hidden', !preview || active).prop('disabled', webrtcMediaBusy);
+    $('#stopScreenShare').toggleClass('hidden', !preview || !webrtcUsingScreen || active).prop('disabled', webrtcMediaBusy);
     $('#stopLive').toggleClass('hidden', !active).prop('disabled', webrtcStopping);
     $('#webrtcDeviceFields').prop('disabled', active || webrtcMediaBusy);
     $('#retryWebRTC').toggleClass('hidden', !webrtcError || active).prop('disabled', webrtcMediaBusy);
@@ -581,9 +582,24 @@ async function retryWebRTC() {
 
 function handleWebRTCTrackEnded(stream) {
     if (stream !== localStream) return;
-    if (isLive || isPublishing) stopWebcamLive(rtmpURLEncrypted);
+    const screenEnded = webrtcUsingScreen;
+    const wasActive = isLive || isPublishing;
+    if (wasActive) stopWebcamLive(rtmpURLEncrypted);
+    if (screenEnded && !wasActive && !webrtcStopPending) {
+        // The browser's own "Stop sharing" control ends the screen tracks: return to the camera.
+        stopScreenShare();
+        return;
+    }
     releaseWebRTCPreview();
-    setWebRTCError(__('Camera or microphone disconnected. Check your devices and prepare the preview again.'));
+    setWebRTCError(screenEnded ? __('Screen sharing stopped, so your broadcast ended.') :
+        __('Camera or microphone disconnected. Check your devices and prepare the preview again.'));
+}
+
+// Ends screen sharing and returns the preview to the selected camera and microphone.
+async function stopScreenShare() {
+    if (!webrtcUsingScreen || isLive || isPublishing || webrtcStopPending) return false;
+    releaseWebRTCPreview();
+    return startWebRTC({ videoDeviceId: $('#videoSource').val(), audioDeviceId: $('#audioSource').val() });
 }
 
 function releaseWebRTCPreview() {

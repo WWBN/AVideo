@@ -8,6 +8,9 @@
     <button type="button" id="stopLive" class="btn btn-danger hidden" onclick="stopWebcamLive(rtmpURLEncrypted);">
         <i class="fa fa-stop" aria-hidden="true"></i> <?php echo __('End broadcast'); ?>
     </button>
+    <button type="button" id="stopScreenShare" class="btn btn-warning hidden" onclick="stopScreenShare();">
+        <i class="fa fa-desktop" aria-hidden="true"></i> <?php echo __('Stop sharing screen'); ?>
+    </button>
     <button type="button" id="stopWebRTC" class="btn btn-default hidden" onclick="stopWebRTC();">
         <i class="fa-solid fa-video-slash" aria-hidden="true"></i> <?php echo __('Turn off preview'); ?>
     </button>

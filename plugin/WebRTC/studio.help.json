@@ -9,7 +9,7 @@
     },
     {
         "element": "#mediaSelector",
-        "intro": "Choose your camera and microphone here. Screen sharing is under Advanced settings."
+        "intro": "Choose your camera and microphone here. Screen sharing is under Advanced settings; Stop sharing screen returns to your camera."
     },
     {
         "element": "#webrtcChatPanel",
