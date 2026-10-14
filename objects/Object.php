@@ -1324,14 +1324,14 @@ abstract class CacheHandler
             }
             TimeLogEnd($timeLog, __LINE__);
 
-            $resp = exec("rm -R {$dir}");
+            $resp = exec('rm -R ' . escapeshellarg($dir));
 
             TimeLogEnd($timeLog, __LINE__);
 
             //_error_log("deleteCache prefix=$prefix line=".__LINE__);
             return true;
         } else {
-            $resp = execAsync("rm -R {$dir}");
+            $resp = execAsync('rm -R ' . escapeshellarg($dir));
             _error_log("deleteCache not schedule {$dir} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             return false;
         }

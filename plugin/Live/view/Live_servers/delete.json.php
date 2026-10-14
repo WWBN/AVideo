@@ -13,6 +13,9 @@ if (!User::isAdmin()) {
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
+if (!empty($global['disableAdvancedConfigurations'])) {
+    forbiddenPage('Live servers cannot be changed on this site', true);
+}
 
 $id = intval($_POST['id']);
 $row = new Live_servers($id);

@@ -26,7 +26,9 @@
                 dataType: 'json',
                 success: function (response) {
                     var failed = !response || !!response.error || !response.save;
-                    status(form, failed ? adminSettingsMessages.error : adminSettingsMessages.saved, failed);
+                    // A rejected setting comes back with the reason in msg; shown as text.
+                    var message = failed && response && response.msg ? response.msg : adminSettingsMessages.error;
+                    status(form, failed ? message : adminSettingsMessages.saved, failed);
                     if (failed) {
                         avideoToastError(adminSettingsMessages.error);
                     } else {

@@ -499,7 +499,7 @@ class Cache extends PluginAbstract {
 
     public static function deleteCacheDir($prefix){;
         $dir = ObjectYPT::getTmpCacheDir() . $prefix;
-        $resp = exec("rm -R {$dir}");
+        $resp = exec('rm -R ' . escapeshellarg($dir));
         return $resp;
     }
 

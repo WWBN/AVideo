@@ -475,10 +475,192 @@ function convertVideoFileWithFFMPEGIsLockedInfo($toFileLocation)
     );
 }
 
-function buildFFMPEGCommand($fromFileLocation, $toFileLocation, $try = 0, $cpuUsagePercentage = 80)
+function getFFmpegConversionDefaultParameters()
+{
+    return '-c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k';
+}
+
+/**
+ * Output options allowed in CustomizeAdvanced->ffmpegParameters, with the rule for each value
+ * (null = the option takes no value). The setting can only tune the single input/output
+ * conversion built by buildFFMPEGCommandArgs(): options that add inputs or outputs, pick a muxer,
+ * take filter graphs, files or protocols are not listed and are therefore rejected.
+ */
+function getFFmpegConversionParameterRules()
+{
+    $videoCodec = ['enum' => ['libx264', 'libx265', 'libvpx-vp9', 'libaom-av1', 'libsvtav1', 'h264_nvenc', 'hevc_nvenc', 'av1_nvenc', 'h264_qsv', 'hevc_qsv', 'h264_amf', 'hevc_amf', 'h264_videotoolbox', 'hevc_videotoolbox', 'copy']];
+    $audioCodec = ['enum' => ['aac', 'libfdk_aac', 'libmp3lame', 'libopus', 'ac3', 'eac3', 'copy']];
+    $bitrate = ['regex' => '/^[0-9]{1,6}(\.[0-9]{1,3})?[kKmM]?$/'];
+    $level = ['regex' => '/^[1-6](\.[0-9])?$/'];
+    $logLevel = ['enum' => ['quiet', 'panic', 'fatal', 'error', 'warning', 'info', 'verbose', 'debug']];
+    return [
+        '-c:v' => $videoCodec,
+        '-vcodec' => $videoCodec,
+        '-c:a' => $audioCodec,
+        '-acodec' => $audioCodec,
+        '-c' => ['enum' => ['copy']],
+        '-codec' => ['enum' => ['copy']],
+        '-preset' => ['regex' => '/^(ultrafast|superfast|veryfast|faster|fast|medium|slow|slower|veryslow|placebo|default|hp|hq|bd|ll|llhq|llhp|lossless|losslesshp|p[1-7]|[0-9]|1[0-3])$/'],
+        '-tune' => ['enum' => ['film', 'animation', 'grain', 'stillimage', 'fastdecode', 'zerolatency', 'psnr', 'ssim', 'hq', 'll', 'ull', 'lossless']],
+        '-crf' => ['int' => [0, 63]],
+        '-cq' => ['int' => [0, 51]],
+        '-qp' => ['int' => [0, 69]],
+        '-b:v' => $bitrate,
+        '-b:a' => $bitrate,
+        '-maxrate' => $bitrate,
+        '-minrate' => $bitrate,
+        '-bufsize' => $bitrate,
+        '-profile:v' => ['enum' => ['baseline', 'main', 'high', 'high10', 'high422', 'high444', 'main10']],
+        '-level' => $level,
+        '-level:v' => $level,
+        '-pix_fmt' => ['enum' => ['yuv420p', 'yuv420p10le', 'yuv422p', 'yuv422p10le', 'yuv444p', 'nv12', 'p010le']],
+        '-r' => ['regex' => '/^([0-9]{1,3}(\.[0-9]{1,3})?|[0-9]{1,6}\/[0-9]{1,6})$/'],
+        '-g' => ['int' => [1, 1000]],
+        '-keyint_min' => ['int' => [1, 1000]],
+        '-sc_threshold' => ['int' => [0, 100]],
+        '-bf' => ['int' => [0, 16]],
+        '-refs' => ['int' => [1, 16]],
+        '-ar' => ['enum' => ['8000', '11025', '16000', '22050', '32000', '44100', '48000', '88200', '96000']],
+        '-ac' => ['int' => [1, 8]],
+        '-threads' => ['int' => [0, 128]],
+        '-movflags' => ['enum' => ['+faststart', 'faststart']],
+        '-bsf:a' => ['enum' => ['aac_adtstoasc']],
+        '-vf' => ['regex' => '/^scale=(-1|-2|[0-9]{1,5}):(-1|-2|[0-9]{1,5})$/'],
+        '-map' => ['regex' => '/^0(:[vas](:[0-9]{1,2})?)?$/'],
+        '-strict' => ['enum' => ['very', 'strict', 'normal', 'unofficial', 'experimental', '-2']],
+        '-max_muxing_queue_size' => ['int' => [1, 999999]],
+        '-loglevel' => $logLevel,
+        '-v' => $logLevel,
+        '-sn' => null,
+        '-an' => null,
+        '-vn' => null,
+        '-dn' => null,
+        '-y' => null,
+        '-n' => null,
+        '-hide_banner' => null,
+        '-nostdin' => null,
+    ];
+}
+
+/**
+ * Parses an ffmpegParameters setting into separate FFmpeg arguments.
+ *
+ * Only space-separated options from getFFmpegConversionParameterRules() with values matching
+ * their rule are accepted; no quoting, no shell syntax and no free positional arguments
+ * (an extra positional argument would be another output file).
+ *
+ * @return array|false argument list, or false with the reason in $error
+ */
+function parseFFmpegConversionParameters($parameters, &$error = '')
+{
+    $error = '';
+    if (!is_string($parameters)) {
+        $error = 'must be text';
+        return false;
+    }
+    if (strlen($parameters) > 512) {
+        $error = 'is longer than 512 characters';
+        return false;
+    }
+    $parameters = trim($parameters, ' ');
+    if ($parameters === '') {
+        return [];
+    }
+    if (!preg_match('/^[A-Za-z0-9 :+.\/=_-]+$/', $parameters)) {
+        $error = 'contains characters that are not allowed (use only options separated by spaces)';
+        return false;
+    }
+    $tokens = preg_split('/ +/', $parameters);
+    if (count($tokens) > 64) {
+        $error = 'has too many options';
+        return false;
+    }
+    $rules = getFFmpegConversionParameterRules();
+    $args = [];
+    for ($i = 0, $total = count($tokens); $i < $total; $i++) {
+        $option = $tokens[$i];
+        if (!array_key_exists($option, $rules)) {
+            $error = "option {$option} is not allowed";
+            return false;
+        }
+        $args[] = $option;
+        $rule = $rules[$option];
+        if ($rule === null) {
+            continue;
+        }
+        if (!isset($tokens[$i + 1])) {
+            $error = "option {$option} needs a value";
+            return false;
+        }
+        $value = $tokens[++$i];
+        if (isset($rule['enum'])) {
+            $valid = in_array($value, $rule['enum'], true);
+        } elseif (isset($rule['int'])) {
+            $valid = preg_match('/^[0-9]{1,6}$/', $value) && (int) $value >= $rule['int'][0] && (int) $value <= $rule['int'][1];
+        } else {
+            $valid = (bool) preg_match($rule['regex'], $value);
+        }
+        if (!$valid) {
+            $error = "value {$value} is not allowed for option {$option}";
+            return false;
+        }
+        $args[] = $value;
+    }
+    return $args;
+}
+
+/**
+ * Output arguments for the video conversion. A stored value that does not pass
+ * parseFFmpegConversionParameters() (for example tampered directly in the database or cache)
+ * is never executed: it is logged and the default profile is used instead.
+ */
+function getFFmpegConversionParametersArgs()
 {
     global $advancedCustom;
+    require_once __DIR__ . '/dangerousConfigurations.php';
+    $parameters = getFFmpegConversionDefaultParameters();
+    // disableAdvancedConfigurations: the stored value is never used, whatever it contains.
+    if (!isAdvancedConfigurationsDisabled() && is_object($advancedCustom) && property_exists($advancedCustom, 'ffmpegParameters')) {
+        $parameters = $advancedCustom->ffmpegParameters;
+    }
+    $args = parseFFmpegConversionParameters($parameters, $error);
+    if ($args === false) {
+        $stored = is_string($parameters) ? $parameters : json_encode($parameters);
+        _error_log('buildFFMPEGCommand: SECURITY CustomizeAdvanced ffmpegParameters rejected (' . $error . '), the default profile was used instead. '
+            . 'Stored value sha256=' . hash('sha256', (string) $stored) . ' length=' . strlen((string) $stored)
+            . '. Review it with: php install/checkFFmpegParameters.php', AVideoLog::$SECURITY);
+        $args = parseFFmpegConversionParameters(getFFmpegConversionDefaultParameters());
+    }
+    return $args;
+}
 
+/**
+ * FFmpeg executable followed by the options get_ffmpeg() adds. $global['ffmpeg'] is trusted
+ * server configuration: a path prefix such as "/usr/local/bin/", or a prefix that is itself a
+ * command (e.g. "nice -n 10 "). Preserve quoted path segments without invoking a shell.
+ */
+function getFFmpegExecutableArgs($ignoreGPU = false)
+{
+    global $global;
+    $ffmpeg = (!empty($global['ffmpeg']) ? $global['ffmpeg'] : '') . 'ffmpeg';
+    if (is_file($ffmpeg) || is_file("{$ffmpeg}.exe")) {
+        $args = [$ffmpeg];
+    } else {
+        preg_match_all('/(?:[^\s\'"\x00]+|"[^"]*"|\'[^\']*\')+/', trim($ffmpeg), $tokens);
+        $args = array_map(function ($token) {
+            return preg_replace_callback('/"([^"]*)"|\'([^\']*)\'/', function ($quoted) {
+                return $quoted[0][0] === '"' ? $quoted[1] : $quoted[2];
+            }, $token);
+        }, $tokens[0]);
+    }
+    if (empty($ignoreGPU) && !empty($global['ffmpegGPU'])) {
+        $args[] = '--enable-nvenc';
+    }
+    return $args;
+}
+
+function buildFFMPEGCommandArgs($fromFileLocation, $toFileLocation, $try = 0, $cpuUsagePercentage = 80)
+{
     // Dynamically get the number of CPU cores
     $threads = 1; // Default to 1 thread
     if (function_exists('shell_exec')) {
@@ -495,18 +677,16 @@ function buildFFMPEGCommand($fromFileLocation, $toFileLocation, $try = 0, $cpuUs
         }
     }
 
-    $fromFileLocationEscaped = escapeshellarg($fromFileLocation);
-    $toFileLocationEscaped = escapeshellarg($toFileLocation);
     $format = pathinfo($toFileLocation, PATHINFO_EXTENSION);
 
-    // Generate the FFmpeg command based on format and try count
+    // Generate the FFmpeg output options based on format and try count
     if ($format === 'mp3') {
         switch ($try) {
             case 0:
-                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 128k -ar 44100 -ac 2 {$toFileLocationEscaped}";
+                $outputArgs = ['-c:a', 'libmp3lame', '-b:a', '128k', '-ar', '44100', '-ac', '2'];
                 break;
             case 1:
-                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c:a libmp3lame -b:a 192k -ar 48000 -ac 2 {$toFileLocationEscaped}";
+                $outputArgs = ['-c:a', 'libmp3lame', '-b:a', '192k', '-ar', '48000', '-ac', '2'];
                 break;
             default:
                 return false;
@@ -514,35 +694,106 @@ function buildFFMPEGCommand($fromFileLocation, $toFileLocation, $try = 0, $cpuUs
     } else {
         switch ($try) {
             case 0:
-                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} {$advancedCustom->ffmpegParameters} {$toFileLocationEscaped}";
+                $outputArgs = getFFmpegConversionParametersArgs();
                 break;
             case 1:
-                $command = get_ffmpeg() . " -threads {$threads} -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
+                $outputArgs = ['-c', 'copy'];
                 break;
             default:
                 return false;
         }
     }
 
-    return $command;
+    $args = getFFmpegExecutableArgs();
+    // Same rule as removeUserAgentIfNotURL(): FFmpeg refuses -user_agent for a local input.
+    if (preg_match('/^https?:/i', (string) $fromFileLocation)) {
+        $args[] = '-user_agent';
+        $args[] = getSelfUserAgent();
+    }
+    return array_merge($args, ['-threads', (string) $threads, '-i', (string) $fromFileLocation], $outputArgs, [(string) $toFileLocation]);
+}
+
+/**
+ * Joins an argument list into one shell command, escaping every argument on its own. Used where a
+ * command string is still required: execAsync() and the remote standAlone FFmpeg worker. Plain
+ * tokens are left unquoted so the worker can still find the output path and -threads in it.
+ */
+function implodeFFMPEGArgsForShell(array $args)
+{
+    $parts = [];
+    foreach ($args as $arg) {
+        $arg = (string) $arg;
+        $plainToken = preg_match('/^[A-Za-z0-9_@%+=:,.\/-]+$/', $arg)
+            && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN' || strpos($arg, '%') === false);
+        $parts[] = $plainToken ? $arg : escapeshellarg($arg);
+    }
+    return implode(' ', $parts);
+}
+
+function buildFFMPEGCommand($fromFileLocation, $toFileLocation, $try = 0, $cpuUsagePercentage = 80)
+{
+    $args = buildFFMPEGCommandArgs($fromFileLocation, $toFileLocation, $try, $cpuUsagePercentage);
+    if (!$args) {
+        return false;
+    }
+    return implodeFFMPEGArgsForShell($args);
+}
+
+/**
+ * Runs an FFmpeg argument list and waits for it. proc_open() with an array starts the program
+ * directly, so no argument is interpreted by a shell. With $logFile, stdout and stderr go to that
+ * file (like "> log 2>&1"); otherwise stdout is returned in $output like exec() did.
+ *
+ * @return int exit code (-1 when the process could not be started)
+ */
+function execFFMPEGArgs(array $args, $logFile = '', &$output = [])
+{
+    $output = [];
+    $args = array_values(array_map('strval', $args));
+    foreach ($args as $arg) {
+        if (strpos($arg, "\0") !== false) {
+            _error_log('execFFMPEGArgs: argument with a NUL byte rejected', AVideoLog::$SECURITY);
+            return -1;
+        }
+    }
+    if (!empty($logFile)) {
+        $descriptors = [1 => ['file', $logFile, 'w'], 2 => ['redirect', 1]];
+    } else {
+        $descriptors = [1 => ['pipe', 'w']];
+    }
+    $process = proc_open($args, $descriptors, $pipes);
+    if (!is_resource($process)) {
+        _error_log('execFFMPEGArgs: could not start ' . $args[0]);
+        return -1;
+    }
+    if (isset($pipes[1])) {
+        $stdout = rtrim((string) stream_get_contents($pipes[1]));
+        fclose($pipes[1]);
+        if ($stdout !== '') {
+            $output = array_map('rtrim', preg_split('/\r?\n/', $stdout));
+        }
+    }
+    return proc_close($process);
 }
 
 function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
 {
-    $command = buildFFMPEGCommand($fromFileLocation, $toFileLocation, $try);
+    $args = buildFFMPEGCommandArgs($fromFileLocation, $toFileLocation, $try);
 
-    if (!$command) {
+    if (!$args) {
         _error_log("convertVideoFileWithFFMPEG: Failed to build command");
         return false;
     }
 
+    // Kept for logging and for callers that read $return['command']; it is not executed.
+    $command = implodeFFMPEGArgsForShell($args);
     if(!empty($logFile)){
-        $command .= " > {$logFile} 2>&1";
+        $command .= ' > ' . escapeshellarg($logFile) . ' 2>&1';
     }
 
     _error_log("convertVideoFileWithFFMPEG: Command start $command");
 
-    exec($command, $output, $return);
+    $return = execFFMPEGArgs($args, $logFile, $output);
 
     _error_log("convertVideoFileWithFFMPEG: Command executed with return code {$return}");
     return ['return' => $return, 'output' => $output, 'command' => $command, 'toFileLocation' => $toFileLocation];
@@ -561,6 +812,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
  */
 function convertVideoFileWithFFMPEGAsyncOrRemote($fromFileLocation, $toFileLocation, $keyword, $callback = '')
 {
+    // Validated options, every argument escaped on its own (see implodeFFMPEGArgsForShell()).
     $command = buildFFMPEGCommand($fromFileLocation, $toFileLocation, 0);
 
     if (!$command) {

@@ -787,6 +787,10 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                 type: 'post',
                 success: function(response) {
                     modal.hidePleaseWait();
+                    if (response && response.error) {
+                        avideoAlertError(response.error);
+                        return;
+                    }
                     $("#grid").bootgrid('reload');
                     $('#pluginsFormModal').modal('hide');
                 }

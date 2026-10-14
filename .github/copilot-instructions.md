@@ -169,6 +169,36 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   and do not introduce a new raw `exec()`/`eval()` call with unescaped input. The `Encoder`
   component is a separate deployable service — do not assume encoder-side code runs in the same
   process/request as the Streamer.
+- **Admin-editable FFmpeg options**: `CustomizeAdvanced->ffmpegParameters` is never put into a
+  command string. `parseFFmpegConversionParameters()` turns it into allowlisted arguments
+  (`getFFmpegConversionParameterRules()`); a stored value that fails is logged as SECURITY and the
+  default profile is used. `convertVideoFileWithFFMPEG()` runs the argument list with `proc_open()`
+  (no shell); async/remote callers get `implodeFFMPEGArgsForShell()` (each argument escaped). Admin
+  saves are validated in `applyAdminPluginValues()`/`getAdminPluginFieldValidators()`; recovery CLI:
+  `install/checkFFmpegParameters.php`. FFmpeg 5+ aborts with `-user_agent` on a local input. The
+  Encoder image endpoints (`getImage.php`, `getImageMP4.php`) use `decodeBase64UrlParameter()`,
+  `execArgv()`/`execArgvAsync()` and `-protocol_whitelist` from `getFFmpegRemoteInputArgv()`.
+  Covered by `tests/Security/FFmpegParametersValidationTest.php`.
+- **`$global['disableAdvancedConfigurations']`** (admin account open on purpose, e.g. demos): besides
+  blocking plugin import/CreatePlugin/Backup/logs, it freezes the plugin settings listed in
+  `getDangerousPluginSettings()` (`objects/dangerousConfigurations.php` — shell options, server-side
+  paths and URLs). Saves keep the stored value (`admin/save.json.php`,
+  `objects/pluginAddDataObject.json.php`, before the validators run); the stored value is still used
+  at runtime, except the FFmpeg-option settings (CustomizeAdvanced/Rebroadcaster `ffmpegParameters`),
+  which fall back to their default. Live `live_servers` add/delete are refused. Add a new setting
+  that reaches a shell/path/server-side fetch to that list. Covered by
+  `tests/Security/DisableAdvancedConfigurationsTest.php`.
+- **Encoder admin is not the Streamer admin**: `Login::isAdmin()` on the Encoder reads the Encoder's own
+  `streamers.isAdmin` (set by its installer, `install/makeAdmin.php`, or another Encoder admin); a
+  Streamer admin only gets `isStreamerAdmin`. Encoder-admin settings (`formats.code` = FFmpeg command
+  templates, run through `eval`/shell by design) are trusted; `saveConfig`/`isAdmin` require the
+  per-session `csrfToken` (`getEncoderAdminCSRFToken()`), covered by
+  `.compose/encoder/tests/encoder-admin-csrf-regression.php`.
+- **`videos/.htaccess` has two writers**: `adminSecurityCheck()` copies
+  `objects/htaccess_for_videos.conf` when the file's version is lower, and the Scheduler watchdog
+  rewrites it from `plugin/Scheduler/htaccess.sample.txt` unless it carries exactly its own version
+  (that file also holds the HLS/`.key`/xsendfile rewrites). Keep the core template's version below
+  the watchdog's and change both deny lists together, or they overwrite each other.
 - **Live streaming**: `plugin/Live/` implements RTMP webhook-style endpoints
   (`on_publish.php`, `on_play.php`, `on_publish_done.php`, `on_record_done.php`, etc.) called by
   the Nginx/RTMP live server component. These are integration points with an external process —

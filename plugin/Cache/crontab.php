@@ -16,7 +16,7 @@ if (empty($cacheDir) || !preg_match('/YPTObjectCache/', $cacheDir)) {
 _error_log('crontab.php: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
 echo "deleting {$cacheDir}".PHP_EOL;
 // delete caches 3 days old
-$cmd = "find {$cacheDir}* -mtime +{$daysLimit} -type f -name \"*.cache\" -exec rm {} \;".PHP_EOL;
+$cmd = "find " . escapeshellarg($cacheDir) . "* -mtime +" . intval($daysLimit) . " -type f -name \"*.cache\" -exec rm {} \;".PHP_EOL;
 echo "Command: {$cmd}";
 exec($cmd);
 
@@ -27,6 +27,6 @@ if (empty($cacheDir) || !preg_match('/cache/', $cacheDir)) {
 }
 echo "deleting {$cacheDir}".PHP_EOL;
 // delete caches 3 days old
-$cmd = "find {$cacheDir}* -mtime +{$daysLimit} -type f -name \"*.cache\" -exec rm {} \;".PHP_EOL;
+$cmd = "find " . escapeshellarg($cacheDir) . "* -mtime +" . intval($daysLimit) . " -type f -name \"*.cache\" -exec rm {} \;".PHP_EOL;
 echo "Command: {$cmd}";
 exec($cmd);

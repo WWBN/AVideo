@@ -2413,6 +2413,10 @@ function encryptPassword(
     // salt prepended. This is NOT plain MD5 — reports claiming "trivial MD5 cracking" are a
     // false positive for current accounts. Legacy accounts may still carry a plain-MD5 hash
     // (see find_Old / enableOldPassHashCheck), which is migrated to this scheme on next login.
+    // SECURITY REVIEW (2026-10-14): "migrate to password_hash()/bcrypt" — HARDENING ONLY / DO NOT FIX
+    // here: a fast hash only matters after the users table has leaked, and this value is also
+    // compared by the Encoder/Mobile App/API login, the remember-me cookie and _user_hash_ tokens.
+    // Changing the format needs a planned migration of all of those, not a drop-in swap.
     return md5(hash("whirlpool", sha1($password)));
 }
 

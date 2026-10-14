@@ -542,6 +542,7 @@ Disallow: *action=tagsearch*
         self::addDataObjectHelper('rssItunesCategory', 'RSS/Podcast iTunes Category', 'The Apple Podcasts / iTunes category used on the <itunes:category> tag of the RSS feed');
 
         $obj->ffmpegParameters = "-c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k";
+        self::addDataObjectHelper('ffmpegParameters', 'FFmpeg conversion parameters', 'Output options used when FFmpeg converts a video (e.g. HLS to MP4 downloads). Only allowed options separated by spaces are accepted (codecs, preset, crf, bitrates, audio rate/channels, scale, faststart); anything else is rejected and the default profile is used.');
 
         $obj->showHumanTimingOnVideoItem = true;
         self::addDataObjectHelper('showHumanTimingOnVideoItem', 'Show human timing on video item', 'This will show the time since the video was uploaded in a human readable format, like "2 days ago" instead of the exact date and time');

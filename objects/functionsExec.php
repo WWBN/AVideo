@@ -535,7 +535,8 @@ function isPortOpenInternal($host, $port)
         // Use 'nc' to check the port
         $output = [];
         $result = null;
-        exec("nc -zv {$host} {$port} 2>&1", $output, $result);
+        // The port can come from a plugin setting (e.g. YPTSocket port), so both are escaped.
+        exec('nc -zv ' . escapeshellarg($host) . ' ' . intval($port) . ' 2>&1', $output, $result);
         foreach ($output as $line) {
             error_log($line);
         }

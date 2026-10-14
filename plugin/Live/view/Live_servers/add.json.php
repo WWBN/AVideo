@@ -14,6 +14,10 @@ if (!User::isAdmin()) {
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
+// The server URLs are fetched by the server and sent to the Encoder (see getDangerousPluginSettings()).
+if (!empty($global['disableAdvancedConfigurations'])) {
+    forbiddenPage('Live servers cannot be changed on this site', true);
+}
 
 $o = new Live_servers(@$_POST['id']);
 $o->setName($_POST['name']);
