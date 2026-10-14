@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Container restarts retain files in /run, but process IDs are reused.
+rm -f /var/run/apache2/apache2.pid
+
 echo "entrypoint -- Starting AVideo Platform..."
 CONFIG_FILE=/etc/apache2/sites-enabled/000-default.conf
 RUN_CERTBOT="${RUN_CERTBOT:-auto}"
@@ -199,7 +202,8 @@ source /etc/bash_completion
 
 echo "entrypoint -- service apache2 start"
 #apache2-foreground
-apachectl -DFOREGROUND
+rm -f /var/run/apache2/apache2.pid
+exec apachectl -DFOREGROUND
 echo "entrypoint -- service apache2 done"
 
 #eof
