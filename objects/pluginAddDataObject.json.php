@@ -17,6 +17,7 @@ $obj = new Plugin($_POST['id']);
 
 // Same per-setting validators as admin/save.json.php (e.g. CustomizeAdvanced ffmpegParameters).
 require_once $global['systemRootPath'] . 'admin/functions.php';
+require_once __DIR__ . '/dangerousConfigurations.php';
 $objectData = json_decode($_POST['object_data'] ?? '');
 if (isAdvancedConfigurationsDisabled()) {
     if (!is_object($objectData)) {

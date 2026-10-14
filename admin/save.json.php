@@ -13,6 +13,7 @@ if (!isGlobalTokenValid()) {
 }
 
 require_once __DIR__ . '/functions.php';
+require_once dirname(__DIR__) . '/objects/dangerousConfigurations.php';
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = __('An error occurred');
