@@ -16,7 +16,7 @@ header("HTTP/1.0 404 Not Found");
 <html>
     <head>
         <style>
-            @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300);
+            @import url("<?php echo getURL('view/css/custom/fonts/source-sans-pro.css'); ?>");
 
             body {
                 background-color: #335B67;
