@@ -935,10 +935,13 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             . "{outputTail}";
     } else {
         $restreamResolution = (int) $restreamResolution;
+        // Constant frame rate: "-vsync cfr" as before, or "-fps_mode cfr" on FFmpeg 9+, which
+        // removed -vsync. Probed on this host, like $ffmpegMajorVersion above.
+        $cfrSyncOption = ffmpegDetectCfrSyncOption($ffmpegBinary);
         // Video encoding is resolved per destination below. YouTube, Facebook and
         // Twitch do not recommend the same bitrate/profile for every resolution.
         $FFMPEGComplement =
-            " -vsync cfr "
+            " {$cfrSyncOption} "
             . " -max_muxing_queue_size 8192 "
             . " {audioConfig}"
             . " {videoConfig}"

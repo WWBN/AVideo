@@ -228,6 +228,47 @@ function ffmpeg_hasReadableCaBundle()
 }
 
 /**
+ * The constant-frame-rate output option this FFmpeg build accepts. "-vsync cfr" is what the
+ * restreamer always sent and works up to FFmpeg 8.x; FFmpeg 9 removed -vsync, where only
+ * "-fps_mode cfr" (added in FFmpeg 5.1) works. -vsync stays the choice whenever it exists, so
+ * hosts that work today keep the exact same command (including a remote executor host running an
+ * older FFmpeg than this one). Decided from the option list in `ffmpeg -h full`; when that probe
+ * returned nothing, -fps_mode only for a parsed version >= 9.
+ */
+function ffmpeg_cfrSyncOption($helpFullOutput, $versionInfo = null)
+{
+    if (is_string($helpFullOutput) && $helpFullOutput !== '') {
+        if (preg_match('/^\s*-vsync\b/m', $helpFullOutput)) {
+            return '-vsync cfr';
+        }
+        if (preg_match('/^\s*-fps_mode\b/m', $helpFullOutput)) {
+            return '-fps_mode cfr';
+        }
+    }
+    $major = is_array($versionInfo) && isset($versionInfo['major']) ? $versionInfo['major'] : null;
+    if ($major !== null && $major >= 9) {
+        return '-fps_mode cfr';
+    }
+    return '-vsync cfr';
+}
+
+/**
+ * ffmpeg_cfrSyncOption() for $ffmpegBinary, probed once per binary per process (two short,
+ * timeout-bounded, shell-free probes).
+ */
+function ffmpegDetectCfrSyncOption($ffmpegBinary, $timeoutSeconds = FFMPEG_CAPABILITY_EXEC_TIMEOUT_SECONDS)
+{
+    static $cache = array();
+    $key = (string) $ffmpegBinary;
+    if (!isset($cache[$key])) {
+        $helpRun = ffmpeg_capabilitiesSafeExec($ffmpegBinary, array('-hide_banner', '-h', 'full'), $timeoutSeconds);
+        $versionRun = ffmpeg_capabilitiesSafeExec($ffmpegBinary, array('-hide_banner', '-version'), $timeoutSeconds);
+        $cache[$key] = ffmpeg_cfrSyncOption($helpRun['stdout'] . $helpRun['stderr'], ffmpeg_parseVersion($versionRun['stdout']));
+    }
+    return $cache[$key];
+}
+
+/**
  * Parses `ffmpeg -h muxer=fifo` output for the presence of every AVOption the restream FIFO
  * output layer needs to configure. A missing option means this FFmpeg build's fifo muxer is too
  * old/limited/different to safely drive with the options this codebase sends.
