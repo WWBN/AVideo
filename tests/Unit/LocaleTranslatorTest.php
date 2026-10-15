@@ -216,6 +216,11 @@ PHP;
         $this->assertNotSame('', \LocaleTranslator::getTranslationProblem('%s of %d', '%d de %d'));
         $this->assertNotSame('', \LocaleTranslator::getTranslationProblem('Click <a href="x">here</a>', 'Clique <a href="y">aqui</a>'));
         $this->assertNotSame('', \LocaleTranslator::getTranslationProblem('Save', '<img src=x onerror=alert(1)>'));
+        $this->assertNotSame('', \LocaleTranslator::getTranslationProblem('Open <a href="x">it</a>', 'Abrir <a href="javascript:alert(1)">isso</a>'));
+        $this->assertNotSame('', \LocaleTranslator::getTranslationProblem('Open <a href="x">it</a>', 'Abrir <a href="x" onclick="alert(1)">isso</a>'));
+        // Plain text that mentions JavaScript is not script.
+        $this->assertSame('', \LocaleTranslator::getTranslationProblem('Node.js/JavaScript Example:', 'مثال Node.js/JavaScript:'));
+        $this->assertNotSame('', \LocaleTranslator::getTranslationProblem("we&rsquo;re", "we're"));
         $this->assertNotSame('', \LocaleTranslator::getTranslationProblem('Save', 'Salvar <b>'));
         $this->assertNotSame('', \LocaleTranslator::getTranslationProblem('Save', '   '));
         $this->assertSame('  Salvar ', \LocaleTranslator::keepSurroundingSpaces('  Save ', 'Salvar'));

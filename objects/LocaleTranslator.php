@@ -863,7 +863,7 @@ class LocaleTranslator
     /**
      * A translation is only stored when it keeps every protected token of the original (a
      * missing %s makes sprintf() throw on PHP 8; a changed tag breaks the page) and adds no
-     * script or control characters the original does not have.
+     * markup or control characters the original does not have.
      *
      * @return string empty when safe, otherwise the reason
      */
@@ -887,11 +887,10 @@ class LocaleTranslator
         if (self::getProtectedTokens($source) !== self::getProtectedTokens($translation)) {
             return 'placeholders, HTML or URLs changed';
         }
+        // Script can only enter through markup, and every tag (with its attributes) must already
+        // be identical; plain text such as "JavaScript:" is fine.
         if (strpos($source, '<') === false && strpos($translation, '<') !== false) {
             return 'adds HTML';
-        }
-        if (preg_match('/javascript:|\son[a-z]+\s*=/i', $translation) && !preg_match('/javascript:|\son[a-z]+\s*=/i', $source)) {
-            return 'adds script';
         }
         return '';
     }
