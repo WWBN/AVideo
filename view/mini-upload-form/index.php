@@ -20,8 +20,8 @@ if (!User::canUpload()) {
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
 
-        <!-- Google web fonts -->
-        <link href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel='stylesheet' />
+        <!-- Google web fonts (self-hosted) -->
+        <link href="<?php echo getURL('view/css/custom/fonts/pt-sans-narrow.css'); ?>" rel='stylesheet' />
 
         <!-- The main CSS file -->
         <link href="view/mini-upload-form/assets/css/style.css" rel="stylesheet" />
