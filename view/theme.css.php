@@ -25,7 +25,14 @@ if(empty($theme)){
 }else{    
     echo "/* theme = {$theme} from Session */".PHP_EOL;
 }
-echo file_get_contents("{$global['systemRootPath']}view/css/custom/{$theme}.css");
+$themeFile = "{$global['systemRootPath']}view/css/custom/{$theme}.css";
+if (!preg_match('/^[a-zA-Z0-9_-]{1,64}$/', $theme) || !file_exists($themeFile)) {
+    $theme = 'default';
+    $themeFile = "{$global['systemRootPath']}view/css/custom/{$theme}.css";
+}
+// Import the theme instead of inlining it, so its relative url()s (local fonts, glyphicons)
+// resolve against view/css/custom/ and not against this script's location
+echo '@import url("css/custom/' . $theme . '.css?cache=' . filemtime($themeFile) . '");' . PHP_EOL;
 exit;
 /*
 $filename = "{$global['systemRootPath']}videos/cache/custom.css";
