@@ -123,6 +123,7 @@ Start with the website and the features you want to offer:
 | --- | --- | --- |
 | **Run your video website** | Streamer — this repository — with its database and media storage. | Provides the home page, video pages, search, channels, user accounts, and administration. |
 | **Upload videos that need conversion** | [Encoder](https://github.com/WWBN/AVideo/wiki/Private-Encoder). | Prepares video files for browser playback. It can run on the same server as your site. |
+| **Convert videos on your own computer** | [Local Encoder](https://github.com/YPT-ME/Local-Encoder/releases/latest) (Windows, macOS, Linux). | Encodes on your computer and uploads the result to your site, like the Encoder does, without an Encoder server. |
 | **Broadcast live** | [Live server](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream). | Receives your broadcast and delivers it to visitors watching on your site. |
 | **Use remote media storage** | An optional [storage plugin and provider](https://github.com/WWBN/AVideo/wiki/Storage-Options), such as S3 or B2. | Keeps media on a storage provider; local disk is the default starting option. |
 
@@ -137,6 +138,8 @@ A public Encoder is an option for a publicly reachable site. Install a [private 
 - **A site on a private network:** a public Encoder cannot send finished videos back to a site reachable only inside your network, such as `localhost` or a home or office network. Your own Encoder must be able to reach the site.
 
 The Encoder can share the website's server for a small installation, or run on another server as uploads grow. Docker Compose already includes an Encoder.
+
+No server for an Encoder? [Local Encoder](https://github.com/YPT-ME/Local-Encoder/releases/latest) does the conversion on your own computer and uploads the finished files to your site. It also works with sites on a private network, as long as your computer can reach the site. [Download the latest version](https://github.com/YPT-ME/Local-Encoder/releases/latest) · [Source code](https://github.com/YPT-ME/Local-Encoder)
 
 ## Quickstart (Docker Compose)
 
