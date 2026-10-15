@@ -7237,59 +7237,22 @@ function get_js_availableLangs()
     return $global['js_availableLangs'];
 }
 
-function listAllWordsToTranslate()
+/**
+ * Every text passed to __() / printJSString() in the code, sorted (see LocaleTranslator).
+ * Cached for one hour; $refresh scans the code again.
+ */
+function listAllWordsToTranslate($refresh = false)
 {
     global $global;
-    $cacheName = 'listAllWordsToTranslate';
-    $cache = ObjectYPT::getCache($cacheName, 0);
-    if (!empty($cache)) {
-        return object_to_array($cache);
-    }
-    ini_set('max_execution_time', 300);
-
-    function listAll($dir)
-    {
-        $vars = [];
-        if (preg_match('/vendor.*$/', $dir)) {
-            return $vars;
+    require_once $global['systemRootPath'] . 'objects/LocaleTranslator.php';
+    $cacheName = 'listAllWordsToTranslate_v2';
+    if (!$refresh) {
+        $cache = ObjectYPT::getCache($cacheName, 3600);
+        if (!empty($cache)) {
+            return array_values(object_to_array($cache));
         }
-        //echo $dir.'<br>';
-        if ($handle = opendir($dir)) {
-            while (false !== ($entry = readdir($handle))) {
-                if ($entry !== '.' && $entry !== '..') {
-                    $filename = ($dir) . DIRECTORY_SEPARATOR . $entry;
-                    if (is_dir($filename)) {
-                        $vars_dir = listAll($filename);
-                        $vars = array_merge($vars, $vars_dir);
-                    } elseif (preg_match("/\.php$/", $entry)) {
-                        //echo $entry.PHP_EOL;
-                        $data = file_get_contents($filename);
-                        $regex = '/__\(["\']{1}(.*)["\']{1}\)/U';
-                        preg_match_all(
-                            $regex,
-                            $data,
-                            $matches
-                        );
-                        foreach ($matches[0] as $key => $value) {
-                            $vars[$matches[1][$key]] = $matches[1][$key];
-                        }
-                    }
-                }
-            }
-            closedir($handle);
-        }
-        return $vars;
     }
-
-    $vars1 = listAll($global['systemRootPath'] . 'plugin');
-    //var_dump($vars1);exit;
-    $vars2 = listAll($global['systemRootPath'] . 'view');
-    //var_dump($vars2);exit;
-    $vars3 = listAll($global['systemRootPath'] . 'objects');
-
-    $vars = array_merge($vars1, $vars2, $vars3);
-
-    sort($vars);
+    $vars = LocaleTranslator::extractStrings();
     ObjectYPT::setCache($cacheName, $vars);
     return $vars;
 }

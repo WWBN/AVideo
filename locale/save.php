@@ -1,20 +1,26 @@
 <?php
+// Kept for pages/scripts that still post the old `code` format ($t['text'] = "translation"; lines).
+// The posted code is never written as is: it is read as data and merged into the language file by
+// LocaleTranslator, which rewrites the file sorted, without duplicates and always valid PHP.
+// The translation page now uses objects/localeTranslator.json.php.
 header('Content-Type: application/json');
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = "../";
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/LocaleTranslator.php';
 $obj = new stdClass();
 $obj->status = "1";
 $obj->error = "";
 if (!User::isAdmin() || !empty($global['disableAdvancedConfigurations'])) {
-    $obj->status = 0;
-    $obj->error = __("Permission denied");
-    die(json_encode($obj));
+    forbiddenPage('Permission denied', true);
 }
-if(empty($_REQUEST['custom'])){
+if (!isGlobalTokenValid()) {
+    forbiddenPage('Invalid or missing CSRF token', true);
+}
+if (empty($_REQUEST['custom'])) {
     $dir = "{$global['systemRootPath']}locale/";
-}else{
+} else {
     $dir = "{$global['systemRootPath']}videos/locale/";
     make_path($dir);
 }
@@ -24,31 +30,37 @@ if (!is_writable($dir) && !isWindowsServer()) {
     die(json_encode($obj));
 }
 
-if (!isGlobalTokenValid()) {
-    $obj->status = 0;
-    $obj->error = __("Invalid token");
-    die(json_encode($obj));
-}
-
 if (empty($_POST['flag'])) {
     forbiddenPage('Flag is empty');
 }
 $flag = basename($_POST['flag']);
-if (empty($flag) || preg_match('/[^a-zA-Z0-9_\-]/', $flag)) {
+if (!LocaleTranslator::isValidLanguageCode($flag)) {
     $obj->status = 0;
     $obj->error = __("Invalid locale flag");
     die(json_encode($obj));
 }
-$file = $dir . $flag . ".php";
-$myfile = fopen($file, "w") or die("Unable to open file!");
-if (!$myfile) {
+
+try {
+    $parsed = LocaleTranslator::parseLanguageCode("<?php\n" . (isset($_POST['code']) ? (string) $_POST['code'] : ''));
+    if (!empty($parsed['errors']) || !empty($parsed['includes'])) {
+        throw new Exception('Only lines like $t[\'text\'] = \'translation\'; are accepted: ' . implode('; ', $parsed['errors']));
+    }
+    $translations = [];
+    foreach ($parsed['entries'] as $text => $translation) {
+        if (trim($translation) !== '' && LocaleTranslator::getTranslationProblem($text, $translation) === '') {
+            $translations[$text] = $translation;
+        }
+    }
+    LocaleTranslator::saveTranslations($flag, $translations, $dir);
+    if (empty($_REQUEST['custom'])) {
+        LocaleTranslator::addSourceTexts(array_keys($translations), $dir);
+    }
+} catch (Exception $e) {
+    $obj->status = 0;
+    $obj->error = $e->getMessage();
+} catch (\Throwable $th) {
+    _error_log('locale/save.php: ' . $th->getMessage(), AVideoLog::$ERROR);
     $obj->status = 0;
     $obj->error = __("Unable to open file!");
-    die(json_encode($obj));
 }
-
-$txt = "<?php\nglobal \$t;\n";
-fwrite($myfile, $txt);
-fwrite($myfile, $_POST['code']);
-fclose($myfile);
 echo json_encode($obj);

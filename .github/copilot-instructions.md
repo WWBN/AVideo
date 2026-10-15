@@ -246,6 +246,14 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   the MySQL/MariaDB default. Covered by `tests/Security/PaymentWebhookIdempotencyTest.php`,
   `RazorpayVerifiedWebhookTest.php` and the opt-in real-database
   `tests/Integration/PaymentWalletMySQLIntegrationTest.php` (`AVIDEO_PAYMENT_MYSQL_TESTS=1`).
+- **Translations (`locale/*.php`)**: never generate these files with ad-hoc code or add another `.php` file
+  to `locale/` — `?lang=`, `/api/locale` and the language selector include/list every file there. All
+  reads/writes go through `objects/LocaleTranslator.php` (tokenizer parse, no execution; rewrites sorted,
+  one entry per text, single-quoted literals, validated and atomically renamed). `en_US` is the catalog of
+  every text (translated to itself); `tests/Unit/PersianLocaleTest.php` requires `fa_IR` to have exactly
+  its keys in the same order. Admin UI `locale/index.php`, CLI `install/translateLocale.php`
+  (`--normalize`, `--translate` with the Claude API: `$global['localeTranslatorApiKey']` or
+  `ANTHROPIC_API_KEY`). Covered by `tests/Unit/LocaleTranslatorTest.php`.
 - **Test fixtures that eval real code**: an included fixture shares the includer's variable scope. Never
   use generic top-level names (`$root`, `$path`) in a fixture, and never let a test or simulation write
   under the repository (`videos/configuration.php` is real, gitignored, and holds the site secrets).

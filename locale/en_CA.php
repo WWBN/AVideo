@@ -1,7 +1,6 @@
 <?php
-// Because we're including the US English file here as a default to fall back
-// on, we should only include translations in this file here where they differ
-// from their US counterparts.
+global $t;
+// Only the texts that differ from en_US.php; everything else comes from that file.
 include __DIR__ . '/en_US.php';
 
 $t['Canceled'] = 'Cancelled';
