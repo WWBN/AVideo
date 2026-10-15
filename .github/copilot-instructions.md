@@ -251,9 +251,17 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   reads/writes go through `objects/LocaleTranslator.php` (tokenizer parse, no execution; rewrites sorted,
   one entry per text, single-quoted literals, validated and atomically renamed). `en_US` is the catalog of
   every text (translated to itself); `tests/Unit/PersianLocaleTest.php` requires `fa_IR` to have exactly
-  its keys in the same order. Admin UI `locale/index.php`, CLI `install/translateLocale.php`
-  (`--normalize`, `--translate` with the Claude API: `$global['localeTranslatorApiKey']` or
-  `ANTHROPIC_API_KEY`). Covered by `tests/Unit/LocaleTranslatorTest.php`.
+  its keys in the same order. Admin UI `locale/index.php` (Claude API key in
+  `$global['localeTranslatorApiKey']`), CLI `install/translateLocale.php` (`--normalize`, `--translate`,
+  `--prune [--dry-run]`: removes only texts not given to `__()`, not a letter-case variant, not any
+  quoted string in PHP/JS/HTML/JSON/SQL (≤2 MB files) and not matching a runtime-built call such as
+  `__("{$i} Month" . ...)`; the mobile app also reads these files through `/api/locale`;
+  does not load `videos/configuration.php`, so no database; key from `ANTHROPIC_API_KEY`, otherwise
+  `claude -p` with the runner's Claude Code login, never from the web server). `claude -p`: no `--bare` (it ignores the login), `--safe-mode` when
+  available, empty temp cwd, `ANTHROPIC_API_KEY`/`ANTHROPIC_AUTH_TOKEN` removed from its environment
+  (they override the login in print mode), only `.exe`/binary (a `claude.cmd` shim would let cmd.exe
+  mangle `%s`), and stdout to a file (`stream_select()` fails on `proc_open` pipes on Windows).
+  Covered by `tests/Unit/LocaleTranslatorTest.php`.
 - **Test fixtures that eval real code**: an included fixture shares the includer's variable scope. Never
   use generic top-level names (`$root`, `$path`) in a fixture, and never let a test or simulation write
   under the repository (`videos/configuration.php` is real, gitignored, and holds the site secrets).

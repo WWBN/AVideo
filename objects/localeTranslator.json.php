@@ -50,7 +50,8 @@ try {
             $response['strings'] = count($strings);
             $response['languages'] = LocaleTranslator::getStatus($strings);
             $response['ai'] = [
-                'configured' => !empty($config['apiKey']),
+                // Never Claude Code here: its login belongs to a person on the command line, not to the web server.
+                'configured' => $config['provider'] === LocaleTranslator::PROVIDER_API,
                 'model' => $config['model'],
                 'batchSize' => $config['batchSize'],
             ];
@@ -79,7 +80,7 @@ try {
 
         case 'translate':
             localeTranslatorCheckLanguage($lang);
-            if (!LocaleTranslator::isAIConfigured()) {
+            if (LocaleTranslator::getAIConfig()['provider'] !== LocaleTranslator::PROVIDER_API) {
                 throw new Exception('The Claude API key is not configured');
             }
             // The AI call can take a while: do not keep the admin's other tabs waiting on the session.

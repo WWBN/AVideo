@@ -31,18 +31,23 @@ class LocaleTranslatorTest extends TestCase
     protected function tearDown(): void
     {
         \LocaleTranslator::$requestHandler = null;
-        foreach (scandir($this->dir) as $file) {
-            if (is_file($this->dir . $file)) {
-                unlink($this->dir . $file);
-            }
-        }
-        @rmdir($this->dir);
+        \LocaleTranslator::$commandHandler = null;
+        $this->removeTree($this->dir);
         if ($this->originalGlobal === null) {
             unset($GLOBALS['global']);
         } else {
             $GLOBALS['global'] = $this->originalGlobal;
         }
         parent::tearDown();
+    }
+
+    private function removeTree($dir)
+    {
+        foreach (array_diff(scandir($dir), ['.', '..']) as $entry) {
+            $path = $dir . '/' . $entry;
+            is_dir($path) ? $this->removeTree($path) : unlink($path);
+        }
+        rmdir($dir);
     }
 
     private function includeLanguage($file)
@@ -154,7 +159,7 @@ PHP;
         file_put_contents($this->dir . 'es.php', "<?php\nglobal \$t;\n// Section comment\n\$t['Zebra'] = 'Cebra';\n\$t['apple'] = 'manzana';\n\$t['Zebra'] = 'Cebra 2';\n\$t[\"Banana\"] = \"Plátano\";\n");
         $result = \LocaleTranslator::saveTranslations('es', ['Cherry' => 'Cereza', 'apple' => 'Manzana'], $this->dir);
 
-        $this->assertSame(['added' => 1, 'updated' => 1, 'total' => 4, 'duplicatesRemoved' => 1], $result);
+        $this->assertSame(['added' => 1, 'updated' => 1, 'removed' => 0, 'total' => 4, 'duplicatesRemoved' => 1], $result);
         $expected = "<?php\nglobal \$t;\n\n\$t['apple'] = 'Manzana';\n\$t['Banana'] = 'Plátano';\n\$t['Cherry'] = 'Cereza';\n\$t['Zebra'] = 'Cebra 2';\n";
         $this->assertSame($expected, file_get_contents($this->dir . 'es.php'));
         $this->assertSame([], glob($this->dir . '.*.tmp'));
@@ -218,7 +223,7 @@ PHP;
 
     public function testAIRequestUsesStructuredOutputAndKeepsTheKeyInTheHeaderOnly()
     {
-        $config = ['apiKey' => 'sk-ant-test-key', 'model' => 'claude-opus-5-5', 'effort' => 'low', 'batchSize' => 40];
+        $config = ['provider' => 'api', 'apiKey' => 'sk-ant-test-key', 'claudePath' => '', 'model' => 'claude-opus-5-5', 'effort' => 'low', 'batchSize' => 40];
         $request = \LocaleTranslator::buildAIRequest(['Save', 'Delete'], 'pt_BR', 'Portuguese (Brazil)', $config);
 
         $this->assertSame('json_schema', $request['body']['output_config']['format']['type']);
@@ -269,7 +274,7 @@ PHP;
             $body = ['stop_reason' => 'end_turn', 'content' => [['type' => 'text', 'text' => json_encode(['translations' => $translations])]]];
             return [json_encode($body), 200];
         };
-        $config = ['apiKey' => 'test', 'model' => 'claude-opus-5-5', 'effort' => 'low', 'batchSize' => 40];
+        $config = ['provider' => 'api', 'apiKey' => 'test', 'claudePath' => '', 'model' => 'claude-opus-5-5', 'effort' => 'low', 'batchSize' => 40];
         $strings = ['Delete %s', 'Hello %s', "It's", 'Save'];
 
         $result = \LocaleTranslator::translateNextBatch('pt_BR', $strings, 0, $this->dir, $config);
@@ -287,6 +292,123 @@ PHP;
         $result = \LocaleTranslator::translateNextBatch('pt_BR', $strings, 1, $this->dir, $config);
         $this->assertSame(0, $result['translated']);
         $this->assertCount(1, $sent);
+    }
+
+    public function testClaudeCodeCommandRunsWithoutShellToolsOrAPIKey()
+    {
+        $config = ['model' => 'claude-opus-5-5', 'effort' => 'low'];
+        $command = \LocaleTranslator::buildClaudeCLICommand('/usr/bin/claude', 'Keep %s & <b>', ['type' => 'object'], $config, true);
+        $this->assertSame(['/usr/bin/claude', '-p', '--safe-mode'], array_slice($command, 0, 3));
+        $this->assertSame('', $command[array_search('--tools', $command, true) + 1]);
+        $this->assertSame('json', $command[array_search('--output-format', $command, true) + 1]);
+        $this->assertSame('Keep %s & <b>', $command[array_search('--system-prompt', $command, true) + 1]);
+        $this->assertContains('--no-session-persistence', $command);
+        $this->assertContains('--strict-mcp-config', $command);
+        // --bare never reads the Claude Code login.
+        $this->assertNotContains('--bare', $command);
+        $this->assertNotContains('--safe-mode', \LocaleTranslator::buildClaudeCLICommand('claude', '', [], $config, false));
+
+        putenv('ANTHROPIC_API_KEY=sk-ant-test');
+        putenv('ANTHROPIC_AUTH_TOKEN=token-test');
+        $env = \LocaleTranslator::getClaudeCLIEnvironment();
+        putenv('ANTHROPIC_API_KEY');
+        putenv('ANTHROPIC_AUTH_TOKEN');
+        $this->assertArrayNotHasKey('ANTHROPIC_API_KEY', $env);
+        $this->assertArrayNotHasKey('ANTHROPIC_AUTH_TOKEN', $env);
+    }
+
+    public function testClaudeCodeOutput()
+    {
+        $items = ['translations' => [['id' => '1', 'text' => 'Salvar']]];
+        $structured = json_encode(['type' => 'result', 'subtype' => 'success', 'is_error' => false, 'result' => '', 'structured_output' => $items]);
+        $this->assertSame(['1' => 'Salvar'], \LocaleTranslator::parseClaudeCLIOutput($structured, 0));
+        $inResult = json_encode(['type' => 'result', 'subtype' => 'success', 'is_error' => false, 'result' => json_encode($items)]);
+        $this->assertSame(['1' => 'Salvar'], \LocaleTranslator::parseClaudeCLIOutput("warning line\n" . $inResult, 0));
+
+        $cases = [
+            [json_encode(['type' => 'result', 'subtype' => 'error_max_structured_output_retries', 'is_error' => true, 'errors' => ['schema mismatch']]), 1, '', 'schema mismatch'],
+            [json_encode(['type' => 'result', 'subtype' => 'success', 'is_error' => true, 'result' => 'Not logged in']), 1, '', 'Not logged in'],
+            ['', 1, 'error: unknown option', 'unknown option'],
+        ];
+        foreach ($cases as $case) {
+            try {
+                \LocaleTranslator::parseClaudeCLIOutput($case[0], $case[1], $case[2]);
+                $this->fail('Expected an exception for ' . $case[3]);
+            } catch (\Exception $e) {
+                $this->assertStringContainsString($case[3], $e->getMessage());
+            }
+        }
+    }
+
+    public function testTranslateNextBatchWithClaudeCode()
+    {
+        file_put_contents($this->dir . 'en_US.php', "<?php\nglobal \$t;\n");
+        file_put_contents($this->dir . 'es.php', "<?php\nglobal \$t;\n");
+        $calls = [];
+        \LocaleTranslator::$commandHandler = function ($command, $stdin, $cwd, $env) use (&$calls) {
+            $calls[] = ['command' => $command, 'stdin' => $stdin, 'cwd' => $cwd, 'env' => $env];
+            if (in_array('--help', $command, true)) {
+                return ["Usage: claude\n  --safe-mode  Start with all customizations disabled\n", 0, ''];
+            }
+            $translations = [['id' => '1', 'text' => 'Guardar'], ['id' => '2', 'text' => 'Hola %s']];
+            return [json_encode(['type' => 'result', 'subtype' => 'success', 'is_error' => false, 'structured_output' => ['translations' => $translations]]), 0, ''];
+        };
+        $config = ['provider' => 'claude-cli', 'apiKey' => '', 'claudePath' => 'fake-claude-' . bin2hex(random_bytes(4)), 'model' => 'claude-opus-5-5', 'effort' => 'low', 'batchSize' => 40];
+        try {
+            $result = \LocaleTranslator::translateNextBatch('es', ['Save', 'Hello %s'], 0, $this->dir, $config);
+        } finally {
+            \LocaleTranslator::$commandHandler = null;
+        }
+
+        $this->assertSame(2, $result['translated']);
+        $this->assertSame(['Hello %s' => 'Hola %s', 'Save' => 'Guardar'], $this->includeLanguage($this->dir . 'es.php'));
+        $translate = end($calls);
+        $this->assertContains('--safe-mode', $translate['command']);
+        $this->assertStringContainsString('"text": "Hello %s"', $translate['stdin']);
+        $this->assertStringNotContainsString(str_replace('\\', '/', APP_ROOT), str_replace('\\', '/', $translate['cwd']));
+        $this->assertArrayNotHasKey('ANTHROPIC_API_KEY', $translate['env']);
+    }
+
+    public function testClaudeCodeIsNeverUsedOutsideTheCommandLineConfiguration()
+    {
+        $config = \LocaleTranslator::setAIProvider(['apiKey' => '', 'claudePath' => ''], 'api');
+        $this->assertSame('', $config['provider']);
+        $config = \LocaleTranslator::setAIProvider(['apiKey' => 'sk-ant-x', 'claudePath' => ''], 'api');
+        $this->assertSame('api', $config['provider']);
+        $config = \LocaleTranslator::setAIProvider(['apiKey' => '', 'claudePath' => ''], 'claude-cli', __FILE__);
+        $this->assertSame(PHP_SAPI === 'cli' ? 'claude-cli' : '', $config['provider']);
+    }
+
+    public function testPruneRemovesOnlyTextsTheCodeNoLongerHas()
+    {
+        $site = $this->dir . 'site/';
+        mkdir($site . 'objects', 0777, true);
+        mkdir($site . 'locale', 0777, true);
+        mkdir($site . 'view/js', 0777, true);
+        file_put_contents($site . 'objects/page.php', "<?php\necho __('Used');\n\$options = ['Dynamic option'];\nforeach (\$options as \$o) {\n    echo __(\$o);\n}\n"
+            . "for (\$i = 1; \$i <= 12; \$i++) {\n    echo __(\"{\$i} Month\" . (\$i > 1 ? 's' : ''));\n}\n"
+            . "echo __('Hello ' . \$name);\necho __(\$a . ' ' . \$b);\n");
+        file_put_contents($site . 'view/js/page.js', "var label = 'From JS variable';\n");
+        file_put_contents($site . 'locale/pt_BR.php', "<?php\nglobal \$t;\n"
+            . "\$t['Used'] = 'Usado';\n\$t['USED'] = 'USADO';\n\$t['Dynamic option'] = 'Opção dinâmica';\n"
+            . "\$t['From JS variable'] = 'Do JS';\n\$t['4 Months'] = '4 Meses';\n\$t['Hello Ana'] = 'Olá Ana';\n"
+            . "\$t['Obsolete'] = 'Obsoleto';\n\$t['Gone too'] = 'Também';\n");
+
+        $strings = \LocaleTranslator::extractStrings($site);
+        $usage = \LocaleTranslator::extractLiterals($site);
+        $this->assertSame(['Used'], $strings);
+        // __($a . ' ' . $b) has no meaningful fixed part: it must not keep every text.
+        $this->assertCount(2, $usage['patterns']);
+
+        $preview = \LocaleTranslator::pruneLanguage('pt_BR', $strings, $usage, $site . 'locale', true);
+        $this->assertSame(['Obsolete', 'Gone too'], $preview['removed']);
+        $this->assertCount(8, $this->includeLanguage($site . 'locale/pt_BR.php'), 'A dry run must not write');
+
+        \LocaleTranslator::pruneLanguage('pt_BR', $strings, $usage, $site . 'locale');
+        $this->assertSame(
+            ['4 Months' => '4 Meses', 'Dynamic option' => 'Opção dinâmica', 'From JS variable' => 'Do JS', 'Hello Ana' => 'Olá Ana', 'USED' => 'USADO', 'Used' => 'Usado'],
+            $this->includeLanguage($site . 'locale/pt_BR.php')
+        );
     }
 
     public function testEveryRepositoryLanguageFileIsReadExactlyAsPHPIncludesIt()

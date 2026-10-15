@@ -24,15 +24,20 @@ class LocaleTranslator
     const DEFAULT_EFFORT = 'low';
     const DEFAULT_BATCH_SIZE = 40;
     const MAX_BATCH_SIZE = 100;
+    // Claude API with an API key, or the Claude Code command line (`claude -p`) with its own login.
+    const PROVIDER_API = 'api';
+    const PROVIDER_CLAUDE_CLI = 'claude-cli';
+    const CLAUDE_CLI_TIMEOUT = 900;
     // Models that accept the server-side refusal fallback (fallbacks: "default").
     const FALLBACK_MODELS = ['claude-fable-5-1', 'claude-opus-5-5', 'claude-opus-5', 'claude-sonnet-5-5'];
 
     // Folders scanned for texts, relative to the root. Root .php files are scanned too.
-    const SOURCE_DIRS = ['admin', 'feed', 'install', 'locale', 'objects', 'plugin', 'view'];
+    const SOURCE_DIRS = ['admin', 'feed', 'install', 'locale', 'objects', 'plugin', 'updatedb', 'view'];
     // Folder names skipped at any depth.
     const SKIP_DIR_NAMES = ['vendor', 'node_modules', '.git'];
 
     const TRANSLATION_FUNCTIONS = ['__', 'printjsstring'];
+    const MAX_LITERAL_FILE_SIZE = 2097152;
 
     /**
      * A language code names a file in locale/ and must also match the language selector
@@ -77,24 +82,49 @@ class LocaleTranslator
      */
     public static function extractStrings($rootPath = '')
     {
+        $strings = [];
+        self::scanSourceFiles($rootPath, function ($file) use (&$strings) {
+            $isPHP = substr($file, -4) === '.php';
+            if (!$isPHP && (substr($file, -3) !== '.js' || substr($file, -7) === '.min.js')) {
+                return;
+            }
+            $code = @file_get_contents($file);
+            if ($code === false) {
+                return;
+            }
+            if ($isPHP) {
+                self::extractFromPHP($code, $strings);
+            } else {
+                self::extractFromJS($code, $strings);
+            }
+        });
+        return self::sortStrings(array_keys($strings));
+    }
+
+    /**
+     * Calls $visitor($path) for every file of the root folder and of SOURCE_DIRS, skipping
+     * SKIP_DIR_NAMES and the translation files themselves.
+     */
+    private static function scanSourceFiles($rootPath, callable $visitor)
+    {
         global $global;
         if (empty($rootPath)) {
             $rootPath = $global['systemRootPath'];
         }
         $rootPath = rtrim($rootPath, '/\\') . '/';
-        $strings = [];
-        foreach (glob($rootPath . '*.php') as $file) {
-            self::extractFromFile($file, $strings);
+        foreach (glob($rootPath . '*') as $file) {
+            if (is_file($file)) {
+                $visitor($file);
+            }
         }
         foreach (self::SOURCE_DIRS as $dir) {
             if (is_dir($rootPath . $dir)) {
-                self::extractFromDir($rootPath . $dir, $strings);
+                self::scanSourceDir($rootPath . $dir, $visitor);
             }
         }
-        return self::sortStrings(array_keys($strings));
     }
 
-    private static function extractFromDir($dir, &$strings)
+    private static function scanSourceDir($dir, callable $visitor)
     {
         $isLocaleDir = basename($dir) === 'locale';
         $entries = scandir($dir);
@@ -108,32 +138,74 @@ class LocaleTranslator
             $path = $dir . '/' . $entry;
             if (is_dir($path)) {
                 if (!in_array($entry, self::SKIP_DIR_NAMES, true) && !is_link($path)) {
-                    self::extractFromDir($path, $strings);
+                    self::scanSourceDir($path, $visitor);
                 }
                 continue;
             }
             if ($isLocaleDir && self::isValidLanguageCode(basename($entry, '.php'))) {
                 continue; // translation files, not source code
             }
-            self::extractFromFile($path, $strings);
+            $visitor($path);
         }
     }
 
-    private static function extractFromFile($file, &$strings)
+    /**
+     * What the code can still give to __() besides the literal calls of extractStrings():
+     * - 'literals': every quoted string in PHP, JS, HTML, JSON and SQL. A text kept in a variable
+     *   before __($text) (plugin setting names, options, menus, rows the installer inserts) is
+     *   still written somewhere as a plain string.
+     * - 'patterns': regexes of the texts built at runtime, e.g. __("{$i} Month" . ($i > 1 ? 's' : ''))
+     *   gives /^.* Month.*$/ and keeps "4 Months".
+     *
+     * @return array ['literals' => [text => true], 'patterns' => [regex, ...]]
+     */
+    public static function extractLiterals($rootPath = '')
     {
-        $isPHP = substr($file, -4) === '.php';
-        $isJS = substr($file, -3) === '.js' && substr($file, -7) !== '.min.js';
-        if (!$isPHP && !$isJS) {
-            return;
-        }
-        $code = @file_get_contents($file);
-        if ($code === false) {
-            return;
-        }
-        if ($isPHP) {
-            self::extractFromPHP($code, $strings);
-        } else {
-            self::extractFromJS($code, $strings);
+        $literals = [];
+        $patterns = [];
+        $quoted = '/\'((?:[^\'\\\\\r\n]|\\\\.)*)\'|"((?:[^"\\\\\r\n]|\\\\.)*)"/';
+        self::scanSourceFiles($rootPath, function ($file) use (&$literals, &$patterns, $quoted) {
+            $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            if (!in_array($extension, ['php', 'js', 'html', 'json', 'sql'], true) || substr($file, -7) === '.min.js') {
+                return;
+            }
+            // Large files are data or bundled libraries (User_Location's IP database is 200 MB).
+            if (filesize($file) > self::MAX_LITERAL_FILE_SIZE) {
+                return;
+            }
+            $code = @file_get_contents($file);
+            if ($code === false) {
+                return;
+            }
+            if ($extension === 'php') {
+                $ignored = [];
+                self::extractFromPHP($code, $ignored, $patterns);
+                foreach (@token_get_all($code) as $token) {
+                    if (!is_array($token)) {
+                        continue;
+                    }
+                    if ($token[0] === T_CONSTANT_ENCAPSED_STRING) {
+                        $literals[(string) self::decodePHPString($token[1])] = true;
+                    } elseif ($token[0] === T_ENCAPSED_AND_WHITESPACE) {
+                        $literals[$token[1]] = true;
+                    } elseif ($token[0] === T_INLINE_HTML) {
+                        $literals[trim($token[1])] = true;
+                        self::addQuotedLiterals($quoted, $token[1], $literals);
+                    }
+                }
+                return;
+            }
+            self::addQuotedLiterals($quoted, $code, $literals);
+        });
+        return ['literals' => $literals, 'patterns' => array_keys($patterns)];
+    }
+
+    private static function addQuotedLiterals($regex, $code, array &$literals)
+    {
+        if (preg_match_all($regex, $code, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $match) {
+                $literals[self::decodeJSString(isset($match[2]) && $match[2] !== '' ? $match[2] : $match[1])] = true;
+            }
         }
     }
 
@@ -141,8 +213,10 @@ class LocaleTranslator
      * Literal texts passed to __() or printJSString(), e.g. __('Save'), __("Save", true),
      * __( 'Save' ) or a call split across lines. Calls whose first argument is not a single
      * literal (a variable, a concatenation) are skipped: their text is only known at runtime.
+     * When $patterns is an array, such a call that still has a fixed part, e.g.
+     * __("{$i} Month" . ($i > 1 ? 's' : '')), adds a regex of the texts it can produce.
      */
-    public static function extractFromPHP($code, &$strings)
+    public static function extractFromPHP($code, &$strings, &$patterns = null)
     {
         if (stripos($code, '__(') === false && stripos($code, 'printJSString') === false && stripos($code, '__ (') === false) {
             return;
@@ -178,11 +252,16 @@ class LocaleTranslator
                 continue;
             }
             $literal = self::nextSignificantToken($tokens, $open);
-            if ($literal === null || !is_array($tokens[$literal]) || $tokens[$literal][0] !== T_CONSTANT_ENCAPSED_STRING) {
-                continue;
-            }
-            $after = self::nextSignificantToken($tokens, $literal);
-            if ($after === null || ($tokens[$after] !== ',' && $tokens[$after] !== ')')) {
+            $after = $literal === null ? null : self::nextSignificantToken($tokens, $literal);
+            $isLiteral = $literal !== null && is_array($tokens[$literal]) && $tokens[$literal][0] === T_CONSTANT_ENCAPSED_STRING
+                && $after !== null && ($tokens[$after] === ',' || $tokens[$after] === ')');
+            if (!$isLiteral) {
+                if (is_array($patterns)) {
+                    $pattern = self::buildCallPattern($tokens, $open);
+                    if ($pattern !== '') {
+                        $patterns[$pattern] = true;
+                    }
+                }
                 continue;
             }
             $text = self::decodePHPString($tokens[$literal][1]);
@@ -190,6 +269,64 @@ class LocaleTranslator
                 $strings[$text] = true;
             }
         }
+    }
+
+    /**
+     * Regex of the texts the first argument of a call can produce: each fixed string piece is
+     * kept, every variable or expression becomes ".*". Empty when the fixed part is too small
+     * to mean anything (a bare __($variable) would match every text).
+     */
+    private static function buildCallPattern(array $tokens, $open)
+    {
+        $parts = [];
+        $fixed = '';
+        $depth = 0;
+        $inString = false;
+        $count = count($tokens);
+        $any = function () use (&$parts) {
+            if (end($parts) !== '.*') {
+                $parts[] = '.*';
+            }
+        };
+        for ($j = $open + 1; $j < $count; $j++) {
+            $token = $tokens[$j];
+            if ($inString) {
+                if ($token === '"') {
+                    $inString = false;
+                } elseif (is_array($token) && $token[0] === T_ENCAPSED_AND_WHITESPACE) {
+                    $piece = self::decodePHPString('"' . $token[1] . '"');
+                    $parts[] = preg_quote((string) $piece, '/');
+                    $fixed .= $piece;
+                } else {
+                    $any();
+                }
+                continue;
+            }
+            if (is_array($token) && in_array($token[0], [T_WHITESPACE, T_COMMENT, T_DOC_COMMENT], true)) {
+                continue;
+            }
+            if ($depth === 0 && ($token === ',' || $token === ')')) {
+                break;
+            }
+            if ($token === '(' || $token === '[' || $token === '{') {
+                $depth++;
+            } elseif ($token === ')' || $token === ']' || $token === '}') {
+                $depth--;
+            }
+            if ($depth === 0 && $token === '"') {
+                $inString = true;
+            } elseif ($depth === 0 && is_array($token) && $token[0] === T_CONSTANT_ENCAPSED_STRING) {
+                $piece = self::decodePHPString($token[1]);
+                $parts[] = preg_quote((string) $piece, '/');
+                $fixed .= $piece;
+            } elseif ($token !== '.') {
+                $any();
+            }
+        }
+        if (strlen(preg_replace('/\s+/', '', $fixed)) < 3) {
+            return '';
+        }
+        return '/^' . implode('', $parts) . '$/s';
     }
 
     private static function nextSignificantToken($tokens, $i)
@@ -515,9 +652,10 @@ class LocaleTranslator
      *
      * @param array $translations text => translation
      * @param bool $replaceAll true: the file keeps only $translations (plus its include)
-     * @return array ['added' => int, 'updated' => int, 'total' => int, 'duplicatesRemoved' => int]
+     * @param string[] $remove texts deleted from the file
+     * @return array ['added' => int, 'updated' => int, 'removed' => int, 'total' => int, 'duplicatesRemoved' => int]
      */
-    public static function saveTranslations($lang, array $translations, $dir = '', $replaceAll = false)
+    public static function saveTranslations($lang, array $translations, $dir = '', $replaceAll = false, array $remove = [])
     {
         if (!self::isValidLanguageCode($lang)) {
             throw new Exception('Invalid language code');
@@ -553,6 +691,13 @@ class LocaleTranslator
                 }
                 $entries[$key] = $value;
             }
+            $removed = 0;
+            foreach ($remove as $key) {
+                if (array_key_exists((string) $key, $entries)) {
+                    unset($entries[(string) $key]);
+                    $removed++;
+                }
+            }
             $php = self::buildLanguageCode($entries, $current['includes']);
             self::validateLanguageCode($php, $entries, $current['includes']);
             self::writeFileAtomically($file, $php);
@@ -560,7 +705,58 @@ class LocaleTranslator
             flock($lock, LOCK_UN);
             fclose($lock);
         }
-        return ['added' => $added, 'updated' => $updated, 'total' => count($entries), 'duplicatesRemoved' => $current['duplicates']];
+        return ['added' => $added, 'updated' => $updated, 'removed' => $removed, 'total' => count($entries), 'duplicatesRemoved' => $current['duplicates']];
+    }
+
+    /**
+     * Texts of a file that nothing uses any more: not given to __() in the code, not a letter-case
+     * variant of one (__() falls back to those), not written anywhere in the code as a plain
+     * string (it could reach __() through a variable) and not a text the code builds at runtime.
+     *
+     * @param array $strings texts given to __() (extractStrings())
+     * @param array $usage extractLiterals()
+     * @return string[]
+     */
+    public static function getUnusedTexts(array $entries, array $strings, array $usage)
+    {
+        $used = [];
+        foreach ($strings as $string) {
+            $used[strtolower($string)] = true;
+        }
+        $unused = [];
+        foreach ($entries as $key => $value) {
+            $key = (string) $key;
+            if (isset($used[strtolower($key)]) || isset($usage['literals'][$key])) {
+                continue;
+            }
+            foreach ($usage['patterns'] as $pattern) {
+                if (preg_match($pattern, $key)) {
+                    continue 2;
+                }
+            }
+            $unused[] = $key;
+        }
+        return $unused;
+    }
+
+    /**
+     * Removes the texts nothing uses any more from a language file.
+     *
+     * @param array $usage extractLiterals()
+     * @return array ['removed' => string[], 'total' => int]
+     */
+    public static function pruneLanguage($lang, array $strings, array $usage, $dir = '', $dryRun = false)
+    {
+        $language = self::readLanguage($lang, $dir);
+        if (!empty($language['errors'])) {
+            throw new Exception("{$lang}.php has statements this tool does not understand; fix it by hand first");
+        }
+        $unused = self::getUnusedTexts($language['entries'], $strings, $usage);
+        $total = count($language['entries']);
+        if (!$dryRun && !empty($unused)) {
+            $total = self::saveTranslations($lang, [], $dir, false, $unused)['total'];
+        }
+        return ['removed' => $unused, 'total' => $total];
     }
 
     /**
@@ -737,23 +933,54 @@ class LocaleTranslator
     {
         global $global;
         $apiKey = !empty($global['localeTranslatorApiKey']) ? $global['localeTranslatorApiKey'] : getenv('ANTHROPIC_API_KEY');
+        $apiKey = is_string($apiKey) ? trim($apiKey) : '';
         $effort = !empty($global['localeTranslatorEffort']) ? $global['localeTranslatorEffort'] : self::DEFAULT_EFFORT;
         if (!in_array($effort, ['low', 'medium', 'high', 'xhigh', 'max'], true)) {
             $effort = self::DEFAULT_EFFORT;
         }
         $batchSize = !empty($global['localeTranslatorBatchSize']) ? intval($global['localeTranslatorBatchSize']) : self::DEFAULT_BATCH_SIZE;
-        return [
-            'apiKey' => is_string($apiKey) ? trim($apiKey) : '',
+        $config = [
+            'provider' => '',
+            'apiKey' => $apiKey,
+            'claudePath' => '',
             'model' => !empty($global['localeTranslatorModel']) ? $global['localeTranslatorModel'] : self::DEFAULT_MODEL,
             'effort' => $effort,
             'batchSize' => max(1, min(self::MAX_BATCH_SIZE, $batchSize)),
         ];
+        // The API key wins; without one, the command line falls back to the Claude Code login.
+        $provider = !empty($global['localeTranslatorProvider']) ? $global['localeTranslatorProvider'] : ($apiKey !== '' ? self::PROVIDER_API : self::PROVIDER_CLAUDE_CLI);
+        return self::setAIProvider($config, $provider);
+    }
+
+    /**
+     * @param string $provider PROVIDER_API or PROVIDER_CLAUDE_CLI; 'provider' stays empty when it cannot be used
+     */
+    public static function setAIProvider(array $config, $provider, $claudePath = '')
+    {
+        $config['provider'] = '';
+        if ($provider === self::PROVIDER_API && $config['apiKey'] !== '') {
+            $config['provider'] = self::PROVIDER_API;
+        } elseif ($provider === self::PROVIDER_CLAUDE_CLI && self::isCommandLine()) {
+            $config['claudePath'] = $claudePath !== '' ? $claudePath : self::findClaudeCLI();
+            if ($config['claudePath'] !== '') {
+                $config['provider'] = self::PROVIDER_CLAUDE_CLI;
+            }
+        }
+        return $config;
     }
 
     public static function isAIConfigured()
     {
         $config = self::getAIConfig();
-        return !empty($config['apiKey']);
+        return $config['provider'] !== '';
+    }
+
+    /**
+     * The Claude Code login belongs to the person running the command, never to the web server.
+     */
+    private static function isCommandLine()
+    {
+        return PHP_SAPI === 'cli';
     }
 
     public static function getLanguageName($lang)
@@ -773,9 +1000,14 @@ class LocaleTranslator
         return self::getLanguageName($lang) !== $lang;
     }
 
-    public static function buildAIRequest(array $strings, $lang, $languageName, array $config)
+    /**
+     * Instructions, texts and JSON schema shared by the API and by Claude Code.
+     *
+     * @return array ['system' => string, 'user' => string, 'schema' => array]
+     */
+    public static function buildAIPrompt(array $strings, $lang, $languageName)
     {
-        $system = "You translate the user interface of AVideo, an open-source web platform for video sharing, live streaming and monetization, from English into {$languageName} ({$lang}).\n"
+        $system ="You translate the user interface of AVideo, an open-source web platform for video sharing, live streaming and monetization, from English into {$languageName} ({$lang}).\n"
             . "Rules:\n"
             . "- Write the text a native speaker expects on a website in that language, using the usual terms for video platforms.\n"
             . "- Keep placeholders exactly as they are: %s, %d, %1\$s, {name}, {{name}}, _NAME_.\n"
@@ -807,17 +1039,24 @@ class LocaleTranslator
             'required' => ['translations'],
             'additionalProperties' => false,
         ];
+        $user = "Translate the text of each item into {$languageName}.\n\n" . json_encode($items, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        return ['system' => $system, 'user' => $user, 'schema' => $schema];
+    }
+
+    public static function buildAIRequest(array $strings, $lang, $languageName, array $config)
+    {
+        $prompt = self::buildAIPrompt($strings, $lang, $languageName);
         $body = [
             'model' => $config['model'],
             'max_tokens' => 16000,
-            'system' => $system,
+            'system' => $prompt['system'],
             'messages' => [[
                 'role' => 'user',
-                'content' => "Translate the text of each item into {$languageName}.\n\n" . json_encode($items, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT),
+                'content' => $prompt['user'],
             ]],
             'output_config' => [
                 'effort' => $config['effort'],
-                'format' => ['type' => 'json_schema', 'schema' => $schema],
+                'format' => ['type' => 'json_schema', 'schema' => $prompt['schema']],
             ],
         ];
         $headers = [
@@ -859,9 +1098,17 @@ class LocaleTranslator
                 $text .= $block['text'];
             }
         }
-        $data = json_decode($text, true);
+        return self::getTranslationsById(json_decode($text, true));
+    }
+
+    /**
+     * @param mixed $data decoded {"translations": [{"id": "1", "text": "..."}]}
+     * @return array id => translated text
+     */
+    private static function getTranslationsById($data)
+    {
         if (!is_array($data) || !isset($data['translations']) || !is_array($data['translations'])) {
-            throw new Exception('Claude API returned no translations');
+            throw new Exception('Claude returned no translations');
         }
         $translations = [];
         foreach ($data['translations'] as $item) {
@@ -905,6 +1152,207 @@ class LocaleTranslator
         return [$responseBody, $httpCode];
     }
 
+    // ------------------------------------------------------------------ Claude Code (claude -p)
+
+    private static $claudeCLIPath = null;
+    private static $claudeCLISafeMode = [];
+
+    // Tests replace the process with a callable($argv, $stdin, $cwd, $env) returning [stdout, exitCode, stderr].
+    public static $commandHandler = null;
+
+    /**
+     * The Claude Code executable: $global['localeTranslatorClaudePath'], `claude` in the PATH, the
+     * native installer locations, or the binary bundled with the VS Code extension (newest).
+     * A Windows npm shim (claude.cmd) is not used: cmd.exe would reinterpret % and & in the
+     * arguments (the instructions contain %s); only the executable is run.
+     *
+     * @return string empty when not found
+     */
+    public static function findClaudeCLI()
+    {
+        global $global;
+        if (self::$claudeCLIPath !== null) {
+            return self::$claudeCLIPath;
+        }
+        $isWindows = DIRECTORY_SEPARATOR === '\\';
+        $names = $isWindows ? ['claude.exe'] : ['claude'];
+        $candidates = [];
+        if (!empty($global['localeTranslatorClaudePath'])) {
+            $candidates[] = $global['localeTranslatorClaudePath'];
+        }
+        foreach (explode(PATH_SEPARATOR, (string) getenv('PATH')) as $dir) {
+            foreach ($names as $name) {
+                if ($dir !== '') {
+                    $candidates[] = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR . $name;
+                }
+            }
+        }
+        $home = getenv($isWindows ? 'USERPROFILE' : 'HOME');
+        if (!empty($home)) {
+            foreach ($names as $name) {
+                $candidates[] = $home . '/.local/bin/' . $name;
+                $candidates[] = $home . '/.claude/local/' . $name;
+            }
+            foreach (['.vscode', '.vscode-server', '.cursor'] as $editor) {
+                $bundled = glob($home . '/' . $editor . '/extensions/anthropic.claude-code-*/resources/native-binary/' . $names[0]);
+                if (!empty($bundled)) {
+                    natsort($bundled);
+                    $candidates[] = end($bundled);
+                }
+            }
+        }
+        self::$claudeCLIPath = '';
+        foreach ($candidates as $candidate) {
+            if (is_file($candidate) && ($isWindows || is_executable($candidate))) {
+                self::$claudeCLIPath = $candidate;
+                break;
+            }
+        }
+        return self::$claudeCLIPath;
+    }
+
+    /**
+     * Arguments for `claude -p`, run without a shell (proc_open with an argument list); the texts
+     * go through stdin. No tools, no MCP servers, no saved session; --safe-mode (when the
+     * installed version has it) also skips CLAUDE.md, hooks and plugins.
+     */
+    public static function buildClaudeCLICommand($claudePath, $systemPrompt, array $schema, array $config, $safeMode)
+    {
+        $command = [$claudePath, '-p'];
+        if ($safeMode) {
+            $command[] = '--safe-mode';
+        }
+        return array_merge($command, [
+            '--output-format', 'json',
+            '--json-schema', json_encode($schema, JSON_UNESCAPED_SLASHES),
+            '--tools', '',
+            '--strict-mcp-config',
+            '--no-session-persistence',
+            '--model', $config['model'],
+            '--effort', $config['effort'],
+            '--system-prompt', $systemPrompt,
+        ]);
+    }
+
+    /**
+     * Environment for `claude -p`: in print mode ANTHROPIC_API_KEY and ANTHROPIC_AUTH_TOKEN take
+     * precedence over the Claude Code login, so they are removed.
+     */
+    public static function getClaudeCLIEnvironment()
+    {
+        $env = getenv();
+        unset($env['ANTHROPIC_API_KEY'], $env['ANTHROPIC_AUTH_TOKEN']);
+        return $env;
+    }
+
+    /**
+     * @return array id => translated text
+     */
+    public static function parseClaudeCLIOutput($stdout, $exitCode, $stderr = '')
+    {
+        $response = json_decode(trim((string) $stdout), true);
+        if (!is_array($response)) {
+            // Keep only the last JSON line if something else was printed before it.
+            $lines = preg_split('/\r?\n/', trim((string) $stdout));
+            $response = json_decode((string) end($lines), true);
+        }
+        if (!is_array($response)) {
+            $detail = trim((string) $stderr) !== '' ? trim((string) $stderr) : trim((string) $stdout);
+            throw new Exception("claude -p failed (exit {$exitCode}): " . mb_substr($detail, 0, 300));
+        }
+        if (!empty($response['is_error']) || (isset($response['subtype']) && $response['subtype'] !== 'success')) {
+            $detail = !empty($response['errors']) && is_array($response['errors']) ? implode('; ', $response['errors']) : (isset($response['result']) ? $response['result'] : '');
+            $subtype = isset($response['subtype']) ? $response['subtype'] : 'error';
+            throw new Exception("claude -p {$subtype}: " . mb_substr((string) $detail, 0, 300));
+        }
+        $data = isset($response['structured_output']) && is_array($response['structured_output'])
+            ? $response['structured_output']
+            : json_decode(isset($response['result']) ? (string) $response['result'] : '', true);
+        return self::getTranslationsById($data);
+    }
+
+    /**
+     * @return array id => translated text
+     */
+    private static function translateWithClaudeCLI(array $strings, $lang, array $config)
+    {
+        if (!self::isCommandLine()) {
+            throw new Exception('Claude Code can only be used from the command line');
+        }
+        if (empty($config['claudePath'])) {
+            throw new Exception('Claude Code (claude) was not found; set $global[\'localeTranslatorClaudePath\']');
+        }
+        $prompt = self::buildAIPrompt($strings, $lang, self::getLanguageName($lang));
+        // An empty working folder: no project CLAUDE.md, settings, hooks or MCP servers are loaded.
+        $workDir = rtrim(sys_get_temp_dir(), '/\\') . '/avideo-locale-claude-' . bin2hex(random_bytes(6));
+        if (!@mkdir($workDir, 0700)) {
+            throw new Exception('Unable to create a temporary folder for claude -p');
+        }
+        try {
+            $command = self::buildClaudeCLICommand($config['claudePath'], $prompt['system'], $prompt['schema'], $config, self::claudeCLIHasSafeMode($config['claudePath']));
+            list($stdout, $exitCode, $stderr) = self::runCommand($command, $prompt['user'], $workDir, self::getClaudeCLIEnvironment());
+        } finally {
+            @rmdir($workDir);
+        }
+        return self::parseClaudeCLIOutput($stdout, $exitCode, $stderr);
+    }
+
+    private static function claudeCLIHasSafeMode($claudePath)
+    {
+        if (!isset(self::$claudeCLISafeMode[$claudePath])) {
+            list($help) = self::runCommand([$claudePath, '--help'], '', sys_get_temp_dir(), self::getClaudeCLIEnvironment(), 60);
+            self::$claudeCLISafeMode[$claudePath] = strpos((string) $help, '--safe-mode') !== false;
+        }
+        return self::$claudeCLISafeMode[$claudePath];
+    }
+
+    /**
+     * Runs a program without a shell, sends $stdin and waits up to $timeout seconds.
+     *
+     * @return array [stdout, exit code, stderr]
+     */
+    private static function runCommand(array $command, $stdin, $cwd, array $env, $timeout = self::CLAUDE_CLI_TIMEOUT)
+    {
+        if (is_callable(self::$commandHandler)) {
+            return call_user_func(self::$commandHandler, $command, $stdin, $cwd, $env);
+        }
+        // Output goes to files and the process is polled: stream_select() does not work on
+        // proc_open() pipes on Windows.
+        $stdoutFile = tempnam(sys_get_temp_dir(), 'avideo-claude-');
+        $stderrFile = tempnam(sys_get_temp_dir(), 'avideo-claude-');
+        $cleanup = function () use ($stdoutFile, $stderrFile) {
+            @unlink($stdoutFile);
+            @unlink($stderrFile);
+        };
+        $process = proc_open($command, [0 => ['pipe', 'r'], 1 => ['file', $stdoutFile, 'w'], 2 => ['file', $stderrFile, 'w']], $pipes, $cwd, $env);
+        if (!is_resource($process)) {
+            $cleanup();
+            throw new Exception('Unable to start ' . basename($command[0]));
+        }
+        fwrite($pipes[0], (string) $stdin);
+        fclose($pipes[0]);
+        $deadline = time() + $timeout;
+        while (true) {
+            $status = proc_get_status($process);
+            if (!$status['running']) {
+                $exitCode = $status['exitcode'];
+                break;
+            }
+            if (time() > $deadline) {
+                proc_terminate($process);
+                proc_close($process);
+                $cleanup();
+                throw new Exception(basename($command[0]) . " did not answer in {$timeout} seconds");
+            }
+            usleep(200000);
+        }
+        proc_close($process);
+        $stdout = (string) @file_get_contents($stdoutFile);
+        $stderr = (string) @file_get_contents($stderrFile);
+        $cleanup();
+        return [$stdout, $exitCode, $stderr];
+    }
+
     /**
      * Translates texts with the Claude API and checks each answer.
      *
@@ -915,16 +1363,19 @@ class LocaleTranslator
         if (empty($config)) {
             $config = self::getAIConfig();
         }
-        if (empty($config['apiKey'])) {
-            throw new Exception('The Claude API key is not configured');
-        }
         $strings = array_values($strings);
         if (empty($strings)) {
             return ['translations' => [], 'rejected' => []];
         }
-        $request = self::buildAIRequest($strings, $lang, self::getLanguageName($lang), $config);
-        list($responseBody, $httpCode) = self::sendAIRequest($request);
-        $byId = self::parseAIResponse($responseBody, $httpCode);
+        if ($config['provider'] === self::PROVIDER_CLAUDE_CLI) {
+            $byId = self::translateWithClaudeCLI($strings, $lang, $config);
+        } elseif ($config['provider'] === self::PROVIDER_API) {
+            $request = self::buildAIRequest($strings, $lang, self::getLanguageName($lang), $config);
+            list($responseBody, $httpCode) = self::sendAIRequest($request);
+            $byId = self::parseAIResponse($responseBody, $httpCode);
+        } else {
+            throw new Exception('AI translation is not configured: set the Claude API key, or run the command line where Claude Code is logged in');
+        }
 
         $result = ['translations' => [], 'rejected' => []];
         foreach ($strings as $index => $source) {

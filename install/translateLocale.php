@@ -4,29 +4,54 @@
  *
  * php install/translateLocale.php                      status of every language
  * php install/translateLocale.php --normalize          rewrite every file sorted, without duplicates (no AI)
+ * php install/translateLocale.php --prune --dry-run    list the translations nothing uses any more
+ * php install/translateLocale.php --prune              remove them from every file (or --lang=...)
+ *                                                      A text stays when it is given to __(), differs
+ *                                                      only in letter case from one that is, is
+ *                                                      written anywhere in the code (PHP/JS/HTML/JSON/
+ *                                                      SQL) as a plain string (it may reach __()
+ *                                                      through a variable), or matches a text built at
+ *                                                      runtime (__("{$i} Month" . ...)). Run it
+ *                                                      in a checkout with every plugin you ship, and
+ *                                                      review the diff: the mobile app receives these
+ *                                                      files too (/api/locale).
  * php install/translateLocale.php --translate          translate the missing texts of every language with AI
  *                                                      (en_US first receives every text, translated to itself)
  * php install/translateLocale.php --translate --lang=pt_BR,es
  *                                                      only these languages (a new code from
  *                                                      objects/bcp47.php creates its file)
  * Options for --translate:
- *   --batch=40          texts per AI request (default $global['localeTranslatorBatchSize'] or 40)
+ *   --batch=40          texts per AI request
  *   --max-batches=N     stop each language after N requests
  *   --dry-run           show what would be translated, without calling the AI or writing files
- *
- * AI: the Claude API key comes from $global['localeTranslatorApiKey'] in videos/configuration.php
- * or the ANTHROPIC_API_KEY environment variable (see LocaleTranslator::getAIConfig()).
+ *   --provider=api|claude-cli
+ *                       api: Claude API key from the ANTHROPIC_API_KEY environment variable.
+ *                       claude-cli: `claude -p` with the Claude Code login of whoever runs this
+ *                       command (no API key; counts against that Claude plan).
+ *                       Default: api when a key is set, otherwise claude-cli.
+ *   --claude=PATH       Claude Code executable (default: `claude` in the PATH or the VS Code
+ *                       extension's bundled binary)
+ *   --model=NAME        default claude-opus-5-5
+ *   --effort=LEVEL      low (default), medium, high, xhigh, max
  * Every file is validated before it replaces the old one, so an interrupted run loses nothing:
  * run it again and it continues with the texts that are still missing.
+ *
+ * It does not load videos/configuration.php: it only reads the code and writes locale/, so it
+ * needs no database and works in any checkout (the folder above this one is the AVideo root).
  */
-require_once __DIR__ . '/../videos/configuration.php';
-
-if (!isCommandLineInterface()) {
-    return die('Command Line only');
+if (PHP_SAPI !== 'cli') {
+    die('Command Line only');
 }
+$global = ['systemRootPath' => str_replace('\\', '/', dirname(__DIR__)) . '/'];
 require_once $global['systemRootPath'] . 'objects/LocaleTranslator.php';
 
-$options = getopt('', ['normalize', 'translate', 'lang:', 'batch:', 'max-batches:', 'dry-run']);
+$options = getopt('', ['normalize', 'prune', 'translate', 'lang:', 'batch:', 'max-batches:', 'dry-run', 'provider:', 'claude:', 'model:', 'effort:']);
+if (!empty($options['model'])) {
+    $global['localeTranslatorModel'] = $options['model'];
+}
+if (!empty($options['effort'])) {
+    $global['localeTranslatorEffort'] = $options['effort'];
+}
 $languages = LocaleTranslator::listLanguageFiles();
 $selected = empty($options['lang']) ? [] : array_filter(array_map('trim', explode(',', $options['lang'])));
 foreach ($selected as $lang) {
@@ -52,15 +77,52 @@ if (isset($options['normalize'])) {
     exit(0);
 }
 
+if (isset($options['prune'])) {
+    $dryRun = isset($options['dry-run']);
+    echo "Collecting every string written in the code and the texts it builds at runtime..." . PHP_EOL;
+    $usage = LocaleTranslator::extractLiterals();
+    $removedTotal = 0;
+    foreach (empty($selected) ? array_keys($languages) : $selected as $lang) {
+        try {
+            $result = LocaleTranslator::pruneLanguage($lang, $strings, $usage, '', $dryRun);
+        } catch (Exception $e) {
+            echo str_pad($lang, 12) . " ERROR " . $e->getMessage() . PHP_EOL;
+            continue;
+        }
+        $removedTotal += count($result['removed']);
+        echo str_pad($lang, 12) . ' ' . count($result['removed']) . ($dryRun ? ' unused' : ' removed') . ", {$result['total']} texts" . PHP_EOL;
+        if ($dryRun) {
+            foreach (array_slice($result['removed'], 0, 10) as $text) {
+                echo "    " . json_encode($text, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL;
+            }
+        }
+    }
+    echo PHP_EOL . ($dryRun ? "{$removedTotal} unused translations; run without --dry-run to remove them." : "{$removedTotal} translations removed; review them with git diff locale/.") . PHP_EOL;
+    exit(0);
+}
+
 if (isset($options['translate'])) {
     $config = LocaleTranslator::getAIConfig();
+    if (!empty($options['provider']) || !empty($options['claude'])) {
+        $provider = !empty($options['provider']) ? $options['provider'] : LocaleTranslator::PROVIDER_CLAUDE_CLI;
+        if (!in_array($provider, [LocaleTranslator::PROVIDER_API, LocaleTranslator::PROVIDER_CLAUDE_CLI], true)) {
+            echo "--provider must be api or claude-cli" . PHP_EOL;
+            exit(2);
+        }
+        $config = LocaleTranslator::setAIProvider($config, $provider, empty($options['claude']) ? '' : $options['claude']);
+    }
     if (!empty($options['batch'])) {
         $config['batchSize'] = max(1, min(LocaleTranslator::MAX_BATCH_SIZE, intval($options['batch'])));
     }
     $dryRun = isset($options['dry-run']);
-    if (empty($config['apiKey']) && !$dryRun) {
-        echo "Set \$global['localeTranslatorApiKey'] in videos/configuration.php or the ANTHROPIC_API_KEY environment variable." . PHP_EOL;
+    if ($config['provider'] === '' && !$dryRun) {
+        echo "No AI available. Either set \$global['localeTranslatorApiKey'] in videos/configuration.php (or the" . PHP_EOL
+            . "ANTHROPIC_API_KEY environment variable), or install Claude Code, log in, and use --provider=claude-cli" . PHP_EOL
+            . "(--claude=PATH when the claude executable is not in the PATH)." . PHP_EOL;
         exit(2);
+    }
+    if ($config['provider'] === LocaleTranslator::PROVIDER_CLAUDE_CLI) {
+        echo "Using Claude Code with your own login: {$config['claudePath']}" . PHP_EOL;
     }
     $maxBatches = empty($options['max-batches']) ? 0 : intval($options['max-batches']);
     $targets = $selected;

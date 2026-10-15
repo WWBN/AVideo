@@ -58,6 +58,8 @@ $localeTexts = [
     'everythingTranslated' => __('Everything is translated', true),
     'linesMismatch' => __('The number of lines in both columns must be the same', true),
     'filesWithErrors' => __('This file has lines that could not be read; fix it by hand', true),
+    'loading' => __('Loading...', true) . ' ' . __('Please wait', true),
+    'loadError' => __('An error occurred', true),
 ];
 $_page = new Page(array('Translate AVideo'));
 ?>
@@ -66,11 +68,11 @@ $_page = new Page(array('Translate AVideo'));
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
             <h3 class="panel-title pull-left"><i class="fas fa-language"></i> <?php echo __("Translations"); ?></h3>
-            <button class="btn btn-default btn-xs pull-right" id="btnRescan"><i class="fas fa-sync"></i> <?php echo __("Scan the code again"); ?></button>
+            <button class="btn btn-default btn-xs pull-right" id="btnRescan" disabled><i class="fas fa-sync"></i> <?php echo __("Scan the code again"); ?></button>
         </div>
         <div class="panel-body">
-            <div id="aiStatus" class="alert alert-info"></div>
-            <p><strong id="stringsCount">0</strong> <?php echo __("texts found in the code"); ?>.
+            <div id="aiStatus" class="alert alert-info hidden"></div>
+            <p><strong id="stringsCount">&hellip;</strong> <?php echo __("texts found in the code"); ?>.
                 <?php echo __("Every file is saved sorted alphabetically, with each text only once, and is validated before it replaces the old one."); ?></p>
             <div class="row">
                 <div class="col-sm-4">
@@ -80,10 +82,14 @@ $_page = new Page(array('Translate AVideo'));
                     <button class="btn btn-danger btn-block hidden" id="btnStop"><i class="fas fa-stop"></i> <?php echo __("Stop"); ?></button>
                 </div>
                 <div class="col-sm-4">
-                    <button class="btn btn-default btn-block" id="btnSortAll"><i class="fas fa-sort-alpha-down"></i> <?php echo __("Sort all files and remove repeated texts"); ?></button>
+                    <button class="btn btn-default btn-block" id="btnSortAll" disabled><i class="fas fa-sort-alpha-down"></i> <?php echo __("Sort all files and remove repeated texts"); ?></button>
                 </div>
             </div>
             <p class="help-block" id="runStatus"></p>
+            <div id="languagesStatus" class="alert alert-info" role="status" aria-live="polite">
+                <span id="languagesStatusText"><?php echo htmlspecialchars($localeTexts['loading'], ENT_QUOTES, 'UTF-8'); ?></span>
+                <button type="button" class="btn btn-default btn-xs hidden" id="btnRetryLanguages"><?php echo __("Try again"); ?></button>
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-condensed">
                     <thead>
@@ -94,12 +100,12 @@ $_page = new Page(array('Translate AVideo'));
                             <th class="text-right"></th>
                         </tr>
                     </thead>
-                    <tbody id="languagesTable"></tbody>
+                    <tbody id="languagesTable" aria-busy="true"></tbody>
                 </table>
             </div>
             <div class="row">
                 <div class="col-sm-8">
-                    <select class="form-control" id="newLanguage"></select>
+                    <select class="form-control" id="newLanguage" disabled></select>
                 </div>
                 <div class="col-sm-4">
                     <button class="btn btn-default btn-block" id="btnAddLanguage" disabled><i class="fas fa-plus"></i> <?php echo __("Add language and translate with AI"); ?></button>
@@ -146,7 +152,16 @@ $_page = new Page(array('Translate AVideo'));
     }
 
     function localeLoadStatus(rescan) {
-        modal.showPleaseWait();
+        // Keep this request's loader independent of the page and other async operations.
+        var statusModal = getPleaseWait();
+        statusModal.showPleaseWait();
+        statusModal.setText(localeTexts.loading);
+        $('#languagesStatus').removeClass('hidden alert-danger').addClass('alert-info');
+        $('#languagesStatusText').text(localeTexts.loading);
+        $('#btnRetryLanguages').addClass('hidden');
+        $('#languagesTable').attr('aria-busy', 'true');
+        $('#btnRescan, #btnSortAll, #btnTranslateAll, #btnAddLanguage, #newLanguage').prop('disabled', true);
+        var loaded = false;
         return $.ajax({url: localeEndpoint, data: {action: 'status', rescan: rescan ? 1 : 0}, dataType: 'json'}).done(function (response) {
             if (response.error) {
                 avideoAlertError(response.msg);
@@ -154,7 +169,7 @@ $_page = new Page(array('Translate AVideo'));
             }
             localeLanguages = response.languages;
             $('#stringsCount').text(response.strings);
-            var status = $('#aiStatus').empty();
+            var status = $('#aiStatus').removeClass('hidden').empty();
             if (response.ai.configured) {
                 status.removeClass('alert-warning').addClass('alert-info').text(localeTexts.aiReady + ' ' + response.ai.model);
             } else {
@@ -167,10 +182,21 @@ $_page = new Page(array('Translate AVideo'));
                 select.append($('<option>').val(language.code).text(language.name + ' (' + language.code + ')'));
             });
             localeRenderTable(response.ai.configured);
+            loaded = true;
         }).fail(function () {
-            avideoToastError('Request failed');
+            avideoToastError(localeTexts.loadError);
         }).always(function () {
-            modal.hidePleaseWait();
+            $('#languagesTable').attr('aria-busy', 'false');
+            $('#btnRescan').prop('disabled', localeRunning);
+            $('#btnSortAll, #newLanguage').prop('disabled', !loaded || localeRunning);
+            if (loaded) {
+                $('#languagesStatus').addClass('hidden');
+            } else {
+                $('#languagesStatus').removeClass('alert-info').addClass('alert-danger');
+                $('#languagesStatusText').text(localeTexts.loadError);
+                $('#btnRetryLanguages').removeClass('hidden');
+            }
+            statusModal.hidePleaseWait();
         });
     }
 
@@ -325,6 +351,10 @@ $_page = new Page(array('Translate AVideo'));
 
         $('#btnRescan').click(function () {
             localeLoadStatus(true);
+        });
+
+        $('#btnRetryLanguages').click(function () {
+            localeLoadStatus(false);
         });
 
         $('#btnStop').click(function () {
