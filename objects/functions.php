@@ -1920,6 +1920,10 @@ function getRelativePath($path)
     return $parts2[0];
 }
 
+// SECURITY REVIEW (2026-10-16): GHSA-w4rg-28fw-mjr7 asked to default $requireSSRFSafe to true — NOT a
+// vulnerability / DO NOT FIX because every caller using the default builds the URL from the admin-configured
+// live server (playerServer/CDN, often a private or Docker-internal host) plus the stream key; nobody else
+// controls the host. User-supplied links (LiveLinks) already pass true. If re-reported, see the advisory.
 function isValidM3U8Link($url, $skipFileNameCheck = false, $timeout = 3, $requireSSRFSafe = false)
 {
     if (!isValidURL($url)) {
@@ -1935,7 +1939,16 @@ function isValidM3U8Link($url, $skipFileNameCheck = false, $timeout = 3, $requir
         }
     }
     // Check the content length without downloading the file
-    $headers = get_headers($url, 1);
+    if ($requireSSRFSafe) {
+        // SECURITY: get_headers() follows redirects without re-checking them, so a safe URL could
+        // redirect it to an internal host. Stop at the first response; url_get_contents() below
+        // follows the redirects itself and re-validates every hop.
+        $options = stream_context_get_options(stream_context_get_default());
+        $options['http']['follow_location'] = 0;
+        $headers = get_headers($url, 1, stream_context_create($options));
+    } else {
+        $headers = get_headers($url, 1);
+    }
     $contentLength = isset($headers['Content-Length']) ? intval($headers['Content-Length']) : 0;
 
     // If the content size is greater than 2MB, return false
@@ -6580,6 +6593,10 @@ function isURL200($url, $forceRecheck = false)
     $object->forceRecheck = $forceRecheck;
 
     //error_log("isURL200 checking URL {$url}");
+    // SECURITY REVIEW (2026-10-16): GHSA-w4rg-28fw-mjr7 reported SSRF via redirects here — NOT a
+    // vulnerability / DO NOT FIX because every caller passes an admin-configured host (live server m3u8,
+    // CDN pull zone, encoderURL) that may legitimately be private, and only a boolean/Content-Length is
+    // used. Do not pass user-supplied URLs here. If re-reported, see the advisory.
     $headers = @get_headers($url);
     if (!is_array($headers)) {
         $headers = [$headers];
