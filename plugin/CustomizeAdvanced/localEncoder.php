@@ -39,12 +39,15 @@ $downloads = array(
     </div>
     <script type="application/json" id="local-encoder-config"><?php echo json_encode(array(
         'site' => $global['webSiteRootURL'],
+        'login' => User::isLogged() && User::canUpload() ? array('url' => $global['webSiteRootURL'] . 'plugin/CustomizeAdvanced/localEncoderLogin.json.php', 'token' => getToken(300)) : null,
         'text' => array(
             'invalid' => __('This video link is not valid. Open this page again from your AVideo site.'),
             'ready' => __('Local Encoder is running on this computer. You can open it now.'),
             'open' => __('Open Local Encoder'),
             'opening' => __('Opening Local Encoder... Accept the browser prompt. The application may open in another tab.'),
             'checking' => __('Checking whether Local Encoder is running on this computer...'),
+            'connecting' => __('Signing in to Local Encoder with your current account...'),
+            'loginFailed' => __('Automatic sign-in is unavailable. You can sign in inside Local Encoder with your username and password.'),
             'unknown' => __('We could not confirm that Local Encoder is running. If you already have it, click Open Local Encoder or open the program manually, then Check again. Otherwise, download it below. Your browser may also be blocking the check.'),
             'computer' => __('Local Encoder runs on Windows, macOS and Linux. Open this page on the computer where you want to process videos.'),
         ),
@@ -92,7 +95,7 @@ $downloads = array(
         <div class="panel-body">
             <ol>
                 <li><?php echo __('Extract the whole download, keep its files together and open LocalEncoder (LocalEncoder.exe on Windows). Its control page opens in your browser.'); ?></li>
-                <li><?php echo __('Connect with this site address and the same username and password you use on this AVideo site. Your account needs upload permission.'); ?><br><strong><?php echo htmlspecialchars($global['webSiteRootURL'], ENT_QUOTES, 'UTF-8'); ?></strong></li>
+                <li><?php echo __('Open Local Encoder using the button above to connect your current account automatically. You can also sign in manually with this site address, username and password. Your account needs upload permission.'); ?><br><strong><?php echo htmlspecialchars($global['webSiteRootURL'], ENT_QUOTES, 'UTF-8'); ?></strong></li>
                 <li><?php echo __('Select video files, choose a folder or paste an individual video link. Leave advanced options at their defaults and click Add to queue.'); ?></li>
                 <li><?php echo __('Keep the computer and Local Encoder running until processing and upload finish, then check your video in My videos.'); ?></li>
             </ol>

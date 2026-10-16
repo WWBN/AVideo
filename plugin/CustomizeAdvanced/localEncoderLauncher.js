@@ -46,36 +46,110 @@
         var autoOpen = !invalidRequest && new URLSearchParams(win.location.hash.slice(1)).get('open') === '1';
         var frames = [];
         var timer = null;
+        var legacyTimer = null;
         var pollTimer = null;
         var generation = 0;
         var readyBase = '';
+        var readyChallenge = '';
+        var readyState = '';
+        var readyFrame = null;
+        var pendingLogin = null;
+        var acknowledge = null;
         var nonce = '';
         open.href = nativeLink;
         open.removeAttribute('aria-disabled');
         open.classList.remove('disabled');
-        function clearFrames() {
-            frames.forEach(function (item) { item.frame.remove(); });
-            frames = [];
+        function clearFrames(keep) {
+            frames.forEach(function (item) { if (item !== keep) item.frame.remove(); });
+            frames = keep ? [keep] : [];
         }
-        function stop() {
+        function stop(keep) {
+            if (pendingLogin) { pendingLogin.abort(); pendingLogin = null; }
+            if (acknowledge) { acknowledge(false); acknowledge = null; }
+            win.clearTimeout(legacyTimer);
+            legacyTimer = null;
             win.clearTimeout(timer);
             win.clearTimeout(pollTimer);
-            clearFrames();
+            clearFrames(keep);
             generation++;
         }
         function controlURL(base) { return base + '/#avideo=' + encodeURIComponent(nativeLink); }
+        async function openControl(base, challenge, state) {
+            var destination = controlURL(base);
+            var current = generation;
+            if (config.login && /^[A-Za-z0-9_-]{43}$/.test(challenge) && readyFrame && !pendingLogin) {
+                var abort = new win.AbortController();
+                pendingLogin = abort;
+                var timeout = win.setTimeout(function () {
+                    abort.abort();
+                    if (acknowledge) { acknowledge(false); acknowledge = null; }
+                }, 25000);
+                status.textContent = config.text.connecting;
+                if (win.modal) win.modal.showPleaseWait();
+                try {
+                    var endpoint = new URL(config.login.url);
+                    if (endpoint.origin !== new URL(win.location.href).origin) throw new Error('origin');
+                    var fields = new URLSearchParams({ action: 'issue', challenge: challenge });
+                    fields.set(config.login.field === 'csrfToken' ? 'csrfToken' : 'globalToken', config.login.token);
+                    var response = await win.fetch(endpoint.href, { method: 'POST', credentials: 'same-origin',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
+                        body: fields.toString(), signal: abort.signal });
+                    if (!response.ok) throw new Error('authorization');
+                    var grant = await response.json();
+                    if (current !== generation || abort.signal.aborted) return;
+                    if (grant.error !== false || typeof grant.code !== 'string' || !/^[a-f0-9]{64}$/.test(grant.code)) throw new Error('authorization');
+                    var accepted = new Promise(function (resolve) { acknowledge = resolve; });
+                    // The one-use code stays out of native links, navigation, history and referrers.
+                    readyFrame.frame.contentWindow.postMessage({ type: 'avideo-local-encoder:authorize', nonce: state,
+                        site: request.site, code: grant.code }, base);
+                    if (!await accepted) throw new Error('authorization');
+                    destination += '&state=' + state; // public discovery correlation only; API CORS stays closed
+                } catch (_) {
+                    if (current === generation) status.textContent = config.text.loginFailed;
+                } finally {
+                    win.clearTimeout(timeout);
+                    if (pendingLogin === abort) pendingLogin = null;
+                    acknowledge = null;
+                    if (win.modal) win.modal.hidePleaseWait();
+                }
+            }
+            if (current === generation) win.location.replace(destination);
+        }
         function receive(event) {
             var data = event.data;
+            if (data && data.type === 'avideo-local-encoder:authorized') {
+                if (acknowledge && readyFrame && event.origin === readyBase && event.source === readyFrame.frame.contentWindow
+                    && data.nonce === readyState && data.protocol === 1) {
+                    var resolve = acknowledge; acknowledge = null; resolve(data.ok === true);
+                }
+                return;
+            }
             if (!data || data.type !== 'avideo-local-encoder:ready' || data.protocol !== 1 || data.nonce !== nonce) return;
             var sender = frames.find(function (item) { return event.origin === item.base && event.source === item.frame.contentWindow; });
             if (!sender) return;
+            var challenge = typeof data.login_challenge === 'string' ? data.login_challenge : '';
+            if (config.login && !/^[A-Za-z0-9_-]{43}$/.test(challenge)) {
+                if (!legacyTimer) {
+                    var current = generation;
+                    legacyTimer = win.setTimeout(function () {
+                        if (current === generation) confirmed(sender, data, '');
+                    }, 400);
+                }
+                return;
+            }
+            confirmed(sender, data, challenge);
+        }
+        function confirmed(sender, data, challenge) {
+            stop(config.login && /^[A-Za-z0-9_-]{43}$/.test(challenge) ? sender : null);
             readyBase = sender.base;
-            stop();
+            readyChallenge = challenge;
+            readyState = data.nonce;
+            readyFrame = sender;
             status.textContent = config.text.ready;
             control.href = controlURL(readyBase);
             control.classList.remove('hidden');
             open.textContent = config.text.open;
-            if (autoOpen) { autoOpen = false; win.location.replace(control.href); }
+            if (autoOpen) { autoOpen = false; openControl(readyBase, readyChallenge, readyState); }
         }
         function probe() {
             clearFrames();
@@ -124,10 +198,16 @@
             }, duration);
         }
         function openClick() {
-            autoOpen = false;
+            autoOpen = true;
             status.textContent = config.text.opening;
             detect(45000, true);
             // Keep the native href and the user's click: browsers may require confirmation.
+        }
+        function controlClick(event) {
+            if (!readyBase) return;
+            event.preventDefault();
+            if (pendingLogin) return;
+            openControl(readyBase, readyChallenge, readyState);
         }
         function checkClick() { status.textContent = config.text.checking; detect(5000, false); }
         function changed() {
@@ -135,21 +215,24 @@
             if (params.has('open') || params.has('url')) init(config, win, doc);
         }
         function revived(event) { if (event.persisted) init(config, win, doc); }
+        function pageHidden() { stop(); }
         function cleanup() {
             stop();
             win.removeEventListener('message', receive);
             win.removeEventListener('hashchange', changed);
-            win.removeEventListener('pagehide', stop);
+            win.removeEventListener('pagehide', pageHidden);
             win.removeEventListener('pageshow', revived);
             open.removeEventListener('click', openClick);
+            control.removeEventListener('click', controlClick);
             check.removeEventListener('click', checkClick);
         }
         panel.avideoLauncherCleanup = cleanup;
         open.addEventListener('click', openClick);
+        control.addEventListener('click', controlClick);
         check.addEventListener('click', checkClick);
         win.addEventListener('message', receive);
         win.addEventListener('hashchange', changed);
-        win.addEventListener('pagehide', stop);
+        win.addEventListener('pagehide', pageHidden);
         win.addEventListener('pageshow', revived);
         if (/Android|iPhone|iPad|iPod/i.test(win.navigator.userAgent) || (win.navigator.platform === 'MacIntel' && win.navigator.maxTouchPoints > 1)) {
             open.hidden = true;
