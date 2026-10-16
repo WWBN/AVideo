@@ -37,6 +37,7 @@ if (!User::canUpload()) {
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-lg-9">
+                    <?php include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/localEncoderPromo.php'; ?>
                     <form id="upload" method="post" action="<?php echo $global['webSiteRootURL'] . "view/mini-upload-form/upload.php"; ?>" enctype="multipart/form-data">
                         <div id="drop">
                             <?php echo __("Drop Here"); ?>

@@ -18,4 +18,7 @@ if(empty($obj)){
     
     ObjectYPT::setCache($name, $obj);
 }
+// This display preference must reflect the admin's latest choice even while other settings are cached.
+$localEncoderSettings = AVideoPlugin::getDataObjectIfEnabled('CustomizeAdvanced');
+$obj->showLocalEncoder = !empty($localEncoderSettings->showLocalEncoder);
 echo json_encode($obj);

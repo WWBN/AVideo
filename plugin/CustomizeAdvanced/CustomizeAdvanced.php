@@ -208,6 +208,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->importMP4ButtonLabel = "";
         $obj->doNotShowEncoderButton = false;
         $obj->encoderButtonLabel = "";
+        $obj->showLocalEncoder = true;
+        self::addDataObjectHelper('showLocalEncoder', 'Show Local Encoder', 'Show the Local Encoder download page in upload screens and recommend it when URL imports fail. The Web Encoder remains required for AVideo media services.');
         $obj->doNotShowEmbedButton = false;
         $obj->embedBackgroundColor = "white";
         $obj->embedButtonLabel = "";
@@ -659,6 +661,26 @@ Disallow: *action=tagsearch*
         }
         $content .= '<script>iframeAllowAttributes = \''. (Video::$iframeAllowAttributes).'\';</script>';
         return $content;
+    }
+
+    public static function getLocalEncoderURL() {
+        global $global;
+        $settings = AVideoPlugin::getDataObjectIfEnabled('CustomizeAdvanced');
+        if (empty($settings->showLocalEncoder)) {
+            return '';
+        }
+        return $global['webSiteRootURL'] . 'plugin/CustomizeAdvanced/localEncoder.php';
+    }
+
+    public function getUploadMenuButton() {
+        if (!User::canUpload()) {
+            return '';
+        }
+        $url = self::getLocalEncoderURL();
+        if (empty($url)) {
+            return '';
+        }
+        return '<li><a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '"><i class="fas fa-desktop" aria-hidden="true"></i> ' . __('Use Local Encoder on your computer') . '</a></li>';
     }
 
     public function getHTMLMenuRight() {

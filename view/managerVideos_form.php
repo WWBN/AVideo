@@ -52,6 +52,7 @@
                     <div class="panel-body">
                         <div class="tab-content">
                             <div id="pmedia" class="tab-pane fade in active hideIfIsArticle hideIfIsEmbedLink hideIfIsArticle hideIfIsEditing">
+                                <?php include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/localEncoderPromo.php'; ?>
                                 <form id="upload" method="post" action="<?php echo $global['webSiteRootURL'] . "view/mini-upload-form/upload.php"; ?>" enctype="multipart/form-data">
                                     <div id="drop">
                                         <a><?php echo __("Browse files"); ?></a>
