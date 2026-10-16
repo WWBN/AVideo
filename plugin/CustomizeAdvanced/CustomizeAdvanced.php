@@ -680,7 +680,7 @@ Disallow: *action=tagsearch*
         if (empty($url)) {
             return '';
         }
-        return '<li><a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '"><i class="fas fa-desktop" aria-hidden="true"></i> ' . __('Use Local Encoder on your computer') . '</a></li>';
+        return '<li><a href="' . htmlspecialchars($url . '#open=1', ENT_QUOTES, 'UTF-8') . '"><i class="fas fa-desktop" aria-hidden="true"></i> ' . __('Use Local Encoder on your computer') . '</a></li>';
     }
 
     public function getHTMLMenuRight() {

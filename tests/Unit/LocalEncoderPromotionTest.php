@@ -67,4 +67,29 @@ class LocalEncoderPromotionTest extends TestCase
         $this->assertStringNotContainsString('pass=', $html);
         $this->assertStringNotContainsString('user=', $html);
     }
+
+    public function testBrowserLauncherStateAndMessageValidation()
+    {
+        $node = '';
+        $binary = PHP_OS_FAMILY === 'Windows' ? 'node.exe' : 'node';
+        foreach (explode(PATH_SEPARATOR, getenv('PATH') ?: '') as $directory) {
+            $candidate = rtrim($directory, '/\\') . DIRECTORY_SEPARATOR . $binary;
+            if (is_file($candidate) && is_executable($candidate)) {
+                $node = $candidate;
+                break;
+            }
+        }
+        if ($node === '') {
+            $this->markTestSkipped('Node is required for the browser launcher checks.');
+        }
+        $script = dirname(__DIR__) . '/local-encoder-launcher.test.cjs';
+        $process = proc_open([$node, '--test', $script], [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
+        $this->assertIsResource($process);
+        fclose($pipes[0]);
+        $output = stream_get_contents($pipes[1]);
+        $errors = stream_get_contents($pipes[2]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        $this->assertSame(0, proc_close($process), $output . $errors);
+    }
 }
