@@ -25,16 +25,18 @@ Do not introduce new frontend frameworks (React, Vue, Angular, etc.) unless expl
 |---|---|---|
 | Bootstrap | 3.4.1 default in `view/bootstrap/`; Bootstrap 5 exists only as an optional compatibility path | Layout and components |
 | jQuery | bundled in `node_modules/jquery` | DOM manipulation, AJAX |
-| Video.js | 8.23.7 | Video player |
-| HLS.js | 1.6.16 | HLS streaming |
-| Socket.io | 4.8.3 | Real-time communication |
+| Video.js | 8.24.1 | Video player |
+| HLS.js | 1.7.3 | HLS streaming |
+| Socket.io | 4.8.4 | Real-time communication |
 | Chart.js | 4.5.1 | Analytics charts |
-| TinyMCE | 8.4.0 | Rich text editing |
+| TinyMCE | 8.9.3 | Rich text editing |
 | Select2 | — | Enhanced select dropdowns |
 | Flatpickr | 4.6.13 | Date/time pickers |
 | jQuery UI | 1.14.2 | Drag/sort, UI widgets |
-| Intro.js | 8.3.2 | Onboarding tutorials |
+| Intro.js | 8.6.0 | Onboarding tutorials |
 | Croppie | 2.6.5 | Image cropping |
+
+Versions are the ones pinned in `package-lock.json` (what `npm ci` installs). A local `node_modules` can be older; check `node_modules/<name>/package.json` before relying on version-specific behavior.
 
 Many of these are bundled locally but not all are loaded on every page. Check `view/include/head.php`, `view/include/footer.php`, the current `Page` setup, and nearby files before adding includes. Do not `npm install` additional packages without explicit approval.
 
@@ -66,7 +68,7 @@ When a library already has an AVideo helper, use the helper instead of initializ
 |---|---|---|
 | Croppie crop/upload UI | `getCroppie(...)` | `objects/functionsImages.php` |
 | Save Croppie base64 image | `saveCroppieImage($destination, $postIndex = "imgBase64")` | `objects/functionsImages.php` |
-| TinyMCE editor | `getTinyMCE($id, $simpleMode = false, $allowAttributes = false, $allowCSS = false, $allowAllTags = false)` | `objects/functions.php` |
+| TinyMCE editor | `getTinyMCE($id, $simpleMode = false, $allowAttributes = false, $allowCSS = false, $allowAllTags = false, $allowImageAndMedia = false)` | `objects/functions.php` |
 | Intro.js tour button | `getTourHelpButton($stepsFileRelativePath, $class = 'btn btn-default', $showLabel = true)` | `objects/functions.php` |
 | Intro.js runtime | `startTour(stepsFileRelativePath)` | `view/js/script.js` |
 | Flickity horizontal buttons/tabs | `generateHorizontalFlickity($items)` | `objects/functions.php` |
@@ -75,6 +77,8 @@ When a library already has an AVideo helper, use the helper instead of initializ
 | iframe modals | `avideoModalIframe*()`, `avideoDialog*()` | `view/js/script.js` |
 
 These wrappers load local assets, reuse AVideo translations and theme behavior, prevent duplicate includes, and keep UI behavior consistent. Use raw `.croppie()`, `tinymce.init()`, `introJs()`, or `.flickity()` only when the existing helper cannot support the required behavior.
+
+TinyMCE 8 pitfalls (`objects/functionsGetTinyMCE.php`): an element listed in `extended_valid_elements` loses TinyMCE's default attributes for it; toolbar items are `styles`/`blocks` (`styleselect`/`formatselect` silently vanish) and `numlist`/`bullist` need the `lists` plugin; `sandbox_iframes` is on by default, so iframes outside `sandbox_iframes_exclusions` get `sandbox=""` in the editor (also an excluded host whose URL path ends in `.`, which TinyMCE cannot parse). HTML that users write (channel About) is only safe after the display-side HTMLPurifier (`purifyChannelAboutHTML()`); the editor settings are convenience, not a security boundary.
 
 ---
 

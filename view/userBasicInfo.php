@@ -146,7 +146,7 @@
         <div class="col-md-8 inputGroupContainer">
             <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"><?php echo $user->getAbout(); ?></textarea>
             <?php
-            echo getTinyMCE("textAbout", true);
+            echo getTinyMCE("textAbout", true, false, false, false, true);
             ?>
         </div>
     </div>

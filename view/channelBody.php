@@ -159,6 +159,16 @@ function tabContentClass(string $tab): string
         bottom: 0;
     }
 
+    /* Images and players added in the About editor must fit narrow screens */
+    #aboutArea img,
+    #aboutArea iframe {
+        max-width: 100%;
+    }
+
+    #aboutArea img {
+        height: auto;
+    }
+
     #aboutArea .showMore { display: block; }
     #aboutArea .showLess { display: none; }
     #aboutArea.expanded .showMore { display: none; }
@@ -238,13 +248,8 @@ function tabContentClass(string $tab): string
                 $about = html_entity_decode($user->getAbout(), ENT_QUOTES | ENT_HTML5, 'UTF-8');
                 if (!empty($about)) {
                     // Decode legacy stored content, then purify it before rendering.
-                    $configPuri = HTMLPurifier_Config::createDefault();
-                    $configPuri->set('Cache.SerializerPath', getCacheDir());
-                    $configPuri->set('HTML.Allowed', 'a[href|target|title|class],abbr[title],b,blockquote[class],br,code,div[class|style],em,h1[class],h2[class],h3[class],h4[class],h5[class],h6[class],hr[class],i[class],img[class|src|alt|style|width|height],li[class],ol[class],p[class|style],pre[class],s,span[class|style],strong,u,ul[class]');
-                    $configPuri->set('Attr.AllowedFrameTargets', ['_blank']);
-                    $configPuri->set('AutoFormat.RemoveEmpty', true);
-                    $purifier = new HTMLPurifier($configPuri);
-                    $about = $purifier->purify($about);
+                    require_once $global['systemRootPath'] . 'objects/channelAboutHTML.php';
+                    $about = purifyChannelAboutHTML($about, $global['webSiteRootURL'], getCacheDir());
                 }
                 if (!empty($advancedCustomUser->showAllAboutTextOnChannel)) {
                     echo $about;

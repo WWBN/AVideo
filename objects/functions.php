@@ -6272,7 +6272,7 @@ function canFullScreen()
     return true;
 }
 
-function getTinyMCE($id, $simpleMode = false, $allowAttributes = false, $allowCSS = false, $allowAllTags = false)
+function getTinyMCE($id, $simpleMode = false, $allowAttributes = false, $allowCSS = false, $allowAllTags = false, $allowImageAndMedia = false)
 {
     global $global;
     $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functionsGetTinyMCE.php', [
@@ -6280,7 +6280,8 @@ function getTinyMCE($id, $simpleMode = false, $allowAttributes = false, $allowCS
         'simpleMode' => $simpleMode,
         'allowAttributes' => $allowAttributes,
         'allowCSS' => $allowCSS,
-        'allowAllTags' => $allowAllTags
+        'allowAllTags' => $allowAllTags,
+        'allowImageAndMedia' => $allowImageAndMedia
     ]);
     return $contents;
 }
