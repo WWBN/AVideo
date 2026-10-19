@@ -378,8 +378,8 @@ class Category
 
     private static function getCountCacheSuffix($suffix, $getAllVideos = false)
     {
-        $visibilitySql = $getAllVideos ? '' : Video::getUserGroupsCanSeeSQL();
-        return $suffix . '_u' . User::getId()
+        $visibilitySql = $getAllVideos ? '' : Video::getUserGroupsCanSeeSQL('v.');
+        return $suffix . '_listing2_k' . intval(isForKidsSet()) . '_u' . User::getId()
             . '_m' . intval(Permissions::canModerateVideos())
             . '_v' . md5($visibilitySql);
     }
@@ -416,9 +416,12 @@ class Category
         }
     }
 
-    public static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false, $hideNegativeOrder = false, $showRestrictedCategories = false)
+    public static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false, $hideNegativeOrder = false, $showRestrictedCategories = null, $ignorePagination = false)
     {
         global $global, $config;
+        if ($showRestrictedCategories === null) {
+            $showRestrictedCategories = $filterCanAddVideoOnly || !isToHidePrivateVideos();
+        }
         if ($config->currentVersionLowerThen('8.4')) {
             return false;
         }
@@ -458,28 +461,6 @@ class Category
             if ($config->currentVersionGreaterThen('6.1')) {
                 $sql .= " AND (private=0 OR users_id = '{$users_id}') ";
             }
-        }
-
-        if ($onlyWithVideos) {
-            $kidsFilter = isForKidsSet() ? " AND v.made_for_kids = 1 " : "";
-            $sql .= " AND ("
-                . "EXISTS (SELECT 1 FROM videos v WHERE v.categories_id = c.id {$kidsFilter})"
-                . " OR EXISTS (SELECT 1 FROM videos v INNER JOIN categories child ON child.id = v.categories_id "
-                . "WHERE child.parentId = c.id AND child.id != c.id {$kidsFilter})";
-            if (AVideoPlugin::isEnabledByName("Live")) {
-                $sql .= " OR "
-                    . " EXISTS (SELECT 1 FROM live_transmitions lt WHERE lt.categories_id = c.id)"
-                    . " OR EXISTS (SELECT 1 FROM live_transmitions lt INNER JOIN categories child ON child.id = lt.categories_id "
-                    . "WHERE child.parentId = c.id AND child.id != c.id)";
-                    //. " AND lt.id = (select id FROM live_transmitions lt2 WHERE lt.users_id = lt2.users_id ORDER BY CREATED DESC LIMIT 1 )"
-            }
-            if (AVideoPlugin::isEnabledByName("LiveLinks")) {
-                $sql .= " OR "
-                    . " EXISTS (SELECT 1 FROM LiveLinks ll WHERE ll.categories_id = c.id)"
-                    . " OR EXISTS (SELECT 1 FROM LiveLinks ll INNER JOIN categories child ON child.id = ll.categories_id "
-                    . "WHERE child.parentId = c.id AND child.id != c.id)";
-            }
-            $sql .= ")";
         }
 
         if ($sameUserGroupAsMe) {
@@ -523,13 +504,15 @@ class Category
         }
 
         $sql .= BootGrid::getSqlFromPost(['name'], "", " ORDER BY `order`, name ASC ");
+        // Visibility must be applied before pagination, including content in descendants.
+        $sql = preg_replace('/ LIMIT \d+, \d+\s*$/', '', $sql);
         if (!empty($_GET['debug'])) {
             //echo $sql;exit;
         }
 
         $timeLogName = TimeLogStart("getAllCategories");
         $cacheContext = self::getCountCacheSuffix('', false);
-        $cacheSuffix = md5($sql . '_r' . intval($showRestrictedCategories) . $cacheContext . self::getListCacheVersion());
+        $cacheSuffix = md5($sql . '_listing2_a' . intval($filterCanAddVideoOnly) . '_w' . intval($onlyWithVideos) . '_r' . intval($showRestrictedCategories) . $cacheContext . self::getListCacheVersion());
         $cacheHandler = new CategoryCacheHandler(0);
         $cacheObj = $cacheHandler->getCache($cacheSuffix, 36000);
         TimeLogEnd($timeLogName, __LINE__);
@@ -557,7 +540,7 @@ class Category
                     } else {
                         $totals = self::getTotalFromCategory($row['id']);
                     }
-                    if ($onlyWithVideos && empty($totals['total'])) {
+                    if (empty($totals['total']) && ($onlyWithVideos || (!$filterCanAddVideoOnly && !empty($fullTotals['total'])))) {
                         continue;
                     }
                     TimeLogEnd($timeLogName, __LINE__);
@@ -602,6 +585,9 @@ class Category
             }
         }
         //_error_log('getAllCategories return');
+        if (is_array($category) && !$ignorePagination && getRowCount() > 0) {
+            $category = array_slice($category, max(0, (getCurrentPage() - 1) * getRowCount()), getRowCount());
+        }
         return $category;
     }
 
@@ -697,9 +683,12 @@ class Category
         return false;
     }
 
-    public static function getChildCategories($parentId, $filterCanAddVideoOnly = false)
+    public static function getChildCategories($parentId, $filterCanAddVideoOnly = false, $showRestrictedCategories = null, $ignoreRequestFilters = false)
     {
         global $global, $config;
+        if ($showRestrictedCategories === null) {
+            $showRestrictedCategories = $filterCanAddVideoOnly || !isToHidePrivateVideos();
+        }
         if ($config->currentVersionLowerThen('8.4')) {
             return false;
         }
@@ -719,15 +708,22 @@ class Category
         unset($_POST['sort']['v.created']);
         unset($_POST['sort']['likes']);
 
-        $sql .= BootGrid::getSqlFromPost(['name'], "", " ORDER BY `order`, name ASC ");
-        //var_dump($sql, [$parentId, $parentId]);exit;
+        $sql .= BootGrid::getSqlFromPost(['name'], "", " ORDER BY `order`, name ASC ", $ignoreRequestFilters);
+        // Counts traverse the complete tree, independent of the current search/page.
+        $sql = preg_replace('/ LIMIT \d+, \d+\s*$/', '', $sql);
         $res = sqlDAL::readSql($sql, "ii", [$parentId, $parentId]);
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $category = [];
         if ($res) {
             foreach ($fullResult as $row) {
-                $totals = self::getTotalFromCategory($row['id']);
+                $totals = self::getTotalFromCategory($row['id'], false, $showRestrictedCategories);
+                if (!$showRestrictedCategories && empty($totals['total'])) {
+                    $fullTotals = self::getTotalFromCategory($row['id'], false, true);
+                    if (!empty($fullTotals['total'])) {
+                        continue;
+                    }
+                }
                 $row['name'] = xss_esc_back($row['name']);
                 $row['total'] = $totals['total'];
                 $row['total_array'] = $totals;
@@ -737,6 +733,9 @@ class Category
         } else {
             $category = false;
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        if (is_array($category) && !$ignoreRequestFilters && getRowCount() > 0) {
+            $category = array_slice($category, max(0, (getCurrentPage() - 1) * getRowCount()), getRowCount());
         }
         return $category;
     }
@@ -794,17 +793,10 @@ class Category
 
     public static function getTotalFromChildCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false)
     {
-        $categories = self::getChildCategories($categories_id);
+        $categories = self::getChildCategories($categories_id, false, true, true);
         $array = ['videos' => 0, 'lives' => 0, 'livelinks' => 0, 'total' => 0];
         foreach ($categories as $value) {
-            $totals = self::getTotalFromCategory($categories_id, $showUnlisted, $getAllVideos, $renew);
-            $array = [
-                'videos' => $array['videos'] + $totals['videos'],
-                'lives' => $array['lives'] + $totals['lives'],
-                'livelinks' => $array['livelinks'] + $totals['livelinks'],
-                'total' => $array['total'] + $totals['total'],
-            ];
-            $totals = self::getTotalFromChildCategory($value['id'], $showUnlisted, $getAllVideos, $renew);
+            $totals = self::getTotalFromCategory($value['id'], $showUnlisted, $getAllVideos, $renew);
             $array = [
                 'videos' => $array['videos'] + $totals['videos'],
                 'lives' => $array['lives'] + $totals['lives'],
@@ -819,7 +811,16 @@ class Category
     public static function getLatestVideoFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false)
     {
         global $global, $config;
-        $sql = "SELECT * FROM videos v WHERE 1=1 AND (categories_id = ? OR categories_id IN (SELECT id from categories where parentId = ? ))";
+        $categoryIds = [intval($categories_id)];
+        for ($index = 0; $index < count($categoryIds); $index++) {
+            foreach (self::getChildCategories($categoryIds[$index], false, true, true) as $child) {
+                $childId = intval($child['id']);
+                if (!in_array($childId, $categoryIds)) {
+                    $categoryIds[] = $childId;
+                }
+            }
+        }
+        $sql = "SELECT * FROM videos v WHERE 1=1 AND categories_id IN (" . implode(',', $categoryIds) . ")";
 
         if (User::isLogged()) {
             $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='" . User::getId() . "'))";
@@ -827,11 +828,15 @@ class Category
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
         }
         if (!$getAllVideos) {
-            $sql .= Video::getUserGroupsCanSeeSQL();
+            // The alias is required: unqualified columns resolve to the group tables inside the subqueries.
+            $sql .= Video::getUserGroupsCanSeeSQL('v.');
+        }
+        if (isForKidsSet()) {
+            $sql .= " AND v.made_for_kids = 1 ";
         }
         $sql .= "ORDER BY created DESC LIMIT 1";
         //var_dump($sql, $categories_id);
-        $res = sqlDAL::readSql($sql, "ii", [$categories_id, $categories_id]);
+        $res = sqlDAL::readSql($sql);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return $result;
@@ -890,7 +895,11 @@ class Category
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
             }
             if (!$getAllVideos) {
-                $sql .= Video::getUserGroupsCanSeeSQL();
+                // The alias is required: unqualified columns resolve to the group tables inside the subqueries.
+                $sql .= Video::getUserGroupsCanSeeSQL('v.');
+            }
+            if (isForKidsSet()) {
+                $sql .= " AND v.made_for_kids = 1 ";
             }
             //echo $categories_id, $sql;exit;
             TimeLogEnd($timeLogName, __LINE__);
@@ -901,7 +910,7 @@ class Category
             sqlDAL::close($res);
             $total = empty($fullResult[0]['total']) ? 0 : intval($fullResult[0]['total']);
             TimeLogEnd($timeLogName, __LINE__);
-            $rows = self::getChildCategories($categories_id);
+            $rows = self::getChildCategories($categories_id, false, true, true);
             TimeLogEnd($timeLogName, __LINE__);
             foreach ($rows as $value) {
                 $total += self::getTotalVideosFromCategory($value['id'], $showUnlisted, $getAllVideos, $renew);
@@ -937,7 +946,7 @@ class Category
             $fullResult = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $total = empty($fullResult[0]['total']) ? 0 : intval($fullResult[0]['total']);
-            $rows = self::getChildCategories($categories_id);
+            $rows = self::getChildCategories($categories_id, false, true, true);
             foreach ($rows as $value) {
                 $total += self::getTotalLivesFromCategory($value['id'], $showUnlisted, $renew);
             }
@@ -983,7 +992,7 @@ class Category
             sqlDAL::close($res);
             $total = empty($fullResult[0]['total']) ? 0 : intval($fullResult[0]['total']);
 
-            $rows = self::getChildCategories($categories_id);
+            $rows = self::getChildCategories($categories_id, false, true, true);
             foreach ($rows as $value) {
                 $total += self::getTotalLivesFromCategory($value['id'], $showUnlisted, $renew);
             }
@@ -1043,69 +1052,10 @@ class Category
         return sqlDAL::writeSql($sql, "i", [$this->id]);
     }
 
-    public static function getTotalCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false)
+    public static function getTotalCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false, $hideNegativeOrder = false, $showRestrictedCategories = null)
     {
-        global $global, $config;
-
-        if ($config->currentVersionLowerThen('5.01')) {
-            return false;
-        }
-        $sql = "SELECT id, parentId FROM categories c WHERE 1=1 ";
-        if ($onlySuggested) {
-            $sql .= "AND suggested = 1 ";
-        }
-        if ($filterCanAddVideoOnly && !User::isAdmin()) {
-            if (is_int($filterCanAddVideoOnly)) {
-                $users_id = $filterCanAddVideoOnly;
-            } else {
-                $users_id = User::getId();
-            }
-
-            if ($config->currentVersionGreaterThen('6.1')) {
-                $sql .= " AND (private=0 OR users_id = '{$users_id}') ";
-            }
-        }
-        if (!empty($_GET['parentsOnly'])) {
-            $sql .= "AND (parentId = 0 OR parentId = -1) ";
-        }
-        if ($onlyWithVideos) {
-            $kidsFilter = isForKidsSet() ? " AND v.made_for_kids = 1 " : "";
-            $sql .= " AND ("
-                . "EXISTS (SELECT 1 FROM videos v WHERE v.categories_id = c.id {$kidsFilter})"
-                . " OR EXISTS (SELECT 1 FROM videos v INNER JOIN categories child ON child.id = v.categories_id "
-                . "WHERE child.parentId = c.id AND child.id != c.id {$kidsFilter})";
-            if (AVideoPlugin::isEnabledByName("Live")) {
-                $sql .= " OR "
-                    . " EXISTS (SELECT 1 FROM live_transmitions lt WHERE lt.categories_id = c.id)"
-                    . " OR EXISTS (SELECT 1 FROM live_transmitions lt INNER JOIN categories child ON child.id = lt.categories_id "
-                    . "WHERE child.parentId = c.id AND child.id != c.id)";
-                    //. " AND lt.id = (select id FROM live_transmitions lt2 WHERE lt.users_id = lt2.users_id ORDER BY CREATED DESC LIMIT 1 )"
-            }
-            if (AVideoPlugin::isEnabledByName("LiveLinks")) {
-                $sql .= " OR "
-                    . " EXISTS (SELECT 1 FROM LiveLinks ll WHERE ll.categories_id = c.id)"
-                    . " OR EXISTS (SELECT 1 FROM LiveLinks ll INNER JOIN categories child ON child.id = ll.categories_id "
-                    . "WHERE child.parentId = c.id AND child.id != c.id)";
-            }
-            $sql .= ")";
-        }
-        if ($sameUserGroupAsMe) {
-            $users_groups = UserGroups::getUserGroups($sameUserGroupAsMe);
-            $users_groups_id = array(0);
-            foreach ($users_groups as $value) {
-                $users_groups_id[] = $value['id'];
-            }
-            $sql .= " AND ("
-                . "(SELECT count(*) FROM categories_has_users_groups chug WHERE c.id = chug.categories_id) = 0 OR "
-                . "(SELECT count(*) FROM categories_has_users_groups chug2 WHERE c.id = chug2.categories_id AND users_groups_id IN (" . implode(',', $users_groups_id) . ")) >= 1 "
-                . ")";
-        }
-        $sql .= BootGrid::getSqlSearchFromPost(['name']);
-        //echo $sql;exit;
-        $res = sqlDAL::readSql($sql);
-        $numRows = sqlDal::num_rows($res);
-        sqlDAL::close($res);
-        return $numRows;
+        $categories = self::getAllCategories($filterCanAddVideoOnly, $onlyWithVideos, $onlySuggested, $sameUserGroupAsMe, $hideNegativeOrder, $showRestrictedCategories, true);
+        return is_array($categories) ? count($categories) : 0;
     }
 
     public function getIconClass()

@@ -80,7 +80,7 @@ $_page = new Page(array('List Categories'));
                 //var_dump("<br> 1 {$value['name']}");
                 continue;
             }
-            if ($advancedCustom->ShowAllVideosOnCategory) {
+            if ($advancedCustom->ShowAllVideosOnCategory && !isToHidePrivateVideos()) {
                 $total = $value['fullTotal'];
             } else {
                 $total = $value['total'];
@@ -90,8 +90,9 @@ $_page = new Page(array('List Categories'));
                 continue;
             }
 
-            if (!empty($value['fullTotal_videos'])) {
-                $video = Category::getLatestVideoFromCategory($value['id'], true, true);
+            $image = '';
+            $video = !empty($value['fullTotal_videos']) ? Category::getLatestVideoFromCategory($value['id'], false, !isToHidePrivateVideos()) : false;
+            if (!empty($video['id'])) {
                 $images = Video::getImageFromID($video['id']);
                 $image = $images->default['url'];
             } elseif (!empty($value['fullTotal_lives'])) {
@@ -102,7 +103,7 @@ $_page = new Page(array('List Categories'));
                 $image = LiveLinks::getImage($liveLinks['id']);
             }
 
-            $totalVideosOnChilds = Category::getTotalFromChildCategory($value['id']);
+            $totalVideosOnChilds = Category::getTotalFromChildCategory($value['id'], false, !isToHidePrivateVideos());
             $childs = Category::getChildCategories($value['id']);
             $photo = Category::getCategoryPhotoPath($value['id']);
             $photoBg = Category::getCategoryBackgroundPath($value['id']);

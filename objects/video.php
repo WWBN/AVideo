@@ -1807,9 +1807,12 @@ if (!class_exists('Video')) {
             }
         }
 
-        public static function getRelatedMovies($videos_id, $limit = 10)
+        public static function getRelatedMovies($videos_id, $limit = 10, $ignoreGroup = null)
         {
             global $global;
+            if ($ignoreGroup === null) {
+                $ignoreGroup = !isToHidePrivateVideos();
+            }
 
             // Retrieve basic info of the reference video
             $video = self::getVideoLight($videos_id);
@@ -1824,7 +1827,7 @@ if (!class_exists('Video')) {
             if (!empty($serie_playlists_id)) {
                 unset($_REQUEST['serie_playlists_id']);
                 $videosArrayId = PlayList::getVideosIdFromPlaylist($serie_playlists_id);
-                $rows = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+                $rows = Video::getAllVideos("viewable", false, $ignoreGroup, $videosArrayId, false, true);
                 return PlayList::sortVideos($rows, $videosArrayId);
             }
 
@@ -1838,6 +1841,9 @@ if (!class_exists('Video')) {
               AND categories_id = {$video['categories_id']}";
 
             // Apply filter for kids, if required
+            if (!$ignoreGroup) {
+                $sql .= self::getUserGroupsCanSeeSQL('v.');
+            }
             if (isForKidsSet()) {
                 $sql .= " AND made_for_kids = 1";
             }
@@ -1877,6 +1883,9 @@ if (!class_exists('Video')) {
                   AND categories_id != {$video['categories_id']}";
 
                 // Apply kids filter if enabled
+                if (!$ignoreGroup) {
+                    $sql .= self::getUserGroupsCanSeeSQL('v.');
+                }
                 if (isForKidsSet()) {
                     $sql .= " AND made_for_kids = 1";
                 }

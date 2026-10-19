@@ -235,7 +235,7 @@ class YouPHPFlix2 extends PluginAbstract
     {
         global $global;
         $start = microtime(true);
-        $cacheName = 'YouPHPFlix2_API_get_firstPage_' . md5(json_encode($parameters)).'_'.User::getId();
+        $cacheName = 'YouPHPFlix2_API_get_firstPage_' . md5(json_encode($parameters)).'_'.getVideoListVisibilityCacheKey();
         $object = ObjectYPT::getCacheGlobal($cacheName, 3600); // 1 hour
         if (empty($object)) {
             $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
@@ -272,7 +272,7 @@ class YouPHPFlix2 extends PluginAbstract
             if ($obj->PlayList) {
                 $plObj = AVideoPlugin::getDataObjectIfEnabled('PlayLists');
                 if (!empty($plObj)) {
-                    $programs = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos, array(), false, false, true, false, true);
+                    $programs = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !isToHidePrivateVideos(), array(), false, false, true, false, true);
                     cleanSearchVar();
                     if (!empty($programs)) {
                         $countSections++;

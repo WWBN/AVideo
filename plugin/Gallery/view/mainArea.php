@@ -155,7 +155,7 @@ saveRequestVars();
         $countSections = 0;
         if (!empty($_REQUEST['catName'])) {
             $currentCat = Category::getCategoryByName($_REQUEST['catName']);
-            //createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $category['iconClass'], true);
+            //createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !isToHidePrivateVideos(), $category['iconClass'], true);
 
             include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
         } else {
@@ -178,7 +178,7 @@ saveRequestVars();
                     // SECURITY REVIEW (2026-08-21): !hidePrivateVideos below and in the rest of this
                     // file intentionally bypasses the group restriction for these listings (see
                     // Gallery.php hidePrivateVideos default) - not a bug.
-                    createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star", true);
+                    createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !isToHidePrivateVideos(), "fas fa-star", true);
                 } else
                 if (empty(getSearchVar()) && empty($_GET['showOnly']) && $value['name'] == 'PlayLists') {
                     $objPl = AVideoPlugin::getDataObject('PlayLists');
@@ -219,22 +219,22 @@ saveRequestVars();
                     }
                 } else
                 if ($value['name'] == 'Trending') {
-                    createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line", true);
+                    createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !isToHidePrivateVideos(), "fas fa-chart-line", true);
                 } else
                 if ($value['name'] == 'SortByName') {
-                    createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font", true);
+                    createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !isToHidePrivateVideos(), "fas fa-font", true);
                 } else
                 if ($value['name'] == 'DateAdded' && empty($_REQUEST['catName'])) {
-                    createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt", true);
+                    createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !isToHidePrivateVideos(), "far fa-calendar-alt", true);
                 } else
                 if ($value['name'] == 'PrivateContent') {
-                    createGallery(!empty($obj->PrivateContentCustomTitle) ? $obj->PrivateContentCustomTitle : __("Private Content"), 'created', $obj->PrivateContentRowCount, 'privateContentOrder', __("Most"), __("Fewest"), $orderString, "DESC", true, "fas fa-lock", true);
+                    createGallery(!empty($obj->PrivateContentCustomTitle) ? $obj->PrivateContentCustomTitle : __("Private Content"), 'created', $obj->PrivateContentRowCount, 'privateContentOrder', __("Most"), __("Fewest"), $orderString, "DESC", !isToHidePrivateVideos(), "fas fa-lock", true);
                 } else
                 if ($value['name'] == 'MostWatched') {
-                    createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-eye", true);
+                    createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC", !isToHidePrivateVideos(), "far fa-eye", true);
                 } else
                 if ($value['name'] == 'MostPopular') {
-                    createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "fas fa-fire", true);
+                    createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC", !isToHidePrivateVideos(), "fas fa-fire", true);
                 } else
                 if ($value['name'] == 'SubscribedChannels' && User::isLogged() && empty($_GET['showOnly'])) {
                     include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';
@@ -259,7 +259,7 @@ saveRequestVars();
             }
             if (empty($countSections) && !empty($_REQUEST['catName'])) {
                 $category = Category::getCategoryByName($_REQUEST['catName']);
-                createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $category['iconClass'], true);
+                createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !isToHidePrivateVideos(), $category['iconClass'], true);
             }
         }
     } else {

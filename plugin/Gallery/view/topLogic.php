@@ -41,10 +41,10 @@ if ($obj->sortReverseable) {
 }
 // SECURITY REVIEW (2026-08-21): !hidePrivateVideos intentionally bypasses the group restriction
 // for this front-page listing (see Gallery.php hidePrivateVideos default) - not a bug, see there.
-$video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, !$obj->hidePrivateVideos, false, true);
+$video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, !isToHidePrivateVideos(), false, true);
 $debugLastGetVideoSQL = $lastGetVideoSQL;
 if (empty($video)) {
-    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, !$obj->hidePrivateVideos, true);
+    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, !isToHidePrivateVideos(), true);
     $debugLastGetVideoSQL = $lastGetVideoSQL;
 }
 $total = 0;

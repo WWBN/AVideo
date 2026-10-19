@@ -673,8 +673,13 @@ class API extends PluginAbstract
         $obj = $this->startResponseObject($parameters);
         if (!empty($parameters['catName'])) {
             $row = Category::getCategoryByName($parameters['catName']);
+            if (empty($row)) {
+                $obj->totalRows = 0;
+                $obj->rows = [];
+                return new ApiObject("", false, $obj);
+            }
             $fullTotals = Category::getTotalFromCategory($row['id'], false, true, true);
-            $totals = Category::getTotalFromCategory($row['id']);
+            $totals = Category::getTotalFromCategory($row['id'], false, !isToHidePrivateVideos());
             $row['total'] = $totals['total'];
             $row['fullTotal'] = $fullTotals['total'];
             $row['fullTotal_videos'] = $fullTotals['videos'];
@@ -682,19 +687,20 @@ class API extends PluginAbstract
             $row['fullTotal_livelinks'] = $fullTotals['livelinks'];
             $row['fullTotal_livelinks'] = $fullTotals['livelinks'];
 
-            $rows = array($row);
+            $rows = empty($totals['total']) && !empty($fullTotals['total']) ? [] : array($row);
         } else {
             $rows = Category::getAllCategories();
         }
         foreach ($rows as $key => $value) {
-            $totalVideosOnChilds = Category::getTotalFromChildCategory($value['id']);
+            $totalVideosOnChilds = Category::getTotalFromChildCategory($value['id'], false, !isToHidePrivateVideos());
             $childs = Category::getChildCategories($value['id']);
             $photo = Category::getCategoryPhotoPath($value['id']);
             $photoBg = Category::getCategoryBackgroundPath($value['id']);
             $link = $global['webSiteRootURL'] . 'cat/' . $value['clean_name'];
 
-            if (!empty($value['fullTotal_videos'])) {
-                $video = Category::getLatestVideoFromCategory($value['id'], true, true);
+            $image = '';
+            $video = !empty($value['fullTotal_videos']) ? Category::getLatestVideoFromCategory($value['id'], false, !isToHidePrivateVideos()) : false;
+            if (!empty($video['id'])) {
                 $images = Video::getImageFromID($video['id']);
                 $image = $images->default['url'];
             } elseif (!empty($value['fullTotal_lives'])) {
@@ -713,7 +719,7 @@ class API extends PluginAbstract
             $rows[$key]['link'] = $link;
         }
         //array_multisort(array_column($rows, 'hierarchyAndName'), SORT_ASC, $rows);
-        $totalRows = Category::getTotalCategories();
+        $totalRows = !empty($parameters['catName']) ? count($rows) : Category::getTotalCategories();
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;
         return new ApiObject("", false, $obj);
@@ -1694,31 +1700,31 @@ class API extends PluginAbstract
         $obj = $this->startResponseObject($parameters);
         if (!empty($parameters['videos_id'])) {
             $status = Video::SORT_TYPE_VIEWABLE;
-            $ignoreGroup = false;
+            $ignoreGroup = !isToHidePrivateVideos();
             if (self::isAPISecretValid()) {
                 $status = "";
                 $ignoreGroup = true;
             }
             //              getVideo($id = "", $status = Video::SORT_TYPE_VIEWABLE, $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true)
-            $rows = [Video::getVideo($parameters['videos_id'], $status, $ignoreGroup, false, false, true)];
-            $totalRows = empty($rows) ? 0 : 1;
+            $row = Video::getVideo($parameters['videos_id'], $status, $ignoreGroup, false, false, true);
+            $rows = empty($row) ? [] : [$row];
+            $totalRows = count($rows);
         } elseif (self::isAPISecretValid()) {
             $rows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true);
             $totalRows = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, true);
         } elseif (!empty($parameters['clean_title'])) {
-            // SECURITY: getVideoFromCleanTitle() ignores status/group ACL by design for its other
-            // (metadata-only) callers - re-resolve through the same ACL'd getVideo() the videos_id
-            // branch above uses (isAPISecretValid() is always false here, already handled above).
+            // Re-resolve the slug using the same status/listing policy as videos_id.
+            // Playback permission is checked separately by filterVideoSources().
             $videoFromTitle = Video::getVideoFromCleanTitle($parameters['clean_title']);
-            $row = empty($videoFromTitle['id']) ? false : Video::getVideo($videoFromTitle['id'], Video::SORT_TYPE_VIEWABLE, false, false, false, true);
+            $row = empty($videoFromTitle['id']) ? false : Video::getVideo($videoFromTitle['id'], Video::SORT_TYPE_VIEWABLE, !isToHidePrivateVideos(), false, false, true);
             $rows = empty($row) ? [] : [$row];
             $totalRows = empty($row) ? 0 : 1;
         } else {
             if(empty($_GET['sort']) && empty($_REQUEST['sort']) && empty($_POST['sort'])){
                 $_POST['sort'] = array('created' => 'desc');
             }
-            $rows = Video::getAllVideos();
-            $totalRows = Video::getTotalVideos();
+            $rows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, !isToHidePrivateVideos());
+            $totalRows = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, !isToHidePrivateVideos());
             /*
             if(!empty($_REQUEST['debug'])){
                 global $_lastGetAllSQL;
@@ -1740,7 +1746,7 @@ class API extends PluginAbstract
                 }
 
                 $fullTotals = Category::getTotalFromCategory($currentCat['id'], false, true, true);
-                $totals = Category::getTotalFromCategory($currentCat['id']);
+                $totals = Category::getTotalFromCategory($currentCat['id'], false, !isToHidePrivateVideos());
                 $currentCat['total'] = $totals['total'];
                 $currentCat['fullTotal'] = $fullTotals['total'];
                 $currentCat['fullTotal_videos'] = $fullTotals['videos'];
@@ -1748,7 +1754,7 @@ class API extends PluginAbstract
                 $currentCat['fullTotal_livelinks'] = $fullTotals['livelinks'];
                 $currentCat['fullTotal_livelinks'] = $fullTotals['livelinks'];
 
-                $currentCat['totalVideosOnChilds'] = Category::getTotalFromChildCategory($currentCat['id']);
+                $currentCat['totalVideosOnChilds'] = Category::getTotalFromChildCategory($currentCat['id'], false, !isToHidePrivateVideos());
                 $currentCat['childs'] = Category::getChildCategories($currentCat['id']);
                 $currentCat['photo'] = Category::getCategoryPhotoPath($currentCat['id']);
                 $currentCat['photoBg'] = Category::getCategoryBackgroundPath($currentCat['id']);
@@ -1758,7 +1764,9 @@ class API extends PluginAbstract
                     $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$child['clean_name']}";
                     $currentCat['childs'][$key]['section'] = new SectionFirstPage('SubCategroy', $child['name'], $endpoint, getRowCount());
                 }
-                $obj->category = $currentCat;
+                if (!empty($totals['total']) || empty($fullTotals['total'])) {
+                    $obj->category = $currentCat;
+                }
             }
         }
 
@@ -1824,17 +1832,7 @@ class API extends PluginAbstract
             } else {
                 $rows[$key]['sources'] = Video::getVideosPathsToSource($rows[$key]['videos']);
             }
-            // Strip playback sources for password-protected videos unless the correct
-            // password is supplied. The video_password field is already sanitised to
-            // '' / '1' by cleanUpRowFromDatabase(), so load the real hash via Video.
-            if (!$isAPISecretValid && !empty($rows[$key]['video_password'])) {
-                $videoObj = new Video('', '', $value['id']);
-                $storedPassword = $videoObj->getVideo_password();
-                if (!Video::verifyVideoPassword((string)($parameters['video_password'] ?? ''), $storedPassword)) {
-                    $rows[$key]['videos'] = new stdClass();
-                    $rows[$key]['sources'] = array();
-                }
-            }
+            $canPlay = self::filterVideoSources($rows[$key], $parameters, $isAPISecretValid);
 
             $rows[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
             $rows[$key]['Thumbnail'] = !empty($objMob->portraitImage) ? $images->posterPortraitThumbs : $images->thumbsJpg;
@@ -1864,7 +1862,7 @@ class API extends PluginAbstract
 
             //make playlist compatible
             if (!empty($parameters['playlist'])) {
-                $rows[$key]['mp3'] = convertVideoToMP3FileIfNotExists($value['id']);
+                $rows[$key]['mp3'] = $canPlay ? convertVideoToMP3FileIfNotExists($value['id']) : false;
                 $rows[$key]['category_name'] = $value['category'];
                 $rows[$key]['category'] = array('name' => $rows[$key]['category_name']);
                 $rows[$key]['channel_name'] = User::_getChannelName($rows[$key]['users_id']);;
@@ -1916,7 +1914,7 @@ class API extends PluginAbstract
             $rows[$key]['wwbnType'] = $rows[$key]['type'];
 
             if (empty($parameters['noRelated'])) {
-                $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
+                $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id'], 10, $isAPISecretValid || !isToHidePrivateVideos());
                 foreach ($rows[$key]['relatedVideos'] as $key2 => $value2) {
                     // Sanitize user data from related videos too, unless the caller owns that row
                     $isOwnRelatedVideoRow = $isUserLoggedIn && !empty($value2['users_id']) && ((int) $value2['users_id'] === (int) $currentUserId);
@@ -1952,6 +1950,7 @@ class API extends PluginAbstract
                     if (!empty($rows[$key]['relatedVideos'][$key2]['videoLink'])) {
                         $rows[$key]['relatedVideos'][$key2]['videoLink'] = AVideoPlugin::modifyURL($rows[$key]['relatedVideos'][$key2]['videoLink'], $value2['id']);
                     }
+                    self::filterVideoSources($rows[$key]['relatedVideos'][$key2], $parameters, $isAPISecretValid);
                 }
             }
             $rows[$key]['adsImages'] = array();
@@ -1974,6 +1973,29 @@ class API extends PluginAbstract
         //ObjectYPT::setCacheGlobal($cacheName, $obj);
         $videosListCache->setCache($obj);
         return new ApiObject("", false, $obj);
+    }
+
+    private static function filterVideoSources(&$row, $parameters, $hasAPISecret)
+    {
+        if ($hasAPISecret) {
+            return true;
+        }
+        // Listing a restricted title/thumbnail must never grant playback.
+        $canWatch = User::canWatchVideoWithAds($row['id']);
+        if ($canWatch && !empty($row['video_password'])) {
+            $video = new Video('', '', $row['id']);
+            $canWatch = Video::verifyVideoPassword((string)($parameters['video_password'] ?? ''), $video->getVideo_password());
+        }
+        if (!$canWatch) {
+            $row['videos'] = new stdClass();
+            $row['sources'] = array();
+            $row['videoLink'] = '';
+            $row['videoDownloadedLink'] = '';
+            if (isset($row['playlist'])) {
+                $row['playlist'] = array();
+            }
+        }
+        return $canWatch;
     }
 
     private static function getSubtitle($filename)
@@ -2216,7 +2238,7 @@ class API extends PluginAbstract
         if (self::isAPISecretValid()) {
             $totalRows = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, true);
         } else {
-            $totalRows = Video::getTotalVideos();
+            $totalRows = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, !isToHidePrivateVideos());
         }
         //$objMob = AVideoPlugin::getObjectData("MobileManager");
         //$SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
@@ -3314,8 +3336,8 @@ class API extends PluginAbstract
             $rows = empty($row) ? [] : [$row];
             $totalRows = empty($row) ? 0 : 1;
         } else {
-            $rows = Video::getAllVideos();
-            $totalRows = Video::getTotalVideos();
+            $rows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, !isToHidePrivateVideos());
+            $totalRows = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, !isToHidePrivateVideos());
         }
         $objMob = AVideoPlugin::getObjectData("MobileManager");
         $viewsCount = 0;
@@ -6478,6 +6500,7 @@ class SectionFirstPage
         }
         $start = microtime(true);
         //$endPointResponse = url_get_contents($endpointURL, '', 5, false, true);
+        $endpointURL = addQueryStringParameter($endpointURL, '_listingContext', getVideoListVisibilityCacheKey());
         $endPointResponse = url_get_contents_with_cache($endpointURL, 300, '', 5, false, true);
         $this->executionTime = microtime(true) - $start;
         //_error_log(gettype($endPointResponse).' '.json_encode($endPointResponse));

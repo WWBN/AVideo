@@ -603,7 +603,7 @@ $tToleranceSide = 0.2;
                     $sameUserGroupAsMe = false;
 
                     TimeLogEnd($tnameSide, __LINE__, $tToleranceSide);
-                    $categories = Category::getAllCategories(false, true, $advancedCustom->CategoryShowOnlySuggested, $sameUserGroupAsMe, true, true);
+                    $categories = Category::getAllCategories(false, true, $advancedCustom->CategoryShowOnlySuggested, $sameUserGroupAsMe, true);
                     if (empty($categories)) {
                         $categories = array();
                     }
@@ -614,7 +614,7 @@ $tToleranceSide = 0.2;
                             echo "<!-- categories parentId is present {$value['parentId']} -->";
                             continue;
                         }
-                        if ($advancedCustom->ShowAllVideosOnCategory) {
+                        if ($advancedCustom->ShowAllVideosOnCategory && !isToHidePrivateVideos()) {
                             $total = $value['fullTotal'];
                         } else {
                             $total = $value['total'];

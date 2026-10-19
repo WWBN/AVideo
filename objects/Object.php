@@ -1375,6 +1375,8 @@ class VideosListCacheHandler extends CacheHandler
             'is_serie',
             'user',
             'videos_id',
+            'clean_title',
+            'video_password',
             'playlist',
             'created',
             'minViews',
@@ -1384,7 +1386,8 @@ class VideosListCacheHandler extends CacheHandler
         );
         $cacheVars = array(
             'users_id' => User::getId(),
-            'requestUniqueString' => getRequestUniqueString()
+            'requestUniqueString' => getRequestUniqueString(),
+            'listingVisibility' => getVideoListVisibilityCacheKey()
         );
         foreach ($cacheParameters as $value) {
             $cacheVars[$value] = @$_REQUEST[$value];

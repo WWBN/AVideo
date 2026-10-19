@@ -1,6 +1,6 @@
 <?php
-// resolve once so an includer that forgot to set this on $obj cannot silently fail open
-$hidePrivate = isset($obj->hidePrivateVideos) ? $obj->hidePrivateVideos : isToHidePrivateVideos();
+// Use the same active-layout policy as menus and APIs.
+$hidePrivate = isToHidePrivateVideos();
 ?>
 <div class="flickity-area flix-catalog">
 <?php

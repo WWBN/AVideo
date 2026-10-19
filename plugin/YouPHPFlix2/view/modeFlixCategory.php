@@ -16,7 +16,7 @@ if (empty($_GET['current'])) {
 
 $uid = '{serie_uid}';
 
-$cacheName = "modeFlixCategory" . md5(json_encode($_GET)) . User::getId();
+$cacheName = "modeFlixCategory" . md5(json_encode($_GET)) . getVideoListVisibilityCacheKey();
 $cacheName .= isForKidsSet()?'forKids':'';
 
 $cacheLifetime = User::isLogged() ? 600 : 1800;
@@ -96,7 +96,7 @@ $videosCounter = 0;
             $_POST['sort']['likes'] = "DESC";
 
             TimeLogStart("modeFlixCategory.php getAllVideos");
-            $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj2->hidePrivateVideos);
+            $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !isToHidePrivateVideos());
             TimeLogEnd("modeFlixCategory.php getAllVideos", __LINE__);
 
             TimeLogEnd($timeLog2, __LINE__);

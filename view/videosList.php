@@ -64,8 +64,8 @@ $searchForVideosNow = preg_match('/videosList.php$/', $_SERVER['PHP_SELF']);
 
 //var_dump($_POST['sort']);
 if ($searchForVideosNow) {
-    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED);
-    $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED);
+    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !isToHidePrivateVideos());
+    $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !isToHidePrivateVideos());
     $totalPages = ceil($total / getRowCount());
     if (empty($totalPages)) {
         $totalPages = 1;

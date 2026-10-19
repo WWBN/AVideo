@@ -44,7 +44,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
     $timeLogName = TimeLogStart('modeGalleryCategory');
     foreach ($categories as $_cat) {
         //var_dump($_cat);
-        $setCacheName = "GalleryCategoryInclude{$_cat['id']}";
+        $setCacheName = "GalleryCategoryInclude{$_cat['id']}_" . getVideoListVisibilityCacheKey();
         unsetCurrentPage();
         //var_dump($_currentPage, $_GET['page']);
         //var_dump($_cat, $setCacheName);exit;

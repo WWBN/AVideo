@@ -3255,11 +3255,12 @@ function getAdsSideRectangle()
 
 function isToHidePrivateVideos()
 {
-    $obj = AVideoPlugin::getObjectDataIfEnabled("Gallery");
+    // Flix owns the homepage when both layout plugins are enabled.
+    $obj = AVideoPlugin::getObjectDataIfEnabled("YouPHPFlix2");
     if (!empty($obj)) {
         return $obj->hidePrivateVideos;
     }
-    $obj = AVideoPlugin::getObjectDataIfEnabled("YouPHPFlix2");
+    $obj = AVideoPlugin::getObjectDataIfEnabled("Gallery");
     if (!empty($obj)) {
         return $obj->hidePrivateVideos;
     }
@@ -3268,6 +3269,12 @@ function isToHidePrivateVideos()
         return $obj->hidePrivateVideos;
     }
     return false;
+}
+
+function getVideoListVisibilityCacheKey()
+{
+    return 'listing2_' . User::getId() . '_' . intval(isToHidePrivateVideos())
+        . '_' . md5(Video::getUserGroupsCanSeeSQL() . getRequestUniqueString());
 }
 
 function ogSite()
@@ -8708,7 +8715,7 @@ function mkSubCategory($catId)
     global $global, $parsed_cats;
     unset($_REQUEST['parentsOnly']);
 
-    $cacheName = "mkSubCategory_{$catId}";
+    $cacheName = "mkSubCategory_{$catId}_" . getVideoListVisibilityCacheKey();
     $cache = ObjectYPT::getCache($cacheName, rand(300, 600));
     if (!empty($cache)) {
         return $cache;

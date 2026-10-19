@@ -21,13 +21,14 @@ $sameUserGroupAsMe = false;
 if(!empty($_GET['user'])){
     $onlyWithVideos = true;
 }
-// Show all non-empty categories regardless of user-group restrictions.
-// Group restrictions are enforced at the video level, not the category level.
-$categories = Category::getAllCategories(true, $onlyWithVideos, false, false, false, true);
+// Upload/management selectors retain all writable categories; public browsing (user=) uses the site policy.
+// Anonymous requests stay selectors too: the Encoder reloads its category list cross-origin, without cookies.
+$filterCanAddVideoOnly = empty($_GET['user']);
+$categories = Category::getAllCategories($filterCanAddVideoOnly, $onlyWithVideos);
 if (!is_array($categories)) {
     $categories = [];
 }
-$total = Category::getTotalCategories(true, $onlyWithVideos, false, false);
+$total = Category::getTotalCategories($filterCanAddVideoOnly, $onlyWithVideos);
 //$breaks = array('<br />', '<br>', '<br/>');
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";

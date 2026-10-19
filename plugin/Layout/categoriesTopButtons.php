@@ -20,7 +20,7 @@ foreach ($categories as $value) {
         echo "<!-- generateHorizontalFlickity continue parentId -->";
         continue;
     }
-    if ($advancedCustom->ShowAllVideosOnCategory) {
+    if ($advancedCustom->ShowAllVideosOnCategory && !isToHidePrivateVideos()) {
         $total = $value['fullTotal'];
     } else {
         $total = $value['total'];

@@ -26,7 +26,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     // SECURITY REVIEW (2026-08-21): !hidePrivateVideos below and in the rest of this file
     // intentionally bypasses the group restriction for these listings (see Gallery.php
     // hidePrivateVideos default) - not a bug.
-    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
+    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !isToHidePrivateVideos());
     global $contentSearchFound;
     if (empty($contentSearchFound)) {
         $contentSearchFound = !empty($videos);
@@ -54,7 +54,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     foreach ($rows as $key => $value) {
         $_REQUEST['catName'] = $value['clean_name'];
         $_REQUEST['doNotShowCatChilds'] = 0;
-        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !isToHidePrivateVideos());
         createCategorySection($videos);
     }
     $_POST['sort'] = $sort;
@@ -104,7 +104,7 @@ function createCategorySection($videos)
     <div class="col-sm-12 gallerySection" >
         <?php
         $_REQUEST['catName'] = $videos[0]['clean_category'];
-        $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
+        $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !isToHidePrivateVideos());
         $totalPages = ceil($total / getRowCount());
         //var_dump($totalPages, $page);
         $categoryURL = "{$global['webSiteRootURL']}cat/{$videos[0]['clean_category']}/page/";

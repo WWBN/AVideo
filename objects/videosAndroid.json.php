@@ -28,19 +28,20 @@ if (!empty($_GET['user']) && !empty($_GET['pass'])) {
 }
 
 $objMob = AVideoPlugin::getObjectData("MobileManager");
+$ignoreGroup = !isToHidePrivateVideos();
 if (!empty($random)) {
-    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, true, false, true);
+    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, $ignoreGroup, false, true);
     if (empty($video)) {
-        $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, true, true);
+        $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, $ignoreGroup, true);
     }
-    $videos = [$video];
-    $total = 1;
+    $videos = empty($video) ? [] : [$video];
+    $total = count($videos);
 } elseif ($objMob->netflixStyle) {
-    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, true);
-    $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, true);
+    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, $ignoreGroup);
+    $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, $ignoreGroup);
 } else {
-    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE);
-    $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE);
+    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, $ignoreGroup);
+    $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, $ignoreGroup);
 }
 
 foreach ($videos as $key => $value) {
@@ -52,7 +53,12 @@ foreach ($videos as $key => $value) {
     $videos[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
     $videos[$key]['Thumbnail'] = !empty($objMob->portraitImage) ? $images->posterPortraitThumbs : $images->thumbsJpg;
     $videos[$key]['imageClass'] = !empty($objMob->portraitImage) ? "portrait" : "landscape";
-    $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
+    $canWatch = canWatchVideoIncludingPassword($value['id']);
+    $videos[$key]['VideoUrl'] = $canWatch ? getVideosURL($videos[$key]['filename']) : [];
+    if (!$canWatch) {
+        $videos[$key]['videoLink'] = '';
+        $videos[$key]['videoDownloadedLink'] = '';
+    }
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/" . $videos[$key]['clean_title'];
     $videos[$key]['embedUrl'] = "{$global['webSiteRootURL']}videoEmbed/" . $videos[$key]['clean_title'];

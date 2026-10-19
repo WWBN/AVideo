@@ -8,17 +8,17 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $_REQUEST['rowCount'] = 20;
     unsetCurrentPage();
     if(!empty($global['isChannel'])){
-        $videoRows = Video::getAllVideos(Video::SORT_TYPE_CHANNELSUGGESTED, $global['isChannel']);
+        $videoRows = Video::getAllVideos(Video::SORT_TYPE_CHANNELSUGGESTED, $global['isChannel'], !isToHidePrivateVideos());
     }
 
     if (empty($videoRows) && !empty($obj->useSuggestedVideosAsCarouselInBigVideo)) {
         //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
-        //$videoRows = Video::getAllVideosLight(Video::SORT_TYPE_VIEWABLE, !$obj->hidePrivateVideos, false, true);
+        //$videoRows = Video::getAllVideosLight(Video::SORT_TYPE_VIEWABLE, !isToHidePrivateVideos(), false, true);
         //$_REQUEST['rowCount'] = 20;
         //unsetCurrentPage();
         // SECURITY REVIEW (2026-08-21): !hidePrivateVideos intentionally bypasses the group
         // restriction for this listing (see Gallery.php hidePrivateVideos default) - not a bug.
-        $videoRows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, !$obj->hidePrivateVideos, [], false, false, true, true);
+        $videoRows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, !isToHidePrivateVideos(), [], false, false, true, true);
     }
     resetCurrentPage();
     if (empty($videoRows)) {

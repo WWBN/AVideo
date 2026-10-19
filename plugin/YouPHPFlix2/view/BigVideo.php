@@ -4,13 +4,13 @@ $uid = uniqid();
 $obj2 = AVideoPlugin::getObjectData("YouPHPFlix2");
 
 if (!empty($global['isChannel'])) {
-    $video = Video::getVideo('', Video::SORT_TYPE_CHANNELSUGGESTED, !$obj2->hidePrivateVideos, true);
+    $video = Video::getVideo('', Video::SORT_TYPE_CHANNELSUGGESTED, !isToHidePrivateVideos(), true);
 }
 if (empty($video)) {
-    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, !$obj2->hidePrivateVideos, false, true);
+    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, !isToHidePrivateVideos(), false, true);
 }
 if (empty($video)) {
-    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, !$obj2->hidePrivateVideos, true);
+    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, !isToHidePrivateVideos(), true);
 }
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($video)) {

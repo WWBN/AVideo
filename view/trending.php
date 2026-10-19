@@ -20,7 +20,7 @@ if (!empty($_GET['type'])) {
 _session_write_close();
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-$total = Video::getTotalVideos();
+$total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, !isToHidePrivateVideos());
 
 $_REQUEST['rowCount'] = 10;
 $_REQUEST['current'] = getCurrentPage();
@@ -29,7 +29,7 @@ $_REQUEST['current'] = getCurrentPage();
 $_GET['sort']['trending'] = 1;
 
 $pages = ceil($total / $_REQUEST['rowCount']);
-$videos = Video::getAllVideos();
+$videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, !isToHidePrivateVideos());
 unset($_POST['sort']);
 $metaDescription = __("Trending");
 $_page = new Page(array('Trending'));
