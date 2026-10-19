@@ -22,7 +22,8 @@ class SocialUploader
                 case SocialMediaPublisher::SOCIAL_TYPE_FACEBOOK['name']:
                     $json = json_decode($pub->getJson());
                     $pageId = $json->{'restream.ypt.me'}->facebook->broadcaster_id;
-                    _error_log("SocialMediaPublisher::upload json=" . json_encode($json));
+                    // do not log $json: it holds the access and refresh tokens
+                    _error_log("SocialMediaPublisher::upload facebook pageId=" . $pageId);
                     return SocialUploader::uploadFacebook($accessToken, $pageId, $videoPathMP4['url'], $title, $description, $visibility, $isShort);
                     break;
                 case SocialMediaPublisher::SOCIAL_TYPE_INSTAGRAM['name']:
@@ -51,18 +52,13 @@ class SocialUploader
             }
         } catch (\Throwable $th) {
             $error = $th->getMessage();
-            if (is_string($error)) {
-                $obj = json_decode($error);
-                if (!empty($obj->error)) {
-                    if (!empty($obj->error->message)) {
-                        return array('error' => true, 'msg' => $obj->error->message, 'line' => __LINE__);
-                    } else {
-                        return array('error' => true, 'msg' => $error, 'line' => __LINE__);
-                    }
-                }
-            } else {
-                return array('error' => true, 'msg' => $error, 'line' => __LINE__);
+            _error_log("SocialMediaPublisher::upload provider=" . $pub->getProviderName() . ' ' . get_class($th) . ': ' . $error, AVideoLog::$ERROR);
+            $obj = json_decode($error);
+            if (!empty($obj->error->message) && is_string($obj->error->message)) {
+                return array('error' => true, 'msg' => $obj->error->message, 'line' => __LINE__);
             }
+            // network errors and other non-API exceptions used to fall through to "return false" with no message
+            return array('error' => true, 'msg' => __('The request to the social network failed. Please try again later.'), 'line' => __LINE__);
         }
         return false;
     }
@@ -167,6 +163,9 @@ class SocialUploader
         $line = __LINE__;
         $msg = '';
         $obj = object_to_array($obj);
+        if (!is_array($obj)) {
+            return '';
+        }
         if (!empty($obj["msg"]) && is_string($obj["msg"])) {
             $line = __LINE__;
             $msg = $obj["msg"];
@@ -180,9 +179,14 @@ class SocialUploader
             $line = __LINE__;
             $msg = $obj["message"];
         }
+        if (is_array($msg)) {
+            // LinkedIn returns a list of messages
+            $msg = implode(' ', array_filter($msg, 'is_string'));
+        }
         if (!is_string($msg)) {
-            var_dump($line, $msg, $obj);
-            exit;
+            // this used to var_dump() the raw response (tokens included) to the browser and exit
+            _error_log("SocialUploader::getErrorMsg unexpected message type at line {$line}");
+            $msg = '';
         }
         return strip_tags($msg);
     }

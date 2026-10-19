@@ -7,6 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/SocialMediaPublisher/Objects/Pu
 require_once $global['systemRootPath'] . 'plugin/SocialMediaPublisher/Objects/Publisher_video_publisher_logs.php';
 require_once $global['systemRootPath'] . 'plugin/SocialMediaPublisher/Objects/Publisher_schedule.php';
 require_once $global['systemRootPath'] . 'plugin/SocialMediaPublisher/Objects/SocialUploader.php';
+require_once $global['systemRootPath'] . 'plugin/SocialMediaPublisher/Objects/YouTubePublisher.php';
 
 class SocialMediaPublisher extends PluginAbstract
 {
@@ -143,11 +144,12 @@ class SocialMediaPublisher extends PluginAbstract
     {
         $resp = self::revalidateTokenAndSave($publisher_user_preferences_id, $onlyIfIsExpired);
         if ($resp->error) {
-            //var_dump($resp->revalidateToken->accessToken->access_token);exit;
-            if (!empty($resp->revalidateToken->accessToken->access_token)) {
+            // the current token is only usable when it did not need a refresh; an expired one would just fail at the provider
+            if (!empty($resp->revalidateToken->notExpired) && !empty($resp->revalidateToken->accessToken->access_token)) {
                 return $resp->revalidateToken->accessToken->access_token;
             }
-            _error_log("getRevalidatedToken($publisher_user_preferences_id, $onlyIfIsExpired) ERROR " . json_encode($resp));
+            // never log $resp: it holds the access and refresh tokens
+            _error_log("getRevalidatedToken($publisher_user_preferences_id, $onlyIfIsExpired) ERROR " . (is_string($resp->msg) ? $resp->msg : ''));
             return false;
         }
         return $resp->respJson->new_access_token->access_token;
@@ -172,7 +174,7 @@ class SocialMediaPublisher extends PluginAbstract
         $json = json_decode($pub['json']);
 
         if (empty($json)) {
-            $response->msg = "revalidateToken($publisher_user_preferences_id) json is empty {$pub['json']}";
+            $response->msg = "revalidateToken($publisher_user_preferences_id) json is invalid";
             return $response;
         }
 
@@ -185,6 +187,7 @@ class SocialMediaPublisher extends PluginAbstract
 
         if ($onlyIfIsExpired && !$pub['accessTokenExpired']) {
             $response->msg = "Not expired yet";
+            $response->notExpired = true;
             return $response;
         }
 
@@ -195,10 +198,11 @@ class SocialMediaPublisher extends PluginAbstract
 
         $url = SocialMediaPublisher::RESTREAMER_URL . 'refresh.json.php';
         $url = addQueryStringParameter($url, 'access_token', $access_token);
-        $response->url = addQueryStringParameter($url, 'provider', $response->provider);
-        //var_dump($pub['publisher_social_medias_id'], $response->provider, $url);exit;
+        // the URL carries the refresh token: keep it out of $response (returned/logged) and let
+        // url_get_contents() skip URL logging ($failOnError)
+        $url = addQueryStringParameter($url, 'provider', $response->provider);
 
-        $response->resp = url_get_contents($response->url);
+        $response->resp = url_get_contents($url, '', 30, false, false, true, false, true);
         if (empty($response->resp)) {
             $response->msg = "revalidateToken($publisher_user_preferences_id) response is empty";
             return $response;
@@ -288,7 +292,8 @@ class SocialMediaPublisher extends PluginAbstract
         }
 
         $response = SocialUploader::upload($publisher_user_preferences_id, $paths['mp4'], $title, $description, $visibility);
-        _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName complete " . json_encode($response));
+        // the response can carry the provider token (Instagram), log only the outcome
+        _error_log("SocialMediaPublisher::upload($publisher_user_preferences_id, $videos_id) $providerName complete error=" . json_encode(is_array($response) ? !empty($response['error']) : empty($response)) . ' ' . SocialUploader::getErrorMsg($response));
         self::saveLog($publisher_social_medias_id, $videos_id, array('publisher_user_preferences_id' => $publisher_user_preferences_id, 'response' => $response));
         return $response;
     }
@@ -393,5 +398,22 @@ class SocialMediaPublisher extends PluginAbstract
     function executeEveryMinute()
     {
         self::scanInstagam();
+        try {
+            YouTubePublisher::recoverInterruptedJobs();
+        } catch (\Throwable $th) {
+            _error_log('SocialMediaPublisher::executeEveryMinute YouTube recovery ' . $th->getMessage(), AVideoLog::$ERROR);
+        }
+    }
+
+    /**
+     * Removes tokens from a publisher_user_preferences row before it is sent to the browser.
+     */
+    static function getPublicConnectionRow($row)
+    {
+        if (empty($row) || !is_array($row)) {
+            return $row;
+        }
+        unset($row['json'], $row['jsonObject']);
+        return $row;
     }
 }

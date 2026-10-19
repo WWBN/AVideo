@@ -8,6 +8,9 @@ $obj->error = true;
 $obj->msg = '';
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('SocialMediaPublisher');
+if (empty($plugin)) {
+    forbiddenPage('SocialMediaPublisher is disabled');
+}
 
 if (!User::isLogged()) {
     forbiddenPage('You must login');
@@ -16,14 +19,14 @@ if (!User::isLogged()) {
 if (empty($_REQUEST['id'])) {
     forbiddenPage('Empty Publisher_user_preferences ID');
 }
-$obj->row = Publisher_user_preferences::getFromDb($_REQUEST['id']);
+$row = Publisher_user_preferences::getFromDb($_REQUEST['id']);
 
 // check if there is Publisher_user_preferences
-if(empty($obj->row)){
-    forbiddenPage('There is no connection for provider '. $obj->provider['name']);
+if(empty($row)){
+    forbiddenPage('This connection does not exist');
 }
 
-if(User::getId() != $obj->row['users_id']){
+if(User::getId() != $row['users_id']){
     forbiddenPage('Publisher_user_preferences does not belong to your user');
 }
 
@@ -36,7 +39,30 @@ if(!Video::canEdit($obj->videos_id)){
     forbiddenPage('You cannot edit this video');
 }
 
-$obj->resp = SocialMediaPublisher::upload($obj->row['id'], $obj->videos_id);
+$pref = new Publisher_user_preferences($row['id']);
+if (YouTubePublisher::isYouTubeProvider($pref->getProviderName())) {
+    // YouTube runs in the background: large files would time out inside this request
+    try {
+        $input = array(
+            'title' => @$_REQUEST['title'],
+            'description' => @$_REQUEST['description'],
+            'tags' => @$_REQUEST['tags'],
+            'categoryId' => @$_REQUEST['categoryId'],
+            'privacy' => @$_REQUEST['visibility'],
+        );
+        $resp = YouTubePublisher::queue(User::getId(), $row['id'], $obj->videos_id, $input, !empty($_REQUEST['confirmDuplicate']));
+        foreach ($resp as $key => $value) {
+            $obj->$key = $value;
+        }
+    } catch (\Throwable $th) {
+        _error_log('uploadVideo.json.php YouTube ' . get_class($th) . ': ' . $th->getMessage(), AVideoLog::$ERROR);
+        $obj->error = true;
+        $obj->msg = __('The upload could not be started. Please try again.');
+    }
+    die(json_encode($obj));
+}
+
+$obj->resp = SocialMediaPublisher::upload($row['id'], $obj->videos_id);
 if(isset($obj->resp["error"])){
     $obj->error = $obj->resp["error"];
 }else{
@@ -44,5 +70,12 @@ if(isset($obj->resp["error"])){
 }
 
 $obj->msg = SocialUploader::getErrorMsg($obj->resp);
+if ($obj->error && empty($obj->msg)) {
+    $obj->msg = __('The video could not be published. Please try again later.');
+}
+// provider responses can include the access token (Instagram)
+if (is_array($obj->resp)) {
+    unset($obj->resp['accessToken']);
+}
 
 echo json_encode($obj);

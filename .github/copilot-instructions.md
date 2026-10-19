@@ -270,6 +270,18 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   (CustomizeAdvanced `verifySSLCertificates`, or `$global['verifySSLCertificates']`, off by default):
   the Docker stack and many installs use self-signed certificates. The fixed public BTC marketplace
   uses `shouldVerifySSLCertificates(true)`. Do not hardcode `verify_peer => true` in those callers.
+- **Publishing to YouTube** (`plugin/SocialMediaPublisher/`, not `plugin/YouTubeAPI/` — that one is only a
+  search gallery; `objects/youtubeUpload.json.php` is an old, unused path): OAuth runs on the
+  `restream.ypt.me` broker (`/d/git/htdocs/Restreamer`), which holds the Google client secret and returns
+  the token by `postMessage`; accept it only from the broker origin (`isRestreamerBrokerOrigin()` in
+  `view/js/script.js`). Tokens live in `publisher_user_preferences.json` and are renewed only through
+  `SocialMediaPublisher::revalidateTokenAndSave()`: give `Google_Client` the access token alone (with a
+  `refresh_token` it tries to refresh with a secret this site lacks), and never return/log that JSON
+  (`getPublicConnectionRow()`). `YouTubePublisher` uploads in a background CLI worker
+  (`youtubeUploadWorker.php`, resumable session, cancel/resume, cron recovery); the job is the `job` object in
+  `publisher_video_publisher_logs.details`, error texts are stored as codes. Covered by
+  `tests/Unit/YouTubePublisherTest.php`, `tests/Security/SocialMediaPublisherTokenExposureTest.php` and
+  `tests/social-media-publisher-message-origin.test.cjs`. Real uploads need manual testing with a connected account.
 - **Encoder monitor alerts**: the Encoder has no users table and no mailer. Its every-minute cron
   (`.compose/encoder/install/cron.php` → `EncoderMonitor`) detects slow/failed/stuck jobs and asks
   the job's own Streamer to e-mail the owner via `objects/aVideoEncoderAlert.json.php`

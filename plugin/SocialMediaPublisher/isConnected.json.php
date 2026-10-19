@@ -16,30 +16,32 @@ if (!User::isLogged()) {
 if (empty($_REQUEST['id'])) {
     forbiddenPage('Empty Publisher_user_preferences ID');
 }
-$obj->row = Publisher_user_preferences::getFromDb($_REQUEST['id']);
+$row = Publisher_user_preferences::getFromDb($_REQUEST['id']);
 
 // check if there is Publisher_user_preferences
-if(empty($obj->row)){
-    forbiddenPage('There is no connection for provider '. $obj->provider['name']);
+if(empty($row)){
+    forbiddenPage('This connection does not exist');
 }
 
-if(User::getId() != $obj->row['users_id']){
+if(User::getId() != $row['users_id']){
     forbiddenPage('Publisher_user_preferences does not belong to your user');
 }
 
 
-// if there is check if still valid 
-if($obj->row['accessTokenExpired']){
-    // if is not valid try to revalidate SocialMediaPublisher::revalidateToken($_REQUEST['id']);
-    $obj->revalidate = SocialMediaPublisher::revalidateTokenAndSave($obj->row['id']);
-    if($obj->revalidate->error){
-        forbiddenPage($obj->revalidate->msg);
+// if there is check if still valid
+if($row['accessTokenExpired']){
+    // if is not valid try to revalidate
+    $revalidate = SocialMediaPublisher::revalidateTokenAndSave($row['id']);
+    if($revalidate->error){
+        forbiddenPage(__('The connection expired and could not be renewed. Please reconnect your account.'));
     }else{
         // check if it is valid again
-        $obj->row = Publisher_user_preferences::getFromUsersIdAndProvider(User::getId(), $obj->provider['name']);
+        $row = Publisher_user_preferences::getFromDb($row['id'], true);
     }
 }
 
-$obj->error = $obj->row['accessTokenExpired'];
+$obj->error = $row['accessTokenExpired'];
+// never send the tokens to the browser
+$obj->row = SocialMediaPublisher::getPublicConnectionRow($row);
 
 die(json_encode($obj));

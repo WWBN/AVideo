@@ -1,0 +1,67 @@
+/* SocialMediaPublisher: publish page (uploadVideo.php) */
+.socialPublisher .panel-heading .fa,
+.socialPublisher .panel-heading .fab,
+.socialPublisher .panel-heading .fas {
+    margin-right: 5px;
+}
+
+.socialPublisher .social-network .btn {
+    margin: 10px 0;
+}
+
+.socialPublisherConnectHelp {
+    margin-bottom: 10px;
+}
+
+.socialPublisherConnectHelp .btn-link {
+    padding: 0 5px;
+}
+
+.socialPublisherVideoThumb {
+    margin-bottom: 15px;
+}
+
+.socialPublisherAccount {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.socialPublisherAccount .largeSocialIcon {
+    flex: 0 0 auto;
+    margin-right: 10px;
+}
+
+.socialPublisherAccountName {
+    overflow-wrap: anywhere;
+}
+
+.socialPublisherActions .btn {
+    margin: 2px 0;
+}
+
+.socialPublisherJobTitle {
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.socialPublisherJobStatus {
+    margin: 5px 0;
+}
+
+.socialPublisherJob .progress {
+    margin: 5px 0;
+}
+
+.socialPublisherJob .progress-bar {
+    min-width: 2em;
+}
+
+.socialPublisherJobButtons .btn {
+    margin: 2px 4px 2px 0;
+}
+
+/* lines of the connection/history tables (DataTables) wrap on small screens */
+.socialPublisher table.dataTable td {
+    white-space: normal;
+}

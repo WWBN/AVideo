@@ -50,6 +50,18 @@ class Publisher_user_preferences extends ObjectYPT
         return $fullData;
     }
 
+    public static function getTotalFromUsersId($users_id)
+    {
+        if (!static::isTableInstalled()) {
+            return 0;
+        }
+        $sql = "SELECT count(id) as total FROM  " . static::getTableName() . " WHERE users_id = ? ";
+        $res = sqlDAL::readSql($sql, 'i', [$users_id]);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return empty($data['total']) ? 0 : intval($data['total']);
+    }
+
     function setId($id)
     {
         $this->id = intval($id);

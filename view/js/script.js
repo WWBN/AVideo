@@ -65,8 +65,9 @@ try {
         }
         */
 
-        // this is for plugin/SocialMediaPublisher/script.js
-        if (typeof e.data.provider !== 'undefined' && typeof saveYPT !== 'undeined') {
+        // this is for plugin/SocialMediaPublisher/script.js and the Live restream keys: forward the
+        // connection sent by the restream.ypt.me popup to the iframe that opened it, and nothing else
+        if (typeof e.data.provider !== 'undefined' && isRestreamerBrokerOrigin(e.origin)) {
             forwardToIframe(e.data);
         }
     }, false);
@@ -123,6 +124,16 @@ function avideoCookieOptions(expires, extraOptions) {
     }
 
     return options;
+}
+
+function isRestreamerBrokerOrigin(origin) {
+    // yptURL is printed by SocialMediaPublisher::getHeadCode(); Live uses the same broker
+    var brokerURL = (typeof yptURL !== 'undefined' && yptURL) ? yptURL : 'https://restream.ypt.me/';
+    try {
+        return new URL(brokerURL).origin === origin;
+    } catch (e) {
+        return false;
+    }
 }
 
 function forwardToIframe(data) {
