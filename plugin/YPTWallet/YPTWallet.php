@@ -393,8 +393,12 @@ class YPTWallet extends PluginAbstract
 
     private static $paymentTransactionActive = false;
 
-    /** Process verified provider deliveries atomically, using the existing wallet ledger. */
-    public function processPaymentOnce($provider, $paymentIds, $users_id, callable $process)
+    /**
+     * Process a verified payment from any gateway atomically, including the gateway's own logs.
+     * $options accepts WalletLog::hasProcessedPayment()'s legacyDescriptions and legacyCheck.
+     * Use a stable provider name and payment IDs, not a subscription/agreement ID shared by renewals.
+     */
+    public function processPaymentOnce($provider, $paymentIds, $users_id, callable $process, array $options = [])
     {
         global $global, $mysqlDatabase;
         $users_id = intval($users_id);
@@ -440,7 +444,7 @@ class YPTWallet extends PluginAbstract
             if (empty($wallet->getId())) {
                 throw new RuntimeException('Cannot create payment wallet');
             }
-            if (WalletLog::hasProcessedPayment($provider, $paymentIds, $wallet->getId())) {
+            if (WalletLog::hasProcessedPayment($provider, $paymentIds, $wallet->getId(), $options)) {
                 $db->rollback();
                 _error_log("processPaymentOnce: already processed, duplicate delivery ignored {$logContext}");
                 return true;
@@ -453,9 +457,7 @@ class YPTWallet extends PluginAbstract
             }
             $wallet = $this->getOrCreateWallet($users_id);
             foreach ($paymentIds as $paymentId) {
-                $key = hash('sha256', $provider . ':' . $paymentId);
-                if (!WalletLog::addLog($wallet->getId(), 0, $wallet->getBalance(),
-                    "Processed {$provider} payment {$paymentId}", '{}', 'success', 'paymentProcessed', $key)) {
+                if (!WalletLog::addProcessedPayment($provider, $paymentId, $wallet->getId(), $wallet->getBalance())) {
                     throw new RuntimeException('Cannot record processed payment');
                 }
             }

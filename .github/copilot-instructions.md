@@ -92,9 +92,12 @@ Before writing any new code, search the repository for existing logic:
 - Never modify `plugin/Plugin.abstract.php` or `plugin/AVideoPlugin.php` without an explicit request
   — every one of the ~130+ plugins depends on their current contract.
 - Many plugin folders (e.g. `plugin/Subscription/`, `plugin/VideoHLS/`, `plugin/PayPerView/`) are
-  listed in `.gitignore`: they are distributed separately and may exist locally but are not shipped
-  by this repo. Never make a fix in a tracked file depend on an edit to one of them — sites can run
-  an older version. Check with `git check-ignore -v <path>` first.
+  listed in `.gitignore` because they have their own repositories and are distributed separately.
+  When an authorized task requires a fix in one of them, inspect and correct it in its own
+  repository; do not skip a required fix merely because the main repository ignores the folder.
+  Check `git check-ignore -v <path>` and verify the plugin's repository root before editing.
+  Report changes and validation per repository, and preserve compatibility with independently
+  deployed plugin versions, including older versions where applicable.
 - Interact with other plugins only via `AVideoPlugin::loadPluginIfEnabled()` / `loadPlugin()`, never
   by instantiating another plugin's classes or reading its tables directly.
 - Assume third-party/community plugins outside this repo may also extend `PluginAbstract` and call
@@ -232,7 +235,7 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   the restricted key to have **Charges: Read** (the rest of the flow only needs PaymentIntents);
   without it the guard logs a warning and degrades to the 5-minute observation fallback. Covered by
   `tests/Unit/StripeSinglePaymentCheckoutTest.php`.
-- **Payment webhooks (Stripe/Razorpay)**: verified deliveries go through
+- **Payment webhooks (Stripe/Razorpay/PayPal recurring IPN `plugin/PayPalYPT/ipn.php`)**: verified deliveries go through
   `YPTWallet::processPaymentOnce()` (global `GET_LOCK` + transaction + zero-value `paymentProcessed`
   markers in `wallet_log`, hidden from the user list by `value != 0`). An exception rolls everything
   back and the IPN answers 500 so the provider retries; a `false` from `processSubscriptionIPN()` means

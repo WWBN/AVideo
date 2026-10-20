@@ -171,10 +171,18 @@ class WalletLog extends ObjectYPT {
         return self::getTotalFromWallet($wallet['id'], $dontReturnEmpty);
     }
 
-    /** Includes credits made before the idempotency marker was introduced. */
-    static function hasProcessedPayment($provider, array $paymentIds, $wallet_id)
+    /**
+     * Every gateway uses the same ledger markers. For pre-marker payments, callers may supply
+     * legacyDescriptions (wallet credit LIKE patterns) and/or legacyCheck (their own history lookup).
+     * legacyCheck must return true for an already processed payment, false otherwise. It runs
+     * under processPaymentOnce()'s lock and transaction; gateway tables stay in their own plugins.
+     */
+    static function hasProcessedPayment($provider, array $paymentIds, $wallet_id, array $options = [])
     {
         global $global;
+        // Preserve the historical three-argument API for Stripe/Razorpay integrations.
+        $legacyDefaults = ['stripe' => ['Stripe %'], 'razorpay' => ['RazorPay %']];
+        $descriptions = $options['legacyDescriptions'] ?? ($legacyDefaults[$provider] ?? []);
         foreach ($paymentIds as $paymentId) {
             $key = hash('sha256', $provider . ':' . $paymentId);
             $stmt = $global['mysqli']->prepare("SELECT id FROM wallet_log WHERE type = 'paymentProcessed' AND information = ? LIMIT 1 FOR UPDATE");
@@ -196,26 +204,34 @@ class WalletLog extends ObjectYPT {
             }
             // Provider IDs are looked up as JSON strings, never interpolated into SQL.
             $needle = json_encode($paymentId);
-            $description = $provider === 'stripe' ? 'Stripe %' : 'RazorPay %';
-            $stmt = $global['mysqli']->prepare("SELECT id FROM wallet_log WHERE wallet_id = ? AND type = 'addBalance' AND status = 'success' AND description LIKE ? AND LOCATE(?, json_data) > 0 LIMIT 1 FOR UPDATE");
-            if (!$stmt) {
-                throw new RuntimeException('Cannot check processed payment: ' . ($global['mysqli']->error ?? ''));
-            }
-            $stmt->bind_param('iss', $wallet_id, $description, $needle);
-            if (!$stmt->execute()) {
-                throw new RuntimeException('Cannot check processed payment');
-            }
-            $stmt->bind_result($id);
-            $found = $stmt->fetch();
-            $stmt->close();
-            if ($found === false) {
-                throw new RuntimeException('Cannot read processed payment');
-            }
-            if ($found) {
-                return true;
+            foreach ($descriptions as $description) {
+                $stmt = $global['mysqli']->prepare("SELECT id FROM wallet_log WHERE wallet_id = ? AND type = 'addBalance' AND status = 'success' AND description LIKE ? AND LOCATE(?, json_data) > 0 LIMIT 1 FOR UPDATE");
+                if (!$stmt) {
+                    throw new RuntimeException('Cannot check processed payment: ' . ($global['mysqli']->error ?? ''));
+                }
+                $stmt->bind_param('iss', $wallet_id, $description, $needle);
+                if (!$stmt->execute()) {
+                    throw new RuntimeException('Cannot check processed payment');
+                }
+                $stmt->bind_result($id);
+                $found = $stmt->fetch();
+                $stmt->close();
+                if ($found === false) {
+                    throw new RuntimeException('Cannot read processed payment');
+                }
+                if ($found) {
+                    return true;
+                }
             }
         }
-        return false;
+        return isset($options['legacyCheck']) && $options['legacyCheck']() === true;
+    }
+
+    /** Record a gateway payment in the caller's transaction, alongside its credit and own logs. */
+    static function addProcessedPayment($provider, $paymentId, $wallet_id, $balance)
+    {
+        return self::addLog($wallet_id, 0, $balance, "Processed {$provider} payment {$paymentId}",
+            '{}', 'success', 'paymentProcessed', hash('sha256', $provider . ':' . $paymentId));
     }
 
     static function addLog($wallet_id, $value, $previous_wallet_balance, $description="", $json_data="{}", $status="success", $type="", $information=''){

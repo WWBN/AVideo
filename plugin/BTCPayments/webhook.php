@@ -49,59 +49,16 @@ if (empty($invoice)) {
     forbiddenPage('Empty invoice');
 }
 
-$id = Btc_invoices::getIdOr0($invoice->id);
-
-$btcInvoice = new Btc_invoices($id);
-$btcInvoice->setInvoice_identification($invoice->id);
-$btcInvoice->setAmount_currency($invoice->amount);
-$btcInvoice->setAmount_btc($invoice->totalBTCPaid);
-$btcInvoice->setCurrency($invoice->currency);
-$btcInvoice->setStatus('a');
-$btcInvoice->setUsers_id($invoice->metadata->users_id);
-$btcInvoice->setJson($invoice);
-
-$resp->btc_invoices_id = $btcInvoice->save(true);
-$resp->status = $invoice->status;
-if ($resp->btc_invoices_id) {
-    switch ($invoice->status) {
-        case 'Settled':
-            $resp->paymentSaved = Btc_payments::getIdOr0($resp->btc_invoices_id);
-            if (empty($resp->paymentSaved)) {
-                file_put_contents($log, '[' . date('Y/m/d H:i:s') . '] Save Payment' . PHP_EOL, FILE_APPEND);
-                $o = new Btc_payments(0);
-                $o->setBtc_invoices_id($resp->btc_invoices_id);
-                $o->setTransaction_identification(uniqid());
-                $o->setAmount_received_btc($invoice->totalBTCPaid);
-                $o->setConfirmations(0);
-                $o->setStore($invoice->storeId);
-                $o->setJson($invoice);
-
-                $resp->paymentSaved = $o->save();
-                if ($resp->paymentSaved) {
-                    $obj = AVideoPlugin::getObjectData('YPTWallet');
-                    if ($invoice->currency == $obj->currency) {
-                        file_put_contents($log, '[' . date('Y/m/d H:i:s') . '] ADD balance ' . $invoice->amount . PHP_EOL, FILE_APPEND);
-                        $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
-                        $url = $invoice->checkoutLink.'/receipt';
-                        $description = number_format($invoice->totalBTCPaid, 8, '.', '') . " BTC from invoice <a href='{$url}' target='_blank'>" . $invoice->id . '</a>';
-                        if ($invoice->metadata->BTCPAY_NETWORK !== 'Mainnet') {
-                            $description = "[TEST MODE] {$description}";
-                        }
-
-                        $plugin->addBalance($invoice->metadata->users_id, $invoice->amount, $description, json_encode($invoice));
-                    }
-                }
-            } else {
-                $resp->msg = 'Payment already processed';
-            }
-            break;
-
-        default:
-            file_put_contents($log, '[' . date('Y/m/d H:i:s') . '] Status not found to process ' . $invoice->status . PHP_EOL, FILE_APPEND);
-
-            $resp->msg = 'Status not found to process ' . $invoice->status;
-            break;
+try {
+    $paymentResult = BTCPayments::processVerifiedInvoice($invoice);
+    foreach (get_object_vars($paymentResult) as $key => $value) {
+        $resp->$key = $value;
     }
+} catch (\Throwable $error) {
+    _error_log('BTC::webhook - Payment processing failed; retry invoice ' . $invoice->id . ': ' . $error->getMessage(), AVideoLog::$ERROR);
+    http_response_code(500);
+    $resp->error = true;
+    $resp->msg = 'Payment could not be processed';
 }
 
 echo json_encode($resp);

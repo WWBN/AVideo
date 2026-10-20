@@ -2,12 +2,12 @@
 // check recurrent payments
 header('Content-Type: application/json');
 
+$paypalIPNTransactionId = $_POST['txn_id'] ?? '';
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-$global['bypassSameDomainCheck'] = 1;
 _error_log("PayPalIPN V2 Start");
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = AVideoPlugin::getObjectData("YPTWallet");
@@ -41,6 +41,7 @@ _error_log("PayPalIPN V2: POST " . json_encode($_POST));
 _error_log("PayPalIPN V2: GET " . json_encode($_GET));
 
 $json = _json_decode(@$_GET['json']);
+$paypalPaymentIds = null;
 if (User::isLogged()) {
     $json->users_id = User::getId();
 }
@@ -90,34 +91,78 @@ if (!empty($_GET['token'])) {
         die(json_encode($obj));
     }
     _error_log("PayPalIPN V2: else ");
-    if (!PayPalYPT::isRecurringPaymentIdUsed($_POST["verify_sign"])) {
-        _error_log("PayPalIPN V2: verify_sign will be processed ");
-        $payment_amount = empty($_POST['mc_gross']) ? $_POST['amount'] : $_POST['mc_gross'];
-        $payment_currency = empty($_POST['mc_currency']) ? $_POST['currency_code'] : $_POST['mc_currency'];
-
-        $pp = new PayPalYPT_log(0);
-        $pp->setUsers_id($json->users_id);
-        $pp->setRecurring_payment_id($_POST["verify_sign"]);
-        $pp->setValue($payment_amount);
-        $pp->setJson(['ipn' => $ipn, 'post' => $_POST, 'get' => $_GET]);
-    } else {
-        _error_log("PayPalIPN V2: verify_sign was already processed ");
+    // Restore only after verification, and share the sale ID with IPN v1 and the REST webhook.
+    $_POST['txn_id'] = $paypalIPNTransactionId;
+    if (($_POST['txn_type'] ?? '') !== 'recurring_payment' || ($_POST['payment_status'] ?? '') !== 'Completed') {
+        $obj->error = false;
+        die(json_encode($obj));
     }
+    $paypalPaymentIds = [(string) (!empty($_POST['txn_id']) ? $_POST['txn_id'] : ($_POST['verify_sign'] ?? ''))];
+    $payment_amount = empty($_POST['mc_gross']) ? $_POST['amount'] : $_POST['mc_gross'];
+    $payment_currency = empty($_POST['mc_currency']) ? $_POST['currency_code'] : $_POST['mc_currency'];
+
+    $pp = new PayPalYPT_log(0);
+    $pp->setUsers_id($json->users_id);
+    $pp->setRecurring_payment_id(substr($paypalPaymentIds[0], 0, 45));
+    $pp->setValue($payment_amount);
+    $pp->setJson(['ipn' => $ipn, 'post' => $_POST, 'get' => $_GET]);
 }
 if (!empty($pp) && is_object($pp)) {
-    if ($pp->save()) {
-        if ($walletObject->currency === $payment_currency) {
-            _error_log("PayPalIPN V2: token log saved $json->users_id, $payment_amount");
-            if (!empty($payment_amount) && !empty($json->users_id)) {
-                $plugin->addBalance($json->users_id, $payment_amount, "PayPal Subscription from token", json_encode($_POST));
-            } else {
-                _error_log("PayPalIPN V2: ERROR balance not added");
+    $savePayment = function () use ($pp, $walletObject, $payment_currency, $payment_amount, $json, $plugin) {
+        global $global;
+        $hadOriginBypass = array_key_exists('bypassSameDomainCheck', $global);
+        $previousOriginBypass = $global['bypassSameDomainCheck'] ?? null;
+        try {
+            $global['bypassSameDomainCheck'] = 1;
+            if (!$pp->save()) {
+                _error_log("PayPalIPN V2: FAIL to save log");
+                return false;
             }
-        } else {
-            _error_log("PayPalIPN V2: Invalid currency $walletObject->currency===$payment_currency ");
+            if ($walletObject->currency === $payment_currency) {
+                _error_log("PayPalIPN V2: token log saved $json->users_id, $payment_amount");
+                if (!empty($payment_amount) && !empty($json->users_id)) {
+                    $plugin->addBalance($json->users_id, $payment_amount, "PayPal Subscription from token", json_encode($_POST));
+                } else {
+                    _error_log("PayPalIPN V2: ERROR balance not added");
+                }
+            } else {
+                _error_log("PayPalIPN V2: Invalid currency $walletObject->currency===$payment_currency ");
+            }
+            return true;
+        } finally {
+            if ($hadOriginBypass) {
+                $global['bypassSameDomainCheck'] = $previousOriginBypass;
+            } else {
+                unset($global['bypassSameDomainCheck']);
+            }
+        }
+    };
+    if ($paypalPaymentIds !== null) {
+        $processed = false;
+        try {
+            $plugin->processPaymentOnce('paypal', $paypalPaymentIds, $json->users_id,
+                function () use ($savePayment, &$processed) {
+                    $processed = $savePayment();
+                    return $processed;
+                }, ['legacyCheck' => function () use ($paypalPaymentIds, $plugin, $json) {
+                    return PayPalYPT::isRecurringPaymentIdUsed($paypalPaymentIds[0])
+                        || (!empty($_POST['verify_sign']) && (PayPalYPT::isRecurringPaymentIdUsed($_POST['verify_sign'])
+                            || WalletLog::hasProcessedPayment('paypal', [(string) $_POST['verify_sign']],
+                                $plugin->getOrCreateWallet($json->users_id)->getId(),
+                                ['legacyDescriptions' => ['Paypal recurrent%', 'PayPal Subscription from token%']])));
+                }, 'legacyDescriptions' => ['Paypal recurrent%', 'PayPal Subscription from token%']]);
+            $obj->error = false;
+        } catch (\Throwable $error) {
+            _error_log('PayPalIPN V2: payment processing failed; retry delivery: ' . $error->getMessage(), AVideoLog::$ERROR);
+            http_response_code(500);
+            $obj->msg = 'Payment could not be processed';
+            die(json_encode($obj));
+        }
+        if (!$processed) {
+            die(json_encode($obj));
         }
     } else {
-        _error_log("PayPalIPN V2: FAIL to save log");
+        $savePayment();
     }
 }
 if (!empty($json->type)) {
@@ -127,7 +172,19 @@ if (!empty($json->type)) {
             if (!empty($json->Fsubscriptions_plan_id) && !empty($json->users_id)) {
                 $fsObj = AVideoPlugin::getDataObjectIfEnabled('FansSubscriptions');
                 if (!empty($fsObj) && !empty($json->users_id)) {
-                    if ($renew = FansSubscriptions::renew($json->users_id, $json->Fsubscriptions_plan_id)) {
+                    $hadOriginBypass = array_key_exists('bypassSameDomainCheck', $global);
+                    $previousOriginBypass = $global['bypassSameDomainCheck'] ?? null;
+                    try {
+                        $global['bypassSameDomainCheck'] = 1;
+                        $renew = FansSubscriptions::renew($json->users_id, $json->Fsubscriptions_plan_id);
+                    } finally {
+                        if ($hadOriginBypass) {
+                            $global['bypassSameDomainCheck'] = $previousOriginBypass;
+                        } else {
+                            unset($global['bypassSameDomainCheck']);
+                        }
+                    }
+                    if ($renew) {
                         $redirectUri = addQueryStringParameter($redirectUri, 'msg', $renew->msg);
                         header('Location: ' . $redirectUri);
                         exit;

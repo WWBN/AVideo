@@ -42,6 +42,10 @@ class PaymentWalletMySQLIntegrationTest extends TestCase
         $this->db->multi_query($schema);
         while ($this->db->more_results() && $this->db->next_result()) {
         }
+        $this->db->query(file_get_contents(dirname(__DIR__, 2) . '/plugin/PayPalYPT/install/install.sql'));
+        $this->db->multi_query(file_get_contents(dirname(__DIR__, 2) . '/plugin/BTCPayments/install/install.sql'));
+        while ($this->db->more_results() && $this->db->next_result()) {
+        }
         $this->db->query('CREATE TABLE renewals (id INT AUTO_INCREMENT PRIMARY KEY, users_id INT) ENGINE = InnoDB');
         $GLOBALS['global'] = ['mysqli' => $this->db, 'webSiteRootURL' => 'https://payment.example.test/'];
         $GLOBALS['mysqlDatabase'] = $this->database;
@@ -138,6 +142,134 @@ class PaymentWalletMySQLIntegrationTest extends TestCase
         $this->assertSame('0', $this->scalar('SELECT COUNT(*) FROM wallet_log'));
         $this->assertNotEmpty(preg_grep('/FAILED and rolled back.*payment_ids=in_fail.*Simulated database failure/', $GLOBALS['paymentSimLogs']));
         $this->assertTrue(deliver($wallet, ['in_fail']));
+        $this->assertSame(10.0, $this->balance(7));
+    }
+
+    private function payPalProcess($plugin, $dedup_key)
+    {
+        $users_id = 7;
+        $row = ['subscriptions_plans_id' => 3];
+        $payment_amount = 10;
+        $logContext = 'PayPal integration fixture';
+        // Execute the production callback, including the PayPal log insert and wallet credit.
+        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/PayPalYPT/ipn.php');
+        $start = strpos($source, 'function () use ($plugin, $users_id, $row, $dedup_key, $payment_amount, $logContext)');
+        $end = strpos($source, "}, ['legacyCheck'", $start);
+        $this->assertNotFalse($start);
+        $this->assertNotFalse($end);
+        eval('namespace AVideoTests\\PaymentWalletMySQL; use RuntimeException; $process = '
+            . substr($source, $start, $end - $start + 1) . ';');
+        return $process;
+    }
+
+    private function payPalWallet()
+    {
+        return new class extends YPTWallet {
+            // These tests isolate the PayPal log/credit; renewal savepoints are covered separately.
+            public function runPaymentStep(callable $step, $label = 'payment step') { return false; }
+        };
+    }
+
+    public function testPayPalSignatureFallbackFitsTheLogAndCreditsOnce()
+    {
+        $this->assertStringContainsString('STRICT_TRANS_TABLES', $this->scalar('SELECT @@SESSION.sql_mode'));
+        $wallet = $this->payPalWallet();
+        $id = str_repeat('s', 56); // verify_sign can exceed recurring_payment_id VARCHAR(45).
+        $this->assertTrue($wallet->processPaymentOnce('paypal', [$id], 7, $this->payPalProcess($wallet, $id)));
+        $this->assertTrue($wallet->processPaymentOnce('paypal', [$id], 7, $this->payPalProcess($wallet, $id)));
+        $this->assertSame(10.0, $this->balance(7));
+        $this->assertSame('1', $this->scalar('SELECT COUNT(*) FROM PayPalYPT_log'));
+        $this->assertSame('1', $this->scalar("SELECT COUNT(*) FROM wallet_log WHERE type = 'paymentProcessed'"));
+        $this->assertLessThanOrEqual(45, (int) $this->scalar('SELECT CHAR_LENGTH(recurring_payment_id) FROM PayPalYPT_log'));
+        $nextId = str_repeat('s', 45) . str_repeat('t', 11);
+        $this->assertTrue($wallet->processPaymentOnce('paypal', [$nextId], 7, $this->payPalProcess($wallet, $nextId)));
+        $this->assertSame(20.0, $this->balance(7), 'Signatures with the same log prefix are distinct payments');
+        $this->assertSame('2', $this->scalar('SELECT COUNT(*) FROM PayPalYPT_log'));
+    }
+
+    public function testPayPalLogAndCreditRollBackTogether()
+    {
+        $wallet = $this->payPalWallet();
+        $process = $this->payPalProcess($wallet, 'txn_rollback');
+        try {
+            $wallet->processPaymentOnce('paypal', ['txn_rollback'], 7, function () use ($process) {
+                $process();
+                throw new RuntimeException('Simulated failure after PayPal log and credit');
+            });
+            $this->fail('A failed delivery must roll back its PayPal log');
+        } catch (RuntimeException $error) {
+            $this->assertStringContainsString('Simulated failure', $error->getMessage());
+        }
+        $this->assertSame(0.0, $this->balance(7));
+        $this->assertSame('0', $this->scalar('SELECT COUNT(*) FROM PayPalYPT_log'));
+        $this->assertSame('0', $this->scalar('SELECT COUNT(*) FROM wallet_log'));
+    }
+
+    public function testDifferentGatewaysCanUseTheSamePaymentId()
+    {
+        $wallet = new YPTWallet();
+        foreach (['paypal', 'btcpay', 'another_gateway'] as $provider) {
+            for ($delivery = 0; $delivery < 2; $delivery++) {
+                $this->assertTrue($wallet->processPaymentOnce($provider, ['same_id'], 7, function () use ($wallet) {
+                    $wallet->addBalance(7, 10);
+                    return true;
+                }));
+            }
+        }
+        $this->assertSame(30.0, $this->balance(7));
+        $this->assertSame('3', $this->scalar("SELECT COUNT(*) FROM wallet_log WHERE type = 'paymentProcessed'"));
+    }
+
+    public function testCustomGatewayLegacyPatternsUseTheRealLedgerQuery()
+    {
+        $wallet = new YPTWallet();
+        $wallet->addBalance(7, 10, 'AnotherGateway payment', '{"id":"old_id"}');
+        $this->assertTrue($wallet->processPaymentOnce('another_gateway', ['old_id'], 7,
+            function () { $this->fail('A historical credit must not run twice'); },
+            ['legacyDescriptions' => ['AnotherGateway %']]));
+        $this->assertSame(10.0, $this->balance(7));
+    }
+
+    private function btcInvoice($id = 'btc_invoice_1')
+    {
+        return (object)['id' => $id, 'status' => 'Settled', 'amount' => 10, 'currency' => 'USD',
+            'totalBTCPaid' => 0.0001, 'storeId' => 'store_1', 'checkoutLink' => 'https://example.test/invoice',
+            'metadata' => (object)['users_id' => 7, 'BTCPAY_NETWORK' => 'Mainnet']];
+    }
+
+    public function testBtcPayOwnHistoryAndWalletMarkerAreCommittedOnce()
+    {
+        $invoice = $this->btcInvoice();
+        \AVideoTests\PaymentWalletMySQL\BTCPayments::processVerifiedInvoice($invoice);
+        $duplicate = \AVideoTests\PaymentWalletMySQL\BTCPayments::processVerifiedInvoice($invoice);
+        $this->assertSame('Payment already processed', $duplicate->msg);
+        $this->assertSame(10.0, $this->balance(7));
+        $this->assertSame('1', $this->scalar('SELECT COUNT(*) FROM btc_invoices'));
+        $this->assertSame('1', $this->scalar('SELECT COUNT(*) FROM btc_payments'));
+        $this->assertSame('1', $this->scalar("SELECT COUNT(*) FROM wallet_log WHERE type = 'paymentProcessed'"));
+        // A pre-upgrade btc_payments row must still suppress the credit without a wallet marker.
+        $this->db->query("DELETE FROM wallet_log WHERE type = 'paymentProcessed'");
+        \AVideoTests\PaymentWalletMySQL\BTCPayments::processVerifiedInvoice($invoice);
+        $this->assertSame(10.0, $this->balance(7));
+        $this->assertSame('1', $this->scalar('SELECT COUNT(*) FROM btc_payments'));
+    }
+
+    public function testBtcPayPaymentLogSqlFailureRollsBackInvoiceAndCredit()
+    {
+        $invoice = $this->btcInvoice();
+        $invoice->storeId = str_repeat('x', 256); // btc_payments.store is VARCHAR(255).
+        try {
+            \AVideoTests\PaymentWalletMySQL\BTCPayments::processVerifiedInvoice($invoice);
+            $this->fail('The failing gateway log must abort the payment');
+        } catch (\mysqli_sql_exception $error) {
+            $this->assertStringContainsString('store', $error->getMessage());
+        }
+        $this->assertSame('0', $this->scalar('SELECT COUNT(*) FROM btc_invoices'));
+        $this->assertSame('0', $this->scalar('SELECT COUNT(*) FROM btc_payments'));
+        $this->assertSame('0', $this->scalar('SELECT COUNT(*) FROM wallet_log'));
+        $this->assertSame(0.0, $this->balance(7));
+        $invoice->storeId = 'store_1';
+        \AVideoTests\PaymentWalletMySQL\BTCPayments::processVerifiedInvoice($invoice);
         $this->assertSame(10.0, $this->balance(7));
     }
 

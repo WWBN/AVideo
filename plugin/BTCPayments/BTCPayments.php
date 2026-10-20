@@ -360,6 +360,95 @@ class BTCPayments extends PluginAbstract
         return $invoice;
     }
 
+    /** Process an invoice only after its contents have been verified through the marketplace. */
+    public static function processVerifiedInvoice($invoice)
+    {
+        if (empty($invoice->id)) {
+            throw new RuntimeException('Missing verified BTCPay invoice ID');
+        }
+        $resp = new stdClass();
+        $resp->status = $invoice->status;
+        $users_id = intval($invoice->metadata->users_id ?? 0);
+        if ($users_id <= 0) {
+            $resp->msg = 'Ignored: invoice without AVideo users_id';
+            return $resp;
+        }
+        $walletObject = AVideoPlugin::getObjectData('YPTWallet');
+        if ($invoice->currency !== $walletObject->currency) {
+            _error_log('BTC::webhook - Ignored currency mismatch for invoice ' . $invoice->id, AVideoLog::$WARNING);
+            $resp->msg = 'Ignored: currency mismatch';
+            return $resp;
+        }
+        $saveInvoice = function () use ($invoice, $resp, $users_id) {
+            $btcInvoice = new Btc_invoices(Btc_invoices::getIdOr0($invoice->id));
+            $btcInvoice->setInvoice_identification($invoice->id);
+            $btcInvoice->setAmount_currency($invoice->amount);
+            $btcInvoice->setAmount_btc($invoice->totalBTCPaid);
+            $btcInvoice->setCurrency($invoice->currency);
+            $btcInvoice->setStatus('a');
+            $btcInvoice->setUsers_id($users_id);
+            $btcInvoice->setJson($invoice);
+            $resp->btc_invoices_id = $btcInvoice->save(true);
+            if (!$resp->btc_invoices_id) {
+                throw new RuntimeException('Cannot save BTCPay invoice');
+            }
+        };
+        if ($invoice->status !== 'Settled') {
+            $saveInvoice();
+            $resp->msg = 'Status not found to process ' . $invoice->status;
+            return $resp;
+        }
+
+        $wallet = AVideoPlugin::loadPluginIfEnabled('YPTWallet');
+        if (empty($wallet)) {
+            // Historical duplicates need no wallet operation, even while the wallet is disabled.
+            $resp->btc_invoices_id = Btc_invoices::getIdOr0($invoice->id);
+            $resp->paymentSaved = empty($resp->btc_invoices_id) ? 0 : Btc_payments::getIdOr0($resp->btc_invoices_id);
+            if (!empty($resp->paymentSaved)) {
+                $resp->msg = 'Payment already processed';
+                return $resp;
+            }
+            throw new RuntimeException('YPTWallet is disabled; retry the BTCPay payment after enabling it');
+        }
+        $processed = false;
+        $wallet->processPaymentOnce('btcpay', [(string) $invoice->id], $users_id,
+            function () use ($invoice, $resp, $saveInvoice, $wallet, $walletObject, $users_id, &$processed) {
+                $saveInvoice();
+                $payment = new Btc_payments(0);
+                $payment->setBtc_invoices_id($resp->btc_invoices_id);
+                $payment->setTransaction_identification(uniqid());
+                $payment->setAmount_received_btc($invoice->totalBTCPaid);
+                $payment->setConfirmations(0);
+                $payment->setStore($invoice->storeId);
+                $payment->setJson($invoice);
+                $resp->paymentSaved = $payment->save();
+                if (!$resp->paymentSaved) {
+                    throw new RuntimeException('Cannot save BTCPay payment');
+                }
+                if ($invoice->currency == $walletObject->currency) {
+                    $url = $invoice->checkoutLink . '/receipt';
+                    $description = number_format($invoice->totalBTCPaid, 8, '.', '')
+                        . " BTC from invoice <a href='{$url}' target='_blank'>" . $invoice->id . '</a>';
+                    if ($invoice->metadata->BTCPAY_NETWORK !== 'Mainnet') {
+                        $description = "[TEST MODE] {$description}";
+                    }
+                    $wallet->addBalance($users_id, $invoice->amount, $description, json_encode($invoice));
+                }
+                $processed = true;
+                return true;
+            }, ['legacyCheck' => function () use ($invoice) {
+                $id = Btc_invoices::getIdOr0($invoice->id);
+                return !empty($id) && !empty(Btc_payments::getIdOr0($id));
+            }]);
+        // Both the wallet marker and a pre-marker btc_payments row acknowledge a duplicate.
+        $resp->btc_invoices_id = Btc_invoices::getIdOr0($invoice->id);
+        $resp->paymentSaved = Btc_payments::getIdOr0($resp->btc_invoices_id);
+        if (!$processed) {
+            $resp->msg = 'Payment already processed';
+        }
+        return $resp;
+    }
+
     public static function profileTabName($users_id)
     {
         $p = AVideoPlugin::loadPlugin("BTCPayments");

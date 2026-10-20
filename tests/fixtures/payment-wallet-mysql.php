@@ -95,8 +95,10 @@ if (!function_exists(__NAMESPACE__ . '\extractFunctions')) {
     function TimeLogStart($name) {}
     function TimeLogEnd($name, $type, $seconds) {}
     class AVideoPlugin {
-        public static function loadPluginIfEnabled($name) { return false; }
+        public static function loadPluginIfEnabled($name) { return $name === 'YPTWallet' ? new YPTWallet() : false; }
+        public static function getObjectData($name) { return (object)['currency' => 'USD']; }
     }
+    function sendSocketMessageToUsers_id($message, $users_id, $event) {}
     function xss_esc($text) { return htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8'); }
     function _json_encode($value) { return json_encode($value); }
 
@@ -130,6 +132,59 @@ if (!function_exists(__NAMESPACE__ . '\extractFunctions')) {
         return sqlDAL::writeSql($sql, $types, $values);
     }
 
+    // Keep the real PayPal log setters/save wrapper; replace only ObjectYPT's framework persistence.
+    class PayPalLogWriter {
+        public function __construct($id = 0) {}
+        public function save() {
+            return simWrite('INSERT INTO PayPalYPT_log (users_id, recurring_payment_id, value, json) VALUES (?, ?, ?, ?)',
+                'isds', [$this->getUsers_id(), $this->getRecurring_payment_id(), $this->getValue(), $this->getJson()]);
+        }
+    }
+    $paymentFixturePayPalSource = \file_get_contents($paymentFixtureRoot . '/plugin/PayPalYPT/Objects/PayPalYPT_log.php');
+    $paymentFixturePayPalSource = substr($paymentFixturePayPalSource, strpos($paymentFixturePayPalSource, 'class PayPalYPT_log'));
+    eval($paymentFixturePrefix . str_replace('extends ObjectYPT', 'extends PayPalLogWriter', $paymentFixturePayPalSource));
+    unset($paymentFixturePayPalSource);
+
+    class BtcModelWriter {
+        public function __construct($id = 0) {
+            $this->id = (int) $id;
+            if ($this->id) {
+                $result = sqlDAL::readSql('SELECT * FROM ' . static::getTableName() . ' WHERE id = ?', 'i', [$this->id], true);
+                $row = sqlDAL::fetchAssoc($result);
+                sqlDAL::close($result);
+                foreach ((array) $row as $field => $value) { $this->$field = $value; }
+            }
+        }
+        public function save() {
+            $table = static::getTableName();
+            $columns = $table === 'btc_invoices'
+                ? ['invoice_identification', 'users_id', 'amount_currency', 'amount_btc', 'currency', 'status', 'json']
+                : ['btc_invoices_id', 'transaction_identification', 'amount_received_btc', 'confirmations', 'store', 'json'];
+            $values = [];
+            foreach ($columns as $column) { $values[] = $this->$column; }
+            $types = str_repeat('s', count($values));
+            if ($this->id) {
+                $assignments = array_map(function ($column) { return "`{$column}` = ?"; }, $columns);
+                $values[] = $this->id;
+                $ok = simWrite("UPDATE {$table} SET " . implode(', ', $assignments) . ' WHERE id = ?', $types . 'i', $values);
+            } else {
+                $ok = simWrite("INSERT INTO {$table} (`" . implode('`,`', $columns) . '`) VALUES ('
+                    . implode(', ', array_fill(0, count($columns), '?')) . ')', $types, $values);
+            }
+            return $ok ? ($this->id ?: $GLOBALS['global']['mysqli']->insert_id) : false;
+        }
+    }
+    foreach (['Btc_invoices', 'Btc_payments'] as $paymentFixtureBtcClass) {
+        $paymentFixtureBtcSource = \file_get_contents($paymentFixtureRoot . '/plugin/BTCPayments/Objects/' . $paymentFixtureBtcClass . '.php');
+        $paymentFixtureBtcSource = substr($paymentFixtureBtcSource, strpos($paymentFixtureBtcSource, 'class ' . $paymentFixtureBtcClass));
+        // Production classes are global; the fixture evaluates them in its isolated namespace.
+        $paymentFixtureBtcSource = str_replace("class_exists('sqlDAL')", "class_exists(__NAMESPACE__ . '\\\\sqlDAL')", $paymentFixtureBtcSource);
+        eval($paymentFixturePrefix . str_replace('extends ObjectYPT', 'extends BtcModelWriter', $paymentFixtureBtcSource));
+    }
+    eval($paymentFixturePrefix . 'use stdClass; class BTCPayments {'
+        . extractFunctions($paymentFixtureRoot . '/plugin/BTCPayments/BTCPayments.php', ['processVerifiedInvoice']) . '}');
+    unset($paymentFixtureBtcClass, $paymentFixtureBtcSource);
+
     eval($paymentFixturePrefix .'class Wallet {
         protected $id, $balance, $users_id, $crypto_wallet_address, $created, $modified, $information;
         public static function getTableName() { return "wallet"; }
@@ -156,7 +211,7 @@ if (!function_exists(__NAMESPACE__ . '\extractFunctions')) {
             return simWrite("INSERT INTO wallet_log (created, modified, value, description, wallet_id, status, type, information, json_data, previous_wallet_balance) VALUES (NOW(), NOW(), ?, ?, ?, ?, ?, ?, ?, ?)",
                 "dsissssd", [floatval($this->value), $this->description, intval($this->wallet_id), $this->status, $this->type, $this->information, $this->json_data, floatval($this->previous_wallet_balance)]);
         }
-        ' . extractFunctions($paymentFixtureRoot . '/plugin/YPTWallet/Objects/Wallet_log.php', ['setValue', 'setDescription', 'setWallet_id', 'setJson_data', 'setStatus', 'setType', 'setInformation', 'setPrevious_wallet_balance', 'hasProcessedPayment', 'addLog']) . '
+        ' . extractFunctions($paymentFixtureRoot . '/plugin/YPTWallet/Objects/Wallet_log.php', ['setValue', 'setDescription', 'setWallet_id', 'setJson_data', 'setStatus', 'setType', 'setInformation', 'setPrevious_wallet_balance', 'hasProcessedPayment', 'addProcessedPayment', 'addLog']) . '
     }');
 
     $paymentFixtureWalletSource = \file_get_contents($paymentFixtureRoot . '/plugin/YPTWallet/YPTWallet.php');

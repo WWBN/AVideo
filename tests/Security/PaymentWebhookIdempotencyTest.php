@@ -17,7 +17,9 @@ eval('namespace ' . __NAMESPACE__ . '; use RuntimeException; use Throwable; clas
     . substr($source, $start, $end - $start)
     . substr($source, $transferStart, $transferEnd - $transferStart)
     . 'public function getDataObject() { return (object)["virtual_currency_enable" => false]; }
-       public function getOrCreateWallet($id) { return new Wallet($id); }}');
+       public function getOrCreateWallet($id) { return new Wallet($id); }
+       public static function getAddFundsSuccessRedirectURL() { return "https://example.test/paid"; }}');
+class YPTWallet extends Payments {}
 $source = file_get_contents($root . '/plugin/YPTWallet/Objects/Wallet_log.php');
 $start = strpos($source, '    static function hasProcessedPayment(');
 $end = strpos($source, '    static function addLog(', $start);
@@ -33,10 +35,11 @@ $start = strpos($source, '    public static function getPaymentIds(');
 $end = strpos($source, '    /**', $start);
 eval('namespace ' . __NAMESPACE__ . '; class StripeIds {' . substr($source, $start, $end - $start) . '}');
 
-function _error_log($message, $level = '') { $GLOBALS['global']['mysqli']->errorLogs[] = $message; }
+function _error_log($message, $level = '') { $GLOBALS['global']['mysqli']->errorLogs[] = is_string($message) ? $message : json_encode($message); }
 class AVideoLog {
     public static $ERROR = 'error';
     public static $WARNING = 'warning';
+    public static $SECURITY = 'security';
 }
 function mysqlBeginTransaction() { return $GLOBALS['global']['mysqli']->begin_transaction(); }
 function mysqlCommit() { return $GLOBALS['global']['mysqli']->commit(); }
@@ -44,6 +47,7 @@ function mysqlRollback() { return $GLOBALS['global']['mysqli']->rollback(); }
 
 class User {
     public static function isAdmin() { return true; }
+    public static function isLogged() { return false; }
     public static function idExists($id) { return true; }
     public static function getNameIdentificationById($id) { return 'User'; }
 }
@@ -94,6 +98,8 @@ class Database {
     public $failMarker = false;
     public $failCredit = false;
     public $failCommit = false;
+    public $failBtcInvoice = false;
+    public $failBtcPayment = false;
     public $errorLogs = [];
     public $error = '';
     private $snapshot;
@@ -162,12 +168,128 @@ class Statement {
     }
 }
 
+// Run the PayPal handler with the real payment helper and origin guard, without site configuration.
+$paypalGuardSource = file_get_contents($root . '/objects/functionsSecurity.php');
+$paypalGuardStart = strpos($paypalGuardSource, 'function isUntrustedRequest(');
+$paypalGuardEnd = strpos($paypalGuardSource, 'function forbidIfItIsNotMyUsersId(', $paypalGuardStart);
+eval('namespace ' . __NAMESPACE__ . ';' . substr($paypalGuardSource, $paypalGuardStart, $paypalGuardEnd - $paypalGuardStart));
+function isCommandLineInterface() { return false; }
+function getRemoteAddrFromServerArray($server) { return $server['REMOTE_ADDR'] ?? ''; }
+function getRealIpAddr() { return '203.0.113.10'; }
+function isLoopbackIP($ip) { return false; }
+function requestComesFromSameDomainAsMyAVideo() { return false; }
+function isAVideoUserAgent() { return false; }
+function header($value) {}
+function http_response_code($code) { PayPalDelivery::$status = $code; }
+function _json_decode($value) { return json_decode($value); }
+function xss_esc($value) { return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8'); }
+class PayPalDelivery {
+    public static $status = 200;
+    public static $verified = true;
+    public static $agreement = ['users_id' => 7, 'subscriptions_plans_id' => 3];
+    public static $failRenewal = false;
+    public static $ignoreLegacy = false;
+    public static $filterRequest = false;
+    public static $lastAgreement;
+    public static $webhook;
+}
+class PayPalDeliveryStopped extends RuntimeException {}
+class AVideoPlugin {
+    public static $walletEnabled = true;
+    public static $subscriptionEnabled = true;
+    public static function loadPluginIfEnabled($name) {
+        if ($name === 'YPTWallet') { return self::$walletEnabled ? new Payments() : false; }
+        return $name === 'Subscription' && !self::$subscriptionEnabled ? false : new self();
+    }
+    public static function getObjectData($name) { return (object)['currency' => 'USD']; }
+}
+class PayPalYPT {
+    public static function IPNcheck() { return PayPalDelivery::$verified; }
+    public static function validateWebhook() { return PayPalDelivery::$verified ? PayPalDelivery::$webhook : false; }
+    public static function getWebhookURL() { return 'https://example.test/paypal-webhook'; }
+    public static function isTokenUsed($id) {
+        foreach ($GLOBALS['global']['mysqli']->logs as $log) {
+            if ($log['type'] === 'paypalToken' && $log['information'] === $id) { return true; }
+        }
+        return false;
+    }
+    public static function isRecurringPaymentIdUsed($id) {
+        if (!PayPalDelivery::$ignoreLegacy) {
+            foreach ($GLOBALS['global']['mysqli']->logs as $log) {
+                if ($log['type'] === 'paypalIPN' && (string) $log['information'] === (string) $id) { return true; }
+            }
+        }
+        return false;
+    }
+}
+class PayPalYPT_log {
+    private $user, $paymentId, $value, $json, $token;
+    public function __construct($id) {}
+    public function setUsers_id($id) { $this->user = $id; }
+    public function setRecurring_payment_id($id) { $this->paymentId = $id; }
+    public function setValue($value) { $this->value = $value; }
+    public function setJson($json) { $this->json = json_encode($json); }
+    public function setAgreement_id($id) {}
+    public function setToken($token) { $this->token = $token; }
+    public function save() {
+        // ObjectYPT::save() applies this guard to PayPalYPT_log (it is not in ignoreTableSecurityCheck()).
+        if (isUntrustedRequest('SAVE PayPalYPT_log')) { return false; }
+        return WalletLog::addLog($this->user, $this->value, 0, 'PayPal log', $this->json,
+            'success', $this->token ? 'paypalToken' : 'paypalIPN', $this->token ?: $this->paymentId);
+    }
+}
+class Subscription {
+    public static function getFromAgreement($id) {
+        if (!AVideoPlugin::$subscriptionEnabled) { throw new \Error('Subscription is not loaded'); }
+        PayPalDelivery::$lastAgreement = $id;
+        return PayPalDelivery::$agreement;
+    }
+    public static function renew($user, $plan) {
+        Payments::transferBalance($user, 8, 10, 'Renew', true);
+        ++$GLOBALS['global']['mysqli']->renewals;
+        return (object)['error' => PayPalDelivery::$failRenewal];
+    }
+}
+class SubscriptionPlansTable {
+    public function __construct($id) {}
+    public function getName() { return 'Fixture plan'; }
+}
+
+class BtcModel {
+    protected $data = [];
+    public function __construct($id) { $this->data['id'] = $id; }
+    public function __call($method, $arguments) { $this->data[lcfirst(substr($method, 3))] = $arguments[0]; }
+    public static function getIdOr0($id) {
+        $field = static::TYPE === 'btcInvoice' ? 'invoice_identification' : 'btc_invoices_id';
+        foreach ($GLOBALS['global']['mysqli']->logs as $row) {
+            if ($row['type'] === static::TYPE && $row['data'][$field] === $id) { return $row['data']['id']; }
+        }
+        return 0;
+    }
+    public function save($notifySocket = false) {
+        $db = $GLOBALS['global']['mysqli'];
+        if (static::TYPE === 'btcInvoice' ? $db->failBtcInvoice : $db->failBtcPayment) { return false; }
+        $id = $this->data['id'] ?: count($db->logs) + 1;
+        $this->data['id'] = $id;
+        $db->logs[$id - 1] = ['type' => static::TYPE, 'wallet' => 0, 'data' => $this->data];
+        return $id;
+    }
+}
+class Btc_invoices extends BtcModel { const TYPE = 'btcInvoice'; }
+class Btc_payments extends BtcModel { const TYPE = 'btcPayment'; }
+$btcFixtureSource = file_get_contents($root . '/plugin/BTCPayments/BTCPayments.php');
+$btcFixtureStart = strpos($btcFixtureSource, '    public static function processVerifiedInvoice(');
+$btcFixtureEnd = strpos($btcFixtureSource, '    public static function profileTabName(', $btcFixtureStart);
+eval('namespace ' . __NAMESPACE__ . '; use RuntimeException; use stdClass; class BTCPayments {'
+    . substr($btcFixtureSource, $btcFixtureStart, $btcFixtureEnd - $btcFixtureStart) . '}');
+
 class PaymentWebhookIdempotencyTest extends TestCase
 {
     private $previousGlobal;
     private $previousDatabase;
     private $db;
     private $payments;
+    private $previousRequest;
 
     protected function setUp(): void {
         $this->previousGlobal = $GLOBALS['global'] ?? null;
@@ -176,10 +298,160 @@ class PaymentWebhookIdempotencyTest extends TestCase
         $GLOBALS['global'] = ['mysqli' => $this->db, 'webSiteRootURL' => 'https://example.test/'];
         $GLOBALS['mysqlDatabase'] = 'test_payments';
         $this->payments = new Payments();
+        foreach (['_POST', '_GET', '_REQUEST', '_SERVER'] as $name) { $this->previousRequest[$name] = $GLOBALS[$name] ?? null; }
+        $_POST = ['txn_type' => 'recurring_payment', 'payment_status' => 'Completed', 'recurring_payment_id' => 'agreement_1', 'txn_id' => 'txn_1', 'mc_gross' => '10.00', 'mc_currency' => 'USD'];
+        $_GET = [];
+        $_REQUEST = [];
+        $_SERVER = ['REMOTE_ADDR' => '203.0.113.10', 'HTTP_USER_AGENT' => 'PayPal IPN'];
+        PayPalDelivery::$status = 200;
+        PayPalDelivery::$verified = true;
+        PayPalDelivery::$agreement = ['users_id' => 7, 'subscriptions_plans_id' => 3];
+        PayPalDelivery::$failRenewal = PayPalDelivery::$ignoreLegacy = false;
+        PayPalDelivery::$filterRequest = false;
+        PayPalDelivery::$lastAgreement = null;
+        AVideoPlugin::$walletEnabled = true;
+        AVideoPlugin::$subscriptionEnabled = true;
+        PayPalDelivery::$webhook = json_decode('{"webhook_event":{"id":"WH-event_1","event_type":"PAYMENT.SALE.COMPLETED","resource":{"id":"txn_1","billing_agreement_id":"agreement_1","amount":{"total":"10.00","currency":"USD"}}}}');
     }
     protected function tearDown(): void {
         $GLOBALS['global'] = $this->previousGlobal;
         $GLOBALS['mysqlDatabase'] = $this->previousDatabase;
+        foreach ($this->previousRequest as $name => $value) { $GLOBALS[$name] = $value; }
+    }
+    private function payPalHandlerSource($file) {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/PayPalYPT/' . $file);
+        if (PayPalDelivery::$filterRequest) {
+            $filters = file_get_contents(dirname(__DIR__, 2) . '/objects/security.php');
+            $filters = preg_replace('/^<\?php|^require_once .*;\r?$/m', '', $filters);
+            // security.php is normally included at global scope; eval runs inside this method.
+            $filters = str_replace('$scanThis = &$$value;', '$scanThis = &$GLOBALS[$value];', $filters);
+            $source = str_replace("require_once \$global['systemRootPath'] . 'videos/configuration.php';", $filters, $source);
+        }
+        $source = preg_replace('/^require_once .*;\r?$/m', '', $source);
+        return preg_replace('/^<\?php/', '', $source);
+    }
+    private function deliverPayPalIpn() {
+        $global =& $GLOBALS['global'];
+        $source = $this->payPalHandlerSource('ipn.php');
+        $source = str_replace('die(', 'throw new PayPalDeliveryStopped(', $source);
+        try { eval('namespace ' . __NAMESPACE__ . '; use RuntimeException; use stdClass;' . $source); }
+        catch (PayPalDeliveryStopped $stop) { /* Simulate the handler ending its HTTP request. */ }
+    }
+    public function payPalNotificationsWithoutMoney() {
+        return [
+            'profile created' => [['txn_type' => 'recurring_payment_profile_created', 'amount' => '10.00', 'currency_code' => 'USD']],
+            'profile cancelled' => [['txn_type' => 'recurring_payment_profile_cancel', 'amount' => '10.00', 'currency_code' => 'USD']],
+            'payment failed' => [['txn_type' => 'recurring_payment_failed', 'amount' => '10.00', 'currency_code' => 'USD']],
+            'payment skipped' => [['txn_type' => 'recurring_payment_skipped', 'amount' => '10.00', 'currency_code' => 'USD']],
+            'payment pending' => [['payment_status' => 'Pending']],
+            'payment refunded' => [['payment_status' => 'Refunded', 'mc_gross' => '-10.00']],
+        ];
+    }
+    /** @dataProvider payPalNotificationsWithoutMoney */
+    public function testOnlyACompletedRecurringPaymentCreditsAndRenews($fields) {
+        // ipn.php's recurring branch was unreachable while the _id filter turned recurring_payment_id into 0;
+        // once restored it must not pay for the agreement's other notification types.
+        $_POST = array_replace($_POST, $fields);
+        if (isset($fields['txn_type']) && $fields['txn_type'] !== 'recurring_payment') {
+            unset($_POST['txn_id'], $_POST['mc_gross'], $_POST['mc_currency'], $_POST['payment_status']);
+            $_POST['verify_sign'] = 'sig_' . $fields['txn_type'];
+        }
+        $this->deliverPayPalIpn();
+        $this->assertSame([7 => 0, 8 => 0], $this->db->balances);
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame(200, PayPalDelivery::$status, 'Acknowledged, so PayPal does not resend it');
+
+        // the completed payment of the same agreement is still paid
+        $_POST = ['txn_type' => 'recurring_payment', 'payment_status' => 'Completed', 'recurring_payment_id' => 'agreement_1', 'txn_id' => 'txn_1', 'mc_gross' => '10.00', 'mc_currency' => 'USD'];
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertArrayNotHasKey('bypassSameDomainCheck', $GLOBALS['global']);
+    }
+    private function deliverPayPalWebhook() {
+        $global =& $GLOBALS['global'];
+        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/PayPalYPT/webhook.php');
+        $source = preg_replace('/^require_once .*;\r?$/m', '', $source);
+        $source = preg_replace('/^<\?php/', '', $source);
+        eval('namespace ' . __NAMESPACE__ . '; use RuntimeException;' . $source);
+    }
+    private function deliverPayPalV2() {
+        $global =& $GLOBALS['global'];
+        $_GET = ['json' => '{"users_id":7}'];
+        $_REQUEST = ['success' => 1];
+        $source = $this->payPalHandlerSource('ipnV2.php');
+        $source = str_replace('die(', 'throw new PayPalDeliveryStopped(', $source);
+        try { eval('namespace ' . __NAMESPACE__ . '; use RuntimeException; use stdClass;' . $source); }
+        catch (PayPalDeliveryStopped $stop) { /* Simulate the handler ending its HTTP request. */ }
+    }
+    public function testPayPalV2CannotCreditAnIpnAlreadyProcessedByEitherHandler() {
+        $_POST['verify_sign'] = str_repeat('s', 56);
+        $this->deliverPayPalWebhook();
+        $this->deliverPayPalV2();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame([7 => 0.0, 8 => 10.0], $this->db->balances);
+        $this->assertSame(1, $this->db->renewals);
+    }
+    public function testPayPalV2AndIpnUseTheSameTransactionClaim() {
+        $_POST['verify_sign'] = str_repeat('s', 56);
+        $this->deliverPayPalV2();
+        $this->deliverPayPalIpn();
+        $this->deliverPayPalV2();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances);
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame(1, $this->db->commits);
+    }
+    /** @dataProvider payPalNotificationsWithoutMoney */
+    public function testPayPalV2CannotClaimNonPaymentNotifications($fields) {
+        $_POST = array_replace($_POST, $fields);
+        $_POST['verify_sign'] = str_repeat('s', 56);
+        $this->deliverPayPalV2();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame([], $this->db->logs);
+        $_POST['txn_type'] = 'recurring_payment';
+        $_POST['payment_status'] = 'Completed';
+        $_POST['mc_gross'] = '10.00';
+        $this->deliverPayPalV2();
+        $this->assertSame(10.0, $this->db->balances[7]);
+    }
+    public function testPayPalV2RestoresTheVerifiedTransactionIdAfterFrameworkFiltering() {
+        PayPalDelivery::$filterRequest = true;
+        $_POST['txn_id'] = '34Y69196BK064583G';
+        $_POST['verify_sign'] = str_repeat('s', 56);
+        $originalPost = $_POST;
+        $this->deliverPayPalV2();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $_POST = $originalPost;
+        $this->deliverPayPalIpn();
+        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances);
+        $this->assertSame(1, $this->db->commits);
+    }
+    public function testPayPalV2MarkerFailureUndoesItsLogAndCreditBeforeRetrying() {
+        $GLOBALS['global']['bypassSameDomainCheck'] = 0;
+        $_POST['verify_sign'] = str_repeat('s', 56);
+        $this->db->failMarker = true;
+        $this->deliverPayPalV2();
+        $this->assertSame(500, PayPalDelivery::$status);
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame([7 => 0, 8 => 0], $this->db->balances);
+        $this->assertSame(0, $GLOBALS['global']['bypassSameDomainCheck']);
+        $this->db->failMarker = false;
+        PayPalDelivery::$status = 200;
+        $this->deliverPayPalV2();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(10.0, $this->db->balances[7]);
+    }
+    public function testPayPalIpnRecognizesTheFullSignatureInAPreMarkerV2Credit() {
+        $_POST['txn_id'] = '34Y69196BK064583G';
+        $_POST['verify_sign'] = str_repeat('s', 56);
+        $legacyPost = array_replace($_POST, ['txn_id' => 34]);
+        WalletLog::addLog(7, 10, 0, 'PayPal Subscription from token', json_encode($legacyPost), 'success', 'addBalance');
+        $this->deliverPayPalIpn();
+        $this->assertSame(0, $this->db->commits);
+        $this->deliverPayPalV2();
+        $this->assertSame(0, $this->db->commits);
+        $this->assertSame(200, PayPalDelivery::$status);
     }
     private function deliver($ids = ['pay_1'], $provider = 'razorpay', $renew = true) {
         return $this->payments->processPaymentOnce($provider, $ids, 7, function () use ($renew) {
@@ -190,6 +462,207 @@ class PaymentWebhookIdempotencyTest extends TestCase
             }
             return true;
         });
+    }
+    public function gatewayProviders() { return [['paypal'], ['btcpay'], ['another_gateway']]; }
+    /** @dataProvider gatewayProviders */
+    public function testAnyGatewayUsesTheWalletLedger($provider) {
+        $this->deliver(['gateway_payment_1'], $provider, false);
+        $this->deliver(['gateway_payment_1'], $provider, false);
+        $this->assertSame(10.0, $this->db->balances[7]);
+        $this->assertCount(1, array_filter($this->db->logs, function ($log) { return $log['type'] === 'paymentProcessed'; }));
+    }
+    public function testSameIdInDifferentGatewaysIsNotADuplicate() {
+        $this->deliver(['shared_id'], 'paypal', false);
+        $this->deliver(['shared_id'], 'btcpay', false);
+        $this->deliver(['shared_id'], 'another_gateway', false);
+        $this->assertSame(30.0, $this->db->balances[7]);
+    }
+    public function testNewGatewayCanSupplyItsOwnLegacyCreditPatterns() {
+        WalletLog::addLog(7, 10, 0, 'NewGateway payment', '{"id":"legacy_1"}', 'success', 'addBalance');
+        $this->assertTrue($this->payments->processPaymentOnce('new_gateway', ['legacy_1'], 7,
+            function () { $this->fail('A historical credit must not be paid again'); },
+            ['legacyDescriptions' => ['NewGateway %']]));
+        $this->assertSame(0, $this->db->commits);
+    }
+    public function testGatewayLegacyLookupRunsInsideThePaymentTransaction() {
+        $this->assertTrue($this->payments->processPaymentOnce('another_gateway', ['legacy_1'], 7,
+            function () { $this->fail('A historical payment must not be paid again'); },
+            ['legacyCheck' => function () {
+                $this->assertSame($this->db, $GLOBALS['global']['mysqlTransactionConnection']);
+                return true;
+            }]));
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame(0, $this->db->commits);
+    }
+    public function testPayPalIpnAndRestWebhookShareTheSamePaymentClaim() {
+        $this->deliverPayPalIpn();
+        $this->deliverPayPalWebhook();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertSame(10.0, $this->db->balances[8]);
+        $this->assertArrayNotHasKey('bypassSameDomainCheck', $GLOBALS['global']);
+    }
+    public function testPayPalRestWebhookThenIpnCreditsAndRenewsOnce() {
+        $this->deliverPayPalWebhook();
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertSame(10.0, $this->db->balances[8]);
+        $this->assertCount(1, array_filter($this->db->logs, function ($log) { return $log['type'] === 'paypalToken'; }));
+    }
+    public function testPayPalRestWebhookRecognizesPreMarkerTokenLog() {
+        WalletLog::addLog(7, 10, 0, 'PayPal log', '{}', 'success', 'paypalToken', 'WH-event_1');
+        $this->deliverPayPalWebhook();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame(0, $this->db->commits);
+    }
+    public function testPayPalHistoricalWebhookDoesNotRetryWhenSubscriptionIsDisabled() {
+        WalletLog::addLog(7, 10, 0, 'PayPal log', '{}', 'success', 'paypalToken', 'WH-event_1');
+        AVideoPlugin::$subscriptionEnabled = false;
+        $this->deliverPayPalWebhook();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(0, $this->db->commits);
+        $this->assertCount(1, $this->db->logs);
+    }
+    public function testPayPalIpnRecognizesPreMarkerWebhookCredit() {
+        WalletLog::addLog(7, 10, 0, 'Paypal recurrent WH Fixture plan', json_encode(PayPalDelivery::$webhook), 'success', 'addBalance');
+        WalletLog::addLog(7, 10, 0, 'PayPal log', json_encode(PayPalDelivery::$webhook), 'success', 'paypalToken', 'WH-event_1');
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame(0, $this->db->commits);
+    }
+    public function testPayPalWebhookRecognizesPreMarkerCreditWithoutGatewayLog() {
+        // The old webhook wrote the wallet credit before saving its own gateway log.
+        WalletLog::addLog(7, 10, 0, 'Paypal recurrent WH Fixture plan', json_encode(PayPalDelivery::$webhook), 'success', 'addBalance');
+        $this->deliverPayPalWebhook();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame(0, $this->db->commits);
+    }
+    public function payPalWebhookEventsWithoutMoney() {
+        return [['PAYMENT.SALE.PENDING'], ['PAYMENT.SALE.DENIED'], ['PAYMENT.SALE.REFUNDED'],
+            ['PAYMENT.SALE.REVERSED'], ['BILLING.SUBSCRIPTION.PAYMENT.FAILED']];
+    }
+    /** @dataProvider payPalWebhookEventsWithoutMoney */
+    public function testPayPalWebhookOnlyClaimsCompletedSales($eventType) {
+        PayPalDelivery::$webhook->webhook_event->event_type = $eventType;
+        $this->deliverPayPalWebhook();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame([7 => 0, 8 => 0], $this->db->balances);
+        $this->assertSame(0, $this->db->renewals);
+        PayPalDelivery::$webhook->webhook_event->event_type = 'PAYMENT.SALE.COMPLETED';
+        $this->deliverPayPalWebhook();
+        $this->assertSame(1, $this->db->renewals, 'An earlier non-payment event must not claim the sale ID');
+    }
+    public function testPayPalRestWebhookFailureRollsBackItsOwnLogAndCanRetry() {
+        $this->db->failMarker = true;
+        $this->deliverPayPalWebhook();
+        $this->assertSame(500, PayPalDelivery::$status);
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame([7 => 0, 8 => 0], $this->db->balances);
+        $this->assertArrayNotHasKey('bypassSameDomainCheck', $GLOBALS['global']);
+        $this->db->failMarker = false;
+        PayPalDelivery::$status = 200;
+        $this->deliverPayPalWebhook();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(1, $this->db->renewals);
+    }
+    public function testUnverifiedPayPalRestWebhookCannotClaimAPayment() {
+        PayPalDelivery::$verified = false;
+        $this->deliverPayPalWebhook();
+        $this->assertSame([], $this->db->logs);
+        $this->assertArrayNotHasKey('bypassSameDomainCheck', $GLOBALS['global']);
+    }
+    public function testPayPalRestRenewalFailureKeepsTheCreditAndRestoresOriginFlag() {
+        $GLOBALS['global']['bypassSameDomainCheck'] = 0;
+        PayPalDelivery::$failRenewal = true;
+        $this->deliverPayPalWebhook();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances);
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame(0, $GLOBALS['global']['bypassSameDomainCheck']);
+        $this->deliverPayPalWebhook();
+        $this->assertSame(10.0, $this->db->balances[7]);
+    }
+    private function btcInvoice($id = 'btc_invoice_1', $status = 'Settled', $currency = 'USD') {
+        return (object)['id' => $id, 'status' => $status, 'amount' => 10, 'currency' => $currency,
+            'totalBTCPaid' => 0.0001, 'storeId' => 'store_1', 'checkoutLink' => 'https://example.test/invoice',
+            'metadata' => (object)['users_id' => 7, 'BTCPAY_NETWORK' => 'Mainnet']];
+    }
+    public function testBtcPayUsesTheWalletLedgerAlongsideItsOwnPaymentLog() {
+        BTCPayments::processVerifiedInvoice($this->btcInvoice());
+        $response = BTCPayments::processVerifiedInvoice($this->btcInvoice());
+        $this->assertSame('Payment already processed', $response->msg);
+        $this->assertSame(10.0, $this->db->balances[7]);
+        foreach (['btcInvoice', 'btcPayment', 'paymentProcessed'] as $type) {
+            $this->assertCount(1, array_filter($this->db->logs, function ($log) use ($type) { return $log['type'] === $type; }));
+        }
+        BTCPayments::processVerifiedInvoice($this->btcInvoice('btc_invoice_2'));
+        $this->assertSame(20.0, $this->db->balances[7]);
+    }
+    public function btcFailures() { return [['failBtcInvoice'], ['failBtcPayment'], ['failCredit'], ['failMarker']]; }
+    /** @dataProvider btcFailures */
+    public function testBtcPayInvoicePaymentAndCreditRollBackTogether($failure) {
+        $this->db->$failure = true;
+        try { BTCPayments::processVerifiedInvoice($this->btcInvoice()); $this->fail('Failed BTC payment was accepted'); }
+        catch (RuntimeException $error) { $this->assertNotEmpty($error->getMessage()); }
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame(0, $this->db->balances[7]);
+        $this->db->$failure = false;
+        BTCPayments::processVerifiedInvoice($this->btcInvoice());
+        $this->assertSame(10.0, $this->db->balances[7]);
+    }
+    public function testBtcPayPreMarkerPaymentIsStillRecognized() {
+        BTCPayments::processVerifiedInvoice($this->btcInvoice());
+        $this->db->logs = array_values(array_filter($this->db->logs, function ($log) { return $log['type'] !== 'paymentProcessed'; }));
+        $response = BTCPayments::processVerifiedInvoice($this->btcInvoice());
+        $this->assertSame('Payment already processed', $response->msg);
+        $this->assertSame(10.0, $this->db->balances[7]);
+        $this->assertSame(1, $this->db->commits);
+    }
+    public function testBtcPayHistoricalDuplicateIsAcknowledgedWhileWalletIsDisabled() {
+        BTCPayments::processVerifiedInvoice($this->btcInvoice());
+        $this->db->logs = array_values(array_filter($this->db->logs, function ($log) { return $log['type'] !== 'paymentProcessed'; }));
+        $before = $this->db->logs;
+        AVideoPlugin::$walletEnabled = false;
+        $response = BTCPayments::processVerifiedInvoice($this->btcInvoice());
+        $this->assertSame('Payment already processed', $response->msg);
+        $this->assertSame($before, $this->db->logs);
+        $this->assertSame(10.0, $this->db->balances[7]);
+        $this->assertSame(1, $this->db->commits);
+    }
+    public function testBtcPayPendingAndWrongCurrencyDoNotCredit() {
+        BTCPayments::processVerifiedInvoice($this->btcInvoice('pending', 'New'));
+        $this->assertSame(0, $this->db->balances[7]);
+        BTCPayments::processVerifiedInvoice($this->btcInvoice('wrong_currency', 'Settled', 'EUR'));
+        $this->assertSame(0, $this->db->balances[7]);
+        $this->assertCount(0, array_filter($this->db->logs, function ($log) { return $log['type'] === 'btcPayment'; }));
+    }
+    public function walletAvailability() { return [[true], [false]]; }
+    /** @dataProvider walletAvailability */
+    public function testBtcPayCurrencyMismatchIsAcknowledgedWithoutWrites($enabled) {
+        AVideoPlugin::$walletEnabled = $enabled;
+        $response = BTCPayments::processVerifiedInvoice($this->btcInvoice('wrong_currency', 'Settled', 'EUR'));
+        $this->assertSame('Ignored: currency mismatch', $response->msg);
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame(0, $this->db->commits);
+    }
+    public function testBtcPayInvoiceWithoutAVideoUserIsAcknowledgedWithoutWrites() {
+        $invoice = $this->btcInvoice();
+        $invoice->metadata = new \stdClass();
+        $response = BTCPayments::processVerifiedInvoice($invoice);
+        $this->assertSame('Ignored: invoice without AVideo users_id', $response->msg);
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame(0, $this->db->commits);
+    }
+    public function testBusyBtcPayPaymentDoesNotWriteItsOwnHistory() {
+        $this->db->busy = true;
+        $this->expectException(RuntimeException::class);
+        try { BTCPayments::processVerifiedInvoice($this->btcInvoice()); }
+        finally { $this->assertSame([], $this->db->logs); }
     }
     public function testRetryDoesNotCreditOrRenewAgain() {
         $this->assertTrue($this->deliver());
@@ -274,6 +747,154 @@ class PaymentWebhookIdempotencyTest extends TestCase
         $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/StripeYPT/ipn.php');
         $this->assertDoesNotMatchRegularExpression('/if\s*\(\s*!\s*\$stripe->process(Subscription|SinglePayment)IPN/', $source);
         $this->assertMatchesRegularExpression('/catch \(\\\\Throwable \$e\) \{[^}]*http_response_code\(500\)/', $source);
+    }
+    public function testPayPalRecurringNotificationIsCreditedOnce() {
+        $this->assertTrue($this->deliver(['txn_1'], 'paypal'));
+        $this->assertTrue($this->deliver(['txn_1'], 'paypal'));
+        $this->assertSame([7 => 0.0, 8 => 10.0], $this->db->balances);
+        $this->assertSame(1, $this->db->renewals);
+        $this->deliver(['txn_2'], 'paypal');
+        $this->assertSame(2, $this->db->renewals, 'The next recurring payment is still paid');
+    }
+    public function testPayPalDoesNotMatchAnotherProvidersLegacyCredit() {
+        WalletLog::addLog(7, 10, 0, 'RazorPay recurrent payment: ', '{"notes":{"reference":"txn_1"}}', 'success', 'addBalance');
+        $this->deliver(['txn_1'], 'paypal');
+        $this->assertSame(1, $this->db->renewals, 'A Razorpay JSON reference must not suppress a PayPal payment');
+    }
+    public function testRazorpayLegacyCreditIsStillRecognized() {
+        WalletLog::addLog(7, 10, 0, 'RazorPay recurrent payment: ', '{"id":"pay_old"}', 'success', 'addBalance');
+        $this->deliver(['pay_old'], 'razorpay');
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame(0, $this->db->commits);
+    }
+    public function testVerifiedPayPalIpnCanSaveWithoutBrowserOriginAndRestoresGuard() {
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertArrayNotHasKey('bypassSameDomainCheck', $GLOBALS['global']);
+        PayPalDelivery::$ignoreLegacy = true; // Both concurrent requests can pass the old, non-atomic check.
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertCount(1, array_filter($this->db->logs, function ($log) { return $log['type'] === 'paypalIPN'; }));
+    }
+    public function testPayPalNumericPaymentIdIsAcceptedByTheStringIdHelper() {
+        $GLOBALS['global']['bypassSameDomainCheck'] = 1;
+        $_POST['txn_id'] = 61; // objects/security.php coerces fields ending in _id to integers.
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertSame(1, $GLOBALS['global']['bypassSameDomainCheck']);
+    }
+    public function testVerifiedPayPalIdsSurviveTheFrameworkIntegerFilters() {
+        PayPalDelivery::$filterRequest = true;
+        $_POST['recurring_payment_id'] = 'I-R52C41AGNEAP';
+        $_POST['txn_id'] = '34Y69196BK064583G';
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame('I-R52C41AGNEAP', PayPalDelivery::$lastAgreement);
+        $this->assertSame(1, $this->db->renewals);
+        $log = array_values(array_filter($this->db->logs, function ($log) { return $log['type'] === 'paypalIPN'; }))[0];
+        $this->assertSame('34Y69196BK064583G', $log['information']);
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals);
+    }
+    public function testPayPalLossyIntegerIdCannotSuppressAnUnrelatedPayment() {
+        PayPalDelivery::$filterRequest = true;
+        $_POST['recurring_payment_id'] = 'I-R52C41AGNEAP';
+        $_POST['txn_id'] = '34Y69196BK064583G';
+        WalletLog::addLog(7, 10, 0, 'PayPal log', '{}', 'success', 'paypalIPN', '34');
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(1, $this->db->commits);
+        $this->assertSame(1, $this->db->renewals);
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals, 'The complete transaction ID still deduplicates retries');
+    }
+    public function testPayPalFailedRenewalKeepsCreditAndRestoresExistingGuard() {
+        $GLOBALS['global']['bypassSameDomainCheck'] = 0;
+        PayPalDelivery::$failRenewal = true;
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances);
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame(0, $GLOBALS['global']['bypassSameDomainCheck']);
+        $this->deliverPayPalIpn();
+        $this->assertSame(10.0, $this->db->balances[7]);
+    }
+    public function testPayPalCreditFailureRollsBackLogAndRestoresGuardForRetry() {
+        $this->db->failCredit = true;
+        $this->deliverPayPalIpn();
+        $this->assertSame(500, PayPalDelivery::$status);
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame([7 => 0, 8 => 0], $this->db->balances);
+        $this->assertArrayNotHasKey('bypassSameDomainCheck', $GLOBALS['global']);
+        $this->db->failCredit = false;
+        PayPalDelivery::$status = 200;
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(1, $this->db->renewals);
+    }
+    public function testPayPalLegacyLogWithoutMarkerIsStillIgnored() {
+        WalletLog::addLog(7, 10, 0, 'PayPal log', '{}', 'success', 'paypalIPN', 'txn_1');
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(0, $this->db->commits);
+        $this->assertSame(0, $this->db->renewals);
+    }
+    public function testPayPalSignatureFallbackAndBusyRetryRestoreGuard() {
+        unset($_POST['txn_id']);
+        $_POST['verify_sign'] = 'signature_fixture';
+        $this->db->busy = true;
+        $this->deliverPayPalIpn();
+        $this->assertSame(500, PayPalDelivery::$status);
+        $this->assertSame([], $this->db->logs);
+        $this->assertArrayNotHasKey('bypassSameDomainCheck', $GLOBALS['global']);
+        $this->db->busy = false;
+        PayPalDelivery::$status = 200;
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(1, $this->db->renewals);
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals);
+    }
+    public function testUnrelatedPayPalAgreementAndCurrencyMismatchAreAcknowledged() {
+        PayPalDelivery::$agreement['users_id'] = 0;
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        PayPalDelivery::$agreement['users_id'] = 7;
+        $_POST['mc_currency'] = 'EUR';
+        $this->deliverPayPalIpn();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame(0, $this->db->commits);
+    }
+    public function testUnverifiedPayPalIpnNeverBypassesOriginGuard() {
+        PayPalDelivery::$verified = false;
+        PayPalDelivery::$filterRequest = true;
+        $_POST['recurring_payment_id'] = 'I-R52C41AGNEAP';
+        $this->deliverPayPalIpn();
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame(0, $_POST['recurring_payment_id'], 'An unverified request cannot restore raw provider IDs');
+        $this->assertArrayNotHasKey('bypassSameDomainCheck', $GLOBALS['global']);
+    }
+    public function testPayPalIpnClaimsThePaymentBeforeLoggingCreditingOrRenewing() {
+        // ipn.php: the replay check and the PayPalYPT_log insert were separate steps, so two concurrent
+        // copies of one notification could both credit and renew (check-to-insert race).
+        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/PayPalYPT/ipn.php');
+        $claim = strpos($source, "processPaymentOnce('paypal', [\$dedup_key], \$users_id,");
+        $this->assertNotFalse($claim);
+        foreach (['new PayPalYPT_log(0)', '$pp->save()', '$plugin->addBalance($users_id, $payment_amount', 'Subscription::renew('] as $step) {
+            $position = strpos($source, $step);
+            $this->assertNotFalse($position, $step);
+            $this->assertGreaterThan($claim, $position, "{$step} must run inside processPaymentOnce()");
+        }
+        $this->assertSame(1, substr_count($source, 'Subscription::renew('));
+        $this->assertSame(1, substr_count($source, "addBalance(\$users_id, \$payment_amount, \"Paypal recurrent\""));
+        $this->assertMatchesRegularExpression('/runPaymentStep\(function \(\) use/', $source);
+        // a failed or busy delivery must not be acknowledged, so PayPal sends it again
+        $catch = strpos($source, 'catch (\Throwable $error)', $claim);
+        $this->assertNotFalse($catch);
+        $this->assertNotFalse(strpos($source, 'http_response_code(500)', $catch));
     }
     public function testConcurrentDeliveryMustRetryWithoutMutation() {
         $this->db->busy = true;
