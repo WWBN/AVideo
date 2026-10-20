@@ -233,8 +233,12 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   must take its timestamps from Stripe (`latest_charge.created`), never from when the server first
   observed a status — otherwise a returning customer is blocked days later. Reading the charge needs
   the restricted key to have **Charges: Read** (the rest of the flow only needs PaymentIntents);
-  without it the guard logs a warning and degrades to the 5-minute observation fallback. Covered by
-  `tests/Unit/StripeSinglePaymentCheckoutTest.php`.
+  without it the guard logs a warning and degrades to the 5-minute observation fallback. After those
+  5 minutes, a paid intent whose wallet credit has not committed (`YPTWallet::isStripePaymentCredited()`)
+  still blocks a new charge for up to 3 days (Stripe's webhook retry window) unless refunded; the same
+  selection gets the paid intent back (`already_paid`, the page waits for the credit). Webhook events are
+  snapshots: `processSinglePaymentIPN()` re-reads the Charge and credits only the part not refunded.
+  Covered by `tests/Unit/StripeSinglePaymentCheckoutTest.php`.
 - **Payment webhooks (Stripe/Razorpay/PayPal recurring IPN `plugin/PayPalYPT/ipn.php`)**: verified deliveries go through
   `YPTWallet::processPaymentOnce()` (global `GET_LOCK` + transaction + zero-value `paymentProcessed`
   markers in `wallet_log`, hidden from the user list by `value != 0`). An exception rolls everything

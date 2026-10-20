@@ -38,7 +38,7 @@ class StripeYPT extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "2.1";
+        return "2.2";
     }
 
     public function getEmptyDataObject()
@@ -139,11 +139,24 @@ class StripeYPT extends PluginAbstract
         }
         _error_log("StripeYPT::getIntent $total , $currency, $description");
         try {
+            if (!empty($metadata['singlePayment']) && ($metadata['plugin'] ?? '') === 'PayPerView') {
+                $ppv = AVideoPlugin::loadPluginIfEnabled('PayPerView');
+                // Older independently deployed PPV versions keep their existing description.
+                if (!empty($ppv) && method_exists($ppv, 'getPaymentDetails')) {
+                    $details = $ppv->getPaymentDetails($metadata['plans_id'] ?? 0, $metadata['videos_id'] ?? 0, true);
+                    if (empty($details)) {
+                        throw new \InvalidArgumentException('Invalid PayPerView payment selection');
+                    }
+                    $parameters['description'] = $details['description'];
+                    $parameters['metadata'] = array_merge($metadata, $details['metadata']);
+                }
+            }
             $intent = !empty($metadata['singlePayment']) && $users_id > 0
                 ? $this->getSinglePaymentIntentLocked($parameters)
                 : \Stripe\PaymentIntent::create($parameters);
 
-            _error_log("StripeYPT::getIntent success " . json_encode($intent));
+            _error_log('StripeYPT::getIntent success id=' . $intent->id . ' status=' . $intent->status
+                . ' users_id=' . intval($users_id) . ' amount=' . intval($intent->amount) . ' currency=' . $intent->currency);
             return $intent;
         } catch (\Throwable $exc) {
             _error_log("StripeYPT::getIntent error " . $exc->getMessage());
@@ -234,6 +247,14 @@ class StripeYPT extends PluginAbstract
                         $getIntentErrorResponse = 'Your previous payment was processed. Please wait five minutes before making another payment. No new charge was made.';
                         throw new \RuntimeException('Stripe payment completion cooldown');
                     }
+                    // A delayed or failing webhook must not lead the customer into paying twice.
+                    if ($this->isSinglePaymentCreditPending($intent, $charge, $paidAt)) {
+                        if ($state['fingerprint'] === $fingerprint) {
+                            return $intent;
+                        }
+                        $getIntentErrorResponse = 'Your previous card payment was approved and is still being added to your account. No new charge was made. Please wait and check your balance.';
+                        throw new \RuntimeException('Stripe payment credit pending');
+                    }
                 } elseif ($intent->status !== 'canceled') {
                     if (in_array($intent->status, ['processing', 'requires_capture'], true)) {
                         $getIntentErrorResponse = 'A payment request is already being processed. Please wait and try again.';
@@ -263,6 +284,22 @@ class StripeYPT extends PluginAbstract
             fclose($file);
             // Never unlink a flock file: another worker may already have it open.
         }
+    }
+
+    /**
+     * True while a paid single payment is not yet in the payer's wallet, within Stripe's 3-day webhook
+     * retry window. A refunded charge will never be credited, and older wallets cannot be asked.
+     */
+    private function isSinglePaymentCreditPending($intent, $charge, $paidAt)
+    {
+        if (time() - $paidAt >= 3 * 86400 || (is_object($charge) && !empty($charge->refunded))) {
+            return false;
+        }
+        $wallet = AVideoPlugin::loadPluginIfEnabled('YPTWallet');
+        if (empty($wallet) || !method_exists($wallet, 'isStripePaymentCredited')) {
+            return false;
+        }
+        return !$wallet->isStripePaymentCredited($intent->id, User::getId());
     }
 
     private function createSinglePaymentIntent($parameters, $state, $statePath)
@@ -313,7 +350,9 @@ class StripeYPT extends PluginAbstract
                     'source' => $token,
                 ]);
 
-                _error_log("StripeYPT::setUpPayment charge " . json_encode($charge));
+                // The full charge holds billing name, e-mail, address and card details: log identifiers only.
+                _error_log('StripeYPT::setUpPayment charge id=' . $charge->id . ' status=' . $charge->status
+                    . ' amount=' . intval($charge->amount) . ' currency=' . $charge->currency);
                 return $charge;
             } catch (Exception $exc) {
                 _error_log("StripeYPT::setUpPayment error " . $exc->getMessage());
@@ -933,7 +972,7 @@ class StripeYPT extends PluginAbstract
     {
         $object = $payload->data->object;
         $ids = [$object->id ?? null, $payload->id ?? null];
-        foreach (['invoice', 'charge'] as $field) {
+        foreach (['invoice', 'charge', 'payment_intent'] as $field) {
             $value = $object->$field ?? null;
             $ids[] = is_object($value) ? ($value->id ?? null) : $value;
         }
@@ -1051,6 +1090,32 @@ class StripeYPT extends PluginAbstract
         return ($payload->type == "customer.subscription.deleted" && !empty($payload->data->object->customer));
     }
 
+    /**
+     * An event is a snapshot taken when the charge succeeded, and Stripe retries failed deliveries for
+     * days: read the charge as it is now so a refund made in the meantime is not credited (in cents).
+     */
+    private static function getSinglePaymentAmountStillPaid($payload, $logContext)
+    {
+        $charge = $payload->data->object;
+        try {
+            $charge = \Stripe\Charge::retrieve($charge->id);
+        } catch (\Stripe\Exception\PermissionException $exception) {
+            // Restricted key without "Charges: Read": keep crediting the delivered snapshot.
+            _error_log("Stripe processSinglePaymentIPN: grant the restricted key \"Charges: Read\" so refunds are detected; using the event snapshot {$logContext}", AVideoLog::$WARNING);
+        }
+        if (($charge->status ?? 'succeeded') !== 'succeeded') {
+            _error_log("Stripe processSinglePaymentIPN: ignored, the charge is now {$charge->status} {$logContext}", AVideoLog::$WARNING);
+            return 0;
+        }
+        $amount = intval($charge->amount) - intval($charge->amount_refunded ?? 0);
+        if ($amount <= 0) {
+            _error_log("Stripe processSinglePaymentIPN: ignored, the charge was refunded before it was credited {$logContext}", AVideoLog::$WARNING);
+        } elseif (!empty($charge->amount_refunded)) {
+            _error_log("Stripe processSinglePaymentIPN: crediting only the part not refunded ({$amount}) {$logContext}", AVideoLog::$WARNING);
+        }
+        return $amount;
+    }
+
     function processSinglePaymentIPN($payload)
     {
         $logContext = self::getPaymentLogContext($payload);
@@ -1059,8 +1124,13 @@ class StripeYPT extends PluginAbstract
             _error_log("Stripe processSinglePaymentIPN: ignored, users_id metadata not found {$logContext}", AVideoLog::$WARNING);
             return false;
         }
+        $amount = self::getSinglePaymentAmountStillPaid($payload, $logContext);
+        if ($amount <= 0) {
+            return false;
+        }
         $pluginS = AVideoPlugin::loadPluginIfEnabled('YPTWallet');
-        $payment_amount = StripeYPT::addDot($payload->data->object->amount);
+        // addDot() needs at least three digits: 5 cents must not become 0.5.
+        $payment_amount = StripeYPT::addDot(str_pad((string) $amount, 3, '0', STR_PAD_LEFT));
         $users_id = $payload->data->object->metadata->users_id;
         _error_log("Stripe processSinglePaymentIPN: processing {$logContext} users_id={$users_id} amount={$payment_amount}");
         return $pluginS->processPaymentOnce('stripe', self::getPaymentIds($payload), $users_id,

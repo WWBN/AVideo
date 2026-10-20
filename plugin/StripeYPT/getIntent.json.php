@@ -49,6 +49,9 @@ $metadata = array(
     "recurrent" => @$_REQUEST['recurrent'],
     "singlePayment" => @$_REQUEST['singlePayment'],
 );
+if ($metadata['plugin'] === 'PayPerView' && !empty($metadata['singlePayment'])) {
+    $metadata['videos_id'] = intval($_REQUEST['videos_id'] ?? 0);
+}
 $obj->value = $value;
 $obj->currency = $currency;
 $obj->description = @$_REQUEST['description'];
@@ -58,6 +61,7 @@ $obj->future_usage = @$_REQUEST['future_usage'];
 
 $intent = $stripe->getIntent($value, $currency, @$_REQUEST['description'], $metadata, @$_REQUEST['customer'], @$_REQUEST['future_usage']);
 $obj->intent = $intent;
+$obj->description = $intent->description ?? $obj->description;
 $obj->client_secret = @$intent->client_secret;
 $obj->error = empty($obj->client_secret);
 $obj->already_paid = !empty($intent) && $intent->status === 'succeeded';

@@ -43,7 +43,15 @@ class YPTWallet extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "6.0";
+        return "6.1";
+    }
+
+    public function updateScript()
+    {
+        if (AVideoPlugin::compareVersion($this->getName(), '6.0') < 0 && !parent::updateScript()) {
+            return false;
+        }
+        return WalletLog::upgradePaymentLogSchema();
     }
 
 
@@ -183,6 +191,11 @@ class YPTWallet extends PluginAbstract
     {
         $wallet = self::getWallet($users_id);
         return $wallet->getBalance();
+    }
+
+    public function isStripePaymentCredited($paymentIntentId, $users_id)
+    {
+        return WalletLog::hasProcessedStripePaymentForUser($paymentIntentId, $users_id);
     }
 
     public function getBalanceText($users_id)

@@ -10,6 +10,19 @@ $source = str_replace('\\Stripe\\', '\\Tests\\StripeSinglePayment\\Gateway\\', $
 eval('namespace ' . __NAMESPACE__ . '; ' . $source);
 
 class PluginAbstract {}
+class AVideoPlugin
+{
+    public static $ppv, $wallet;
+    public static function loadPluginIfEnabled($name) { return $name === 'YPTWallet' ? self::$wallet : self::$ppv; }
+}
+class AVideoLog { public static $WARNING = 'warning', $ERROR = 'error'; }
+class TestWallet
+{
+    public $credited = [], $balances = [];
+    public function isStripePaymentCredited($intentId, $users_id) { return in_array($intentId, $this->credited, true); }
+    public function processPaymentOnce($provider, $ids, $users_id, callable $process) { return $process(); }
+    public function addBalance($users_id, $value, $description = '', $json = '{}') { $this->balances[] = [$users_id, $value]; return true; }
+}
 class User
 {
     public static $id = 42;
@@ -17,7 +30,7 @@ class User
     public static function getEmail_() { return ''; }
 }
 function isValidEmail($email) { return false; }
-function _error_log($message, $level = null) {}
+function _error_log($message, $level = null) { $GLOBALS['checkoutLogs'][] = $message; }
 function time() { return StripeSinglePaymentCheckoutTest::$now; }
 class CheckoutStripe extends StripeYPT
 {
@@ -34,7 +47,10 @@ class StripeSinglePaymentCheckoutTest extends TestCase
     protected function setUp(): void
     {
         self::$now = 100000;
+        $GLOBALS['checkoutLogs'] = [];
         User::$id = 42;
+        AVideoPlugin::$ppv = null;
+        AVideoPlugin::$wallet = null;
         Gateway\PaymentIntent::$objects = [];
         Gateway\PaymentIntent::$keys = [];
         Gateway\PaymentIntent::$requests = [];
@@ -74,6 +90,45 @@ class StripeSinglePaymentCheckoutTest extends TestCase
         $first = $this->pay();
         $this->assertSame($first, $this->pay());
         $this->assertCount(1, Gateway\PaymentIntent::$objects);
+    }
+
+    public function testIntentLogsContainIdentifiersWithoutClientSecret(): void
+    {
+        $intent = $this->pay();
+        $logs = implode("\n", $GLOBALS['checkoutLogs']);
+        $this->assertStringContainsString('success id=' . $intent->id, $logs);
+        $this->assertStringNotContainsString($intent->client_secret, $logs);
+    }
+
+    public function testReceiptUsesCatalogDetailsAndDifferentMovieCannotReusePendingIntent(): void
+    {
+        AVideoPlugin::$ppv = new class {
+            public function getPaymentDetails($plan, $video, $funding) {
+                return ['description' => 'Wallet funds for PPV rental: Movie ' . $video . ' | 72 hours',
+                    'metadata' => ['videos_id' => (string) $video, 'ppv_plans_id' => (string) $plan, 'rental_hours' => '72']];
+            }
+        };
+        $metadata = ['singlePayment' => 1, 'plugin' => 'PayPerView', 'plans_id' => 2, 'videos_id' => 3143];
+        $first = $this->stripe->getIntent(1.99, 'USD', 'Untrusted movie name', $metadata);
+        $this->assertSame('Wallet funds for PPV rental: Movie 3143 | 72 hours', $first->description);
+        $this->assertSame('3143', $first->metadata['videos_id']);
+        $this->assertSame('2', $first->metadata['ppv_plans_id']);
+        $this->assertSame($first, $this->stripe->getIntent(1.99, 'USD', 'Other submitted text', $metadata));
+        $metadata['videos_id'] = 6106;
+        $second = $this->stripe->getIntent(1.99, 'USD', 'Submitted text', $metadata);
+        $this->assertNotSame($first->id, $second->id);
+        $this->assertSame('canceled', $first->status);
+        $this->assertSame('6106', $second->metadata['videos_id']);
+    }
+
+    public function testInvalidCatalogSelectionDoesNotCreatePaymentAndOlderPpvStillWorks(): void
+    {
+        AVideoPlugin::$ppv = new class { public function getPaymentDetails($plan, $video, $funding) { return false; } };
+        $metadata = ['singlePayment' => 1, 'plugin' => 'PayPerView', 'plans_id' => 2, 'videos_id' => 3143];
+        $this->assertFalse($this->stripe->getIntent(1.99, 'USD', 'Fallback', $metadata));
+        $this->assertCount(0, Gateway\PaymentIntent::$objects);
+        AVideoPlugin::$ppv = new \stdClass();
+        $this->assertSame('Fallback', $this->stripe->getIntent(1.99, 'USD', 'Fallback', $metadata)->description);
     }
 
     public function testBusyLockRejectsConcurrentRequest(): void
@@ -131,6 +186,94 @@ class StripeSinglePaymentCheckoutTest extends TestCase
         self::$now += 240;
         $this->assertNotSame($first->id, $this->pay()->id);
         $this->assertCount(2, Gateway\PaymentIntent::$objects);
+    }
+
+    public function testApprovedPaymentWaitingForItsCreditIsNeverChargedAgain(): void
+    {
+        AVideoPlugin::$wallet = new TestWallet();
+        $first = $this->pay();
+        $this->paid($first, self::$now);
+        self::$now += 3600; // webhook still failing long after the five-minute cooldown
+        $this->assertSame($first, $this->pay(), 'The same checkout only waits for the credit');
+        $this->assertFalse($this->pay(3.99));
+        $this->assertStringContainsString('still being added', $GLOBALS['getIntentErrorResponse']);
+        $this->assertCount(1, Gateway\PaymentIntent::$objects);
+        AVideoPlugin::$wallet->credited[] = $first->id;
+        $this->assertNotSame($first->id, $this->pay(3.99)->id);
+    }
+
+    public function testCreditWaitEndsWithStripeRetriesOrARefund(): void
+    {
+        AVideoPlugin::$wallet = new TestWallet();
+        $first = $this->pay();
+        $this->paid($first, self::$now);
+        self::$now += 3 * 86400;
+        $second = $this->pay(3.99);
+        $this->assertNotSame($first->id, $second->id);
+        $this->paid($second, self::$now);
+        Gateway\Charge::$objects[$second->latest_charge]->refunded = true;
+        self::$now += 600;
+        $this->assertNotFalse($this->pay(4.99));
+        $this->assertCount(3, Gateway\PaymentIntent::$objects);
+    }
+
+    private function chargeEvent(?array $current = null)
+    {
+        $payload = json_decode('{"id":"evt_1","type":"charge.succeeded","data":{"object":{"id":"ch_1","amount":199,'
+            . '"amount_refunded":0,"status":"succeeded","payment_intent":"pi_1","metadata":{"users_id":"7","singlePayment":"1"}}}}');
+        if ($current !== null) {
+            Gateway\Charge::$objects['ch_1'] = (object) array_merge(['id' => 'ch_1', 'amount' => 199, 'status' => 'succeeded'], $current);
+        }
+        return $payload;
+    }
+
+    public function testLateEventOfARefundedChargeIsNotCredited(): void
+    {
+        AVideoPlugin::$wallet = new TestWallet();
+        $this->assertFalse($this->stripe->processSinglePaymentIPN($this->chargeEvent(['amount_refunded' => 199, 'refunded' => true])));
+        $this->assertSame([], AVideoPlugin::$wallet->balances);
+    }
+
+    public function testPartialRefundCreditsOnlyWhatIsStillPaid(): void
+    {
+        AVideoPlugin::$wallet = new TestWallet();
+        $this->assertTrue($this->stripe->processSinglePaymentIPN($this->chargeEvent(['amount_refunded' => 194])));
+        $this->assertSame([['7', 0.05]], AVideoPlugin::$wallet->balances);
+    }
+
+    public function testChargeCreditUsesTheEventWhenTheKeyCannotReadCharges(): void
+    {
+        AVideoPlugin::$wallet = new TestWallet();
+        Gateway\Charge::$denyRead = true;
+        $this->assertTrue($this->stripe->processSinglePaymentIPN($this->chargeEvent()));
+        $this->assertSame([['7', 1.99]], AVideoPlugin::$wallet->balances);
+    }
+
+    public function testChargeReadFailureAsksStripeToRetryTheEvent(): void
+    {
+        AVideoPlugin::$wallet = new TestWallet();
+        Gateway\Charge::$failRetrieve = true;
+        $this->expectException(\RuntimeException::class);
+        try {
+            $this->stripe->processSinglePaymentIPN($this->chargeEvent());
+        } finally {
+            $this->assertSame([], AVideoPlugin::$wallet->balances);
+        }
+    }
+
+    public function testDirectChargeLogContainsIdentifiersOnly(): void
+    {
+        $previous = $_POST;
+        $_POST['stripeToken'] = 'tok_test';
+        try {
+            $charge = $this->stripe->setUpPayment(1.99, 'USD', 'PPV rental');
+        } finally {
+            $_POST = $previous;
+        }
+        $logs = implode("\n", $GLOBALS['checkoutLogs']);
+        $this->assertStringContainsString('charge id=' . $charge->id, $logs);
+        $this->assertStringNotContainsString('buyer@example.invalid', $logs);
+        $this->assertStringNotContainsString('4242', $logs);
     }
 
     public function testChargeReadFailureDoesNotCreateAnotherPayment(): void
@@ -310,7 +453,7 @@ class PaymentIntent
 {
     public static $objects = [], $keys = [], $requests = [];
     public static $loseResponse, $failRetrieve, $failCancel, $onCreate, $reject;
-    public $id, $client_secret, $latest_charge, $status = 'requires_payment_method';
+    public $id, $client_secret, $latest_charge, $amount, $currency, $description, $metadata, $status = 'requires_payment_method';
 
     public static function create($parameters, $options = [])
     {
@@ -325,6 +468,10 @@ class PaymentIntent
         if (isset(self::$keys[$key])) { return self::$keys[$key]; }
         $intent = new self();
         $intent->id = 'pi_' . (count(self::$objects) + 1);
+        $intent->amount = $parameters['amount'];
+        $intent->currency = $parameters['currency'];
+        $intent->description = $parameters['description'];
+        $intent->metadata = $parameters['metadata'];
         $intent->client_secret = $intent->id . '_test_secret';
         self::$objects[$intent->id] = $intent;
         self::$keys[$key] = $intent;
@@ -352,6 +499,12 @@ class PaymentIntent
 class Charge
 {
     public static $objects = [], $failRetrieve = false, $denyRead = false;
+
+    public static function create($parameters)
+    {
+        return (object) ['id' => 'ch_direct', 'status' => 'succeeded', 'amount' => $parameters['amount'], 'currency' => $parameters['currency'],
+            'billing_details' => (object) ['email' => 'buyer@example.invalid'], 'payment_method_details' => (object) ['card' => (object) ['last4' => '4242']]];
+    }
 
     public static function retrieve($id)
     {

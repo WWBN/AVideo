@@ -76,6 +76,41 @@ class PaymentWalletMySQLIntegrationTest extends TestCase
         return (float) $this->scalar('SELECT IFNULL(SUM(balance), 0) FROM wallet WHERE users_id = ' . intval($users_id));
     }
 
+    public function testPartialLegacyMigrationIsRepairedBeforeRetryAndStatusIsScopedToPayer()
+    {
+        $this->db->query('ALTER TABLE wallet_log DROP COLUMN json_data');
+        $wallet = new YPTWallet();
+        try {
+            deliver($wallet, ['ch_legacy', 'evt_legacy', 'pi_legacy']);
+            $this->fail('The missing ledger column must reject the webhook');
+        } catch (\Throwable $error) {
+            $this->assertStringContainsString('json_data', $error->getMessage());
+        }
+        $this->assertSame(0.0, $this->balance(7));
+        $GLOBALS['global']['systemRootPath'] = dirname(__DIR__, 2) . '/';
+        $this->assertTrue(WalletLog::upgradePaymentLogSchema());
+        $this->assertTrue(WalletLog::upgradePaymentLogSchema(), 'The repair must be idempotent');
+        $this->assertFalse(WalletLog::hasProcessedStripePaymentForUser('pi_legacy', 7));
+        $this->assertTrue(deliver($wallet, ['ch_legacy', 'evt_legacy', 'pi_legacy']));
+        $this->assertTrue(deliver($wallet, ['ch_legacy', 'evt_legacy', 'pi_legacy']));
+        $this->assertSame(10.0, $this->balance(7));
+        $this->assertTrue(WalletLog::hasProcessedStripePaymentForUser('pi_legacy', 7));
+        $this->assertFalse(WalletLog::hasProcessedStripePaymentForUser('pi_legacy', 8));
+        $this->assertSame('1', $this->scalar("SELECT COUNT(*) FROM wallet_log WHERE type = 'addBalance'"));
+    }
+
+    public function testCreditStatusRecognizesOlderCommittedPayloadAfterAnEarlierPendingRead()
+    {
+        $this->assertFalse(WalletLog::hasProcessedStripePaymentForUser('pi_old', 7));
+        $wallet = new YPTWallet();
+        $wallet->processPaymentOnce('stripe', ['ch_old'], 7, function () use ($wallet) {
+            $wallet->addBalance(7, 10, 'Stripe single payment: old', '{"payment_intent":"pi_old"}');
+            return true;
+        });
+        $this->assertTrue(WalletLog::hasProcessedStripePaymentForUser('pi_old', 7));
+        $this->assertFalse(WalletLog::hasProcessedStripePaymentForUser('pi_old', 8));
+    }
+
     private function renewal(YPTWallet $wallet, $price)
     {
         // Same shape as Subscription::renew(): debit the payer, then write the subscription row.

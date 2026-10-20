@@ -1,6 +1,7 @@
 <?php
 $obj = AVideoPlugin::getObjectData('StripeYPT');
 $uid = uniqid();
+$isPpvCheckout = strpos($_SERVER['SCRIPT_NAME'] ?? '', '/PayPerView/page/buy.php') !== false;
 ?>
 <style>
     /**
@@ -107,13 +108,15 @@ $uid = uniqid();
     var form<?php echo $uid; ?> = document.getElementById('payment-form<?php echo $uid; ?>');
     var paymentPending<?php echo $uid; ?> = false;
     var paymentStatusSecret<?php echo $uid; ?> = '';
+    var paymentIntentId<?php echo $uid; ?> = '';
+    var walletCreditPending<?php echo $uid; ?> = false;
     function paymentMessage<?php echo $uid; ?>(message) {
         $('#payment-status<?php echo $uid; ?>').text(message);
     }
     function paymentError<?php echo $uid; ?>(message) {
         paymentPending<?php echo $uid; ?> = false;
         $(form<?php echo $uid; ?>).find('button').prop('disabled', false);
-        $(form<?php echo $uid; ?>).find('button').text(paymentStatusSecret<?php echo $uid; ?>
+        $(form<?php echo $uid; ?>).find('button').text(paymentStatusSecret<?php echo $uid; ?> || walletCreditPending<?php echo $uid; ?>
             ? <?php echo json_encode(__('Check payment status')); ?>
             : <?php echo json_encode(__('Submit Payment')); ?>);
         modal.hidePleaseWait();
@@ -122,6 +125,7 @@ $uid = uniqid();
     }
     function paymentComplete<?php echo $uid; ?>(message) {
         paymentStatusSecret<?php echo $uid; ?> = '';
+        walletCreditPending<?php echo $uid; ?> = false;
         // Keep the button disabled until navigation, including in paymentsTest mode.
         modal.hidePleaseWait();
         paymentMessage<?php echo $uid; ?>(message);
@@ -135,6 +139,32 @@ $uid = uniqid();
             }
             ?>
         }, 3000);
+    }
+    function checkWalletCredit<?php echo $uid; ?>(attempt) {
+        walletCreditPending<?php echo $uid; ?> = true;
+        modal.hidePleaseWait();
+        paymentMessage<?php echo $uid; ?>(<?php echo json_encode(__('Your card payment was approved. Waiting for your account credit. Do not pay again.')); ?>);
+        function checkAgain() {
+            if (attempt < 40) {
+                setTimeout(function() { checkWalletCredit<?php echo $uid; ?>(attempt + 1); }, 3000);
+            } else {
+                paymentError<?php echo $uid; ?>(<?php echo json_encode(__('Your card payment was approved, but your account credit is still pending. Use Check payment status; do not pay again.')); ?>);
+            }
+        }
+        $.ajax({
+            url: webSiteRootURL + 'plugin/StripeYPT/singlePaymentStatus.json.php',
+            type: 'POST',
+            data: {payment_intent_id: paymentIntentId<?php echo $uid; ?>, globalToken: <?php echo json_encode(getToken()); ?>},
+            success: function(response) {
+                if (!response.error && response.credited) {
+                    paymentComplete<?php echo $uid; ?>(<?php echo json_encode($isPpvCheckout
+                        ? __('Funds added. Complete your rental on the next page.') : __('Funds added successfully.')); ?>);
+                } else {
+                    checkAgain();
+                }
+            },
+            error: checkAgain
+        });
     }
     function checkPaymentStatus<?php echo $uid; ?>(attempt) {
         modal.hidePleaseWait();
@@ -156,7 +186,8 @@ $uid = uniqid();
             }
             var intent = result.paymentIntent;
             if (intent.status === 'succeeded') {
-                paymentComplete<?php echo $uid; ?>(<?php echo json_encode(__('Payment processed successfully.')); ?>);
+                paymentIntentId<?php echo $uid; ?> = intent.id || paymentIntentId<?php echo $uid; ?>;
+                checkWalletCredit<?php echo $uid; ?>(0);
             } else if (['canceled', 'requires_payment_method', 'requires_action', 'requires_confirmation'].indexOf(intent.status) !== -1) {
                 paymentStatusSecret<?php echo $uid; ?> = '';
                 paymentError<?php echo $uid; ?>(<?php echo json_encode(__('Payment was not completed. Please check your card details and try again.')); ?>);
@@ -172,6 +203,10 @@ $uid = uniqid();
         }
         paymentPending<?php echo $uid; ?> = true;
         $(form<?php echo $uid; ?>).find('button').prop('disabled', true);
+        if (walletCreditPending<?php echo $uid; ?>) {
+            checkWalletCredit<?php echo $uid; ?>(0);
+            return;
+        }
         if (paymentStatusSecret<?php echo $uid; ?>) {
             checkPaymentStatus<?php echo $uid; ?>(0);
             return;
@@ -184,13 +219,15 @@ $uid = uniqid();
                 "value": $('#value<?php echo @$_GET['plans_id']; ?>').val(),
                 "description": $('#description<?php echo @$_GET['plans_id']; ?>').val(),
                 "plans_id": "<?php echo @$_GET['plans_id']; ?>",
-                "plugin": <?php echo json_encode((string)($_REQUEST['plugin'] ?? '')); ?>,
+                "plugin": <?php echo json_encode($isPpvCheckout ? 'PayPerView' : (string)($_REQUEST['plugin'] ?? '')); ?>,
+                "videos_id": <?php echo $isPpvCheckout ? "$('#videos_id_" . intval($_GET['plans_id'] ?? 0) . "').val()" : '0'; ?>,
                 "singlePayment": 1
             },
             type: 'post',
             success: function (response) {
+                paymentIntentId<?php echo $uid; ?> = response.intent ? response.intent.id : '';
                 if (response.already_paid) {
-                    paymentComplete<?php echo $uid; ?>(response.msg);
+                    checkWalletCredit<?php echo $uid; ?>(0);
                     return;
                 }
                 if (!response.error) {
@@ -207,7 +244,8 @@ $uid = uniqid();
                             errorElement.textContent = result.error.message;
                             paymentError<?php echo $uid; ?>(result.error.message);
                         } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
-                            paymentComplete<?php echo $uid; ?>(<?php echo json_encode(__('Payment processed successfully.')); ?>);
+                            paymentIntentId<?php echo $uid; ?> = result.paymentIntent.id || paymentIntentId<?php echo $uid; ?>;
+                            checkWalletCredit<?php echo $uid; ?>(0);
                         } else {
                             paymentStatusSecret<?php echo $uid; ?> = response.client_secret;
                             checkPaymentStatus<?php echo $uid; ?>(0);

@@ -19,6 +19,36 @@ class WalletLog extends ObjectYPT {
         return 'wallet_log';
     }
 
+    /** Run the guarded 6.1 repair on MySQL as well as MariaDB, outside payment transactions. */
+    static function upgradePaymentLogSchema()
+    {
+        global $global;
+        $res = sqlDAL::readSql('SHOW COLUMNS FROM wallet_log', '', [], true);
+        if (!$res) {
+            return false;
+        }
+        $columns = array_column(sqlDAL::fetchAllAssoc($res), 'Field');
+        sqlDAL::close($res);
+        $migration = file_get_contents($global['systemRootPath'] . 'plugin/YPTWallet/install/updateV6.1.sql');
+        foreach (explode(';', $migration) as $sql) {
+            if (!preg_match('/ADD COLUMN IF NOT EXISTS `(information|json_data)`/', $sql, $match)
+                || in_array($match[1], $columns, true)) {
+                continue;
+            }
+            // MySQL does not support ADD COLUMN IF NOT EXISTS; the fresh schema read above guards it.
+            if (!sqlDAL::writeSql(str_replace('COLUMN IF NOT EXISTS', 'COLUMN', trim($sql)))) {
+                return false;
+            }
+        }
+        $res = sqlDAL::readSql('SHOW COLUMNS FROM wallet_log', '', [], true);
+        if (!$res) {
+            return false;
+        }
+        $columns = array_column(sqlDAL::fetchAllAssoc($res), 'Field');
+        sqlDAL::close($res);
+        return in_array('information', $columns, true) && in_array('json_data', $columns, true);
+    }
+
     function getValue() {
         return $this->value;
     }
@@ -232,6 +262,24 @@ class WalletLog extends ObjectYPT {
     {
         return self::addLog($wallet_id, 0, $balance, "Processed {$provider} payment {$paymentId}",
             '{}', 'success', 'paymentProcessed', hash('sha256', $provider . ':' . $paymentId));
+    }
+
+    /** A card approval is complete locally only after its credit has committed for this user. */
+    static function hasProcessedStripePaymentForUser($paymentIntentId, $users_id)
+    {
+        if (empty($users_id) || !preg_match('/^pi_[a-zA-Z0-9]+$/', (string) $paymentIntentId)) {
+            return false;
+        }
+        $sql = "SELECT l.id FROM wallet_log l JOIN wallet w ON w.id = l.wallet_id WHERE w.users_id = ? AND ("
+            . "(l.type = 'paymentProcessed' AND l.information = ?) OR "
+            . "(l.type = 'addBalance' AND l.status = 'success' AND l.description LIKE 'Stripe %' AND LOCATE(?, l.json_data) > 0)) LIMIT 1";
+        $res = sqlDAL::readSql($sql, 'iss', [intval($users_id), hash('sha256', 'stripe:' . $paymentIntentId), json_encode($paymentIntentId)], true);
+        if (!$res) {
+            throw new RuntimeException('Cannot read Stripe payment credit');
+        }
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return !empty($row);
     }
 
     static function addLog($wallet_id, $value, $previous_wallet_balance, $description="", $json_data="{}", $status="success", $type="", $information=''){

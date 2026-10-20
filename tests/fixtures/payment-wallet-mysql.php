@@ -211,7 +211,7 @@ if (!function_exists(__NAMESPACE__ . '\extractFunctions')) {
             return simWrite("INSERT INTO wallet_log (created, modified, value, description, wallet_id, status, type, information, json_data, previous_wallet_balance) VALUES (NOW(), NOW(), ?, ?, ?, ?, ?, ?, ?, ?)",
                 "dsissssd", [floatval($this->value), $this->description, intval($this->wallet_id), $this->status, $this->type, $this->information, $this->json_data, floatval($this->previous_wallet_balance)]);
         }
-        ' . extractFunctions($paymentFixtureRoot . '/plugin/YPTWallet/Objects/Wallet_log.php', ['setValue', 'setDescription', 'setWallet_id', 'setJson_data', 'setStatus', 'setType', 'setInformation', 'setPrevious_wallet_balance', 'hasProcessedPayment', 'addProcessedPayment', 'addLog']) . '
+        ' . extractFunctions($paymentFixtureRoot . '/plugin/YPTWallet/Objects/Wallet_log.php', ['setValue', 'setDescription', 'setWallet_id', 'setJson_data', 'setStatus', 'setType', 'setInformation', 'setPrevious_wallet_balance', 'hasProcessedPayment', 'addProcessedPayment', 'addLog', 'upgradePaymentLogSchema', 'hasProcessedStripePaymentForUser']) . '
     }');
 
     $paymentFixtureWalletSource = \file_get_contents($paymentFixtureRoot . '/plugin/YPTWallet/YPTWallet.php');
