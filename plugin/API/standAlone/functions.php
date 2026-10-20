@@ -88,6 +88,13 @@ function getInput($key, $default = '')
 }
 
 // Validate and sanitize the ffmpegCommand
+// SECURITY REVIEW (2026-10-20): GHSA-pg5j-vqqg-gcqv reported that this blocklist leaves the FFmpeg arguments (inputs,
+// outputs, protocols) under the sender's control — NOT a vulnerability / DO NOT FIX. The command only arrives inside a
+// payload the configured Streamer decrypts with its saltV2 (decryptString needs its admin/APISecret), i.e. the Streamer
+// itself or someone holding its install-wide secrets (already compromised). Running arbitrary FFmpeg for that Streamer is
+// this worker's purpose: Rebroadcaster/restreamer/VideoPlaylistScheduler send remote http/rtmp inputs and outputs, so an
+// argument/path/protocol allowlist would break them. This filter only keeps the command limited to ffmpeg under sh -c.
+// If re-reported, see the full triage in the advisory thread instead of re-patching.
 function sanitizeFFmpegCommand($command)
 {
     $allowedPrefixes = ['ffmpeg', '/usr/bin/ffmpeg', '/bin/ffmpeg'];

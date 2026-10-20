@@ -126,6 +126,8 @@ if (empty($codeToExec)) {
     die(json_encode(array('error' => true, 'msg' => 'Invalid or missing code')));
 }
 
+// SECURITY REVIEW (2026-10-20): GHSA-pg5j-vqqg-gcqv (FFmpeg argument injection) — NOT a vulnerability / DO NOT FIX,
+// see the comment on sanitizeFFmpegCommand() in functions.php.
 $ffmpegCommand = !empty($codeToExec->ffmpegCommand) ? sanitizeFFmpegCommand($codeToExec->ffmpegCommand) : '';
 
 if (empty($codeToExec->keyword)) {
