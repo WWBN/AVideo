@@ -2232,6 +2232,38 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             $('#grid').bootgrid('reload');
         });
 
+        // Delegated (bound once): the Suggested/Pin On Channel columns start hidden and are revealed after the
+        // first draw, and DataTables keeps hidden-column cells out of the DOM, so grid.find() inside draw.dt
+        // would never reach their buttons
+        <?php
+        if (Permissions::canAdminVideos()) {
+        ?>
+            $('#grid').on('click', '.command-suggest', function(e) {
+                var row_index = $(this).closest('tr').index();
+                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                var isSuggested = $(this).hasClass('unsuggest');
+
+                setVideoSuggested(row.id, isSuggested).then((data) => {
+                    $("#grid").bootgrid("reload");
+                }).catch((error) => {
+                    console.log(error)
+                });
+            });
+        <?php
+        }
+        ?>
+        $('#grid').on('click', '.command-Channelsuggest', function(e) {
+            var row_index = $(this).closest('tr').index();
+            var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+            var isSuggested = $(this).hasClass('unsuggest');
+
+            setVideoChannelSuggested(row.id, isSuggested).then((data) => {
+                $("#grid").bootgrid("reload");
+            }).catch((error) => {
+                console.log(error)
+            });
+        });
+
         var grid = $("#grid").on("draw.dt", function() {
             updateManagerSelection();
             $(".tooltip").tooltip("hide");
@@ -2370,17 +2402,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             <?php
             if (Permissions::canAdminVideos()) {
             ?>
-                grid.find(".command-suggest").on("click", function(e) {
-                    var row_index = $(this).closest('tr').index();
-                    var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                    var isSuggested = $(this).hasClass('unsuggest');
-
-                    setVideoSuggested(row.id, isSuggested).then((data) => {
-                        $("#grid").bootgrid("reload");
-                    }).catch((error) => {
-                        console.log(error)
-                    });
-                });
                 grid.find(".command-editlikes").on("click", function(e) {
                     var row_index = $(this).closest('tr').index();
                     var row = $("#grid").bootgrid("getCurrentRows")[row_index];
@@ -2389,18 +2410,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             <?php
             }
             ?>
-
-            grid.find(".command-Channelsuggest").on("click", function(e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                var isSuggested = $(this).hasClass('unsuggest');
-
-                setVideoChannelSuggested(row.id, isSuggested).then((data) => {
-                    $("#grid").bootgrid("reload");
-                }).catch((error) => {
-                    console.log(error)
-                });
-            });
         });
         $('#inputCleanTitle').keyup(function(evt) {
             $('#inputCleanTitle').val(clean_name($('#inputCleanTitle').val()));
