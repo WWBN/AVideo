@@ -37,10 +37,9 @@ RUN apt-get install -y --no-install-recommends \
         php-cli \
         php-curl
 
-# Install NGINX dependencies
+# Install NGINX dependencies (PCRE2: libpcre3-dev no longer exists on Ubuntu 26.04)
 RUN apt-get install -y --no-install-recommends \
-        libpcre3 \
-        libpcre3-dev
+        libpcre2-dev
 
 # Install Git and Certbot
 RUN apt-get install -y --no-install-recommends \

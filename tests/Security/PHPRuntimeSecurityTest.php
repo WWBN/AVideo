@@ -141,6 +141,101 @@ class PHPRuntimeSecurityTest extends TestCase
         $this->assertStringNotContainsString('vulnerability confirmed', strtolower($html));
     }
 
+    private function changelog($firstLine = 'php8.5 (8.5.4-0ubuntu1.5) resolute-security; urgency=medium', $extra = '')
+    {
+        // Shape of the real Ubuntu entry (php8.3 8.3.6-0ubuntu0.24.04.13 / php8.5 8.5.4-0ubuntu1.5).
+        return $firstLine . "\n\n  * SECURITY UPDATE: Remote RCE via state corruption issue\n    - debian/patches/CVE-2026-109618_109619.patch: Avoid state corruption via\n      bailout in Zend/zend.c, Zend/zend_alloc.c.\n    - CVE-2026-109618\n    - CVE-2026-109619\n" . $extra
+            . "\n -- Ubuntu Security <security@ubuntu.com>  Mon, 19 Oct 2026 11:16:58 -0400\n\nphp8.5 (8.5.4-0ubuntu1.4) resolute-security; urgency=medium\n";
+    }
+
+    private function maps($engineFile, $deleted = false)
+    {
+        return "55d0c0000000-55d0c0001000 r--p 00000000 08:01 101                        /usr/sbin/apache2\n"
+            . "7f3a10000000-7f3a10400000 r-xp 00000000 08:01 202                        " . $engineFile . ($deleted ? ' (deleted)' : '') . "\n"
+            . "7f3a20000000-7f3a20200000 r-xp 00000000 08:01 303                        /usr/lib/x86_64-linux-gnu/libc.so.6\n";
+    }
+
+    public static function distributionBackports()
+    {
+        yield 'Ubuntu 26.04 mod_php' => ['8.5.4', 'apache2handler', '/usr/lib/apache2/modules/libphp8.5.so', 'php8.5 (8.5.4-0ubuntu1.5) resolute-security; urgency=medium', 'php8.5 8.5.4-0ubuntu1.5'];
+        yield 'Ubuntu 24.04 mod_php' => ['8.3.6', 'apache2handler', '/usr/lib/apache2/modules/libphp8.3.so', 'php8.3 (8.3.6-0ubuntu0.24.04.13) noble-security; urgency=medium', 'php8.3 8.3.6-0ubuntu0.24.04.13'];
+        yield 'Debian FPM with a suffix' => ['8.2.29-1~deb12u1', 'fpm-fcgi', '/usr/sbin/php-fpm8.2', 'php8.2 (8.2.29-1~deb12u1) bookworm-security; urgency=medium', 'php8.2 8.2.29-1~deb12u1'];
+        yield 'Vendor build at the minimum' => ['8.4.27-1ubuntu1', 'fpm-fcgi', '/usr/sbin/php-fpm8.4', 'php8.4 (8.4.27-1ubuntu1) resolute-security; urgency=medium', 'php8.4 8.4.27-1ubuntu1'];
+        yield 'Ubuntu 22.04 legacy branch, CGI' => ['8.1.2', 'cgi-fcgi', '/usr/bin/php-cgi8.1', 'php8.1 (8.1.2-1ubuntu2.25) jammy-security; urgency=medium', 'php8.1 8.1.2-1ubuntu2.25'];
+    }
+
+    /** @dataProvider distributionBackports */
+    public function testDistributionChangelogOfTheRunningPackageConfirmsTheBackport($version, $sapi, $engineFile, $firstLine, $package)
+    {
+        $assessment = PHPRuntimeSecurity::evaluateDistributionEvidence($this->assess($version, $sapi), $this->maps($engineFile), $this->changelog($firstLine));
+        $this->assertSame('distribution_backport', $assessment['status']);
+        $this->assertSame('distribution_changelog', $assessment['reason']);
+        $this->assertSame($package, $assessment['package']);
+        $this->assertSame('', $this->render($assessment), 'Like a fixed release, a confirmed backport shows no notice on ordinary pages.');
+        $html = $this->render($assessment, ['show_passing' => true]);
+        foreach (['alert-info', 'Fixed by the installed distribution package', 'does not establish general system security', $package, $version] as $text) {
+            $this->assertStringContainsString($text, $html);
+        }
+        $this->assertStringNotContainsString('Potentially affected', $html);
+    }
+
+    public function testIncompleteDistributionEvidenceChangesNothing()
+    {
+        $assessment = $this->assess('8.5.4', 'apache2handler');
+        $maps = $this->maps('/usr/lib/apache2/modules/libphp8.5.so');
+        $cases = [
+            'maps unreadable' => [$assessment, null, $this->changelog()],
+            'changelog unreadable' => [$assessment, $maps, null],
+            'engine compiled elsewhere' => [$assessment, $this->maps('/usr/local/lib/libphp.so'), $this->changelog()],
+            'engine of another branch' => [$assessment, $this->maps('/usr/lib/apache2/modules/libphp8.4.so'), $this->changelog()],
+            'engine of another SAPI' => [$assessment, $this->maps('/usr/sbin/php-fpm8.5'), $this->changelog()],
+            'engine path only as a prefix' => [$assessment, $this->maps('/usr/lib/apache2/modules/libphp8.5.so.bak'), $this->changelog()],
+            'package of another version' => [$assessment, $maps, $this->changelog('php8.5 (8.5.5-0ubuntu1) resolute-security; urgency=medium')],
+            'package of a longer version' => [$assessment, $maps, $this->changelog('php8.5 (8.5.41-0ubuntu1) resolute-security; urgency=medium')],
+            'package of another branch' => [$assessment, $maps, $this->changelog('php8.4 (8.5.4-0ubuntu1.5) resolute-security; urgency=medium')],
+            'version not in the newest entry' => [$assessment, $maps, "\n" . $this->changelog()],
+            'one CVE missing' => [$assessment, $maps, str_replace('CVE-2026-109619', 'CVE-2026-1096190', $this->changelog())],
+            'fix reverted' => [$assessment, $maps, $this->changelog('php8.5 (8.5.4-0ubuntu1.6) resolute-security; urgency=medium', "    - debian/patches/CVE-2026-109619.patch: dropped, caused a regression\n")],
+            'non-Debian web SAPI' => [$this->assess('8.5.4', 'litespeed'), $maps, $this->changelog()],
+            'test web server' => [$this->assess('8.5.4', 'cli-server'), $maps, $this->changelog()],
+            'CLI' => [$this->assess('8.5.4', 'cli'), $maps, $this->changelog()],
+            'prerelease' => [$this->assess('8.5.4RC1', 'apache2handler'), $maps, $this->changelog()],
+            'detection failed' => [PHPRuntimeSecurity::evaluate(null, null, null), $maps, $this->changelog()],
+            'already a fixed release' => [$this->assess('8.5.12', 'apache2handler'), $maps, $this->changelog('php8.5 (8.5.12-1) resolute-security; urgency=medium')],
+        ];
+        foreach ($cases as $name => $case) {
+            $this->assertSame($case[0], PHPRuntimeSecurity::evaluateDistributionEvidence(...$case), $name);
+        }
+    }
+
+    public function testAProcessStartedBeforeThePackageUpdateMustBeRestarted()
+    {
+        $assessment = PHPRuntimeSecurity::evaluateDistributionEvidence($this->assess('8.5.4', 'apache2handler'), $this->maps('/usr/lib/apache2/modules/libphp8.5.so', true), $this->changelog());
+        $this->assertSame('potentially_affected', $assessment['status']);
+        $this->assertSame('restart_required', $assessment['reason']);
+        $html = $this->render($assessment);
+        foreach (['alert-warning', 'Potentially affected', 'php8.5 8.5.4-0ubuntu1.5', 'Restart Apache or PHP-FPM'] as $text) {
+            $this->assertStringContainsString($text, $html);
+        }
+    }
+
+    public function testDistributionFilesAreReadOnlyFromTheExpectedLocalPaths()
+    {
+        $directory = sys_get_temp_dir() . '/avideo-runtime-doc-' . bin2hex(random_bytes(8));
+        mkdir($directory . '/php8.5-common', 0700, true);
+        try {
+            $this->assertNull(PHPRuntimeSecurity::readDistributionChangelog('8.5', $directory));
+            file_put_contents($directory . '/php8.5-common/changelog.Debian.gz', gzencode($this->changelog()));
+            $this->assertSame($this->changelog(), PHPRuntimeSecurity::readDistributionChangelog('8.5', $directory . '/'));
+            $this->assertNull(PHPRuntimeSecurity::readDistributionChangelog('8.4', $directory));
+            $this->assertNull(PHPRuntimeSecurity::readProcessMaps($directory . '/missing-maps'));
+        } finally {
+            if (file_exists($directory . '/php8.5-common/changelog.Debian.gz')) { unlink($directory . '/php8.5-common/changelog.Debian.gz'); }
+            rmdir($directory . '/php8.5-common');
+            rmdir($directory);
+        }
+    }
+
     public function testOutputAndTranslationsAreEscapedExactlyOnce()
     {
         $assessment = PHPRuntimeSecurity::evaluate('8.2.34<script>alert("x")</script>', 80234, 'fpm-fcgi<img src=x>');
