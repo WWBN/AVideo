@@ -318,6 +318,11 @@ class Cache extends PluginAbstract {
 
     private function shouldSkipPageCacheForCurrentRequest()
     {
+        // Admin HTML contains a live PHP-runtime observation. Shared page caches
+        // must not let one updated node hide another node's outdated runtime.
+        if (class_exists('User', false) && User::isLogged() && User::isAdmin()) {
+            return true;
+        }
         // Previously generated unescaped links can carry repeated currency
         // entities inside this numeric field. Serve them normally, but do not
         // allocate a separate full-page cache entry for each malformed value.

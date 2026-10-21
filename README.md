@@ -335,6 +335,8 @@ After either installation:
 
 For sizing and deployment planning, see [hardware and server requirements](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Hardware-Requirements).
 
+Administrators: see the [PHP runtime security notice](docs/php-runtime-security.md) for CVE-2026-109618 and CVE-2026-109619, the local admin warning, fixed versions, backport uncertainty and rollout checks. Updating AVideo alone does not fix PHP; installations must receive this code to display the warning.
+
 ## Features and plugins
 
 - **Video library:** uploads, channels, categories, playlists, search, comments, and user management.

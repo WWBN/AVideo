@@ -18,6 +18,7 @@ if (isInfiniteScroll()) {
         unset($_SESSION['noNavbar']);
     }
 }
+include_once __DIR__ . '/phpRuntimeWarning.php';
 TimeLogEnd($tname, __LINE__, $tTolerance);
 if (!empty($_SESSION['noNavbar'])) {
     if (isset($_GET['noNavbarClose'])) {
