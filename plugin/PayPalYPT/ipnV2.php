@@ -37,8 +37,9 @@ if (empty($_REQUEST['success'])) {
     exit;
 }
 
-_error_log("PayPalIPN V2: POST " . json_encode($_POST));
-_error_log("PayPalIPN V2: GET " . json_encode($_GET));
+// Notifications hold payer names and e-mails: log only safe identifiers.
+_error_log('PayPalIPN V2: txn_type=' . preg_replace('/[^a-z_]/i', '', (string) ($_POST['txn_type'] ?? ''))
+    . ' token=' . preg_replace('/[^A-Z0-9_-]/i', '', (string) ($_GET['token'] ?? '')));
 
 $json = _json_decode(@$_GET['json']);
 $paypalPaymentIds = null;
@@ -64,9 +65,9 @@ if (!empty($_GET['token'])) {
             $lastPayment = $agreement->getPlan()->getMerchantPreferences()->getSetupFee();
         }
         if (empty($lastPayment)) {
-            _error_log("PayPalIPN V2: agreement " . print_r($agreement, true));
-            var_dump($agreement);
-            exit;
+            _error_log('PayPalIPN V2: agreement without a payment amount id=' . preg_replace('/[^A-Z0-9_-]/i', '', (string) $agreement->getId()), AVideoLog::$ERROR);
+            $obj->msg = 'The Agreement has no payment yet';
+            die(json_encode($obj));
         }
         $payment_amount = floatval($lastPayment->getValue());
         $payment_currency = $lastPayment->getCurrency();

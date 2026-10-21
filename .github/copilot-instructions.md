@@ -258,6 +258,18 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   the MySQL/MariaDB default. Covered by `tests/Security/PaymentWebhookIdempotencyTest.php`,
   `RazorpayVerifiedWebhookTest.php` and the opt-in real-database
   `tests/Integration/PaymentWalletMySQLIntegrationTest.php` (`AVIDEO_PAYMENT_MYSQL_TESTS=1`).
+- **PayPal (`plugin/PayPalYPT/`, REST SDK 1.6.4 = Payments v1 + Billing Agreements v1, both deprecated; "V2" files
+  are still Billing Agreements)**: every PayPal purchase is a `PayPalYPT_checkout` row (buyer, purpose, catalog
+  selection, server price, environment/app hash) created before calling PayPal. The return URL, webhook, IPN and
+  `checkoutStatus.json.php` all call `PayPalYPT::reconcileCheckout()`, which re-reads the payment with this site's
+  credentials and credits only a completed sale through `PayPalPaymentProcessor` (`processPaymentOnce()` keyed by
+  the sale ID = IPN `txn_id` = webhook `resource.id`; rental/event/renewal in `runPaymentStep()`). An approved
+  agreement alone grants nothing. Webhook signatures are verified by POSTing the raw body + saved `webhookId` to
+  `/v1/notifications/verify-webhook-signature` (`VerifyWebhookSignature` does not exist in SDK 1.6.4). Never
+  create, list-to-create or delete webhooks from a payment path: only the admin tool (`configuration.php`) does,
+  and it never deletes. The default `ClientID` is a shared public sandbox app with other sites' webhooks.
+  Covered by `tests/Unit/PayPalCheckoutTest.php`, `PayPalConfigurationTest.php`,
+  `tests/Security/PayPalConfigurationEndpointTest.php` and `PaymentWebhookIdempotencyTest.php`.
 - **Translations (`locale/*.php`)**: never generate these files with ad-hoc code or add another `.php` file
   to `locale/` — `?lang=`, `/api/locale` and the language selector include/list every file there. All
   reads/writes go through `objects/LocaleTranslator.php` (tokenizer parse, no execution; rewrites sorted,

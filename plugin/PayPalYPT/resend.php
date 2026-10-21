@@ -1,25 +1,22 @@
 <?php
+// Administrator tool: asks PayPal to deliver a webhook event again (it is handled idempotently).
+// CLI: php resend.php WH-xxxxx  — or, as an administrator, a POST with event_id and globalToken.
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 
-$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
-$walletObject = AVideoPlugin::getObjectData("YPTWallet");
-$paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
-
-//$output = PayPalYPT::validateWebhook();
-
-
-//$output = PayPalYPT::createWebhook();
-
-$output = PayPalYPT::resendWebhook('WH-3G7997568U823792U-59G303851C6702143');
-
-
-//require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
-//$output = \PayPal\Api\Webhook::getAll($apiContext);
-
-
-//$output = PayPalYPT::deleteAllWebhooks();
-
-var_dump($output);
+if (!isCommandLineInterface()) {
+    if (!User::isAdmin()) {
+        forbiddenPage('Permission denied', true);
+    }
+    forbidIfNotPost();
+    forbidIfInvalidToken();
+}
+header('Content-Type: application/json');
+$eventId = isCommandLineInterface() ? (string) ($argv[1] ?? '') : (string) ($_POST['event_id'] ?? '');
+if (!preg_match('/^WH-[A-Z0-9-]{10,80}$/D', $eventId) || empty(AVideoPlugin::loadPluginIfEnabled("PayPalYPT"))) {
+    die(json_encode(['error' => true, 'msg' => 'Invalid webhook event ID']));
+}
+$output = PayPalYPT::resendWebhook($eventId);
+echo json_encode(['error' => empty($output), 'msg' => empty($output) ? 'PayPal did not accept the resend' : 'Resend requested']);

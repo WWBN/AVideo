@@ -9,77 +9,76 @@ $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = AVideoPlugin::getObjectData("YPTWallet");
 $paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 
-_error_log("Paypal:Webhook POST: " . json_encode($_POST));
-_error_log("Paypal:Webhook GET: " . json_encode($_GET));
-_error_log("Paypal:Webhook php://input" . file_get_contents("php://input"));
-
+// HTTP contract with PayPal: 200 = handled or not ours (do not resend), 400 = not authentic,
+// 500 = could not be handled now (PayPal resends it). Bodies, headers and payer data are never logged.
 $output = false;
 try {
+    if (empty($paypal) || empty($plugin)) {
+        throw new RuntimeException('PayPalYPT and YPTWallet must be enabled');
+    }
     $output = PayPalYPT::validateWebhook();
-    if (!empty($output) && ($output->webhook_event->event_type ?? '') === 'PAYMENT.SALE.COMPLETED'
-        && !empty($output->webhook_event->resource->billing_agreement_id)
-        && !empty(AVideoPlugin::loadPluginIfEnabled('Subscription'))) {
-        $token = $output->webhook_event->id;
-        $resource = $output->webhook_event->resource;
-        $row = Subscription::getFromAgreement($resource->billing_agreement_id);
-        $users_id = $row['users_id'] ?? 0;
-        $payment_amount = empty($resource->amount->total) ? $resource->transaction_fee->value : $resource->amount->total;
-        $payment_currency = empty($resource->amount->currency) ? $resource->transaction_fee->currency : $resource->amount->currency;
-        if (!empty($users_id) && $walletObject->currency === $payment_currency) {
-            $description = "Paypal recurrent WH";
-            if (!empty($row['subscriptions_plans_id'])) {
-                $plan = new SubscriptionPlansTable($row['subscriptions_plans_id']);
-                $description .= " " . $plan->getName();
-            }
-            $paymentId = $resource->id ?? $token;
-            $hadOriginBypass = array_key_exists('bypassSameDomainCheck', $global);
-            $previousOriginBypass = $global['bypassSameDomainCheck'] ?? null;
-            try {
-                $global['bypassSameDomainCheck'] = 1;
-                // The sale ID also identifies the transaction in a recurring IPN delivery.
-                $plugin->processPaymentOnce('paypal', [$paymentId, $token], $users_id,
-                    function () use ($plugin, $users_id, $payment_amount, $description, $output, $row, $resource, $token) {
-                        $pp = new PayPalYPT_log(0);
-                        $pp->setUsers_id($users_id);
-                        $pp->setAgreement_id($resource->billing_agreement_id);
-                        $pp->setToken($token);
-                        $pp->setValue($payment_amount);
-                        $pp->setJson($output);
-                        if (!$pp->save()) {
-                            throw new RuntimeException('Cannot save PayPal webhook log');
-                        }
-                        $plugin->addBalance($users_id, $payment_amount, $description, json_encode($output));
-                        if (!$plugin->runPaymentStep(function () use ($users_id, $row) {
-                            $renew = Subscription::renew($users_id, $row['subscriptions_plans_id']);
-                            return isset($renew->error) && !$renew->error;
-                        }, 'PayPal webhook subscription renewal')) {
-                            _error_log("PayPal webhook: payment credited but renewal failed; renew manually users_id={$users_id} event={$token}", AVideoLog::$ERROR);
-                        }
-                        return true;
-                    }, ['legacyCheck' => function () use ($token, $paymentId) {
-                        return PayPalYPT::isTokenUsed($token) || PayPalYPT::isRecurringPaymentIdUsed($paymentId);
-                    }, 'legacyDescriptions' => ['Paypal recurrent%', 'PayPal Subscription from token%']]);
-            } finally {
-                if ($hadOriginBypass) {
-                    $global['bypassSameDomainCheck'] = $previousOriginBypass;
+    if (empty($output)) {
+        http_response_code(400);
+    } else {
+        $event = $output->webhook_event;
+        $eventType = (string) ($event->event_type ?? '');
+        $resource = $event->resource ?? new stdClass();
+        $token = (string) $event->id;
+        _error_log('Paypal:Webhook verified event=' . preg_replace('/[^A-Z0-9-]/i', '', $token) . ' type=' . preg_replace('/[^A-Z0-9._-]/i', '', $eventType)
+            . ' resource=' . preg_replace('/[^A-Z0-9_-]/i', '', (string) ($resource->id ?? '')));
+        if ($eventType === 'PAYMENT.SALE.COMPLETED' && !empty($resource->billing_agreement_id)) {
+            if (!empty(AVideoPlugin::loadPluginIfEnabled('Subscription'))) {
+                $agreementId = (string) $resource->billing_agreement_id;
+                $owner = PayPalPaymentProcessor::findAgreementOwner($agreementId);
+                $payment_amount = empty($resource->amount->total) ? $resource->transaction_fee->value : $resource->amount->total;
+                $payment_currency = empty($resource->amount->currency) ? $resource->transaction_fee->currency : $resource->amount->currency;
+                if (empty($owner)) {
+                    _error_log("Paypal:Webhook ignored, no AVideo subscription for agreement={$agreementId}", AVideoLog::$WARNING);
+                } elseif ($walletObject->currency !== $payment_currency) {
+                    _error_log("Paypal:Webhook FAIL currency check $walletObject->currency===$payment_currency ");
                 } else {
-                    unset($global['bypassSameDomainCheck']);
+                    $description = "Paypal recurrent WH";
+                    if (!empty($owner['plans_id'])) {
+                        $plan = new SubscriptionPlansTable($owner['plans_id']);
+                        $description .= " " . $plan->getName();
+                    }
+                    $paymentId = (string) ($resource->id ?? $token);
+                    $saleRecord = ['event_id' => $token, 'event_type' => $eventType, 'sale_id' => $paymentId, 'agreement_id' => $agreementId];
+                    // The sale ID also identifies the transaction in a recurring IPN delivery and the checkout return.
+                    PayPalPaymentProcessor::processSubscriptionSale($plugin, $owner['users_id'], $owner['plans_id'], $agreementId,
+                        [$paymentId, $token], $payment_amount, $description, $saleRecord, ['token' => $token],
+                        function () use ($token, $paymentId) {
+                            return PayPalYPT::isTokenUsed($token) || PayPalYPT::isRecurringPaymentIdUsed($paymentId);
+                        });
                 }
             }
+        } elseif (in_array($eventType, ['PAYMENT.SALE.COMPLETED', 'PAYMENT.SALE.PENDING', 'PAYMENT.SALE.DENIED'], true)
+            && !empty($resource->parent_payment)) {
+            // One-time checkout: the event only triggers a fresh read of the payment from PayPal.
+            $checkout = PayPalYPT_checkout::isInstalled() ? PayPalYPT_checkout::getByPaymentId((string) $resource->parent_payment) : false;
+            if (empty($checkout)) {
+                _error_log('Paypal:Webhook acknowledged, not an AVideo checkout payment=' . preg_replace('/[^A-Z0-9_-]/i', '', (string) $resource->parent_payment));
+            } else {
+                PayPalYPT::reconcileCheckout($checkout, 'webhook');
+            }
+        } elseif (in_array($eventType, ['PAYMENT.SALE.REFUNDED', 'PAYMENT.SALE.REVERSED'], true)) {
+            // Policy: refunds and reversals never add credit or access, and AVideo does not take back a credit
+            // that may already be spent. The checkout is marked and the administrator reviews the wallet.
+            $saleId = (string) ($resource->sale_id ?? $resource->id ?? '');
+            $checkout = PayPalYPT_checkout::isInstalled() ? PayPalYPT_checkout::getByPaymentId((string) ($resource->parent_payment ?? '')) : false;
+            if (!empty($checkout) && $checkout['status'] === 'completed') {
+                PayPalYPT_checkout::update($checkout['id'], ['status' => 'refunded', 'status_detail' => $eventType === 'PAYMENT.SALE.REVERSED' ? 'reversed_after_credit' : 'refunded_after_credit']);
+            }
+            _error_log('Paypal:Webhook ' . $eventType . ' sale=' . preg_replace('/[^A-Z0-9_-]/i', '', $saleId)
+                . ' agreement=' . preg_replace('/[^A-Z0-9_-]/i', '', (string) ($resource->billing_agreement_id ?? ''))
+                . ' users_id=' . intval($checkout['users_id'] ?? 0) . '; review the wallet credit and access manually', AVideoLog::$WARNING);
         } else {
-            _error_log("Paypal:Webhook FAIL currency check $walletObject->currency===$payment_currency ");
+            _error_log('Paypal:Webhook acknowledged without changes type=' . preg_replace('/[^A-Z0-9._-]/i', '', $eventType));
         }
+        PayPalYPT::recordDelivery('webhook', $eventType);
     }
 } catch (\Throwable $error) {
-    _error_log('PayPal webhook: payment processing failed; retry delivery: ' . $error->getMessage(), AVideoLog::$ERROR);
+    _error_log('PayPal webhook: payment processing failed; retry delivery: '
+        . (class_exists('PayPalYPT') ? PayPalYPT::describeApiError($error) : get_class($error)), AVideoLog::$ERROR);
     http_response_code(500);
 }
-
-//$output = PayPalYPT::createWebhook();
-//$output = PayPalYPT::getOrCreateWebhook();
-//require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
-//$output = \PayPal\Api\Webhook::getAll($apiContext);
-//$output = PayPalYPT::deleteAllWebhooks();
-
-_error_log('PayPal webhook: ' . PayPalYPT::getWebhookURL());
-_error_log($output);

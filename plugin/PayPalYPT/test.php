@@ -1,25 +1,10 @@
 <?php
+// Former developer script (it listed and created webhooks without login). The configuration check replaces it.
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
-
-$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
-$walletObject = AVideoPlugin::getObjectData("YPTWallet");
-$paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
-
-//$output = PayPalYPT::validateWebhook();
-
-
-//$output = PayPalYPT::createWebhook();
-
-$output = PayPalYPT::getOrCreateWebhook();
-
-
-//require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
-//$output = \PayPal\Api\Webhook::getAll($apiContext);
-
-
-//$output = PayPalYPT::deleteAllWebhooks();
-
-var_dump(PayPalYPT::getWebhookURL(),  $output);
+if (!User::isAdmin()) {
+    forbiddenPage('Permission denied', true);
+}
+header("Location: {$global['webSiteRootURL']}plugin/PayPalYPT/configuration.php");

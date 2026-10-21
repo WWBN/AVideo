@@ -236,9 +236,18 @@ class AVideoPlugin {
     public static function getObjectData($name) { return (object)['currency' => 'USD']; }
 }
 class PayPalYPT {
+    public static $deliveries = [];
     public static function IPNcheck() { return PayPalDelivery::$verified; }
     public static function validateWebhook() { return PayPalDelivery::$verified ? PayPalDelivery::$webhook : false; }
     public static function getWebhookURL() { return 'https://example.test/paypal-webhook'; }
+    public static function recordDelivery($channel, $type) { self::$deliveries[] = [$channel, $type]; }
+    public static function describeApiError($error) { return get_class($error); }
+    public static $reconciled = [], $reconcileFails = false;
+    public static function reconcileCheckout($checkout, $source) {
+        if (self::$reconcileFails) { throw new RuntimeException('PayPal unavailable'); }
+        self::$reconciled[] = [$checkout['invoice_number'], $source];
+        return $checkout;
+    }
     public static function isTokenUsed($id) {
         foreach ($GLOBALS['global']['mysqli']->logs as $log) {
             if ($log['type'] === 'paypalToken' && $log['information'] === $id) { return true; }
@@ -270,6 +279,22 @@ class PayPalYPT_log {
             'success', $this->token ? 'paypalToken' : 'paypalIPN', $this->token ?: $this->paymentId);
     }
 }
+// In-memory checkout rows; the reconcile state machine itself is covered by PayPalCheckoutTest.
+class PayPalYPT_checkout {
+    public static $rows = [];
+    public static function isInstalled() { return !empty(self::$rows); }
+    public static function getById($id) { return self::$rows[$id] ?? false; }
+    public static function getByInvoice($invoice) { foreach (self::$rows as $row) { if ($row['invoice_number'] === $invoice) { return $row; } } return false; }
+    public static function getByPaymentId($id) { foreach (self::$rows as $row) { if ($row['payment_id'] === $id) { return $row; } } return false; }
+    public static function getByAgreementId($id) { foreach (self::$rows as $row) { if ($row['agreement_id'] === $id) { return $row; } } return false; }
+    public static function update($id, array $fields) {
+        self::$rows[$id] = array_merge(self::$rows[$id], $fields);
+        return self::$rows[$id];
+    }
+}
+// The real processor shared by webhook.php, ipn.php and the checkout return.
+$paypalProcessorSource = file_get_contents($root . '/plugin/PayPalYPT/Objects/PayPalPaymentProcessor.php');
+eval('namespace ' . __NAMESPACE__ . '; use RuntimeException;' . preg_replace('/^<\?php/', '', $paypalProcessorSource));
 class Subscription {
     public static function getFromAgreement($id) {
         if (!AVideoPlugin::$subscriptionEnabled) { throw new \Error('Subscription is not loaded'); }
@@ -347,6 +372,10 @@ class PaymentWebhookIdempotencyTest extends TestCase
         PpvCheckout::$fail = StripeCharge::$denyRead = false;
         StripeCharge::$amountRefunded = 0;
         PayPalDelivery::$webhook = json_decode('{"webhook_event":{"id":"WH-event_1","event_type":"PAYMENT.SALE.COMPLETED","resource":{"id":"txn_1","billing_agreement_id":"agreement_1","amount":{"total":"10.00","currency":"USD"}}}}');
+        PayPalYPT_checkout::$rows = [];
+        PayPalYPT::$deliveries = [];
+        PayPalYPT::$reconciled = [];
+        PayPalYPT::$reconcileFails = false;
     }
     protected function tearDown(): void {
         $GLOBALS['global'] = $this->previousGlobal;
@@ -1000,21 +1029,175 @@ class PaymentWebhookIdempotencyTest extends TestCase
     public function testPayPalIpnClaimsThePaymentBeforeLoggingCreditingOrRenewing() {
         // ipn.php: the replay check and the PayPalYPT_log insert were separate steps, so two concurrent
         // copies of one notification could both credit and renew (check-to-insert race).
-        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/PayPalYPT/ipn.php');
-        $claim = strpos($source, "processPaymentOnce('paypal', [\$dedup_key], \$users_id,");
+        // The IPN, the webhook and the checkout return now share PayPalPaymentProcessor::processSubscriptionSale().
+        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/PayPalYPT/Objects/PayPalPaymentProcessor.php');
+        $method = strpos($source, 'public static function processSubscriptionSale(');
+        $claim = strpos($source, '$wallet->processPaymentOnce(self::PROVIDER, $paymentIds, $users_id,', $method);
         $this->assertNotFalse($claim);
-        foreach (['new PayPalYPT_log(0)', '$pp->save()', '$plugin->addBalance($users_id, $payment_amount', 'Subscription::renew('] as $step) {
-            $position = strpos($source, $step);
+        foreach (['new PayPalYPT_log(0)', '$pp->save()', '$wallet->addBalance($users_id, $amount', 'Subscription::renew('] as $step) {
+            $position = strpos($source, $step, $method);
             $this->assertNotFalse($position, $step);
             $this->assertGreaterThan($claim, $position, "{$step} must run inside processPaymentOnce()");
         }
         $this->assertSame(1, substr_count($source, 'Subscription::renew('));
-        $this->assertSame(1, substr_count($source, "addBalance(\$users_id, \$payment_amount, \"Paypal recurrent\""));
         $this->assertMatchesRegularExpression('/runPaymentStep\(function \(\) use/', $source);
+        $ipn = file_get_contents(dirname(__DIR__, 2) . '/plugin/PayPalYPT/ipn.php');
+        $call = strpos($ipn, 'PayPalPaymentProcessor::processSubscriptionSale($plugin, $users_id,');
+        $this->assertNotFalse($call);
+        $this->assertSame(0, substr_count($ipn, 'Subscription::renew('), 'Only the shared processor renews');
         // a failed or busy delivery must not be acknowledged, so PayPal sends it again
-        $catch = strpos($source, 'catch (\Throwable $error)', $claim);
+        $catch = strpos($ipn, 'catch (\Throwable $error)', $call);
         $this->assertNotFalse($catch);
-        $this->assertNotFalse(strpos($source, 'http_response_code(500)', $catch));
+        $this->assertNotFalse(strpos($ipn, 'http_response_code(500)', $catch));
+    }
+    private function checkoutRow($purpose = 'wallet', $selection = []) {
+        PayPalYPT_checkout::$rows[1] = ['id' => 1, 'users_id' => 7, 'invoice_number' => 'AVPP000000000000000000000001', 'purpose' => $purpose,
+            'selection' => $selection + ['description' => 'Fixture purchase'], 'amount' => '10.00', 'currency' => 'USD', 'payment_id' => 'PAYID-1',
+            'agreement_id' => null, 'sale_id' => null, 'status' => 'approved', 'status_detail' => null, 'fulfillment' => null];
+        return PayPalYPT_checkout::$rows[1];
+    }
+    private function sale($state = 'completed', $total = '10.00', $currency = 'USD') {
+        return ['id' => 'SALE-1', 'state' => $state, 'total' => $total, 'currency' => $currency];
+    }
+    public function testPayPalCheckoutSaleCreditsOnceWhateverPathDeliversIt() {
+        $this->checkoutRow();
+        foreach (['return', 'webhook', 'ipn', 'status'] as $source) {
+            PayPalPaymentProcessor::fulfillCheckoutSale($this->payments, PayPalYPT_checkout::getById(1), $this->sale(), $source);
+        }
+        $this->assertSame(10.0, $this->db->balances[7]);
+        $this->assertSame(1, $this->db->commits);
+        $this->assertSame('completed', PayPalYPT_checkout::getById(1)['status']);
+        $this->assertSame('credited', PayPalYPT_checkout::getById(1)['fulfillment']);
+        $this->assertCount(1, array_filter($this->db->logs, function ($log) { return $log['type'] === 'paymentProcessed'; }));
+    }
+    public function testPayPalPpvCheckoutRentsTheSelectedMovieInTheSameTransaction() {
+        $this->checkoutRow('ppv', ['ppv_plans_id' => 3, 'videos_id' => 77, 'ppv_value' => '10.00', 'rental_hours' => 48]);
+        $fulfillment = PayPalPaymentProcessor::fulfillCheckoutSale($this->payments, PayPalYPT_checkout::getById(1), $this->sale(), 'return');
+        $this->assertSame('rented', $fulfillment);
+        $this->assertSame([7 => 0.0, 8 => 10.0], $this->db->balances, 'Credited, then paid to the seller');
+        $this->assertSame(1, $this->db->renewals);
+        PayPalPaymentProcessor::fulfillCheckoutSale($this->payments, PayPalYPT_checkout::getById(1), $this->sale(), 'webhook');
+        $this->assertSame(1, $this->db->renewals, 'One rental per sale');
+    }
+    public function testPayPalFailedRentalKeepsTheCreditForTheSamePurchase() {
+        $this->checkoutRow('ppv', ['ppv_plans_id' => 3, 'videos_id' => 77, 'ppv_value' => '10.00', 'rental_hours' => 48]);
+        PpvCheckout::$fail = true;
+        $fulfillment = PayPalPaymentProcessor::fulfillCheckoutSale($this->payments, PayPalYPT_checkout::getById(1), $this->sale(), 'return');
+        $this->assertSame('benefit_failed', $fulfillment);
+        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances, 'No partial debit or seller split remains');
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame(1, $this->db->commits);
+    }
+    public function testPayPalLiveCheckoutActivatesTheEvent() {
+        $this->checkoutRow('ppvlive', ['ppvlive_schedule_id' => 4, 'ppvlive_value' => '10.00', 'live_ends' => '2026-10-30 10:00:00']);
+        $this->assertSame('live_ready', PayPalPaymentProcessor::fulfillCheckoutSale($this->payments, PayPalYPT_checkout::getById(1), $this->sale(), 'webhook'));
+        $this->assertSame([7 => 0.0, 8 => 10.0], $this->db->balances);
+    }
+    public function testPayPalPendingOrMismatchedSaleIsNeverClaimed() {
+        $this->checkoutRow();
+        foreach ([$this->sale('pending'), $this->sale('completed', '1.00'), $this->sale('completed', '10.00', 'EUR')] as $sale) {
+            try {
+                PayPalPaymentProcessor::fulfillCheckoutSale($this->payments, PayPalYPT_checkout::getById(1), $sale, 'webhook');
+                $this->fail('Must not be credited');
+            } catch (RuntimeException $refused) {
+                $this->assertSame([], $this->db->logs);
+            }
+        }
+        $this->assertSame('approved', PayPalYPT_checkout::getById(1)['status'], 'A pending sale does not claim the checkout');
+        PayPalPaymentProcessor::fulfillCheckoutSale($this->payments, PayPalYPT_checkout::getById(1), $this->sale(), 'webhook');
+        $this->assertSame(10.0, $this->db->balances[7], 'The completed event still credits after a pending one');
+    }
+    public function testPayPalCheckoutFailedMarkerRollsBackAndCanRetry() {
+        $this->checkoutRow();
+        $this->db->failMarker = true;
+        try {
+            PayPalPaymentProcessor::fulfillCheckoutSale($this->payments, PayPalYPT_checkout::getById(1), $this->sale(), 'webhook');
+            $this->fail('A failed ledger marker must abort');
+        } catch (RuntimeException $retry) {
+            $this->assertSame([], $this->db->logs);
+            $this->assertSame(0, $this->db->balances[7]);
+        }
+        $this->db->failMarker = false;
+        PayPalPaymentProcessor::fulfillCheckoutSale($this->payments, PayPalYPT_checkout::getById(1), $this->sale(), 'webhook');
+        $this->assertSame(10.0, $this->db->balances[7]);
+    }
+    public function testPayPalFirstSubscriptionPaymentSharesTheKeyWithWebhookAndIpn() {
+        // Checkout return: the agreement's first sale is credited and renews once.
+        PayPalPaymentProcessor::processSubscriptionSale($this->payments, 7, 3, 'agreement_1', ['txn_1'], 10, 'Paypal recurrent Fixture plan', ['sale_id' => 'txn_1']);
+        $this->assertSame(1, $this->db->renewals);
+        $this->deliverPayPalWebhook();
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals, 'Webhook and IPN of the same sale do not renew again');
+        $this->assertSame([7 => 0.0, 8 => 10.0], $this->db->balances);
+        // The next cycle is a different sale and renews.
+        $_POST['txn_id'] = 'txn_2';
+        $this->deliverPayPalIpn();
+        $this->assertSame(2, $this->db->renewals);
+    }
+    public function testPayPalIpnCreditsTheFirstPaymentReportedWithTheNewAgreement() {
+        $_POST = ['txn_type' => 'recurring_payment_profile_created', 'recurring_payment_id' => 'agreement_1', 'initial_payment_status' => 'Completed',
+            'initial_payment_txn_id' => 'txn_setup', 'initial_payment_amount' => '10.00', 'currency_code' => 'USD', 'amount' => '10.00'];
+        $this->deliverPayPalIpn();
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals);
+        PayPalDelivery::$webhook->webhook_event->resource->id = 'txn_setup';
+        $this->deliverPayPalWebhook();
+        $this->assertSame(1, $this->db->renewals, 'Same setup-fee sale through the webhook');
+        $_POST['initial_payment_status'] = 'Pending';
+        $_POST['initial_payment_txn_id'] = 'txn_pending';
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals, 'A pending first payment is not paid');
+    }
+    public function testPayPalNewAgreementOfAReturningSubscriberIsFoundThroughItsCheckout() {
+        PayPalDelivery::$agreement = ['users_id' => 0, 'subscriptions_plans_id' => 0];
+        $this->checkoutRow('subscription', ['plans_id' => 3]);
+        PayPalYPT_checkout::$rows[1]['agreement_id'] = 'agreement_1';
+        PayPalYPT_checkout::$rows[1]['status'] = 'active';
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals, implode(' | ', $this->db->errorLogs));
+        $this->assertSame('completed', PayPalYPT_checkout::getById(1)['status']);
+        $this->assertSame('subscribed', PayPalYPT_checkout::getById(1)['fulfillment']);
+    }
+    public function testPayPalOneTimeWebhookOnlyTriggersAFreshReadOfTheCheckout() {
+        $this->checkoutRow();
+        PayPalDelivery::$webhook = json_decode('{"webhook_event":{"id":"WH-event_2","event_type":"PAYMENT.SALE.COMPLETED","resource":{"id":"SALE-1","parent_payment":"PAYID-1","amount":{"total":"999.00","currency":"USD"}}}}');
+        $this->deliverPayPalWebhook();
+        $this->assertSame([['AVPP000000000000000000000001', 'webhook']], PayPalYPT::$reconciled);
+        $this->assertSame([], $this->db->logs, 'The event amount is never credited directly');
+        $this->assertSame([['webhook', 'PAYMENT.SALE.COMPLETED']], PayPalYPT::$deliveries);
+        PayPalYPT::$reconcileFails = true;
+        PayPalYPT::$deliveries = [];
+        $this->deliverPayPalWebhook();
+        $this->assertSame(500, PayPalDelivery::$status, 'PayPal retries when PayPal cannot be read now');
+        $this->assertSame([], PayPalYPT::$deliveries, 'A failed delivery is not recorded as evidence');
+    }
+    public function testPayPalRefundAfterCreditIsFlaggedButNeverCreditedOrDebited() {
+        $this->checkoutRow();
+        PayPalYPT_checkout::$rows[1]['status'] = 'completed';
+        PayPalDelivery::$webhook = json_decode('{"webhook_event":{"id":"WH-event_3","event_type":"PAYMENT.SALE.REFUNDED","resource":{"id":"REFUND-1","sale_id":"SALE-1","parent_payment":"PAYID-1","amount":{"total":"10.00","currency":"USD"}}}}');
+        $this->deliverPayPalWebhook();
+        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame('refunded', PayPalYPT_checkout::getById(1)['status']);
+        $this->assertSame('refunded_after_credit', PayPalYPT_checkout::getById(1)['status_detail']);
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame([7 => 0, 8 => 0], $this->db->balances);
+    }
+    public function testUnauthenticPayPalWebhookIsAnsweredWith400() {
+        PayPalDelivery::$verified = false;
+        $this->deliverPayPalWebhook();
+        $this->assertSame(400, PayPalDelivery::$status);
+        $this->assertSame([], PayPalYPT::$deliveries);
+    }
+    public function testPayPalOneTimeIpnOnlyTriggersAFreshReadOfTheCheckout() {
+        $this->checkoutRow();
+        $_POST = ['txn_type' => 'express_checkout', 'payment_status' => 'Completed', 'invoice' => 'AVPP000000000000000000000001',
+            'txn_id' => 'SALE-1', 'mc_gross' => '999.00', 'mc_currency' => 'USD'];
+        $this->deliverPayPalIpn();
+        $this->assertSame([['AVPP000000000000000000000001', 'ipn']], PayPalYPT::$reconciled);
+        $this->assertSame([], $this->db->logs);
+        PayPalYPT::$reconcileFails = true;
+        $this->deliverPayPalIpn();
+        $this->assertSame(500, PayPalDelivery::$status);
     }
     public function testConcurrentDeliveryMustRetryWithoutMutation() {
         $this->db->busy = true;
