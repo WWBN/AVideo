@@ -266,7 +266,14 @@ class Cache extends PluginAbstract {
 
             $c = preg_replace('/<script id="infoForNonCachedPages">[^<]+<\/script>/', '', $c);
 
-            $r = ObjectYPT::setCache($cacheName, $c);
+            global $cache_pageCacheLifetimes;
+            $pageLifetime = cacheExpirationTime();
+            if ($pageLifetime > 0) {
+                $cache_pageCacheLifetimes[$cacheName] = $pageLifetime;
+            }
+            if (http_response_code() < 400) {
+                $r = ObjectYPT::setCache($cacheName, $c);
+            }
             //var_dump($r);
         }
         if ($obj->logPageLoadTime) {
@@ -311,6 +318,13 @@ class Cache extends PluginAbstract {
 
     private function shouldSkipPageCacheForCurrentRequest()
     {
+        // Previously generated unescaped links can carry repeated currency
+        // entities inside this numeric field. Serve them normally, but do not
+        // allocate a separate full-page cache entry for each malformed value.
+        if (isset($_GET['isInfiniteScroll']) &&
+            (!is_scalar($_GET['isInfiniteScroll']) || !preg_match('/^[0-9]+$/D', (string) $_GET['isInfiniteScroll']))) {
+            return true;
+        }
         $script = str_replace('\\', '/', $_SERVER['SCRIPT_FILENAME'] ?? '');
         $dynamicEndpoints = [
             '/objects/videoAddViewCount.json.php',
@@ -522,6 +536,7 @@ class Cache extends PluginAbstract {
 
     function executeEveryMinute() {
         global $global;
+        ObjectYPT::scheduleCacheMaintenance();
         $global['systemRootPath'] . 'plugin/Cache/deleteStatistics.json.php';
         self::deleteOldCache(1);
 

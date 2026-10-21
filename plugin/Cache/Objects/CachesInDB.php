@@ -474,6 +474,8 @@ class CachesInDB extends ObjectYPT
         return sqlDAL::writeSql($sql, 'sssissssi', [$name, $value, $domain, intval($ishttps), $user_location, $loggedType, $expires, $timezone, $createdPhpTime]);
     }
     private static function prepareCacheItem($name, $cache, $metadata, $tz, $time) {
+        global $cache_pageCacheLifetimes;
+        $pageLifetime = isset($cache_pageCacheLifetimes[$name]) ? max(1, intval($cache_pageCacheLifetimes[$name])) : null;
         $formattedCacheItem = [];
 
         $name = self::hashName($name);
@@ -489,7 +491,7 @@ class CachesInDB extends ObjectYPT
             return null;
         }
 
-        $expires = date('Y-m-d H:i:s', strtotime('+1 month'));
+        $expires = date('Y-m-d H:i:s', $pageLifetime === null ? strtotime('+1 month') : $time + $pageLifetime);
 
         // Normalize nullable unique-key fields (see _setCache() for rationale).
         $domain = (string) $metadata['domain'];
@@ -811,7 +813,7 @@ class CachesInDB extends ObjectYPT
         $count = 0;
         try {
             self::set_innodb_lock_wait_timeout();
-            $selectSql = "SELECT id FROM " . static::getTableName() . " WHERE expires IS NOT NULL AND expires < NOW() ORDER BY id LIMIT ?";
+            $selectSql = "SELECT id FROM " . static::getTableName() . " WHERE expires IS NOT NULL AND expires < NOW() ORDER BY expires, id LIMIT ?";
             $global['lastQuery'] = $selectSql;
             do {
                 $res = sqlDAL::readSql($selectSql, 'i', [$batchSize], true);
@@ -823,7 +825,8 @@ class CachesInDB extends ObjectYPT
                 $count = count($ids);
                 if ($count > 0) {
                     $placeholders = implode(',', array_fill(0, $count, '?'));
-                    sqlDAL::writeSql("DELETE FROM " . static::getTableName() . " WHERE id IN ({$placeholders})", str_repeat('i', $count), $ids);
+                    // A writer can refresh an entry after the selection above.
+                    sqlDAL::writeSql("DELETE FROM " . static::getTableName() . " WHERE id IN ({$placeholders}) AND expires < NOW()", str_repeat('i', $count), $ids);
                     $totalDeleted += $count;
                     usleep(20000); // 20ms between batches
                 }
@@ -872,7 +875,7 @@ class CachesInDB extends ObjectYPT
         try {
             self::set_innodb_lock_wait_timeout();
             $cutoff = strtotime("-{$retentionDays} days");
-            $selectSql = "SELECT id FROM " . static::getTableName() . " WHERE expires IS NULL AND created_php_time IS NOT NULL AND created_php_time < ? ORDER BY id LIMIT ?";
+            $selectSql = "SELECT id FROM " . static::getTableName() . " WHERE expires IS NULL AND created_php_time IS NOT NULL AND created_php_time < ? ORDER BY created_php_time, id LIMIT ?";
             $global['lastQuery'] = $selectSql;
             do {
                 $res = sqlDAL::readSql($selectSql, 'ii', [$cutoff, $batchSize], true);
@@ -884,7 +887,7 @@ class CachesInDB extends ObjectYPT
                 $count = count($ids);
                 if ($count > 0) {
                     $placeholders = implode(',', array_fill(0, $count, '?'));
-                    sqlDAL::writeSql("DELETE FROM " . static::getTableName() . " WHERE id IN ({$placeholders})", str_repeat('i', $count), $ids);
+                    sqlDAL::writeSql("DELETE FROM " . static::getTableName() . " WHERE id IN ({$placeholders}) AND expires IS NULL AND created_php_time < ?", str_repeat('i', $count + 1), array_merge($ids, [$cutoff]));
                     $totalDeleted += $count;
                     usleep(20000);
                 }

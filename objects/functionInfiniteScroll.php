@@ -7,7 +7,7 @@ function _addPageNumber($url, $page)
     }
     
     if (preg_match("/page\/([0-9]+)\/?/", $url, $match)) {
-        $url = str_replace("/page/{$match[1]}/", "/page/{$page}/", $url);
+        $url = preg_replace('~/page/[0-9]+(?=/|[?#]|$)~', '/page/' . intval($page), $url, 1);
         $url = removeQueryStringParameter($url, 'page');
     }else{
         $url = addQueryStringParameter($url, 'page', $page);
@@ -33,6 +33,8 @@ function _getPageItem($url, $page, $uid, $isNext = false, $icon = '')
         return '<li class="page-item active"><span class="page-link"> ' . $page . ' <span class="sr-only">(current)</span></span></li>';
     }
     $link = _addPageNumber($url, $page);
+    // &current must not be interpreted as the legacy HTML entity &curren.
+    $link = htmlspecialchars($link, ENT_QUOTES, 'UTF-8');
     $li =  "<li class=\"page-item\" ><a class=\"page-link {$class}\" href=\"{$link}\" tabindex=\"-1\" pageNum=\"{$page}\" currentPage=\"{$currentPage}\" onclick=\"modal.showPleaseWait();\">";
     if (!empty($icon)) {
         $li .=  "<i class=\"{$icon}\"></i>";

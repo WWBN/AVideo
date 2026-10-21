@@ -649,17 +649,35 @@ abstract class ObjectYPT implements ObjectInterface
             return false;
         }
 
-        $cachefile = self::getCacheFileName($name, true, $addSubDirs, $ignoreMetadata);
+        self::scheduleCacheMaintenance();
+        $cachefile = self::getCacheFileName($name, false, $addSubDirs, $ignoreMetadata);
         if (isCommandLineInterface()) {
             // echo 'setCache ' . json_encode(array($name, $addSubDirs, $ignoreMetadata)) . PHP_EOL;
         }
         self::logTime($start, __LINE__, $name);
         //_error_log("YPTObject::setCache log error [{$name}] $cachefile filemtime = ".filemtime($cachefile));
-        $bytes = @_file_put_contents($cachefile, $content);
+        require_once __DIR__ . '/ObjectCacheMaintenance.php';
+        global $global;
+        $maxBytes = isset($global['objectCacheMaxBytes']) ? max(1, intval($global['objectCacheMaxBytes'])) : ObjectCacheMaintenance::DEFAULT_MAX_BYTES;
+        $maxFiles = isset($global['objectCacheMaxFiles']) ? max(1, intval($global['objectCacheMaxFiles'])) : ObjectCacheMaintenance::DEFAULT_MAX_FILES;
+        $bytes = ObjectCacheMaintenance::write(self::getTmpCacheDir(), $cachefile, $content, $maxBytes, $maxFiles);
         self::logTime($start, __LINE__, $name);
         self::setSessionCache($name, $value);
         self::logTime($start, __LINE__, $name);
         return ['bytes' => $bytes, 'cachefile' => $cachefile, 'type' => 'file', 'parameters' => array($name, $addSubDirs, $ignoreMetadata)];
+    }
+
+    public static function scheduleCacheMaintenance()
+    {
+        global $global;
+        if (defined('AVIDEO_OBJECT_CACHE_MAINTENANCE')) {
+            return;
+        }
+        require_once __DIR__ . '/ObjectCacheMaintenance.php';
+        $interval = isset($global['objectCacheCleanupInterval']) ? intval($global['objectCacheCleanupInterval']) : ObjectCacheMaintenance::DEFAULT_INTERVAL;
+        if (ObjectCacheMaintenance::requestCleanup(self::getTmpCacheDir(), $interval)) {
+            execAsync(escapeshellarg(getPHP()) . ' ' . escapeshellarg(dirname(__DIR__) . '/install/cleanObjectCache.php'));
+        }
     }
 
     public static function cleanCacheName($name)
@@ -732,6 +750,10 @@ abstract class ObjectYPT implements ObjectInterface
             $lifetime = intval($_GET['lifetime']);
         }
 
+        // Finite physical retention also applies to bot/unlimited file reads.
+        $maxAge = isset($global['objectCacheMaxAge']) ? max(60, intval($global['objectCacheMaxAge'])) : 259200;
+        $fileLifetime = empty($lifetime) ? $maxAge : min($maxAge, max(1, $lifetime));
+
         if (empty($ignoreSessionCache) && empty($global['ignoreSessionCache'])) {
             $session = self::getSessionCache($name, $lifetime);
             if (!empty($session)) {
@@ -763,7 +785,7 @@ abstract class ObjectYPT implements ObjectInterface
           }
           /**
          */
-        if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
+        if (file_exists($cachefile) && time() - $fileLifetime <= filemtime($cachefile)) {
             //if(preg_match('/live/', $name)){_error_log("getCache 2: stats [$name] lifetime=$lifetime filemtime=".filemtime($cachefile)." ".$cachefile);}
             self::setLastUsedCacheMode("Local File $cachefile");
             $c = @url_get_contents($cachefile);
@@ -777,9 +799,9 @@ abstract class ObjectYPT implements ObjectInterface
             $_getCache[$name] = $json;
             //_error_log('getCache: '.__LINE__);
             return $json;
-        } elseif (file_exists($cachefile) && !empty($lifetime)) {
-            self::deleteCache($name);
-            @unlink($cachefile);
+        } elseif (file_exists($cachefile)) {
+            require_once __DIR__ . '/ObjectCacheMaintenance.php';
+            ObjectCacheMaintenance::deleteExpired(self::getTmpCacheDir(), $cachefile, time() - $fileLifetime);
         }
         //var_dump(file_exists($cachefile), $cachefile);
         //if(preg_match('/getChannelsWithMoreViews30/i', $name)){var_dump($name, $cachefile, file_exists($cachefile) , $lifetime, time() - $lifetime, filemtime($cachefile));exit;}

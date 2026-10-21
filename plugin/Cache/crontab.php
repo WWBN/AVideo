@@ -6,19 +6,12 @@ if (!isCommandLineInterface()) {
     die('Command Line only');
 }
 
+// Use the same lock and accounting as the automatic ObjectYPT maintenance.
+// The old find command raced with writers and left obsolete index files/dirs.
+require_once $global['systemRootPath'] . 'objects/ObjectCacheMaintenance.php';
 $daysLimit = 3;
-
-// delete object cache
-$cacheDir = ObjectYPT::getTmpCacheDir();
-if (empty($cacheDir) || !preg_match('/YPTObjectCache/', $cacheDir)) {
-    die('Wrong dir: '.$cacheDir);
-}
-_error_log('crontab.php: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-echo "deleting {$cacheDir}".PHP_EOL;
-// delete caches 3 days old
-$cmd = "find " . escapeshellarg($cacheDir) . "* -mtime +" . intval($daysLimit) . " -type f -name \"*.cache\" -exec rm {} \;".PHP_EOL;
-echo "Command: {$cmd}";
-exec($cmd);
+$age = isset($global['objectCacheMaxAge']) ? max(60, intval($global['objectCacheMaxAge'])) : ObjectCacheMaintenance::DEFAULT_MAX_AGE;
+echo json_encode(ObjectCacheMaintenance::cleanup(ObjectYPT::getTmpCacheDir(), $age)) . PHP_EOL;
 
 //delete site cache
 $cacheDir = getCacheDir();
