@@ -50,7 +50,7 @@ function checkWebhook($payload, $sig_header, $endpoint_secret) {
 $stripe->start();
 
 // You can find your endpoint's secret in your webhook settings
-$endpoint_secret = trim($stripeObject->SigningSecret);
+$endpoint_secret = StripeYPT::getSigningSecrets($stripeObject);
 
 $payload = @file_get_contents('php://input');
 $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
@@ -106,6 +106,13 @@ try {
         . ' error=' . get_class($e) . ': ' . $e->getMessage(), AVideoLog::$ERROR);
     http_response_code(500);
     exit();
+}
+
+// Diagnostic evidence must never change fulfillment or Stripe's retry response.
+try {
+    StripeConfiguration::recordDelivery($stripeObject, $global['webSiteRootURL'] . 'plugin/StripeYPT/ipn.php', $event);
+} catch (\Throwable $diagnosticException) {
+    _error_log('Stripe configuration: could not cache verified delivery', AVideoLog::$WARNING);
 }
 
 if ($event->type == "payment_intent.succeeded") {

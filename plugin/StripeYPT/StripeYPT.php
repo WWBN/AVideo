@@ -38,16 +38,19 @@ class StripeYPT extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "2.3";
+        return "2.5";
     }
 
     public function getEmptyDataObject()
     {
         $obj = new stdClass();
-        $obj->Publishablekey = "pk_test_aQT12wEjRLKhXgk77TX4ftfa";
-        $obj->Restrictedkey = "rk_test_kjyL5JaoAQwyiptuRlSzYJMZ00kRqXkLux";
+        $obj->Publishablekey = "";
+        $obj->Restrictedkey = "";
         //Before you can verify signatures, you need to retrieve your endpoint’s secret from your Dashboard’s Webhooks settings. Select an endpoint that you want to obtain the secret for, then select the Click to reveal button.
-        $obj->SigningSecret = "whsec_54gqoVeSuoeXEiNPcFhMN0jkBZY0JJG3";
+        $obj->SigningSecret = "";
+        self::addDataObjectHelper('Publishablekey', 'Publishable key', 'Use a pk_test_ or pk_live_ key from the same Stripe account and mode as Restrictedkey.');
+        self::addDataObjectHelper('Restrictedkey', 'Server API key', 'Prefer a restricted key. Open Check configuration for the required permissions and safe webhook setup.');
+        self::addDataObjectHelper('SigningSecret', 'Webhook signing secret', 'For an existing endpoint, copy its whsec_ secret from Stripe. Automatic setup securely saves the secret of a newly created endpoint separately.');
         $obj->subscriptionButtonLabel = "Subscribe With Credit Card";
         $obj->paymentButtonLabel = "Pay With Credit Card";
         //$obj->disableSandbox = false;
@@ -86,28 +89,32 @@ class StripeYPT extends PluginAbstract
         $obj = AVideoPlugin::getDataObject('StripeYPT');
         \Stripe\Stripe::setApiVersion('2022-11-15');
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
-        self::getWebhook();
+        // Payments must not require webhook-management permissions or mutate configuration.
     }
 
     static function getWebhook()
     {
         global $global;
-        $webhooks = \Stripe\WebhookEndpoint::all(["limit" => 20]);
         $notify_url = "{$global['webSiteRootURL']}plugin/StripeYPT/ipn.php";
-        if (!empty($webhooks->data)) {
+        $parameters = ['limit' => 100];
+        do {
+            $webhooks = \Stripe\WebhookEndpoint::all($parameters);
             foreach ($webhooks->data as $value) {
                 if ($value->url === $notify_url) {
                     return $value;
                 }
-                //$endpoint = \Stripe\WebhookEndpoint::retrieve($value->id);
-                //$endpoint->delete();
+                $parameters['starting_after'] = $value->id;
             }
-        }
+        } while (!empty($webhooks->has_more) && !empty($webhooks->data));
+        // Kept for callers of the old helper. Setup is now an explicit admin POST.
+        return false;
+    }
 
-        return \Stripe\WebhookEndpoint::create([
-            "url" => $notify_url,
-            "enabled_events" => ["*"]
-        ]);
+    public static function getSigningSecrets($settings)
+    {
+        global $global;
+        require_once __DIR__ . '/Objects/StripeConfiguration.php';
+        return StripeConfiguration::signingSecrets($settings, $global['webSiteRootURL'] . 'plugin/StripeYPT/ipn.php');
     }
 
     public function getIntent($total = '1.00', $currency = "USD", $description = "", $metadata = array(), $customer = "", $future_usage = "")
@@ -162,6 +169,33 @@ class StripeYPT extends PluginAbstract
                         $parameters['metadata']['ppv_value'] = number_format($details['value'], 2, '.', '');
                     }
                 }
+            }
+            if (!empty($metadata['singlePayment']) && ($metadata['plugin'] ?? '') === 'PayPerViewLive') {
+                $live = AVideoPlugin::loadPluginIfEnabled('PayPerViewLive');
+                if (empty($live) || !method_exists($live, 'getPaymentDetails') || !method_exists($live, 'completeWalletCheckout')) {
+                    throw new \InvalidArgumentException('PayPerViewLive checkout is unavailable');
+                }
+                $details = $live->getPaymentDetails($metadata['ppvlive_schedule_id'] ?? 0);
+                if (empty($details) || $users_id < 1) {
+                    throw new \InvalidArgumentException('Invalid live event selection');
+                }
+                $purchase = $live->getSubscriptionToPlan($users_id, $metadata['ppvlive_schedule_id'] ?? 0);
+                if (!empty($purchase['id']) && $purchase['status'] === 'a') {
+                    $getIntentErrorResponse = 'You already have access to this event. Reload the page to open it; no card payment is needed.';
+                    throw new \InvalidArgumentException('Live event already purchased');
+                }
+                $wallet = AVideoPlugin::loadPluginIfEnabled('YPTWallet');
+                $balance = $wallet->getBalance($users_id);
+                $amount = max(0, round(($details['value'] - $balance) * 100));
+                if ($amount < 1) {
+                    $getIntentErrorResponse = 'Your balance covers this event. Reload the page and use your wallet; no card payment is needed.';
+                    throw new \InvalidArgumentException('Live event already covered by the wallet');
+                }
+                $parameters['amount'] = $amount;
+                $parameters['description'] = $details['description'];
+                $parameters['metadata'] = array_merge($metadata, $details['metadata'], [
+                    'users_id' => (string) $users_id, 'ppvlive_auto_buy' => '1',
+                    'ppvlive_value' => number_format($details['value'], 2, '.', '')]);
             }
             $intent = !empty($metadata['singlePayment']) && $users_id > 0
                 ? $this->getSinglePaymentIntentLocked($parameters)
@@ -749,7 +783,7 @@ class StripeYPT extends PluginAbstract
                 $sub['stripe_costumer_id'] = $this->getCostumerId(User::getId(), $stripeToken);
                 if (empty($sub['stripe_costumer_id'])) {
                     _error_log("setUpSubscription: Could not create a Stripe costumer");
-                    $setUpSubscriptionErrorResponse = 'Could not create a Stripe costumer';
+                    $setUpSubscriptionErrorResponse = 'Your card could not be verified. Check your card details or try another card.';
                     return false;
                 }
                 if (!empty($staleRows)) {
@@ -851,7 +885,7 @@ class StripeYPT extends PluginAbstract
         $Subscription = \Stripe\Subscription::create($parameters, $requestOptions);
 
         StripeYPT::updateSubscriptionMetadata($Subscription->id, $subMetadata);
-        _error_log("setUpSubscription: result " . json_encode($Subscription));
+        _error_log('setUpSubscription: id=' . $Subscription->id . ' status=' . $Subscription->status);
         return $Subscription;
     }
 
@@ -954,6 +988,11 @@ class StripeYPT extends PluginAbstract
                         'Stripe recurrent (no plan detected): ' . ($payload->data->object->description ?? ''), json_encode($payload));
                     return true;
                 }
+                if (empty($metadata['plans_id'])) {
+                    // A processed invoice may already cover this charge. Otherwise retry before
+                    // creating a null-plan row or marking a payment whose plan is still unknown.
+                    throw new RuntimeException('Stripe subscription plan metadata is not available yet');
+                }
                 $plan = Subscription::getOrCreateStripeSubscription($metadata['users_id'], $metadata['plans_id'], $payload->data->object->customer);
                 if (empty($plan['users_id']) || empty($plan['subscriptions_plans_id'])) {
                     // Keep the money: credit the payer so the subscription can be renewed manually.
@@ -1020,11 +1059,11 @@ class StripeYPT extends PluginAbstract
                     }
                 }
             } else {
-                return array("users_id" => $value->users_id, "plans_id" => $value->plans_id);
+                return array("users_id" => $value->users_id ?? null, "plans_id" => $value->plans_id ?? null);
             }
         }
         if (!empty($payload->users_id)) {
-            return array("users_id" => $payload->users_id, "plans_id" => @$payload->plans_id);
+            return array("users_id" => $payload->users_id, "plans_id" => $payload->plans_id ?? null);
         }
         return false;
     }
@@ -1057,6 +1096,28 @@ class StripeYPT extends PluginAbstract
         if (empty($obj) || empty($obj['plans_id'])) {
             _error_log('getMetadataOrFromSubscription not found, try from subscription ID');
             $subscription_id = self::getSubscriptionId($payload);
+            if (empty($subscription_id) && ($payload->type ?? '') === 'charge.succeeded') {
+                // A subscription charge references the invoice, not the subscription itself.
+                // Customer metadata identifies the user only; never guess their plan from it.
+                $invoiceId = $payload->data->object->invoice ?? '';
+                if (is_object($invoiceId)) {
+                    $invoiceId = $invoiceId->id ?? '';
+                }
+                try {
+                    // A newer event snapshot can omit invoice while the pinned API still exposes it.
+                    if (empty($invoiceId) && !empty($payload->data->object->id)) {
+                        $charge = \Stripe\Charge::retrieve($payload->data->object->id);
+                        $invoiceId = $charge->invoice ?? '';
+                    }
+                    if (is_string($invoiceId) && preg_match('/^in_[a-zA-Z0-9]+$/', $invoiceId)) {
+                        $invoice = \Stripe\Invoice::retrieve($invoiceId);
+                        $subscription_id = self::getSubscriptionId((object) ['invoice' => $invoice]);
+                    }
+                } catch (\Stripe\Exception\PermissionException $exception) {
+                    // Legacy restricted keys can still fulfill through invoice.payment_succeeded.
+                    _error_log('Stripe subscription: Charges/Invoices Read permission is needed to resolve this charge; waiting for its invoice notification', AVideoLog::$WARNING);
+                }
+            }
             if (!empty($subscription_id)) {
                 _error_log('getMetadataOrFromSubscription subscription_id found ' . $subscription_id);
                 $subscription = self::retrieveSubscriptions($subscription_id);
@@ -1143,6 +1204,7 @@ class StripeYPT extends PluginAbstract
             return false;
         }
         $metadata = $payload->data->object->metadata;
+        $autoLive = ($metadata->ppvlive_auto_buy ?? '') === '1';
         $autoRental = ($metadata->ppv_auto_rent ?? '') === '1';
         if ($autoRental && (!$chargeVerified || $amount !== intval($payload->data->object->amount))) {
             // Never rent on an unverified or partially refunded charge. Retrying cannot change either
@@ -1152,13 +1214,14 @@ class StripeYPT extends PluginAbstract
                 . "; the payment is credited to the wallet {$logContext}", AVideoLog::$ERROR);
             $autoRental = false;
         }
+        $autoLive = $autoLive && $chargeVerified && $amount === intval($payload->data->object->amount);
         $pluginS = AVideoPlugin::loadPluginIfEnabled('YPTWallet');
         // addDot() needs at least three digits: 5 cents must not become 0.5.
         $payment_amount = StripeYPT::addDot(str_pad((string) $amount, 3, '0', STR_PAD_LEFT));
         $users_id = $payload->data->object->metadata->users_id;
         _error_log("Stripe processSinglePaymentIPN: processing {$logContext} users_id={$users_id} amount={$payment_amount}");
         return $pluginS->processPaymentOnce('stripe', self::getPaymentIds($payload), $users_id,
-            function () use ($pluginS, $users_id, $payment_amount, $payload, $metadata, $autoRental, $logContext) {
+            function () use ($pluginS, $users_id, $payment_amount, $payload, $metadata, $autoRental, $autoLive, $logContext) {
                 $pluginS->addBalance($users_id, $payment_amount,
                     'Stripe single payment: ' . ($payload->data->object->description ?? ''), json_encode($payload));
                 // A savepoint undoes only the rental (debit, seller/site split, rental row) when it fails:
@@ -1173,6 +1236,16 @@ class StripeYPT extends PluginAbstract
                             $metadata->ppv_value ?? '', $metadata->rental_hours ?? 0) === true;
                 }, 'PPV rental')) {
                     _error_log("Stripe processSinglePaymentIPN: PPV rental not completed; the payment stays in the customer's wallet to finish it {$logContext}", AVideoLog::$ERROR);
+                }
+                if ($autoLive && !$pluginS->runPaymentStep(function () use ($pluginS, $users_id, $payload, $metadata) {
+                    $live = AVideoPlugin::loadPluginIfEnabled('PayPerViewLive');
+                    return ($metadata->plugin ?? '') === 'PayPerViewLive' && !empty($live)
+                        && method_exists($live, 'completeWalletCheckout')
+                        && strcasecmp((string) $payload->data->object->currency, (string) $pluginS->getDataObject()->currency) === 0
+                        && $live->completeWalletCheckout($users_id, $metadata->ppvlive_schedule_id ?? 0,
+                            $metadata->ppvlive_value ?? '', $metadata->live_ends ?? '') === true;
+                }, 'PPV Live access')) {
+                    _error_log("Stripe processSinglePaymentIPN: PPV Live access not completed; the payment stays in the customer's wallet {$logContext}", AVideoLog::$ERROR);
                 }
                 return true;
             });

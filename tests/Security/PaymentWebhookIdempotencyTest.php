@@ -57,6 +57,12 @@ class PpvCheckout
         return !self::$fail;
     }
 }
+class LiveCheckout
+{
+    public function completeWalletCheckout($user, $schedule, $value, $ends) {
+        return (new PpvCheckout())->completeWalletCheckout($user, 0, 0, $value, 0);
+    }
+}
 
 function _error_log($message, $level = '') { $GLOBALS['global']['mysqli']->errorLogs[] = is_string($message) ? $message : json_encode($message); }
 class AVideoLog {
@@ -224,6 +230,7 @@ class AVideoPlugin {
     public static function loadPluginIfEnabled($name) {
         if ($name === 'YPTWallet') { return self::$walletEnabled ? new Payments() : false; }
         if ($name === 'PayPerView') { return self::$ppv; }
+        if ($name === 'PayPerViewLive') { return new LiveCheckout(); }
         return $name === 'Subscription' && !self::$subscriptionEnabled ? false : new self();
     }
     public static function getObjectData($name) { return (object)['currency' => 'USD']; }
@@ -724,6 +731,31 @@ class PaymentWebhookIdempotencyTest extends TestCase
         $this->assertSame(1.99, $this->db->balances[8]);
         $this->assertSame(1, $this->db->renewals);
         $this->assertSame(1, $this->db->commits);
+    }
+    public function testLiveWebhookCompletesAccessOnceAndFailedActivationKeepsCredit() {
+        $event = $this->ppvEvent();
+        $metadata = $event->data->object->metadata;
+        $metadata->plugin = 'PayPerViewLive';
+        unset($metadata->ppv_auto_rent);
+        $metadata->ppvlive_auto_buy = '1';
+        $metadata->ppvlive_schedule_id = '9';
+        $metadata->ppvlive_value = '1.99';
+        $metadata->live_ends = '2030-01-01 00:00:00';
+        $stripe = new StripeYPT();
+        $this->assertTrue($stripe->processSinglePaymentIPN($event));
+        $this->assertTrue($stripe->processSinglePaymentIPN($event));
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertSame(0.0, $this->db->balances[7]);
+        $this->assertSame(1.99, $this->db->balances[8]);
+        $event->id = 'evt_live2';
+        $event->data->object->id = 'ch_live2';
+        $event->data->object->payment_intent = 'pi_live2';
+        PpvCheckout::$fail = true;
+        $this->assertTrue($stripe->processSinglePaymentIPN($event));
+        $this->assertSame(1.99, $this->db->balances[7]);
+        $this->assertSame(1.99, $this->db->balances[8], 'The failed transfer is rolled back');
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertStringContainsString('PPV Live access not completed', implode('\n', $this->db->errorLogs));
     }
     private function assertCreditedWithoutRental($credit) {
         $this->assertSame([7 => $credit, 8 => 0], $this->db->balances, 'The card payment stays in the wallet; debit and split are undone');

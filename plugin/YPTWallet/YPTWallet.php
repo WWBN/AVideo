@@ -43,7 +43,7 @@ class YPTWallet extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "6.2";
+        return "6.3";
     }
 
     public function updateScript()

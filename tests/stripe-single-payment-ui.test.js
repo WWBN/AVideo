@@ -6,26 +6,30 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 function renderScript(ppv) {
-    const rendered = spawnSync('php', ['-r', `class AVideoPlugin {static function getObjectData($n){return (object)['Publishablekey'=>'pk_test_stub','paymentButtonLabel'=>'Pay'];}} class YPTWallet {static function getAddFundsSuccessRedirectURL(){return 'https://test.invalid/wrong-movie-from-another-tab';}} function __($s){return $s;} function getToken($t=0){return 'test_token';} $global=['webSiteRootURL'=>'https://test.invalid/']; $_GET=['plans_id'=>2]; $_REQUEST=[]; $_SERVER['SCRIPT_NAME']='${ppv ? '/plugin/PayPerView/page/buy.php' : '/plugin/YPTWallet/addFunds.php'}'; include 'plugin/YPTWallet/plugins/YPTWalletStripe/confirmButton.php';`], {encoding:'utf8', cwd:root});
+    const rendered = spawnSync('php', ['-r', `class AVideoPlugin {static function getObjectData($n){return (object)['Publishablekey'=>'pk_test_stub','paymentButtonLabel'=>'Pay'];}} class YPTWallet {static function getAddFundsSuccessRedirectURL(){return 'https://test.invalid/wrong-movie-from-another-tab';}} function __($s){return $s;} function getToken($t=0){return 'test_token';} function getURL($p){return $p;} $global=['webSiteRootURL'=>'https://test.invalid/']; $_GET=['plans_id'=>2,'ppvlive_schedule_id'=>9,'users_id'=>8]; $_REQUEST=[]; $_SERVER['SCRIPT_NAME']='${ppv === 'live' ? '/plugin/PayPerViewLive/View/buy.php' : ppv ? '/plugin/PayPerView/page/buy.php' : '/plugin/YPTWallet/addFunds.php'}'; include 'plugin/YPTWallet/plugins/YPTWalletStripe/confirmButton.php';`], {encoding:'utf8', cwd:root});
     assert.equal(rendered.status, 0, rendered.stderr);
     return [...rendered.stdout.matchAll(/<script>([\s\S]*?)<\/script>/g)][0][1];
 }
-const script = renderScript(false), ppvScript = renderScript(true);
+const script = renderScript(false), ppvScript = renderScript(true), liveScript = renderScript('live');
 const flush = () => new Promise(setImmediate);
 function fixture(ppv = false) {
     const state = {ajax:[], confirmations:0, reads:[], disabled:false, messages:[], wallet:0, timers:[], status:'processing', readError:false, credited:false, creditError:false};
     const form = {addEventListener:(name,fn) => state.submit=fn};
-    const button = {prop:(k,v) => state.disabled=v, text:v => state.buttonText=v};
-    const chain = {ready:fn=>fn(), click:()=>{}, slideToggle:()=>{}, find:()=>button, text:s=>state.messages.push(s), val:()=>1.99};
+    const button = {prop:(k,v) => {state.disabled=v;return button;}, text:v => {state.buttonText=v;return button;}, removeClass:()=>button, addClass:()=>button};
+    const chain = {ready:fn=>fn(), click:()=>{}, toggleClass:()=>{}, slideToggle:()=>{}, find:()=>button, text:s=>{state.messages.push(s);return chain;}, val:()=>1.99,
+        removeClass:()=>chain, addClass:()=>chain, attr:()=>chain};
+    const statusUI = {text:()=>statusUI, removeClass:()=>statusUI, addClass:()=>statusUI, attr:()=>statusUI};
     const $ = selector => selector === '#videos_id_2' ? {val:()=>3143}
-        : selector === '#description2' ? {val:()=>'Wallet funds for PPV rental: Dial M For Murder | 72 hours'} : chain;
+        : selector === '#description2' ? {val:()=>'Wallet funds for PPV rental: Dial M For Murder | 72 hours'}
+        : typeof selector === 'string' && selector.startsWith('#checkout-') ? statusUI : chain;
     $.ajax = options => {
         state.ajax.push(options);
         if (options.url.endsWith('/singlePaymentStatus.json.php')) {
             assert.equal(options.data.payment_intent_id, 'pi_test');
             assert.equal(options.data.globalToken, 'test_token');
             if (state.creditError) { options.error(); }
-            else { options.success({error:false, credited:state.credited}); }
+            else { options.success({error:false, credited:state.credited, rental_ready:state.rentalReady,
+                live_ready:state.liveReady, live_started:state.liveStarted, watch_url:state.liveUrl}); }
         }
     };
     const context = {
@@ -37,7 +41,7 @@ function fixture(ppv = false) {
         modal:{showPleaseWait:()=>{},hidePleaseWait:()=>{}}, avideoToastSuccess:()=>{}, avideoAlertError:()=>{},
         updateYPTWallet:()=>state.wallet++, setTimeout:fn=>state.timers.push(fn)
     };
-    vm.runInNewContext(ppv ? ppvScript : script, context);
+    vm.runInNewContext(ppv === 'live' ? liveScript : ppv ? ppvScript : script, context);
     state.send = () => state.submit({preventDefault(){}});
     state.confirm = () => {state.send();state.ajax[0].success({error:false,client_secret:'same_test_secret',intent:{id:'pi_test'}});};
     state.gatewayRequests = () => state.ajax.filter(r=>r.url.endsWith('/getIntent.json.php')).length;
@@ -88,5 +92,27 @@ function fixture(ppv = false) {
     assert.match(s.messages.at(-1),/rental is still processing/);assert.equal(s.redirect(),'');
     s.credited=true;s.send();await s.tick();assert.match(s.redirect(),/videos_id=3419/);
     assert.equal(s.gatewayRequests(),1);assert.equal(s.confirmations,0);
+    // Only verified video access may go directly to playback and announce readiness.
+    s=fixture(true);s.credited=true;s.rentalReady=true;s.send();
+    s.ajax[0].success({already_paid:true,intent:{id:'pi_test',metadata:rentalMetadata}});
+    assert.match(s.messages.at(-1),/rental is ready/);await s.tick();
+    assert.equal(s.redirect(),'https://test.invalid/video/3419?autoplay=1');
+    const liveMetadata = {ppvlive_auto_buy:'1',ppvlive_schedule_id:'9'};
+    s=fixture('live');s.send();
+    assert.equal(s.ajax[0].data.plugin,'PayPerViewLive');assert.equal(s.ajax[0].data.ppvlive_schedule_id,9);
+    s.ajax[0].success({already_paid:true,intent:{id:'pi_test',metadata:liveMetadata}});
+    assert.match(s.messages.at(-1),/Activating your event access/);
+    s.credited=true;s.liveReady=true;s.liveStarted=true;s.liveUrl='https://test.invalid/live/0/8';await s.tick();
+    assert.match(s.messages.at(-1),/Opening the broadcast/);await s.tick();assert.equal(s.redirect(),s.liveUrl);
+    assert.equal(s.gatewayRequests(),1);assert.equal(s.confirmations,0);
+    s=fixture('live');s.send();s.credited=true;s.liveReady=true;s.liveStarted=false;
+    s.liveUrl='https://test.invalid/plugin/PayPerViewLive/View/buy.php?users_id=8&ppvlive_schedule_id=9';
+    s.ajax[0].success({already_paid:true,intent:{id:'pi_test',metadata:liveMetadata}});
+    assert.match(s.messages.at(-1),/purchase is saved/);await s.tick();assert.equal(s.redirect(),s.liveUrl);
+    s=fixture('live');s.send();s.credited=true;s.liveReady=false;
+    s.ajax[0].success({already_paid:true,intent:{id:'pi_test',metadata:liveMetadata}});
+    assert.match(s.messages.at(-1),/using this balance; do not pay by card again/);
+    assert.doesNotMatch(s.messages.at(-1),/access is ready/);
+    await s.tick();assert.match(s.redirect(),/ppvlive_schedule_id=9/);
     console.log('PASS: duplicate submit, approval waits for committed credit, already paid, webhook delay/failure, bounded polling, safe retry and network recovery');
 })().catch(e=>{console.error(e);process.exitCode=1;});

@@ -13,11 +13,14 @@ class PluginAbstract {}
 class AVideoPlugin
 {
     public static $ppv, $wallet;
+    public static function getDataObject($name) { return (object) ['Restrictedkey' => 'rk_test_runtime']; }
     public static function loadPluginIfEnabled($name) { return $name === 'YPTWallet' ? self::$wallet : self::$ppv; }
 }
 class AVideoLog { public static $WARNING = 'warning', $ERROR = 'error'; }
 class TestWallet
 {
+    public $balance = 0;
+    public function getBalance($user) { return $this->balance; }
     public $credited = [], $balances = [];
     public function isStripePaymentCredited($intentId, $users_id) { return in_array($intentId, $this->credited, true); }
     public function processPaymentOnce($provider, $ids, $users_id, callable $process) { return $process(); }
@@ -83,6 +86,14 @@ class StripeSinglePaymentCheckoutTest extends TestCase
     private function pay($amount = 1.99)
     {
         return $this->stripe->getIntent($amount, 'USD', 'Payment', ['singlePayment' => 1, 'users_id' => User::$id]);
+    }
+
+    public function testPaymentStartupDoesNotInspectOrCreateWebhooks(): void
+    {
+        // There is deliberately no WebhookEndpoint test double: runtime needs no management API.
+        StripeYPT::_start();
+        $this->assertSame('rk_test_runtime', Gateway\Stripe::$key);
+        $this->assertSame('2022-11-15', Gateway\Stripe::$version);
     }
 
     public function testRepeatedRequestReusesPendingIntent(): void
@@ -165,6 +176,38 @@ class StripeSinglePaymentCheckoutTest extends TestCase
         $this->assertFalse($this->stripe->getIntent(1.99, 'USD', 'PPV rental',
             ['singlePayment' => 1, 'plugin' => 'PayPerView', 'plans_id' => 2, 'videos_id' => 3419]));
         $this->assertSame([], Gateway\PaymentIntent::$objects);
+    }
+
+    public function testLiveEventUsesServerPriceAndWalletShortfallInsteadOfSubmittedAmount(): void
+    {
+        AVideoPlugin::$wallet = new TestWallet();
+        AVideoPlugin::$wallet->balance = 0.50;
+        AVideoPlugin::$ppv = new class {
+            public $owned = false;
+            public function getSubscriptionToPlan($user, $schedule) { return $this->owned ? ['id'=>1,'status'=>'a'] : false; }
+            public function completeWalletCheckout() {}
+            public function getPaymentDetails($schedule) {
+                return $schedule === 9 ? ['value' => 1.99, 'description' => 'PPV Live: Test event',
+                    'metadata' => ['ppvlive_schedule_id' => '9', 'live_ends' => '2030-01-01 00:00:00']] : false;
+            }
+        };
+        $metadata = ['singlePayment' => 1, 'plugin' => 'PayPerViewLive', 'ppvlive_schedule_id' => 9, 'users_id' => 999];
+        $intent = $this->stripe->getIntent(0.01, 'USD', 'Submitted event', $metadata);
+        $this->assertSame(149, intval($intent->amount));
+        $this->assertSame('42', $intent->metadata['users_id']);
+        $this->assertSame('1', $intent->metadata['ppvlive_auto_buy']);
+        $this->assertSame('1.99', $intent->metadata['ppvlive_value']);
+        $this->assertSame('PPV Live: Test event', $intent->description);
+        $this->assertSame($intent, $this->stripe->getIntent(99, 'USD', 'Other text', $metadata));
+        AVideoPlugin::$wallet->balance = 1.99;
+        $this->assertFalse($this->stripe->getIntent(0.01, 'USD', 'Event', $metadata));
+        $this->assertCount(1, Gateway\PaymentIntent::$objects, 'A sufficient wallet never creates another card payment');
+        AVideoPlugin::$wallet->balance = 0;
+        AVideoPlugin::$ppv->owned = true;
+        $this->assertFalse($this->stripe->getIntent(1.99, 'USD', 'Event', $metadata));
+        $this->assertCount(1, Gateway\PaymentIntent::$objects, 'A stale tab cannot charge an already-owned event');
+        $metadata['ppvlive_schedule_id'] = 10;
+        $this->assertFalse($this->stripe->getIntent(1.99, 'USD', 'Event', $metadata));
     }
 
     private function paid($intent, $chargedAt)
@@ -474,6 +517,13 @@ class StripeSinglePaymentCheckoutTest extends TestCase
 }
 
 namespace Tests\StripeSinglePayment\Gateway;
+
+class Stripe
+{
+    public static $key, $version;
+    public static function setApiKey($key) { self::$key = $key; }
+    public static function setApiVersion($version) { self::$version = $version; }
+}
 
 class PaymentIntent
 {

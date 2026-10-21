@@ -52,6 +52,9 @@ $metadata = array(
 if ($metadata['plugin'] === 'PayPerView' && !empty($metadata['singlePayment'])) {
     $metadata['videos_id'] = intval($_REQUEST['videos_id'] ?? 0);
 }
+if ($metadata['plugin'] === 'PayPerViewLive' && !empty($metadata['singlePayment'])) {
+    $metadata['ppvlive_schedule_id'] = intval($_REQUEST['ppvlive_schedule_id'] ?? 0);
+}
 $obj->value = $value;
 $obj->currency = $currency;
 $obj->description = @$_REQUEST['description'];

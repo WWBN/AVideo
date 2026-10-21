@@ -7,6 +7,10 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+if (!User::isLogged()) {
+    forbiddenPage('Login required');
+}
+forbidIfInvalidToken();
 require_once $global['systemRootPath'] . 'plugin/Subscription/Subscription.php';
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("StripeYPT");
@@ -44,14 +48,28 @@ if(empty($_POST['stripeToken'])){
     forbiddenPage("stripeToken Not found");
 }
 
-if(!User::isLogged()){
-    forbiddenPage("User not logged");
-
-}
 $users_id = User::getId();
 //setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement')
-_error_log("Request subscription setUpSubscription: ".  json_encode($_POST));
-$payment = $plugin->setUpSubscription($obj->plans_id, $_POST['stripeToken']);
+_error_log('Request subscription: users_id=' . $users_id . ' plans_id=' . $obj->plans_id);
+try {
+    // A lost response must not send an already activated customer through payment again.
+    $activeAccess = method_exists('SubscriptionTable', 'getCheckoutAccess')
+        ? SubscriptionTable::getCheckoutAccess($users_id, $obj->plans_id)
+        : SubscriptionTable::getUserPlan($obj->plans_id, $users_id);
+    if (!empty($activeAccess)) {
+        $obj->error = false;
+        $obj->already_active = true;
+        $obj->msg = __('Your subscription is already active. No new charge was made.');
+        echo json_encode($obj);
+        exit;
+    }
+    $payment = $plugin->setUpSubscription($obj->plans_id, $_POST['stripeToken']);
+} catch (Throwable $th) {
+    _error_log('Stripe subscription checkout failed: ' . $th->getMessage(), AVideoLog::$ERROR);
+    $obj->msg = __('Could not start the subscription. Please check your account before retrying.');
+    echo json_encode($obj);
+    exit;
+}
 $obj->msg = $setUpSubscriptionErrorResponse;
 $obj->payment = $payment;
 _error_log("Request subscription setUpSubscription Done ");
