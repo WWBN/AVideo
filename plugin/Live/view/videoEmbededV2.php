@@ -94,7 +94,7 @@ $poster = Live::getRegularPosterImage($livet['users_id'], $_REQUEST['live_server
                 <div class="embed-responsive  embed-responsive-16by9" >
                     <video poster="<?php echo getURL($poster); ?>" controls  <?php echo PlayerSkins::getPlaysinline(); ?> controls controlsList="nodownload" autoplay="autoplay" 
                            class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered"
-                           id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
+                           id="mainVideo" data-setup='{ "aspectRatio": "16:9" }'>
                         <source src="<?php echo Live::getM3U8File($uuid); ?>" type='application/x-mpegURL'>
                     </video>
 

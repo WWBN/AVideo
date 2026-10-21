@@ -29,7 +29,8 @@ if (isValidM3U8Link($liveLink, false, 3, true)) {
 } else {
 
     $isVideoTypeEmbed = 1;
-    if (($disableYoutubeIntegration) || ((strpos($liveLink, "youtu.be") == false) && (strpos($liveLink, "youtube.com") == false) && (strpos($liveLink, "vimeo.com") == false))) {
+    // Only YouTube has a Video.js tech here; Vimeo and other links play in the iframe below
+    if (($disableYoutubeIntegration) || ((strpos($liveLink, "youtu.be") == false) && (strpos($liveLink, "youtube.com") == false))) {
         $_GET['isEmbedded'] = "e";
         $isVideoTypeEmbed = 1;
         $url = parseVideos($liveLink);
@@ -46,8 +47,6 @@ if (isValidM3U8Link($liveLink, false, 3, true)) {
         // youtube!
         if ((stripos($liveLink, "youtube.com") != false) || (stripos($liveLink, "youtu.be") != false)) {
             $_GET['isEmbedded'] = "y";
-        } else if ((stripos($liveLink, "vimeo.com") != false)) {
-            $_GET['isEmbedded'] = "v";
         }
         //$_GET['isMediaPlaySite'] = $video['id'];
         //PlayerSkins::playerJSCodeOnLoad($video['id'], @$video['url']);
