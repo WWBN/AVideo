@@ -52,6 +52,9 @@ class PaymentWalletMySQLIntegrationTest extends TestCase
         $GLOBALS['paymentSimLogs'] = [];
         $GLOBALS['readSqlCached'] = [];
         $GLOBALS['disableMysqlNdMethods'] = false;
+        \AVideoTests\PaymentWalletMySQL\AVideoPlugin::$ppv = false;
+        \AVideoTests\PaymentWalletMySQL\PpvRentalModel::$fail = false;
+        \AVideoTests\PaymentWalletMySQL\TestStripeCharge::$amount = 199;
     }
 
     protected function tearDown(): void
@@ -74,6 +77,73 @@ class PaymentWalletMySQLIntegrationTest extends TestCase
     private function balance($users_id)
     {
         return (float) $this->scalar('SELECT IFNULL(SUM(balance), 0) FROM wallet WHERE users_id = ' . intval($users_id));
+    }
+
+    public function testPpvWebhookCommitsCreditDebitAndRentalOnce()
+    {
+        $this->db->query('CREATE TABLE test_ppv_rentals (id INT AUTO_INCREMENT PRIMARY KEY, users_id INT, ppv_plans_id INT, videos_id INT) ENGINE=InnoDB');
+        \AVideoTests\PaymentWalletMySQL\AVideoPlugin::$ppv = new \AVideoTests\PaymentWalletMySQL\PpvRentalModel();
+        $stripe = new \AVideoTests\PaymentWalletMySQL\StripeYPT();
+        $event = $this->ppvEvent('evt_rental', 'ch_rental', 'pi_rental', 199, '1.99');
+        $this->assertTrue($stripe->processSinglePaymentIPN($event));
+        $this->assertTrue($stripe->processSinglePaymentIPN($event));
+        $this->assertSame(0.0, $this->balance(7));
+        $this->assertSame(1.99, $this->balance(8));
+        $this->assertSame('1', $this->scalar('SELECT COUNT(*) FROM test_ppv_rentals WHERE users_id=7 AND videos_id=3419 AND ppv_plans_id=2'));
+        $this->assertSame('1', $this->scalar("SELECT COUNT(*) FROM wallet_log WHERE type='addBalance'"));
+    }
+
+    public function testFailedPpvRentalKeepsTheCardCreditAndUndoesOnlyTheRentalWithARealSavepoint()
+    {
+        $this->db->query('CREATE TABLE test_ppv_rentals (id INT AUTO_INCREMENT PRIMARY KEY, users_id INT, ppv_plans_id INT, videos_id INT) ENGINE=InnoDB');
+        \AVideoTests\PaymentWalletMySQL\AVideoPlugin::$ppv = new \AVideoTests\PaymentWalletMySQL\PpvRentalModel();
+        \AVideoTests\PaymentWalletMySQL\PpvRentalModel::$fail = true; // fails after its debit and INSERT
+        $stripe = new \AVideoTests\PaymentWalletMySQL\StripeYPT();
+        $event = $this->ppvEvent('evt_failed', 'ch_failed', 'pi_failed', 199, '1.99');
+        $this->assertTrue($stripe->processSinglePaymentIPN($event));
+        \AVideoTests\PaymentWalletMySQL\PpvRentalModel::$fail = false;
+        $this->assertTrue($stripe->processSinglePaymentIPN($event), 'Redelivery is a duplicate, not a second credit');
+        $this->assertSame(1.99, $this->balance(7));
+        $this->assertSame(0.0, $this->balance(8));
+        $this->assertSame('0', $this->scalar('SELECT COUNT(*) FROM test_ppv_rentals'));
+        $this->assertSame('1', $this->scalar("SELECT COUNT(*) FROM wallet_log WHERE type='addBalance'"));
+        $this->assertSame('0', $this->scalar("SELECT COUNT(*) FROM wallet_log WHERE type LIKE 'transferBalance%'"));
+        $this->assertTrue(WalletLog::hasProcessedStripePaymentForUser('pi_failed', 7));
+    }
+
+    public function testPpvShortfallSpentElsewhereIsCreditedInsteadOfRetriedForever()
+    {
+        $this->db->query('CREATE TABLE test_ppv_rentals (id INT AUTO_INCREMENT PRIMARY KEY, users_id INT, ppv_plans_id INT, videos_id INT) ENGINE=InnoDB');
+        \AVideoTests\PaymentWalletMySQL\AVideoPlugin::$ppv = new \AVideoTests\PaymentWalletMySQL\PpvRentalModel();
+        // The card paid the 1.99 shortfall of a 3.98 rental, but the old 1.99 was spent in another tab.
+        $event = $this->ppvEvent('evt_spent', 'ch_spent', 'pi_spent', 199, '3.98');
+        $stripe = new \AVideoTests\PaymentWalletMySQL\StripeYPT();
+        $this->assertTrue($stripe->processSinglePaymentIPN($event));
+        $this->assertTrue($stripe->processSinglePaymentIPN($event));
+        $this->assertSame(1.99, $this->balance(7));
+        $this->assertSame('0', $this->scalar('SELECT COUNT(*) FROM test_ppv_rentals'));
+    }
+
+    private function ppvEvent($event, $charge, $intent, $amount, $value)
+    {
+        return json_decode('{"id":"' . $event . '","type":"charge.succeeded","data":{"object":{"id":"' . $charge . '","payment_intent":"' . $intent
+            . '","amount":' . $amount . ',"currency":"usd","metadata":{"users_id":"7","singlePayment":"1","plugin":"PayPerView","ppv_auto_rent":"1",'
+            . '"ppv_plans_id":"2","videos_id":"3419","ppv_value":"' . $value . '","rental_hours":"72"}}}}');
+    }
+
+    public function testPpvCardShortfallUsesExistingBalanceToFinishRental()
+    {
+        $this->db->query('CREATE TABLE test_ppv_rentals (id INT AUTO_INCREMENT PRIMARY KEY, users_id INT, ppv_plans_id INT, videos_id INT) ENGINE=InnoDB');
+        (new YPTWallet())->addBalance(7, 1.00, 'Existing wallet balance');
+        \AVideoTests\PaymentWalletMySQL\AVideoPlugin::$ppv = new \AVideoTests\PaymentWalletMySQL\PpvRentalModel();
+        \AVideoTests\PaymentWalletMySQL\TestStripeCharge::$amount = 99;
+        $event = json_decode('{"id":"evt_partial","type":"charge.succeeded","data":{"object":{"id":"ch_partial","payment_intent":"pi_partial","amount":99,"currency":"usd","metadata":{"users_id":"7","singlePayment":"1","plugin":"PayPerView","ppv_auto_rent":"1","ppv_plans_id":"2","videos_id":"3419","ppv_value":"1.99","rental_hours":"72"}}}}');
+        $stripe = new \AVideoTests\PaymentWalletMySQL\StripeYPT();
+        $this->assertTrue($stripe->processSinglePaymentIPN($event));
+        $this->assertTrue($stripe->processSinglePaymentIPN($event));
+        $this->assertSame(0.0, $this->balance(7));
+        $this->assertSame(1.99, $this->balance(8));
+        $this->assertSame('1', $this->scalar('SELECT COUNT(*) FROM test_ppv_rentals'));
     }
 
     public function testPartialLegacyMigrationIsRepairedBeforeRetryAndStatusIsScopedToPayer()

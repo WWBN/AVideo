@@ -107,7 +107,7 @@ class Wallet extends ObjectYPT {
         $this->balance = floatval($this->balance);
         $this->crypto_wallet_address = ($this->crypto_wallet_address);
         ObjectYPT::clearSessionCache();
-        _error_log("save({$this->id}, {$this->users_id}, {$this->balance}) ".json_encode(debug_backtrace()));
+        _error_log("save({$this->id}, {$this->users_id}, {$this->balance}) ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $id = parent::save();
         if(!empty($id)){
             $obj = AVideoPlugin::getObjectData('YPTWallet');

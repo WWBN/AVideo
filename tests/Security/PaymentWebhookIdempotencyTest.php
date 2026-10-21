@@ -16,7 +16,7 @@ $transferEnd = strpos($source, '    public static function transferAndSplitBalan
 eval('namespace ' . __NAMESPACE__ . '; use RuntimeException; use Throwable; class Payments {'
     . substr($source, $start, $end - $start)
     . substr($source, $transferStart, $transferEnd - $transferStart)
-    . 'public function getDataObject() { return (object)["virtual_currency_enable" => false]; }
+    . 'public function getDataObject() { return (object)["virtual_currency_enable" => false, "currency" => "USD"]; }
        public function getOrCreateWallet($id) { return new Wallet($id); }
        public static function getAddFundsSuccessRedirectURL() { return "https://example.test/paid"; }}');
 class YPTWallet extends Payments {}
@@ -34,6 +34,29 @@ $source = file_get_contents($root . '/plugin/StripeYPT/StripeYPT.php');
 $start = strpos($source, '    public static function getPaymentIds(');
 $end = strpos($source, '    /**', $start);
 eval('namespace ' . __NAMESPACE__ . '; class StripeIds {' . substr($source, $start, $end - $start) . '}');
+class PluginAbstract {}
+$stripePpvSource = file_get_contents($root . '/plugin/StripeYPT/StripeYPT.php');
+$stripePpvSource = substr($stripePpvSource, strpos($stripePpvSource, 'class StripeYPT extends'));
+$stripePpvSource = str_replace(['\\Stripe\\Charge', '\\Stripe\\Exception\\PermissionException'], ['StripeCharge', 'ChargePermissionException'], $stripePpvSource);
+eval('namespace ' . __NAMESPACE__ . '; ' . $stripePpvSource);
+class ChargePermissionException extends RuntimeException {}
+class StripeCharge
+{
+    public static $amountRefunded = 0, $denyRead = false;
+    public static function retrieve($id) {
+        if (self::$denyRead) { throw new ChargePermissionException('No Charges: Read'); }
+        return (object) ['amount' => 199, 'amount_refunded' => self::$amountRefunded, 'status' => 'succeeded'];
+    }
+}
+class PpvCheckout
+{
+    public static $fail = false;
+    public function completeWalletCheckout($user, $plan, $video, $value, $hours) {
+        if (!Payments::transferBalance($user, 8, $value, 'PPV rental', true)) { return false; }
+        ++$GLOBALS['global']['mysqli']->renewals;
+        return !self::$fail;
+    }
+}
 
 function _error_log($message, $level = '') { $GLOBALS['global']['mysqli']->errorLogs[] = is_string($message) ? $message : json_encode($message); }
 class AVideoLog {
@@ -195,10 +218,12 @@ class PayPalDelivery {
 }
 class PayPalDeliveryStopped extends RuntimeException {}
 class AVideoPlugin {
+    public static $ppv;
     public static $walletEnabled = true;
     public static $subscriptionEnabled = true;
     public static function loadPluginIfEnabled($name) {
         if ($name === 'YPTWallet') { return self::$walletEnabled ? new Payments() : false; }
+        if ($name === 'PayPerView') { return self::$ppv; }
         return $name === 'Subscription' && !self::$subscriptionEnabled ? false : new self();
     }
     public static function getObjectData($name) { return (object)['currency' => 'USD']; }
@@ -311,6 +336,9 @@ class PaymentWebhookIdempotencyTest extends TestCase
         PayPalDelivery::$lastAgreement = null;
         AVideoPlugin::$walletEnabled = true;
         AVideoPlugin::$subscriptionEnabled = true;
+        AVideoPlugin::$ppv = new PpvCheckout();
+        PpvCheckout::$fail = StripeCharge::$denyRead = false;
+        StripeCharge::$amountRefunded = 0;
         PayPalDelivery::$webhook = json_decode('{"webhook_event":{"id":"WH-event_1","event_type":"PAYMENT.SALE.COMPLETED","resource":{"id":"txn_1","billing_agreement_id":"agreement_1","amount":{"total":"10.00","currency":"USD"}}}}');
     }
     protected function tearDown(): void {
@@ -684,6 +712,66 @@ class PaymentWebhookIdempotencyTest extends TestCase
         $this->deliver(['ch_1', 'evt_1'], 'stripe', false);
         $this->deliver(['ch_1', 'evt_2'], 'stripe', false);
         $this->assertSame(10.0, $this->db->balances[7]);
+    }
+    private function ppvEvent() {
+        return json_decode('{"id":"evt_ppv","type":"charge.succeeded","data":{"object":{"id":"ch_ppv","payment_intent":"pi_ppv","amount":199,"currency":"usd","metadata":{"users_id":"7","singlePayment":"1","plugin":"PayPerView","ppv_auto_rent":"1","ppv_plans_id":"2","videos_id":"3419","ppv_value":"1.99","rental_hours":"72"}}}}');
+    }
+    public function testCardWebhookCreditsAndCompletesRentalExactlyOnceWithoutBrowser() {
+        $stripe = new StripeYPT();
+        $this->assertTrue($stripe->processSinglePaymentIPN($this->ppvEvent()));
+        $this->assertTrue($stripe->processSinglePaymentIPN($this->ppvEvent()));
+        $this->assertSame(0.0, $this->db->balances[7]);
+        $this->assertSame(1.99, $this->db->balances[8]);
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertSame(1, $this->db->commits);
+    }
+    private function assertCreditedWithoutRental($credit) {
+        $this->assertSame([7 => $credit, 8 => 0], $this->db->balances, 'The card payment stays in the wallet; debit and split are undone');
+        $this->assertSame(0, $this->db->renewals, 'No rental is saved');
+    }
+    public function testFailedRentalKeepsTheCreditUndoesOnlyTheRentalAndIsNotRetriedForever() {
+        $stripe = new StripeYPT();
+        PpvCheckout::$fail = true;
+        $this->assertTrue($stripe->processSinglePaymentIPN($this->ppvEvent()), 'A failed rental must not make Stripe retry until it gives up');
+        $this->assertCreditedWithoutRental(1.99);
+        $this->assertStringContainsString('PPV rental not completed', implode("\n", $this->db->errorLogs));
+        PpvCheckout::$fail = false;
+        $this->assertTrue($stripe->processSinglePaymentIPN($this->ppvEvent()), 'A redelivery is a duplicate');
+        $this->assertCreditedWithoutRental(1.99);
+    }
+    public function testShortfallSpentElsewhereIsCreditedInsteadOfLost() {
+        // The card paid the 1.99 shortfall of a 3.98 rental, but the old 1.99 was spent in another tab.
+        $event = $this->ppvEvent();
+        $event->data->object->metadata->ppv_value = '3.98';
+        for ($delivery = 0; $delivery < 3; $delivery++) {
+            $this->assertTrue((new StripeYPT())->processSinglePaymentIPN($event));
+        }
+        $this->assertCreditedWithoutRental(1.99);
+    }
+    public function testAutoRentalWithoutCompatibleEnabledPpvKeepsTheCredit() {
+        AVideoPlugin::$ppv = false;
+        $this->assertTrue((new StripeYPT())->processSinglePaymentIPN($this->ppvEvent()));
+        $this->assertCreditedWithoutRental(1.99);
+    }
+    public function testWrongCurrencyCannotCompleteAnAutomaticRental() {
+        $event = $this->ppvEvent(); $event->data->object->currency = 'eur';
+        $this->assertTrue((new StripeYPT())->processSinglePaymentIPN($event));
+        $this->assertCreditedWithoutRental(1.99);
+    }
+    public function testRefundedAutoRentalCreditsOnlyWhatIsStillPaidAndNeverRents() {
+        StripeCharge::$amountRefunded = 199;
+        $this->assertFalse((new StripeYPT())->processSinglePaymentIPN($this->ppvEvent()));
+        $this->assertSame([], $this->db->logs);
+        StripeCharge::$amountRefunded = 99;
+        $this->assertTrue((new StripeYPT())->processSinglePaymentIPN($this->ppvEvent()));
+        $this->assertCreditedWithoutRental(1.0);
+        $this->assertStringContainsString('partially refunded', implode("\n", $this->db->errorLogs));
+    }
+    public function testUnverifiedChargeIsCreditedButNeverRentedWithoutChargesRead() {
+        StripeCharge::$denyRead = true;
+        $this->assertTrue((new StripeYPT())->processSinglePaymentIPN($this->ppvEvent()));
+        $this->assertCreditedWithoutRental(1.99);
+        $this->assertStringContainsString('cannot read charges', implode("\n", $this->db->errorLogs));
     }
     public function testOldWalletCreditSuppressesRetryAfterUpgrade() {
         WalletLog::addLog(7, 10, 0, 'Stripe single payment: test', '{"id":"evt_old","data":{"object":{"id":"ch_old"}}}', 'success', 'addBalance');

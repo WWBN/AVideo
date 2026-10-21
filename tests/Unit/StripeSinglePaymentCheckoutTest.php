@@ -141,6 +141,32 @@ class StripeSinglePaymentCheckoutTest extends TestCase
         $this->assertCount(1, Gateway\PaymentIntent::$objects);
     }
 
+    public function testNewPpvCheckoutBindsAutomaticRentalAndCatalogPriceToIntent(): void
+    {
+        AVideoPlugin::$ppv = new class {
+            public function completeWalletCheckout() {}
+            public function getPaymentDetails($plan, $video, $funding) {
+                return ['description' => $funding ? 'Wallet funds' : 'PPV rental: A Serbian Film', 'value' => 1.99,
+                    'metadata' => ['videos_id' => (string) $video, 'ppv_plans_id' => (string) $plan, 'rental_hours' => '72']];
+            }
+        };
+        $intent = $this->stripe->getIntent(0.99, 'USD', 'Untrusted title',
+            ['singlePayment' => 1, 'plugin' => 'PayPerView', 'plans_id' => 2, 'videos_id' => 3419]);
+        $this->assertSame('1', $intent->metadata['ppv_auto_rent']);
+        $this->assertSame('42', $intent->metadata['users_id']);
+        $this->assertSame('1.99', $intent->metadata['ppv_value']);
+        $this->assertSame('3419', $intent->metadata['videos_id']);
+        $this->assertSame('PPV rental: A Serbian Film', $intent->description);
+        $this->assertSame(99, intval($intent->amount), 'Only the shortfall is charged to the card');
+    }
+
+    public function testDisabledPpvDoesNotCreateACardCharge(): void
+    {
+        $this->assertFalse($this->stripe->getIntent(1.99, 'USD', 'PPV rental',
+            ['singlePayment' => 1, 'plugin' => 'PayPerView', 'plans_id' => 2, 'videos_id' => 3419]));
+        $this->assertSame([], Gateway\PaymentIntent::$objects);
+    }
+
     private function paid($intent, $chargedAt)
     {
         $intent->status = 'succeeded';

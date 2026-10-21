@@ -95,7 +95,8 @@ if (!function_exists(__NAMESPACE__ . '\extractFunctions')) {
     function TimeLogStart($name) {}
     function TimeLogEnd($name, $type, $seconds) {}
     class AVideoPlugin {
-        public static function loadPluginIfEnabled($name) { return $name === 'YPTWallet' ? new YPTWallet() : false; }
+        public static $ppv = false;
+        public static function loadPluginIfEnabled($name) { return $name === 'YPTWallet' ? new YPTWallet() : ($name === 'PayPerView' ? self::$ppv : false); }
         public static function getObjectData($name) { return (object)['currency' => 'USD']; }
     }
     function sendSocketMessageToUsers_id($message, $users_id, $event) {}
@@ -219,11 +220,30 @@ if (!function_exists(__NAMESPACE__ . '\extractFunctions')) {
         throw new RuntimeException('paymentTransactionActive property not found');
     }
     eval($paymentFixturePrefix . 'class YPTWallet {' . $paymentFixtureProperty[0] . '
-        public function getDataObject() { return (object) ["virtual_currency_enable" => false]; }
+        public function getDataObject() { return (object) ["virtual_currency_enable" => false, "currency" => "USD"]; }
         ' . extractFunctions($paymentFixtureRoot . '/plugin/YPTWallet/YPTWallet.php', ['processPaymentOnce', 'runPaymentStep', 'addBalance', 'transferBalance', 'getOrCreateWallet']) . '
     }');
 
     eval($paymentFixturePrefix .'class StripeIds {' . extractFunctions($paymentFixtureRoot . '/plugin/StripeYPT/StripeYPT.php', ['getPaymentIds']) . '}');
+    // Real Stripe delivery + wallet transaction; only the provider response and rental model are doubles.
+    $paymentFixtureStripe = extractFunctions($paymentFixtureRoot . '/plugin/StripeYPT/StripeYPT.php',
+        ['getSinglePaymentAmountStillPaid', 'processSinglePaymentIPN', 'getPaymentIds', 'getPaymentLogContext', 'addDot']);
+    $paymentFixtureStripe = str_replace(['\\Stripe\\Charge', '\\Stripe\\Exception\\PermissionException'], ['TestStripeCharge', 'TestChargePermissionException'], $paymentFixtureStripe);
+    eval($paymentFixturePrefix . 'class StripeYPT {' . $paymentFixtureStripe . '}');
+    unset($paymentFixtureStripe);
+    class TestChargePermissionException extends RuntimeException {}
+    class TestStripeCharge {
+        public static $amount = 199;
+        public static function retrieve($id) { return (object) ['amount' => self::$amount, 'amount_refunded' => 0, 'status' => 'succeeded']; }
+    }
+    class PpvRentalModel {
+        public static $fail = false;
+        public function completeWalletCheckout($user, $plan, $video, $value, $hours) {
+            if (!YPTWallet::transferBalance($user, 8, $value, 'PPV rental', true)) { return false; }
+            $ok = simWrite('INSERT INTO test_ppv_rentals (users_id, ppv_plans_id, videos_id) VALUES (?, ?, ?)', 'iii', [$user, $plan, $video]);
+            return $ok && !self::$fail;
+        }
+    }
     unset($paymentFixtureRoot, $paymentFixturePrefix, $paymentFixtureWalletSource, $paymentFixtureProperty);
 
     /** Opens a connection to the disposable server configured by AVIDEO_TEST_DB_* (default 127.0.0.1:3306 root). */

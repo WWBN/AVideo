@@ -238,7 +238,12 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   still blocks a new charge for up to 3 days (Stripe's webhook retry window) unless refunded; the same
   selection gets the paid intent back (`already_paid`, the page waits for the credit). Webhook events are
   snapshots: `processSinglePaymentIPN()` re-reads the Charge and credits only the part not refunded.
-  Covered by `tests/Unit/StripeSinglePaymentCheckoutTest.php`.
+  PPV movie checkouts (PayPerView with `completeWalletCheckout()`) get `ppv_auto_rent` metadata and the
+  webhook rents the movie in the same wallet transaction, inside `runPaymentStep()`: a failed rental
+  undoes only the debit/split/rental and keeps the card credit (the customer finishes with Pay Now), so
+  "credited" does not mean "rented". It never rents an unverified (no Charges: Read) or partially refunded
+  charge. Covered by `tests/Unit/StripeSinglePaymentCheckoutTest.php`,
+  `tests/Security/PaymentWebhookIdempotencyTest.php` and the MySQL integration test.
 - **Payment webhooks (Stripe/Razorpay/PayPal recurring IPN `plugin/PayPalYPT/ipn.php`)**: verified deliveries go through
   `YPTWallet::processPaymentOnce()` (global `GET_LOCK` + transaction + zero-value `paymentProcessed`
   markers in `wallet_log`, hidden from the user list by `value != 0`). An exception rolls everything

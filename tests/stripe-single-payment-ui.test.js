@@ -6,7 +6,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 function renderScript(ppv) {
-    const rendered = spawnSync('php', ['-r', `class AVideoPlugin {static function getObjectData($n){return (object)['Publishablekey'=>'pk_test_stub','paymentButtonLabel'=>'Pay'];}} function __($s){return $s;} function getToken($t=0){return 'test_token';} $global=['webSiteRootURL'=>'https://test.invalid/','paymentsTest'=>true]; $_GET=['plans_id'=>2]; $_REQUEST=[]; $_SERVER['SCRIPT_NAME']='${ppv ? '/plugin/PayPerView/page/buy.php' : '/plugin/YPTWallet/addFunds.php'}'; include 'plugin/YPTWallet/plugins/YPTWalletStripe/confirmButton.php';`], {encoding:'utf8', cwd:root});
+    const rendered = spawnSync('php', ['-r', `class AVideoPlugin {static function getObjectData($n){return (object)['Publishablekey'=>'pk_test_stub','paymentButtonLabel'=>'Pay'];}} class YPTWallet {static function getAddFundsSuccessRedirectURL(){return 'https://test.invalid/wrong-movie-from-another-tab';}} function __($s){return $s;} function getToken($t=0){return 'test_token';} $global=['webSiteRootURL'=>'https://test.invalid/']; $_GET=['plans_id'=>2]; $_REQUEST=[]; $_SERVER['SCRIPT_NAME']='${ppv ? '/plugin/PayPerView/page/buy.php' : '/plugin/YPTWallet/addFunds.php'}'; include 'plugin/YPTWallet/plugins/YPTWalletStripe/confirmButton.php';`], {encoding:'utf8', cwd:root});
     assert.equal(rendered.status, 0, rendered.stderr);
     return [...rendered.stdout.matchAll(/<script>([\s\S]*?)<\/script>/g)][0][1];
 }
@@ -30,6 +30,7 @@ function fixture(ppv = false) {
     };
     const context = {
         document:{getElementById:id=>id.startsWith('payment-form')?form:{textContent:''}}, $, webSiteRootURL:'https://test.invalid/',
+        window:{top:{location:{href:''}}}, location:{reload:()=>{state.reloaded=true;}},
         Stripe:()=>({elements:()=>({create:()=>({mount:()=>{},addEventListener:()=>{}})}),
             confirmCardPayment:()=>{state.confirmations++;return new Promise((resolve,reject)=>{state.resolve=resolve;state.reject=reject;});},
             retrievePaymentIntent:secret=>{state.reads.push(secret);return state.readError?Promise.reject(new Error('Offline')):Promise.resolve({paymentIntent:{id:'pi_test',status:state.status}});}}),
@@ -40,6 +41,7 @@ function fixture(ppv = false) {
     state.send = () => state.submit({preventDefault(){}});
     state.confirm = () => {state.send();state.ajax[0].success({error:false,client_secret:'same_test_secret',intent:{id:'pi_test'}});};
     state.gatewayRequests = () => state.ajax.filter(r=>r.url.endsWith('/getIntent.json.php')).length;
+    state.redirect = () => context.window.top.location.href;
     state.tick = async () => {assert.ok(state.timers.length);state.timers.shift()();await flush();};
     return state;
 }
@@ -71,5 +73,20 @@ function fixture(ppv = false) {
     assert.match(s.ajax[0].data.description,/Dial M For Murder/);assert.equal(s.ajax[0].data.plans_id,'2');
     s.credited=true;s.ajax[0].success({already_paid:true,intent:{id:'pi_test'}});
     assert.match(s.messages.at(-1),/Complete your rental on the next page/);assert.equal(s.confirmations,0);
+    // New PPV intents are fulfilled by the webhook; do not announce a rental until its transaction commits.
+    const rentalMetadata = {ppv_auto_rent:'1',ppv_plans_id:'2',videos_id:'3419'};
+    s=fixture(true);s.send();s.ajax[0].success({error:false,client_secret:'same_test_secret',intent:{id:'pi_test',metadata:rentalMetadata}});
+    s.resolve({paymentIntent:{id:'pi_test',status:'succeeded'}});await flush();
+    assert.equal(s.wallet,0);assert.match(s.messages.at(-1),/Finalizing your rental/);assert.equal(s.redirect(),'');
+    // Credited no longer proves rented (a failed rental keeps the credit): never claim the movie is ready.
+    s.credited=true;await s.tick();assert.match(s.messages.at(-1),/Payment confirmed/);assert.doesNotMatch(s.messages.at(-1),/ready to watch/);
+    await s.tick();assert.equal(s.redirect(),'https://test.invalid/plugin/PayPerView/subscribePlanPerUser.php?plans_id=2&videos_id=3419&purchased=1');
+    assert.equal(s.gatewayRequests(),1);assert.equal(s.confirmations,1);
+    // Retry after a failed rental/late webhook checks the same payment, then resumes the exact movie.
+    s=fixture(true);s.send();s.ajax[0].success({already_paid:true,intent:{id:'pi_test',metadata:rentalMetadata}});
+    for(let i=0;i<40;i++){await s.tick();}
+    assert.match(s.messages.at(-1),/rental is still processing/);assert.equal(s.redirect(),'');
+    s.credited=true;s.send();await s.tick();assert.match(s.redirect(),/videos_id=3419/);
+    assert.equal(s.gatewayRequests(),1);assert.equal(s.confirmations,0);
     console.log('PASS: duplicate submit, approval waits for committed credit, already paid, webhook delay/failure, bounded polling, safe retry and network recovery');
 })().catch(e=>{console.error(e);process.exitCode=1;});

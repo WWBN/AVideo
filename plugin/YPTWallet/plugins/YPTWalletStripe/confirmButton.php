@@ -110,6 +110,7 @@ $isPpvCheckout = strpos($_SERVER['SCRIPT_NAME'] ?? '', '/PayPerView/page/buy.php
     var paymentStatusSecret<?php echo $uid; ?> = '';
     var paymentIntentId<?php echo $uid; ?> = '';
     var walletCreditPending<?php echo $uid; ?> = false;
+    var rentalCheckoutURL<?php echo $uid; ?> = '';
     function paymentMessage<?php echo $uid; ?>(message) {
         $('#payment-status<?php echo $uid; ?>').text(message);
     }
@@ -135,7 +136,9 @@ $isPpvCheckout = strpos($_SERVER['SCRIPT_NAME'] ?? '', '/PayPerView/page/buy.php
             <?php
             if (empty($global['paymentsTest'])) {
                 $url = YPTWallet::getAddFundsSuccessRedirectURL();
+                echo 'if (rentalCheckoutURL' . $uid . ') { window.top.location.href = rentalCheckoutURL' . $uid . '; } else { ';
                 echo empty($url) ? 'location.reload();' : 'window.top.location.href=' . json_encode($url) . ';';
+                echo ' }';
             }
             ?>
         }, 3000);
@@ -143,12 +146,16 @@ $isPpvCheckout = strpos($_SERVER['SCRIPT_NAME'] ?? '', '/PayPerView/page/buy.php
     function checkWalletCredit<?php echo $uid; ?>(attempt) {
         walletCreditPending<?php echo $uid; ?> = true;
         modal.hidePleaseWait();
-        paymentMessage<?php echo $uid; ?>(<?php echo json_encode(__('Your card payment was approved. Waiting for your account credit. Do not pay again.')); ?>);
+        paymentMessage<?php echo $uid; ?>(rentalCheckoutURL<?php echo $uid; ?>
+            ? <?php echo json_encode(__('Your card payment was approved. Finalizing your rental. Do not pay again.')); ?>
+            : <?php echo json_encode(__('Your card payment was approved. Waiting for your account credit. Do not pay again.')); ?>);
         function checkAgain() {
             if (attempt < 40) {
                 setTimeout(function() { checkWalletCredit<?php echo $uid; ?>(attempt + 1); }, 3000);
             } else {
-                paymentError<?php echo $uid; ?>(<?php echo json_encode(__('Your card payment was approved, but your account credit is still pending. Use Check payment status; do not pay again.')); ?>);
+                paymentError<?php echo $uid; ?>(rentalCheckoutURL<?php echo $uid; ?>
+                    ? <?php echo json_encode(__('Your card payment was approved, but your rental is still processing. Use Check payment status; do not pay again.')); ?>
+                    : <?php echo json_encode(__('Your card payment was approved, but your account credit is still pending. Use Check payment status; do not pay again.')); ?>);
             }
         }
         $.ajax({
@@ -157,7 +164,10 @@ $isPpvCheckout = strpos($_SERVER['SCRIPT_NAME'] ?? '', '/PayPerView/page/buy.php
             data: {payment_intent_id: paymentIntentId<?php echo $uid; ?>, globalToken: <?php echo json_encode(getToken()); ?>},
             success: function(response) {
                 if (!response.error && response.credited) {
-                    paymentComplete<?php echo $uid; ?>(<?php echo json_encode($isPpvCheckout
+                    // Credited does not prove rented (a failed rental keeps the credit): the next page shows access or Pay Now.
+                    paymentComplete<?php echo $uid; ?>(rentalCheckoutURL<?php echo $uid; ?>
+                        ? <?php echo json_encode(__('Payment confirmed. Opening your rental.')); ?>
+                        : <?php echo json_encode($isPpvCheckout
                         ? __('Funds added. Complete your rental on the next page.') : __('Funds added successfully.')); ?>);
                 } else {
                     checkAgain();
@@ -226,6 +236,12 @@ $isPpvCheckout = strpos($_SERVER['SCRIPT_NAME'] ?? '', '/PayPerView/page/buy.php
             type: 'post',
             success: function (response) {
                 paymentIntentId<?php echo $uid; ?> = response.intent ? response.intent.id : '';
+                var rental = response.intent && response.intent.metadata;
+                if (rental && rental.ppv_auto_rent === '1') {
+                    // Bind the return page to this payment, not another tab's shared session redirect.
+                    rentalCheckoutURL<?php echo $uid; ?> = webSiteRootURL + 'plugin/PayPerView/subscribePlanPerUser.php?plans_id='
+                        + encodeURIComponent(rental.ppv_plans_id) + '&videos_id=' + encodeURIComponent(rental.videos_id) + '&purchased=1';
+                }
                 if (response.already_paid) {
                     checkWalletCredit<?php echo $uid; ?>(0);
                     return;

@@ -38,7 +38,7 @@ class StripeYPT extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "2.2";
+        return "2.3";
     }
 
     public function getEmptyDataObject()
@@ -141,14 +141,26 @@ class StripeYPT extends PluginAbstract
         try {
             if (!empty($metadata['singlePayment']) && ($metadata['plugin'] ?? '') === 'PayPerView') {
                 $ppv = AVideoPlugin::loadPluginIfEnabled('PayPerView');
+                if (empty($ppv)) {
+                    throw new \InvalidArgumentException('PayPerView is disabled');
+                }
                 // Older independently deployed PPV versions keep their existing description.
-                if (!empty($ppv) && method_exists($ppv, 'getPaymentDetails')) {
-                    $details = $ppv->getPaymentDetails($metadata['plans_id'] ?? 0, $metadata['videos_id'] ?? 0, true);
+                if (method_exists($ppv, 'getPaymentDetails')) {
+                    $autoRental = intval($metadata['videos_id'] ?? 0) > 0 && method_exists($ppv, 'completeWalletCheckout');
+                    $details = $ppv->getPaymentDetails($metadata['plans_id'] ?? 0, $metadata['videos_id'] ?? 0, !$autoRental);
                     if (empty($details)) {
                         throw new \InvalidArgumentException('Invalid PayPerView payment selection');
                     }
                     $parameters['description'] = $details['description'];
                     $parameters['metadata'] = array_merge($metadata, $details['metadata']);
+                    if ($autoRental) {
+                        if (empty($details['value']) || $details['value'] <= 0 || $users_id < 1) {
+                            throw new \InvalidArgumentException('Invalid PayPerView rental value');
+                        }
+                        $parameters['metadata']['ppv_auto_rent'] = '1';
+                        $parameters['metadata']['users_id'] = (string) $users_id;
+                        $parameters['metadata']['ppv_value'] = number_format($details['value'], 2, '.', '');
+                    }
                 }
             }
             $intent = !empty($metadata['singlePayment']) && $users_id > 0
@@ -1094,11 +1106,13 @@ class StripeYPT extends PluginAbstract
      * An event is a snapshot taken when the charge succeeded, and Stripe retries failed deliveries for
      * days: read the charge as it is now so a refund made in the meantime is not credited (in cents).
      */
-    private static function getSinglePaymentAmountStillPaid($payload, $logContext)
+    private static function getSinglePaymentAmountStillPaid($payload, $logContext, &$chargeVerified = null)
     {
+        $chargeVerified = false;
         $charge = $payload->data->object;
         try {
             $charge = \Stripe\Charge::retrieve($charge->id);
+            $chargeVerified = true;
         } catch (\Stripe\Exception\PermissionException $exception) {
             // Restricted key without "Charges: Read": keep crediting the delivered snapshot.
             _error_log("Stripe processSinglePaymentIPN: grant the restricted key \"Charges: Read\" so refunds are detected; using the event snapshot {$logContext}", AVideoLog::$WARNING);
@@ -1124,9 +1138,19 @@ class StripeYPT extends PluginAbstract
             _error_log("Stripe processSinglePaymentIPN: ignored, users_id metadata not found {$logContext}", AVideoLog::$WARNING);
             return false;
         }
-        $amount = self::getSinglePaymentAmountStillPaid($payload, $logContext);
+        $amount = self::getSinglePaymentAmountStillPaid($payload, $logContext, $chargeVerified);
         if ($amount <= 0) {
             return false;
+        }
+        $metadata = $payload->data->object->metadata;
+        $autoRental = ($metadata->ppv_auto_rent ?? '') === '1';
+        if ($autoRental && (!$chargeVerified || $amount !== intval($payload->data->object->amount))) {
+            // Never rent on an unverified or partially refunded charge. Retrying cannot change either
+            // state, so credit what was paid and let the customer finish the rental from the wallet.
+            _error_log('Stripe processSinglePaymentIPN: PPV rental left to the customer, '
+                . ($chargeVerified ? 'the charge was partially refunded' : 'the Stripe key cannot read charges')
+                . "; the payment is credited to the wallet {$logContext}", AVideoLog::$ERROR);
+            $autoRental = false;
         }
         $pluginS = AVideoPlugin::loadPluginIfEnabled('YPTWallet');
         // addDot() needs at least three digits: 5 cents must not become 0.5.
@@ -1134,9 +1158,22 @@ class StripeYPT extends PluginAbstract
         $users_id = $payload->data->object->metadata->users_id;
         _error_log("Stripe processSinglePaymentIPN: processing {$logContext} users_id={$users_id} amount={$payment_amount}");
         return $pluginS->processPaymentOnce('stripe', self::getPaymentIds($payload), $users_id,
-            function () use ($pluginS, $users_id, $payment_amount, $payload) {
+            function () use ($pluginS, $users_id, $payment_amount, $payload, $metadata, $autoRental, $logContext) {
                 $pluginS->addBalance($users_id, $payment_amount,
                     'Stripe single payment: ' . ($payload->data->object->description ?? ''), json_encode($payload));
+                // A savepoint undoes only the rental (debit, seller/site split, rental row) when it fails:
+                // the money must stay credited, since a deterministic failure (balance spent elsewhere,
+                // changed price, disabled plugin) would otherwise retry until Stripe gives up.
+                // Database errors are rethrown by runPaymentStep() and roll back the whole delivery.
+                if ($autoRental && !$pluginS->runPaymentStep(function () use ($pluginS, $users_id, $payload, $metadata) {
+                    $ppv = AVideoPlugin::loadPluginIfEnabled('PayPerView');
+                    return ($metadata->plugin ?? '') === 'PayPerView' && !empty($ppv) && method_exists($ppv, 'completeWalletCheckout')
+                        && strcasecmp((string) $payload->data->object->currency, (string) $pluginS->getDataObject()->currency) === 0
+                        && $ppv->completeWalletCheckout($users_id, $metadata->ppv_plans_id ?? 0, $metadata->videos_id ?? 0,
+                            $metadata->ppv_value ?? '', $metadata->rental_hours ?? 0) === true;
+                }, 'PPV rental')) {
+                    _error_log("Stripe processSinglePaymentIPN: PPV rental not completed; the payment stays in the customer's wallet to finish it {$logContext}", AVideoLog::$ERROR);
+                }
                 return true;
             });
     }
