@@ -649,10 +649,16 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
 
     // Process Vimeo links
     if (strpos($link, 'vimeo.com') !== false) {
-        preg_match('/vimeo\.com\/(?:channels\/[a-z0-9-]+\/|video\/|)(\d+)/i', $link, $matches);
+        // A live event page refuses to be framed; its player is the /embed page
+        if (preg_match('/vimeo\.com\/event\/(\d+)\/?(?:[?#].*)?$/i', $link, $matches)) {
+            return '//vimeo.com/event/' . $matches[1] . '/embed';
+        }
+        preg_match('/vimeo\.com\/(?:channels\/[a-z0-9-]+\/|video\/|)(\d+)(?:\/([0-9a-f]{6,})\b|.*?[?&]h=([0-9a-f]{6,})\b)?/i', $link, $matches);
         if (!empty($matches[1])) {
             $id = $matches[1];
-            return '//player.vimeo.com/video/' . $id;
+            // Unlisted videos only play with their hash (vimeo.com/ID/HASH or ?h=HASH)
+            $hash = !empty($matches[2]) ? $matches[2] : (!empty($matches[3]) ? $matches[3] : '');
+            return '//player.vimeo.com/video/' . $id . (empty($hash) ? '' : '?h=' . $hash);
         }
     }
 
