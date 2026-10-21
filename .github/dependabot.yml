@@ -23,6 +23,11 @@ updates:
     ignore:
       - dependency-name: "@fullcalendar/*"
         update-types: ["version-update:semver-major"]
+      # The player plugins (chromecast, http-streaming, quality selector,
+      # overlay, playlist, youtube...) require video.js 8; video.js 10 breaks
+      # npm ci until they support it (#10651).
+      - dependency-name: "video.js"
+        update-types: ["version-update:semver-major"]
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
