@@ -3,8 +3,8 @@ const { readFileSync } = require('node:fs');
 const { join } = require('node:path');
 const { test } = require('node:test');
 
-// .github/release only uses @semantic-release/commit-analyzer and release-notes-generator as
-// libraries. Installing their semantic-release peer pulls the whole npm CLI, whose bundled
+// .github/release uses conventional-commit parsing/filtering and release-notes-generator as
+// libraries. Installing the semantic-release peer pulls the whole npm CLI, whose bundled
 // dependencies (undici, ip-address, brace-expansion) Dependabot cannot update, so those security
 // alerts could never be fixed or auto-merged. This test makes CI fail, and auto-merge wait, if a
 // regenerated lockfile brings them back.
@@ -21,9 +21,18 @@ test('release tooling does not install semantic-release peers', () => {
   }
 });
 
-test('release script keeps importing only the analyzer libraries', () => {
+test('release script uses parsing/filtering libraries and the notes generator', () => {
   const script = readFileSync(join(release, 'release.mjs'), 'utf8');
   assert.doesNotMatch(script, /from ['"]semantic-release['"]/);
-  assert.match(script, /from '@semantic-release\/commit-analyzer'/);
+  assert.doesNotMatch(script, /from '@semantic-release\/commit-analyzer'/);
+  assert.match(script, /from 'conventional-commits-parser'/);
+  assert.match(script, /from 'conventional-commits-filter'/);
   assert.match(script, /from '@semantic-release\/release-notes-generator'/);
+});
+
+test('release tooling excludes the unpatched braces dependency chain', () => {
+  const lock = JSON.parse(readFileSync(join(release, 'package-lock.json'), 'utf8'));
+  for (const name of ['@semantic-release/commit-analyzer', 'micromatch', 'braces']) {
+    assert.ok(!Object.keys(lock.packages).some(path => path === `node_modules/${name}` || path.endsWith(`/node_modules/${name}`)), `${name} must not return to the release dependency graph`);
+  }
 });

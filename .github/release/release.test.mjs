@@ -4,6 +4,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
+import Handlebars from 'handlebars';
 import { analyze, createPlan, latestStable, publishPlan, versionOf } from './release.mjs';
 
 test('legacy tags normalize without resetting or including prereleases', () => {
@@ -26,6 +27,11 @@ for (const [name, messages, expected] of [
   ['unknown conventional type', ['update: transfer handling'], 'patch'],
   ['unknown breaking type', ['update!: remove old endpoint'], 'major'],
   ['dependencies', ['chore(deps): update library'], 'patch'],
+  ['build dependencies', ['build(deps): update library'], 'patch'],
+  ['performance', ['perf: faster transfer'], 'patch'],
+  ['maintenance breaking body', ['docs: guide\n\nBREAKING CHANGE: removed compatibility'], 'major'],
+  ['dependency scope is literal', ['chore(deps-ui): update library', 'chore({deps,build}): update library'], null],
+  ['Unicode scope', ['fix(transcrição): repair subtitles'], 'patch'],
   ['docs and tests', ['docs: guide', 'test: coverage', 'ci: workflow'], null],
   ['merge messages', ['Merge pull request #123 from example/feature'], null],
   ['empty range', [], null]
@@ -69,6 +75,30 @@ test('a feature reverted in the same range does not inflate a remaining fix', as
     { hash: 'b'.repeat(40), message: `Revert "feat: temporary feature"\n\nThis reverts commit ${hash}.` },
     { hash, message: 'feat: temporary feature' }
   ]), 'patch');
+});
+
+test('an unpaired revert still requests a patch release', async () => {
+  assert.equal(await analyze([
+    { hash: 'b'.repeat(40), message: `Revert "feat: old feature"\n\nThis reverts commit ${'a'.repeat(40)}.` }
+  ]), 'patch');
+});
+
+test('Handlebars precompilation cannot terminate an inline script element', () => {
+  const text = 'ordinary text </script> after';
+  assert.doesNotMatch(Handlebars.precompile(text), /<\/script/i);
+  assert.equal(Handlebars.compile(text)({}), text);
+});
+
+test('Handlebars rejects an AST with non-array block parameters', () => {
+  const ast = Handlebars.parse('{{#if ready}}text{{/if}}');
+  ast.body[0].program.blockParams = { length: 'not-a-count' };
+  assert.throws(() => Handlebars.precompile(ast));
+});
+
+test('Handlebars denies prototype constructor lookup with prototype methods enabled', () => {
+  // Only look up a value; never construct or execute injected JavaScript.
+  const render = Handlebars.compile('{{lookup (lookup fn "__proto__") "constructor"}}');
+  assert.equal(render({ fn() {} }, { allowProtoMethodsByDefault: true }), '');
 });
 
 test('plan uses the published legacy baseline and includes direct commits in notes', async t => {

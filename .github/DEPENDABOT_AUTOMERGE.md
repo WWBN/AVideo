@@ -56,8 +56,8 @@ This policy does not repair or merge the already-open incompatible PR.
 
 ## Release tooling (`.github/release`)
 
-The release script imports `@semantic-release/commit-analyzer` and
-`@semantic-release/release-notes-generator` only as libraries. npm would also install their
+The release script imports `@semantic-release/release-notes-generator` only as a library.
+npm would also install its
 `semantic-release` peer, which pulls the whole npm CLI. Its bundled dependencies (`undici`,
 `ip-address`, `brace-expansion`) cannot be changed by Dependabot, so their security alerts ended
 in `security_update_not_possible` and were never auto-merged.
@@ -66,6 +66,25 @@ in `security_update_not_possible` and were never auto-merged.
 not a bypass of a real incompatibility: the peer is never loaded. The rule above for the
 frontend packages in the repository root still applies. `.github/tests/release-tooling.test.cjs`
 fails if a regenerated lockfile brings the peer back, so such a Dependabot PR is not merged.
+
+The release lockfile also enforces Handlebars **4.7.10**, the upstream fix for
+GHSA-p8wg-vrv2-v86f, GHSA-8r5x-fm3f-whwj and GHSA-xw65-4hp5-5hc7. These cover prototype
+constructor access, malformed AST compilation and unsafe inline precompiled output.
+The release writer uses maintained, fixed template strings and Markdown output; the presence
+of the old dependency alone does not demonstrate an exploit against the AVideo website.
+
+As of 2026-10-21, `braces` has no patched npm release for GHSA-vfj7-8cjw-p6xm
+(CVE-2026-93687). The release script therefore uses the same conventional-commit parser,
+preset and revert filter directly for its fixed major/minor/patch rules, removing
+`@semantic-release/commit-analyzer` → `micromatch` → `braces`. Do not restore that chain
+or downgrade the analyzer to silence an audit. Pattern matching is not needed for these
+literal rules. Release tests cover parsing, dependency scopes, breaking changes, reversions,
+release notes and mocked publication; GitHub tests reject reintroducing the unpatched chain.
+
+Verify changes from `.github/release` with `npm ci --ignore-scripts`, `npm test` and
+`npm audit --package-lock-only`. These four alerts apply to release automation; no PHP runtime
+fix is provided by this dependency update. GitHub will reassess its default-branch alerts
+after the commit is pushed there. Do not dismiss alerts merely to hide the warning.
 
 ## Local verification
 

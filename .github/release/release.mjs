@@ -1,11 +1,13 @@
 // Release orchestration for the existing two-part tags; analysis and notes use
-// semantic-release's maintained plugins. No application/database version writes.
+// conventional-commit libraries and the maintained notes plugin. No application/database version writes.
 import { execFileSync } from 'node:child_process';
 import { appendFileSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import semver from 'semver';
-import { analyzeCommits } from '@semantic-release/commit-analyzer';
+import createPreset from 'conventional-changelog-conventionalcommits';
+import { CommitParser } from 'conventional-commits-parser';
+import { filterRevertedCommitsSync } from 'conventional-commits-filter';
 import { generateNotes } from '@semantic-release/release-notes-generator';
 
 const logger = { log() {}, error() {} };
@@ -43,16 +45,22 @@ export function normalizeCommits(commits) {
 }
 
 export async function analyze(commits) {
-  return analyzeCommits({
-    preset: 'conventionalcommits',
-    releaseRules: [
-      { breaking: true, release: 'major' },
-      { type: 'deps', release: 'patch' },
-      { type: 'other', release: 'patch' },
-      { type: 'chore', scope: 'deps', release: 'patch' },
-      { type: 'build', scope: 'deps', release: 'patch' }
-    ]
-  }, { commits: normalizeCommits(commits), logger });
+  const preset = await createPreset();
+  const parser = new CommitParser(preset.parser);
+  const parsed = normalizeCommits(commits).map(commit => ({ ...commit, ...parser.parse(commit.message) }));
+  let releaseType = null;
+  // These are the existing fixed rules, not user-configurable glob patterns.
+  // Reuse the analyzer's parser/revert filter without its unpatched micromatch/braces chain.
+  for (const commit of filterRevertedCommitsSync(parsed)) {
+    if (commit.notes.length) return 'major';
+    if (commit.type === 'feat') {
+      releaseType = 'minor';
+    } else if (!releaseType && (commit.revert || ['fix', 'perf', 'deps', 'other'].includes(commit.type)
+      || (['chore', 'build'].includes(commit.type) && commit.scope === 'deps'))) {
+      releaseType = 'patch';
+    }
+  }
+  return releaseType;
 }
 
 function git(cwd, ...args) {

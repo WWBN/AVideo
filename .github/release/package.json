@@ -8,9 +8,13 @@
     "publish": "node release.mjs publish"
   },
   "dependencies": {
-    "@semantic-release/commit-analyzer": "13.0.1",
     "@semantic-release/release-notes-generator": "14.1.1",
     "conventional-changelog-conventionalcommits": "8.0.0",
+    "conventional-commits-filter": "5.0.0",
+    "conventional-commits-parser": "6.4.0",
     "semver": "7.7.4"
+  },
+  "overrides": {
+    "handlebars": "4.7.10"
   }
 }
