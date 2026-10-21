@@ -107,7 +107,12 @@ class Wallet extends ObjectYPT {
         $this->balance = floatval($this->balance);
         $this->crypto_wallet_address = ($this->crypto_wallet_address);
         ObjectYPT::clearSessionCache();
-        _error_log("save({$this->id}, {$this->users_id}, {$this->balance}) ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        // IGNORE_ARGS still keeps "args" on include/require frames: log locations only.
+        $trace = array_map(function ($frame) {
+            unset($frame['args'], $frame['object']);
+            return $frame;
+        }, debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+        _error_log("save({$this->id}, {$this->users_id}, {$this->balance}) ".json_encode($trace));
         $id = parent::save();
         if(!empty($id)){
             $obj = AVideoPlugin::getObjectData('YPTWallet');
