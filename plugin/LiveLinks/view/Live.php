@@ -55,14 +55,9 @@ if ($toTime > time()) {
     countDownPage($toTime, $message, $image, $bgImage, $title);
 }
 
-$u = new User($t['users_id']);
-$user_id = $u->getBdId();
-$subscribe = Subscribe::getButton($user_id);
-$name = $u->getNameIdentificationBd();
-$name = "<a href='" . User::getChannelLink($user_id) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($user_id) . "</a>";
-
+$user_id = $t['users_id'];
 $video = array();
-$video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_id) . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
+$video['creator'] = Video::getCreatorHTML($user_id);
 $video['type'] = "liveLink";
 $video['title'] = $t['title'];
 $video['description'] = $t['description'];
@@ -148,49 +143,50 @@ $_page->setExtraScripts(array('node_modules/videojs-contrib-ads/dist/videojs.ads
             <?php
             }
             ?>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h1 itemprop="name"><i class="fas fa-video"></i> <?php echo getSEOTitle($t['title']); ?></h1>
-                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                    <p><?php echo nl2br(textToLink($t['description'])); ?></p>
-
+            <?php
+            $videoDetails = array('creator' => $video['creator']);
+            // Use AVideo's shared buffer, including inside plugin action hooks.
+            $videoDetailsPreviousContent = _ob_get_clean();
+            ?>
+                <h1 itemprop="name"><?php echo getSEOTitle($t['title']); ?></h1>
+            <?php
+            $videoDetails['header'] = _ob_get_clean();
+            ?>
+                <div class="thumbsImageContainer">
+                    <img src="<?php echo htmlspecialchars($poster, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($t['title'], ENT_QUOTES, 'UTF-8'); ?>" class="img-responsive img-rounded" />
+                </div>
+            <?php
+            $videoDetails['preview'] = _ob_get_clean();
+            ?>
+            <?php
+            if (isShareEnabled()) {
+                include $global['systemRootPath'] . 'view/include/videoDetailsShareButton.php';
+            }
+            echo AVideoPlugin::getWatchActionButton(0);
+            $videoDetails['actions'] = _ob_get_clean();
+            if (isShareEnabled()) {
+                $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
+                $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
+                echo getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row bgWhite list-group-item menusDiv");
+            }
+            $videoDetails['menus'] = _ob_get_clean();
+            ?>
+                <?php if (!isHTMLEmpty($t['description'])) { ?>
                     <div class="row">
-                        <div class="col-md-12 watch8-action-buttons text-muted">
-                            <?php if (isShareEnabled()) { ?>
-                                <a href="#" class="btn btn-default no-outline" id="shareBtn">
-                                    <span class="fa fa-share"></span> <?php echo __("Share"); ?>
-                                </a>
-                            <?php
-                            }
-                            ?>
-                            <script>
-                                $(document).ready(function() {
-                                    $("#shareDiv").slideUp();
-                                    $("#shareBtn").click(function() {
-                                        $(".menusDiv").not("#shareDiv").slideUp();
-                                        $("#shareDiv").slideToggle();
-                                        return false;
-                                    });
-                                });
-                            </script>
-                            <?php echo AVideoPlugin::getWatchActionButton(0); ?>
+                        <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __('Description'); ?>:</strong></div>
+                        <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="description">
+                            <?php echo nl2br(textToLink($t['description'])); ?>
                         </div>
                     </div>
-                    <?php
-                    if (isShareEnabled()) {
-                        /**
-                         * @var string $link
-                         * @var string $linkEmbed
-                         */
-                        $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
-                        $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
-                        echo getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
-                    }
-                    ?>
-                    <div class="row">
-                        <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
-                    </div>
-                </div>
+                <?php } ?>
+            <?php
+            $videoDetails['metadata'] = _ob_get_clean();
+            echo $videoDetailsPreviousContent;
+            include $global['systemRootPath'] . 'view/include/videoDetails.php';
+            include $global['systemRootPath'] . 'view/include/videoDetailsShareScript.php';
+            ?>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
             </div>
         </div>
         <div class="<?php echo $modeYoutubeBottomClass2; ?> rightBar" id="yptRightBar">

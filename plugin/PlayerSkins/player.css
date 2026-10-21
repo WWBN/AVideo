@@ -82,6 +82,16 @@ body.vjs-full-window .fixed-top {
     display: block !important;
 }
 
+/* YouTube can stay in waiting while cued, until the first user-initiated play.
+   Override skins that hide the start button in that state. */
+.video-js.vjs-youtube.vjs-paused:not(.vjs-has-started):not(.vjs-controls-disabled):not(.vjs-error) .vjs-big-play-button {
+    display: block !important;
+}
+
+.video-js.vjs-youtube.vjs-paused:not(.vjs-has-started) .vjs-loading-spinner {
+    display: none;
+}
+
 @media all and (max-width: 900px) {
     div.vjs-control-bar {
         font-size: 0.9em !important;

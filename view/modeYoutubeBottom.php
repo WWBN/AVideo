@@ -73,9 +73,11 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
         display: inline-block;
     }
 </style>
-<link href="<?php echo getURL('view/css/videoDetails.css'); ?>" rel="stylesheet" type="text/css" />
-<div class="panel panel-default videoDetailsPanel">
-    <div class="panel-body videoDetailsHeader">
+<?php
+$videoDetails = array();
+// AVideo's include helpers share one buffer; preserve the page around the slots.
+$videoDetailsPreviousContent = _ob_get_clean();
+?>
         <?php
         $tags = Video::getSeoTags($video['id']);
         echo $tags['body'];
@@ -98,10 +100,9 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
         <?php
         }
         ?>
-    </div>
-    <div class="panel-body">
-        <div class="row divMainVideo videoDetailsSummary">
-            <div class="col-sm-4 col-md-4 hidden-xs videoDetailsPreview">
+<?php
+$videoDetails['header'] = _ob_get_clean();
+?>
                 <?php
                 echo Video::getVideoImagewithHoverAnimationFromVideosId($video, true, false);
                 ?>
@@ -111,8 +112,9 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                 echo Video::getTagsHTMLLabelIfEnable($video['id']);
                 ?>
                 <!-- modeYouTubeBottom end plugins tags -->
-            </div>
-            <div class="col-xs-12 col-sm-8 col-md-8 videoDetailsCreator">
+<?php
+$videoDetails['preview'] = _ob_get_clean();
+?>
                 <?php echo $video['creator']; ?>
 
                 <?php
@@ -127,22 +129,15 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                     echo VideoTags::getLabels($video['id']);
                 }
                 ?>
-            </div>
-        </div>
-    </div>
-    <div class="panel-footer videoDetailsActions">
-
+<?php
+$videoDetails['creator'] = _ob_get_clean();
+?>
         <?php
         if (Video::showYoutubeModeOptions()) {
         ?>
-            <div class="row">
-                <div class="col-md-12 text-muted videoDetailsActionButtons">
                     <?php if (empty($advancedCustom->disableShareAndPlaylist)) { ?>
                         <?php if (CustomizeUser::canShareVideosFromVideo($video['id'])) { ?>
-                            <a href="#" class="btn btn-default no-outline" id="shareBtn">
-                                <span class="fa fa-share"></span>
-                                <span class="hidden-sm hidden-xs"><?php echo __("Share"); ?></span>
-                            </a>
+                            <?php include $global['systemRootPath'] . 'view/include/videoDetailsShareButton.php'; ?>
                             <?php
                         }
                         $filesToDownload = [];
@@ -301,14 +296,12 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
 
                     <?php }
                     ?>
-                </div>
-            </div>
         <?php
         }
         ?>
-    </div>
-
-    <div class="panel-footer videoDetailsMenus">
+<?php
+$videoDetails['actions'] = _ob_get_clean();
+?>
         <?php if (!empty($filesToDownload)) { ?>
             <div class="row bgWhite list-group-item menusDiv" id="downloadDiv">
                 <div class="tabbable-panel">
@@ -394,8 +387,9 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
             echo getShareMenu($video['title'], Video::getPermaLink($video['id']), Video::getURLFriendly($video['id']), Video::getLink($video['id'], $video['clean_title'], true), $img, "row bgWhite list-group-item menusDiv", parseDurationToSeconds($video['duration']), $bitLyLink);
         }
         ?>
-    </div>
-    <div class="panel-body videoDetailsMetadata" id="modeYoutubeBottomContentDetails">
+<?php
+$videoDetails['menus'] = _ob_get_clean();
+?>
         <div class="row">
             <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
             <div class="col-xs-8 col-sm-10 col-lg-10"><a class="btn btn-xs btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo @$video['clean_category']; ?>"><span class="<?php echo @$video['iconClass']; ?>"></span> <?php echo @$video['category']; ?></a></div>
@@ -477,33 +471,22 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
             }
             ?>
         </div>
-    </div>
+<?php
+$videoDetails['metadata'] = _ob_get_clean();
+?>
     <?php
     if (!empty($video['id']) && empty($advancedCustom->disableComments) && Video::showYoutubeModeOptions()) {
     ?>
-        <div class="panel-footer videoDetailsComments">
             <h2 class="videoDetailsSectionTitle"><i class="far fa-comments" aria-hidden="true"></i> <?php echo __('Comments'); ?></h2>
             <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>
-        </div>
     <?php
     }
     ?>
-</div>
+<?php
+$videoDetails['comments'] = _ob_get_clean();
+echo $videoDetailsPreviousContent;
+include $global['systemRootPath'] . 'view/include/videoDetails.php';
+?>
 
 <script src="<?php echo getURL('view/js/script.download.js'); ?>" type="text/javascript"></script>
-<script>
-    $(document).ready(function() {
-        <?php
-        if (empty($advancedCustom->showShareMenuOpenByDefault)) {
-        ?>
-            $("#shareDiv").slideUp();
-        <?php
-        }
-        ?>
-        $("#shareBtn").click(function() {
-            $(".menusDiv").not("#shareDiv").slideUp();
-            $("#shareDiv").slideToggle();
-            return false;
-        });
-    });
-</script>
+<?php include $global['systemRootPath'] . 'view/include/videoDetailsShareScript.php'; ?>
