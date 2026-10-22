@@ -1,18 +1,26 @@
+// Socket notification sent when a Bitcoin invoice of this user changes (BTCPayments::processVerifiedInvoice()).
 document.addEventListener('BTCPayments', function (event) {
-    console.log('BTCPayments', event.detail);
-
-    switch (event.detail.status) {
-        case "Processing":
-            avideoToast('Your payment of ' + event.detail.totalBTCPaid + ' BTC is currently being processed. Please wait while we confirm the transaction.');
-            break;
-        case "Settled":
-            avideoToastSuccess('Your payment of ' + event.detail.totalBTCPaid + ' BTC has been successfully completed. Thank you for your transaction!');
-            break;
-        default:
-            console.log('No action required for status: ' + event.detail.status);
-            break;
+    var invoice = event.detail || {};
+    var texts = typeof BTCPaymentsTexts === 'object' ? BTCPaymentsTexts : {};
+    // The Bitcoin payment page of this invoice shows the status itself.
+    if (typeof window.btcCheckoutInvoice === 'undefined' || window.btcCheckoutInvoice !== invoice.id) {
+        switch (invoice.status) {
+            case "Processing":
+                if (texts.processing) {
+                    avideoToastInfo(texts.processing);
+                }
+                break;
+            case "Settled":
+                if (texts.settled) {
+                    avideoToastSuccess(texts.settled);
+                }
+                if (typeof updateYPTWallet === 'function') {
+                    updateYPTWallet();
+                }
+                break;
+        }
     }
-    if (typeof Btc_invoicestableVar !== 'undefined') {
+    if (typeof Btc_invoicestableVar !== 'undefined' && Btc_invoicestableVar) {
         Btc_invoicestableVar.ajax.reload(null, false); // false keeps pagination
     }
 });

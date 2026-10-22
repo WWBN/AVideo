@@ -1,19 +1,16 @@
-<div id="<?php echo $tabId; ?>" class="tab-pane fade in" style="padding: 10px 0;">
+<div id="<?php echo $tabId ?? 'btcPaymentsHistory'; ?>" class="tab-pane fade in btcPayments-history">
     <div class="panel panel-default">
-        <div class="panel-heading"><i class="fas fa-file-invoice-dollar"></i> <?php echo __("BTC Invoices"); ?></div>
+        <div class="panel-heading"><i class="fab fa-bitcoin" aria-hidden="true"></i> <?php echo __('Bitcoin payments'); ?></div>
         <div class="panel-body">
-            <table id="Btc_invoicesTable" class="table table-bordered table-striped table-hover" width="100%" cellspacing="0">
+            <table id="Btc_invoicesTable" class="table table-striped table-hover" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th class="hidden-sm hidden-xs">#</th>
-                        <th class="hidden-sm hidden-xs">Invoice</th>
-                        <th class="hidden-xs"><i class="fas fa-info-circle"></i> Description</th>
-                        <th><i class="fab fa-bitcoin"></i> BTC Amount</th>
-                        <th><i class="fas fa-dollar-sign"></i> Amount</th>
-                        <th><i class="fas fa-calendar-alt"></i> Created Date</th>
-                        <th class="hidden-sm hidden-xs"><i class="fas fa-calendar-check"></i> Paid Date</th>
-                        <th class="hidden-sm hidden-xs"><i class="fas fa-receipt"></i> Status</th>
-                        <th><i class="fas fa-link"></i> Action</th>
+                        <th><?php echo __('Date'); ?></th>
+                        <th class="hidden-xs"><?php echo __('Description'); ?></th>
+                        <th><?php echo __('Amount'); ?></th>
+                        <th class="hidden-xs hidden-sm"><?php echo __('Bitcoin'); ?></th>
+                        <th><?php echo __('Status'); ?></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,6 +23,47 @@
 <script type="text/javascript">
     var Btc_invoicestableVar;
     $(document).ready(function() {
+        var btcTexts = <?php echo json_encode([
+            'waiting' => __('Waiting for payment'),
+            'partial' => __('Partially paid'),
+            'processing' => __('Confirming'),
+            'paid' => __('Paid'),
+            'rented' => __('Rental ready'),
+            'live_ready' => __('Event access ready'),
+            'benefit_failed' => __('Paid — purchase not completed'),
+            'expired' => __('Expired'),
+            'late' => __('Paid late — contact support'),
+            'incomplete' => __('Incomplete — contact support'),
+            'invalid' => __('Invalid'),
+            'pay_now' => __('Pay now'),
+            'details' => __('Details'),
+        ]); ?>;
+
+        function escapeText(text) {
+            return $('<div>').text(text === null || text === undefined ? '' : String(text)).html();
+        }
+
+        function statusLabel(s) {
+            if (!s) {
+                return '';
+            }
+            var label = ['default', btcTexts.waiting];
+            if (s.credited) {
+                label = s.fulfillment === 'benefit_failed' ? ['warning', btcTexts.benefit_failed]
+                    : ['success', btcTexts[s.fulfillment] || btcTexts.paid];
+            } else if (s.status === 'new') {
+                label = s.detail === 'PaidPartial' ? ['warning', btcTexts.partial] : ['info', btcTexts.waiting];
+            } else if (s.status === 'processing' || s.status === 'settled') {
+                label = ['primary', btcTexts.processing];
+            } else if (s.status === 'expired') {
+                label = s.detail === 'PaidLate' ? ['warning', btcTexts.late]
+                    : (s.detail === 'PaidPartial' ? ['warning', btcTexts.incomplete] : ['default', btcTexts.expired]);
+            } else if (s.status === 'invalid') {
+                label = ['danger', btcTexts.invalid];
+            }
+            return '<span class="label label-' + label[0] + '">' + escapeText(label[1]) + '</span>';
+        }
+
         Btc_invoicestableVar = $('#Btc_invoicesTable').DataTable({
             serverSide: true,
             "ajax": webSiteRootURL + "plugin/BTCPayments/View/Btc_invoices/list.json.php",
@@ -34,97 +72,57 @@
             ],
             "columns": [{
                     "data": "id",
-                    "className": "hidden-sm hidden-xs",
+                    "render": function(data, type, row) {
+                        var created = row.public && row.public.created ? row.public.created : row.created_php_time;
+                        return created ? escapeText(new Date(created * 1000).toLocaleString()) : '';
+                    }
                 },
                 {
-                    "data": "json_object.id",
-                    "defaultContent": "-",
-                    "className": "hidden-sm hidden-xs",
-                },
-                {
-                    "data": "json_object.metadata.description",
-                    "defaultContent": "-",
+                    "data": null,
+                    "orderable": false,
                     "className": "hidden-xs",
-                },
-                {
-                    "data": "amount_btc",
-                    "render": function(data) {
-                        return data + ' BTC';
+                    "render": function(data, type, row) {
+                        return row.public ? escapeText(row.public.description) : '';
                     }
                 },
                 {
-                    "data": "amount_currency",
+                    "data": null,
+                    "orderable": false,
                     "render": function(data, type, row) {
-                        var currency = row.currency || 'USD';
-                        return currency + ' ' + parseFloat(data).toFixed(2);
+                        return row.public ? escapeText(row.public.amount) : '';
                     }
                 },
                 {
-                    "data": "created_php_time",
-                    "render": function(data) {
-                        return new Date(data * 1000).toLocaleString();
+                    "data": null,
+                    "orderable": false,
+                    "className": "hidden-xs hidden-sm",
+                    "render": function(data, type, row) {
+                        return row.public && row.public.btc_paid ? escapeText(row.public.btc_paid + ' BTC') : '-';
                     }
                 },
                 {
-                    "data": "modified_php_time",
+                    "data": null,
+                    "orderable": false,
                     "render": function(data, type, row) {
-                        return row.json_object.status === "Settled" ? new Date(data * 1000).toLocaleString() : '-';
-                    },
-                    "className": "hidden-sm hidden-xs",
+                        return statusLabel(row.public);
+                    }
                 },
                 {
-                    "data": "json_object.status",
-                    "render": function(data) {
-                        return data === "Settled" ?
-                            '<span class="label label-success"><i class="fas fa-check-circle"></i> Paid</span>' :
-                            '<span class="label label-warning"><i class="fas fa-clock"></i> Pending</span>';
-                    },
-                    "className": "hidden-sm hidden-xs",
-                },
-                {
-                    "data": "json_object.checkoutLink",
+                    "data": null,
+                    "orderable": false,
+                    "className": "text-right",
                     "render": function(data, type, row) {
-                        var status = row.json_object.status;
-                        var buttonText = status === "Settled" ? '<i class="fas fa-receipt"></i> View Receipt' : '<i class="fas fa-credit-card"></i> Pay Now';
-                        return '<button onclick="avideoModalIframeSmall(\'' + data + '\');" class="btn ' + (status === "Settled" ? 'btn-success' : 'btn-primary') + ' btn-sm" target="_blank">' + buttonText + '</button>';
+                        if (!row.public) {
+                            return '';
+                        }
+                        var waiting = row.public.status === 'new' && !row.public.final;
+                        return '<a class="btn btn-xs ' + (waiting ? 'btn-primary' : 'btn-default') + '" target="_top" href="'
+                            + escapeText(row.public.checkout_page) + '">'
+                            + (waiting ? '<i class="fab fa-bitcoin" aria-hidden="true"></i> ' + escapeText(btcTexts.pay_now) : escapeText(btcTexts.details))
+                            + '</a>';
                     }
                 }
-            ],
-            select: true,
-            "drawCallback": function(settings) {
-                var api = this.api();
-                var hasPending = false;
-                var pendingPayment = null;
-
-                // Check for pending payments
-                api.rows().every(function() {
-                    var rowData = this.data();
-                    if (rowData.json_object && (rowData.json_object.status !== "Settled")) {
-                        hasPending = true;
-                        pendingPayment = rowData;
-                        return false; // Exit loop early if a pending payment is found
-                    }
-                });
-
-                if (hasPending) {
-                    let message =
-                        "⚠️ You have a pending payment of <strong>" + pendingPayment.amount_btc +
-                        " BTC</strong>.<br>" +
-                        "If you want to make a new payment, you can proceed, but please ensure it will not be a duplicate transaction.";
-
-                    console.warn(message);
-                    avideoAlertInfo(message);
-                } else {
-                    handleNoPendingInvoices(); // Call function if no pending invoices exist
-                }
-            }
-
-
+            ]
         });
     });
-    // Function to call when no pending invoices exist
-    function handleNoPendingInvoices() {
-        console.log("No pending BTC invoices found.");
-        // You can replace this with another action, like displaying a message or redirecting.
-    }
 </script>

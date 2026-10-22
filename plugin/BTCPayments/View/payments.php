@@ -7,38 +7,30 @@ if (!User::isLogged()) {
     exit;
 }
 
-// Get the parameters from the request
-$value = isset($_GET['value']) ? $_GET['value'] : '0';
-$orderId = isset($_GET['orderId']) ? $_GET['orderId'] : '';
-$description = isset($_GET['description']) ? $_GET['description'] : 'New Payment';
-$redirectUrl = isset($_GET['redirectUrl']) ? $_GET['redirectUrl'] : $global['webSiteRootURL'];
+// Older links open this page with ?value=: the same Bitcoin button as the Add Funds page pays that amount.
+$value = round(floatval(parseToFloat(is_string($_GET['value'] ?? null) ? $_GET['value'] : 0)), 2);
+$wallet = AVideoPlugin::loadPluginIfEnabled('YPTWallet');
 
-$url = $global['webSiteRootURL'].'plugin/BTCPayments/invoice.php';
-$url = addQueryStringParameter($url, 'value', $value);
-$url = addQueryStringParameter($url, 'description', $description);
-$url = addQueryStringParameter($url, 'redirectUrl', $redirectUrl);
-$url = addQueryStringParameter($url, 'orderId', $orderId);
-
-$_page = new Page(array(__('BTC Payments')));
+$_page = new Page(array(__('Bitcoin payments')));
 $_page->setExtraScripts(array('view/css/DataTables/datatables.min.js'));
 $_page->setExtraStyles(array('view/css/DataTables/datatables.min.css'));
 
 ?>
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <a href="<?php echo $url; ?>" onclick="modal.showPleaseWait();"
-                class="btn btn-warning btn-block btn-lg">
-                <i class="fab fa-bitcoin"></i> <?php echo __("Make a New Payment of"); ?> <?php echo YPTWallet::formatCurrency($_GET['value'], true) ?>
-            </a>
+    <?php if ($value > 0 && !empty($wallet)) { ?>
+        <div class="panel panel-default">
+            <div class="panel-body text-center">
+                <p class="lead"><?php echo __('Amount to pay'); ?>: <strong><?php echo YPTWallet::formatCurrency($value); ?></strong></p>
+                <input type="hidden" id="value" value="<?php echo $value; ?>">
+                <?php
+                $_GET['plans_id'] = 0;
+                include $global['systemRootPath'] . 'plugin/YPTWallet/plugins/YPTWalletBTC/confirmButton.php';
+                ?>
+            </div>
         </div>
-        <div class="col-md-12">
-
-            <?php require_once __DIR__ . '/profileTabContent.php'; ?>
-        </div>
-    </div>
+    <?php } ?>
+    <?php require_once __DIR__ . '/profileTabContent.php'; ?>
 </div>
-
 
 <?php $_page->print(); ?>

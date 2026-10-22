@@ -1,0 +1,125 @@
+/* Extend the shared wallet styles, inheriting colors from the site's Bootstrap theme. */
+.walletCheckout.btcCheckout { max-width: 1120px; padding: 36px 24px 64px; }
+.darkTheme .btcCheckout { --btc-checkout-foreground: #f2f2f2; color: var(--btc-checkout-foreground); }
+.btcCheckout-heading,
+.btcCheckout-headingTitle { display: flex; align-items: center; gap: 16px; }
+.btcCheckout-heading { justify-content: space-between; margin-bottom: 26px; }
+.btcCheckout-heading h1 { margin: 0 0 6px; font-size: 28px; font-weight: 700; letter-spacing: -.6px; }
+.btcCheckout-heading p { margin: 0; }
+.btcCheckout-brand { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 52px; height: 52px; font-size: 42px; }
+.btcCheckout .btcCheckout-help { margin: 0; flex-shrink: 0; }
+.btcCheckout-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, .07);
+}
+.btcCheckout-progress { grid-column: 1 / -1; padding: 22px 32px; }
+.btcCheckout .btcCheckout-steps { margin: 0; gap: 24px; }
+.btcCheckout-steps li { display: flex; align-items: center; gap: 10px; font-weight: 600; min-width: 0; }
+.btcCheckout-steps li:not(:last-child)::after { content: ''; flex: 1; border-top: 1px solid currentColor; opacity: .18; margin-left: 10px; }
+.btcCheckout-steps li:not([aria-current]):not(.is-complete) { opacity: .55; }
+.btcCheckout .btcCheckout-steps .btcCheckout-stepNumber { flex: 0 0 30px; width: 30px; height: 30px; line-height: 28px; margin: 0; font-size: 13px; }
+.btcCheckout .btcCheckout-steps .btcCheckout-stepLabel { width: auto; border: 0; border-radius: 0; margin: 0; line-height: 1.4; text-align: left; }
+.btcCheckout-stepCheck,
+.btcCheckout-steps .is-complete .btcCheckout-stepIndex { display: none; }
+.btcCheckout-steps .is-complete .btcCheckout-stepCheck { display: inline; }
+.btcCheckout-card > .btcCheckout-summary { padding: 30px; border: 0; border-radius: 0; color: var(--btc-checkout-foreground, inherit); }
+.btcCheckout-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 12px; }
+.btcCheckout .btcCheckout-description { font-size: 17px; font-weight: 500; line-height: 1.55; overflow-wrap: anywhere; margin-bottom: 26px; }
+.btcCheckout-totals { margin-bottom: 22px; }
+.btcCheckout-totals dt { font-size: 12px; font-weight: 500; }
+.btcCheckout-totals dd { margin-bottom: 10px; }
+.btcCheckout .walletCheckout-balance { font-size: 32px; letter-spacing: -1px; line-height: 1.4; overflow-wrap: anywhere; }
+.btcCheckout-btcTotal { font-family: monospace; font-size: 14px; }
+.btcCheckout-facts { font-size: 12px; margin: 22px 0; }
+.btcCheckout-facts p { display: flex; gap: 9px; align-items: center; }
+.btcCheckout .btcCheckout-test { margin: 22px 0; border-radius: 8px; }
+.btcCheckout-test p { margin: 5px 0 0; }
+.btcCheckout-reference { grid-column: 1 / -1; font-size: 11px; padding: 18px 30px; }
+.btcCheckout-referenceValue { display: block; font-family: monospace; overflow-wrap: anywhere; margin-top: 5px; }
+.btcCheckout-card > .btcCheckout-main { padding: 30px; min-width: 0; }
+.btcCheckout .btcCheckout-status { display: flex; gap: 14px; align-items: flex-start; margin: 0; padding: 18px; border-radius: 12px; border-width: 0; }
+.btcCheckout-statusIcon { font-size: 21px; line-height: 1.5; }
+.btcCheckout-status h2 { margin: 0 0 7px; font-size: 19px; font-weight: 700; line-height: 1.4; }
+.btcCheckout-status p { font-size: 13px; line-height: 1.65; }
+.btcCheckout-status .btcCheckout-access { margin-top: 12px; font-weight: 600; }
+.btcCheckout-pay { margin-top: 28px; }
+.btcCheckout-paymentGrid { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 24px; }
+.btcCheckout-qr {
+    display: table;
+    margin: 0 auto;
+    padding: 12px;
+    border-radius: 12px;
+    line-height: 0;
+    /* A white quiet zone keeps the QR scannable under both light and dark site themes. */
+    background: var(--btc-qr-background, #fff);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .1);
+}
+.btcCheckout-qr canvas,
+.btcCheckout-qr img { display: block; max-width: 100%; height: auto; }
+.btcCheckout-scan p { text-align: center; font-size: 11px; margin: 12px 0 0; }
+.btcCheckout-fields { min-width: 0; }
+.btcCheckout-fields label { font-size: 12px; margin-bottom: 8px; }
+.btcCheckout-copyField { font-family: monospace; }
+.btcCheckout-pay .form-control { padding: 12px; height: auto; box-shadow: none; border-radius: 8px 0 0 8px; }
+.btcCheckout-pay .form-control[readonly] { background: transparent; color: var(--btc-checkout-foreground, inherit); }
+.btcCheckout-amount .form-control { font-size: 17px; font-weight: 700; }
+.btcCheckout-address textarea { field-sizing: content; min-height: calc(3.2em + 26px); resize: none; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; word-break: break-all; }
+.walletCheckout .btcCheckout-pay .input-group-btn .btn { white-space: nowrap; margin: 0; padding: 12px 10px; border-radius: 0 8px 8px 0; min-height: 46px; }
+.btcCheckout-paymentNote { font-size: 11px; line-height: 1.65; margin: 0; }
+.btcCheckout-expiry { margin: 24px 0 20px; }
+.btcCheckout-expiry p { font-size: 12px; margin-bottom: 8px; }
+.btcCheckout-timer { height: 4px; margin: 0; box-shadow: none; }
+.btcCheckout-timer .progress-bar { transition: width 1s linear; }
+.btcCheckout .btn-lg { padding: 14px 18px; font-size: 15px; font-weight: 600; }
+.btcCheckout-autoUpdate { text-align: center; font-size: 11px; margin: 12px 0 0; }
+.btcCheckout-autoUpdate i { margin-right: 5px; }
+.btcCheckout-actions .btn { padding: 11px 14px; }
+.btcCheckout-actions .btn + .btn { margin-top: 10px; }
+.btcCheckout-explainer { margin-top: 24px; font-size: 12px; }
+.btcCheckout-explainer summary { display: flex; justify-content: space-between; gap: 12px; cursor: pointer; font-weight: 600; padding: 8px 0; }
+.btcCheckout-explainer summary i { font-size: 10px; align-self: center; }
+.btcCheckout-explainer[open] summary i { transform: rotate(180deg); }
+.btcCheckout-explainer p { margin: 8px 0 0; line-height: 1.75; }
+.btcCheckout a:focus-visible,
+.btcCheckout button:focus-visible,
+.btcCheckout summary:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+@media (max-width: 1199px) {
+    .btcCheckout-paymentGrid { grid-template-columns: minmax(0, 1fr); }
+    .btcCheckout-fields { margin-top: 4px; }
+}
+@media (max-width: 767px) {
+    .walletCheckout.btcCheckout { padding: 24px 16px 40px; }
+    .btcCheckout-heading { align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+    .btcCheckout-headingTitle { gap: 8px; }
+    .btcCheckout-brand { flex-basis: 32px; height: 38px; font-size: 30px; }
+    .btcCheckout-heading h1 { font-size: 22px; letter-spacing: -.4px; }
+    .btcCheckout-heading p { font-size: 11px; line-height: 1.6; }
+    .btcCheckout .btcCheckout-help { font-size: 11px; padding: 8px; }
+    .btcCheckout-card { grid-template-columns: minmax(0, 1fr); border-radius: 14px; }
+    .btcCheckout-progress { padding: 18px; }
+    .btcCheckout .btcCheckout-steps { gap: 10px; }
+    .btcCheckout-steps li { flex-direction: column; gap: 6px; text-align: center; font-size: 10px; }
+    .btcCheckout-steps li:not(:last-child)::after { display: none; }
+    .btcCheckout .btcCheckout-steps .btcCheckout-stepLabel { text-align: center; }
+    .btcCheckout-card > .btcCheckout-summary,
+    .btcCheckout-card > .btcCheckout-main { padding: 22px; }
+    .btcCheckout .btcCheckout-description { font-size: 14px; margin-bottom: 12px; }
+    .btcCheckout-summary [data-btc-amount-row],
+    .btcCheckout-facts p:first-child { display: none; }
+    .btcCheckout-totals { margin-bottom: 0; }
+    .btcCheckout-facts { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 12px 0 0; font-size: 11px; }
+    .btcCheckout-facts p { margin: 0; }
+    .btcCheckout .btcCheckout-test { margin: 12px 0 0; padding: 8px 10px; font-size: 11px; }
+    .btcCheckout-reference { padding: 16px 22px; }
+    .btcCheckout .btcCheckout-status { padding: 14px; gap: 10px; }
+    .btcCheckout-status h2 { font-size: 17px; }
+    .btcCheckout-status p { font-size: 12px; }
+    .btcCheckout-pay { display: flex; flex-direction: column; margin-top: 22px; }
+    .btcCheckout .btcCheckout-wallet { order: -1; margin-bottom: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .btcCheckout-timer .progress-bar { transition: none; }
+}

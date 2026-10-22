@@ -313,6 +313,7 @@ class SubscriptionPlansTable {
 }
 
 class BtcModel {
+    public static $invoiceNotifications = [];
     protected $data = [];
     public function __construct($id) { $this->data['id'] = $id; }
     public function __call($method, $arguments) { $this->data[lcfirst(substr($method, 3))] = $arguments[0]; }
@@ -326,6 +327,7 @@ class BtcModel {
     public function save($notifySocket = false) {
         $db = $GLOBALS['global']['mysqli'];
         if (static::TYPE === 'btcInvoice' ? $db->failBtcInvoice : $db->failBtcPayment) { return false; }
+        if (static::TYPE === 'btcInvoice') { self::$invoiceNotifications[] = $notifySocket; }
         $id = $this->data['id'] ?: count($db->logs) + 1;
         $this->data['id'] = $id;
         $db->logs[$id - 1] = ['type' => static::TYPE, 'wallet' => 0, 'data' => $this->data];
@@ -727,6 +729,66 @@ class PaymentWebhookIdempotencyTest extends TestCase
         $this->expectException(RuntimeException::class);
         try { BTCPayments::processVerifiedInvoice($this->btcInvoice()); }
         finally { $this->assertSame([], $this->db->logs); }
+    }
+    /** An invoice started by BTCPayments::startCheckout() for a PPV rental or a PPV Live event. */
+    private function btcPurchaseInvoice($purpose, $id = 'btc_purchase_1') {
+        $invoice = $this->btcInvoice($id);
+        $invoice->metadata->purpose = $purpose;
+        $invoice->metadata->selection = $purpose === 'ppv'
+            ? (object)['ppv_plans_id' => 2, 'videos_id' => 3419, 'ppv_value' => '10.00', 'rental_hours' => 72, 'description' => 'PPV rental: Movie | Plan | 72 hours']
+            : (object)['ppvlive_schedule_id' => 9, 'ppvlive_value' => '10.00', 'live_ends' => '2030-01-01 00:00:00', 'description' => 'PPV Live: Event'];
+        return $invoice;
+    }
+    private function btcFulfillment() {
+        foreach ($this->db->logs as $log) {
+            if ($log['type'] === 'btcPayment') { return $log['data']['json']->avideo_fulfillment ?? null; }
+        }
+        return null;
+    }
+    public function testBtcPayWalletInvoiceIsOnlyCredited() {
+        BTCPayments::processVerifiedInvoice($this->btcInvoice());
+        $this->assertSame('credited', $this->btcFulfillment());
+        $this->assertSame(0, $this->db->renewals);
+    }
+    public function testBtcPayPpvInvoiceCreditsAndRentsExactlyOnce() {
+        BTCPayments::processVerifiedInvoice($this->btcPurchaseInvoice('ppv'));
+        $response = BTCPayments::processVerifiedInvoice($this->btcPurchaseInvoice('ppv'));
+        $this->assertSame('Payment already processed', $response->msg);
+        $this->assertSame([7 => 0.0, 8 => 10.0], $this->db->balances, 'The Bitcoin credit paid the rental');
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertSame(1, $this->db->commits);
+        $this->assertSame('rented', $this->btcFulfillment());
+    }
+    public function testBtcPayFailedRentalKeepsTheCreditAndIsNotRetried() {
+        PpvCheckout::$fail = true;
+        BTCPayments::processVerifiedInvoice($this->btcPurchaseInvoice('ppv'));
+        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances, 'Only the rental is undone; the Bitcoin credit stays');
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame('benefit_failed', $this->btcFulfillment());
+        $this->assertStringContainsString('purchase was not completed', implode("\n", $this->db->errorLogs));
+        PpvCheckout::$fail = false;
+        $response = BTCPayments::processVerifiedInvoice($this->btcPurchaseInvoice('ppv'));
+        $this->assertSame('Payment already processed', $response->msg, 'A redelivery does not rent with the credit again');
+        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances);
+    }
+    public function testBtcPayRentalWithoutCompatiblePpvKeepsTheCredit() {
+        AVideoPlugin::$ppv = false;
+        BTCPayments::processVerifiedInvoice($this->btcPurchaseInvoice('ppv'));
+        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances);
+        $this->assertSame('benefit_failed', $this->btcFulfillment());
+    }
+    public function testBtcPayLiveInvoiceCompletesTheEventAccess() {
+        BTCPayments::processVerifiedInvoice($this->btcPurchaseInvoice('ppvlive'));
+        $this->assertSame([7 => 0.0, 8 => 10.0], $this->db->balances);
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertSame('live_ready', $this->btcFulfillment());
+    }
+    public function testBtcPayOnlyTheWebhookNotifiesTheBuyer() {
+        // The checkout page polls with $notifyUser = false: its own check must not send a socket message back.
+        BtcModel::$invoiceNotifications = [];
+        BTCPayments::processVerifiedInvoice($this->btcInvoice('pending', 'New'));
+        BTCPayments::processVerifiedInvoice($this->btcInvoice('pending', 'Processing'), false);
+        $this->assertSame([true, false], BtcModel::$invoiceNotifications);
     }
     public function testRetryDoesNotCreditOrRenewAgain() {
         $this->assertTrue($this->deliver());

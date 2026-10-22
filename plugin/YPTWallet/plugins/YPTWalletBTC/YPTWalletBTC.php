@@ -10,11 +10,8 @@ class YPTWalletBTC extends YPTWalletPlugin{
         include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletBTC/confirmButton.php';
     }
 
-
-    public function getRecurrentAprovalButton($plans_id) {
-        global $global;
-        include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletBTC/confirmRecurrentButton.php';
-    }
+    // No getRecurrentAprovalButton(): a Bitcoin payment cannot be charged again automatically, so subscription
+    // pages show only the one-time button (fund the wallet, then subscribe with the balance).
 
     public function getEmptyDataObject() {
         global $global;

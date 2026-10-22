@@ -166,6 +166,19 @@ class Btc_invoices extends ObjectYPT
         return $fullData;
     }
 
+    /** The user's latest invoices, newest first (no request-driven filters). */
+    public static function getRecentFromUser($users_id, $limit = 10)
+    {
+        if (!static::isTableInstalled()) {
+            return [];
+        }
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE users_id = ? ORDER BY id DESC LIMIT " . intval($limit);
+        $res = sqlDAL::readSql($sql, 'i', [intval($users_id)], true);
+        $rows = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        return is_array($rows) ? $rows : [];
+    }
+
     public static function getTotalFromUser($users_id)
     {
         //will receive

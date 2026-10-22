@@ -1,0 +1,6 @@
+[
+    {"element":"#btcCheckoutSummary","title":"Your order","intro":"Review your purchase, payment network and total before sending Bitcoin."},
+    {"element":"#btcCheckoutQRLink","title":"Scan to pay","intro":"Scan this QR code with a wallet on the network shown in your order summary. It includes the address and exact amount."},
+    {"element":"#btcCheckoutAmount","title":"Pay from another device","intro":"You can also copy the amount and Bitcoin address into your wallet. Send the exact amount; your wallet adds the network fee separately."},
+    {"element":"#btcCheckoutStatus","title":"Follow your payment","intro":"This page updates automatically when your payment arrives and after network confirmation. If you already sent Bitcoin, do not pay again."}
+]

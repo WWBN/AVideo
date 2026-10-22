@@ -276,7 +276,17 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   never put them in a message shown to the buyer. AVideo reads the marketplace answer with a plain `json_decode()`, so a
   PHP notice printed by the marketplace breaks invoice creation and payment crediting on every site at once (issue
   #10655, PHP 8.5 `curl_close()` deprecation): fix the marketplace output, do not loosen the parsing here.
-  Covered by `tests/Security/BTCPaymentsMarketplaceErrorTest.php` and `PaymentWebhookIdempotencyTest.php`.
+  The buyer flow mirrors the PayPal one-time checkout: the `YPTWalletBTC` button POSTs to its `requestPayment.json.php`,
+  `BTCPayments::startCheckout()` prices wallet/PPV/PPV Live on the server (balance first, reuses an unpaid invoice,
+  refuses a second one while a payment is confirming; purpose/selection go in the invoice metadata), and
+  `plugin/BTCPayments/checkout.php` shows the address/QR and polls `checkoutStatus.json.php`, which reconciles through
+  the marketplace. The marketplace notifies the site only for `InvoiceReceivedPayment`, and for `InvoiceSettled` only after
+  its payout to the site's wallet succeeds (never for expiry), so crediting must not depend on that notification.
+  The rental/event runs in `runPaymentStep()` inside `processVerifiedInvoice()` (kept inline: tests extract that method),
+  and its result is saved as `avideo_fulfillment` in `btc_payments.json`. Pass `$notifyUser = false` from polling,
+  or the socket message re-triggers the page. Covered by `tests/Security/BTCPaymentsMarketplaceErrorTest.php`,
+  `PaymentWebhookIdempotencyTest.php` and `tests/Unit/BTCPaymentsCheckoutTest.php`. A real testnet payment on the local
+  vlu.me stack (Daniel's Electrum wallet) follows `.claude/btcpay-test/README.md` (local-only tools, not in git).
 - **Translations (`locale/*.php`)**: never generate these files with ad-hoc code or add another `.php` file
   to `locale/` — `?lang=`, `/api/locale` and the language selector include/list every file there. All
   reads/writes go through `objects/LocaleTranslator.php` (tokenizer parse, no execution; rewrites sorted,
