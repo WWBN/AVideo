@@ -1,6 +1,6 @@
 <?php
 /**
- * Shared watch-page panel for videos and live links.
+ * Shared watch-page panel for videos, live links and live streams.
  * $videoDetails contains HTML rendered by the caller: header, preview, creator,
  * actions, menus, metadata and comments. Keep content-specific actions there.
  *

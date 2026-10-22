@@ -55,9 +55,6 @@ $uuid = LiveTransmition::keyNameFix($livet['key']);
 $u = new User(0, $_GET['u'], false);
 $user_id = $u->getBdId();
 $video['users_id'] = $user_id;
-$subscribe = Subscribe::getButton($user_id);
-$name = $u->getNameIdentificationBd();
-$name = "<a href='" . User::getChannelLink($user_id) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($user_id) . "</a>";
 
 $liveTitle = Live::getTitleFromKey($livet['key_with_index'], $livet['title']);
 $liveDescription = Live::getDescriptionFromKey($livet['key_with_index'], $livet['description']);
@@ -94,14 +91,11 @@ if (!empty($_REQUEST['live_schedule'])) {
         //var_dump($user_id);exit;
         $u = new User($user_id);
         $video['users_id'] = $user_id;
-        $subscribe = Subscribe::getButton($user_id);
-        $name = $u->getNameIdentificationBd();
-        $name = "<a href='" . User::getChannelLink($user_id) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($user_id) . "</a>";
         $liveImg = User::getPhoto($user_id);
     }
 }
 
-$video['creator'] = '<div class="pull-left"><img src="' . $liveImg . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
+$video['creator'] = Video::getCreatorHTML($user_id);
 
 $liveDO = AVideoPlugin::getObjectData("Live");
 $video['type'] = 'video';
@@ -186,67 +180,54 @@ if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
             <?php
             }
             ?>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h1 itemprop="name">
-                        <?php
-                        if ($lt->isAPrivateLive()) {
-                        ?>
-                            <i class="fas fa-lock"></i>
-                        <?php
-                        } else {
-                        ?>
-                            <i class="fas fa-video"></i>
-                        <?php
-                        }
-                        ?>
-                        <span class="title_liveKey_<?php echo htmlspecialchars($livet['key'], ENT_QUOTES, 'UTF-8') ?>"><?php echo getSEOTitle($liveTitle); ?></span>
-                        <small class="text-muted">
-                            <?php
-                            echo $liveInfo['displayTime'];
-                            ?>
-                        </small>
-                    </h1>
-                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                    <p><?php echo nl2br(textToLink($liveDescription)); ?></p>
+            <?php
+            $videoDetails = array('creator' => $video['creator']);
+            // Preserve the page while AVideo's shared buffer collects each slot.
+            $videoDetailsPreviousContent = _ob_get_clean();
+            ?>
+                <h1 itemprop="name">
+                    <?php if ($lt->isAPrivateLive()) { ?>
+                        <i class="fas fa-lock"></i>
+                    <?php } else { ?>
+                        <i class="fas fa-video"></i>
+                    <?php } ?>
+                    <span class="title_liveKey_<?php echo htmlspecialchars($livet['key'], ENT_QUOTES, 'UTF-8') ?>"><?php echo getSEOTitle($liveTitle); ?></span>
+                    <small class="text-muted"><?php echo $liveInfo['displayTime']; ?></small>
+                </h1>
+            <?php
+            $videoDetails['header'] = _ob_get_clean();
+            if (isShareEnabled()) {
+                include $global['systemRootPath'] . 'view/include/videoDetailsShareButton.php';
+            }
+            echo AVideoPlugin::getWatchActionButton(0);
+            Live::getLiveControls($livet['key_with_index'], $livet['live_servers_id']);
+            $videoDetails['actions'] = _ob_get_clean();
+
+            $link = Live::getLinkToLiveFromUsers_id($user_id);
+            if (!empty($_REQUEST['live_schedule'])) {
+                $link = addQueryStringParameter($link, 'live_schedule', intval($_REQUEST['live_schedule']));
+            }
+            if (isShareEnabled()) {
+                echo getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img, "row bgWhite list-group-item menusDiv");
+            }
+            $videoDetails['menus'] = _ob_get_clean();
+            ?>
+                <?php if (!isHTMLEmpty($liveDescription)) { ?>
                     <div class="row">
-                        <div class="col-md-12 watch8-action-buttons text-muted">
-                            <?php if (isShareEnabled()) { ?>
-                                <a href="#" class="btn btn-default no-outline" id="shareBtn">
-                                    <span class="fa fa-share"></span> <?php echo __("Share"); ?>
-                                </a>
-                            <?php
-                            }
-                            ?>
-                            <script>
-                                $(document).ready(function() {
-                                    $("#shareDiv").slideUp();
-                                    $("#shareBtn").click(function() {
-                                        $(".menusDiv").not("#shareDiv").slideUp();
-                                        $("#shareDiv").slideToggle();
-                                        return false;
-                                    });
-                                });
-                            </script>
-                            <?php
-                            echo AVideoPlugin::getWatchActionButton(0);
-                            Live::getLiveControls($livet['key_with_index'], $livet['live_servers_id']);
-                            ?>
+                        <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __('Description'); ?>:</strong></div>
+                        <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="description">
+                            <?php echo nl2br(textToLink($liveDescription)); ?>
                         </div>
                     </div>
-                    <?php
-                    $link = Live::getLinkToLiveFromUsers_id($user_id);
-                    if (!empty($_REQUEST['live_schedule'])) {
-                        $link = addQueryStringParameter($link, 'live_schedule', intval($_REQUEST['live_schedule']));
-                    }
-                    if (isShareEnabled()) {
-                        echo getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img, "row bgWhite list-group-item menusDiv");
-                    }
-                    ?>
-                    <div class="row">
-                        <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
-                    </div>
-                </div>
+                <?php } ?>
+            <?php
+            $videoDetails['metadata'] = _ob_get_clean();
+            echo $videoDetailsPreviousContent;
+            include $global['systemRootPath'] . 'view/include/videoDetails.php';
+            include $global['systemRootPath'] . 'view/include/videoDetailsShareScript.php';
+            ?>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
             </div>
         </div>
         <div class="<?php echo $modeYoutubeBottomClass2; ?> rightBar" id="yptRightBar">
