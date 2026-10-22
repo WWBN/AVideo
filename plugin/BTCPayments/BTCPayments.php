@@ -236,7 +236,8 @@ class BTCPayments extends PluginAbstract
         if (empty($content)) {
             _error_log('BTC::createBTCPayInvoice - ERROR: Empty response from marketplace', AVideoLog::$ERROR);
             _error_log('BTC::createBTCPayInvoice - URL was: ' . preg_replace('/BTCMarketPlaceKey=[^&]+/', 'BTCMarketPlaceKey=***REDACTED***', $url), AVideoLog::$ERROR);
-            forbiddenPage("Could not get the content from URL {$url}");
+            // The URL carries the BTCMarketPlaceKey: it goes only to the (redacted) log above, never to the buyer.
+            forbiddenPage('Could not reach the BTC marketplace. Please try again later.');
         }
 
         _error_log('BTC::createBTCPayInvoice - Raw response: ' . substr($content, 0, 500), AVideoLog::$DEBUG);
@@ -246,7 +247,7 @@ class BTCPayments extends PluginAbstract
         if (empty($json)) {
             _error_log('BTC::createBTCPayInvoice - ERROR: Could not decode JSON response', AVideoLog::$ERROR);
             _error_log('BTC::createBTCPayInvoice - Response content: ' . $content, AVideoLog::$ERROR);
-            forbiddenPage("Could not decode json from the content from URL {$url} {$content}");
+            forbiddenPage('The BTC marketplace returned an invalid response. Please try again later.');
         }
 
         // Check for top-level marketplace error

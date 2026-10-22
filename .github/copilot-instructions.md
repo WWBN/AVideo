@@ -270,6 +270,13 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   and it never deletes. The default `ClientID` is a shared public sandbox app with other sites' webhooks.
   Covered by `tests/Unit/PayPalCheckoutTest.php`, `PayPalConfigurationTest.php`,
   `tests/Security/PayPalConfigurationEndpointTest.php` and `PaymentWebhookIdempotencyTest.php`.
+- **BTCPayments (`plugin/BTCPayments/`)** never calls BTCPay directly: invoices are created (`invoice.json.php`) and
+  re-verified by the webhook (`invoice.verify.json.php`) through the BTC marketplace `BTC_MARKETPLACE_URL`
+  (streamphp.com, a separate repository). Those URLs carry the site's `BTCMarketPlaceKey`: log them only redacted and
+  never put them in a message shown to the buyer. AVideo reads the marketplace answer with a plain `json_decode()`, so a
+  PHP notice printed by the marketplace breaks invoice creation and payment crediting on every site at once (issue
+  #10655, PHP 8.5 `curl_close()` deprecation): fix the marketplace output, do not loosen the parsing here.
+  Covered by `tests/Security/BTCPaymentsMarketplaceErrorTest.php` and `PaymentWebhookIdempotencyTest.php`.
 - **Translations (`locale/*.php`)**: never generate these files with ad-hoc code or add another `.php` file
   to `locale/` — `?lang=`, `/api/locale` and the language selector include/list every file there. All
   reads/writes go through `objects/LocaleTranslator.php` (tokenizer parse, no execution; rewrites sorted,
