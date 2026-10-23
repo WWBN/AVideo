@@ -117,6 +117,9 @@ switch ($_REQUEST['type']) {
     case AI::$typeDubbing:
         if (!empty($_REQUEST['relativeFile'])) {
             require_once __DIR__ . '/../../plugin/VideoHLS/HLSAudioManager.php';
+            // SECURITY REVIEW (2026-10-23, GHSA-v64v-r7qm-w5x4): "unvalidated fetch" - DO NOT FIX. The base is
+            // one of the two fixed AI service URLs ending in '/', so a relative value cannot change the host.
+            // (AI::isTestEnvironment() picks the local one from SERVER_NAME; noted separately, not this report.)
             $mp3URL = AI::getMetadataURL() . $_REQUEST['relativeFile'];
             $vttURL = AI::getMetadataURL() . $_REQUEST['relativeFileVTT'];
 

@@ -471,6 +471,11 @@ class AI extends PluginAbstract
     }
 
 
+    // SECURITY REVIEW (2026-10-23, GHSA-v64v-r7qm-w5x4): "token never expires / not bound to the requester" -
+    // DO NOT FIX. The payload is encrypted with the site salt (cannot be forged) and names one video its
+    // holder could already edit when the job started. The AI service calls back server-to-server with no
+    // user session, so binding it to the requester would break every callback. The path traversal it led
+    // to is closed in Ai_transcribe_responses::getVTTPaths().
     static function getTokenFromRequest()
     {
 

@@ -148,7 +148,15 @@ class Ai_transcribe_responses extends ObjectYPT
         }
         $videos_dir = getVideosDir();
         if (!empty($lang)) {
-            $lang = ".{$lang}";
+            // SECURITY (GHSA-v64v-r7qm-w5x4): the language becomes part of the file name and can come from
+            // the AI callback request. A path separator or NUL would move the .vtt out of this video's
+            // folder; no real language code/name contains one, so removing them changes nothing legitimate.
+            $lang = is_scalar($lang) ? (string) $lang : '';
+            $safeLang = str_replace(['/', '\\', "\0"], '', $lang);
+            if ($safeLang !== $lang) {
+                _error_log('AI: getVTTPaths removed path characters from the language videos_id=' . intval($videos_id), AVideoLog::$SECURITY);
+            }
+            $lang = ".{$safeLang}";
         }
         $relativePathVTT = $filename . DIRECTORY_SEPARATOR . $filename . $lang . '.vtt';
         $vtt = $videos_dir . $relativePathVTT;

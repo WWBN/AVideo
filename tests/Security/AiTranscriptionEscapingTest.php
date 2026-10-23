@@ -25,8 +25,14 @@ class Video
     public function getFilename() { return 'ai-test'; }
 }
 
+class AVideoLog
+{
+    public static $SECURITY = 'SECURITY';
+}
+
 function getVideosDir() { return Video::$directory . DIRECTORY_SEPARATOR; }
 function getURL($path) { return $path; }
+function _error_log($message, $type = '') {}
 
 // Execute the production classes without loading the live configuration/database.
 foreach (['Ai_transcribe_responses', 'Ai_responses'] as $name) {
@@ -117,6 +123,41 @@ class AiTranscriptionEscapingTest extends TestCase
             }
             rmdir($directory . '/ai-test');
             rmdir($directory);
+        }
+    }
+
+    public function testVttPathKeepsLegitimateLanguagesUnchanged()
+    {
+        Video::$directory = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'avideo-ai-paths';
+        $folder = Video::$directory . DIRECTORY_SEPARATOR . 'ai-test' . DIRECTORY_SEPARATOR;
+        $this->assertSame($folder . 'ai-test.vtt', Ai_transcribe_responses::getVTTPaths(1)['path']);
+        foreach (['en', 'pt_BR', 'en-US', 'english', 'Portuguese', 'Default', 'haitian creole'] as $lang) {
+            $paths = Ai_transcribe_responses::getVTTPaths(1, $lang);
+            $this->assertSame($folder . "ai-test.{$lang}.vtt", $paths['path']);
+            $this->assertSame('ai-test' . DIRECTORY_SEPARATOR . "ai-test.{$lang}.vtt", $paths['relative']);
+        }
+    }
+
+    // GHSA-v64v-r7qm-w5x4: the callback language must not move the subtitle out of the video folder.
+    public function testVttPathStaysInsideTheVideoFolder()
+    {
+        Video::$directory = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'avideo-ai-paths';
+        $folder = Video::$directory . DIRECTORY_SEPARATOR . 'ai-test';
+        $languages = [];
+        foreach (['/', '\\'] as $separator) {
+            $languages[] = $separator . str_repeat('..' . $separator, 4) . 'outside';
+            $languages[] = 'pt' . $separator . '..' . $separator . 'other-video' . $separator . 'other-video.pt';
+        }
+        $languages[] = "pt\0.php";
+        $languages[] = ['pt'];
+        foreach ($languages as $lang) {
+            $path = Ai_transcribe_responses::getVTTPaths(1, $lang)['path'];
+            $file = substr($path, strlen($folder) + 1);
+            $this->assertStringStartsWith($folder . DIRECTORY_SEPARATOR . 'ai-test.', $path);
+            $this->assertStringEndsWith('.vtt', $path);
+            $this->assertStringNotContainsString('/', $file);
+            $this->assertStringNotContainsString('\\', $file);
+            $this->assertStringNotContainsString("\0", $file);
         }
     }
 
