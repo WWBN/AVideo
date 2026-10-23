@@ -641,8 +641,11 @@ a.h6.galleryLink > strong{
     }
 }
 
+/* Only focus inside the thumbnail expands the title: focus in the details row
+   (e.g. the "..." menu button on mousedown) would push that button away before
+   mouseup, so the click never reaches it (issue #10657). */
 .galleryLayout .galleryVideo .title:hover,
-.galleryLayout .galleryVideo:focus-within .title {
+.galleryLayout .galleryVideo .thumbsImageContainer:focus-within .title {
     max-height: none;
     -webkit-line-clamp: unset;
 }

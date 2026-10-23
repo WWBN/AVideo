@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:26.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -32,10 +32,14 @@ RUN apt-get install -y --no-install-recommends \
         wget
 
 # Install PHP packages
-RUN apt-get install -y --no-install-recommends \
-        php-fpm \
-        php-cli \
-        php-curl
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        php8.5-fpm \
+        php8.5-cli \
+        php8.5-curl
+
+# Ubuntu 26.04 backports both CVE-2026-109618 / CVE-2026-109619 fixes.
+RUN dpkg --compare-versions \
+    "$(dpkg-query -W -f='${Version}' php8.5-common)" ge '8.5.4-0ubuntu1.5'
 
 # Install NGINX dependencies (PCRE2: libpcre3-dev no longer exists on Ubuntu 26.04)
 RUN apt-get install -y --no-install-recommends \

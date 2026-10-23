@@ -62,7 +62,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apache2 \
     libapache2-mod-xsendfile \
-    libapache2-mod-php \
+    libapache2-mod-php8.5 \
     libimage-exiftool-perl \
     memcached && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -71,19 +71,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     zlib1g-dev \
-    php \
-    php-curl \
-    php-gd \
-    php-intl \
-    php-mysql \
-    php-sqlite3 \
-    php-xml \
-    php-zip \
+    php8.5 \
+    php8.5-cli \
+    php8.5-curl \
+    php8.5-gd \
+    php8.5-intl \
+    php8.5-mysql \
+    php8.5-sqlite3 \
+    php8.5-xml \
+    php8.5-zip \
     php-pear \
-    php-mbstring \
-    php-memcached \
+    php8.5-mbstring \
+    php8.5-memcached \
     imagemagick && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Ubuntu 26.04 backports both CVE-2026-109618 / CVE-2026-109619 fixes.
+RUN dpkg --compare-versions \
+    "$(dpkg-query -W -f='${Version}' php8.5-common)" ge '8.5.4-0ubuntu1.5'
 
 # Install multimedia tools
 RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg && \
