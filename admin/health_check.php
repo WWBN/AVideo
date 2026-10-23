@@ -95,7 +95,7 @@ $XSendFilePath = "{$global['systemRootPath']}view/xsendfile.html";
 $XSendFile = url_get_contents($XSendFileURL);
 $XSendFileOriginal = file_get_contents($XSendFilePath);
 //var_dump($XSendFileURL, $XSendFilePath, $XSendFile, $XSendFileOriginal);exit;
-if ($XSendFile === $XSendFileOriginal) {
+if (isXSendFileTestResponse($XSendFile, $XSendFileOriginal)) {
     $messages['Apache'][] = "XSendFIle is enabled";
 } else {
     $messages['Apache'][] = ["XSendFIle is not enabled", 'https://github.com/WWBN/AVideo/wiki/Install-Apache-XSendFIle'];

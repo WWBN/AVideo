@@ -49,6 +49,23 @@ function _isAPPInstalled($appName)
     return trim(shell_exec("which {$appName}"));
 }
 
+/**
+ * Tells whether videos/test.mp4 returned the XSendFile test page.
+ * A CDN or proxy (e.g. Cloudflare Web Analytics) may inject markup into that HTML, so the marker text is
+ * also accepted. It is safe: view/xsendfile.php only sends headers, so the text reaches the client only
+ * when Apache XSendFile delivered the file.
+ */
+function isXSendFileTestResponse($response, $expected, $marker = 'Your Apache XSendFIle file is working')
+{
+    if (!is_string($response) || $response === '' || !is_string($expected)) {
+        return false;
+    }
+    if ($response === $expected) {
+        return true;
+    }
+    return strpos($expected, $marker) !== false && strpos($response, $marker) !== false;
+}
+
 // ========== DISK FUNCTIONS ==========
 
 function getDiskType($path = '/')
