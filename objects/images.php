@@ -127,13 +127,21 @@ class ImagesPlaceHolders
     static function isDefaultImage($path)
     {
         global $global;
+        static $defaultImages = [];
+
+        // Reuse resolved placeholders within this request; each thumbnail checks the same files.
+        $context = serialize([$global['systemRootPath'] ?? '', $global['webSiteRootURL'] ?? '']);
 
         foreach (self::$placeholders as $key => $defaultImagePath) {
             if (strpos($path, $defaultImagePath) !== false) {
                 //var_dump("isDefaultImage 1: {$defaultImagePath} === {$path}");
                 return true;
             }
-            $defaultImage = self::getComponent($key);
+            $cacheKey = $context . serialize([$key, $defaultImagePath, $global[$key] ?? null]);
+            if (!isset($defaultImages[$cacheKey])) {
+                $defaultImages[$cacheKey] = ['component' => self::getComponent($key)];
+            }
+            $defaultImage = $defaultImages[$cacheKey]['component'];
             if (strpos($path, $defaultImage) !== false) {
                 //var_dump("isDefaultImage 2: {$defaultImage} === {$path}");
                 return true;
@@ -144,7 +152,10 @@ class ImagesPlaceHolders
                 return true;
             }
             $fullPath = $global['systemRootPath'] . $defaultImage;
-            $urlPath = getURL($defaultImage);
+            if (!isset($defaultImages[$cacheKey]['url'])) {
+                $defaultImages[$cacheKey]['url'] = getURL($defaultImage);
+            }
+            $urlPath = $defaultImages[$cacheKey]['url'];
 
             if ($path === $defaultImage || $path === $fullPath || $path === $urlPath) {
                 //var_dump("isDefaultImage: {$path} === {$defaultImage} || {$fullPath} || {$urlPath}");

@@ -264,7 +264,8 @@ Options All -Indexes
     RewriteRule ^videoEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1 [QSA]
     RewriteRule ^videoEmbeded/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?videoName=$1 [QSA]
 
-    RewriteRule    ^plugin/([^!#$&'()*+,\/:;=?@[\]]+)/(.*)?$ plugin/$1/$2    [NC,L]
+    # Keep plugin dispatch without rewriting missing paths back to themselves.
+    RewriteRule    ^plugin/([^!#$&'()*+,\/:;=?@[\]]+)/(.*)?$ -    [NC,L]
 
     RewriteRule    ^upload$ view/mini-upload-form/    [NC,L]
     RewriteRule    ^fileUpload$ view/mini-upload-form/upload.php    [NC,L]
