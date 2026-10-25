@@ -342,14 +342,24 @@ function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge
                     </a>
                 <?php
                 }
+                $galleryActionButtons = '';
                 if (!empty($advancedCustom->showEllipsisMenuOnVideoItem)) {
+                    // Plugins may echo their actions, return them, or produce only diagnostic comments.
+                    ob_start();
+                    try {
+                        echo AVideoPlugin::getGalleryActionButton($video['id']);
+                    } finally {
+                        $galleryActionButtons = ob_get_clean();
+                    }
+                }
+                if (!empty($advancedCustom->showEllipsisMenuOnVideoItem) && !isHTMLEmpty($galleryActionButtons)) {
                 ?>
                     <!-- Dropdown trigger -->
                     <div class="dropdown pull-right">
                         <!-- Dropdown Menu -->
                         <div class="dropdown-menu videoButtonOptions">
                             <?php
-                            echo AVideoPlugin::getGalleryActionButton($video['id']);
+                            echo $galleryActionButtons;
                             ?>
                         </div>
                         <!-- Trigger button -->
