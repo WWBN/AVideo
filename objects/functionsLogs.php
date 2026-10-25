@@ -71,6 +71,218 @@ class AVideoLog
     public static $MONITORE = 6;
 }
 
+function avideoRequestId()
+{
+    static $requestId;
+    if ($requestId === null) {
+        try {
+            $requestId = bin2hex(random_bytes(12));
+        } catch (\Throwable $exception) {
+            // Correlation is diagnostic only; random-source failure must not break a request.
+            $requestId = substr(hash('sha256', uniqid('', true) . getmypid()), 0, 24);
+        }
+    }
+    return $requestId;
+}
+
+/** Keep the error text readable without recording arguments, URLs or quoted values. */
+function avideoDiagnosticMessage($message)
+{
+    global $global;
+    $message = explode("\nStack trace:", (string) $message, 2)[0];
+    $root = rtrim(str_replace('\\', '/', $global['systemRootPath'] ?? ''), '/');
+    if ($root !== '') {
+        $message = str_replace([$root . '/', str_replace('/', '\\', $root) . '\\'], '', $message);
+    }
+    // "Uncaught X: text in file:line" repeats the location that is logged separately.
+    if (strpos($message, 'Uncaught ') === 0) {
+        $message = preg_replace('/ in (?:(?! in ).)+:\d+$/', '', $message);
+    }
+    $message = preg_replace('/\b(?:authorization|cookie)\s*[:=][^\r\n]*/i', '[credential redacted]', $message);
+    $message = preg_replace('/\bBearer\s+\S+/i', '[credential redacted]', $message);
+    $message = preg_replace('/\b(?:https?|rtmps?):\/\/[^\s<>]+/i', '[URL redacted]', $message);
+    $message = preg_replace('/([\x22\x27])(?:\\\\.|(?!\1).)*?\1/s', '[value redacted]', $message);
+    $message = preg_replace('/\b(?:password|passwd|pass|token|secret|api[_-]?key|authorization|cookie)\b\s*[:=]\s*\S+/i', '[credential redacted]', $message);
+    return substr(preg_replace('/[\x00-\x1f\x7f]+/', ' ', $message), 0, 1000);
+}
+
+function avideoDiagnosticLocation($file)
+{
+    global $global;
+    $file = str_replace('\\', '/', (string) $file);
+    $root = str_replace('\\', '/', $global['systemRootPath'] ?? '');
+    if ($root !== '' && strpos($file, rtrim($root, '/') . '/') === 0) {
+        $file = substr($file, strlen(rtrim($root, '/')) + 1);
+    }
+    return substr($file, 0, 240);
+}
+
+function avideoDiagnosticFrame($file, $line, $function)
+{
+    $location = $file === '' ? '[internal function]' : avideoDiagnosticLocation($file) . '(' . intval($line) . ')';
+    return $location . ': ' . substr($function, 0, 160) . '()';
+}
+
+/** Frames of an uncaught exception, read from PHP's message without the call arguments. */
+function avideoDiagnosticTrace($message)
+{
+    $parts = explode("\nStack trace:\n", (string) $message, 2);
+    $frames = [];
+    foreach (explode("\n", $parts[1] ?? '') as $line) {
+        if (count($frames) >= 12) {
+            break;
+        }
+        if (preg_match('/^#\d+ (.*?)(?:\((\d+)\))?: ([^\s(]+)\(/', trim($line), $match)) {
+            $file = $match[1] === '[internal function]' ? '' : $match[1];
+            $frames[] = avideoDiagnosticFrame($file, $match[2], $match[3]);
+        }
+    }
+    return $frames;
+}
+
+/** The last lines this request wrote to the log: usually the reason for a 500. */
+function avideoRecentLogMessages($message = null)
+{
+    static $messages = [];
+    if ($message !== null && strpos($message, 'RequestDiagnostic ') !== 0) {
+        $messages[] = substr(preg_replace('/[\x00-\x1f\x7f]+/', ' ', $message), 0, 300);
+        $messages = array_slice($messages, -3);
+    }
+    return $messages;
+}
+
+/** Log an exception at its catch site; stack arguments and request data stay private. */
+function avideoLogException($exception)
+{
+    if (!($exception instanceof \Throwable)) {
+        return;
+    }
+    $frames = [];
+    foreach (array_slice($exception->getTrace(), 0, 12) as $frame) {
+        $function = ($frame['class'] ?? '') . ($frame['type'] ?? '') . ($frame['function'] ?? '');
+        $frames[] = avideoDiagnosticFrame($frame['file'] ?? '', $frame['line'] ?? 0, $function);
+    }
+    avideoWriteRequestDiagnostic('exception', [
+        'class' => get_class($exception),
+        'code' => intval($exception->getCode()),
+        'message' => avideoDiagnosticMessage($exception->getMessage()),
+        'file' => avideoDiagnosticLocation($exception->getFile()),
+        'line' => $exception->getLine(),
+        'trace' => $frames,
+    ]);
+}
+
+function avideoDiagnosticSummary($record)
+{
+    $details = $record['details'];
+    $where = isset($details['file']) ? ' at ' . $details['file'] . ':' . $details['line'] : '';
+    if ($record['event'] === 'php_fatal') {
+        $summary = 'PHP ' . $details['type_name'] . ': ' . $details['message'] . $where;
+    } elseif ($record['event'] === 'exception') {
+        $summary = 'Caught ' . $details['class'] . ': ' . $details['message'] . $where;
+    } else {
+        $summary = 'HTTP ' . $record['http_status'] . ' returned by ' . $record['script'];
+    }
+    return $summary . ' (' . trim($record['method'] . ' ' . $record['script']) . ', request ' . $record['request_id'] . ')';
+}
+
+function avideoWriteRequestDiagnostic($event, $details = [], $rateLimitKey = '')
+{
+    global $global;
+    if (!isset($global) || !is_array($global)) {
+        $global = [];
+    }
+    $record = [
+        'event' => $event,
+        'request_id' => avideoRequestId(),
+        'at_utc' => gmdate('c'),
+        'http_status' => http_response_code() ?: null,
+        // SCRIPT_FILENAME identifies the PHP entry point without pretty-URL/query secrets.
+        'script' => avideoDiagnosticLocation($_SERVER['SCRIPT_FILENAME'] ?? ''),
+        'method' => preg_replace('/[^A-Z]/', '', substr($_SERVER['REQUEST_METHOD'] ?? '', 0, 12)),
+        'pid' => getmypid(),
+        'details' => $details,
+    ];
+    // printLogs is useful for CLI debugging, but diagnostics must never enter a response.
+    $hadPrintLogs = array_key_exists('printLogs', $global);
+    $printLogs = $global['printLogs'] ?? null;
+    $global['printLogs'] = false;
+    try {
+        // Readable summary first for people scanning the log, JSON after it for tools.
+        $message = 'RequestDiagnostic ' . avideoDiagnosticSummary($record) . ' ' . json_encode($record, JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
+        // rateLimitedLog() needs functions.php helpers, absent when a request fails during boot.
+        if ($rateLimitKey !== '' && function_exists('make_path') && function_exists('_file_put_contents')) {
+            rateLimitedLog('RequestDiagnostic_' . md5($rateLimitKey), $message, 300, AVideoLog::$ERROR);
+        } else {
+            _error_log($message, AVideoLog::$ERROR, false);
+        }
+    } finally {
+        if ($hadPrintLogs) {
+            $global['printLogs'] = $printLogs;
+        } else {
+            unset($global['printLogs']);
+        }
+    }
+}
+
+function avideoLogHttpError($error = null)
+{
+    static $logged = false;
+    if ($logged) {
+        return;
+    }
+    $fatal = is_array($error) && in_array($error['type'] ?? 0, [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR], true);
+    $status = http_response_code();
+    if (!$fatal && ($status < 500 || $status > 599)) {
+        return;
+    }
+    $logged = true;
+    $details = [];
+    if ($fatal) {
+        $typeNames = [E_ERROR => 'Fatal error', E_PARSE => 'Parse error', E_CORE_ERROR => 'Core error', E_COMPILE_ERROR => 'Compile error', E_USER_ERROR => 'Fatal error (trigger_error)', E_RECOVERABLE_ERROR => 'Recoverable fatal error'];
+        $details = [
+            'type' => $error['type'],
+            'type_name' => $typeNames[$error['type']],
+            'message' => avideoDiagnosticMessage($error['message'] ?? ''),
+            'file' => avideoDiagnosticLocation($error['file'] ?? ''),
+            'line' => intval($error['line'] ?? 0),
+        ];
+        $trace = avideoDiagnosticTrace($error['message'] ?? '');
+        if (!empty($trace)) {
+            $details['trace'] = $trace;
+        }
+    }
+    $recent = avideoRecentLogMessages();
+    if (!empty($recent)) {
+        $details['recent_log'] = $recent;
+    }
+    $event = $fatal ? 'php_fatal' : 'http_error';
+    // Polling endpoints, ad proxies and a broken page repeat the same failure on every request:
+    // keep one record per entry point/status (or fatal location) every 5 minutes.
+    $rateLimitKey = implode('|', [$event, $fatal ? '' : $status, $_SERVER['SCRIPT_FILENAME'] ?? '', $details['type'] ?? '', $details['file'] ?? '', $details['line'] ?? '']);
+    avideoWriteRequestDiagnostic($event, $details, $rateLimitKey);
+}
+
+function avideoRegisterRequestDiagnostics()
+{
+    static $registered = false;
+    if ($registered || PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg') {
+        return;
+    }
+    $registered = true;
+    if (!headers_sent()) {
+        header('X-AVideo-Request-ID: ' . avideoRequestId());
+    }
+    // Leave memory available to log a PHP memory-limit failure at shutdown.
+    $reserve = str_repeat('x', 32768);
+    register_shutdown_function(function () use (&$reserve) {
+        $reserve = null;
+        avideoLogHttpError(error_get_last());
+    });
+}
+
+avideoRegisterRequestDiagnostics();
+
 function _error_log_debug($message, $show_args = false)
 {
     $array = debug_backtrace();
@@ -175,6 +387,9 @@ function _error_log($message, $type = 0, $doNotRepeat = null)
         } else if (($type == AVideoLog::$DEBUG || $type == AVideoLog::$PERFORMANCE)) {
             return false;
         }
+    }
+    if ($type != AVideoLog::$PERFORMANCE) {
+        avideoRecentLogMessages($message);
     }
     $str = _error_log_build_message($message, $type);
     $logMessage = _error_log_truncate_message($str);
