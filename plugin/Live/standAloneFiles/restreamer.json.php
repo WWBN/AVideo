@@ -912,8 +912,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     $disableReconnectOnNetworkError = ($ffmpegMajorVersion < 6);
     $userAgent = 'AVideoRestreamer';
 
-    // Restream FIFO passthrough resiliency layer (opt-in, see restreamProfiles.php's own
-    // module docblock for the full eligibility policy). Config always comes from the sanitized
+    // Restream FIFO output resiliency layer (on by default for YouTube, encoded outputs only, see
+    // restreamProfiles.php's own module docblock for the full eligibility policy). Config always comes from the sanitized
     // verifyToken.json.php response (global $json, already fetched above), re-sanitized here
     // defensively rather than trusted as-is.
     $restreamFifoConfig = sanitizeRestreamFifoConfig(isset($json->restreamFifo) ? (array) $json->restreamFifo : array());
@@ -988,11 +988,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             }
             $tcurl = buildRtmpTcurl($value);
             $tls_verify = getRestreamTlsOptions($value, $tcurl);
-            if (shouldUseRestreamFifoForDestination($value, $restreamFifoConfig, $ffmpegCapabilities)) {
-                $destInfoForFifoLog = getDestinationHostPort($value);
-                $outputTail = getRestreamFifoOutputTail($value, $tcurl, $restreamFifoConfig);
-                rl_logEvent('fifo_output_enabled', array('destinationHost' => $destInfoForFifoLog['host']));
-            } else {
+            $outputTail = getRestreamFifoOutputTailOrEmpty($value, $tcurl, $restreamFifoConfig, $ffmpegCapabilities, $isPassthrough, $m3u8, $userAgent);
+            if ($outputTail === '') {
                 $outputTail = getRestreamOutputTail($value, $tls_verify);
             }
 
@@ -1022,11 +1019,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
 
         $tcurl = buildRtmpTcurl($dst);
         $tls_verify = getRestreamTlsOptions($dst, $tcurl);
-        if (shouldUseRestreamFifoForDestination($dst, $restreamFifoConfig, $ffmpegCapabilities)) {
-            $destInfoForFifoLog = getDestinationHostPort($dst);
-            $outputTail = getRestreamFifoOutputTail($dst, $tcurl, $restreamFifoConfig);
-            rl_logEvent('fifo_output_enabled', array('destinationHost' => $destInfoForFifoLog['host']));
-        } else {
+        $outputTail = getRestreamFifoOutputTailOrEmpty($dst, $tcurl, $restreamFifoConfig, $ffmpegCapabilities, $isPassthrough, $m3u8, $userAgent);
+        if ($outputTail === '') {
             $outputTail = getRestreamOutputTail($dst, $tls_verify);
         }
 
@@ -1206,6 +1200,38 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     fclose($lockFileHandle);
     @unlink($lockFilePath);
     return true;
+}
+
+/**
+ * FIFO output tail for one destination, or '' to keep the legacy "-f flv" output. FIFO is only
+ * used when the destination is eligible (see shouldUseRestreamFifoForDestination()), the output
+ * is encoded (stream copy keeps the MPEG-TS codec tag, which the FIFO-wrapped FLV muxer rejects)
+ * and the source could be probed for an explicit stream map. The probe runs at most once per
+ * source per request.
+ */
+function getRestreamFifoOutputTailOrEmpty($destinationUrl, $tcurl, array $fifoConfig, $capabilities, $isPassthrough, $sourceUrl, $userAgent)
+{
+    global $ffmpegBinary;
+    static $streamMaps = array();
+
+    if (!shouldUseRestreamFifoForDestination($destinationUrl, $fifoConfig, $capabilities)) {
+        return '';
+    }
+    $destInfo = getDestinationHostPort($destinationUrl);
+    if ($isPassthrough) {
+        rl_logEvent('fifo_output_skipped', array('destinationHost' => $destInfo['host'], 'reason' => 'passthrough'));
+        return '';
+    }
+    if (!array_key_exists($sourceUrl, $streamMaps)) {
+        $streamMaps[$sourceUrl] = probeRestreamFifoStreamMap($ffmpegBinary, $sourceUrl, $userAgent);
+    }
+    $outputTail = getRestreamFifoOutputTail($destinationUrl, $tcurl, $fifoConfig, $streamMaps[$sourceUrl]);
+    if ($outputTail === '') {
+        rl_logEvent('fifo_output_skipped', array('destinationHost' => $destInfo['host'], 'reason' => 'source_probe_failed'));
+        return '';
+    }
+    rl_logEvent('fifo_output_enabled', array('destinationHost' => $destInfo['host'], 'streamMap' => $streamMaps[$sourceUrl]));
+    return $outputTail;
 }
 
 function automaticRestreamInitialConnectionFailed($launch, $robj, $allowBlockingProbe = true)

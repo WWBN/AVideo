@@ -568,7 +568,7 @@ function computeRestreamBackoffDelaySeconds($attemptNumber, array $sequence, $ji
 }
 
 // =====================================================================================
-// Restream FIFO passthrough resiliency layer (opt-in, off by default)
+// Restream FIFO output resiliency layer (on by default for YouTube, encoded outputs only)
 //
 // FFmpeg's "fifo" pseudo-muxer wraps the real output muxer (flv) in its own thread with a
 // packet queue between the encoder and the network write, so a transient destination
@@ -582,7 +582,9 @@ function computeRestreamBackoffDelaySeconds($attemptNumber, array $sequence, $ji
 // second, unconditional layer of protection.
 //
 // This layer is only ever attempted when ALL of the following hold:
-//   1. Explicitly enabled via the Live plugin admin setting (restreamFifoEnabled), default OFF.
+//   1. Enabled via the Live plugin admin setting (restreamFifoEnabled), default ON since it was
+//      validated end-to-end (see getRestreamFifoOutputTail()); the output is encoded (not
+//      passthrough) and the source was probed for an explicit stream map.
 //   2. The destination's detected provider (getRestreamProvider()) is in the configured
 //      allow-list (default: youtube only - the only ingest validated against this so far).
 //   3. A real capability probe (ffmpegDetectCapabilities(), see ffmpegCapabilities.php)
@@ -694,12 +696,9 @@ function sanitizeRestreamFifoConfig($raw)
  * list (per FFmpeg's documented option-string escaping: backslash, colon and single-quote must
  * be backslash-escaped so the value cannot be misparsed as an option separator).
  *
- * SECURITY REVIEW (best-effort, not executed against a real FFmpeg binary in this environment):
- * this escaping has been implemented per FFmpeg's documented AVOption escaping rules but has
- * NOT been verified end-to-end against a real ffmpeg -f fifo -format_opts invocation on a live
- * RTMPS destination. Manual verification on a Linux host with real destinations is required
- * before enabling restreamFifoEnabled in production - see the FFmpeg/HLS manual-testing policy
- * in copilot-instructions.md.
+ * Verified with FFmpeg 6.1.1 on Linux: a -format_opts value carrying tls_verify=0 and an escaped
+ * rtmp_tcurl (rtmps://host:port/app/) is accepted and applied by the nested RTMPS output,
+ * including on every recovery reconnect.
  */
 function ffmpegEscapeFormatOptValue($value)
 {
@@ -727,13 +726,31 @@ function getRestreamFifoFormatOpts($destinationUrl, $tcurl)
 }
 
 /**
- * Builds the FIFO-wrapped output tail: "-map 0 -f fifo -fifo_format flv" plus every configured
- * recovery/queue AVOption, replacing getRestreamOutputTail() for one destination when
- * shouldUseRestreamFifoForDestination() returned true. $fifoConfig MUST already be the output
- * of sanitizeRestreamFifoConfig() (bounded/normalized), never raw admin input.
+ * Builds the FIFO-wrapped output tail: "<stream map> -flags +global_header -f fifo -fifo_format
+ * flv" plus every configured recovery/queue AVOption, replacing getRestreamOutputTail() for one
+ * destination when shouldUseRestreamFifoForDestination() returned true. $fifoConfig MUST already
+ * be the output of sanitizeRestreamFifoConfig() (bounded/normalized), never raw admin input.
+ *
+ * Verified end-to-end with FFmpeg 6.1.1 (the production build) against an adaptive 3-variant
+ * HLS source and RTMP/RTMPS destinations that were killed and brought back mid-stream:
+ * - $streamMap MUST be the explicit one-video/one-audio map from
+ *   getRestreamFifoStreamMapFromProbe(): the fifo muxer gets no automatic stream selection and
+ *   the previous "-map 0" fed 3 video + 3 audio streams to the inner FLV muxer, which failed
+ *   with "Invalid argument" before delivering anything.
+ * - "-flags +global_header" makes the encoders emit SPS/PPS/ASC as extradata. Without it the
+ *   inner FLV muxer inserts the extract_extradata bitstream filter, which is already at EOF
+ *   after the first recovery ("A non-NULL packet sent after an EOF"), so FFmpeg exited right
+ *   after reporting "Recovery successful".
+ * - Encoding output only: with stream copy (passthrough) the fifo path keeps the MPEG-TS codec
+ *   tag, which FLV rejects, so callers must keep the legacy output for passthrough.
+ * Returns '' (caller must keep the legacy output path) when no valid map is given.
  */
-function getRestreamFifoOutputTail($destinationUrl, $tcurl, array $fifoConfig)
+function getRestreamFifoOutputTail($destinationUrl, $tcurl, array $fifoConfig, $streamMap = '')
 {
+    $streamMap = trim((string) $streamMap);
+    if (!preg_match('/^-map 0:\d+( -map 0:\d+)?$/', $streamMap)) {
+        return '';
+    }
     $formatOpts = getRestreamFifoFormatOpts($destinationUrl, $tcurl);
 
     $queueSize = (int) $fifoConfig['queueSize'];
@@ -745,7 +762,7 @@ function getRestreamFifoOutputTail($destinationUrl, $tcurl, array $fifoConfig)
     $restartWithKeyframe = !empty($fifoConfig['restartWithKeyframe']) ? 1 : 0;
     $maxRecoveryAttempts = (int) $fifoConfig['maxRecoveryAttempts'];
 
-    return " -map 0 -f fifo -fifo_format flv"
+    return " {$streamMap} -flags +global_header -f fifo -fifo_format flv"
         . " -queue_size {$queueSize}"
         . " -drop_pkts_on_overflow {$dropPktsOnOverflow}"
         . " -attempt_recovery {$attemptRecovery}"
@@ -756,6 +773,105 @@ function getRestreamFifoOutputTail($destinationUrl, $tcurl, array $fifoConfig)
         . " -max_recovery_attempts {$maxRecoveryAttempts}"
         . " -format_opts \"{$formatOpts}\""
         . " \"{$destinationUrl}\"";
+}
+
+/**
+ * Pure: the explicit stream map the FIFO output needs, chosen from an ffprobe JSON result
+ * (`-show_entries stream=index,codec_type,width,height,channels:stream_disposition=attached_pic,default
+ * -of json`).
+ *
+ * The fifo pseudo-muxer declares no default codecs, so FFmpeg's automatic stream selection
+ * (what the legacy "-f flv" output relies on) selects nothing for it ("Output file does not
+ * contain any stream"), and mapping everything ("-map 0") with an adaptive HLS source sends
+ * 3 video + 3 audio streams into the inner FLV muxer, which fails before delivering anything.
+ * This mirrors FFmpeg's own automatic choice so FIFO and legacy deliver the same rendition: the
+ * largest video (width * height, attached pictures excluded), then the audio with the most
+ * channels, with FFmpeg's default-track score bonus and lowest stream index on ties.
+ * Returns '' when no usable video stream is known.
+ *
+ * @param array|null $probe json_decode(ffprobe output, true)
+ */
+function getRestreamFifoStreamMapFromProbe($probe)
+{
+    $streams = (is_array($probe) && isset($probe['streams']) && is_array($probe['streams'])) ? $probe['streams'] : array();
+    $bestVideo = null;
+    $bestVideoScore = -1;
+    $bestAudio = null;
+    $bestAudioScore = -1;
+    foreach ($streams as $stream) {
+        if (!is_array($stream) || !isset($stream['index']) || !is_numeric($stream['index'])) {
+            continue;
+        }
+        $index = (int) $stream['index'];
+        $type = isset($stream['codec_type']) ? $stream['codec_type'] : '';
+        // FFmpeg's per-input automatic selection adds this bonus to default video/audio.
+        $defaultScore = !empty($stream['disposition']['default']) ? 5000000 : 0;
+        if ($type === 'video') {
+            if (!empty($stream['disposition']['attached_pic'])) {
+                continue;
+            }
+            $score = max(0, (int) (isset($stream['width']) ? $stream['width'] : 0))
+                * max(0, (int) (isset($stream['height']) ? $stream['height'] : 0)) + $defaultScore;
+            if ($score > $bestVideoScore || ($score === $bestVideoScore && $index < $bestVideo)) {
+                $bestVideoScore = $score;
+                $bestVideo = $index;
+            }
+        } elseif ($type === 'audio') {
+            $score = max(0, (int) (isset($stream['channels']) ? $stream['channels'] : 0)) + $defaultScore;
+            if ($score > $bestAudioScore || ($score === $bestAudioScore && $index < $bestAudio)) {
+                $bestAudioScore = $score;
+                $bestAudio = $index;
+            }
+        }
+    }
+    if ($bestVideo === null) {
+        return '';
+    }
+    return '-map 0:' . $bestVideo . ($bestAudio !== null ? ' -map 0:' . $bestAudio : '');
+}
+
+/**
+ * Probes the restream source with ffprobe (no shell, bounded by $timeoutSeconds) and returns
+ * the stream map for getRestreamFifoOutputTail(), or '' when the source could not be probed -
+ * the caller then keeps the legacy output path for this destination.
+ */
+function probeRestreamFifoStreamMap($ffmpegBinary, $sourceUrl, $userAgent = '', $timeoutSeconds = 20)
+{
+    if (!function_exists('ffmpeg_capabilitiesSafeExec') || empty($sourceUrl)) {
+        return '';
+    }
+    $candidates = array();
+    if (is_string($ffmpegBinary) && preg_match('/ffmpeg$/', $ffmpegBinary)) {
+        $candidates[] = preg_replace('/ffmpeg$/', 'ffprobe', $ffmpegBinary);
+    }
+    $candidates[] = '/usr/local/bin/ffprobe';
+    $candidates[] = '/usr/bin/ffprobe';
+    $ffprobe = '';
+    foreach ($candidates as $candidate) {
+        if (@is_file($candidate) && @is_executable($candidate)) {
+            $ffprobe = $candidate;
+            break;
+        }
+    }
+    if ($ffprobe === '') {
+        return '';
+    }
+    $args = array('-hide_banner', '-v', 'error', '-rw_timeout', '15000000');
+    // Same condition as the restream command's own "-user_agent" input option.
+    if (!empty($userAgent) && filter_var($sourceUrl, FILTER_VALIDATE_URL)) {
+        $args[] = '-user_agent';
+        $args[] = (string) $userAgent;
+    }
+    $args = array_merge($args, array(
+        '-probesize', '10000000', '-analyzeduration', '10000000',
+        '-show_entries', 'stream=index,codec_type,width,height,channels:stream_disposition=attached_pic,default',
+        '-of', 'json', (string) $sourceUrl,
+    ));
+    $run = ffmpeg_capabilitiesSafeExec($ffprobe, $args, $timeoutSeconds);
+    if (empty($run['ok']) || $run['exitCode'] !== 0) {
+        return '';
+    }
+    return getRestreamFifoStreamMapFromProbe(json_decode((string) $run['stdout'], true));
 }
 
 /**

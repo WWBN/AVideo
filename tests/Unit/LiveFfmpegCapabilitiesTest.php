@@ -8,6 +8,21 @@ require_once \APP_ROOT . '/plugin/Live/standAloneFiles/ffmpegCapabilities.php';
 
 class LiveFfmpegCapabilitiesTest extends TestCase
 {
+    /** @dataProvider processExitCodes */
+    public function testSafeExecPreservesTheExitCodeAfterPolling($exitCode)
+    {
+        $run = \ffmpeg_capabilitiesSafeExec(PHP_BINARY, array('-r', 'echo chr(80); exit(' . $exitCode . ');'));
+
+        $this->assertTrue($run['ok']);
+        $this->assertSame('P', $run['stdout']);
+        $this->assertSame($exitCode, $run['exitCode']);
+    }
+
+    public function processExitCodes()
+    {
+        return array(array(0), array(7));
+    }
+
     /**
      * Option lines copied from real `ffmpeg -hide_banner -h full` output.
      *

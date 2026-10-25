@@ -106,6 +106,11 @@ function ffmpeg_capabilitiesSafeExec($binary, array $args, $timeoutSeconds = FFM
     @fclose($pipes[1]);
     @fclose($pipes[2]);
     $exitCode = @proc_close($process);
+    // On PHP < 8.3 on POSIX, proc_get_status() already reaped the child, so proc_close()
+    // returns -1. Preserve the observed exit code so a successful ffprobe is not rejected.
+    if (!$timedOut && $exitCode === -1 && isset($status['exitcode']) && $status['exitcode'] >= 0) {
+        $exitCode = $status['exitcode'];
+    }
 
     $result['ok'] = !$timedOut;
     $result['stdout'] = $stdout;
