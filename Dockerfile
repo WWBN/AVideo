@@ -165,8 +165,12 @@ session.save_path              = "memcached:11211?persistent=1&timeout=2&retry_i
 ; Lightweight locking to avoid race conditions without freezing the site
 memcached.sess_locking         = 1
 memcached.sess_lock_expire     = 5        ; release lock after 5 s (default)
-memcached.sess_lock_wait_min   = 1000     ; 1 ms between attempts
-memcached.sess_lock_wait_max   = 5000     ; up to 5 ms back-off (was 50 ms — caused ~1 s session_start delays)
+; wait_min/wait_max are MILLISECONDS: 1000/5000 made every concurrent request
+; of the same session wait at least 1 s. Short waits need many retries, or
+; session_start() fails (user looks logged out) before the lock is released.
+memcached.sess_lock_wait_min   = 10       ; 10 ms first retry, doubling...
+memcached.sess_lock_wait_max   = 100      ; ...up to 100 ms between attempts
+memcached.sess_lock_retries    = 100      ; ~10 s total before giving up
 memcached.sess_consistent_hash = On
 memcached.sess_remove_failed_servers = 1
 EOF
