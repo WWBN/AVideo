@@ -34,7 +34,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     }
 ?>
     <div class="clearfix gallery-featured-wrap">
-        <div id="bigVideoCarousel" class="gallery-featured <?php echo $class; ?>" data-ride="carousel" aria-label="<?php echo __('Featured'); ?>">
+        <div id="bigVideoCarousel" class="gallery-featured <?php echo $class; ?>" data-ride="carousel"<?php echo !empty($global['isChannel']) ? ' data-interval="false"' : ''; ?> aria-label="<?php echo __('Featured'); ?>">
             <!-- Wrapper for slides -->
             <div class="<?php echo $classInner; ?>">
                 <?php
@@ -113,6 +113,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                 <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
                                             </button>
                                         </div>
+                                        <?php if (!empty($global['isChannel'])) { ?>
+                                            <a class="btn btn-primary gallery-featured-watch" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>">
+                                                <i class="fas fa-play" aria-hidden="true"></i> <?php echo __('Play'); ?>
+                                            </a>
+                                        <?php } ?>
                                         <div class="galeryDetails">
                                             <div class="galleryTags">
                                                 <?php

@@ -110,6 +110,12 @@ if ($advancedCustomUser->showChannelLiveTab) {
 $showChannelHomeTab     = $advancedCustomUser->showChannelHomeTab   && $ownerCanUplaodVideos && !empty($uploadedVideos);
 $showChannelVideosTab   = $advancedCustomUser->showChannelVideosTab && $ownerCanUplaodVideos && !empty($uploadedVideos);
 $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj);
+$totalPrograms = $showChannelProgramsTab ? PlayList::getAllFromUserLight($user_id, true, false, 0, true, true) : [];
+
+$channelShowBranding = empty($advancedCustomUser->doNotShowTopBannerOnChannel);
+$channelBackgroundType = isMobile() ? User::$channel_artDesktopMin : User::$channel_artDesktopMax;
+$channelBackgroundURL = $user->getBackgroundURL($channelBackgroundType);
+$channelHasCover = $channelShowBranding && is_file($global['systemRootPath'] . $channelBackgroundURL);
 
 // -----------------------------------------------------------------------------
 // TAB LOGIC – single source of truth
@@ -117,10 +123,21 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
 require_once $global['systemRootPath'] . 'objects/functions.php'; // provides getCurrentPage(), resetCurrentPage(), etc.
 
 // Decide default tab if none provided
-$defaultTab = $showChannelHomeTab ? 'channelHome' : 'channelVideos';
+$availableTabs = array_filter([
+    'channelHome' => $showChannelHomeTab,
+    'channelVideos' => $showChannelVideosTab,
+    'channelArticles' => !empty($uploadedTotalArticles),
+    'channelAudio' => !empty($uploadedTotalAudio),
+    'channelImages' => !empty($uploadedTotalImages),
+    'channelPlayLists' => $showChannelProgramsTab && !empty($totalPrograms),
+]);
+$defaultTab = key($availableTabs) ?: '';
 
 // Keep compatibility with "Videos gets active when page > 1"
 $activeTab = $_GET['tab'] ?? ((getCurrentPage() != 1 && $showChannelVideosTab) ? 'channelVideos' : $defaultTab);
+if (!is_string($activeTab) || !isset($availableTabs[$activeTab])) {
+    $activeTab = $defaultTab;
+}
 
 // Helpers to produce CSS classes
 function tabButtonClass(string $tab): string
@@ -136,54 +153,8 @@ function tabContentClass(string $tab): string
 
 ?>
 <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css" />
-<style>
-    #aboutArea #aboutAreaPreContent {
-        max-height: 120px;
-        overflow: hidden;
-        transition: max-height 0.25s ease-out;
-        overflow: hidden;
-    }
-
-    #aboutAreaPreContent {
-        margin-bottom: 30px;
-    }
-
-    #aboutArea.expanded #aboutAreaPreContent {
-        max-height: 1500px;
-        overflow: auto;
-        transition: max-height 0.25s ease-in;
-    }
-
-    #aboutAreaShowMoreBtn {
-        position: absolute;
-        bottom: 0;
-    }
-
-    /* Images and players added in the About editor must fit narrow screens */
-    #aboutArea img,
-    #aboutArea iframe {
-        max-width: 100%;
-    }
-
-    #aboutArea img {
-        height: auto;
-    }
-
-    #aboutArea .showMore { display: block; }
-    #aboutArea .showLess { display: none; }
-    #aboutArea.expanded .showMore { display: none; }
-    #aboutArea.expanded .showLess { display: block; }
-
-    #channelHome {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .feedDropdown { margin-right: 4px; }
-</style>
-
 <div class="clearfix"></div>
-<div class="panel panel-default channel-layout">
+<div class="panel panel-default channel-layout<?php echo $channelHasCover ? ' channel-has-cover' : ''; ?>">
     <div class="panel-body">
         <div class="gallery galleryLayout">
             <div class="row clearfix">
@@ -204,18 +175,23 @@ function tabContentClass(string $tab): string
                 </div>
             </div>
 
-            <?php
-            if (empty($advancedCustomUser->doNotShowTopBannerOnChannel)) {
-                User::getBackGroundHTML($user_id);
-            }
-            ?>
+            <?php if ($channelHasCover) { ?>
+                <a class="channel-cover" href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
+                    <img src="<?php echo getURL($channelBackgroundURL); ?>" alt="" />
+                </a>
+            <?php } ?>
 
             <div class="row channel-heading">
-                <div class="col-sm-12" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
-                    <h2 class="pull-left" style="font-size: 2em;">
+                <?php if ($channelShowBranding) { ?>
+                    <div class="channel-avatar">
+                        <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo htmlspecialchars($user->getNameIdentificationBd(), ENT_QUOTES, 'UTF-8'); ?>" class="img-responsive img-thumbnail" />
+                    </div>
+                <?php } ?>
+                <div class="channel-identity">
+                    <h1>
                         <?php echo $user->getNameIdentificationBd(); ?>
                         <?php echo User::getEmailVerifiedIcon($user_id); ?>
-                    </h2>
+                    </h1>
                     <ul class="social-network social-circle">
                         <?php
                         $socialMedia = CustomizeUser::getSocialMedia();
@@ -236,21 +212,22 @@ function tabContentClass(string $tab): string
                         ?>
                     </ul>
                 </div>
-                <div class="col-sm-12">
-                    <span class="pull-right channel-actions">
-                        <?php echo AVideoPlugin::getChannelPageButtons($user_id); ?>
-                    </span>
+                <div class="channel-actions">
+                    <?php echo AVideoPlugin::getChannelPageButtons($user_id); ?>
                 </div>
             </div>
 
-            <div class="col-md-12" id="aboutArea">
+            <?php
+            $about = html_entity_decode($user->getAbout(), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            if (!empty($about)) {
+                // Decode legacy stored content, then purify it before rendering.
+                require_once $global['systemRootPath'] . 'objects/channelAboutHTML.php';
+                $about = purifyChannelAboutHTML($about, $global['webSiteRootURL'], getCacheDir());
+            }
+            if (trim($about) !== '') {
+            ?>
+            <div id="aboutArea" class="channel-about">
                 <?php
-                $about = html_entity_decode($user->getAbout(), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-                if (!empty($about)) {
-                    // Decode legacy stored content, then purify it before rendering.
-                    require_once $global['systemRootPath'] . 'objects/channelAboutHTML.php';
-                    $about = purifyChannelAboutHTML($about, $global['webSiteRootURL'], getCacheDir());
-                }
                 if (!empty($advancedCustomUser->showAllAboutTextOnChannel)) {
                     echo $about;
                 } else {
@@ -260,16 +237,17 @@ function tabContentClass(string $tab): string
                             <?php echo $about; ?>
                         </div>
                     </div>
-                    <button onclick="$('#aboutArea').toggleClass('expanded');" class="btn btn-xs btn-default" id="aboutAreaShowMoreBtn" style="display: none; ">
+                    <button onclick="$('#aboutArea').toggleClass('expanded');" class="btn btn-xs btn-default" id="aboutAreaShowMoreBtn">
                         <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
                         <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
                     </button>
                 <?php } ?>
             </div>
+            <?php } ?>
 
             <script>
                 $(document).ready(function() {
-                    if ($('#aboutArea').height() < $('#aboutAreaContent').height()) {
+                    if ($('#aboutAreaContent').outerHeight() > $('#aboutAreaPreContent').height()) {
                         $('#aboutAreaShowMoreBtn').show();
                     }
                 });
@@ -282,6 +260,7 @@ function tabContentClass(string $tab): string
 
                 <div class="tabbable-panel">
                     <div class="tabbable-line">
+                        <?php if (!empty($availableTabs)) { ?>
                         <ul class="nav nav-tabs">
                             <?php if ($showChannelHomeTab) { ?>
                                 <li class="nav-item <?php echo tabButtonClass('channelHome'); ?>">
@@ -331,7 +310,6 @@ function tabContentClass(string $tab): string
 
                             <?php
                             if ($showChannelProgramsTab) {
-                                $totalPrograms = PlayList::getAllFromUserLight($user_id, true, false, 0, true, true);
                                 if ($totalPrograms) {
                             ?>
                                 <li class="nav-item <?php echo tabButtonClass('channelPlayLists'); ?>" id="channelPlayListsLi">
@@ -341,6 +319,7 @@ function tabContentClass(string $tab): string
                                 </li>
                             <?php } } ?>
                         </ul>
+                        <?php } ?>
 
                         <div class="tab-content clearfix">
                             <?php if ($showChannelHomeTab) { ?>
@@ -386,7 +365,7 @@ function tabContentClass(string $tab): string
                                                     <?php echo __("My videos"); ?>
                                                 </a>
                                             <?php } else {
-                                                echo __("My videos");
+                                                echo __("Videos");
                                             }
                                             echo AVideoPlugin::getChannelButton();
                                             ?>

@@ -22,13 +22,6 @@ if (!empty($channelPassword)) {
     forbiddenPage('This channel is password protected', false, $channelPassword);
 }
 AVideoPlugin::getChannel($user_id, $user);
-$channelFluidLayout = true;
-// verify the width to match with the old profile bg image
-$bgImagePath = $global['systemRootPath'] . $user->getBackgroundURL();
-$bgSize = getimagesize($bgImagePath);
-if ($bgSize[0] < 2048) {
-    $channelFluidLayout = false;
-}
 $metaDescription = " Channel - {$_GET['channelName']}";
 
 $page = new Page(array($_GET['channelName'],"Channel"), 'userChannel');
@@ -36,8 +29,7 @@ $page->setIncludeInHead(array('view/channelHead.php'));
 $page->setIncludeInFooter(array('plugin/YouPHPFlix2/view/modeFlixFooter.php'));
 $page->setIncludeFooter(false);
 ?>
-<!-- <?php echo json_encode($bgSize); ?> [<?php echo $bgImagePath; ?>] -->
-<div class="container<?php echo!empty($channelFluidLayout) ? "-fluid" : ""; ?>">
+<div class="container-fluid channel-page">
     <?php
     include $global['systemRootPath'] . 'view/channelBody.php';
     ?>
