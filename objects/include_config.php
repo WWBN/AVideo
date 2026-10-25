@@ -344,3 +344,8 @@ if (
 // ─────────────────────────────────────────────────────────────────────────────
 
 includeConfigLog(__LINE__);
+
+// Plugin startup can reopen the session after the first early close.
+if (!empty($closeSessionEarlyIncludeConfig)) {
+    _session_write_close();
+}

@@ -813,16 +813,10 @@ function includeSecurityChecks() {
         // Create the full path for each subdirectory
         $subdirPath = $directory . DIRECTORY_SEPARATOR . $subdir;
 
-        // Check if it is a directory
-        if (is_dir($subdirPath)) {
-            // Path to securityCheck.php in the current subdirectory
-            $securityCheckFile = $subdirPath . DIRECTORY_SEPARATOR . 'securityCheck.php';
-
-            // Check if securityCheck.php exists in the subdirectory
-            if (file_exists($securityCheckFile)) {
-                // Include the securityCheck.php file
-                include $securityCheckFile;
-            }
+        // A child file cannot exist beneath a regular file; avoid a second bind-mount lookup.
+        $securityCheckFile = $subdirPath . DIRECTORY_SEPARATOR . 'securityCheck.php';
+        if (file_exists($securityCheckFile)) {
+            include $securityCheckFile;
         }
     }
 }

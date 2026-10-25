@@ -2063,7 +2063,6 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if ($res) {
             $user = $result;
-            $user['passhash'] = self::getUserHash($user['id']);
         } else {
             $user = false;
         }
@@ -3189,6 +3188,11 @@ if (typeof gtag !== \"function\") {
         global $global, $config;
         if (empty($users_id)) {
             $users_id = self::getId();
+        }
+        // Display lookups share sqlDAL's request cache; account authorization still reads fresh data.
+        $channelUser = self::findById($users_id);
+        if (!empty($channelUser['channelName'])) {
+            return strip_tags($channelUser['channelName']);
         }
         $user = new User($users_id);
         if (empty($user)) {

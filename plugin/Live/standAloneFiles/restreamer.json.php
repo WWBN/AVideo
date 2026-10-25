@@ -204,6 +204,16 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 } else {
                     $obj->killIfIsRunning = killIfIsRunning($json);
                     $obj->remoteKill = false;
+                    // Never report a stop (or write the *.completed marker, which also tells the
+                    // watchdog to leave this destination alone) while the relay is still pushing.
+                    $remainingPids = getRestreamProcessIdsByMarkers($json);
+                    if (!empty($remainingPids)) {
+                        $obj->error = true;
+                        $obj->msg = 'The restream process could not be stopped, please try again';
+                        error_log("Restreamer.json.php STATUS PROBLEM stop failed, ffmpeg still running pids=" . json_encode($remainingPids) . " logFile=" . @$json->logFile);
+                        echo json_encode($obj);
+                        exit;
+                    }
                 }
 
                 // Persist a reliable "manually stopped" marker regardless of whether FFmpeg was
@@ -376,6 +386,19 @@ if (!$isCommandLine) { // not command line
                 foreach ($robj->restreamsToken as $key => $token) {
                     $newRestreamsDestination = '';
                     $fallbackRestreamsDestination = '';
+
+                    // A manual "Start" for a destination that is already being relayed must be
+                    // refused BEFORE _getLiveKey(): for YouTube that call creates a brand-new
+                    // broadcast, and creating one while the current relay is live ends the
+                    // broadcast viewers are watching (TIC incident, 2026-10-25). The operator
+                    // must Stop first; Stop now reliably terminates the running relay.
+                    if (@$robj->type === 'start' && function_exists('isRestreamRuning')
+                        && isRestreamRuning(intval($key), intval(@$robj->liveTransmitionHistory_id))) {
+                        error_log("Restreamer.json.php start refused: destination {$key} is already running for liveTransmitionHistory_id=" . intval(@$robj->liveTransmitionHistory_id) . " (no new broadcast requested)");
+                        $errorMessages[] = "This destination is already live. Stop it first if you really want to restart it.";
+                        unset($robj->restreamsDestinations[$key]);
+                        continue;
+                    }
 
                     $liveKey = _getLiveKey($token);
                     if (isset($liveKey->live_url)) {
@@ -1356,10 +1379,46 @@ function whichffmpeg()
     return @$output[0];
 }
 
+/**
+ * Every running restream FFmpeg PID for this request's (live_restreams_id,
+ * liveTransmitionHistory_id) pair, matched by the stable query markers only - see
+ * isRestreamFfmpegCommandLine() in functions.php for why the source m3u8 URL must not be part
+ * of the match. Returns an empty array when the ids are unknown (command-line/legacy usage).
+ *
+ * @return int[]
+ */
+function getRestreamProcessIdsByMarkers($robj)
+{
+    $live_restreams_id = intval(@$robj->live_restreams_id);
+    $liveTransmitionHistory_id = intval(@$robj->liveTransmitionHistory_id);
+    if ($live_restreams_id <= 0 || $liveTransmitionHistory_id <= 0) {
+        return array();
+    }
+    $psOutput = array();
+    exec("ps -eo pid=,args= 2>/dev/null", $psOutput);
+    return findRestreamProcessIds($psOutput, $live_restreams_id, $liveTransmitionHistory_id);
+}
+
 function getProcess($robj)
 {
     global $ffmpegBinary;
 
+    $markerPids = getRestreamProcessIdsByMarkers($robj);
+    if (!empty($markerPids)) {
+        error_log("Restreamer:getProcess [markers] found process(es) " . json_encode($markerPids)
+            . " live_restreams_id=" . intval(@$robj->live_restreams_id)
+            . " liveTransmitionHistory_id=" . intval(@$robj->liveTransmitionHistory_id));
+        return [$markerPids[0], 'restream ffmpeg pid ' . $markerPids[0]];
+    }
+    if (intval(@$robj->live_restreams_id) > 0 && intval(@$robj->liveTransmitionHistory_id) > 0) {
+        // Both ids are known and no process carries them: nothing is running for this pair.
+        // Do not fall back to the m3u8 match below, it could only match a different pair.
+        error_log("Restreamer:getProcess no running ffmpeg for live_restreams_id=" . intval($robj->live_restreams_id)
+            . " liveTransmitionHistory_id=" . intval($robj->liveTransmitionHistory_id));
+        return false;
+    }
+
+    // Legacy path (command-line usage, ids unknown): match on binary + source URL.
     $m3u8 = clearCommandURL($robj->m3u8);
     $liveTransmitionHistory_id = intval($robj->liveTransmitionHistory_id);
     $live_restreams_id = intval($robj->live_restreams_id);
@@ -1407,6 +1466,31 @@ function getProcess($robj)
 
 function killIfIsRunning($robj)
 {
+    // Kill EVERY process for this pair (a failed stop/restart can leave more than one behind),
+    // then confirm they are gone.
+    $markerPids = getRestreamProcessIdsByMarkers($robj);
+    if (!empty($markerPids)) {
+        foreach ($markerPids as $pid) {
+            $safePid = filter_var($pid, FILTER_VALIDATE_INT, array("options" => array("min_range" => 1)));
+            if ($safePid === false) {
+                continue;
+            }
+            error_log("Restreamer.json.php killIfIsRunning killing {$safePid} (matched by restream markers)");
+            exec("kill -9 " . escapeshellarg($safePid) . " 2>&1", $output, $return_var);
+        }
+        for ($i = 0; $i < 5; $i++) {
+            sleep(1);
+            $stillRunning = array_values(array_filter($markerPids, 'isRestreamProcessIdRunning'));
+            if (empty($stillRunning)) {
+                break;
+            }
+        }
+        if (!empty($stillRunning)) {
+            error_log("Restreamer.json.php killIfIsRunning WARNING process(es) still running after kill: " . json_encode($stillRunning));
+        }
+        return true;
+    }
+
     $process = getProcess($robj);
     //error_log("Restreamer.json.php killIfIsRunning checking if there is a process running for {$m3u8} ");
     if (!empty($process) && is_array($process)) {

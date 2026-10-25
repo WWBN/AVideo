@@ -138,7 +138,7 @@ if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
         $objectToReturnToParentIframe->mediaSession = LiveLinks::getMediaSession($video['id']);
         $objectToReturnToParentIframe->users_id = intval($video['users_id']);
         $liveFound = true;
-        $isLiveLink = uniqid();
+        $isLiveLink = intval($video['id']);
     }
 }
 if (!$liveFound) {
@@ -195,6 +195,28 @@ if (!empty($_REQUEST['isClosed'])) {
 }
 // this is to make sure will not play in fullscreen on ios
 $global['overrideNative'] = 1;
+$liveLinkMediaTag = '';
+if (!empty($isLiveLink)) {
+    // Reuse LiveLinks' HLS/YouTube/iframe selection instead of treating every URL as HLS.
+    $livePlayerSessionWasStarted = isSessionStarted();
+    _session_write_close();
+    $t = $video;
+    $video['type'] = 'liveLink';
+    $hadEmbedRequest = array_key_exists('embed', $_REQUEST);
+    $embedRequest = $_REQUEST['embed'] ?? null;
+    $_REQUEST['embed'] = 1;
+    ob_start();
+    include $global['systemRootPath'] . 'plugin/LiveLinks/view/liveVideo.php';
+    $liveLinkMediaTag = ob_get_clean();
+    if ($hadEmbedRequest) {
+        $_REQUEST['embed'] = $embedRequest;
+    } else {
+        unset($_REQUEST['embed']);
+    }
+    if ($livePlayerSessionWasStarted) {
+        _session_start();
+    }
+}
 //var_dump($liveVideo, $video['id'], $poster, $sources);exit;
 ?>
 <!DOCTYPE html>
@@ -252,9 +274,13 @@ $global['overrideNative'] = 1;
 
 <body class="<?php echo $bodyClass; ?>">
     <div id="videoDiv" style="display: none;">
+        <?php if (!empty($liveLinkMediaTag)) {
+            echo $liveLinkMediaTag;
+        } else { ?>
         <video poster="<?php echo $poster; ?>" controls <?php echo PlayerSkins::getPlaysinline(); ?> class="video-js vjs-default-skin vjs-big-play-centered" id="mainVideo" style="width: 100%; height: 100%; position: absolute;">
             <?php echo $sources; ?>
         </video>
+        <?php } ?>
     </div>
 
     <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveEmbed">

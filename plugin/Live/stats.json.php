@@ -1,6 +1,7 @@
 <?php
 //exit;
 header('Content-Type: application/json');
+$closeSessionEarlyIncludeConfig = 1;
 require_once '../../videos/configuration.php';
 
 /*

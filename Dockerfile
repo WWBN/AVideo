@@ -158,6 +158,12 @@ echo "error_log = /dev/stdout" >> "$INI"
 
 # ── PHP sessions stored in Memcached ─────────────────────────────────────
 cat >> "$INI" <<'EOF'
+; Reuse cached PHP file existence checks on slow bind mounts.
+; Keep automatic source-change detection enabled for development and upgrades.
+opcache.enable_file_override   = 1
+opcache.validate_timestamps    = 1
+opcache.revalidate_freq        = 2
+
 ; ---------- PHP sessions via Memcached ----------
 session.save_handler           = memcached
 session.save_path              = "memcached:11211?persistent=1&timeout=2&retry_interval=5"

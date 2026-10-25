@@ -1,6 +1,7 @@
 <?php
 
 header('Content-Type: application/json');
+$closeSessionEarlyIncludeConfig = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
