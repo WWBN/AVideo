@@ -321,7 +321,7 @@ After either installation:
 
 | Requirement | Details |
 | --- | --- |
-| **PHP** | **8.1 or later**, as required by [Composer](composer.json) and the installer. Use a maintained PHP release compatible with your installation. |
+| **PHP** | **8.2 or later**, as required by [Composer](composer.json) and the installer. Use a maintained PHP release compatible with your installation. |
 | **PHP extensions** | `mysqli`, `curl`, `gd`, `mbstring`, `zip`, `zlib`, and `openssl` are checked by the installer. Additional features may need other extensions. |
 | **Database** | MySQL or MariaDB. Follow the installation guide for the database setup. |
 | **Web server** | Apache 2.x with `mod_rewrite` and support for the supplied `.htaccess` rules. |

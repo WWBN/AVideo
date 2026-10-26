@@ -22,7 +22,7 @@ Do not duplicate logic that already exists. Do not invent function names.
 
 ## PHP Version & Style
 
-- Target PHP 7.3+ / 8.x. Do not introduce PHP 8.1+ syntax (enums, fibers, intersection types) unless the surrounding code already uses it.
+- Target PHP 8.2+. Preserve the style of the surrounding code; do not modernize unrelated code or introduce syntax requiring PHP newer than 8.2.
 - Do not use PHP namespaces in core files. The core project does not use namespaces; only Composer-loaded vendor libraries do.
 - Match the coding style of nearby files exactly: indentation, brace placement, spacing.
 - Use `#[\AllowDynamicProperties]` on classes that set dynamic properties (follow existing pattern).
@@ -241,6 +241,6 @@ Key utility functions to reuse (check `objects/functions*.php` before writing ne
 - Use raw `mysqli_query()` directly — use `sqlDAL`
 - Echo raw error messages to users
 - Use PHP namespaces in core files
-- Use PHP 8.1+ syntax in files targeting 7.3+ compatibility
+- Use syntax requiring PHP newer than 8.2
 - Create new database tables without a migration file
 - Mix HTML and JSON output in a single endpoint

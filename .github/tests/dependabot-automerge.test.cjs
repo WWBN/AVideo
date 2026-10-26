@@ -8,8 +8,8 @@ const script = workflow.split('          script: |\n')[1].replace(/^ {12}/gm, ''
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 const run = new AsyncFunction('github', 'context', 'core', script);
 const names = [
-  'PHP 8.1 Tests', 'PHP 8.2 Tests', 'PHP 8.3 Tests',
-  'PHP 8.1 on ubuntu-latest', 'PHP 8.2 on ubuntu-latest',
+  'PHP 8.2 Tests', 'PHP 8.3 Tests',
+  'PHP 8.2 on ubuntu-latest',
   'PHP 8.3 on ubuntu-latest', 'dependency-review', 'CodeQL-Build', 'CodeQL', 'build'
 ];
 
@@ -99,7 +99,7 @@ for (const conclusion of ['failure', 'cancelled', null]) {
 }
 test('failed duplicate CI is not hidden by a successful check with the same name', async () => {
   assert.equal((await simulate({ extraChecks: [{
-    name: 'PHP 8.1 Tests', app: { slug: 'github-actions' }, status: 'completed', conclusion: 'failure'
+    name: 'PHP 8.2 Tests', app: { slug: 'github-actions' }, status: 'completed', conclusion: 'failure'
   }] })).merged.length, 0);
 });
 test('failed commit status blocks merge', async () => {

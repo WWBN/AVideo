@@ -38,10 +38,10 @@ files win:
 
 ## Stack (verified from `composer.json` / `package.json`)
 
-- **Backend**: PHP `^8.1` (composer platform pinned to `8.1`). CI (`.github/workflows/tests.yml`)
-  runs the matrix `8.1`, `8.2`, `8.3`. No PHP namespaces in core files (only Composer vendor
-  libraries use them); avoid PHP 8.1+-only syntax (enums, readonly props, fibers) unless the
-  surrounding file already uses it — most core files still target a much older, non-strict style.
+- **Backend**: PHP `^8.2` (composer platform pinned to `8.2`). CI (`.github/workflows/tests.yml`)
+  runs the matrix `8.2`, `8.3`. No PHP namespaces in core files (only Composer vendor
+  libraries use them). Preserve the existing non-strict style in core files; do not modernize
+  unrelated code or introduce syntax requiring PHP newer than 8.2.
 - **Database**: MySQL/MariaDB via `sqlDAL` prepared statements (`objects/mysql_dal.php`). Docker
   stack (`docker-compose.yml`, `Dockerfile.mariadb`) runs app + live server + MariaDB.
   Schema/version is tracked in the `configurations` table.
@@ -404,7 +404,7 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
 
 ## Dependency Management
 
-- Backend dependencies are managed by Composer (`composer.json`, PHP `^8.1` platform). Note the
+- Backend dependencies are managed by Composer (`composer.json`, PHP `^8.2` platform). Note the
   `apply-patches` Composer script that `sed`-patches
   `vendor/paypal/rest-api-sdk-php/lib/PayPal/Common/PayPalModel.php` after install/update — this
   means the PayPal SDK is intentionally patched in place; running `composer update` must keep this
@@ -429,7 +429,7 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   vendor/bin/phpunit tests/Security  # security suite — CI treats this as critical/must-pass
   composer test:filter -- --filter=SomeTestName
   ```
-- CI (`.github/workflows/tests.yml`) runs on PHP 8.1/8.2/8.3, validates `composer.json`, installs
+- CI (`.github/workflows/tests.yml`) runs on PHP 8.2/8.3, validates `composer.json`, installs
   a clean `vendor/`, and runs `tests/Security` as a required (non-continue-on-error) step; treat
   new security-relevant code the same way — add or update a test under `tests/Security` when
   fixing a vulnerability or auth bug.

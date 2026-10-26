@@ -18,7 +18,7 @@ if (!$configured) {
     foreach ($checks as $check) {
         $help = $check['ok'] ? [] : installerRequirementHelp($check);
         $checklistGroups['Required for installation'][] = ['label' => $check['label'], 'status' => $check['ok'] ? 'passed' : 'failed',
-            'detail' => $check['ok'] ? ($check['label'] === 'PHP 8.1 or later' ? 'Current version: ' . PHP_VERSION : 'Installation requirement available.') : $check['detail'],
+            'detail' => $check['ok'] ? ($check['label'] === 'PHP 8.2 or later' ? 'Current version: ' . PHP_VERSION : 'Installation requirement available.') : $check['detail'],
             'help' => $help['text'] ?? '', 'command' => $help['command'] ?? ''];
     }
     foreach (installerAdditionalChecks() as $check) { $checklistGroups[$check['group']][] = $check; }

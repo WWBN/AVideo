@@ -36,14 +36,16 @@ stable release for production and `master` for users following daily changes.
 5. Recheck the baseline and publish a tag pointing to exactly the tested SHA.
    New commits reaching `master` meanwhile are left for a later release.
 
-AVideo gates run all configured PHPUnit suites on PHP 8.1/8.2/8.3 with a
+Both applications require PHP **8.2 or later**. Upgrade older PHP runtimes before updating the application.
+
+AVideo gates run all configured PHPUnit suites on PHP 8.2/8.3 with a
 disposable MariaDB, standalone PHP regressions, JavaScript integration
 regressions, workflow regressions, and PHP lint. Unit tests are mandatory.
 Encoder and Encoder Network fixtures for installer tests are pinned in
 `tests.yml`; update those pins deliberately when validating a new combination.
 This is evidence about those pinned fixtures, not all component versions.
 
-Encoder gates execute every `tests/*-regression.php` on PHP 8.1/8.2/8.3,
+Encoder gates execute every `tests/*-regression.php` on PHP 8.2/8.3,
 including real FFmpeg/FFprobe media fixtures and process tests with `pcntl`.
 Its lint matrix additionally covers PHP 8.4/8.5. There is no Composer/PHPUnit
 suite in the Encoder at present; missing PHPUnit is not treated as a test pass.

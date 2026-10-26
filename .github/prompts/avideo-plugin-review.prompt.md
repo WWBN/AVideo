@@ -97,7 +97,7 @@ Also read `plugin/Plugin.abstract.php` to verify hook method signatures.
 
 ### 8. Backward Compatibility
 
-- [ ] Plugin works with PHP 7.3+ (no PHP 8.1+ exclusive syntax unless explicitly targeted)
+- [ ] Plugin works with PHP 8.2+ (no syntax requiring a newer PHP version unless explicitly targeted)
 - [ ] Plugin does not modify core files outside `plugin/PluginName/`
 - [ ] Plugin does not change or override another plugin's DB tables
 - [ ] Disabling this plugin does not break other plugins or core functionality

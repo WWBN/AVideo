@@ -51,8 +51,8 @@ jobs:
 
             // Require the repository's CI even though master is not protected.
             const requiredChecks = [
-              'PHP 8.1 Tests', 'PHP 8.2 Tests', 'PHP 8.3 Tests',
-              'PHP 8.1 on ubuntu-latest', 'PHP 8.2 on ubuntu-latest',
+              'PHP 8.2 Tests', 'PHP 8.3 Tests',
+              'PHP 8.2 on ubuntu-latest',
               'PHP 8.3 on ubuntu-latest', 'dependency-review',
               'CodeQL-Build', 'CodeQL', 'build'
             ];
