@@ -215,7 +215,7 @@ function sendSiteEmailAsync($to, $subject, $message)
     $totalEmails = count($to);
     _error_log("sendSiteEmailAsync start [bytes=$bytes] [totalEmails={$totalEmails}] ($command) file_exists=" . file_exists($tmpFile) .' '.json_encode(debug_backtrace()));
     $pid = execAsync($command);
-    _error_log("sendSiteEmailAsync end {$pid}");
+    _error_log('sendSiteEmailAsync end ' . json_encode($pid));
     return $pid;
 }
 
