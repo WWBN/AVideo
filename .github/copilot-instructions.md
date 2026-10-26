@@ -358,7 +358,9 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   checked: a fresh login, or a cookie session whose user/pass verify to that same session user), as the
   CSRF guard in `plugin/API/set.json.php` does. Only the API entry points (`plugin/API/get|set.json.php`
   set `$global['switchUserFromRequestCredentials']`) replace a cookie session with another account's
-  verified user/pass; normal pages never switch accounts. `USER_LOGGED` is `0`, so code inside
+  verified user/pass (the FlixHouse app endpoints `plugin/FlixHouse/api/*.json.php` opt in the same way); normal pages never switch accounts.
+  `Video::getImageFromFilename()` calls `header_remove('Set-Cookie')`, so a response that lists videos never carries
+  a new session cookie: app clients must send user/pass on every call. `USER_LOGGED` is `0`, so code inside
   `if ($response) { switch ... case self::USER_LOGGED` in `loginFromRequest()` never runs. Covered by `tests/api-set-csrf-guard-regression.php`.
 - Every password check in `User::login()` (form, API, user/pass in any URL, remember-me cookie) has a
   failed-attempt penalty: 10 failures per account+IP and 100 per IP in 15 min (overridable with
