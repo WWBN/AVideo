@@ -12,7 +12,7 @@ if (User::isLogged()) {
         include $global['systemRootPath'] . './view/userBasicInfo.php';
     } else {
         ?>
-        <div class="row">
+        <div class="row accountRow">
             <div>
                 <div class="panel panel-default accountPanel" id="userTabsPanel">
                     <div class="panel-heading accountHeader">

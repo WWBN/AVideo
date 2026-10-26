@@ -58,16 +58,24 @@ $croppieFilesAdded = 1;
             <a id="library-btn<?php echo $uid; ?>" class="btn btn-info" role="button">
                 <i class="fa-solid fa-images"></i> <?php echo __('Select from Library'); ?>
             </a>
+            <?php if (empty($options['hideDelete'])) { ?>
             <a id="delete-btn<?php echo $uid; ?>" class="btn btn-danger" role="button">
                 <i class="fa fa-trash"></i> <?php echo __('Delete'); ?>
             </a>
+            <?php } ?>
         </div>
 
     </div>
     <div class="col-md-12 ">
-        <input type="file" id="upload<?php echo $uid; ?>" value="Choose a file" accept="image/*" style="display:none;" />
+        <input type="file" id="upload<?php echo $uid; ?>" value="Choose a file" accept="<?php echo !empty($options['responsive']) ? 'image/jpeg,image/png,image/webp,image/gif' : 'image/*'; ?>" style="display:none;" />
     </div>
 </div>
+<?php
+if (!empty($options['responsive'])) {
+    include $global['systemRootPath'] . 'objects/functionCroppieResponsive.js.php';
+    return;
+}
+?>
 <script>
     var uploadCrop<?php echo $uid; ?>;
     var createCroppie<?php echo $uid; ?>Timeout;

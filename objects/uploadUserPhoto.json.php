@@ -6,14 +6,13 @@ if (!isset($global['systemRootPath'])) {
 }
 header('Content-Type: application/json');
 
+if (!User::isLogged()) {
+    forbiddenPage('Login required');
+}
+require_once $global['systemRootPath'] . 'objects/channelImageUpload.php';
 $obj = new stdClass();
 $obj->error = true;
-if (!User::isLogged()) {
-    $obj->msg = 'You can\'t edit this file';
-    die(json_encode($obj));
-}
-
-$users_id = User::getId();
+$obj->msg = __('An error occurred');
 
 $imagePath = "videos/userPhoto/";
 //Check write Access to Directory
@@ -28,16 +27,24 @@ $photoFullPath = $dirPath . $fileName;
 $obj->url = $photoURL;
 
 
-$obj->imagePNGResponse = saveCroppieImage($photoFullPath, "image");
-if ($obj->imagePNGResponse) {
-    $user = new User(User::getId());
-    $user->setPhotoURL($photoURL);
-    if ($user->save()) {
+try {
+    if (saveChannelImageUpload($photoFullPath, 150, 150, [], 'image', function () use ($photoURL) {
+        $user = new User(User::getId());
+        $user->setPhotoURL($photoURL);
+        return $user->save();
+    })) {
+        $obj->imagePNGResponse = filesize($photoFullPath);
         User::deleteOGImage(User::getId());
         User::updateSessionInfo();
         clearCache(true);
         $obj->error = false;
+        $obj->msg = __('Saved');
+        $obj->previewURL = getURL($photoURL, true);
     }
+} catch (InvalidArgumentException $th) {
+    $obj->msg = $th->getMessage();
+} catch (Throwable $th) {
+    _error_log('uploadUserPhoto: ' . $th->getMessage());
 }
 
 die(json_encode($obj));

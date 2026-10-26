@@ -116,6 +116,7 @@ $channelShowBranding = empty($advancedCustomUser->doNotShowTopBannerOnChannel);
 $channelBackgroundType = isMobile() ? User::$channel_artDesktopMin : User::$channel_artDesktopMax;
 $channelBackgroundURL = $user->getBackgroundURL($channelBackgroundType);
 $channelHasCover = $channelShowBranding && is_file($global['systemRootPath'] . $channelBackgroundURL);
+$channelMobileBackgroundURL = $user->getBackgroundURL(User::$channel_artDesktopMin);
 
 // -----------------------------------------------------------------------------
 // TAB LOGIC – single source of truth
@@ -177,7 +178,12 @@ function tabContentClass(string $tab): string
 
             <?php if ($channelHasCover) { ?>
                 <a class="channel-cover" href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
-                    <img src="<?php echo getURL($channelBackgroundURL); ?>" alt="" />
+                    <picture>
+                        <?php if (is_file($global['systemRootPath'] . $channelMobileBackgroundURL)) { ?>
+                            <source media="(max-width: 767px)" srcset="<?php echo getURL($channelMobileBackgroundURL); ?>" />
+                        <?php } ?>
+                        <img src="<?php echo getURL($channelBackgroundURL); ?>" alt="" />
+                    </picture>
                 </a>
             <?php } ?>
 

@@ -164,18 +164,6 @@
         </div>
         <div class="col-sm-9">
             <?php
-            $channelArtRelativePath = User::getBackgroundURLFromUserID(User::getId());
-
-            $finalWidth = 2560;
-            $finalHeight = 1440;
-            if (isMobile()) {
-                $screenWidth = 640;
-                $screenHeight = 360;
-            } else {
-                $screenWidth = 960;
-                $screenHeight = 540;
-            }
-            $factorW = $screenWidth / $finalWidth;
             include $global['systemRootPath'] . 'view/userChannelArtUploadInclude.php';
             ?>
         </div>

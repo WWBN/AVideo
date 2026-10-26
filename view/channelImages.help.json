@@ -1,0 +1,7 @@
+{
+  "steps": [
+    {"element": ".image-editor", "title": "Channel images", "intro": "The profile photo identifies your channel. The channel art is the wide cover at the top of your channel page. Save each image separately."},
+    {"element": ".image-editor .image-editor-crop", "title": "Choose and position", "intro": "Choose an image from your device or the library. Drag the image to reposition it and use the slider to zoom. Keep cover text and logos in the marked center area so they remain visible on smaller screens."},
+    {"element": ".image-editor .image-editor-actions", "title": "Save your image", "intro": "Save applies this image immediately. Cancel discards the pending crop and returns to the last saved image. The status below confirms the result."}
+  ]
+}

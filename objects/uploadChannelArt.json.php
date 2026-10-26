@@ -6,58 +6,49 @@ if (!isset($global['systemRootPath'])) {
 }
 header('Content-Type: application/json');
 
+if (!User::isLogged()) {
+    forbiddenPage('Login required');
+}
+
+require_once $global['systemRootPath'] . 'objects/channelImageUpload.php';
 $obj = new stdClass();
 $obj->error = true;
-if (!User::isLogged()) {
-    $obj->msg = 'You can\'t edit this file';
-    die(json_encode($obj));
-}
-
-$users_id = User::getId();
-
-$channelArtRelativePath = User::getBackgroundURLFromUserID($users_id, '', true);
-$obj->imageJPG = $global['systemRootPath'] . $channelArtRelativePath;
-$obj->imagePNG = "{$obj->imageJPG}.png";
-
-$obj->imagePNGResponse = saveCroppieImage($obj->imagePNG, "image");
-$obj->imageJPGResponse = convertImage($obj->imagePNG, $obj->imageJPG, 70);
+$obj->msg = __('An error occurred');
 $obj->variations = [];
-//var_dump($obj);
-if (file_exists($obj->imagePNG)) {
-    unlink($obj->imagePNG);
-}
 try {
-    _error_log("uploadChannelArt {$obj->imageJPG} ". json_encode($obj->imageJPGResponse));
-    if(preg_match('/.png$/i', $obj->imageJPG)){
-        $im = imagecreatefrompng($obj->imageJPG);
-    }else{
-        $im = imagecreatefromjpeg($obj->imageJPG);
+    $directory = 'videos/userPhoto/' . User::getId() . '/';
+    $relativePath = $directory . 'background.jpg';
+    $variations = [];
+    foreach (User::$channel_art as $value) {
+        $path = $directory . 'background_' . $value[0] . '_.jpg';
+        $obj->variations[$value[0]] = $path;
+        $variations[] = [$global['systemRootPath'] . $path, $value[1], $value[2]];
     }
-    $width = imagesx($im);
-    $height = imagesy($im);
-} catch (Exception $exc) {
-    $obj->msg = $exc->getTraceAsString();
-    $obj->imageJPG = $obj->imageJPG;
-    die(json_encode($obj));
-}
-
-
-foreach (User::$channel_art as $value) {
-    $x = ($width - $value[1])/2;
-    $y = ($height - $value[2])/2;
-    $obj->variations[$value[0]] = false;
-    $im2 = imagecrop($im, ['x' => $x , 'y' => $y , 'width' => $value[1], 'height' => $value[2]]);
-    if ($im2 !== FALSE) {
-        $obj->variations[$value[0]] = User::getBackgroundURLFromUserID($users_id, $value[0], true);
-        imagejpeg($im2, $global['systemRootPath'] . $obj->variations[$value[0]]);
-        imagedestroy($im2);
+    saveChannelImageUpload($global['systemRootPath'] . $relativePath, 2560, 1440, $variations, 'image', function () use ($relativePath) {
+        $user = new User(User::getId());
+        $user->setBackgroundURL($relativePath);
+        // The channel page finds the cover by its path; only User::getBackground() reads this column,
+        // so a failed account save must not undo an upload that never depended on it.
+        if (!$user->save()) {
+            _error_log('uploadChannelArt: cannot update backgroundURL for user ' . User::getId(), AVideoLog::$WARNING);
+        }
+        return true;
+    });
+    User::updateSessionInfo();
+    clearCache(true);
+    $obj->imagePNGResponse = filesize($global['systemRootPath'] . $relativePath);
+    $obj->imageJPGResponse = true;
+    $obj->url = getURL($relativePath, true);
+    $obj->previewURL = getURL($obj->variations[User::$channel_artDesktopMax], true);
+    $obj->error = false;
+    $obj->msg = __('Saved');
+    if (User::isAdmin()) {
+        $obj->imageJPG = $global['systemRootPath'] . $relativePath;
+        $obj->imagePNG = $obj->imageJPG . '.png';
     }
-    imagedestroy($im);
+} catch (InvalidArgumentException $th) {
+    $obj->msg = $th->getMessage();
+} catch (Throwable $th) {
+    _error_log('uploadChannelArt: ' . $th->getMessage());
 }
-
-if(!User::isAdmin()){
-    unset($obj->imageJPG);
-    unset($obj->imagePNG);
-}
-$obj->error = false;
 die(json_encode($obj));

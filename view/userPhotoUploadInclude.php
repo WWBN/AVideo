@@ -1,45 +1,18 @@
 <?php
-$finalWidth = 150;
-$finalHeight = 150;
-$screenWidth = 150;
-$caUid = 'Photo_' . uniqid();
-?>
-<div class="form-group" id="<?php echo $caUid; ?>">
-    <?php
-    $croppie = getCroppie(__('Profile Photo'), 'userPhotoUpload', $finalWidth, $finalHeight, $screenWidth);
-    echo $croppie['html'];
-    ?>
-</div>
-<button class="btn btn-success btn-block" type="button" onclick="<?php echo $croppie['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save Profile Photo'); ?></button>
-<?php
-
+$imageEditor = [
+    'type' => 'photo',
+    'title' => __('Profile Photo'),
+    'help' => __('Use a square image for your channel profile photo.'),
+    'saveLabel' => __('Save Profile Photo'),
+    'width' => 150,
+    'height' => 150,
+    'screenWidth' => 180,
+    'url' => User::getPhoto(0, true),
+    'endpoint' => 'objects/uploadUserPhoto.json.php',
+];
+include $global['systemRootPath'] . 'view/userImageUploadInclude.php';
 if ($vloObj = AVideoPlugin::getDataObjectIfEnabled('VideoLogoOverlay')) {
     if ($vloObj->useUserChannelImageAsLogo) {
-        ?>
-        <div class="alert alert-info"><?php echo __("This image will appear in your livestream"); ?></div>
-        <?php
+        ?><div class="alert alert-info"><?php echo __('This image will appear in your livestream'); ?></div><?php
     }
 }
-?>
-<script>
-    $(document).ready(function () {
-<?php
-echo $croppie['restartCroppie'] . "('" . User::getPhoto(0, true) . "');";
-?>
-    });
-    function userPhotoUpload(image) {
-        modal.showPleaseWait();
-        $.ajax({
-            url: '<?php echo $global['webSiteRootURL'] . "objects/uploadUserPhoto.json.php"; ?>',
-            data: {
-                image: image
-            },
-            type: 'post',
-            success: function (response) {
-                avideoResponse(response);
-                modal.hidePleaseWait();
-            }
-        });
-    }
-
-</script>

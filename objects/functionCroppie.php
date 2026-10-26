@@ -8,7 +8,8 @@ function getCroppieElement(
     $viewportWidth = 0,
     $boundary = 25,
     $viewportHeight = 0,
-    $enforceBoundary = true
+    $enforceBoundary = true,
+    $options = []
 ) {
     global $global;
 
@@ -56,6 +57,7 @@ function getCroppieElement(
         'boundaryWidth' => $boundaryWidth,
         'boundaryHeight' => $boundaryHeight,
         'uid' => $uid,
+        'options' => $options,
     ];
 
     $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functionCroppie.js.php', $varsArray);

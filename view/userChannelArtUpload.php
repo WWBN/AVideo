@@ -8,16 +8,9 @@ if (!User::isLogged()) {
     gotToLoginAndComeBackHere('');
 }
 
-$channelArtRelativePath = User::getBackgroundURLFromUserID(User::getId());
-
-$finalWidth = 2560;
-$finalHeight = 1440;
-
-$screenWidth = 1024;
-$screenHeight = 576;
-
-$factorW = $screenWidth / $finalWidth;
 $_page = new Page(array('Channel Art'));
+$_page->setExtraStyles(['view/css/image-editor.css']);
+$_page->setExtraScripts(['view/js/channelImages.js']);
 ?>
 <div class="container">
     <?php

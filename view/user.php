@@ -17,12 +17,14 @@ if (User::isLogged()) {
     $_page->setExtraScripts(
         array(
             'node_modules/croppie/croppie.min.js',
+            'view/js/channelImages.js',
         )
     );
     $_page->setExtraStyles(
         array(
             'node_modules/croppie/croppie.css',
-            'view/css/bodyFadein.css'
+            'view/css/bodyFadein.css',
+            'view/css/image-editor.css'
         )
     );
 }

@@ -17,12 +17,11 @@
     overflow: hidden;
     border-radius: 16px;
 }
-.channel-layout .channel-cover > img {
+.channel-layout .channel-cover picture,
+.channel-layout .channel-cover img {
     display: block;
     width: 100%;
-    height: clamp(120px, 16vw, 240px);
-    object-fit: cover;
-    object-position: center;
+    height: auto;
 }
 .channel-layout .channel-heading {
     display: flex;

@@ -1168,7 +1168,8 @@ function getCroppie(
     $viewportWidth = 0,
     $boundary = 25,
     $viewportHeight = 0,
-    $enforceBoundary = true
+    $enforceBoundary = true,
+    $options = []
 ) {
     global $global;
     require_once $global['systemRootPath'] . 'objects/functionCroppie.php';
@@ -1180,7 +1181,8 @@ function getCroppie(
         $viewportWidth,
         $boundary ,
         $viewportHeight,
-        $enforceBoundary );
+        $enforceBoundary,
+        $options );
 }
 
 function saveCroppieImage($destination, $postIndex = "imgBase64")

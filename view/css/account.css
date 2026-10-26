@@ -1,4 +1,5 @@
 .accountPanel { border-radius: 16px; box-shadow: none; min-width: 0; container-type: inline-size; }
+.accountRow { margin-left: 0; margin-right: 0; }
 .accountPanel > .accountHeader { padding: 20px; border-radius: 16px 16px 0 0; }
 .accountPanel > .panel-body { padding: 24px; }
 .accountStatus { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
