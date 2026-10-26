@@ -366,7 +366,9 @@ if ($object->isLogged) {
     if (!empty($p)) {
         $object->Subscription = Subscription::getAllFromUser($object->id);
         foreach ($object->Subscription as $key => $row) {
-            $object->Subscription[$key]['good_until_utc'] = convertDatabaseDateToUTC($row['good_until'] ?? '');
+            $unixTime = convertDatabaseDateToUnixTime($row['good_until'] ?? '');
+            $object->Subscription[$key]['good_until_utc'] = empty($unixTime) ? '' : gmdate('Y-m-d H:i:s', $unixTime);
+            $object->Subscription[$key]['good_until_unix'] = $unixTime;
         }
     }
     TimeLogEnd($timeLog2, __LINE__);
@@ -375,7 +377,9 @@ if ($object->isLogged) {
     if (!empty($p) && class_exists('PayPerView')) {
         $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
         foreach ($object->PayPerView as $key => $row) {
-            $object->PayPerView[$key]['expiration_utc'] = convertDatabaseDateToUTC($row['expiration'] ?? '');
+            $unixTime = convertDatabaseDateToUnixTime($row['expiration'] ?? '');
+            $object->PayPerView[$key]['expiration_utc'] = empty($unixTime) ? '' : gmdate('Y-m-d H:i:s', $unixTime);
+            $object->PayPerView[$key]['expiration_unix'] = $unixTime;
         }
     }
     TimeLogEnd($timeLog2, __LINE__);
