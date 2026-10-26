@@ -333,6 +333,13 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   many Streamers, in any folder): install it with `install/installCron.php` from the Encoder itself,
   never from a Streamer's `deploy/` crontab, and run it as the web server user, not root. Covered by
   `.compose/encoder/tests/encoder-monitor-regression.php` and `tests/Unit/EncoderAlertTest.php`.
+- **Seek bar thumbnails (`plugin/VideoThumbnails/`, own GitLab repo, shipped encrypted)**: the sprite
+  `<filename>_thumbsSprit.jpg` comes from the Encoder `getSpiritsFromVideo/<base64 url>/...`, which answers
+  the "creating images" placeholder (147137 bytes, same 1500x840 as a real sprite, so only its size tells it
+  apart) while `createSpiritsFromVideo.php` runs, deletes the finished sprite once served, and (since
+  2026-10-26) answers empty for 1 hour after a failed run. The Streamer never saves the answer from the page
+  request: `startSpriteWorker()` (at most every 10 min per video) starts `createSprite.php`, which polls with
+  the same video URL (the Encoder keys the job on it) and saves only a valid image (`isValidSpriteContent()`).
 - **Manual testing required**: changes to FFmpeg/encoding, HLS packaging, live streaming
   (RTMP/on_publish flows), CDN/storage backends, payments (PayPal/Stripe/AuthorizeNet/Blockonomics),
   or third-party auth/social-login providers cannot be fully verified by automated tests in this
