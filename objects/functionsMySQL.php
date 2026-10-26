@@ -101,6 +101,28 @@ function getDatabaseTime()
 }
 
 /**
+ * Convert a DATETIME stored in the database (compared with the database NOW()) to UTC.
+ * The conversion is done by MySQL because its time zone may differ from the PHP one.
+ *
+ * @param string $date Y-m-d H:i:s in the database time zone
+ * @return string Y-m-d H:i:s in UTC, or an empty string if the date is invalid
+ */
+function convertDatabaseDateToUTC($date)
+{
+    if (empty($date) || !is_string($date) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/', $date)) {
+        return '';
+    }
+    $res = sqlDAL::readSql("SELECT UNIX_TIMESTAMP(?) AS unix_time", "s", [$date]);
+    $data = sqlDAL::fetchAssoc($res);
+    sqlDAL::close($res);
+    $unixTime = intval($data['unix_time'] ?? 0);
+    if ($unixTime <= 0) {
+        return '';
+    }
+    return gmdate('Y-m-d H:i:s', $unixTime);
+}
+
+/**
  * Convert a valid ISO 8601 date to MySQL format (Y-m-d H:i:s).
  * If the date is invalid, return an empty string.
  *

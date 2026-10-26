@@ -143,7 +143,9 @@ services:
       MYSQL_USER: "${DB_MYSQL_USER}"
       MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD}"
     volumes:
-      - ./.compose/db:/var/lib/mysql
+      # Named volume on the Linux filesystem (much faster than a Windows bind mount under WSL2).
+      # Never run "docker compose down -v" unless you intend to delete the database.
+      - db_data:/var/lib/mysql
     healthcheck:
       test: "mariadb-admin ping -h localhost -u $DB_MYSQL_USER -p$DB_MYSQL_PASSWORD"
       interval: 30s
@@ -172,7 +174,7 @@ services:
       MYSQL_USER: "${DB_MYSQL_USER}"
       MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD}"
     volumes:
-      - ./.compose/db_encoder:/var/lib/mysql
+      - db_encoder_data:/var/lib/mysql
     healthcheck:
       test: "mariadb-admin ping -h localhost -u $DB_MYSQL_USER -p$DB_MYSQL_PASSWORD"
       interval: 30s
@@ -212,6 +214,10 @@ services:
     environment:
       NPROC: ${NPROC:-4}
 
+
+volumes:
+  db_data:
+  db_encoder_data:
 
 networks:
   app_net:

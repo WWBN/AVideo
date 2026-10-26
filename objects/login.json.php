@@ -365,12 +365,18 @@ if ($object->isLogged) {
     $p = AVideoPlugin::loadPluginIfEnabled("Subscription");
     if (!empty($p)) {
         $object->Subscription = Subscription::getAllFromUser($object->id);
+        foreach ($object->Subscription as $key => $row) {
+            $object->Subscription[$key]['good_until_utc'] = convertDatabaseDateToUTC($row['good_until'] ?? '');
+        }
     }
     TimeLogEnd($timeLog2, __LINE__);
     //_error_log("login.json.php get PayPerView");
     $p = AVideoPlugin::loadPluginIfEnabled("PayPerView");
     if (!empty($p) && class_exists('PayPerView')) {
         $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
+        foreach ($object->PayPerView as $key => $row) {
+            $object->PayPerView[$key]['expiration_utc'] = convertDatabaseDateToUTC($row['expiration'] ?? '');
+        }
     }
     TimeLogEnd($timeLog2, __LINE__);
 } else {
