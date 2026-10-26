@@ -331,6 +331,11 @@ class Cache extends PluginAbstract {
             return true;
         }
         $script = str_replace('\\', '/', $_SERVER['SCRIPT_FILENAME'] ?? '');
+        // These pages expose current certificate validity or gift entitlements.
+        // Serve authorization and revocation checks before any previously cached HTML.
+        foreach (['/plugin/CertifyComplete/', '/plugin/Gift/'] as $directory) {
+            if (strpos($script, $directory) !== false) { return true; }
+        }
         $dynamicEndpoints = [
             '/objects/videoAddViewCount.json.php',
             '/plugin/AD_Server/log.php',

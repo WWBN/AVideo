@@ -254,7 +254,8 @@ $colSize = 12 / count($paymentOptions);
                                                     <i class="fas fa-shopping-cart"></i> <?php echo __('Buy'); ?>
                                                 </a>
                                                 <?php
-                                                if ($giftObj) {
+                                                if ($giftObj && (($value2['type'] === 's' && !empty($giftObj->gift_subscription))
+                                                    || ($value2['type'] === 'p' && !empty($giftObj->gift_ppv) && !empty($value2['users_groups_ids'])))) {
                                                     $url = "{$global['webSiteRootURL']}plugin/Gift/View/createGift.php";
                                                     foreach ($parametersToAddInTheURL as $key => $pvalue) {
                                                         $url = addQueryStringParameter($url, $key, $pvalue);

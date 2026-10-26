@@ -51,7 +51,7 @@ class CacheGrowthRegressionTest extends TestCase
         try {
             $_SERVER['SCRIPT_FILENAME'] = '/site/view/index.php';
             $method = new \ReflectionMethod(Cache::class, 'shouldSkipPageCacheForCurrentRequest');
-            $method->setAccessible(true);
+            if (PHP_VERSION_ID < 80100) { $method->setAccessible(true); }
             $plugin = new Cache();
             foreach (['1¤t=20¤t=21', ['1'], 'NaN'] as $value) {
                 $_GET = ['isInfiniteScroll' => $value];
@@ -74,7 +74,7 @@ class CacheGrowthRegressionTest extends TestCase
         try {
             $cache_pageCacheLifetimes = ['firstPage/test.cache' => 600];
             $method = new \ReflectionMethod(CachesInDB::class, 'prepareCacheItem');
-            $method->setAccessible(true);
+            if (PHP_VERSION_ID < 80100) { $method->setAccessible(true); }
             $metadata = ['domain' => 'example.test', 'user_location' => 'US', 'loggedType' => 'n', 'ishttps' => 1];
             $now = time();
             $row = $method->invoke(null, 'firstPage/test.cache', 'html', $metadata, 'UTC', $now);
@@ -84,5 +84,36 @@ class CacheGrowthRegressionTest extends TestCase
         } finally {
             $cache_pageCacheLifetimes = $saved;
         }
+    }
+
+    /** @dataProvider entitlementPages */
+    public function testCertificateAndGiftPagesAlwaysCheckCurrentEntitlements($path, $expected): void
+    {
+        $savedGet = $_GET;
+        $savedServer = $_SERVER;
+        try {
+            $_GET = [];
+            $_SERVER['SCRIPT_FILENAME'] = $path;
+            $method = new \ReflectionMethod(Cache::class, 'shouldSkipPageCacheForCurrentRequest');
+            if (PHP_VERSION_ID < 80100) { $method->setAccessible(true); }
+            $this->assertSame($expected, $method->invoke(new Cache()));
+        } finally {
+            $_GET = $savedGet;
+            $_SERVER = $savedServer;
+        }
+    }
+
+    public function entitlementPages(): array
+    {
+        return [
+            ['/site/plugin/CertifyComplete/View/student/validate_certificate.php', true],
+            ['/site/plugin/CertifyComplete/View/student/download_certificate.php', true],
+            ['/site/plugin/CertifyComplete/cert.php', true],
+            ['D:\\site\\plugin\\CertifyComplete\\certificate.php', true],
+            ['/site/plugin/Gift/View/profileTabContent.php', true],
+            ['/site/plugin/Gift/View/redeem.php', true],
+            ['/site/view/index.php', false],
+            ['/site/plugin/GiftShop/index.php', false],
+        ];
     }
 }

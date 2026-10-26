@@ -79,7 +79,6 @@ class UserGroups{
             $values = [$this->group_name, $allowed_resolutions_json];
         }
         if (sqlDAL::writeSql($sql, $formats, $values)) {
-            ObjectYPT::deleteCache('UserGroups::getAllUsersGroupsArray', false);
             /**
              *
              * @var array $global
@@ -90,6 +89,8 @@ class UserGroups{
             } else {
                 $id = $this->id;
             }
+            // Cache invalidation may write to MySQL and reset insert_id.
+            ObjectYPT::deleteCache('UserGroups::getAllUsersGroupsArray', false);
             return $id;
         } else {
             return false;
