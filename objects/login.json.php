@@ -380,6 +380,9 @@ if ($object->isLogged) {
             $unixTime = convertDatabaseDateToUnixTime($row['expiration'] ?? '');
             $object->PayPerView[$key]['expiration_utc'] = empty($unixTime) ? '' : gmdate('Y-m-d H:i:s', $unixTime);
             $object->PayPerView[$key]['expiration_unix'] = $unixTime;
+            // same names as in Subscription, so the app reads both lists the same way
+            $object->PayPerView[$key]['good_until_utc'] = $object->PayPerView[$key]['expiration_utc'];
+            $object->PayPerView[$key]['good_until_unix'] = $unixTime;
         }
     }
     TimeLogEnd($timeLog2, __LINE__);
