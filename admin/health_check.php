@@ -1,8 +1,6 @@
 <?php
-// Share the persistent admin notice; show the limited positive result here as well.
-$phpRuntimeSecurityShowPassing = true;
+// Share the persistent admin notice; it stays hidden when the PHP runtime is fixed.
 include_once __DIR__ . '/../view/include/phpRuntimeWarning.php';
-unset($phpRuntimeSecurityShowPassing);
 // Include centralized health check functions and configuration
 require_once __DIR__ . '/health_check_functions.php';
 // Diagnostics can take time; do not block other tabs or configuration saves.
