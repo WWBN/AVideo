@@ -1,6 +1,43 @@
 <?php
 require_once dirname(__DIR__) . '/objects/dangerousConfigurations.php';
 
+function getAdminPageWarningHTML($filename)
+{
+    global $global;
+    $relativePath = substr(str_replace('\\', '/', $filename), strlen(str_replace('\\', '/', $global['systemRootPath'])));
+    $pageMissing = !file_exists($filename);
+    $messages = [];
+    $link = '';
+    $class = 'alert-danger';
+    if (strpos($relativePath, 'plugin/') === 0) {
+        $parts = explode('/', $relativePath);
+        $pluginName = $parts[1];
+        $label = htmlspecialchars($pluginName, ENT_QUOTES, 'UTF-8');
+        if (!AVideoPlugin::exists($pluginName)) {
+            $messages[] = sprintf(__('The %s plugin is not installed. Install it to use this feature.'), $label);
+            $link = '<a class="btn btn-danger" href="https://streamphp.com/marketplace/">' . __('Plugin Store') . '</a>';
+        } else {
+            if (!AVideoPlugin::isEnabledByName($pluginName)) {
+                $messages[] = sprintf(__('The %s plugin is installed but disabled. Enable it in Plugins to use this feature.'), $label);
+                $class = 'alert-warning';
+            }
+            if ($pageMissing) {
+                $messages[] = sprintf(__('The %s plugin is installed, but its administration page is unavailable. Update the plugin and try again.'), $label);
+                $class = 'alert-danger';
+            }
+            if (!empty($messages)) {
+                $link = '<a class="btn btn-default" href="' . htmlspecialchars($global['webSiteRootURL'] . 'admin/?browse_page=plugins', ENT_QUOTES, 'UTF-8') . '">' . __('Plugins') . '</a>';
+            }
+        }
+    } elseif ($pageMissing) {
+        $messages[] = __('This administration page is unavailable. Update AVideo and try again.');
+    }
+    if (empty($messages)) {
+        return '';
+    }
+    return '<div class="alert ' . $class . '">' . implode(' ', $messages) . ' ' . $link . '</div>';
+}
+
 function createTable($pluginName, $filter = [])
 {
     $plugin = AVideoPlugin::getObjectData($pluginName);
@@ -21,7 +58,7 @@ function createTable($pluginName, $filter = [])
     echo AVideoPlugin::getDependencyWarningHTML($pluginName);
     echo '<table class="table table-hover admin-settings-table">';
     if (!AVideoPlugin::exists($pluginName)) {
-        echo "<tr><td colspan='2'> " . __('Sorry you do not have the plugin') . " </td></tr>";
+        echo "<tr><td colspan='2'> " . sprintf(__('The %s plugin is not installed. Install it to use this feature.'), htmlspecialchars($pluginName, ENT_QUOTES, 'UTF-8')) . " </td></tr>";
     } else {
         echo implode('', $form) . implode('', $disabledRows);
         if (!empty($form)) {

@@ -2947,6 +2947,9 @@ $t['Thank you'] = 'Obrigado';
 $t['Thank you!'] = 'Obrigado';
 $t['Thank you for the donation of'] = 'Obrigado pela doação de';
 $t['Thank you for your purchase! Your gift is on its way'] = 'Obrigado pela sua compra! Seu presente está a caminho';
+$t['The %s plugin is installed, but its administration page is unavailable. Update the plugin and try again.'] = 'O plugin %s está instalado, mas sua página de administração está indisponível. Atualize o plugin e tente novamente.';
+$t['The %s plugin is installed but disabled. Enable it in Plugins to use this feature.'] = 'O plugin %s está instalado, mas desativado. Ative-o em Plugins para usar este recurso.';
+$t['The %s plugin is not installed. Install it to use this feature.'] = 'O plugin %s não está instalado. Instale-o para usar este recurso.';
 $t['The <a href=\'{videoLink}\'>{videoName}</a> video was reported as inappropriate from {user} '] = 'O vídeo <a href=\'{videoLink}\'>{videoName}</a> foi denunciado como impróprio por {user} ';
 $t['The administrator will verify the payment'] = 'O administrador verificará o pagamento';
 $t['The broadcast was interrupted. Please try again.'] = 'A transmissão foi interrompida. Tente novamente.';
@@ -3043,6 +3046,7 @@ $t['This account has been disabled. Contact support for details.'] = 'Esta conta
 $t['This account is disabled because the connected marketplace wallet balance ran out. Add credits to your marketplace wallet to reactivate automatically - content is at risk of deletion after 24 hours.'] = 'Esta conta está desativada porque o saldo da carteira do marketplace conectada acabou. Adicione créditos à sua carteira do marketplace para reativá-la automaticamente - o conteúdo corre o risco de ser excluído após 24 horas.';
 $t['This action can not be recovered!'] = 'Esta ação não pode ser recuperada!';
 $t['This action cannot be undone. The user will need to confirm their identity again.'] = 'Esta ação não pode ser desfeita. O usuário precisará confirmar sua identidade novamente.';
+$t['This administration page is unavailable. Update AVideo and try again.'] = 'Esta página de administração está indisponível. Atualize o AVideo e tente novamente.';
 $t['This also reset the Chat and views counter'] = 'Isso também reseta o chat e ocontador de visualizações';
 $t['This button is always a click worth'] = 'Este botão vale sempre um clique';
 $t['This category allow download'] = 'Esta categoria permite download';

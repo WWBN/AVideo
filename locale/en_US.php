@@ -2829,6 +2829,9 @@ $t['Thank you'] = 'Thank you';
 $t['Thank you!'] = 'Thank you!';
 $t['Thank you for the donation of'] = 'Thank you for the donation of';
 $t['Thank you for your purchase! Your gift is on its way'] = 'Thank you for your purchase! Your gift is on its way';
+$t['The %s plugin is installed, but its administration page is unavailable. Update the plugin and try again.'] = 'The %s plugin is installed, but its administration page is unavailable. Update the plugin and try again.';
+$t['The %s plugin is installed but disabled. Enable it in Plugins to use this feature.'] = 'The %s plugin is installed but disabled. Enable it in Plugins to use this feature.';
+$t['The %s plugin is not installed. Install it to use this feature.'] = 'The %s plugin is not installed. Install it to use this feature.';
 $t['The <a href=\'{videoLink}\'>{videoName}</a> video was reported as inappropriate from {user} '] = 'The <a href=\'{videoLink}\'>{videoName}</a> video was reported as inappropriate from {user} ';
 $t['The administrator will verify the payment'] = 'The administrator will verify the payment';
 $t['The broadcast was interrupted. Please try again.'] = 'The broadcast was interrupted. Please try again.';
@@ -2917,6 +2920,7 @@ $t['This account has been disabled. Contact support for details.'] = 'This accou
 $t['This account is disabled because the connected marketplace wallet balance ran out. Add credits to your marketplace wallet to reactivate automatically - content is at risk of deletion after 24 hours.'] = 'This account is disabled because the connected marketplace wallet balance ran out. Add credits to your marketplace wallet to reactivate automatically - content is at risk of deletion after 24 hours.';
 $t['This action can not be recovered!'] = 'This action can not be recovered!';
 $t['This action cannot be undone. The user will need to confirm their identity again.'] = 'This action cannot be undone. The user will need to confirm their identity again.';
+$t['This administration page is unavailable. Update AVideo and try again.'] = 'This administration page is unavailable. Update AVideo and try again.';
 $t['This also reset the Chat and views counter'] = 'This also reset the Chat and views counter';
 $t['This button is always a click worth'] = 'This button is always a click worth';
 $t['This category allow download'] = 'This category allow download';
