@@ -331,7 +331,12 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   `Encoder::sendToStreamer()` saves those into the job (and would insert a row for the unsaved job
   object used by system alerts). The cron belongs to the Encoder installation (one Encoder serves
   many Streamers, in any folder): install it with `install/installCron.php` from the Encoder itself,
-  never from a Streamer's `deploy/` crontab, and run it as the web server user, not root. Covered by
+  never from a Streamer's `deploy/` crontab, and run it as the web server user, not root. The
+  `queue_stalled` admin alert also needs the queue idle (jobs waiting, nothing processing) for
+  `queueIdleMinutes` across runs (state `queue_idle_since`): the run right after a long conversion
+  ends always sees nothing processing, and jobs waiting behind a conversion are not a stall. Output
+  files are named `avideoTmpFile_<job>_streamers_id_<streamer>_*`, and "Renew site access" logs in
+  with the stored username, so a job whose site account was renamed cannot be renewed. Covered by
   `.compose/encoder/tests/encoder-monitor-regression.php` and `tests/Unit/EncoderAlertTest.php`.
 - **Seek bar thumbnails (`plugin/VideoThumbnails/`, own GitLab repo, shipped encrypted)**: the sprite
   `<filename>_thumbsSprit.jpg` comes from the Encoder `getSpiritsFromVideo/<base64 url>/...`, which answers
