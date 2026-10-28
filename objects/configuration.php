@@ -513,7 +513,7 @@ class AVideoConf extends ObjectYPT
 
     public function getSmtpUsername()
     {
-        return $this->smtpUsername;
+        return trim((string) $this->smtpUsername);
     }
 
     public function getSmtpPassword()
@@ -543,7 +543,7 @@ class AVideoConf extends ObjectYPT
 
     public function setSmtpUsername($smtpUsername)
     {
-        $this->smtpUsername = $smtpUsername;
+        $this->smtpUsername = trim((string) $smtpUsername);
     }
 
     public function setSmtpPassword(
