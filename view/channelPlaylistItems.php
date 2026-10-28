@@ -42,12 +42,13 @@ if (User::isLogged() && $user_id == User::getId()) {
     $isMyChannel = true;
 }
 $_REQUEST['rowCount'] = 4;
+$playlistTotalPages = ceil(PlayList::getTotalFromUser($user_id, $publicOnly, false, 0, 0, true) / $_REQUEST['rowCount']);
 $sort = @$_POST['sort'];
 $_POST['sort'] = [];
 $_POST['sort']['created'] = 'DESC';
 $playlists = PlayList::getAllFromUser($user_id, $publicOnly, false, 0, 0, true);
 $_POST['sort'] = $sort;
-$current = $_POST['current'];
+$current = getCurrentPage();
 unset($_POST['current']);
 ?>
 <div class="programsContainerItem">
@@ -469,13 +470,14 @@ unset($_POST['current']);
         echo "Line: {$key} -> {$value}\n";
     }
     $_POST['current'] = $current;
+    resetCurrentPage();
     ?>
     -->
 </div>
 <?php
 $url = "{$global['webSiteRootURL']}view/channelPlaylistItems.php";
 $url = addQueryStringParameter($url, 'channelName', $_GET['channelName']);
-echo getPagination($totalPages, $url, 10, ".programsContainerItem", ".programsContainerItem");
+echo getPagination($playlistTotalPages, $url, 10, ".programsContainerItem", ".programsContainerItem");
 ?>
 <script>
     var timoutembed;

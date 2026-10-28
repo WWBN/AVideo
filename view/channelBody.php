@@ -110,7 +110,7 @@ if ($advancedCustomUser->showChannelLiveTab) {
 $showChannelHomeTab     = $advancedCustomUser->showChannelHomeTab   && $ownerCanUplaodVideos && !empty($uploadedVideos);
 $showChannelVideosTab   = $advancedCustomUser->showChannelVideosTab && $ownerCanUplaodVideos && !empty($uploadedVideos);
 $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj);
-$totalPrograms = $showChannelProgramsTab ? PlayList::getAllFromUserLight($user_id, true, false, 0, true, true) : [];
+$totalPrograms = $showChannelProgramsTab ? PlayList::getTotalFromUser($user_id, !$isMyChannel, false, 0, 0, true) : 0;
 
 $channelShowBranding = empty($advancedCustomUser->doNotShowTopBannerOnChannel);
 $channelBackgroundType = isMobile() ? User::$channel_artDesktopMin : User::$channel_artDesktopMax;
@@ -320,7 +320,7 @@ function tabContentClass(string $tab): string
                             ?>
                                 <li class="nav-item <?php echo tabButtonClass('channelPlayLists'); ?>" id="channelPlayListsLi">
                                     <a class="nav-link" href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
-                                        <i class="fas fa-list"></i> <span class="labelUpperCase"><?php echo __($palyListsObj->name); ?></span> <span class="badge"><?php echo count($totalPrograms); ?></span>
+                                        <i class="fas fa-list"></i> <span class="labelUpperCase"><?php echo __($palyListsObj->name); ?></span> <span class="badge"><?php echo $totalPrograms; ?></span>
                                     </a>
                                 </li>
                             <?php } } ?>
