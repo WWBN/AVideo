@@ -146,9 +146,14 @@ switch ($_GET['browse_page']) {
         $includeBody = $global['systemRootPath'] . 'view/configurations_body.php';
         break;
     case "monetize_subscription":
-        $includeHead = $global['systemRootPath'] . 'plugin/Subscription/browse_page/editor_head.php';
+        $subscriptionEditorPath = $global['systemRootPath'] . 'plugin/Subscription/page/';
+        // Subscription is distributed separately; older installations may use browse_page.
+        if (!file_exists($subscriptionEditorPath . 'editor_body.php') && file_exists($global['systemRootPath'] . 'plugin/Subscription/browse_page/editor_body.php')) {
+            $subscriptionEditorPath = $global['systemRootPath'] . 'plugin/Subscription/browse_page/';
+        }
+        $includeHead = $subscriptionEditorPath . 'editor_head.php';
         $includeBody = [];
-        $includeBody[] = $global['systemRootPath'] . 'plugin/Subscription/browse_page/editor_body.php';
+        $includeBody[] = $subscriptionEditorPath . 'editor_body.php';
         $includeBody[] = $global['systemRootPath'] . 'admin/monetize_subscription.php';
         break;
     case "monetize_vast":
@@ -272,29 +277,10 @@ if (!empty($includeHead) && file_exists($includeHead)) {
         <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12 admin-content">
             <?php
             if (!empty($includeBody)) {
-                if (is_array($includeBody)) {
-                    foreach ($includeBody as $value) {
-                        if (file_exists($value)) {
-                            include $value;
-                        } else {
-            ?>
-                            <div class="alert alert-danger">
-                                <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
-                                <a class="btn btn-danger" href="https://streamphp.com/marketplace/"><?php echo __('Plugin Store'); ?></a>
-                            </div>
-                        <?php
-                        }
-                    }
-                } else {
-                    if (file_exists($includeBody)) {
-                        include $includeBody;
-                    } else {
-                        ?>
-                        <div class="alert alert-danger">
-                            <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
-                            <a class="btn btn-danger" href="https://streamphp.com/marketplace/"><?php echo __('Plugin Store'); ?></a>
-                        </div>
-            <?php
+                foreach ((array) $includeBody as $value) {
+                    echo getAdminPageWarningHTML($value);
+                    if (file_exists($value)) {
+                        include $value;
                     }
                 }
             }

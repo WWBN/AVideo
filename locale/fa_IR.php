@@ -2841,6 +2841,9 @@ $t['Thank you'] = 'متشکریم';
 $t['Thank you!'] = 'متشکریم!';
 $t['Thank you for the donation of'] = 'سپاس بابت کمک مالی به مبلغ';
 $t['Thank you for your purchase! Your gift is on its way'] = 'از خرید شما سپاسگزاریم! هدیه شما در راه است';
+$t['The %s plugin is installed, but its administration page is unavailable. Update the plugin and try again.'] = 'افزونه %s نصب شده است، اما صفحه مدیریت آن در دسترس نیست. افزونه را به‌روز کنید و دوباره تلاش کنید.';
+$t['The %s plugin is installed but disabled. Enable it in Plugins to use this feature.'] = 'افزونه %s نصب شده اما غیرفعال است. برای استفاده از این قابلیت، آن را در بخش افزونه‌ها فعال کنید.';
+$t['The %s plugin is not installed. Install it to use this feature.'] = 'افزونه %s نصب نشده است. برای استفاده از این قابلیت، آن را نصب کنید.';
 $t['The <a href=\'{videoLink}\'>{videoName}</a> video was reported as inappropriate from {user} '] = 'ویدئوی <a href=\'{videoLink}\'>{videoName}</a> از طرف {user} به‌عنوان نامناسب گزارش شد ';
 $t['The administrator will verify the payment'] = 'مدیر پرداخت را تأیید خواهد کرد';
 $t['The broadcast was interrupted. Please try again.'] = 'پخش قطع شد. لطفاً دوباره تلاش کنید.';
@@ -2930,6 +2933,7 @@ $t['This account has been disabled. Contact support for details.'] = 'این ح�
 $t['This account is disabled because the connected marketplace wallet balance ran out. Add credits to your marketplace wallet to reactivate automatically - content is at risk of deletion after 24 hours.'] = 'این حساب غیرفعال است زیرا موجودی کیف پول marketplace متصل تمام شده است. برای فعال‌سازی خودکار مجدد، به کیف پول marketplace خود اعتبار اضافه کنید - محتوا پس از ۲۴ ساعت در معرض حذف قرار دارد.';
 $t['This action can not be recovered!'] = 'این عمل قابل بازگردانی نیست!';
 $t['This action cannot be undone. The user will need to confirm their identity again.'] = 'این عمل قابل لغو نیست. کاربر باید دوباره هویت خود را تأیید کند.';
+$t['This administration page is unavailable. Update AVideo and try again.'] = 'این صفحه مدیریت در دسترس نیست. AVideo را به‌روز کنید و دوباره تلاش کنید.';
 $t['This also reset the Chat and views counter'] = 'این کار شمارنده چت و بازدیدها را نیز بازنشانی می‌کند';
 $t['This button is always a click worth'] = 'کلیک روی این دکمه همیشه ارزشش را دارد';
 $t['This category allow download'] = 'این دسته‌بندی اجازهٔ دریافت می‌دهد';
