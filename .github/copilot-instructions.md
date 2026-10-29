@@ -36,6 +36,10 @@ files win:
 - [avideo-prefer-existing-frontend-libraries.instructions.md](instructions/avideo-prefer-existing-frontend-libraries.instructions.md) — reuse bundled libraries
 - [avideo-reuse-existing-code.instructions.md](instructions/avideo-reuse-existing-code.instructions.md) — search-first workflow and helper inventory
 
+## Documentation Maintenance
+
+Before completing any relevant code change in AVideo, the Encoder or its plugins, always review the affected pages in the wiki checkout `D:/git/AVideo.wiki/`, which feeds the user's AI agent. Update outdated basic or technical documentation as part of the same task without requiring another reminder; if no update is needed, state that the wiki was reviewed. Keep basic guides understandable to nontechnical users. Detailed engineering references belong in that wiki's `technical/` directory with a separate index and unique `Technical-` page names, not in this application or plugin repository. Verify facts against the relevant component/plugin revision. Do not commit, push, publish or reindex without authorization from the current task.
+
 ## Stack (verified from `composer.json` / `package.json`)
 
 - **Backend**: PHP `^8.2` (composer platform pinned to `8.2`). CI (`.github/workflows/tests.yml`)
