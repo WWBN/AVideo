@@ -159,6 +159,8 @@ Project security filters available (`objects/functionsSecurity.php`):
 - `$securityFilterInt` — integer sanitizer
 - `$securityRemoveSingleQuotes` — removes single quotes
 
+These lists are applied once, at bootstrap, by `objects/security.php` (Streamer and Encoder each have their own). A value written into `$_GET`/`$_POST`/`$_REQUEST` afterwards — e.g. decoded from a base64/JSON parameter, as the Encoder's `view/watermark.php` `_` parameter does — is never filtered: validate it where it is decoded (GHSA-jr9g-hfqp-pv83, covered by `.compose/encoder/tests/encoder-watermark-request-regression.php`).
+
 ---
 
 ## SQL Injection Prevention
