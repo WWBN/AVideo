@@ -56,6 +56,7 @@ services:
       - "${WEBRTC_PORT:-3000}:${WEBRTC_PORT:-3000}"
     volumes:
       - "./.compose/HLS:/HLS"
+      - "recordings:/var/www/tmp"
       - "./:/var/www/html/AVideo"
       - "./.compose/videos:/var/www/html/AVideo/videos"
       - "./.compose/encoder:/var/www/html/AVideo/Encoder"
@@ -92,6 +93,7 @@ services:
     restart: "unless-stopped"
     volumes:
       - "./.compose/HLS:/HLS"
+      - "recordings:/var/www/tmp"
       - "./.compose/letsencrypt:/etc/letsencrypt/"
     environment:
       SERVER_NAME: "${SERVER_NAME:-localhost}"
@@ -216,6 +218,10 @@ services:
 
 
 volumes:
+  # Set both variables to reuse an existing recording volume without moving data.
+  recordings:
+    name: ${LIVE_RECORDINGS_VOLUME:-${COMPOSE_PROJECT_NAME}_recordings}
+    external: ${LIVE_RECORDINGS_VOLUME_EXTERNAL:-false}
   db_data:
   db_encoder_data:
 

@@ -10,6 +10,8 @@ $retryLimit = 10;
 $linesToCheck = 50;
 // Time threshold for old files (30 days)
 $oldFileThreshold = 30 * 24 * 60 * 60; // 30 days in seconds
+// Logs not written for this long have no running FFmpeg behind them
+$staleLogSeconds = 30;
 
 // Function to read the last N lines of a file
 function tailFile($file, $lines = 50) {
@@ -41,6 +43,27 @@ function tailFile($file, $lines = 50) {
     $allLines = array_values(array_filter(explode("\n", $content), 'strlen'));
 
     return array_slice($allLines, -$lines);
+}
+
+// True when the process writes its output to $logFile, false when it writes somewhere else,
+// null when /proc cannot tell (not Linux, or no permission).
+function restreamProcessWritesToLog($pid, $logFile) {
+    if (!function_exists('readlink')) {
+        return null;
+    }
+    $logPath = realpath($logFile);
+    $known = false;
+    foreach (array(1, 2) as $fd) {
+        $target = @readlink("/proc/{$pid}/fd/{$fd}");
+        if ($target === false) {
+            continue;
+        }
+        $known = true;
+        if ($logPath !== false && $target === $logPath) {
+            return true;
+        }
+    }
+    return $known ? false : null;
 }
 
 // Function to format the last modified time
@@ -93,6 +116,14 @@ foreach ($logFiles as $logFile) {
     if (($currentTime - $lastModified) > $oldFileThreshold) {
         echo "Deleting old log file: $logFile (last modified on $lastModifiedFormatted, more than 30 days ago).\n";
         unlink($logFile);
+        continue;
+    }
+
+    // A log only describes the FFmpeg that is still writing it (a running FFmpeg updates its
+    // progress line every 0.5s). A killed or finished restream leaves its log behind, and a new
+    // restream for the same destination and live uses the same input URL, so acting on the old
+    // log killed the new, healthy restream every minute.
+    if (($currentTime - $lastModified) > $staleLogSeconds) {
         continue;
     }
 
@@ -188,6 +219,10 @@ foreach ($logFiles as $logFile) {
                 preg_match('/^\s*(\d+)/', $processLine, $pidMatch);
                 if (isset($pidMatch[1])) {
                     $pid = (int) $pidMatch[1];
+                    if ($pid > 0 && restreamProcessWritesToLog($pid, $logFile) === false) {
+                        echo "Not killing PID: $pid, it does not write to $logFile.\n";
+                        continue;
+                    }
                     if ($pid > 0) {
                         echo "Killed FFmpeg process with PID: $pid for URL: $lastUrlOpened".PHP_EOL;
                         // Kill the process

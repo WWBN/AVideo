@@ -993,6 +993,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $obj->remoteResponse = false;
         if (!empty($response)) {
             $json = json_decode($response);
+            // Docker calls nginx-rtmp directly; record/start returns the file path,
+            // whereas the standalone PHP controller wraps that path in JSON.
+            if (isDocker() && empty($json) && preg_match('~^/[^\r\n]+\.flv$~', trim($response))) {
+                $json = (object) ['error' => false, 'msg' => '', 'response' => trim($response)];
+            }
             if (!empty($json)) {
                 if ($start && empty($json->error) && empty($json->response) && $try < 4) {
                     _error_log("Live:controlRecording start record is not ready trying again in 5 seconds " . (isCommandLineInterface() ? 'From Command Line' : 'Not Command Line'));
@@ -3695,12 +3700,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
             _error_log("on_publish: automatic restream skipped because disableRestream is enabled liveTransmitionHistory_id={$liveTransmitionHistory_id}");
         } elseif (empty($isReconnection)) {
             _error_log("on_publish: automatic restream starting for first publish liveTransmitionHistory_id={$liveTransmitionHistory_id}");
-            $restreamResult = self::restream($liveTransmitionHistory_id);
-            _error_log("on_publish: automatic restream finished for first publish liveTransmitionHistory_id={$liveTransmitionHistory_id} result=" . json_encode($restreamResult));
+            $restreamResult = self::restreamInBackground($liveTransmitionHistory_id);
+            _error_log("on_publish: automatic restream requested in background for first publish liveTransmitionHistory_id={$liveTransmitionHistory_id} result=" . json_encode($restreamResult));
         } elseif (self::canAutoRestreamOnReconnection($key, $live_servers_id)) {
             _error_log("on_publish: auto restream restart on reconnection after cooldown key={$key} live_servers_id={$live_servers_id} liveTransmitionHistory_id={$liveTransmitionHistory_id}");
-            $restreamResult = self::restream($liveTransmitionHistory_id);
-            _error_log("on_publish: automatic restream restart finished liveTransmitionHistory_id={$liveTransmitionHistory_id} result=" . json_encode($restreamResult));
+            $restreamResult = self::restreamInBackground($liveTransmitionHistory_id);
+            _error_log("on_publish: automatic restream restart requested in background liveTransmitionHistory_id={$liveTransmitionHistory_id} result=" . json_encode($restreamResult));
             self::markAutoRestreamOnReconnection($key, $live_servers_id);
         } elseif (!empty($isReconnection)) {
             _error_log("on_publish: skipping automatic restream restart on reconnection due cooldown key={$key} live_servers_id={$live_servers_id} liveTransmitionHistory_id={$liveTransmitionHistory_id}");
@@ -3939,6 +3944,28 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $result;
     }
 
+
+    /**
+     * Automatic restream started from on_publish. The restreamer answers only after it checked the
+     * source and launched every destination (several seconds each), and the on_publish plugin hooks
+     * (live recording, notifications) run after it, so a synchronous call delayed the start of the
+     * recording by that time. It runs in its own CLI process (plugin/Live/restreamInBackground.php).
+     * Windows, and servers without exec(), keep the synchronous call.
+     */
+    public static function restreamInBackground($liveTransmitionHistory_id)
+    {
+        global $global;
+        $liveTransmitionHistory_id = intval($liveTransmitionHistory_id);
+        if (empty($liveTransmitionHistory_id) || isWindowsServer() || !function_exists('exec')) {
+            return self::restream($liveTransmitionHistory_id);
+        }
+        $command = escapeshellarg(get_php())
+            . ' ' . escapeshellarg($global['systemRootPath'] . 'plugin/Live/restreamInBackground.php')
+            . ' ' . escapeshellarg((string) $liveTransmitionHistory_id);
+        _error_log("Live:restreamInBackground liveTransmitionHistory_id={$liveTransmitionHistory_id}");
+        execAsync($command);
+        return true;
+    }
 
     public static function restreamToDestination($liveTransmitionHistory_id, $restreamsDestination)
     {

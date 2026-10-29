@@ -517,4 +517,47 @@ class LiveRestreamProfilesTest extends TestCase
         $this->assertTrue(\isValidRecoveryRestreamRequest(5, true));
         $this->assertTrue(\isValidRecoveryRestreamRequest('5', true));
     }
+
+    /**
+     * With -reconnect_at_eof FFmpeg treats the normal end of every playlist read as an error and
+     * retries it: the first frame reached the destinations about 33 s after the restream started.
+     *
+     * @dataProvider providerHlsSources
+     */
+    public function testHlsSourceDoesNotReconnectAtEndOfFile($url)
+    {
+        $this->assertTrue(\isRestreamHlsSource($url));
+        $options = \getRestreamInputReconnectOptions($url);
+        $this->assertStringNotContainsString('-reconnect_at_eof', $options);
+        $this->assertStringContainsString('-reconnect 1 -reconnect_streamed 1 ', $options);
+        $this->assertStringContainsString('-reconnect_delay_max 10 ', $options);
+        $this->assertStringContainsString('-reconnect_on_network_error 1 ', $options);
+    }
+
+    public function providerHlsSources()
+    {
+        return [
+            ['https://site.example:8443/live/662376121a544/index.m3u8?live_restreams_id=44&liveTransmitionHistory_id=972'],
+            ['https://live:8443/live/662376121a544-1/index.m3u8'],
+            ['https://site.cdn.ypt.me/662376121a544.M3U8'],
+            ['https://site.example/plugin/Live/m3u8.php?live_servers_id=0&uuid=abc'],
+        ];
+    }
+
+    public function testContinuousHttpSourceKeepsReconnectAtEndOfFile()
+    {
+        foreach (['https://site.example/live/stream.flv', 'http://site.example/stream?type=ts', 'https://site.example/m3u8.php.flv'] as $url) {
+            $this->assertFalse(\isRestreamHlsSource($url), $url);
+            $legacyOptions = '-reconnect 1 -reconnect_streamed 1 -reconnect_at_eof 1 -reconnect_delay_max 10 ';
+            $this->assertSame($legacyOptions . '-reconnect_on_network_error 1 ', \getRestreamInputReconnectOptions($url), $url);
+            $this->assertSame($legacyOptions, \getRestreamInputReconnectOptions($url, false), $url);
+        }
+    }
+
+    public function testReconnectOnNetworkErrorCanBeDisabledForOldFfmpeg()
+    {
+        $options = \getRestreamInputReconnectOptions('https://site.example/live/key/index.m3u8', false);
+        $this->assertStringNotContainsString('-reconnect_on_network_error', $options);
+        $this->assertSame('-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 10 ', $options);
+    }
 }

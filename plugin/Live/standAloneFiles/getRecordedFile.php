@@ -34,18 +34,21 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 // media host), so it MUST NOT serve files unless SECRET_KEY is configured in .env
 if (empty($secretKey) || !hash_equals($secretKey, (string) ($_REQUEST['secret'] ?? ''))) {
     error_log("getRecordedFile: invalid or missing secret");
+    http_response_code(403);
     die('forbidden');
 }
 
 if (empty($_REQUEST['saveDVR'])) {
     if (empty($_REQUEST['file'])) {
-        error_log("getRecordedFile: file not found {$_REQUEST['file']} ");
+        error_log("getRecordedFile: file parameter missing");
+        http_response_code(400);
         die('file not found');
     }
     $file = preg_replace("/[^0-9a-z_:-]/i", "", $_REQUEST['file']);
     $filename = $record_path . $file . ".flv";
     if (!file_exists($filename)) {
         error_log("getRecordedFile: file does not exists {$filename} ");
+        http_response_code(404);
         die('file does not exists');
     }
     $contentType = 'video/x-flv';

@@ -578,7 +578,6 @@ function runRestream($robj)
     $users_id = $robj->users_id;
     $responseToken = $robj->responseToken;
     global $separateRestreams;
-    killIfIsRunning($robj);
     $pid = array();
     $deferred = new Deferred();
     if (empty($separateRestreams)) {
@@ -806,7 +805,7 @@ function _make_path($path)
 
 function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1, $startTime = null, $fallbackDestination = '')
 {
-    global $json;
+    global $json, $separateRestreams;
     global $ffmpegBinary, $isATest;
 
     if ($startTime === null) {
@@ -840,6 +839,14 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     if (empty($restreamsDestinations)) {
         error_log("Restreamer.json.php startRestream ERROR empty restreamsDestinations");
         return false;
+    }
+
+    // Restart under the start lock, selecting only this destination in separate mode.
+    // An automatic request has id=0 before runRestream selects each destination; killing there
+    // also stopped the scheduler's
+    // internal relay, or a process another start was still launching under this same lock.
+    if ($tries === 1 && (empty($separateRestreams) || !empty($robj->live_restreams_id))) {
+        killIfIsRunning($robj);
     }
 
     // Check if restream is already running
@@ -931,9 +938,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         // . "-re "
         . "-rw_timeout 120000000 "                 // 120s em microssegundos
         . "-timeout 120000000 "                    // pode ser ignorado por alguns protocolos
-        . "-reconnect 1 -reconnect_streamed 1 "
-        . "-reconnect_at_eof 1 -reconnect_delay_max 10 "
-        . ($disableReconnectOnNetworkError ? "" : "-reconnect_on_network_error 1 ")
+        . getRestreamInputReconnectOptions($m3u8, !$disableReconnectOnNetworkError)
         . "-http_persistent 1 -multiple_requests 1 " // mantém conexões HTTP ativas entre segmentos
         . "-probesize 100M -analyzeduration 300M "
         . "-thread_queue_size 8192 "

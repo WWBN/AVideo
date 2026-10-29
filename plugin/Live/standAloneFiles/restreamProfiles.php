@@ -209,6 +209,31 @@ function isYouTubeRestreamDestination($url)
     return getRestreamProvider($url) === 'youtube';
 }
 
+/**
+ * True when the restream source is an HLS playlist (the live m3u8, or the protected m3u8.php).
+ */
+function isRestreamHlsSource($sourceUrl)
+{
+    $path = strtolower((string) parse_url((string) $sourceUrl, PHP_URL_PATH));
+    return substr($path, -5) === '.m3u8' || substr($path, -9) === '/m3u8.php';
+}
+
+/**
+ * HTTP reconnect options for the restream input.
+ *
+ * "-reconnect_at_eof" is only for continuous HTTP streams (FLV/TS over HTTP). An HLS playlist
+ * always ends with EOF, so with that option FFmpeg retries every playlist read before using it
+ * (FFmpeg 8 with "-reconnect_delay_max 10": three 0+1+3+7 s cycles, about 33 s before the
+ * first frame reaches the destinations). The HLS demuxer already reloads the live playlist.
+ */
+function getRestreamInputReconnectOptions($sourceUrl, $reconnectOnNetworkError = true)
+{
+    return "-reconnect 1 -reconnect_streamed 1 "
+        . (isRestreamHlsSource($sourceUrl) ? "" : "-reconnect_at_eof 1 ")
+        . "-reconnect_delay_max 10 "
+        . ($reconnectOnNetworkError ? "-reconnect_on_network_error 1 " : "");
+}
+
 // YouTube, Facebook, Twitch and generic RTMP(S) destinations all use the same plain "-f flv"
 // output - a prior tee+fifo isolation attempt specifically for YouTube caused it to reject the
 // stream while every other provider kept working fine with this exact same output block, so

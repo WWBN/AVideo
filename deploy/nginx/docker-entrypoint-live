@@ -5,6 +5,11 @@ CONFIG_NGINX_FILE=/usr/local/nginx/conf/nginx.conf
 RUN_CERTBOT="${RUN_CERTBOT:-auto}"
 NGINX_SYNC_CERTIFICATES=/usr/local/bin/nginx-sync-certificates.sh
 
+# The live server and Streamer share this volume for on_record_done.
+mkdir -p /var/www/tmp
+chown www-data:www-data /var/www/tmp
+chmod 770 /var/www/tmp
+
 should_run_certbot() {
   if [ "_${RUN_CERTBOT}_" = "_yes_" ]; then
     return 0

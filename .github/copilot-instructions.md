@@ -206,6 +206,23 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   (`on_publish.php`, `on_play.php`, `on_publish_done.php`, `on_record_done.php`, etc.) called by
   the Nginx/RTMP live server component. These are integration points with an external process —
   do not change their expected request/response contract without checking the live-server side.
+- **Live start, restream and recording**: `Live::_on_publish()` starts the automatic restream with
+  `restreamInBackground()` (CLI `plugin/Live/restreamInBackground.php`) because the restreamer
+  answers only after launching every destination (sleeps, source check, YouTube RTMPS probe), and the
+  recording starts in the `on_publish` plugin hook (SendRecordedToEncoder → `controlRecordingAsync()`,
+  nginx `record manual`): run synchronously, the start of the live was missing from the recording.
+  The restream input must not use `-reconnect_at_eof` on an HLS source (`getRestreamInputReconnectOptions()`):
+  FFmpeg retries every playlist read and the first frame arrives ~33 s late. nginx-rtmp never ends the
+  playlist, so a restream FFmpeg keeps reloading it after the source stops; the cron
+  `kill_ffmpeg_restream.php` kills it, and must only act on a log that is still being written by that
+  process (a stale log of an earlier restream has the same input URL as the new one). A reconnection
+  within 10 min reuses the same `live_transmitions_history` row; each publish produces its own FLV and
+  recorded video. `startRestream()` stops the destination's previous FFmpeg only after taking its start
+  lock and, in separate mode, only for that destination id, so a reconnection restart replaces each
+  running relay but never kills the VideoPlaylistScheduler relay (id 0). Covered by
+  `tests/Unit/LiveOnPublishRestreamInBackgroundTest.php`, `LiveRestreamProfilesTest.php`,
+  `tests/live-restream-kill-stale-log-regression.php` and `tests/live-restream-start-concurrency-regression.php`
+  (Linux, isolated container).
 - **WebRTC2RTMP server** (`plugin/WebRTC/`, closed-source binary on port 3000, started by the
   Scheduler cron through `WebRTC::executeEveryMinute()`): it reads
   `/etc/letsencrypt/live/<domain>/fullchain.pem` only at startup, so after certbot renews it keeps
