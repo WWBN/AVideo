@@ -3482,8 +3482,7 @@ if (typeof gtag !== \"function\") {
 
     public function getDonationLinkIfEnabled()
     {
-        global $advancedCustomUser;
-        if ($advancedCustomUser->allowDonationLink) {
+        if (class_exists('CustomizeUser') && CustomizeUser::canUseDonationLink($this->id)) {
             return strip_tags($this->donationLink);
         }
         return false;

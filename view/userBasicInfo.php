@@ -109,7 +109,7 @@
     }
     ?>
     <div class="form-group <?php
-                            if (empty($advancedCustomUser->allowDonationLink)) {
+                            if (!class_exists('CustomizeUser') || !CustomizeUser::canUseDonationLink(User::getId())) {
                                 echo " hidden ";
                             }
                             ?>">

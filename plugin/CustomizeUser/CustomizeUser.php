@@ -12,6 +12,7 @@ require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_aff
 
 class CustomizeUser extends PluginAbstract
 {
+    const PERMISSION_CAN_USE_DONATION_LINK = 0;
 
     public function getPluginDependencies() {
         return array(
@@ -395,6 +396,14 @@ class CustomizeUser extends PluginAbstract
         $obj->signupWelcomeAlert = "You are welcome and an even bigger thank you for registering";
 
         $obj->allowDonationLink = false;
+        $o = new stdClass();
+        $o->type = array(
+            'everyone' => ('All Users'),
+            'usergroup' => ('Selected user groups'),
+        );
+        $o->value = 'everyone';
+        $obj->donationLinkWhoCanUse = $o;
+        self::addDataObjectHelper('donationLinkWhoCanUse', 'Who can use the Donation Link', 'Only used when allowDonationLink is checked. With Selected user groups, give the permission Can use Donation Link to the user groups (Permissions plugin). Admins can always use it.');
         $obj->donationButtonLabel = ('Donation');
         $obj->allowWalletDirectTransferDonation = false;
         $obj->UsersCanCustomizeWalletDirectTransferDonation = false;
@@ -452,6 +461,40 @@ class CustomizeUser extends PluginAbstract
         self::addDataObjectHelper('hideVideoGroupTags', 'Hide Video Group Tags', 'When enabled, the user group tags (group icons) will not appear on videos in the frontend');
 
         return $obj;
+    }
+
+    function getPermissionsOptions()
+    {
+        $permissions = array();
+        $permissions[] = new PluginPermissionOption(self::PERMISSION_CAN_USE_DONATION_LINK, __("Can use Donation Link"), "Only used when 'Who can use the Donation Link' is set to 'Selected user groups' - members of the designated user group can add a Donation Link to their profile, and it will appear on their videos.", 'CustomizeUser');
+        return $permissions;
+    }
+
+    // $users_id is the owner of the donation link (the channel owner on a video page), not the viewer
+    static function canUseDonationLink($users_id)
+    {
+        $users_id = intval($users_id);
+        if (empty($users_id)) {
+            return false;
+        }
+        $obj = AVideoPlugin::getDataObjectIfEnabled('CustomizeUser');
+        if (empty($obj->allowDonationLink)) {
+            return false;
+        }
+        $mode = empty($obj->donationLinkWhoCanUse) ? 'everyone' : $obj->donationLinkWhoCanUse;
+        if (is_object($mode) && isset($mode->value)) {
+            $mode = $mode->value;
+        }
+        if ($mode !== 'usergroup') {
+            return true;
+        }
+        if (User::isAdmin($users_id)) {
+            return true;
+        }
+        if (!class_exists('Permissions')) {
+            return false;
+        }
+        return Permissions::hasPermission(self::PERMISSION_CAN_USE_DONATION_LINK, 'CustomizeUser', $users_id);
     }
 
     function onUserSocketConnect()

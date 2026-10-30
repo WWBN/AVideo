@@ -113,33 +113,36 @@ class Permissions extends PluginAbstract {
         if (empty($hasPermission)) {
             $hasPermission = [];
         }
-        if (empty($hasPermission[$pluginName])) {
-            $hasPermission[$pluginName] = [];
-        }
-        if(empty($users_id)){
+        // only the logged user's checks are cached, keyed by user, so a check for another
+        // user (e.g. a video owner) never answers a later check for the logged user
+        $useCache = empty($users_id);
+        if ($useCache) {
             if (!User::isLogged()) {
                 return false;
             }
-    
+
             if (User::isAdmin()) {
                 return true;
             }
 
-            if (isset($hasPermission[$pluginName][$type])) {
-                return $hasPermission[$pluginName][$type];
-            }
             $users_id = User::getId();
+            if (isset($hasPermission[$pluginName][$users_id][$type])) {
+                return $hasPermission[$pluginName][$users_id][$type];
+            }
         }
-        $hasPermission[$pluginName][$type] = false;
+        $permission = false;
         $groups = UserGroups::getUserGroups($users_id);
         foreach ($groups as $value) {
             $permissions = Users_groups_permissions::getAllFromUserGorup($value['id']);
             if (!empty($permissions[$pluginName]) && in_array($type, $permissions[$pluginName])) {
-                $hasPermission[$pluginName][$type] = true;
-                return $hasPermission[$pluginName][$type];
+                $permission = true;
+                break;
             }
         }
-        return $hasPermission[$pluginName][$type];
+        if ($useCache) {
+            $hasPermission[$pluginName][$users_id][$type] = $permission;
+        }
+        return $permission;
     }
 
     static function canAdminComment() {

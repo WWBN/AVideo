@@ -27,7 +27,9 @@ $user->setEmail($_POST['email']);
 $user->setName($_POST['name']);
 $user->setAbout($_POST['about']);
 $user->setAnalyticsCode($_POST['analyticsCode']);
-$user->setDonationLink($_POST['donationLink']);
+if (class_exists('CustomizeUser') && CustomizeUser::canUseDonationLink(User::getId())) {
+    $user->setDonationLink($_POST['donationLink']);
+}
 $user->setPhone($_POST['phone']);
 $user->setBirth_date($_POST['birth_date']);
 $unique = $user->setChannelName($_POST['channelName']);

@@ -2,7 +2,7 @@
 AVideoPlugin::loadPluginIfEnabled('YPTWallet');
 $obj = AVideoPlugin::getDataObject('CustomizeUser');
 //var_dump($obj->allowWalletDirectTransferDonation, $video['users_id'], class_exists("YPTWallet"));
-if ($obj->allowDonationLink && !empty($video['users_id'])) {
+if (!empty($video['users_id']) && CustomizeUser::canUseDonationLink($video['users_id'])) {
     $u = new User($video['users_id']);
     $donationLink = $u->getDonationLink();
     if (!empty($donationLink)) {
