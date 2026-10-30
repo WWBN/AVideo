@@ -116,6 +116,7 @@ Before writing any new code, search the repository for existing logic:
 - Use `avideoToastSuccess()`, `avideoToastError()`, `avideoAlertError()` for user feedback.
 - Do not reformat or restyle surrounding code you are not asked to change — diffs should be small
   and focused on the requested behavior.
+- Never add AI attribution (Co-Authored-By, Generated with, 🤖) to commits or PRs.
 
 ### Known Security Anti-Patterns — Never Repeat These
 
