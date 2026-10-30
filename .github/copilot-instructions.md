@@ -332,6 +332,16 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   (they override the login in print mode), only `.exe`/binary (a `claude.cmd` shim would let cmd.exe
   mangle `%s`), and stdout to a file (`stream_select()` fails on `proc_open` pipes on Windows).
   Covered by `tests/Unit/LocaleTranslatorTest.php`.
+- **Changing the site address** (`install/updateStreamerURL.php`, helpers in `install/updateStreamerURL-functions.php`):
+  never a plain find-and-replace. The old host is replaced only as a site address (after `//`, `\/`, `\\/` or
+  `%2F%2F`, a whole/quoted value, Let's Encrypt paths once the new certificate exists); e-mails, folders, subdomains,
+  serialized PHP, payment/log/cache tables and other Streamers in the Encoder are kept. Pitfalls found on real data:
+  older Live `object_data` escapes slashes twice and is not valid JSON (it still loads); `latin1` columns with
+  accents never match a byte comparison (compare as `utf8mb4_bin`); old installers wrote `webSiteRootURL` twice
+  (an `if (false && ...)` expression plus the text): change only the text. Outside the database, `deleteALLCache()`
+  does not remove `videos/permanentCache/getVideosPaths_*.tmp` (served with the old video URLs while the cache is
+  empty), and WebRTC2RTMP keeps the old domain until it restarts. Details in the wiki
+  `technical/Technical-Maintenance.md`; covered by `tests/Unit/UpdateStreamerURLTest.php`.
 - **Test fixtures that eval real code**: an included fixture shares the includer's variable scope. Never
   use generic top-level names (`$root`, `$path`) in a fixture, and never let a test or simulation write
   under the repository (`videos/configuration.php` is real, gitignored, and holds the site secrets).
