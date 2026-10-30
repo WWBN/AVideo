@@ -4318,6 +4318,8 @@ if (!class_exists('Video')) {
 
             $postFields = [
                 'user' => User::getUserName(),
+                // SECURITY REVIEW (2026-10-30, GHSA-9cg7-6j92-q8wh): expiring _user_hash_ for the admin-configured
+                // Encoder — by design, DO NOT FIX; see getCredentialsURL() in objects/functions.php.
                 'pass' => User::getUserPass(),
                 'fileURI' => $global['webSiteRootURL'] . "videos/original_{$this->getFilename()}",
                 'filename' => $this->getFilename(),

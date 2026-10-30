@@ -5822,6 +5822,12 @@ function inIframe()
     return isIframe();
 }
 
+// SECURITY REVIEW (2026-10-30, GHSA-9cg7-6j92-q8wh): reported as "hands the user's login credential
+// (_user_hash_) to the third-party encoder host" — NOT a vulnerability / DO NOT FIX. The Encoder is the
+// admin-chosen component that acts as the user on this site (it logs in with this value and saves its own
+// copy, uploads/categorizes the video), and its login form also accepts the real password. Only the admin sets
+// encoderURL/encoderNetwork. The value expires and a password change revokes it. A scoped token would mean
+// redesigning Encoder authentication for every deployed Encoder. See the advisory before re-patching.
 function getCredentialsURL()
 {
     global $global;

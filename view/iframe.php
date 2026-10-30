@@ -20,6 +20,8 @@ switch ($_GET['type']) {
         $titleTag = __("Upload");
         if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
             if (!empty($config->getEncoderURL())) {
+                // SECURITY REVIEW (2026-10-30, GHSA-9cg7-6j92-q8wh): credentials for the admin-configured Encoder — by
+                // design, DO NOT FIX; see getCredentialsURL() in objects/functions.php.
                 $iframeURL = $config->getEncoderURL()."?noNavbar=1&".getCredentialsURL();
             } else {
                 if (empty($iframeURL)) {

@@ -264,7 +264,8 @@ $object->nameIdentification = User::getNameIdentification();
 // password nor the stored DB hash. It is an encrypted, time-limited, revocable
 // auth token (_user_hash_...) produced by User::getUserHash():
 //   - AES-encrypted with a server-only key (raw hash never exposed);
-//   - valid 1 day (normal login) / up to 1 year (remember-me), not permanent;
+//   - not permanent: this session copy (also handed to the admin-configured Encoder,
+//     see getCredentialsURL()) is valid 7 days; the login cookie copy 1 day / 1 year (remember-me);
 //   - bound to the current password hash, so a password change revokes it;
 //   - returned only to the user who just authenticated, over HTTPS.
 // It is functionally equivalent to a session/refresh token and is REQUIRED by the
