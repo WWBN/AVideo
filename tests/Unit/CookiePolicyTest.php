@@ -95,20 +95,19 @@ class CookiePolicyTest extends TestCase
     /**
      * @test
      */
-    public function testGetCookieDeleteTargetsIncludesBareAndDotDomains()
+    public function testGetCookieDeleteTargetsListEachEmittedScopeOnce()
     {
         if (!function_exists('getDomain')) {
             eval('function getDomain(){ return "www.example.com"; }');
         }
 
-        $targets = \_getCookieDeleteTargets();
-        $domains = array_column($targets, 'domain');
-
-        $this->assertContains(null, $domains);
-        $this->assertContains('example.com', $domains);
-        $this->assertContains('.example.com', $domains);
-        $this->assertContains('www.example.com', $domains);
-        $this->assertContains('.www.example.com', $domains);
+        // "www." and ".example.com" variants are normalized to the same Domain attribute by
+        // _setcookieInternal(), so listing them only repeated identical Set-Cookie headers.
+        $this->assertSame(['example.com'], \_getCookieTargetDomains());
+        $this->assertSame([
+            ['path' => '/', 'domain' => null],
+            ['path' => '/', 'domain' => 'example.com'],
+        ], \_getCookieDeleteTargets());
     }
 
     /**
@@ -197,7 +196,7 @@ class CookiePolicyTest extends TestCase
     {
         $source = file_get_contents(\APP_ROOT . '/objects/functionsPHP.php');
 
-        $this->assertStringContainsString("_resetSessionCookie('PHPSESSID', session_id())", $source);
-        $this->assertStringContainsString('_resetSessionCookie(session_name(), session_id())', $source);
+        $this->assertStringContainsString("foreach (array_unique(['PHPSESSID', session_name()]) as \$cookieName)", $source);
+        $this->assertStringContainsString('_resetSessionCookie($cookieName, session_id())', $source);
     }
 }

@@ -89,21 +89,12 @@ function _ob_get_clean()
     return $content;
 }
 
+// _setcookieInternal() sends every domain through _normalizeCookieDomain(), so "www." and
+// leading-dot variants would produce the very same Domain attribute (duplicate headers).
 function _getCookieTargetDomains()
 {
     $domain = _normalizeCookieDomain(getDomain());
-    $domains = [];
-
-    if (!empty($domain)) {
-        $domains[] = $domain;
-
-        $wwwDomain = 'www.' . ltrim($domain, '.');
-        if (stripos($domain, 'www.') !== 0 && _normalizeCookieDomain($wwwDomain) !== null) {
-            $domains[] = $wwwDomain;
-        }
-    }
-
-    return array_values(array_unique(array_filter($domains)));
+    return empty($domain) ? [] : [$domain];
 }
 
 function _getCookieDeleteTargets()
@@ -119,10 +110,6 @@ function _getCookieDeleteTargets()
         $targets[] = [
             'path' => '/',
             'domain' => $domain,
-        ];
-        $targets[] = [
-            'path' => '/',
-            'domain' => '.' . ltrim($domain, '.'),
         ];
     }
 
@@ -413,19 +400,28 @@ function _unsetcookie($cookieName)
         _setcookieInternal($cookieName, $value, $expires, $target['path'], $target['domain']);
     }
 
-    setcookie($cookieName, $value, (int) $expires);
+    _unsetcookieInCurrentPath($cookieName);
+}
+
+// Removes the cookie scoped to the current script folder (no Path attribute).
+function _unsetcookieInCurrentPath($cookieName)
+{
+    setcookie($cookieName, '', (int) strtotime("-10 years"));
     unset($_COOKIE[$cookieName]);
 }
 
+// _setcookieWithExpiration() already clears the host-only cookie and rewrites the domain
+// cookie, so a full _unsetcookie() here would only add headers that are overwritten in the
+// same response (they overflowed reverse-proxy header buffers on login).
 function _resetcookie($cookieName, $value)
 {
-    _unsetcookie($cookieName);
+    _unsetcookieInCurrentPath($cookieName);
     _setcookie($cookieName, $value);
 }
 
 function _resetSessionCookie($cookieName, $value)
 {
-    _unsetcookie($cookieName);
+    _unsetcookieInCurrentPath($cookieName);
     _setSessionCookie($cookieName, $value);
 }
 
@@ -759,8 +755,9 @@ function _session_regenerate_id()
     $session = $_SESSION;
     session_regenerate_id(true);
     _error_log('[SESSION_DEBUG] _session_regenerate_id: old=' . $oldId . ' new=' . session_id() . ' script=' . ($_SERVER['SCRIPT_NAME'] ?? '') . ' ip=' . getRealIpAddr() . ' trace=' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 6)));
-    _resetSessionCookie('PHPSESSID', session_id());
-    _resetSessionCookie(session_name(), session_id());
+    foreach (array_unique(['PHPSESSID', session_name()]) as $cookieName) {
+        _resetSessionCookie($cookieName, session_id());
+    }
     $_SESSION = $session;
 }
 

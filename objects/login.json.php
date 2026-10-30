@@ -1,41 +1,4 @@
 <?php
-// Keep the final value for each cookie scope. Repeated session resets otherwise
-// overflow reverse-proxy response-header buffers during a successful login.
-header_register_callback(function () {
-    $cookies = [];
-    $cookieCount = 0;
-    foreach (headers_list() as $header) {
-        if (stripos($header, 'Set-Cookie:') !== 0) {
-            continue;
-        }
-        $cookieCount++;
-        $parts = explode(';', trim(substr($header, strlen('Set-Cookie:'))));
-        $name = explode('=', array_shift($parts), 2)[0];
-        $scope = ['domain' => '', 'path' => '', 'partitioned' => false];
-        foreach ($parts as $part) {
-            $attribute = explode('=', trim($part), 2);
-            $key = strtolower(trim($attribute[0]));
-            if ($key === 'domain') {
-                $scope['domain'] = strtolower(ltrim(trim($attribute[1] ?? ''), '.'));
-            } elseif ($key === 'path') {
-                $scope['path'] = trim($attribute[1] ?? '');
-            } elseif ($key === 'partitioned') {
-                $scope['partitioned'] = true;
-            }
-        }
-        $identity = serialize([$name, $scope]);
-        unset($cookies[$identity]);
-        $cookies[$identity] = $header;
-    }
-    if (count($cookies) < $cookieCount) {
-        header_remove('Set-Cookie');
-        foreach ($cookies as $cookie) {
-            header($cookie, false);
-        }
-    }
-});
-
-
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
 header("Access-Control-Allow-Headers: Content-Type");
