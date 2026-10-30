@@ -494,9 +494,13 @@ function socketConnectIO() {
         if (socket !== connection || !data || typeof data !== 'object') return;
         // Older Node servers confirm authentication by their first delivered message.
         onSocketOpen();
-        if (data.type === webSocketTypes.MSG_BATCH) {
+        // Only the server builds a batch, and it never adds a webSocketToken. A message relayed from
+        // another client keeps that client's webSocketToken, so setting type MSG_BATCH must not make it
+        // the server's batch (users_uri cards). The Node server does not filter autoEvalCodeOnHTML and its
+        // batches never carry it, so it is not evaluated on this path.
+        if (data.type === webSocketTypes.MSG_BATCH && !data.webSocketToken) {
             yptSocketResponse = data;
-            parseSocketResponse();
+            parseSocketResponse(false);
             if (Array.isArray(data.messages)) data.messages.forEach(socketProcessMessage);
         } else {
             if (data.users_id_online !== undefined) socketApplyOnlineUsers(data.users_id_online);
@@ -774,7 +778,7 @@ async function AutoUpdateOnHTMLTimer() {
 var canShowSocketToast = true;
 var socketUserCardsSnapshot = null;
 var socketUserCardsDirty = false;
-async function parseSocketResponse() {
+async function parseSocketResponse(allowAutoEvalCode = true) {
     const json = yptSocketResponse;
     yptSocketResponse = false;
 
@@ -796,15 +800,11 @@ async function parseSocketResponse() {
         socketAutoUpdateOnHTML(json.autoUpdateOnHTML);
     }
 
-    // SECURITY REVIEW (2026-08-21): live eval() sink. Only reachable here via the top-level
-    // (non-batch) message wrapper's .msg field, which server-side PHP implementations
-    // (Message.php/MessageSQLite*.php) strip via removeAutoEvalCodeOnHTMLRecursive() before
-    // relay; the shipped node socket server does not contain that filter. Not confirmed
-    // exploitable through the node server in this pass (batch-wrapped messages read this from
-    // the array wrapper, not a per-item message), but this is a defense-in-depth gap - the
-    // client should not eval server/peer-supplied strings at all. Left for maintainer judgement,
-    // do not remove this comment without re-verifying reachability through the node server.
-    if (json.msg?.autoEvalCodeOnHTML !== undefined) {
+    // Only for the PHP WebSocket servers (Message.php/MessageSQLite*.php), which remove
+    // autoEvalCodeOnHTML from every browser/guest message before relaying it (LiveLinks, Live/getImage.php).
+    // The Node (Socket.IO) server relays client messages unfiltered, so its path passes false
+    // (GHSA-vw5g-hfpm-2m4g).
+    if (allowAutoEvalCode && json.msg?.autoEvalCodeOnHTML !== undefined) {
         eval(json.msg.autoEvalCodeOnHTML);
     }
 

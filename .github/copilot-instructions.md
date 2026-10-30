@@ -238,6 +238,13 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   `tools/`) never start a second instance. Its `WebRTC2RTMP.json` heartbeat is written by the binary.
   `htop` lists the binary's threads (and its `sh -c` wrapper) as separate lines with the same
   command — check `ss -ltnp` before assuming there are duplicate instances.
+- **YPTSocket**: the default server (`socketIO = true`) is the Node binary from the public `WWBN/AVideo-Socket`
+  repo (`server.node.php` downloads `dist/yptsocket`), not the PHP `Message*.php` servers. It relays client messages
+  unfiltered, keeping the client's `type` and `webSocketToken`, so the PHP-side filters (e.g.
+  `removeAutoEvalCodeOnHTMLRecursive()`) do not apply. In `script.js` a Socket.IO `MSG_BATCH` counts as the server
+  batch only without a `webSocketToken`, and `autoEvalCodeOnHTML` is evaluated only on the PHP WebSocket path
+  (GHSA-vw5g-hfpm-2m4g). If the Node server ever stops relaying `webSocketToken`, it must also stop relaying a
+  client-chosen `MSG_BATCH`. Covered by `plugin/YPTSocket/tests/client.test.js` (`node --test`).
 - **HLS / VideoHLS**: HLS packaging, encryption keys, and download protection
   (`plugin/VideoHLS/`) gate access to on-demand and live content; do not weaken key/token checks
   when touching this path.

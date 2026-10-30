@@ -30,6 +30,7 @@ function browser() {
     };
     vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../script.js'), 'utf8'), c);
     c.setSocketIconStatus = status => statuses.push(status);
+    c.realParseSocketResponse = c.parseSocketResponse;
     c.parseSocketResponse = function () {
         if (c.yptSocketResponse.users_id_online !== undefined) c.socketApplyOnlineUsers(c.yptSocketResponse.users_id_online);
     };
@@ -140,4 +141,30 @@ test('one failed callback does not prevent later messages in the same batch', ()
     c.processSocketJson = msg => { if (msg.fail) throw Error('plugin callback'); seen.push(msg.n); };
     s.listeners.message({ type: 'MSG_BATCH', messages: [null, { fail: true }, { n: 3 }] });
     assert.deepEqual(seen, [3]);
+});
+
+test('a client message relayed with type MSG_BATCH is not treated as the server batch and is never evaluated', () => {
+    const { c, ready } = browser(); const s = ready(); const batches = [], processed = [];
+    c.parseSocketResponse = allow => { batches.push(allow); return c.realParseSocketResponse(allow); };
+    c.processSocketJson = msg => processed.push(msg);
+    s.listeners.message({ webSocketToken: 'sender-token', type: 'MSG_BATCH', to_users_id: 1, messages: [{ n: 1 }],
+        msg: { autoEvalCodeOnHTML: 'socketPwned = 1' }, users_uri: { g: { d: { x: { selfURI: '/', resourceId: 'r' } } } } });
+    assert.equal(c.socketPwned, undefined); assert.deepEqual(batches, []);
+    assert.equal(processed.length, 1); assert.equal(processed[0].to_users_id, 1);
+});
+
+test('the Socket.IO server batch is still parsed but autoEvalCodeOnHTML is only evaluated from the PHP WebSocket server', () => {
+    const { c, ready } = browser(); const s = ready(); const batches = [], processed = [];
+    c.parseSocketResponse = allow => { batches.push(allow); return c.realParseSocketResponse(allow); };
+    c.processSocketJson = msg => processed.push(msg.n);
+    s.listeners.message({ type: 'MSG_BATCH', messages: [{ n: 1 }, { n: 2 }], msg: { autoEvalCodeOnHTML: 'socketPwned = 1' } });
+    assert.deepEqual(batches, [false]); assert.deepEqual(processed, [1, 2]); assert.equal(c.socketPwned, undefined);
+});
+
+test('the PHP WebSocket server path still evaluates autoEvalCodeOnHTML (LiveLinks, Live image refresh)', () => {
+    const { c, legacy } = browser(); c.useSocketIO = false; c.parseSocketResponse = c.realParseSocketResponse;
+    c.processSocketJson = () => {};
+    c.socketConnectOld(); const ws = legacy[0]; ws.readyState = 1; ws.onopen();
+    ws.onmessage({ data: JSON.stringify({ type: 'socketRemoveLiveLinks', msg: { autoEvalCodeOnHTML: 'socketLegacyEval = 1' } }) });
+    assert.equal(c.socketLegacyEval, 1);
 });
