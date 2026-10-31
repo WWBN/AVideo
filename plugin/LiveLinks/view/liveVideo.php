@@ -13,7 +13,8 @@ if ($t['id'] > 0) {
         forbiddenPage('Live is private');
     }
 } else {
-    $liveLink = $t['link'];
+    // dynamic links (play.php?url=) carry the raw request URL; stored links are filtered by security.php
+    $liveLink = isValidURL($t['link']) ? $t['link'] : '';
 }
 $posterURL = LiveLinks::getImage($t['id']);
 
