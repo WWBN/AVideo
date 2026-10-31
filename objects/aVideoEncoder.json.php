@@ -483,8 +483,9 @@ function downloadVideoFromDownloadURL($downloadURL)
     $downloadURL = trim($downloadURL);
 
     // Validate that the URL's file extension is on the server's allowed-extension list.
-    // basename($downloadURL) is used later as the temp filename, so an unvalidated extension
-    // (e.g. .php) would be written to the web-accessible cache directory.
+    // The temp file below is named from this validated extension only, never from the URL:
+    // basename($downloadURL) keeps "?query"/"#fragment", so x.mp4?s=.php passed this check
+    // but was written as a .php-named file in the web-accessible cache directory.
     $urlExtension = strtolower(pathinfo(parse_url($downloadURL, PHP_URL_PATH), PATHINFO_EXTENSION));
     if (!in_array($urlExtension, $global['allowedExtension'])) {
         __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL extension not allowed: " . $urlExtension);
@@ -514,7 +515,7 @@ function downloadVideoFromDownloadURL($downloadURL)
     @set_time_limit(0);
     ignore_user_abort(true);
 
-    $_FILES['video']['name'] = basename($downloadURL);
+    $_FILES['video']['name'] = _uniqid() . '.' . $urlExtension;
     $temp = Video::getStoragePath() . "cache/tmpFile/" . $_FILES['video']['name'];
     make_path($temp);
 
@@ -575,6 +576,7 @@ function downloadVideoFromDownloadURL($downloadURL)
         } else {
             __errlog("aVideoEncoder.json:downloadVideoFromDownloadURL this is not a video " . $downloadURL . " bytesSaved=" . humanFileSize($bytesSaved));
         }
+        @unlink($temp);
         return false;
     }
 
