@@ -706,7 +706,8 @@ if (!class_exists('Video')) {
 
             $this->rate = floatval($this->rate);
 
-            if (!filter_var($this->videoLink, FILTER_VALIDATE_URL)) {
+            // isValidURL() also requires http(s): FILTER_VALIDATE_URL accepts javascript:// (GHSA-vq8m-9xp3-76fg)
+            if (!isValidURL($this->videoLink)) {
                 $this->videoLink = '';
                 if ($this->type == 'embed') {
                     $this->type = 'video';

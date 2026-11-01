@@ -187,7 +187,8 @@ class PlayerSkins extends PluginAbstract
                 ) {
                     $_GET['isEmbedded'] = "e";
                     $isVideoTypeEmbed = 1;
-                    $url = parseVideos($video['videoLink']);
+                    // links saved before Video::save() required http(s) may hold a javascript: URL
+                    $url = isValidURL($video['videoLink']) ? parseVideos($video['videoLink']) : '';
                     if ($config->getAutoplay()) {
                         $url = addQueryStringParameter($url, 'autoplay', 1);
                     }
