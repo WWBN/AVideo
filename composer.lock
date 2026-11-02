@@ -4,34 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "85603ad6bb5e62ba29ad5da8574f0b59",
+    "content-hash": "86c201b0f1e563f359bedf71f32422c1",
     "packages": [
         {
             "name": "abraham/twitteroauth",
-            "version": "7.0.0",
+            "version": "8.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/abraham/twitteroauth.git",
-                "reference": "a8622680f954d0c4f54fd80bedebe00c756ed7aa"
+                "reference": "d7a58e97b5c7aed3ebaa5c63025cd0b361dcd683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/a8622680f954d0c4f54fd80bedebe00c756ed7aa",
-                "reference": "a8622680f954d0c4f54fd80bedebe00c756ed7aa",
+                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/d7a58e97b5c7aed3ebaa5c63025cd0b361dcd683",
+                "reference": "d7a58e97b5c7aed3ebaa5c63025cd0b361dcd683",
                 "shasum": ""
             },
             "require": {
-                "composer/ca-bundle": "^1.2",
+                "composer/ca-bundle": "^1",
                 "ext-curl": "*",
-                "php": "8.*"
+                "php": "^8.2"
             },
             "require-dev": {
-                "php-vcr/php-vcr": "^1",
-                "php-vcr/phpunit-testlistener-vcr": "dev-php8",
-                "phpmd/phpmd": "^2",
                 "phpunit/phpunit": "^9",
-                "rector/rector": "^0.15.7",
-                "squizlabs/php_codesniffer": "^3"
+                "rector/rector": "^0.15.7 || ^2.0.0",
+                "squizlabs/php_codesniffer": "^3 || ^4"
             },
             "type": "library",
             "autoload": {
@@ -66,7 +63,7 @@
                 "issues": "https://github.com/abraham/twitteroauth/issues",
                 "source": "https://github.com/abraham/twitteroauth"
             },
-            "time": "2024-02-11T18:58:08+00:00"
+            "time": "2026-06-24T04:06:02+00:00"
         },
         {
             "name": "amphp/amp",
@@ -689,16 +686,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.5.6",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "f65c239c970e7f072f067ab78646e9f0b2935175"
+                "reference": "0c64479fae6952ba4cf021a72c0ac530394c91d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/f65c239c970e7f072f067ab78646e9f0b2935175",
-                "reference": "f65c239c970e7f072f067ab78646e9f0b2935175",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/0c64479fae6952ba4cf021a72c0ac530394c91d4",
+                "reference": "0c64479fae6952ba4cf021a72c0ac530394c91d4",
                 "shasum": ""
             },
             "require": {
@@ -745,7 +742,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.5.6"
+                "source": "https://github.com/composer/ca-bundle/tree/1.6.1"
             },
             "funding": [
                 {
@@ -755,13 +752,9 @@
                 {
                     "url": "https://github.com/composer",
                     "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
                 }
             ],
-            "time": "2025-03-06T14:30:56+00:00"
+            "time": "2026-10-29T14:10:42+00:00"
         },
         {
             "name": "elephantio/elephant.io",
