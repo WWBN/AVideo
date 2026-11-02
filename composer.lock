@@ -248,16 +248,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.401.2",
+            "version": "3.402.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "b1af9196bd0f94bcebdb6588a150dd85dc240758"
+                "reference": "c5118d25aa1cfe3aa9dbf03a4f06056945427edb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b1af9196bd0f94bcebdb6588a150dd85dc240758",
-                "reference": "b1af9196bd0f94bcebdb6588a150dd85dc240758",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c5118d25aa1cfe3aa9dbf03a4f06056945427edb",
+                "reference": "c5118d25aa1cfe3aa9dbf03a4f06056945427edb",
                 "shasum": ""
             },
             "require": {
@@ -269,7 +269,7 @@
                 "guzzlehttp/promises": "^2.0.3 || ^3.0",
                 "guzzlehttp/psr7": "^2.6.3 || ^3.0",
                 "mtdowling/jmespath.php": "^2.9.1",
-                "php": ">=8.1",
+                "php": ">=8.2",
                 "psr/http-message": "^1.0 || ^2.0",
                 "symfony/filesystem": "^v5.4.45 || ^v6.4.3 || ^v7.1.0 || ^v8.0.0"
             },
@@ -339,9 +339,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.401.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.402.4"
             },
-            "time": "2026-10-14T18:09:34+00:00"
+            "time": "2026-10-29T18:05:22+00:00"
         },
         {
             "name": "bunnycdn/storage",
@@ -1407,16 +1407,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.16.0",
+            "version": "7.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "ffb62ec787050ae4fa9449cdd6b80335db69bda2"
+                "reference": "81755d989b3007ca7f88a069857553cd08e7dc2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ffb62ec787050ae4fa9449cdd6b80335db69bda2",
-                "reference": "ffb62ec787050ae4fa9449cdd6b80335db69bda2",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/81755d989b3007ca7f88a069857553cd08e7dc2e",
+                "reference": "81755d989b3007ca7f88a069857553cd08e7dc2e",
                 "shasum": ""
             },
             "require": {
@@ -1515,7 +1515,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.16.0"
+                "source": "https://github.com/guzzle/guzzle/tree/7.16.1"
             },
             "funding": [
                 {
@@ -1531,7 +1531,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-18T13:38:36+00:00"
+            "time": "2026-10-25T21:35:21+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -4621,25 +4621,25 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v6.4.48",
+            "version": "v7.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "e3ff48b19ac71ee79f89021122211710b892ae0b"
+                "reference": "fd0e3462be6d32a0d130e8423e4940a7688162d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/e3ff48b19ac71ee79f89021122211710b892ae0b",
-                "reference": "e3ff48b19ac71ee79f89021122211710b892ae0b",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/fd0e3462be6d32a0d130e8423e4940a7688162d8",
+                "reference": "fd0e3462be6d32a0d130e8423e4940a7688162d8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
+                "php": ">=8.2",
                 "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-mbstring": "~1.8"
             },
             "require-dev": {
-                "symfony/process": "^5.4|^6.4|^7.0"
+                "symfony/process": "^6.4|^7.0|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -4667,7 +4667,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v6.4.48"
+                "source": "https://github.com/symfony/filesystem/tree/v7.4.21"
             },
             "funding": [
                 {
@@ -4687,7 +4687,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-06T17:30:58+00:00"
+            "time": "2026-10-06T20:05:19+00:00"
         },
         {
             "name": "symfony/finder",
@@ -5081,16 +5081,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.43.0",
+            "version": "v1.43.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "4d5d331bf731e0aedbc6b2f5e61135b7b7996a72"
+                "reference": "122889ed24dc000165bcbfd77ec412f15cbdfc6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/4d5d331bf731e0aedbc6b2f5e61135b7b7996a72",
-                "reference": "4d5d331bf731e0aedbc6b2f5e61135b7b7996a72",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/122889ed24dc000165bcbfd77ec412f15cbdfc6a",
+                "reference": "122889ed24dc000165bcbfd77ec412f15cbdfc6a",
                 "shasum": ""
             },
             "require": {
@@ -5142,7 +5142,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.43.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.43.3"
             },
             "funding": [
                 {
@@ -5162,7 +5162,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-24T15:19:04+00:00"
+            "time": "2026-10-28T09:35:49+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
