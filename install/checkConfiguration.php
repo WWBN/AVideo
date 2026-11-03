@@ -7,6 +7,7 @@ if (installerConfigured()) {
     echo json_encode(['error' => 'Setup is locked.', 'msg' => 'Installation is already complete.', 'success' => false]);
     return;
 }
+$schemaVersion = '30.3';
 $steps = []; $stage = 'validation'; $mysqli = null; $lock = null; $temporary = null;
 $committed = false; $transaction = false; $data = []; $installerSucceeded = false; $response = ['success' => false];
 try {
@@ -78,7 +79,7 @@ try {
     $steps[] = ['label' => 'All installation tables verified'];
     $stage = 'records';
     $mysqli->begin_transaction(); $transaction = true;
-    installerSeed($mysqli, $data);
+    installerSeed($mysqli, $data, $schemaVersion);
     $mysqli->commit(); $committed = true; $transaction = false;
     $steps[] = ['label' => 'Administrator, site settings, and Gallery created'];
     $stage = 'configuration';

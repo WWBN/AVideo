@@ -116,7 +116,6 @@ class PlaybackAccessTest extends TestCase
         Fixture::$videos = [3505 => 91, 3506 => 92, 3306 => 7];
         Fixture::$categories = [91 => 0, 92 => 91, 7 => 0];
         $property = new \ReflectionProperty(PlaybackAccess::class, 'rules');
-        $property->setAccessible(true);
         $property->setValue(null, []);
     }
 

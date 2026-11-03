@@ -61,9 +61,35 @@ class InstallerTest extends TestCase
     public function testSchemaTableCatalogMatchesInstallation()
     {
         $tables = installerSchemaTables();
-        foreach (['users', 'categories', 'configurations', 'plugins', 'videos', 'rate_limits'] as $table) {
+        foreach (['users', 'categories', 'configurations', 'plugins', 'videos', 'rate_limits', 'playback_access_rules'] as $table) {
             $this->assertContains($table, $tables);
         }
         $this->assertSame($tables, array_values(array_unique($tables)));
+    }
+
+    public function testFreshInstallerVersionMatchesLatestCoreMigration()
+    {
+        $versions = array_map(function ($file) {
+            return substr(basename($file), strlen('updateDb.v'), -strlen('.sql'));
+        }, glob(dirname(__DIR__, 2) . '/updatedb/updateDb.v*.sql'));
+        usort($versions, 'version_compare');
+        $latest = end($versions);
+        $entryPoint = file_get_contents(dirname(__DIR__, 2) . '/install/checkConfiguration.php');
+        $this->assertSame(1, preg_match('/\$schemaVersion\s*=\s*\'([^\']+)\'/', $entryPoint, $matches));
+        $this->assertSame($latest, $matches[1]);
+        $parameters = (new ReflectionFunction('installerSeed'))->getParameters();
+        $this->assertSame($latest, $parameters[2]->getDefaultValue());
+    }
+
+    public function testPlaybackSchemaMatchesUpgradeMigration()
+    {
+        $pattern = '/CREATE TABLE IF NOT EXISTS `playback_access_rules`\s*\(.*?;/s';
+        $definitions = [];
+        foreach (['install/database.sql', 'updatedb/updateDb.v30.3.sql'] as $path) {
+            $sql = file_get_contents(dirname(__DIR__, 2) . '/' . $path);
+            $this->assertSame(1, preg_match($pattern, $sql, $matches));
+            $definitions[] = preg_replace('/\s+/', '', $matches[0]);
+        }
+        $this->assertSame($definitions[0], $definitions[1]);
     }
 }

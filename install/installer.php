@@ -244,7 +244,8 @@ function installerVerifySchema($mysqli) {
     foreach (installerSchemaTables() as $table) { $mysqli->query('SELECT 1 FROM `' . $table . '` LIMIT 0'); }
     foreach (['users' => 'id,user,email,password,created,modified,isAdmin', 'categories' => 'id,name,clean_name,description,created,modified',
         'configurations' => 'id,video_resolution,users_id,version,webSiteTitle,language,contactEmail,encoderURL,created,modified',
-        'plugins' => 'id,uuid,status,created,modified,object_data,name,dirName,pluginVersion'] as $table => $columns) {
+        'plugins' => 'id,uuid,status,created,modified,object_data,name,dirName,pluginVersion',
+        'playback_access_rules' => 'scope,scope_id,mode,groups_json,modified'] as $table => $columns) {
         $mysqli->query('SELECT ' . $columns . ' FROM `' . $table . '` LIMIT 0');
     }
     $result = $mysqli->query('SHOW TABLE STATUS');
@@ -254,7 +255,7 @@ function installerVerifySchema($mysqli) {
     $result->free();
 }
 
-function installerSeed($mysqli, array $data) {
+function installerSeed($mysqli, array $data, $schemaVersion = '30.3') {
     // Keep the existing pre-configuration MySQLi connection: sqlDAL depends on a live
     // application, plugin loader and configuration that do not exist during setup.
     $hash = md5(hash('whirlpool', sha1($data['systemAdminPass'])));
@@ -263,8 +264,8 @@ function installerSeed($mysqli, array $data) {
     $stmt->execute(); $stmt->close();
     $mysqli->query("INSERT INTO categories (id,name,clean_name,description,created,modified) VALUES (1,'Default','default','',NOW(),NOW())");
     $encoder = is_dir(installerRoot() . 'Encoder') ? $data['webSiteRootURL'] . 'Encoder/' : 'https://encoder1.wwbn.net/';
-    $stmt = $mysqli->prepare("INSERT INTO configurations (id,video_resolution,users_id,version,webSiteTitle,language,contactEmail,encoderURL,created,modified) VALUES (1,'858:480',1,'30.2',?,?,?,?,NOW(),NOW())");
-    $stmt->bind_param('ssss', $data['webSiteTitle'], $data['mainLanguage'], $data['contactEmail'], $encoder);
+    $stmt = $mysqli->prepare("INSERT INTO configurations (id,video_resolution,users_id,version,webSiteTitle,language,contactEmail,encoderURL,created,modified) VALUES (1,'858:480',1,?,?,?,?,?,NOW(),NOW())");
+    $stmt->bind_param('sssss', $schemaVersion, $data['webSiteTitle'], $data['mainLanguage'], $data['contactEmail'], $encoder);
     $stmt->execute(); $stmt->close();
     $mysqli->query("INSERT INTO plugins (uuid,status,created,modified,object_data,name,dirName,pluginVersion) VALUES ('a06505bf-3570-4b1f-977a-fd0e5cab205d','active',NOW(),NOW(),'','Gallery','Gallery','1.0')");
 }

@@ -1,7 +1,7 @@
 ---
 name: "AVideo Database"
 description: "Use when writing SQL queries, database migrations, schema changes, or data access code in AVideo. Covers sqlDAL usage, prepared statements, migration file conventions, table naming, transaction handling, and performance considerations."
-applyTo: "{objects/**/*.php,plugin/**/*.php,updatedb/*.sql,plugin/**/install/*.sql}"
+applyTo: "{objects/**/*.php,plugin/**/*.php,updatedb/*.sql,plugin/**/install/*.sql,install/database.sql,install/checkConfiguration.php,install/installer.php}"
 ---
 
 # AVideo Database Guidelines
@@ -116,6 +116,12 @@ ALTER TABLE `videos` ADD COLUMN `new_col` VARCHAR(255) DEFAULT NULL;
 UPDATE configurations SET version = 'X.Y', modified = NOW() WHERE id = 1;
 -- Replace X.Y with the next sequential version matching the filename
 ```
+
+### Keep Fresh Installations in Sync with Core Updates
+
+Whenever a core database migration or schema-version update is added (anything outside a plugin-only update), also update **both** `install/database.sql` and `install/checkConfiguration.php` in the same task. Keep the clean-install schema, installer schema verification and the initial `configurations.version` synchronized with the migration; update delegated installer/seed helpers such as `install/installer.php` as needed. Never mark a fresh installation current while it is missing the new core tables or columns.
+
+Verify upgrade and clean-install paths, including the schema/version consistency tests. This does not authorize editing released migrations or changing the core installer for plugin-only migrations.
 
 ### Plugin Migrations
 

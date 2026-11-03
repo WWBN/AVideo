@@ -57,7 +57,7 @@ class InstallerIntegrationTest extends TestCase
     protected function tearDown(): void
     {
         try {
-            if ($this->client) { curl_close($this->client); }
+            $this->client = null;
             if ($this->fixture) { $this->fixture->cleanup(); }
         } finally {
             if ($this->connection) {
@@ -159,6 +159,9 @@ class InstallerIntegrationTest extends TestCase
         $this->assertFalse($this->request($data)['error']);
         $this->assertSame(1, $this->userCount($data['databaseName']));
         $this->assertSame(1, (int) $this->connection->query('SELECT COUNT(*) FROM `' . $data['databaseName'] . '`.plugins')->fetch_row()[0]);
+        $this->assertSame('30.3', $this->connection->query('SELECT version FROM `' . $data['databaseName'] . '`.configurations WHERE id = 1')->fetch_row()[0]);
+        $columns = $this->connection->query('SHOW COLUMNS FROM `' . $data['databaseName'] . '`.playback_access_rules')->fetch_all(MYSQLI_ASSOC);
+        $this->assertSame(['scope', 'scope_id', 'mode', 'groups_json', 'modified'], array_column($columns, 'Field'));
         $path = $this->fixture->path('videos/configuration.php');
         $this->assertSame(0, $this->fixture->run(['-l', $path])['exit']);
         $configuration = file_get_contents($path);

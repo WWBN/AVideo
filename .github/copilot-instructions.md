@@ -434,6 +434,8 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
 
 ## Database Migrations — Never Modify History
 
+For every core database update, synchronize both `install/database.sql` and `install/checkConfiguration.php`, including delegated installer seed/version helpers. Follow the clean-install consistency rules in `avideo-database.instructions.md`; plugin-only updates stay in their own migrations.
+
 - Core migrations: `updatedb/updateDb.vX.X.sql`, one file per released version, applied in order
   and tracked via the `configurations.version` column.
 - Plugin migrations: `plugin/PluginName/install/updateVX.X.sql`, applied via each plugin's
