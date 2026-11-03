@@ -38,6 +38,18 @@ if (!empty($_GET['evideo'])) {
 }
 
 $videos_id = getVideos_id(!empty($_REQUEST['playlist_id']));
+// A denied requested video must not turn into a different playable fallback video.
+if ($videos_id && !PlaybackAccess::isAllowed($videos_id)) {
+    forbiddenPage(__('Playback requires membership in an authorized user group'), true);
+}
+if ($videos_id) {
+    $mandatoryRule = PlaybackAccess::getVideoRule($videos_id);
+    if ($mandatoryRule && $mandatoryRule['mode'] === 'require') {
+        // Catalog filters for free-with-ads videos exclude paid-only titles. Resolve the
+        // requested title here; the existing payment/password checks still run below.
+        $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, true, false, false, true);
+    }
+}
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 $playlist_index = 0;
 if (!empty($evideo)) {

@@ -428,6 +428,9 @@
             </div>
         </div>
         <div class="modal-footer">
+            <?php if (User::isAdmin()) { ?>
+                <p><button type="button" class="btn btn-default" onclick="if ($('#inputVideoId').val()) { avideoModalIframe(webSiteRootURL + 'view/playbackAccess.php?videos_id=' + encodeURIComponent($('#inputVideoId').val())); } else { avideoToastError(<?php echo htmlspecialchars(json_encode(__('Save the video first')), ENT_QUOTES, 'UTF-8'); ?>); }"><i class="fa fa-lock"></i> <?php echo __('Playback access rules'); ?></button></p>
+            <?php } ?>
             <div class="row">
                 <div class="col-xs-7 col-sm-9">
                     <button type="button" class="btn btn-success btn-block saveVideoBtn"><i class="far fa-save"></i> <?php echo __("Save"); ?></button>

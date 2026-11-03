@@ -1095,8 +1095,9 @@ class API extends PluginAbstract
 
         if (!empty($obj->videos_id)) {
             $error = false;
-            $obj->userCanWatchVideo = AVideoPlugin::userCanWatchVideo($obj->users_id, $obj->videos_id);
-            $obj->userCanWatchVideoWithAds = AVideoPlugin::userCanWatchVideoWithAds($obj->users_id, $obj->videos_id);
+            $mandatoryAccess = PlaybackAccess::isAllowed($obj->videos_id, $obj->users_id);
+            $obj->userCanWatchVideo = $mandatoryAccess && AVideoPlugin::userCanWatchVideo($obj->users_id, $obj->videos_id);
+            $obj->userCanWatchVideoWithAds = $mandatoryAccess && AVideoPlugin::userCanWatchVideoWithAds($obj->users_id, $obj->videos_id);
         } else {
             $msg = 'Videos id is required';
         }
@@ -1690,6 +1691,10 @@ class API extends PluginAbstract
             //$obj = ObjectYPT::getCacheGlobal($cacheName, 3600);
             $obj = $videosListCache->getCacheWithAutoSuffix(3600);
             if (!empty($obj)) {
+                // Apply newly saved mandatory rules even to an older catalog cache.
+                if (!self::isAPISecretValid()) {
+                    self::filterMandatoryPlaybackSources($obj);
+                }
                 $end = microtime(true) - $start;
                 return new ApiObject("Cached response in {$end} seconds", false, $obj);
             }
@@ -1973,6 +1978,30 @@ class API extends PluginAbstract
         //ObjectYPT::setCacheGlobal($cacheName, $obj);
         $videosListCache->setCache($obj);
         return new ApiObject("", false, $obj);
+    }
+
+    private static function filterMandatoryPlaybackSources(&$obj)
+    {
+        foreach (['rows', 'videos'] as $field) {
+            if (empty($obj->$field) || !is_array($obj->$field)) {
+                continue;
+            }
+            foreach ($obj->$field as &$row) {
+                if (!PlaybackAccess::isAllowed($row['id'])) {
+                    $row['videos'] = new stdClass();
+                    $row['sources'] = [];
+                    $row['videoLink'] = '';
+                    $row['videoDownloadedLink'] = '';
+                    $row['playlist'] = [];
+                }
+                if (!empty($row['relatedVideos'])) {
+                    $related = (object) ['rows' => $row['relatedVideos']];
+                    self::filterMandatoryPlaybackSources($related);
+                    $row['relatedVideos'] = $related->rows;
+                }
+            }
+            unset($row);
+        }
     }
 
     private static function filterVideoSources(&$row, $parameters, $hasAPISecret)

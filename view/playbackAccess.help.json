@@ -1,0 +1,5 @@
+[
+    {"element":"#playbackAccessSummary","intro":"The effective rule shows the saved requirement and the category or video it comes from. Normal visibility, payment and password checks still apply."},
+    {"element":"#playbackAccessModeGroup","intro":"Inherit is the default. Configure a category once to cover its subcategories and future videos. An explicit exception stops inheritance for this category or video."},
+    {"element":"#playbackAccessGroups","intro":"Select at least one group that really grants the required access. PPV purchases or free viewing with ads cannot bypass this requirement. Save, then test with a normal account."}
+]

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'UserAccountMutationLock.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'PlaybackAccess.php';
 
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../';
@@ -1039,6 +1040,12 @@ if (typeof gtag !== \"function\") {
             $users_id = User::getId();
         }
 
+        // Check the mandatory prerequisite before cached/plugin payment grants.
+        if (!PlaybackAccess::isAllowed($videos_id, $users_id)) {
+            $global['canWatchVideoReason'] = 'Playback requires membership in an authorized user group';
+            return false;
+        }
+
         if (empty($users_id)) {
             $cacheName = "canWatchVideoNOTLOGGED$videos_id";
             if (!$ignoreCache) {
@@ -1136,6 +1143,11 @@ if (typeof gtag !== \"function\") {
 
         if (empty($users_id)) {
             $users_id = User::getId();
+        }
+
+        if (!PlaybackAccess::isAllowed($videos_id, $users_id)) {
+            $global['canWatchVideoReason'] = 'Playback requires membership in an authorized user group';
+            return false;
         }
 
         if (empty($videos_id)) {

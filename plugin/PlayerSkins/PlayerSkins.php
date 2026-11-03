@@ -128,6 +128,9 @@ class PlayerSkins extends PluginAbstract
         $html = '';
         if (empty($htmlMediaTag)) {
             $video = Video::getVideoFromFileName($filename, true);
+            if (!PlaybackAccess::isAllowed($video['id'])) {
+                return '';
+            }
             $vType = Video::getIncludeType($video);
             $_GET['isMediaPlaySite'] = $video['id'];
             if (is_object($video['externalOptions'])) {

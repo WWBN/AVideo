@@ -142,6 +142,11 @@ class playListSource {
         TimeLogStart($timelogname);
         $this->src = $src;
         $this->videos_id = intval($videos_id);
+        if (class_exists('PlaybackAccess') && !PlaybackAccess::isAllowed($this->videos_id)
+            && (!class_exists('API') || !API::isAPISecretValid())) {
+            $this->src = $this->type = $this->label = '';
+            return;
+        }
         
         $this->label = getResolutionFromFilename($src, false);
         TimeLogEnd($timelogname, __LINE__, $TimeLogLimit);

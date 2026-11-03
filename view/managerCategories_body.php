@@ -189,6 +189,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <?php if (User::isAdmin()) { ?>
+                        <button type="button" class="btn btn-default" onclick="if ($('#inputCategoryId').val()) { avideoModalIframe(webSiteRootURL + 'view/playbackAccess.php?categories_id=' + encodeURIComponent($('#inputCategoryId').val())); } else { avideoToastError(<?php echo htmlspecialchars(json_encode(__('Save the category first')), ENT_QUOTES, 'UTF-8'); ?>); }"><i class="fa fa-lock"></i> <?php echo __('Playback access rules'); ?></button>
+                    <?php } ?>
                     <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
                     <button type="button" class="btn btn-primary" id="saveCategoryBtn"><?php echo __("Save changes"); ?></button>
                 </div>
