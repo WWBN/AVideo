@@ -2344,7 +2344,8 @@ function clearCache(showPleaseWait, FirstPage, sessionOnly) {
 
 function validURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        // one optional group per label: a repeated group here took exponential time on input like 'aaaa…a.'
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])?)\\.)+[a-z]{2,}|' + // domain name
         '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
         '(\\:\\d+)?(\\/[-a-z\\d%_.~+:@]*)*' + // port and path
         '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
