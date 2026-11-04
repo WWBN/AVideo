@@ -18,13 +18,17 @@ eval('namespace ' . __NAMESPACE__ . '; class User {
     public static function getPhoto($id) { return "photo.jpg"; }
     public function getStatus() { return "a"; }
 ' . substr($playbackUserSource, $playbackUserStart, $playbackUserEnd - $playbackUserStart) . '}');
-$playbackHlsSource = file_get_contents(dirname(__DIR__, 2) . '/plugin/VideoHLS/VideoHLS.php');
-$playbackHlsStart = strpos($playbackHlsSource, '    static function getToken(');
-$playbackHlsEnd = strpos($playbackHlsSource, '    static function getRequestIpCandidates(', $playbackHlsStart);
-eval('namespace ' . __NAMESPACE__ . '; use stdClass; use Throwable; class VideoHLS {
+// VideoHLS is distributed separately (gitignored here); its tests are skipped when it is not installed.
+$playbackHlsFile = dirname(__DIR__, 2) . '/plugin/VideoHLS/VideoHLS.php';
+if (is_file($playbackHlsFile)) {
+    $playbackHlsSource = file_get_contents($playbackHlsFile);
+    $playbackHlsStart = strpos($playbackHlsSource, '    static function getToken(');
+    $playbackHlsEnd = strpos($playbackHlsSource, '    static function getRequestIpCandidates(', $playbackHlsStart);
+    eval('namespace ' . __NAMESPACE__ . '; use stdClass; use Throwable; class VideoHLS {
     public static function verifyToken($token) { return Fixture::$validToken; }
     public static function getRequestIpCandidates() { return ["127.0.0.1"]; }
 ' . substr($playbackHlsSource, $playbackHlsStart, $playbackHlsEnd - $playbackHlsStart) . '}');
+}
 $playbackApiSource = file_get_contents(dirname(__DIR__, 2) . '/plugin/API/API.php');
 $playbackApiStart = strpos($playbackApiSource, '    private static function filterMandatoryPlaybackSources(');
 $playbackApiEnd = strpos($playbackApiSource, '    private static function filterVideoSources(', $playbackApiStart);
@@ -148,6 +152,13 @@ class PlaybackAccessTest extends TestCase
         $property->setValue(null, []);
     }
 
+    private function requireVideoHLS(string $file = 'VideoHLS.php'): void
+    {
+        if (!is_file(dirname(__DIR__, 2) . '/plugin/VideoHLS/' . $file)) {
+            $this->markTestSkipped('The separately distributed VideoHLS plugin is not installed');
+        }
+    }
+
     public function testPpvAndAdsCannotOverrideTheRequiredGroupOrAnOldSessionGrant(): void
     {
         $this->assertFalse(User::canWatchVideo(3505));
@@ -246,11 +257,13 @@ class PlaybackAccessTest extends TestCase
 
     public function testUnauthorizedUserCannotMintAnHlsToken(): void
     {
+        $this->requireVideoHLS();
         $this->assertSame('', VideoHLS::getToken(3505));
     }
 
     public function testOlderCoreWithoutTheOptionalHelperKeepsLegacyHlsBehavior(): void
     {
+        $this->requireVideoHLS();
         Fixture::$coreAvailable = false;
         $this->assertNotSame('', VideoHLS::getToken(3505));
         $this->assertTrue(VideoHLS::canAccessMandatoryRule(3505));
@@ -258,6 +271,7 @@ class PlaybackAccessTest extends TestCase
 
     public function testSignedHlsIdentityIsBoundToTheVideoAndCurrentMembership(): void
     {
+        $this->requireVideoHLS();
         Fixture::$user = 83;
         $token = VideoHLS::getToken(3505);
         $otherVideoToken = VideoHLS::getToken(3306);
@@ -275,6 +289,7 @@ class PlaybackAccessTest extends TestCase
 
     public function testAnonymousHlsCannotUseAnOldTokenWithoutUserIdentity(): void
     {
+        $this->requireVideoHLS();
         Fixture::$user = 0;
         $token = encryptString(json_encode(['videos_id' => 3505, 'time' => time()]));
         $this->assertFalse(VideoHLS::canAccessMandatoryRule(3505, $token));
@@ -282,6 +297,7 @@ class PlaybackAccessTest extends TestCase
 
     public function testAdminHlsBypassSurvivesAMalformedSavedRule(): void
     {
+        $this->requireVideoHLS();
         Fixture::$rules['category:91']['groups_json'] = 'invalid JSON';
         Fixture::$rules['category:91']['mode'] = 'invalid';
         Fixture::$user = 1;
@@ -338,6 +354,7 @@ class PlaybackAccessTest extends TestCase
 
     public function testKeyPathCannotSelectAKeyOutsideTheAuthorizedVideoDirectory(): void
     {
+        $this->requireVideoHLS();
         $this->assertTrue(VideoHLS::isKeyRequestPathValid('video_name', 'enc_key'));
         $this->assertTrue(VideoHLS::isKeyRequestPathValid('video_name', 'audio/enc_key'));
         $this->assertTrue(VideoHLS::isKeyRequestPathValid('video_name', '{$pathToVideo}enc_key'));
@@ -371,6 +388,7 @@ class PlaybackAccessTest extends TestCase
 
     public function testFailedHlsVideoLookupCannotFallThroughToTheKeyCache(): void
     {
+        $this->requireVideoHLS('downloadProtection.php');
         Fixture::$fail = true;
         $handler = file_get_contents(dirname(__DIR__, 2) . '/plugin/VideoHLS/downloadProtection.php');
         $start = strpos($handler, '    $mandatoryFilename =');
