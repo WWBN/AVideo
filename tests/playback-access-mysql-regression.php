@@ -65,6 +65,36 @@ try {
     playbackFixtureAssert(VideoHLS::canAccessMandatoryRule($video,$token), 'native HLS accepts signed authorized user');
     $identity->videos_id = $normalVideo;
     playbackFixtureAssert(!VideoHLS::canAccessMandatoryRule($video,encryptString(json_encode($identity))), 'HLS token for another video denied');
+    playbackFixtureAssert(PlaybackAccess::isRestricted($video) && !PlaybackAccess::isRestricted($normalVideo), 'feeds leave out restricted titles only');
+    // The fixture videos have no media files: borrow an existing local video that has a playable file.
+    $mediaVideo = 0;
+    $res = sqlDAL::readSql("SELECT id, filename FROM videos WHERE status = 'a' AND type = 'video' ORDER BY id DESC LIMIT 20");
+    foreach (sqlDAL::fetchAllAssoc($res) as $candidate) {
+        foreach (getVideosURL($candidate['filename']) as $candidateFile) {
+            if (($candidateFile['type'] ?? '') === 'video') {
+                $mediaVideo = intval($candidate['id']);
+                break 2;
+            }
+        }
+    }
+    if ($mediaVideo) {
+        sqlDAL::writeSql('INSERT INTO playback_access_rules (scope,scope_id,mode,groups_json) VALUES (?,?,?,?)', 'siss', ['video',$mediaVideo,'require',json_encode([$groupA])]);
+        $mediaPlaylist = playbackFixtureInsert("INSERT INTO playlists (name,users_id,status,created,modified) VALUES (?,1,'public',NOW(),NOW())", 's', [substr($prefix, 0, 45)]);
+        sqlDAL::writeSql('INSERT INTO playlists_has_videos (playlists_id,videos_id,`order`) VALUES (?,?,1)', 'ii', [$mediaPlaylist,$mediaVideo]);
+        $playbackPreviousDir = getcwd();
+        $_REQUEST = $_GET = ['playlists_id' => $mediaPlaylist];
+        chdir(dirname(__DIR__) . '/objects'); // the endpoint uses cwd-relative includes
+        ob_start();
+        include dirname(__DIR__) . '/objects/playlistsVideos.json.php';
+        $playlistResponse = json_decode(ob_get_clean(), true);
+        chdir($playbackPreviousDir);
+        $playlistRow = $playlistResponse[0] ?? [];
+        $playlistTypes = array_unique(array_column($playlistRow['VideoUrl'] ?? [], 'type'));
+        playbackFixtureAssert(!empty($playlistRow) && $playlistRow['firstVideo'] === '' && array_diff($playlistTypes, ['image']) === [], 'visitor playlist response keeps images but no media file');
+        playbackFixtureAssert(empty($playlistRow['videos']) && empty($playlistRow['videoLink']) && empty($playlistRow['videoDownloadedLink']), 'visitor playlist response removes every original playback field');
+    } else {
+        echo 'SKIP: no local video with a playable file for the playlist endpoint check', PHP_EOL;
+    }
     echo "Playback MySQL integration: passed\n";
 } finally {
     mysqlRollback();

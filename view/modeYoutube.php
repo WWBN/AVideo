@@ -42,13 +42,11 @@ $videos_id = getVideos_id(!empty($_REQUEST['playlist_id']));
 if ($videos_id && !PlaybackAccess::isAllowed($videos_id)) {
     forbiddenPage(__('Playback requires membership in an authorized user group'), true);
 }
-if ($videos_id) {
-    $mandatoryRule = PlaybackAccess::getVideoRule($videos_id);
-    if ($mandatoryRule && $mandatoryRule['mode'] === 'require') {
-        // Catalog filters for free-with-ads videos exclude paid-only titles. Resolve the
-        // requested title here; the existing payment/password checks still run below.
-        $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, true, false, false, true);
-    }
+// Only the free-with-ads catalog filter (only_for_paid = 0) hides a paid-only title here; without
+// that mode the SQL filter is the ordinary user-group check and must stay in place.
+if ($videos_id && PlaybackAccess::isRestricted($videos_id) && Video::allowFreePlayWithAdsIsEnabled()) {
+    // Resolve the requested title; the existing payment/password checks still run below.
+    $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, true, false, false, true);
 }
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 $playlist_index = 0;
@@ -352,7 +350,7 @@ if (!empty($evideo)) {
     $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
     $modeYouTubeTimeLog['Code part 3'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
-    if (!empty($autoPlayVideo) && !empty($autoPlayVideo['filename'])) {
+    if (!empty($autoPlayVideo) && !empty($autoPlayVideo['filename']) && PlaybackAccess::isAllowed($autoPlayVideo['id'])) {
         $s = getVideosURL_V2($autoPlayVideo['filename']);
         $autoPlaySources = getSources($autoPlayVideo['filename'], true);
         $autoPlayURL = $autoPlayVideo['url'];

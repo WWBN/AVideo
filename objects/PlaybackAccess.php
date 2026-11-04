@@ -7,7 +7,14 @@ class PlaybackAccess
 
     public static function isInstalled()
     {
-        return ObjectYPT::isTableInstalled('playback_access_rules');
+        // Unlike an absent migration, a failed schema lookup must not grant legacy access.
+        $res = sqlDAL::readSql("SHOW TABLES LIKE 'playback_access_rules'");
+        if ($res === false) {
+            throw new RuntimeException('Could not check playback access schema');
+        }
+        $installed = sqlDAL::num_rows($res) > 0;
+        sqlDAL::close($res);
+        return $installed;
     }
 
     public static function getStoredRule($scope, $id)
@@ -105,6 +112,86 @@ class PlaybackAccess
         }
     }
 
+    /** True when a mandatory group rule applies to the video, for any viewer. Errors count as restricted. */
+    public static function isRestricted($videos_id)
+    {
+        try {
+            $rule = self::getVideoRule($videos_id);
+            return $rule !== null && $rule['mode'] === 'require';
+        } catch (Throwable $th) {
+            _error_log($th->getMessage(), AVideoLog::$ERROR);
+            return true;
+        }
+    }
+
+    /** Keep listing images, but drop every playable (non-image) file of a denied video from a getVideosURL() list. */
+    public static function filterPlayableFiles($videos_id, $files)
+    {
+        if ((!is_array($files) && !is_object($files)) || self::isAllowed($videos_id)) {
+            return $files;
+        }
+        $wasObject = is_object($files);
+        $files = (array) $files;
+        foreach ($files as $key => $file) {
+            $entry = is_object($file) ? (array) $file : $file;
+            if (!is_array($entry) || ($entry['type'] ?? '') !== 'image') {
+                unset($files[$key]);
+            }
+        }
+        return $wasObject ? (object) $files : $files;
+    }
+
+    /** Filter response rows after shared caches are read; retain catalog metadata and field shapes. */
+    public static function filterVideoRows($rows)
+    {
+        if (!is_array($rows) && !is_object($rows)) {
+            return $rows;
+        }
+        $wasObject = is_object($rows);
+        $rows = (array) $rows;
+        foreach ($rows as &$row) {
+            $wasObjectRow = is_object($row);
+            $row = (array) $row;
+            $videos_id = $row['id'] ?? $row['videos_id'] ?? 0;
+            if (!self::isAllowed($videos_id)) {
+                // 'videos' is a media map (a JSON object); 'sources' is a list.
+                if (isset($row['videos'])) {
+                    $row['videos'] = new stdClass();
+                }
+                if (isset($row['sources'])) {
+                    $row['sources'] = is_object($row['sources']) ? new stdClass() : [];
+                }
+                foreach (['VideoUrl', 'videosURL'] as $field) {
+                    if (isset($row[$field])) {
+                        $row[$field] = self::filterPlayableFiles($videos_id, $row[$field]);
+                    }
+                }
+                foreach (['videoLink', 'videoDownloadedLink', 'firstVideo'] as $field) {
+                    if (isset($row[$field])) {
+                        $row[$field] = '';
+                    }
+                }
+                if (isset($row['mp3'])) {
+                    $row['mp3'] = false;
+                }
+            }
+            foreach (['playlist', 'relatedVideos'] as $field) {
+                if (!empty($row[$field])) {
+                    $row[$field] = self::filterVideoRows($row[$field]);
+                }
+            }
+            if (!empty($row['next_video'])) {
+                $next = self::filterVideoRows([$row['next_video']]);
+                $row['next_video'] = $next[0];
+            }
+            if ($wasObjectRow) {
+                $row = (object) $row;
+            }
+        }
+        unset($row);
+        return $wasObject ? (object) $rows : $rows;
+    }
+
     public static function normalizeGroups($groups)
     {
         $ids = [];
@@ -157,5 +244,7 @@ class PlaybackAccess
             throw new RuntimeException('Could not save playback access rule');
         }
         self::$rules = [];
+        // Shared feed/catalog output caches hold media URLs; drop them like a category save does.
+        ObjectYPT::deleteALLCache();
     }
 }

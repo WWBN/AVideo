@@ -40,7 +40,8 @@ foreach ($videos as $key => $value) {
     $videos[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
     $videos[$key]['Thumbnail'] = !empty($objMob->portraitImage) ? $images->posterPortraitThumbs : $images->thumbsJpg;
     $videos[$key]['imageClass'] = !empty($objMob->portraitImage) ? "portrait" : "landscape";
-    $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
+    // A playlist may list a title the caller cannot play: keep its images, never its media files.
+    $videos[$key]['VideoUrl'] = PlaybackAccess::filterPlayableFiles($videos[$key]['id'], getVideosURL($videos[$key]['filename']));
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] =  PlayLists::getLink($_playlists_id, false, $index);
     $videos[$key]['embedUrl'] = PlayLists::getLink($_playlists_id, true, $index);
@@ -67,4 +68,4 @@ foreach ($videos as $key => $value) {
     $index++;
 }
 
-echo json_encode($videos);
+echo json_encode(PlaybackAccess::filterVideoRows($videos));

@@ -47,7 +47,7 @@ $obj->error = false;
 
 $obj->friendly = Video::getURLFriendly($obj->videos_id);
 $obj->embed = Video::getURLFriendly($obj->videos_id, true);
-$obj->sources = getSources($video['filename'], true);
+$obj->sources = PlaybackAccess::isAllowed($video['id']) ? getSources($video['filename'], true) : [];
 $obj->poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
 $obj->sprits = "{$global['webSiteRootURL']}videos/{$video['filename']}_thumbsSprit.jpg";
 $obj->title = $video['title'];

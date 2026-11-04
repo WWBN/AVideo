@@ -1974,6 +1974,9 @@ class API extends PluginAbstract
             $obj->rows = $rows;
         }
         $obj = self::addRowInfo($obj);
+        if (!$isAPISecretValid) {
+            self::filterMandatoryPlaybackSources($obj);
+        }
         //var_dump($obj->rows );exit;
         //ObjectYPT::setCacheGlobal($cacheName, $obj);
         $videosListCache->setCache($obj);
@@ -1983,24 +1986,10 @@ class API extends PluginAbstract
     private static function filterMandatoryPlaybackSources(&$obj)
     {
         foreach (['rows', 'videos'] as $field) {
-            if (empty($obj->$field) || !is_array($obj->$field)) {
+            if (empty($obj->$field) || (!is_array($obj->$field) && !is_object($obj->$field))) {
                 continue;
             }
-            foreach ($obj->$field as &$row) {
-                if (!PlaybackAccess::isAllowed($row['id'])) {
-                    $row['videos'] = new stdClass();
-                    $row['sources'] = [];
-                    $row['videoLink'] = '';
-                    $row['videoDownloadedLink'] = '';
-                    $row['playlist'] = [];
-                }
-                if (!empty($row['relatedVideos'])) {
-                    $related = (object) ['rows' => $row['relatedVideos']];
-                    self::filterMandatoryPlaybackSources($related);
-                    $row['relatedVideos'] = $related->rows;
-                }
-            }
-            unset($row);
+            $obj->$field = PlaybackAccess::filterVideoRows($obj->$field);
         }
     }
 
@@ -3512,6 +3501,9 @@ class API extends PluginAbstract
         }
         $obj = new stdClass();
         $obj->videos = PlayList::getAllFromPlaylistsID($parameters['playlists_id']);
+        if (!self::isAPISecretValid()) {
+            self::filterMandatoryPlaybackSources($obj);
+        }
 
         return new ApiObject("", false, $obj);
     }
@@ -4651,6 +4643,9 @@ class API extends PluginAbstract
                 $row[$key]['videos'][$key2]['videosURL'] = getVideosURL($row[$key]['videos'][$key2]['filename']);
                 $row[$key]['videos'][$key2] = cleanUpRowFromDatabase($row[$key]['videos'][$key2]);
             }
+            if (!self::isAPISecretValid()) {
+                $row[$key]['videos'] = PlaybackAccess::filterVideoRows($row[$key]['videos']);
+            }
         }
         header('Content-Type: application/json');
         echo json_encode($row);
@@ -4806,6 +4801,9 @@ class API extends PluginAbstract
                 $row[$key]['videos'][$key2]['videosURL'] = getVideosURL($row[$key]['videos'][$key2]['filename']);
                 unset($row[$key]['videos'][$key2]['password']);
                 unset($row[$key]['videos'][$key2]['recoverPass']);
+            }
+            if (!self::isAPISecretValid()) {
+                $row[$key]['videos'] = PlaybackAccess::filterVideoRows($row[$key]['videos']);
             }
         }
         echo json_encode($row);

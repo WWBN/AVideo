@@ -710,6 +710,10 @@ class CustomizeUser extends PluginAbstract
     {
         global $_lastCanDownloadVideosFromVideoReason, $canDownloadVideosFromUserReason;
         $_lastCanDownloadVideosFromVideoReason = '';
+        if (class_exists('PlaybackAccess') && !PlaybackAccess::isAllowed($videos_id)) {
+            $_lastCanDownloadVideosFromVideoReason = 'Playback requires membership in an authorized user group';
+            return false;
+        }
         if (!CustomizeUser::canDownloadVideos()) {
             $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
             if (!empty($obj->nonAdminCannotDownload)) {

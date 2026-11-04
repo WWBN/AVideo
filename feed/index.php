@@ -72,6 +72,16 @@ if (empty($rows)) {
 } else {
     $rows = object_to_array($rows);
 }
+// Feeds carry direct media URLs and their outputs are cached for every viewer, so a title
+// that requires a mandatory playback group is left out for everyone.
+if (is_array($rows)) {
+    foreach ($rows as $feedRowKey => $feedRow) {
+        if (PlaybackAccess::isRestricted($feedRow['id'] ?? 0)) {
+            unset($rows[$feedRowKey]);
+        }
+    }
+    $rows = array_values($rows);
+}
 
 
 if (!empty($_REQUEST['program_id'])) {

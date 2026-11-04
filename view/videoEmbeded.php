@@ -69,6 +69,11 @@ if (empty($video)) {
 if ($video['status'] == 'i') {
     forbiddenPage("Video inactive");
 }
+// getEmbed() hooks can return early (SecureVideosDirectory whitelist, free playback with ads);
+// the mandatory group prerequisite must still hold before any source is printed.
+if (!PlaybackAccess::isAllowed($video['id'])) {
+    forbiddenPage(__('Playback requires membership in an authorized user group'), true);
+}
 if (empty($video['users_id'])) {
     $video['users_id'] = User::getId();
 }

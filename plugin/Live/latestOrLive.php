@@ -63,6 +63,36 @@ function matchWithRequest($row)
     return true;
 }
 
+/** Newest VOD of the same selection that the viewer passes the mandatory playback group rule for, or false. */
+function latestOrLiveGetPermittedVOD($categories_id, $users_id, $limit = 100)
+{
+    // One wider page instead of pagination: paginated requests can be refused for bots and visitors.
+    $previousRowCount = [$_REQUEST['rowCount'] ?? null, $_POST['rowCount'] ?? null];
+    $_REQUEST['rowCount'] = $_POST['rowCount'] = $limit;
+    unset($_POST['sort']);
+    $_POST['sort']['v.created'] = 'DESC';
+    $_POST['sort']['v.id'] = 'DESC';
+    $permitted = false;
+    // Same order of preference as the newest-video query: suggested videos first outside a category.
+    foreach (empty($categories_id) ? [true, false] : [false] as $suggestedOnly) {
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, $users_id, false, [], false, false, true, $suggestedOnly, null, Video::$videoTypeVideo, 0);
+        foreach ($videos as $candidate) {
+            if (PlaybackAccess::isAllowed($candidate['id'])) {
+                $permitted = $candidate;
+                break 2;
+            }
+        }
+    }
+    foreach (['_REQUEST', '_POST'] as $index => $name) {
+        if ($previousRowCount[$index] === null) {
+            unset($GLOBALS[$name]['rowCount']);
+        } else {
+            $GLOBALS[$name]['rowCount'] = $previousRowCount[$index];
+        }
+    }
+    return $permitted;
+}
+
 $liveFound = false;
 $isEnabledPayPerViewLive = AVideoPlugin::isEnabledByName("PayPerViewLive");
 if (AVideoPlugin::isEnabledByName('PlayLists')) {
@@ -165,6 +195,14 @@ if (!$liveFound) {
         videoNotFound('');
     }
     $video = $videos[0];
+    // This widget must always show something playable: a newest title behind a mandatory group rule
+    // falls back to the newest one this viewer may play, never to a forbidden/login page.
+    if (!PlaybackAccess::isAllowed($video['id'])) {
+        $video = latestOrLiveGetPermittedVOD($categories_id, $users_id);
+        if (empty($video)) {
+            videoNotFound(''); // same response as a selection without any video
+        }
+    }
     $_GET['videos_id'] = $video['id'];
     $_REQUEST['videos_id'] = $video['id'];
     $poster = Video::getPoster($video['id']);
