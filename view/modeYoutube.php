@@ -40,7 +40,8 @@ if (!empty($_GET['evideo'])) {
 $videos_id = getVideos_id(!empty($_REQUEST['playlist_id']));
 // A denied requested video must not turn into a different playable fallback video.
 if ($videos_id && !PlaybackAccess::isAllowed($videos_id)) {
-    forbiddenPage(__('Playback requires membership in an authorized user group'), true);
+    // Shows the plans that grant a required group (or the plain 403) and stops here.
+    PlaybackAccess::showUnlockPage($videos_id);
 }
 // Only the free-with-ads catalog filter (only_for_paid = 0) hides a paid-only title here; without
 // that mode the SQL filter is the ordinary user-group check and must stay in place.

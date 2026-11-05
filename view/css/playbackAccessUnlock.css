@@ -1,0 +1,386 @@
+/*
+ * Unlock page for titles behind a mandatory playback group (view/playbackAccessUnlock.php).
+ * Like the PayPerView title page, the text always sits on a dark shade over the artwork, so the
+ * colors do not depend on the active Bootstrap theme. Override the variables to restyle it.
+ */
+.avideoUnlock {
+    --avideo-unlock-text: #fff;
+    --avideo-unlock-muted: rgba(255, 255, 255, 0.72);
+    --avideo-unlock-subtle: rgba(255, 255, 255, 0.5);
+    --avideo-unlock-shade: 10, 10, 14;
+    --avideo-unlock-accent: #f5c451;
+    --avideo-unlock-accent-text: #1a1305;
+    --avideo-unlock-primary-bg: #fff;
+    --avideo-unlock-primary-text: #111;
+    --avideo-unlock-ghost-bg: rgba(109, 109, 110, 0.7);
+    --avideo-unlock-card-bg: rgba(255, 255, 255, 0.06);
+    --avideo-unlock-card-border: rgba(255, 255, 255, 0.14);
+    --avideo-unlock-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
+    padding: 56px 0 48px;
+    color: var(--avideo-unlock-text);
+    background-color: rgb(var(--avideo-unlock-shade));
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.avideoUnlock-backdrop {
+    position: absolute;
+    top: -24px;
+    right: -24px;
+    bottom: -24px;
+    left: -24px;
+    background-image: var(--avideo-unlock-image);
+    background-size: cover;
+    background-position: center top;
+    filter: blur(4px);
+    transform: scale(1.04);
+}
+
+.avideoUnlock-shade {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background:
+        linear-gradient(90deg, rgba(var(--avideo-unlock-shade), 0.95) 0%, rgba(var(--avideo-unlock-shade), 0.8) 45%, rgba(var(--avideo-unlock-shade), 0.45) 100%),
+        linear-gradient(0deg, rgba(var(--avideo-unlock-shade), 1) 0%, rgba(var(--avideo-unlock-shade), 0.85) 35%, rgba(var(--avideo-unlock-shade), 0) 75%);
+}
+
+/* A docked panel (e.g. the chat) can leave the section narrower than the fixed .container width */
+.avideoUnlock-content {
+    position: relative;
+    max-width: 100%;
+}
+
+.avideoUnlock-hero {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.avideoUnlock-poster {
+    position: relative;
+    flex: 0 0 auto;
+    width: 38%;
+    max-width: 420px;
+}
+
+.avideoUnlock-poster-portrait {
+    width: 24%;
+    max-width: 260px;
+}
+
+.avideoUnlock-poster img {
+    display: block;
+    width: 100%;
+    border-radius: var(--avideo-unlock-radius);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    object-fit: cover;
+}
+
+.avideoUnlock-poster-lock {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    color: var(--avideo-unlock-accent);
+}
+
+.avideoUnlock-info {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.avideoUnlock-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(245, 196, 81, 0.14);
+    color: var(--avideo-unlock-accent);
+    font-size: 0.8em;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* The global stylesheet pads headings; this page aligns them with the text below */
+.avideoUnlock-title,
+.avideoUnlock-heading,
+.avideoUnlock-offer-name {
+    padding: 0;
+}
+
+.avideoUnlock-title {
+    margin: 0 0 14px;
+    color: var(--avideo-unlock-text);
+    font-size: 3em;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.avideoUnlock-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 18px;
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+    color: var(--avideo-unlock-muted);
+    font-size: 1.05em;
+}
+
+.avideoUnlock-rating {
+    display: inline-block;
+    padding: 1px 8px;
+    border: 1px solid var(--avideo-unlock-subtle);
+    border-radius: 3px;
+    font-size: 0.85em;
+    font-weight: 700;
+}
+
+.avideoUnlock-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    max-width: 680px;
+    margin: 0 0 24px;
+    color: var(--avideo-unlock-muted);
+    font-size: 1.1em;
+    line-height: 1.55;
+}
+
+.avideoUnlock-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.avideoUnlock-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 10px 28px;
+    border: 0;
+    border-radius: var(--avideo-unlock-radius);
+    font-size: 1.1em;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.avideoUnlock-btn:hover,
+.avideoUnlock-btn:focus {
+    opacity: 0.85;
+    text-decoration: none;
+}
+
+.avideoUnlock-btn-primary,
+.avideoUnlock-btn-primary:hover,
+.avideoUnlock-btn-primary:focus {
+    background: var(--avideo-unlock-primary-bg);
+    color: var(--avideo-unlock-primary-text);
+}
+
+.avideoUnlock-btn-ghost,
+.avideoUnlock-btn-ghost:hover,
+.avideoUnlock-btn-ghost:focus {
+    background: var(--avideo-unlock-ghost-bg);
+    color: var(--avideo-unlock-text);
+}
+
+.avideoUnlock-hint {
+    margin: 14px 0 0;
+    color: var(--avideo-unlock-subtle);
+}
+
+.avideoUnlock-heading {
+    margin: 56px 0 22px;
+    color: var(--avideo-unlock-text);
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+.avideoUnlock-offers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+    gap: 22px;
+}
+
+.avideoUnlock-offer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 26px 24px 24px;
+    border: 1px solid var(--avideo-unlock-card-border);
+    border-radius: 12px;
+    background: var(--avideo-unlock-card-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.avideoUnlock-offer:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.32);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.avideoUnlock-offer-featured {
+    border-color: var(--avideo-unlock-accent);
+    box-shadow: 0 0 0 1px var(--avideo-unlock-accent), 0 18px 44px rgba(245, 196, 81, 0.16);
+}
+
+.avideoUnlock-offer-featured:hover {
+    border-color: var(--avideo-unlock-accent);
+}
+
+.avideoUnlock-offer-badge {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--avideo-unlock-accent);
+    color: var(--avideo-unlock-accent-text);
+    font-size: 0.75em;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.avideoUnlock-offer-type {
+    margin-bottom: 8px;
+    color: var(--avideo-unlock-subtle);
+    font-size: 0.8em;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.avideoUnlock-offer-name {
+    margin: 0 0 14px;
+    color: var(--avideo-unlock-text);
+    font-size: 1.3em;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.avideoUnlock-offer-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 8px;
+    margin-bottom: 14px;
+}
+
+.avideoUnlock-offer-amount {
+    font-size: 2.2em;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.avideoUnlock-offer-period {
+    color: var(--avideo-unlock-muted);
+}
+
+.avideoUnlock-offer-description {
+    margin: 0 0 18px;
+    color: var(--avideo-unlock-muted);
+    line-height: 1.5;
+}
+
+.avideoUnlock-offer-cta {
+    width: 100%;
+    margin-top: auto;
+}
+
+.avideoUnlock-empty {
+    max-width: 560px;
+    margin: 56px 0 0;
+    padding: 22px 24px;
+    border: 1px solid var(--avideo-unlock-card-border);
+    border-radius: 12px;
+    background: var(--avideo-unlock-card-bg);
+    color: var(--avideo-unlock-muted);
+    font-size: 1.1em;
+}
+
+.avideoUnlock-empty .fa-user-lock {
+    margin-bottom: 10px;
+    color: var(--avideo-unlock-accent);
+    font-size: 1.6em;
+}
+
+.avideoUnlock-empty p {
+    margin: 0;
+}
+
+.avideoUnlock-footer {
+    margin-top: 40px;
+}
+
+.avideoUnlock-link,
+.avideoUnlock-link:hover,
+.avideoUnlock-link:focus {
+    color: var(--avideo-unlock-muted);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.avideoUnlock-link:hover {
+    color: var(--avideo-unlock-text);
+}
+
+@media (max-width: 991px) {
+    .avideoUnlock-title {
+        font-size: 2.4em;
+    }
+}
+
+@media (max-width: 767px) {
+    .avideoUnlock {
+        padding: 32px 0;
+    }
+
+    .avideoUnlock-content {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    .avideoUnlock-hero {
+        display: block;
+    }
+
+    .avideoUnlock-title {
+        font-size: 2em;
+    }
+
+    .avideoUnlock-btn {
+        width: 100%;
+    }
+
+    .avideoUnlock-heading {
+        margin-top: 36px;
+    }
+}

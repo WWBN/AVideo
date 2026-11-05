@@ -112,6 +112,166 @@ class PlaybackAccess
         }
     }
 
+    /** Groups listed by the video's mandatory rule; empty when no rule applies or it cannot be read. */
+    public static function getRequiredGroups($videos_id)
+    {
+        try {
+            $rule = self::getVideoRule($videos_id);
+        } catch (Throwable $th) {
+            _error_log($th->getMessage(), AVideoLog::$ERROR);
+            return [];
+        }
+        if ($rule === null || $rule['mode'] !== 'require') {
+            return [];
+        }
+        return $rule['groups'];
+    }
+
+    /**
+     * Plans whose purchase adds the buyer to a required group: Subscription plans and group-based
+     * PPV plans. A rental of the title alone is not offered, it does not satisfy the requirement.
+     */
+    public static function getUnlockOffers($videos_id)
+    {
+        global $global;
+        $groups = self::getRequiredGroups($videos_id);
+        $offers = [];
+        if (empty($groups)) {
+            return $offers;
+        }
+        $listingRequest = [$_GET, $_POST, $_REQUEST];
+        try {
+            $video = Video::getVideoLight($videos_id);
+            if (empty($video) || $video['status'] === 'i') {
+                return $offers;
+            }
+            $owner = User::getUserFromID($video['users_id']);
+            if (empty($owner) || $owner['status'] === 'i') {
+                return $offers;
+            }
+            $visibilityGroups = array_map('intval', array_column(UserGroups::getVideosAndCategoriesUserGroups($videos_id), 'id'));
+            $users_id = User::getId();
+            $userGroups = $users_id ? array_map('intval', array_column(UserGroups::getUserGroups($users_id), 'id')) : [];
+            // Evaluate the existing payment rules without the mandatory prerequisite. A paid-only
+            // title with no visibility groups still needs a plugin grant after buying a membership.
+            $pluginAccess = AVideoPlugin::userCanWatchVideo($users_id, $videos_id);
+        } catch (Throwable $th) {
+            _error_log('PlaybackAccess::getUnlockOffers groups ' . $th->getMessage(), AVideoLog::$ERROR);
+            return $offers;
+        } finally {
+            [$_GET, $_POST, $_REQUEST] = $listingRequest;
+        }
+        $unlocksVideo = function ($planGroups, $planGrantsPlayback = false) use ($groups, $visibilityGroups, $userGroups, $pluginAccess) {
+            if (empty(array_intersect($groups, $planGroups))) {
+                return false;
+            }
+            return $pluginAccess || $planGrantsPlayback
+                || (!empty($visibilityGroups) && !empty(array_intersect($visibilityGroups, array_merge($userGroups, $planGroups))));
+        };
+        try {
+            if (AVideoPlugin::loadPluginIfEnabled('Subscription') && class_exists('SubscriptionPlansTable')) {
+                // getAllActive() applies the request's listing filters; read it like Subscription::getPlansFromVideo().
+                $get = $_GET;
+                $post = $_POST;
+                $request = $_REQUEST;
+                $_GET = [];
+                $_POST = [];
+                $_REQUEST = ['current' => 1, 'rowCount' => 1000];
+                try {
+                    $plans = SubscriptionPlansTable::getAllActive();
+                } finally {
+                    $_GET = $get;
+                    $_POST = $post;
+                    $_REQUEST = $request;
+                }
+                foreach ($plans as $plan) {
+                    if (!$unlocksVideo(array_map('intval', array_column($plan['groups'], 'users_groups_id')))) {
+                        continue;
+                    }
+                    $offers[] = [
+                        'type' => 'subscription',
+                        'id' => intval($plan['id']),
+                        'name' => $plan['name'],
+                        'description' => $plan['description'],
+                        'price' => floatval($plan['price']),
+                        'days' => intval($plan['how_many_days']),
+                        'hours' => 0,
+                        'featured' => !empty($plan['is_featured']),
+                        'url' => addQueryStringParameter(Subscription::getBuyURL($videos_id), 'plans_id', intval($plan['id'])),
+                    ];
+                }
+            }
+        } catch (Throwable $th) {
+            _error_log('PlaybackAccess::getUnlockOffers subscription ' . $th->getMessage(), AVideoLog::$ERROR);
+        }
+        try {
+            if (AVideoPlugin::loadPluginIfEnabled('PayPerView') && class_exists('Ppv_plans_has_users_groups')
+                && ObjectYPT::isTableInstalled('ppv_plans_has_users_groups')) {
+                $ppvObject = AVideoPlugin::getDataObject('PayPerView');
+                $videoPlanIds = [];
+                // A whole-plan purchase also permits every title linked to that PPV plan, even
+                // when the title's visibility groups do not match (the normal PPV playback rule).
+                foreach (PayPerView::getAllPlansFromVideo($videos_id) as $videoPlan) {
+                    if ($videoPlan['status'] === 'a') {
+                        $videoPlanIds[] = intval($videoPlan['ppv_plans_id']);
+                    }
+                }
+                foreach (Ppv_plans_has_users_groups::getAllPlansFromUserGroups($groups) as $link) {
+                    $plan = PPV_Plans::getFromDb(intval($link['ppv_plans_id']));
+                    if (empty($plan) || $plan['status'] !== 'a' || floatval($plan['value']) <= 0 || intval($plan['hours_valid']) < 1) {
+                        continue;
+                    }
+                    // A purchase grants every active group of the plan (PayPerView::getGroupsFromUser()).
+                    $planGroups = [];
+                    foreach ((array) Ppv_plans_has_users_groups::getAllFromPPV($plan['id']) as $planGroup) {
+                        if ($planGroup['status'] === 'a') {
+                            $planGroups[] = intval($planGroup['users_groups_id']);
+                        }
+                    }
+                    if (!$unlocksVideo($planGroups, in_array(intval($plan['id']), $videoPlanIds, true))) {
+                        continue;
+                    }
+                    if (!empty($ppvObject->ifNeedToPayRedirectURL)) {
+                        $url = PayPerView::getBuyURL($videos_id);
+                    } else {
+                        // Without videos_id: this checkout sells the plan (its groups), not a rental of the title.
+                        $url = addQueryStringParameter($global['webSiteRootURL'] . 'plugin/PayPerView/subscribePlanPerUser.php', 'plans_id', intval($plan['id']));
+                        $url = addQueryStringParameter($url, 'redirectUri', getRedirectToVideo($videos_id));
+                    }
+                    $offers[] = [
+                        'type' => 'ppv',
+                        'id' => intval($plan['id']),
+                        'name' => $plan['name'],
+                        'description' => $plan['description'],
+                        'price' => floatval($plan['value']),
+                        'days' => 0,
+                        'hours' => intval($plan['hours_valid']),
+                        'featured' => false,
+                        'url' => $url,
+                    ];
+                }
+            }
+        } catch (Throwable $th) {
+            _error_log('PlaybackAccess::getUnlockOffers ppv ' . $th->getMessage(), AVideoLog::$ERROR);
+        }
+        return $offers;
+    }
+
+    /** Refuse playback with the title's unlock page (the offers that grant a required group), then stop. */
+    public static function showUnlockPage($videos_id)
+    {
+        global $global, $config;
+        $video = Video::getVideoLight($videos_id);
+        // Bots, JSON clients and titles that are not published keep the plain refusal.
+        if (empty($video) || isBot() || isContentTypeJson() || !in_array($video['status'], Video::getViewableStatus(true), true)) {
+            forbiddenPage(__('Playback requires membership in an authorized user group'), true);
+        }
+        $offers = self::getUnlockOffers($videos_id);
+        http_response_code(403);
+        include $global['systemRootPath'] . 'view/playbackAccessUnlock.php';
+        exit;
+    }
+
     /** True when a mandatory group rule applies to the video, for any viewer. Errors count as restricted. */
     public static function isRestricted($videos_id)
     {
