@@ -318,6 +318,9 @@ class PlaybackAccessUnlockTest extends TestCase
 
     public function testSubscriptionCheckoutOnlyListsPlansThatSatisfyBothRestrictions(): void
     {
+        if (!is_file(dirname(__DIR__, 2) . '/plugin/Subscription/showPlans.php')) {
+            $this->markTestSkipped('The separately distributed Subscription plugin is not installed');
+        }
         $request = $_REQUEST;
         try {
             $_REQUEST['videos_id'] = 3505;
