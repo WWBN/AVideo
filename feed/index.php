@@ -40,6 +40,11 @@ if (!empty($_GET['channelName'])) {
     $user = User::getChannelOwner($_GET['channelName']);
     $showOnlyLoggedUserVideos = $user['id'];
     $title = User::getNameIdentificationById($user['id']);
+    // SECURITY REVIEW (2026-11-05): GHSA-6pmm-qqqq-fp8c reported that the About text of a password-protected
+    // channel is shown here without the channel password — NOT a vulnerability / DO NOT FIX: since it was added
+    // (93bf6d5e82) the channel password only gates the view/channel.php page; the channel's name, photo and public
+    // videos stay listed site-wide, and the About text is public profile text, not PII or a credential.
+    // If re-reported, see the triage in the advisory thread instead of re-patching.
     $about = User::getDescriptionById($user['id'], true);
     // do not disclose the channel owner's personal email to unauthenticated callers; keep the site contact email set above
     if (!isHTMLEmpty($about)) {
