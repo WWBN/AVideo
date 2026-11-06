@@ -1,30 +1,15 @@
 <?php
-$sessionName = 'themeCSSSession';
-require_once dirname(__DIR__) . '/objects/functionsPHP.php';
-_setSessionCookieParams(0, _getCookieRequestDomain());
-session_name($sessionName);
-session_start();
-if(!empty($_SESSION['theme'])){
-    $theme = $_SESSION['theme'];
-    $doNotStartSessionIncludeConfig = $doNotConnectDatabaseIncludeConfig = 1;
-}
-session_write_close();
+// Use only the normal startup session. A separate session here (it was "themeCSSSession") left its
+// ID in PHP, the main session reused it and the browser's login cookie was replaced, logging the
+// user out after opening the Encoder, which loads this file (issue #10674)
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 header("Content-type: text/css; charset: UTF-8");
-if(empty($theme)){
-    $theme = getCurrentTheme();
-    _mysql_close();
-    _session_write_close();
-    session_name($sessionName);
-    session_start();
-    $_SESSION['theme'] = $theme;
-    _session_write_close();
-    echo "/* theme = {$theme} from DB */".PHP_EOL;
-}else{    
-    echo "/* theme = {$theme} from Session */".PHP_EOL;
-}
+$theme = getCurrentTheme();
+_mysql_close();
+_session_write_close();
+echo "/* theme = {$theme} */".PHP_EOL;
 $themeFile = "{$global['systemRootPath']}view/css/custom/{$theme}.css";
 if (!preg_match('/^[a-zA-Z0-9_-]{1,64}$/', $theme) || !file_exists($themeFile)) {
     $theme = 'default';
