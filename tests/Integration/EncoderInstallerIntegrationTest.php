@@ -82,7 +82,16 @@ class EncoderInstallerIntegrationTest extends TestCase
         if ($data === null) { curl_setopt($this->client, CURLOPT_HTTPGET, true); }
         else { curl_setopt($this->client, CURLOPT_POSTFIELDS, http_build_query($data)); }
         $body = curl_exec($this->client);
-        $this->assertNotFalse($body, 'The test HTTP request failed.');
+        if ($body === false) {
+            // The fixture removes the server logs on tearDown, so keep what is needed to diagnose a CI failure.
+            $logs = '';
+            foreach (['server.log', 'router.log'] as $log) {
+                $file = $this->fixture->path($log);
+                $logs .= "\n--- {$log} ---\n" . (is_readable($file) ? substr((string) file_get_contents($file), -2000) : '(missing)');
+            }
+            $this->fail('The test HTTP request failed: cURL ' . curl_errno($this->client) . ' ' . curl_error($this->client)
+                . ' after ' . round((float) curl_getinfo($this->client, CURLINFO_TOTAL_TIME), 1) . 's' . $logs);
+        }
         return $data === null ? $body : json_decode($body, true, 512, JSON_THROW_ON_ERROR);
     }
 
