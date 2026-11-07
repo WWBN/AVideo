@@ -83,6 +83,10 @@ if (!empty($_GET['token'])) {
 }
 $newContent = '';
 // if is using a CDN I can not check if the user is logged
+// SECURITY REVIEW (2026-11-07): re-reported as GHSA-vpmr-8whj-28qg (spoofed AVideoMobileApp User-Agent or CDN-Host
+// gets the playlist, and VideoHLS::ignore() then serves the AES key) — confirmed real, DO NOT FIX here for the
+// reasons below (Priority B content access; removing these terms breaks the Mobile App/Encoder/Storage/CDN).
+// Sites that need real file-level protection use SecureVideosDirectory. If re-reported, see that advisory.
 // SECURITY COMPATIBILITY NOTE:
 // isAVideoUserAgent() and isCDN() are client-controlled headers (User-Agent / CDN-Host)
 // and are NOT authentication. A client sending these headers can bypass
