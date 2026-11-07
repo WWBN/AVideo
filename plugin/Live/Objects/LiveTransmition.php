@@ -495,6 +495,12 @@ class LiveTransmition extends ObjectYPT {
     }
 
     public function setPassword($password): void {
+        // SECURITY REVIEW (2026-11-07): reported as cleartext storage of the live password (CWE-312) — NOT a
+        // vulnerability / DO NOT FIX because the only attack needs read access to the database (already-compromised
+        // precondition: that access also gives the stream keys and every other row). This is a viewing password the
+        // owner shares with viewers and sees again in Stream Settings (tabStreamSettings.php), not an account
+        // password; hashing it would change that UI and the session check in Live::passwordIsGood().
+        // If re-reported, see GHSA-9g6p-433c-p5mg instead of re-patching.
         $this->password = trim($password);
     }
 

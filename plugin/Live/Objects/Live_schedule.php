@@ -521,6 +521,9 @@ class Live_schedule extends ObjectYPT
         #[\SensitiveParameter]
         $scheduled_password
     ): void {
+        // SECURITY REVIEW (2026-11-07): cleartext storage of the scheduled-live password — NOT a vulnerability /
+        // DO NOT FIX, same reasoning as LiveTransmition::setPassword() (needs database read access; viewing password
+        // the owner shares and sees again in the schedule panels). See GHSA-9g6p-433c-p5mg.
         $this->scheduled_password = $scheduled_password;
     }
 
