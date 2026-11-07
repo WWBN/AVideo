@@ -33,8 +33,9 @@ foreach ($Subscribes as $value) {
 
 $subject = 'Message From Site ' . $config->getWebSiteTitle();
 $message = (string)($_POST['message'] ?? '');
-// Notifications must be plain text to avoid arbitrary HTML in branded emails.
-$message = nl2br(xss_esc($message));
+// No arbitrary HTML in branded emails: only the TinyMCE formatting is kept.
+require_once $global['systemRootPath'] . 'objects/emailMessageHTML.php';
+$message = purifyEmailMessageHTML($message, getCacheDir());
 
 $resp = sendSiteEmail($to, $subject, $message);
 

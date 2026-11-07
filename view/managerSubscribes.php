@@ -81,7 +81,7 @@ $_page->loadBasicCSSAndJS();
             url: webSiteRootURL+'objects/notifySubscribers.json.php',
             method: 'POST',
             data: {
-                'message': $(tinymce.get('emailMessage').getBody()).html()
+                'message': tinymce.get('emailMessage').getContent()
             },
             success: function(response) {
                 avideoResponse(response);
