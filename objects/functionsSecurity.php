@@ -1191,6 +1191,10 @@ function autoCSRFGuard($baseName, $scriptPath = '')
         // authenticated via the signed 'token' request param, not session.
         'plugin/Live/view/Live_restreams/getLiveKey.json.php',
         'plugin/Live/verifyToken.json.php',
+        // CDN marketplace registration/rebuild — called server-to-server by the
+        // marketplace (UA "AVideoMarketplace", no Origin/Referer); it never reads
+        // the session and is authenticated by the CDN plugin 'key' (hash_equals).
+        'plugin/CDN/status.json.php',
         // Bulk import tool — intentional cross-origin / CLI use
         'plugin/Flixhouse/import_spreadsheet_videos.json.php',
     ];
