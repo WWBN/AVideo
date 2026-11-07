@@ -1581,6 +1581,12 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::STATUS_ACTIVE . "' ";
                 }
                 if (empty($random) && !empty($_GET['videoName'])) {
+                    // SECURITY REVIEW (2026-11-07): reported as SQL injection via a backslash before a quote
+                    // (addcslashes() escapes only the quote) — NOT a vulnerability / DO NOT FIX because
+                    // objects/security.php removes backslashes, single/double quotes and backticks from
+                    // GET/POST/REQUEST videoName on every request ($securityFilter + $securityRemoveSingleQuotes),
+                    // and the other writers of $_GET['videoName'] use a stored clean_title (cleanURLName()).
+                    // If re-reported, see GHSA-jxx6-rvcr-qccf instead of re-patching.
                     $videoName = addcslashes($_GET['videoName'], "'");
                     $sql .= " AND v.clean_title = '{$videoName}' ";
                 } elseif (!empty($random)) {
