@@ -73,7 +73,6 @@ if (empty($_POST["recurring_payment_id"])) {
     // Deduplication: use txn_id when present (most specific), fall back to verify_sign.
     // verify_sign is a per-notification cryptographic signature — unique per authentic IPN —
     // so replaying the same captured POST body always carries the same verify_sign.
-    // This mirrors the approach used in ipnV2.php (IPN branch).
     $dedup_key = (string) (!empty($paypalTxnId) ? $paypalTxnId : ($_POST['verify_sign'] ?? ''));
 
     // check for the recurrement payment

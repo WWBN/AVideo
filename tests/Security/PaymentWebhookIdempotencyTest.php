@@ -75,8 +75,10 @@ function mysqlCommit() { return $GLOBALS['global']['mysqli']->commit(); }
 function mysqlRollback() { return $GLOBALS['global']['mysqli']->rollback(); }
 
 class User {
+    public static $logged = false;
     public static function isAdmin() { return true; }
-    public static function isLogged() { return false; }
+    public static function isLogged() { return self::$logged; }
+    public static function getId() { return 7; }
     public static function idExists($id) { return true; }
     public static function getNameIdentificationById($id) { return 'User'; }
 }
@@ -213,6 +215,7 @@ function http_response_code($code) { PayPalDelivery::$status = $code; }
 function _json_decode($value) { return json_decode($value); }
 function xss_esc($value) { return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8'); }
 class PayPalDelivery {
+    public static $tokenAgreement;
     public static $status = 200;
     public static $verified = true;
     public static $agreement = ['users_id' => 7, 'subscriptions_plans_id' => 3];
@@ -224,6 +227,7 @@ class PayPalDelivery {
 }
 class PayPalDeliveryStopped extends RuntimeException {}
 class AVideoPlugin {
+    public function execute() { return PayPalDelivery::$tokenAgreement; }
     public static $ppv;
     public static $walletEnabled = true;
     public static $subscriptionEnabled = true;
@@ -234,6 +238,16 @@ class AVideoPlugin {
         return $name === 'Subscription' && !self::$subscriptionEnabled ? false : new self();
     }
     public static function getObjectData($name) { return (object)['currency' => 'USD']; }
+    public static function getDataObjectIfEnabled($name) { return (object)[]; }
+}
+// FansSubscriptions::renew() pays the creator from the subscriber's wallet.
+class FansSubscriptions {
+    public static $renewals = 0;
+    public static function renew($subscriber, $plan) {
+        Payments::transferBalance($subscriber, 8, 10, 'Fans Subscription', true);
+        ++self::$renewals;
+        return false; // no redirect, so the handler's exit is never reached
+    }
 }
 class PayPalYPT {
     public static $deliveries = [];
@@ -367,6 +381,9 @@ class PaymentWebhookIdempotencyTest extends TestCase
         PayPalDelivery::$agreement = ['users_id' => 7, 'subscriptions_plans_id' => 3];
         PayPalDelivery::$failRenewal = PayPalDelivery::$ignoreLegacy = false;
         PayPalDelivery::$filterRequest = false;
+        FansSubscriptions::$renewals = 0;
+        User::$logged = false;
+        PayPalDelivery::$tokenAgreement = null;
         PayPalDelivery::$lastAgreement = null;
         AVideoPlugin::$walletEnabled = true;
         AVideoPlugin::$subscriptionEnabled = true;
@@ -441,72 +458,94 @@ class PaymentWebhookIdempotencyTest extends TestCase
         $source = preg_replace('/^<\?php/', '', $source);
         eval('namespace ' . __NAMESPACE__ . '; use RuntimeException;' . $source);
     }
-    private function deliverPayPalV2() {
+    private function deliverPayPalV2($get = ['json' => '{"users_id":7}']) {
         $global =& $GLOBALS['global'];
-        $_GET = ['json' => '{"users_id":7}'];
-        $_REQUEST = ['success' => 1];
+        $_GET = $get;
+        $_REQUEST = array_merge(['success' => 1], $get);
         $source = $this->payPalHandlerSource('ipnV2.php');
         $source = str_replace('die(', 'throw new PayPalDeliveryStopped(', $source);
-        try { eval('namespace ' . __NAMESPACE__ . '; use RuntimeException; use stdClass;' . $source); }
+        try { eval('namespace ' . __NAMESPACE__ . '; use RuntimeException; use Throwable; use stdClass;' . $source); }
         catch (PayPalDeliveryStopped $stop) { /* Simulate the handler ending its HTTP request. */ }
     }
-    public function testPayPalV2CannotCreditAnIpnAlreadyProcessedByEitherHandler() {
-        $_POST['verify_sign'] = str_repeat('s', 56);
-        $this->deliverPayPalWebhook();
-        $this->deliverPayPalV2();
-        $this->assertSame(200, PayPalDelivery::$status);
-        $this->assertSame([7 => 0.0, 8 => 10.0], $this->db->balances);
-        $this->assertSame(1, $this->db->renewals);
+    private function tokenAgreement($value, $currency = 'USD') {
+        $agreement = new \PayPal\Api\Agreement();
+        $agreement->setId('I-BUYER')->setState('Active');
+        $amount = new \PayPal\Api\Currency();
+        $amount->setValue($value)->setCurrency($currency);
+        $details = new \PayPal\Api\AgreementDetails();
+        $details->setLastPaymentAmount($amount);
+        return $agreement->setAgreementDetails($details);
     }
-    public function testPayPalV2AndIpnUseTheSameTransactionClaim() {
-        $_POST['verify_sign'] = str_repeat('s', 56);
-        $this->deliverPayPalV2();
-        $this->deliverPayPalIpn();
-        $this->deliverPayPalV2();
-        $this->assertSame(200, PayPalDelivery::$status);
-        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances);
-        $this->assertSame(0, $this->db->renewals);
-        $this->assertSame(1, $this->db->commits);
+    public function testPayPalV2NewTokenCreditsAndRenewsOnlyTheLoggedInBuyer() {
+        User::$logged = true;
+        PayPalDelivery::$tokenAgreement = $this->tokenAgreement('10.00');
+        $this->db->balances[9] = 50.0;
+        $request = ['token' => 'EC-NEW', 'json' => '{"users_id":9,"type":"FansSubscriptions","Fsubscriptions_plan_id":1}'];
+        $this->deliverPayPalV2($request);
+        $this->assertSame([7 => 0.0, 8 => 10.0, 9 => 50.0], $this->db->balances);
+        $this->assertSame(1, FansSubscriptions::$renewals);
+        $this->deliverPayPalV2($request);
+        $this->assertSame(1, FansSubscriptions::$renewals);
+        $this->assertArrayNotHasKey('bypassSameDomainCheck', $GLOBALS['global']);
     }
-    /** @dataProvider payPalNotificationsWithoutMoney */
-    public function testPayPalV2CannotClaimNonPaymentNotifications($fields) {
-        $_POST = array_replace($_POST, $fields);
-        $_POST['verify_sign'] = str_repeat('s', 56);
-        $this->deliverPayPalV2();
-        $this->assertSame(200, PayPalDelivery::$status);
+    public function invalidTokenAmounts() {
+        return [['10.00', 'EUR'], ['0', 'USD'], ['-10.00', 'USD']];
+    }
+    /** @dataProvider invalidTokenAmounts */
+    public function testPayPalV2CannotRenewWithoutAValidWalletCredit($value, $currency) {
+        User::$logged = true;
+        PayPalDelivery::$tokenAgreement = $this->tokenAgreement($value, $currency);
+        $this->db->balances[7] = 50.0;
+        $this->deliverPayPalV2(['token' => 'EC-INVALID', 'json' => '{"users_id":7,"type":"FansSubscriptions","Fsubscriptions_plan_id":1}']);
+        $this->assertSame([7 => 50.0, 8 => 0], $this->db->balances);
+        $this->assertSame(0, FansSubscriptions::$renewals);
         $this->assertSame([], $this->db->logs);
-        $_POST['txn_type'] = 'recurring_payment';
-        $_POST['payment_status'] = 'Completed';
-        $_POST['mc_gross'] = '10.00';
-        $this->deliverPayPalV2();
-        $this->assertSame(10.0, $this->db->balances[7]);
     }
-    public function testPayPalV2RestoresTheVerifiedTransactionIdAfterFrameworkFiltering() {
-        PayPalDelivery::$filterRequest = true;
-        $_POST['txn_id'] = '34Y69196BK064583G';
-        $_POST['verify_sign'] = str_repeat('s', 56);
-        $originalPost = $_POST;
-        $this->deliverPayPalV2();
-        $this->assertSame(200, PayPalDelivery::$status);
-        $_POST = $originalPost;
-        $this->deliverPayPalIpn();
-        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances);
-        $this->assertSame(1, $this->db->commits);
-    }
-    public function testPayPalV2MarkerFailureUndoesItsLogAndCreditBeforeRetrying() {
-        $GLOBALS['global']['bypassSameDomainCheck'] = 0;
-        $_POST['verify_sign'] = str_repeat('s', 56);
-        $this->db->failMarker = true;
-        $this->deliverPayPalV2();
-        $this->assertSame(500, PayPalDelivery::$status);
-        $this->assertSame([], $this->db->logs);
+    public function testPayPalV2FailedCreditDoesNotConsumeTheTokenOrRenew() {
+        User::$logged = true;
+        PayPalDelivery::$tokenAgreement = $this->tokenAgreement('10.00');
+        $this->db->failCredit = true;
+        $this->deliverPayPalV2(['token' => 'EC-FAIL', 'json' => '{"users_id":7,"type":"FansSubscriptions","Fsubscriptions_plan_id":1}']);
         $this->assertSame([7 => 0, 8 => 0], $this->db->balances);
-        $this->assertSame(0, $GLOBALS['global']['bypassSameDomainCheck']);
-        $this->db->failMarker = false;
-        PayPalDelivery::$status = 200;
-        $this->deliverPayPalV2();
-        $this->assertSame(200, PayPalDelivery::$status);
+        $this->assertSame(0, FansSubscriptions::$renewals);
+        $this->assertSame([], $this->db->logs);
+    }
+    public function testPayPalV2LoggedOutReturnCreditsWithoutSpendingTheWallet() {
+        PayPalDelivery::$tokenAgreement = $this->tokenAgreement('10.00');
+        $this->deliverPayPalV2(['token' => 'EC-LOGGED-OUT', 'json' => '{"users_id":7,"type":"FansSubscriptions","Fsubscriptions_plan_id":1}']);
+        $this->assertSame([7 => 10.0, 8 => 0], $this->db->balances);
+        $this->assertSame(0, FansSubscriptions::$renewals);
+        $this->assertTrue(PayPalYPT::isTokenUsed('EC-LOGGED-OUT'));
+    }
+    /** GHSA-5gg3-9jhh-xf86: a PayPal-verified IPN forwarded to ipnV2.php?success=1 credits nobody. */
+    public function testPayPalV2NeverCreditsAForwardedIpn() {
+        // A genuine notification of the attacker's own merchant account: PayPal still answers VERIFIED.
+        $_POST = array_replace($_POST, ['recurring_payment_id' => 'I-OTHER-MERCHANT', 'txn_id' => 'txn_foreign',
+            'receiver_email' => 'other-merchant@example.test', 'mc_gross' => '5000.00', 'verify_sign' => str_repeat('s', 56)]);
+        $this->deliverPayPalV2(['json' => '{"users_id":7,"type":"FansSubscriptions","Fsubscriptions_plan_id":1}']);
+        $this->assertSame([7 => 0, 8 => 0], $this->db->balances);
+        $this->assertSame([], $this->db->logs);
+        $this->assertSame(0, $this->db->renewals);
+        $this->assertSame(0, $this->db->commits);
+
+        // ipn.php still pays a completed renewal of an AVideo agreement.
+        $_POST = ['txn_type' => 'recurring_payment', 'payment_status' => 'Completed', 'recurring_payment_id' => 'agreement_1', 'txn_id' => 'txn_1', 'mc_gross' => '10.00', 'mc_currency' => 'USD'];
+        $this->deliverPayPalIpn();
+        $this->assertSame(1, $this->db->renewals);
+        $this->assertSame(1, $this->db->commits);
+    }
+    public function tokenReturnSessions() { return [[false], [true]]; }
+    /**
+     * A reused token cannot authorize renewal, including when the attacker is signed in.
+     * @dataProvider tokenReturnSessions
+     */
+    public function testPayPalV2ReusedTokenCannotSpendAnotherUsersBalance($logged) {
+        User::$logged = $logged;
+        $this->db->balances[7] = 10.0;
+        WalletLog::addLog(9, 1, 0, 'PayPal log', '{}', 'success', 'paypalToken', 'EC-ATTACKER');
+        $this->deliverPayPalV2(['token' => 'EC-ATTACKER', 'json' => '{"users_id":7,"type":"FansSubscriptions","Fsubscriptions_plan_id":1}']);
         $this->assertSame(10.0, $this->db->balances[7]);
+        $this->assertSame(0, FansSubscriptions::$renewals);
     }
     public function testPayPalIpnRecognizesTheFullSignatureInAPreMarkerV2Credit() {
         $_POST['txn_id'] = '34Y69196BK064583G';

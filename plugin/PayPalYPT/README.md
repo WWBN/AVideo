@@ -8,10 +8,10 @@ PayPalYPT lets buyers pay with PayPal for wallet top-ups, PayPerView movie renta
 | --- | --- | --- |
 | Wallet, PPV, PPV Live (one-time) | Payments v1 `/v1/payments/payment` (create, get, execute; `intent=sale`) | Legacy/deprecated, still served |
 | Subscription and FansSubscriptions (recurring) | Billing Plans/Agreements v1 `/v1/payments/billing-plans`, `/v1/payments/billing-agreements` | Deprecated; kept for existing plans and agreements |
-| Notifications | Webhooks v1 `/v1/notifications/*` and IPN (`ipn.php`, `ipnV2.php`) | Webhooks current; IPN legacy |
+| Notifications | Webhooks v1 `/v1/notifications/*` and IPN (`ipn.php`) | Webhooks current; IPN legacy |
 | Withdrawals | Payouts v1 `/v1/payments/payouts` | Current |
 
-The files called "V2" (`ipnV2.php`, `requestSubscriptionV2.json.php`) use Billing Agreements v1 too. They are not PayPal Orders v2 or Subscriptions v1.
+The files called "V2" (`ipnV2.php`, `requestSubscriptionV2.json.php`) use Billing Agreements v1 too. They are not PayPal Orders v2 or Subscriptions v1. `ipnV2.php` only handles the buyer's return from PayPal (with its `token`) after approving a FansSubscriptions agreement; it credits nothing from an IPN notification (GHSA-5gg3-9jhh-xf86).
 
 ## Configure in AVideo
 

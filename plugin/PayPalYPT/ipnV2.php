@@ -2,7 +2,6 @@
 // check recurrent payments
 header('Content-Type: application/json');
 
-$paypalIPNTransactionId = $_POST['txn_id'] ?? '';
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../../';
 }
@@ -42,7 +41,6 @@ _error_log('PayPalIPN V2: txn_type=' . preg_replace('/[^a-z_]/i', '', (string) (
     . ' token=' . preg_replace('/[^A-Z0-9_-]/i', '', (string) ($_GET['token'] ?? '')));
 
 $json = _json_decode(@$_GET['json']);
-$paypalPaymentIds = null;
 if (User::isLogged()) {
     $json->users_id = User::getId();
 }
@@ -85,50 +83,33 @@ if (!empty($_GET['token'])) {
     //var_dump($agreement, date('Y-m-d\TH:i:s'));
     //exit;
 } else {
-    $ipn = PayPalYPT::IPNcheck();
-    if (!$ipn) {
-        $obj->msg = 'IPN Fail';
-        _error_log("PayPalIPN V2: IPN Fail ");
-        die(json_encode($obj));
-    }
-    _error_log("PayPalIPN V2: else ");
-    // Restore only after verification, and share the sale ID with IPN v1 and the REST webhook.
-    $_POST['txn_id'] = $paypalIPNTransactionId;
-    if (($_POST['txn_type'] ?? '') !== 'recurring_payment' || ($_POST['payment_status'] ?? '') !== 'Completed') {
-        $obj->error = false;
-        die(json_encode($obj));
-    }
-    $paypalPaymentIds = [(string) (!empty($_POST['txn_id']) ? $_POST['txn_id'] : ($_POST['verify_sign'] ?? ''))];
-    $payment_amount = empty($_POST['mc_gross']) ? $_POST['amount'] : $_POST['mc_gross'];
-    $payment_currency = empty($_POST['mc_currency']) ? $_POST['currency_code'] : $_POST['mc_currency'];
-
-    $pp = new PayPalYPT_log(0);
-    $pp->setUsers_id($json->users_id);
-    $pp->setRecurring_payment_id(substr($paypalPaymentIds[0], 0, 45));
-    $pp->setValue($payment_amount);
-    $pp->setJson(['ipn' => $ipn, 'post' => $_POST, 'get' => $_GET]);
+    // GHSA-5gg3-9jhh-xf86: only PayPal's browser return (with its token) is handled here. PayPal sends the
+    // agreement's IPNs to the notify_url, which has no "success" and is redirected above, so a notification
+    // only reached this point in a crafted request. Crediting the unsigned $_GET['json'] user from it let any
+    // PayPal-verified IPN, even one sent to another merchant, mint wallet balance.
+    _error_log('PayPalIPN V2: ignored a request without a PayPal token', AVideoLog::$SECURITY);
+    $obj->msg = 'Invalid request';
+    die(json_encode($obj));
 }
+$paymentRecorded = false;
 if (!empty($pp) && is_object($pp)) {
-    $savePayment = function () use ($pp, $walletObject, $payment_currency, $payment_amount, $json, $plugin) {
+    $savePayment = function () use ($pp, $walletObject, $payment_currency, $payment_amount, $json, $plugin, &$paymentRecorded) {
         global $global;
         $hadOriginBypass = array_key_exists('bypassSameDomainCheck', $global);
         $previousOriginBypass = $global['bypassSameDomainCheck'] ?? null;
         try {
             $global['bypassSameDomainCheck'] = 1;
+            if ($walletObject->currency !== $payment_currency || !is_finite($payment_amount)
+                || $payment_amount <= 0 || empty($json->users_id)) {
+                _error_log('PayPalIPN V2: invalid wallet credit', AVideoLog::$ERROR);
+                return false;
+            }
             if (!$pp->save()) {
                 _error_log("PayPalIPN V2: FAIL to save log");
                 return false;
             }
-            if ($walletObject->currency === $payment_currency) {
-                _error_log("PayPalIPN V2: token log saved $json->users_id, $payment_amount");
-                if (!empty($payment_amount) && !empty($json->users_id)) {
-                    $plugin->addBalance($json->users_id, $payment_amount, "PayPal Subscription from token", json_encode($_POST));
-                } else {
-                    _error_log("PayPalIPN V2: ERROR balance not added");
-                }
-            } else {
-                _error_log("PayPalIPN V2: Invalid currency $walletObject->currency===$payment_currency ");
-            }
+            $plugin->addBalance($json->users_id, $payment_amount, "PayPal Subscription from token", json_encode($_POST));
+            $paymentRecorded = true;
             return true;
         } finally {
             if ($hadOriginBypass) {
@@ -138,35 +119,21 @@ if (!empty($pp) && is_object($pp)) {
             }
         }
     };
-    if ($paypalPaymentIds !== null) {
-        $processed = false;
-        try {
-            $plugin->processPaymentOnce('paypal', $paypalPaymentIds, $json->users_id,
-                function () use ($savePayment, &$processed) {
-                    $processed = $savePayment();
-                    return $processed;
-                }, ['legacyCheck' => function () use ($paypalPaymentIds, $plugin, $json) {
-                    return PayPalYPT::isRecurringPaymentIdUsed($paypalPaymentIds[0])
-                        || (!empty($_POST['verify_sign']) && (PayPalYPT::isRecurringPaymentIdUsed($_POST['verify_sign'])
-                            || WalletLog::hasProcessedPayment('paypal', [(string) $_POST['verify_sign']],
-                                $plugin->getOrCreateWallet($json->users_id)->getId(),
-                                ['legacyDescriptions' => ['Paypal recurrent%', 'PayPal Subscription from token%']])));
-                }, 'legacyDescriptions' => ['Paypal recurrent%', 'PayPal Subscription from token%']]);
-            $obj->error = false;
-        } catch (\Throwable $error) {
-            _error_log('PayPalIPN V2: payment processing failed; retry delivery: ' . $error->getMessage(), AVideoLog::$ERROR);
-            http_response_code(500);
-            $obj->msg = 'Payment could not be processed';
-            die(json_encode($obj));
-        }
-        if (!$processed) {
-            die(json_encode($obj));
-        }
-    } else {
-        $savePayment();
+    try {
+        // Keep the token log and wallet credit atomic; a duplicate must not authorize a renewal.
+        $plugin->processPaymentOnce('paypal', ['token:' . $_GET['token']], $json->users_id, $savePayment, [
+            'legacyCheck' => function () { return PayPalYPT::isTokenUsed($_GET['token']); }
+        ]);
+    } catch (Throwable $error) {
+        $paymentRecorded = false;
+        _error_log('PayPalIPN V2: payment could not be recorded', AVideoLog::$ERROR);
+        $obj->msg = 'Payment could not be recorded';
+        die(json_encode($obj));
     }
 }
-if (!empty($json->type)) {
+// The renewal is paid from the subscriber's wallet: run it only in the request that recorded this token's payment,
+// and only for the logged-in buyer. A reused token or an edited $_GET['json'] must not spend another user's balance.
+if ($paymentRecorded && User::isLogged() && !empty($json->type)) {
     switch ($json->type) {
         case 'FansSubscriptions':
             _error_log("PayPalIPN V2 FansSubscriptions");
