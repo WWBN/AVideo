@@ -130,18 +130,12 @@ if (!empty($_GET['type'])) {
 
         //print_r($tokens);
         //print_r($userProfile);
-        if (!empty($userProfile->email)) {
-            $user = $userProfile->email;
-        } else {
-            $user = $userProfile->displayName;
+        // without an email the account is bound to the provider's user id, never chosen by display name (GHSA-9rvm-cfc4-q9g9)
+        $users_id = User::getSocialLoginUserId($_GET['type'], $userProfile, true);
+        if (empty($users_id)) {
+            throw new Exception(__('Permission denied'));
         }
-        $name = $userProfile->displayName;
-        $photoURL = $userProfile->photoURL;
-        $email = $userProfile->email;
-        $pass = bin2hex(random_bytes(32)); // SECURITY: cryptographically random, never typed by the user
-        //createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false);
-        User::createUserIfNotExists($user, $pass, $name, $email, $photoURL, false, true);
-        $userObject = new User(0, $user, $pass);
+        $userObject = new User($users_id);
         $userObject->login(true);
         $adapter->disconnect();
 

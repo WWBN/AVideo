@@ -1341,7 +1341,17 @@ if (typeof gtag !== \"function\") {
         }
 
         if ($noPass) {
-            $user = $this->find($this->user, false, true);
+            if (!empty($this->id)) {
+                // A trusted caller selected this account by ID; do not resolve its username as another user's email.
+                $user = self::getUserDb($this->id);
+                if (empty($user) || $user['status'] !== 'a') {
+                    $user = false;
+                } else {
+                    $user['passhash'] = self::getUserHash($user['id']);
+                }
+            } else {
+                $user = $this->find($this->user, false, true);
+            }
         } else {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
             if (!empty($user)) {
@@ -2757,7 +2767,7 @@ if (typeof gtag !== \"function\") {
         }
     }
 
-    public static function createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false)
+    public static function createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false, $externalOptions = null)
     {
         global $global, $advancedCustomUser;
         $userId = 0;
@@ -2772,6 +2782,9 @@ if (typeof gtag !== \"function\") {
             $userObject->setIsAdmin($isAdmin);
             $userObject->setPhotoURL($photoURL);
             $userObject->setEmailVerified($emailVerified);
+            if (is_array($externalOptions)) {
+                $userObject->setExternalOptions($externalOptions);
+            }
             $userId = $userObject->save();
             if (!empty($userId)) {
                 if (!empty($advancedCustomUser->userDefaultUserGroup->value)) { // for new users use the default usergroup
@@ -2790,6 +2803,109 @@ if (typeof gtag !== \"function\") {
             $userObj->save();
         }
         return $userId;
+    }
+
+    /**
+     * Returns the local users_id for a Hybridauth social login profile (creating the account when needed), or false.
+     * With an email the account is the one whose username is that email (unchanged). Without an email the display
+     * name is chosen by the provider's user, so it never selects an account: the account is bound to the provider's
+     * user id (externalOptions "socialLogin<Provider>", username "<Provider>_<id>") (GHSA-9rvm-cfc4-q9g9).
+     */
+    public static function getSocialLoginUserId($provider, $userProfile, $emailVerified = false)
+    {
+        $pass = bin2hex(random_bytes(32)); // SECURITY: cryptographically random, never typed by the user
+        $name = $userProfile->displayName ?? '';
+        $photoURL = $userProfile->photoURL ?? '';
+        if (!empty($userProfile->email)) {
+            return self::createUserIfNotExists($userProfile->email, $pass, $name, $userProfile->email, $photoURL, false, $emailVerified);
+        }
+        // The web caller also marked existing social accounts verified before account binding was introduced.
+        $getAccountId = static function ($userObj, $users_id) use ($emailVerified) {
+            if ($emailVerified && !$userObj->getEmailVerified()) {
+                $userObj->setEmailVerified(true);
+                if (!$userObj->save()) {
+                    return false;
+                }
+            }
+            return $users_id;
+        };
+        $provider = preg_replace('/[^a-z0-9]/i', '', (string) $provider);
+        $identifier = trim((string) ($userProfile->identifier ?? ''));
+        if ($provider === '' || $identifier === '') {
+            _error_log("getSocialLoginUserId: {$provider} returned no email and no user id", AVideoLog::$SECURITY);
+            return false;
+        }
+        $bindingKey = 'socialLogin' . $provider;
+        $boundUser = $provider . '_' . $identifier;
+        if (strlen($boundUser) > 45) {
+            // users.user is VARCHAR(45); keep the complete identifier in the binding.
+            $boundUser = substr($provider, 0, 12) . '_' . substr(hash('sha256', $provider . ':' . $identifier), 0, 32);
+        }
+
+        $users_id = self::userExists($boundUser);
+        if ($users_id) {
+            $userObj = new User($users_id);
+            if ((string) $userObj->getExternalOption($bindingKey) === $identifier) {
+                return $getAccountId($userObj, $users_id);
+            }
+        }
+
+        // Legacy usernames and provider display names can change after the account was bound.
+        // Match the serialized key/value together, then verify the decoded option before trusting it.
+        $binding = serialize($bindingKey) . serialize($identifier);
+        $res = sqlDAL::readSql('SELECT id FROM users WHERE LOCATE(?, FROM_BASE64(externalOptions)) > 0', 's', [$binding], true);
+        if ($res === false) {
+            return false;
+        }
+        while ($boundAccount = sqlDAL::fetchAssoc($res)) {
+            $userObj = new User($boundAccount['id']);
+            if ((string) $userObj->getExternalOption($bindingKey) === $identifier) {
+                sqlDAL::close($res);
+                return $getAccountId($userObj, $boundAccount['id']);
+            }
+        }
+        sqlDAL::close($res);
+        if ($users_id) {
+            _error_log("getSocialLoginUserId: username {$boundUser} is not bound to this {$provider} user", AVideoLog::$SECURITY);
+            return false;
+        }
+
+        // Accounts created before the binding existed have the display name as username. Reattach one only when it
+        // has no binding, no email, is not an admin and still has the photo URL this provider user had when it was
+        // created (Facebook's contains the user id, X's is the user's own upload path); shared default avatars never count.
+        $legacy_id = ($name !== '') ? self::userExists($name) : false;
+        if ($legacy_id) {
+            $userObj = new User($legacy_id);
+            $bound = $userObj->getExternalOption($bindingKey);
+            if ($bound !== null) {
+                if ((string) $bound === $identifier) {
+                    return $getAccountId($userObj, $legacy_id);
+                }
+            } elseif (
+                empty($userObj->getEmail()) && empty($userObj->getIsAdmin()) &&
+                $photoURL !== '' && stripos($photoURL, 'default') === false && $userObj->getPhotoURL() === $photoURL
+            ) {
+                if ($emailVerified) {
+                    $userObj->setEmailVerified(true);
+                }
+                if (!$userObj->addExternalOptions($bindingKey, $identifier)) {
+                    return false;
+                }
+                _error_log("getSocialLoginUserId: legacy account {$legacy_id} bound to {$provider} user {$identifier}");
+                return $legacy_id;
+            }
+        }
+
+        // Persist the binding in the INSERT, so a failed second save cannot strand an unbound username.
+        $users_id = self::createUserIfNotExists($boundUser, $pass, $name, '', $photoURL, false, $emailVerified, [$bindingKey => $identifier]);
+        if (empty($users_id)) {
+            return false;
+        }
+        $userObj = new User($users_id);
+        if ((string) $userObj->getExternalOption($bindingKey) !== $identifier) {
+            return false;
+        }
+        return $users_id;
     }
 
     /**
