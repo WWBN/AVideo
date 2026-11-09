@@ -37,10 +37,6 @@ if (empty($obj->live_restreams_logs_id)) {
     $obj->live_restreams_id = $lrl->getLive_restreams_id();
 }
 
-$obj->url = Live_restreams_logs::getURLFromTransmitionAndRestream($obj->live_transmitions_history_id, $obj->live_restreams_id, $obj->action);
-
-_error_log("Live_restreams/getAction.json.php: computed url=" . var_export($obj->url, true));
-
 if (!User::isAdmin()) {
     require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
     $lr = new Live_restreams($obj->live_restreams_id);
@@ -48,7 +44,17 @@ if (!User::isAdmin()) {
         _error_log("Live_restreams/getAction.json.php: forbidden, restream owner mismatch. restream_users_id=" . $lr->getUsers_id() . " request_users_id=" . User::getId());
         forbiddenPage(__("You have no access to this restream"));
     }
+    // the token carries this transmission and the restreamer answers with its stream key and m3u8 (GHSA-233c-vfmw-6rw9)
+    require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistory.php';
+    if (!LiveTransmitionHistory::isFromUserOrCompany($obj->live_transmitions_history_id, User::getId())) {
+        _error_log("Live_restreams/getAction.json.php: forbidden, live_transmitions_history_id={$obj->live_transmitions_history_id} is not from users_id=" . User::getId(), AVideoLog::$SECURITY);
+        forbiddenPage(__("You have no access to this restream"));
+    }
 }
+
+$obj->url = Live_restreams_logs::getURLFromTransmitionAndRestream($obj->live_transmitions_history_id, $obj->live_restreams_id, $obj->action);
+
+_error_log("Live_restreams/getAction.json.php: computed url=" . var_export($obj->url, true));
 
 $obj->response = url_get_contents($obj->url, '', 0, false, false, false);
 _error_log("Live_restreams/getAction.json.php: raw response from restreamer=" . var_export($obj->response, true));

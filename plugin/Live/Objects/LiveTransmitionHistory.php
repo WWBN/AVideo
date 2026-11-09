@@ -1033,6 +1033,20 @@ class LiveTransmitionHistory extends ObjectYPT
         return Live::getLinkToLiveFromUsers_idAndLiveServer($lt->getUsers_id(), $lt->getLive_servers_id(), $lt->getLive_index());
     }
 
+    /**
+     * True when the user owns this transmission or is its company account, the same scope as
+     * getAllActiveFromUser() (the lives listed on the restream panel).
+     */
+    static function isFromUserOrCompany($live_transmitions_history_id, $users_id)
+    {
+        $users_id = intval($users_id);
+        if (empty($users_id) || empty($live_transmitions_history_id)) {
+            return false;
+        }
+        $lt = new LiveTransmitionHistory($live_transmitions_history_id);
+        return intval($lt->getUsers_id()) === $users_id || $lt->getUsers_id_company() === $users_id;
+    }
+
     static function getUsers_idOrCompany($live_transmitions_history_id)
     {
         $lt = new LiveTransmitionHistory($live_transmitions_history_id);

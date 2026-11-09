@@ -45,6 +45,11 @@ if (!User::isAdmin()) {
     if ($lr->getUsers_id() !== User::getId()) {
         forbiddenPage(__("You have no access to this restream"));
     }
+    // the token carries this transmission and the restreamer answers with its stream key and m3u8 (GHSA-233c-vfmw-6rw9)
+    require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistory.php';
+    if (!LiveTransmitionHistory::isFromUserOrCompany($live_transmitions_history_id, User::getId())) {
+        forbiddenPage(__("You have no access to this restream"));
+    }
 }
 
 $url = Live_restreams_logs::getURL(
