@@ -3294,6 +3294,10 @@ if (typeof gtag !== \"function\") {
     {
         global $global;
         $obj = static::decodeVerificationCode($code);
+        if (!is_object($obj)) {
+            _error_log('verifyCode invalid code');
+            return false;
+        }
         $salt = hash('sha256', $global['salt']);
         if ($salt !== $obj->salt) {
             _error_log('verifyCode salt is wrong');
@@ -3301,7 +3305,9 @@ if (typeof gtag !== \"function\") {
         }
         $user = new User($obj->users_id);
         $recoverPass = $user->getRecoverPass();
-        if ($recoverPass == $obj->recoverPass) {
+        // The salt field is the same for every user and is visible in every link, so the stored token is the only
+        // secret: it must be non-empty and match exactly (a loose == accepted recoverPass true/"") GHSA-f72w-prhp-h385
+        if ($recoverPass !== '' && isset($obj->recoverPass) && is_string($obj->recoverPass) && hash_equals($recoverPass, $obj->recoverPass)) {
             $user->setEmailVerified(1);
             $users_id = $user->save();
             if (empty($users_id)) {
@@ -3311,7 +3317,7 @@ if (typeof gtag !== \"function\") {
                 return true;
             }
         } else {
-            _error_log("verifyCode wrong recover pass for user {$obj->users_id} [{$recoverPass}] != [{$obj->recoverPass}]");
+            _error_log('verifyCode wrong recover pass for user ' . json_encode($obj->users_id ?? null));
         }
         return false;
     }
