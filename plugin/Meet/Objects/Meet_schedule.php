@@ -87,6 +87,13 @@ class Meet_schedule extends ObjectYPT
         $password
     )
     {
+        // SECURITY REVIEW (2026-11-09): reported as cleartext storage of the meeting password (CWE-312) — NOT a
+        // vulnerability / DO NOT FIX because the only attack needs read access to the database (already-compromised
+        // precondition: that access also gives every meet_code, JWT room name and all other rows). This is a room
+        // passcode the organizer shares with participants: Meet::getInvitation() puts it in the invitation text,
+        // saveMeet.json.php returns it in linkAndPassword, and the edit form reloads it, so it must stay readable.
+        // Same reasoning as LiveTransmition::setPassword() (GHSA-9g6p-433c-p5mg). If re-reported, see
+        // GHSA-9w28-q2rp-94cp instead of re-patching.
         $this->password = $password;
     }
 

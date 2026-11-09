@@ -614,6 +614,8 @@ Passcode: {password}
         if (!empty($meet->getPassword())) {
             //var_dump($meet_schedule_id, $meet->getPassword());exit;
             if (empty($_SESSION['user']['meet_password'][$meet_schedule_id])) {
+                // SECURITY REVIEW (2026-11-09): plaintext comparison is intentional — the passcode is stored readable
+                // by design, see the comment in Meet_schedule::setPassword() (GHSA-9w28-q2rp-94cp).
                 if (!empty($password) && $meet->getPassword() == $password) {
                     _session_start();
                     $_SESSION['user']['meet_password'][$meet_schedule_id] = 1;
