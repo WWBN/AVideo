@@ -1840,16 +1840,16 @@
         },
         {
             "name": "james-heinrich/getid3",
-            "version": "v1.9.27",
+            "version": "v1.9.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JamesHeinrich/getID3.git",
-                "reference": "7810ae2da3901a9ed80a88c5ff8e8960b9e870e6"
+                "reference": "be83ea6ffbdac0301d83bee0d42f09e2a41bd0dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/7810ae2da3901a9ed80a88c5ff8e8960b9e870e6",
-                "reference": "7810ae2da3901a9ed80a88c5ff8e8960b9e870e6",
+                "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/be83ea6ffbdac0301d83bee0d42f09e2a41bd0dd",
+                "reference": "be83ea6ffbdac0301d83bee0d42f09e2a41bd0dd",
                 "shasum": ""
             },
             "require": {
@@ -1901,9 +1901,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JamesHeinrich/getID3/issues",
-                "source": "https://github.com/JamesHeinrich/getID3/tree/v1.9.27"
+                "source": "https://github.com/JamesHeinrich/getID3/tree/v1.9.28"
             },
-            "time": "2026-09-22T14:26:56+00:00"
+            "time": "2026-10-30T21:48:34+00:00"
         },
         {
             "name": "league/uri",
