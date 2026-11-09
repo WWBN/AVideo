@@ -970,10 +970,23 @@ class API extends PluginAbstract
                 $tags[$key]['videos'] = array();
                 $tags[$key]['photo'] = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
                 if (!empty($row['subscription'])) {
-                    $videos = TagsHasVideos::getAllVideosFromTagsId($row['id']);
+                    // Same listing rules as the website tag page (GHSA-3w98-8958-84rh): no unlisted videos, group-restricted
+                    // videos hidden when the site hides private videos, and never the stored video_password.
+                    $rows = TagsHasVideos::getAllVideosFromTagsId($row['id'], 100, Video::SORT_TYPE_VIEWABLENOTUNLISTED);
+                    $hidePrivateVideos = !User::isAdmin() && isToHidePrivateVideos();
+                    $videos = array();
+                    foreach (is_array($rows) ? $rows : array() as $video) {
+                        // thv.* overwrites v.id with the tags_has_videos row id
+                        $video['id'] = $video['videos_id'];
+                        if ($hidePrivateVideos && !Video::userGroupAndVideoGroupMatch(User::getId(), $video['id'])) {
+                            continue;
+                        }
+                        $videos[] = cleanUpRowFromDatabase($video);
+                    }
                     $tags[$key]['videos'] = PlayLists::videosToPlaylist($videos, @$parameters['index'], !empty($parameters['audioOnly']));
-                    if (!empty($tags[$key]['videos'][0])) {
-                        $tags[$key]['photo'] = $tags[$key]['videos'][0]['images']['poster'];
+                    $firstVideoImages = (object) ($tags[$key]['videos']['videos'][0]['images'] ?? array());
+                    if (!empty($firstVideoImages->poster)) {
+                        $tags[$key]['photo'] = $firstVideoImages->poster;
                     }
                 }
             }

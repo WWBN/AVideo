@@ -521,16 +521,18 @@ class PlayLists extends PluginAbstract
 
     static function videosToPlaylist($videos, $index = 0, $audioOnly = false)
     {
+        $videos = is_array($videos) ? array_values($videos) : array();
         $parameters = array();
         $parameters['index'] = intval($index);
+        $parameters['nextIndex'] = 0;
+        $videoPath = '';
 
         while (empty($videoPath) && !empty($videos)) {
 
             if (empty($videos[$parameters['index']])) {
-                $video = $videos[0];
-            } else {
-                $video = $videos[$parameters['index']];
+                $parameters['index'] = 0;
             }
+            $video = $videos[$parameters['index']];
 
             $videoPath = Video::getHigherVideoPathFromID($video['id']);
 
@@ -541,9 +543,13 @@ class PlayLists extends PluginAbstract
                 }
                 break;
             } else {
-                unset($videos[$parameters['index']]);
-                $parameters['index']++;
+                array_splice($videos, $parameters['index'], 1);
             }
+        }
+        if (empty($videos)) {
+            $parameters['index'] = 0;
+            $video = array('title' => '', 'id' => 0, 'duration' => '00:00:00');
+            $videoPath = '';
         }
         $parameters['videos'] = array_values($videos);
         $parameters['totalPlaylistDuration'] = 0;
