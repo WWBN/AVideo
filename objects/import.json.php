@@ -28,6 +28,10 @@ if ($resolvedDir === false || strpos($resolvedDir . DIRECTORY_SEPARATOR, $allowe
 }
 // Reconstruct from resolved path + basename to eliminate any symlink tricks.
 $_POST['fileURI'] = $resolvedDir . DIRECTORY_SEPARATOR . basename($_POST['fileURI']);
+// Every video's media is inside videos/: do not read, copy or delete another user's video files.
+if (!Video::canImportFromVideosPath($allowedBase, $resolvedDir, basename($_POST['fileURI']))) {
+    forbiddenPage('Path not allowed');
+}
 
 $obj = new stdClass();
 

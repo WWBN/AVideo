@@ -1798,6 +1798,47 @@ if (!class_exists('Video')) {
             return false;
         }
 
+        /**
+         * Import MP4 (objects/import.json.php, objects/listFiles.json.php) accepts any folder inside videos/, and every
+         * video keeps its media there (videos/<filename>/..., or videos/<filename>_<res>.mp4 on old installs). Returns
+         * false when the path belongs to a video the current user cannot edit (GHSA-g69x-xc9q-2g2v).
+         */
+        public static function canImportFromVideosPath($videosDir, $resolvedDir, $fileBasename = '')
+        {
+            $separators = DIRECTORY_SEPARATOR === '\\' ? '/\\' : '/';
+            $videosDir = rtrim($videosDir, $separators);
+            $relativeDir = trim(substr($resolvedDir, strlen($videosDir)), $separators);
+            if ($relativeDir !== '') {
+                $parts = preg_split(DIRECTORY_SEPARATOR === '\\' ? '#[/\\\\]#' : '#/#', $relativeDir);
+                $candidates = [$parts[0]];
+            } else {
+                if ($fileBasename === '') {
+                    return true;
+                }
+                $candidate = pathinfo($fileBasename, PATHINFO_FILENAME);
+                $candidates = array_unique([$candidate, preg_replace('/(?:_(?:[0-9]+|HD|SD|Low|offline)|res(?:[0-9]+|offline))$/i', '', $candidate)]);
+            }
+            // Folder names are database keys, not media filenames: cleaning them can change ownership.
+            $sql = 'SELECT id, filename FROM videos WHERE filename IN (' . implode(',', array_fill(0, count($candidates), '?')) . ')';
+            $res = sqlDAL::readSql($sql, str_repeat('s', count($candidates)), array_values($candidates));
+            if ($res === false) {
+                return false;
+            }
+            $allowed = true;
+            while ($video = sqlDAL::fetchAssoc($res)) {
+                // A case-insensitive DB collation must not conflate different paths on Linux.
+                if (DIRECTORY_SEPARATOR !== '\\' && !in_array($video['filename'], $candidates, true)) {
+                    continue;
+                }
+                if (!self::canEdit($video['id'])) {
+                    $allowed = false;
+                    break;
+                }
+            }
+            sqlDAL::close($res);
+            return $allowed;
+        }
+
         public static function getVideoFromCleanTitle($clean_title)
         {
             // even increasing the max_allowed_packet it only goes away when close and reopen the connection

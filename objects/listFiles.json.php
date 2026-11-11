@@ -26,6 +26,9 @@ if (!empty($_POST['path'])) {
         echo json_encode(['error' => 'Path not allowed']);
         exit;
     }
+    if (!Video::canImportFromVideosPath($allowedBase, $resolvedPath)) {
+        forbiddenPage('Path not allowed');
+    }
     $path = $resolvedPath . '/';
 
     if (file_exists($path)) {
