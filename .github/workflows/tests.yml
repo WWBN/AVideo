@@ -79,9 +79,25 @@ jobs:
       run: composer validate --strict
 
     - name: Install media tools for installer integration tests
+      # The runners sometimes cannot resolve the Ubuntu mirrors (2026-11-11: "Temporary failure resolving
+      # archive.ubuntu.com"); apt-get then installed from stale lists and hung until the 45-minute job limit.
+      # Try apt with short timeouts, and fall back to a static FFmpeg 8.1 build (same major as Ubuntu 26.04)
+      # from a GitHub release, which the runners can always reach.
+      timeout-minutes: 15
       run: |
-        sudo apt-get update
-        sudo apt-get install --no-install-recommends -y ffmpeg
+        APT_OPTS="-o Acquire::Retries=2 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20"
+        if sudo timeout 300 apt-get $APT_OPTS update --error-on=any && \
+           sudo timeout 300 apt-get $APT_OPTS install --no-install-recommends -y ffmpeg; then
+          echo "ffmpeg installed from the Ubuntu mirrors"
+        else
+          echo "::warning::Ubuntu mirrors unavailable; using the static FFmpeg build from GitHub"
+          sudo dpkg --configure -a || true
+          FFMPEG_BUILD=ffmpeg-n8.1-latest-linux64-gpl-8.1
+          curl -fsSL --retry 3 --retry-delay 5 -o "$RUNNER_TEMP/ffmpeg.tar.xz" \
+            "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/${FFMPEG_BUILD}.tar.xz"
+          tar -xJf "$RUNNER_TEMP/ffmpeg.tar.xz" -C "$RUNNER_TEMP"
+          sudo install -m 0755 "$RUNNER_TEMP/${FFMPEG_BUILD}/bin/ffmpeg" "$RUNNER_TEMP/${FFMPEG_BUILD}/bin/ffprobe" /usr/local/bin/
+        fi
         ffmpeg -version
         ffprobe -version
     

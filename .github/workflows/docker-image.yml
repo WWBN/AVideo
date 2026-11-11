@@ -32,6 +32,12 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
+        with:
+          # The runner's resolver sometimes fails for the Ubuntu mirrors (2026-11-11: apt-get in the
+          # Dockerfile could not resolve archive.ubuntu.com), so the build steps use public resolvers.
+          buildkitd-config-inline: |
+            [dns]
+              nameservers = ["1.1.1.1", "8.8.8.8"]
 
       - name: Build and push
         id: docker_build
