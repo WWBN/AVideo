@@ -419,6 +419,11 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   blocked `login()` returns `User::TOO_MANY_FAILED_ATTEMPTS` without checking the password. It must not
   end the request: Encoder callbacks still authenticate through `video_id_hash` after a failed user/pass.
   Covered by `tests/login-failed-attempts-regression.php`.
+- `video_id_hash` (`Video::getVideoIdHash()`) is a password-less login for Encoder callbacks
+  (`useVideoHashOrLogin()`). It is issued to anyone passing `Video::canEncoderEdit()` (Videos Admin included), so it
+  logs in as the account it was issued to (`issuedTo`, bound to that account's password), never as the video owner;
+  only a hash without `issuedTo` (minted with nobody logged in, or before that field existed) falls back to the owner.
+  Bound also to the owner's password, valid 24 h. Covered by `tests/Security/VideoIdHashIssuerTest.php` (GHSA-8wjr-gw73-9f2g).
 
 ### Backward Compatibility
 - Do not change public APIs (core PHP classes/functions, plugin hooks, the `plugin/API/` HTTP API,

@@ -7619,7 +7619,8 @@ function inputToRequest()
 function useVideoHashOrLogin()
 {
     if (!empty($_REQUEST['video_id_hash'])) {
-        $videos_id = Video::getVideoIdFromHash($_REQUEST['video_id_hash']);
+        // Resolve the video and issuer together: expiry between two checks must never select the owner.
+        $issuedTo = Video::getVideoIdHashIssuedTo($_REQUEST['video_id_hash'], $videos_id);
         if (!empty($videos_id)) {
             $users_id = Video::getOwner($videos_id);
             _error_log("useVideoHashOrLogin: users_id=" . json_encode($users_id) . " videos_id=$videos_id");
@@ -7635,6 +7636,12 @@ function useVideoHashOrLogin()
                 }
                 _error_log("useVideoHashOrLogin: credential fallback result=$result for user=" . ($_REQUEST['user'] ?? 'empty'));
                 return $result;
+            }
+            // Log in as the account the hash was issued to (who passed canEncoderEdit()), not as the owner:
+            // a Videos Admin's hash for an admin's video must not open the admin's session (GHSA-8wjr-gw73-9f2g).
+            // Hashes minted before issuedTo existed keep the owner until they expire (Video::VIDEO_ID_HASH_LIFETIME).
+            if (!empty($issuedTo)) {
+                $users_id = $issuedTo;
             }
             // Skip login (and session regeneration) if the user is already authenticated.
             if (!empty($_SESSION['user']['id']) && $_SESSION['user']['id'] == $users_id) {

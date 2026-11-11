@@ -4913,7 +4913,29 @@ if (!class_exists('Video')) {
             $obj->time = time();
             $obj->timeout = time() + self::VIDEO_ID_HASH_LIFETIME;
             $obj->ownerFingerprint = self::getVideoOwnerFingerprint($this->id);
+            // The hash logs in as the account it was issued to, never as the owner when a Videos Admin or
+            // another non-owner requested it (GHSA-8wjr-gw73-9f2g). Bound to that account's password too.
+            $issuedTo = intval(User::getId());
+            if (!empty($issuedTo)) {
+                $obj->issuedTo = $issuedTo;
+                $obj->issuedToFingerprint = self::getUserPasswordFingerprint($issuedTo);
+            }
             return encryptString(json_encode($obj));
+        }
+
+        /**
+         * The account a valid video_id_hash logs in as: the account it was issued to, or 0 for a hash
+         * minted before issuedTo existed (useVideoHashOrLogin() then keeps using the video owner).
+         * Also returns the validated video ID so callers can resolve both identities in one check.
+         */
+        public static function getVideoIdHashIssuedTo($hash, &$videos_id = null)
+        {
+            $videos_id = self::getVideoIdFromHash($hash);
+            if (empty($videos_id)) {
+                return 0;
+            }
+            $json = json_decode(decryptString($hash));
+            return empty($json->issuedTo) ? 0 : intval($json->issuedTo);
         }
 
         public static function getVideoIdFromHash($hash)
@@ -4931,6 +4953,13 @@ if (!class_exists('Video')) {
                     $currentFingerprint = self::getVideoOwnerFingerprint($json->videos_id);
                     if (empty($json->ownerFingerprint) || empty($currentFingerprint) || !hash_equals($currentFingerprint, $json->ownerFingerprint)) {
                         return false;
+                    }
+                    if (!empty($json->issuedTo)) {
+                        $issuerFingerprint = self::getUserPasswordFingerprint($json->issuedTo);
+                        if (empty($json->issuedToFingerprint) || !is_string($json->issuedToFingerprint)
+                            || !hash_equals($issuerFingerprint, $json->issuedToFingerprint)) {
+                            return false;
+                        }
                     }
                     return $json->videos_id;
                 }
@@ -4952,13 +4981,22 @@ if (!class_exists('Video')) {
          */
         private static function getVideoOwnerFingerprint($videos_id)
         {
+            return self::getUserPasswordFingerprint(self::getOwner($videos_id), 'no-owner');
+        }
+
+        /**
+         * Same binding for any account: changes when its password changes. An account that does
+         * not exist or has no password is fingerprinted with the $missing placeholder.
+         */
+        private static function getUserPasswordFingerprint($users_id, $missing = 'no-user')
+        {
             global $global;
             $salt = !empty($global['saltV2']) ? $global['saltV2'] : $global['salt'];
-            $users_id = self::getOwner($videos_id);
+            $users_id = intval($users_id);
             $password = '';
             if (!empty($users_id)) {
                 $sql = "SELECT password FROM users WHERE id = ? LIMIT 1";
-                $res = sqlDAL::readSql($sql, "i", [$users_id]);
+                $res = sqlDAL::readSql($sql, "i", [$users_id], true);
                 $row = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
                 if (!empty($row['password'])) {
@@ -4966,7 +5004,7 @@ if (!class_exists('Video')) {
                 }
             }
             if (empty($password)) {
-                $password = 'no-owner';
+                $password = $missing;
             }
             return substr(hash('sha256', $password . $salt), 0, 16);
         }
