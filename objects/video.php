@@ -2332,7 +2332,8 @@ if (!class_exists('Video')) {
             //$name = "_getVideoInfo_{$row['id']}";
             $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
             // include language so a cache populated in one language can't leak translated tag labels to other viewers
-            $cacheSuffix = 'getVideoInfo_' . getLanguage();
+            // Cached video info includes tags; discard entries with unescaped Source text.
+            $cacheSuffix = 'getVideoInfo_v2_' . getLanguage();
             //var_dump($row['filename']);
             $videoCache = new VideoCacheHandler($row['filename']);
             $cache = $videoCache->getCache($cacheSuffix, $oneToFiveHours);
@@ -2456,7 +2457,7 @@ if (!class_exists('Video')) {
             $TimeLogLimit = 0.2;
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             //$name = "_getVideoInfo_{$row['id']}";
-            $cacheSuffix = 'getInfoPersonal_' . User::getId();
+            $cacheSuffix = 'getInfoPersonal_v2_' . User::getId();
             //var_dump($row['filename']);
             $videoCache = new VideoCacheHandler($row['filename']);
             $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
@@ -3756,7 +3757,8 @@ if (!class_exists('Video')) {
             //$name = "getTags_{$video_id}_{$type}";
             // include the current language so a cache populated in one language can't leak its
             // translated labels/text to viewers using another language
-            $cacheSuffix = "getTags_{$type}_" . getLanguage();
+            // Keep this version in sync with getVideoTags() in functionTags.php.
+            $cacheSuffix = "getTags_v2_{$type}_" . getLanguage();
             $videoCache = new VideoCacheHandler('', $video_id);
             $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
             $videos_getTags = $videoCache->getCache($cacheSuffix, $oneToFiveHours);

@@ -206,7 +206,9 @@ function getVideoTagsSource($video, $type)
             $objTag->label = __("Source");
             if (!empty($parse['host'])) {
                 $objTag->type = "danger";
-                $objTag->text = $parse['host'];
+                // tag texts are rendered as HTML (e.g. the videos manager) and parse_url() keeps <, >, quotes and
+                // spaces in the host; a JSON body to aVideoEncoder.json.php stores the link unfiltered (GHSA-2qq6-qfcq-jmr9)
+                $objTag->text = htmlspecialchars($parse['host'], ENT_QUOTES, 'UTF-8', false);
                 $tags[] = $objTag;
                 $objTag = new stdClass();
             } else {
@@ -254,7 +256,8 @@ function getVideoTags($videos_id, $type = '')
 
     // include the current language so a cache populated in one language (e.g. by a visitor/bot
     // with a different Accept-Language or locale) can never leak its translated labels/text to viewers of another language
-    $cacheSuffix = "getTags_{$type}_" . getLanguage();
+    // Exclude caches created before Source tag text was HTML-escaped (GHSA-2qq6-qfcq-jmr9).
+    $cacheSuffix = "getTags_v2_{$type}_" . getLanguage();
     $videoCache = new VideoCacheHandler('', $videos_id);
     $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
     $getTags_ = $videoCache->getCache($cacheSuffix, $oneToFiveHours);

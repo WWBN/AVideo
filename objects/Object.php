@@ -1409,7 +1409,9 @@ class VideosListCacheHandler extends CacheHandler
         $cacheVars = array(
             'users_id' => User::getId(),
             'requestUniqueString' => getRequestUniqueString(),
-            'listingVisibility' => getVideoListVisibilityCacheKey()
+            'listingVisibility' => getVideoListVisibilityCacheKey(),
+            // API catalog snapshots include tags; exclude pre-escape Source values.
+            'tagFormatVersion' => 2
         );
         foreach ($cacheParameters as $value) {
             $cacheVars[$value] = @$_REQUEST[$value];

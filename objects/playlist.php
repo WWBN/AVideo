@@ -607,7 +607,8 @@ class PlayList extends ObjectYPT
 
         //playlist cache
         $cacheHandler = new PlayListCacheHandler($playlists_id);
-        $suffix = md5($sql);
+        // Playlist snapshots include tags; exclude entries with unescaped Source text.
+        $suffix = 'getVideosFromPlaylist_v2_' . md5($sql);
         if (empty($forceRecreateCache) && empty($_REQUEST['clearPlaylistCache'])) {
             $cacheObj = $cacheHandler->getCache($suffix, 0);
         } else {
@@ -627,7 +628,7 @@ class PlayList extends ObjectYPT
             if ($res !== false) {
                 foreach ($fullData as $row) {
                     $cacheHandlerVideo = new PlayListCacheHandler($playlists_id);
-                    $suffixVideo = "Video{$row['id']}";
+                    $suffixVideo = "Video_v2_{$row['id']}";
                     if (empty($forceRecreateCache)) {
                         $cacheObjVideo = $cacheHandlerVideo->getCache($suffixVideo, 0);
                     } else {
