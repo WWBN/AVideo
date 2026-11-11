@@ -15,7 +15,8 @@
 // text/xml (not application/rss+xml) so Chrome/Firefox actually apply the xml-stylesheet PI below;
 // podcast clients/validators parse the body as XML regardless of this header
 header('Content-Type: text/xml; charset=UTF-8');
-$cacheFeedName = "feedCacheRSS" . json_encode($_REQUEST);
+// v2: discard feeds cached before descriptions were purified (GHSA-2qxw-wm6h-5jr7)
+$cacheFeedName = "feedCacheRSSv2" . json_encode($_REQUEST);
 $lifetime = 43200;
 $feed = ObjectYPT::getCache($cacheFeedName, $lifetime);
 if (empty($feed)) {
