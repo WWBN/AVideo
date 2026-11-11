@@ -50,11 +50,8 @@ if (empty($fileName)) {
     die(json_encode($result));
 }
 
-if (_empty($_REQUEST['is_regular_user'])) {
-    $_REQUEST['is_regular_user'] = false;
-}
-
-$paths = ADs::getAdsPath($type, @$_REQUEST['is_regular_user']);
+$is_regular_user = ADs::getEditableAdsUsersId();
+$paths = ADs::getAdsPath($type, $is_regular_user);
 
 $files = _glob($paths['path'], "/{$fileName}/");
 foreach ($files as $value) {
@@ -63,7 +60,10 @@ foreach ($files as $value) {
     unlink($value);
 }
 $result->type = $type;
-$result->save = ADs::saveAdsHTML($type);
+$result->save = false;
+if (empty($is_regular_user)) {
+    $result->save = ADs::saveAdsHTML($type);
+}
 
 $result->error = false;
 die(json_encode($result));

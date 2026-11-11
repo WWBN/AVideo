@@ -47,7 +47,7 @@ if (empty($typeFound)) {
 if (!isset($_REQUEST['url']) || !IsValidURL($_REQUEST['url'])) {
     $_REQUEST['url'] = '';
 }
-$is_regular_user = intval(@$_REQUEST['is_regular_user']);
+$is_regular_user = ADs::getEditableAdsUsersId();
 
 $result->type = $type;
 $result->saved = false;

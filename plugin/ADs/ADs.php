@@ -208,6 +208,8 @@ class ADs extends PluginAbstract
         $videosDir = getVideosDir() . 'ADs/' . $type . '/';
         $videosURL = getCDN() . "videos/ADs/{$type}/";
 
+        // a users id or nothing (site-wide ads): never a path fragment (GHSA-58h3-9722-fgpm)
+        $is_regular_user = intval($is_regular_user);
         if (!empty($is_regular_user)) {
             $videosDir .= "{$is_regular_user}/";
             $videosURL .= "{$is_regular_user}/";
@@ -216,6 +218,22 @@ class ADs extends PluginAbstract
         make_path($videosDir);
         //$videosURL = addQueryStringParameter($videosURL, 'cache', 1);
         return ['path' => $videosDir, 'url' => $videosURL];
+    }
+
+    /**
+     * Whose ads the editor endpoints change: an admin picks it (0 = site-wide ads),
+     * a user with "Can have custom ads" only ever edits their own.
+     */
+    public static function getEditableAdsUsersId()
+    {
+        if (User::isAdmin()) {
+            return intval(@$_REQUEST['is_regular_user']);
+        }
+        $users_id = intval(User::getId());
+        if (empty($users_id)) {
+            forbiddenPage('You can not do this');
+        }
+        return $users_id;
     }
 
     public static function getNewAdsPath($type, $is_regular_user = false)

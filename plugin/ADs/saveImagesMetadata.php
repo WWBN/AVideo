@@ -45,7 +45,7 @@ if(empty($_REQUEST['metadata'])){
     forbiddenPage('Metadata not found');
 }
 
-$is_regular_user = intval(@$_REQUEST['is_regular_user']);
+$is_regular_user = ADs::getEditableAdsUsersId();
 
 $paths = ADs::getAdsPath($type, $is_regular_user);
 
