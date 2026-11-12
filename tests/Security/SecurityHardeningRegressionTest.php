@@ -383,6 +383,19 @@ class SecurityHardeningRegressionTest extends TestCase
         }
     }
 
+    public function testWalletConfigurationRejectsCrossOriginRequestsBeforeSaving()
+    {
+        // GHSA-27wf-8499-p469: a cross-site form could replace the payout address and donation webhook
+        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/YPTWallet/view/saveConfiguration.php');
+        $guard = strpos($source, 'forbidIfIsUntrustedRequest("YPTWallet::saveConfiguration");');
+        $this->assertNotFalse($guard, 'saveConfiguration.php must call forbidIfIsUntrustedRequest()');
+        foreach (['setCrypto_wallet_address(', 'setDonationNotificationURL(', 'regenerateDonationNotificationSecret('] as $write) {
+            $position = strpos($source, $write);
+            $this->assertNotFalse($position, $write);
+            $this->assertLessThan($position, $guard, "the origin check must run before {$write}");
+        }
+    }
+
     public function testHeaderContentTypeRevalidatesEveryRedirectHop()
     {
         // GHSA-m8q2-35pq-qrmc: get_headers() follows redirects by default, so a videoLink that

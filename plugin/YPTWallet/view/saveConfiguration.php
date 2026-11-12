@@ -10,6 +10,10 @@ $obj->error = true;
 $obj->msg = "";
 $obj->walletBalance = 0;
 
+// this file doesn't match the *.json.php pattern autoCSRFGuard() protects automatically (include_config.php)
+forbidIfIsUntrustedRequest("YPTWallet::saveConfiguration");
+forbidIfNotPost();
+
 if (!User::isLogged()) {
     $obj->msg = ("Is not Loged");
     die(json_encode($obj));

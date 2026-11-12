@@ -56,10 +56,12 @@ function isCDN()
 
 function isFromCDN($url)
 {
-    if (preg_match('/cdn.ypt.me/i', $url)) {
-        return true;
+    // HTTP_CDN_HOST may be a bare host; Referer/Origin are full URLs.
+    $host = parse_url($url, PHP_URL_HOST);
+    if (empty($host)) {
+        $host = parse_url('https://' . $url, PHP_URL_HOST);
     }
-    return false;
+    return !empty($host) && preg_match('/(^|\.)cdn\.ypt\.me$/i', $host) === 1;
 }
 
 function isAVideo($user_agent = "")
