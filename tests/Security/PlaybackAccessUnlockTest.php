@@ -15,6 +15,7 @@ class UnlockFixture
     public static $listingGet = null, $video = null, $bot = false, $failListing = false;
     public static $pluginAccess = null, $ppvVideoPlans = [], $ownerStatus = 'a';
     public static $pluginChangesRequest = false;
+    public static $rentalOption = false, $rentalPlans = [], $purchasedTitle = false;
 }
 class ObjectYPT
 {
@@ -86,6 +87,13 @@ class PayPerView
 {
     public static function getBuyURL($videos_id = 0) { return 'https://fixture/custom-ppv-checkout'; }
     public static function getAllPlansFromVideo($video, $activeOnly = true) { return UnlockFixture::$ppvVideoPlans; }
+    public static function getRentalPlansOfVideo($video) { return UnlockFixture::$rentalPlans; }
+    public static function canRentGroupRestrictedVideo($video, $plan = null)
+    {
+        $ids = array_map('intval', array_column(UnlockFixture::$rentalPlans, 'id'));
+        return UnlockFixture::$rentalOption && ($plan === null ? !empty($ids) : in_array(intval($plan), $ids, true));
+    }
+    public static function purchaseSatisfiesPlaybackGroupRule($user, $video) { return UnlockFixture::$rentalOption && UnlockFixture::$purchasedTitle; }
 }
 class Video
 {
@@ -155,6 +163,8 @@ class PlaybackAccessUnlockTest extends TestCase
         UnlockFixture::$ppvVideoPlans = [];
         UnlockFixture::$ownerStatus = 'a';
         UnlockFixture::$pluginChangesRequest = false;
+        UnlockFixture::$rentalOption = UnlockFixture::$purchasedTitle = false;
+        UnlockFixture::$rentalPlans = [];
         UnlockFixture::$video = ['id' => 3505, 'status' => 'a', 'users_id' => 1];
         (new \ReflectionProperty(PlaybackAccess::class, 'rules'))->setValue(null, []);
     }
@@ -382,6 +392,67 @@ class PlaybackAccessUnlockTest extends TestCase
         $policy = file_get_contents($root . 'objects/PlaybackAccess.php');
         $show = substr($policy, strpos($policy, 'public static function showUnlockPage('));
         $this->assertMatchesRegularExpression("/http_response_code\\(403\\);\\s*include [^;]*playbackAccessUnlock\\.php';\\s*exit;/", $show);
+    }
+
+    public function testTitleRentalIsOfferedOnlyWhenPayPerViewAllowsIt(): void
+    {
+        UnlockFixture::$rentalPlans = [['id' => 2, 'name' => '72-Hour Rental', 'description' => '', 'value' => '1.99', 'hours_valid' => 72, 'status' => 'a']];
+        $this->assertSame([], array_filter(PlaybackAccess::getUnlockOffers(3505), function ($offer) { return $offer['type'] === 'rental'; }));
+        UnlockFixture::$rentalOption = true;
+        $rentals = array_values(array_filter(PlaybackAccess::getUnlockOffers(3505), function ($offer) { return $offer['type'] === 'rental'; }));
+        $this->assertCount(1, $rentals);
+        $this->assertSame(2, $rentals[0]['id']);
+        $this->assertSame(72, $rentals[0]['hours']);
+        $this->assertSame(1.99, $rentals[0]['price']);
+        // The title's own rental checkout (videos_id), not the whole plan.
+        $this->assertSame('https://fixture/plugin/PayPerView/subscribePlanPerUser.php?plans_id=2&videos_id=3505', $rentals[0]['url']);
+        UnlockFixture::$ppvObject = (object) ['ifNeedToPayRedirectURL' => 'https://pay.example/'];
+        $rentals = array_values(array_filter(PlaybackAccess::getUnlockOffers(3505), function ($offer) { return $offer['type'] === 'rental'; }));
+        $this->assertSame('https://fixture/custom-ppv-checkout', $rentals[0]['url']);
+    }
+
+    public function testRentalOfAPlanAlreadySoldWholeIsNotListedTwice(): void
+    {
+        UnlockFixture::$rentalOption = true;
+        UnlockFixture::$visibilityGroups = [8];
+        UnlockFixture::$rentalPlans = [UnlockFixture::$ppvPlans[7]];
+        $offers = PlaybackAccess::getUnlockOffers(3505);
+        $planSeven = array_values(array_filter($offers, function ($offer) { return $offer['id'] === 7 && $offer['type'] !== 'subscription'; }));
+        $this->assertCount(1, $planSeven);
+        $this->assertSame('ppv', $planSeven[0]['type']);
+    }
+
+    public function testPurchaseOfTheTitleSatisfiesTheRuleOnlyWithTheOption(): void
+    {
+        UnlockFixture::$userGroups = [4];
+        $this->assertFalse(PlaybackAccess::isAllowed(3505, 82));
+        UnlockFixture::$purchasedTitle = true;
+        $this->assertFalse(PlaybackAccess::isAllowed(3505, 82), 'A rental alone keeps the group-only rule by default');
+        UnlockFixture::$rentalOption = true;
+        $this->assertTrue(PlaybackAccess::isAllowed(3505, 82));
+        UnlockFixture::$purchasedTitle = false;
+        $this->assertFalse(PlaybackAccess::isAllowed(3505, 82), 'The option alone does not unlock anything');
+        $this->assertFalse(PlaybackAccess::isAllowed(3505, 0), 'Visitors never pass');
+        UnlockFixture::$enabled = ['Subscription'];
+        UnlockFixture::$purchasedTitle = true;
+        $this->assertFalse(PlaybackAccess::isAllowed(3505, 82), 'Without PayPerView the rule stays group-only');
+        $this->assertFalse(PlaybackAccess::canRentTitle(3505));
+    }
+
+    public function testWatchPageResolvesTheRentedTitleInsteadOfAFallbackVideo(): void
+    {
+        // A renter has no visibility group of the title: the group-filtered lookup would miss it and the page
+        // would fall back to another video, as it already avoids in free-with-ads mode.
+        UnlockFixture::$userGroups = [4];
+        $this->assertFalse(PlaybackAccess::isAllowedByTitlePurchase(3505, 82));
+        UnlockFixture::$rentalOption = UnlockFixture::$purchasedTitle = true;
+        $this->assertTrue(PlaybackAccess::isAllowedByTitlePurchase(3505, 82));
+        $this->assertFalse(PlaybackAccess::isAllowedByTitlePurchase(3505, 0));
+        UnlockFixture::$rules = [];
+        (new \ReflectionProperty(PlaybackAccess::class, 'rules'))->setValue(null, []);
+        $this->assertFalse(PlaybackAccess::isAllowedByTitlePurchase(3505, 82), 'Only titles under a rule');
+        $watch = file_get_contents(dirname(__DIR__, 2) . '/view/modeYoutube.php');
+        $this->assertMatchesRegularExpression('/PlaybackAccess::isRestricted\(\$videos_id\)\s*&& \(Video::allowFreePlayWithAdsIsEnabled\(\) \|\| PlaybackAccess::isAllowedByTitlePurchase\(\$videos_id\)\)\) \{\s*\/\/[^\n]*\n\s*\$video = Video::getVideo\(\$videos_id, Video::SORT_TYPE_VIEWABLE, true, false, false, true\);/', $watch);
     }
 
     public function testTrailerIsOpenedOnlyForAValidWebAddress(): void

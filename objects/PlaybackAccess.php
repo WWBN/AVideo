@@ -105,9 +105,54 @@ class PlaybackAccess
                 return false;
             }
             $groups = array_column(UserGroups::getUserGroups($users_id), 'id');
-            return !empty(array_intersect($rule['groups'], $groups));
+            if (!empty(array_intersect($rule['groups'], $groups))) {
+                return true;
+            }
+            return self::purchaseOfTitleSatisfiesRule($videos_id, $users_id);
         } catch (Throwable $th) {
             _error_log($th->getMessage(), AVideoLog::$ERROR);
+            return false;
+        }
+    }
+
+    /**
+     * PayPerView option allowRentalOfGroupRestrictedVideos: the user's own rental/purchase of this very title also
+     * satisfies its rule. Older PayPerView versions do not have it and keep the group-only behavior.
+     */
+    private static function purchaseOfTitleSatisfiesRule($videos_id, $users_id)
+    {
+        if (!AVideoPlugin::loadPluginIfEnabled('PayPerView') || !method_exists('PayPerView', 'purchaseSatisfiesPlaybackGroupRule')) {
+            return false;
+        }
+        return PayPerView::purchaseSatisfiesPlaybackGroupRule($users_id, $videos_id);
+    }
+
+    /**
+     * True when a rule restricts the title and the user passes it only through their purchase of the title (no
+     * allowed group). The watch page then resolves the title like in free-with-ads mode: its visibility groups are
+     * typically the membership groups that a renter does not have.
+     */
+    public static function isAllowedByTitlePurchase($videos_id, $users_id = null)
+    {
+        if ($users_id === null) {
+            $users_id = User::getId();
+        }
+        try {
+            return !empty($users_id) && self::isRestricted($videos_id) && self::purchaseOfTitleSatisfiesRule($videos_id, $users_id);
+        } catch (Throwable $th) {
+            _error_log('PlaybackAccess::isAllowedByTitlePurchase ' . $th->getMessage(), AVideoLog::$ERROR);
+            return false;
+        }
+    }
+
+    /** True when the refused title can still be rented one by one (PayPerView option and a rental plan of the title). */
+    public static function canRentTitle($videos_id)
+    {
+        try {
+            return AVideoPlugin::loadPluginIfEnabled('PayPerView') && method_exists('PayPerView', 'canRentGroupRestrictedVideo')
+                && PayPerView::canRentGroupRestrictedVideo($videos_id);
+        } catch (Throwable $th) {
+            _error_log('PlaybackAccess::canRentTitle ' . $th->getMessage(), AVideoLog::$ERROR);
             return false;
         }
     }
@@ -129,7 +174,8 @@ class PlaybackAccess
 
     /**
      * Plans whose purchase adds the buyer to a required group: Subscription plans and group-based
-     * PPV plans. A rental of the title alone is not offered, it does not satisfy the requirement.
+     * PPV plans. A rental of the title alone is offered only when the PayPerView option
+     * allowRentalOfGroupRestrictedVideos lets it satisfy the requirement.
      */
     public static function getUnlockOffers($videos_id)
     {
@@ -253,6 +299,44 @@ class PlaybackAccess
             }
         } catch (Throwable $th) {
             _error_log('PlaybackAccess::getUnlockOffers ppv ' . $th->getMessage(), AVideoLog::$ERROR);
+        }
+        try {
+            // With the PayPerView option, renting the title also unlocks it: PayPerView grants playback of a
+            // rented title (AVideoPlugin::userCanWatchVideo) and isAllowed() accepts the rental.
+            if (self::canRentTitle($videos_id)) {
+                $ppvObject = AVideoPlugin::getDataObject('PayPerView');
+                $wholePlans = [];
+                foreach ($offers as $offer) {
+                    if ($offer['type'] === 'ppv') {
+                        $wholePlans[] = $offer['id'];
+                    }
+                }
+                foreach (PayPerView::getRentalPlansOfVideo($videos_id) as $plan) {
+                    // The same plan sold whole (all its titles) is already offered.
+                    if (in_array(intval($plan['id']), $wholePlans, true)) {
+                        continue;
+                    }
+                    if (!empty($ppvObject->ifNeedToPayRedirectURL)) {
+                        $url = PayPerView::getBuyURL($videos_id);
+                    } else {
+                        $url = addQueryStringParameter($global['webSiteRootURL'] . 'plugin/PayPerView/subscribePlanPerUser.php', 'plans_id', intval($plan['id']));
+                        $url = addQueryStringParameter($url, 'videos_id', intval($videos_id));
+                    }
+                    $offers[] = [
+                        'type' => 'rental',
+                        'id' => intval($plan['id']),
+                        'name' => $plan['name'],
+                        'description' => $plan['description'],
+                        'price' => floatval($plan['value']),
+                        'days' => 0,
+                        'hours' => intval($plan['hours_valid']),
+                        'featured' => false,
+                        'url' => $url,
+                    ];
+                }
+            }
+        } catch (Throwable $th) {
+            _error_log('PlaybackAccess::getUnlockOffers rental ' . $th->getMessage(), AVideoLog::$ERROR);
         }
         return $offers;
     }

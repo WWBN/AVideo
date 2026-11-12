@@ -18,21 +18,38 @@ function unlockMysqlInsert($sql, $types, $values)
     if (!sqlDAL::writeSql($sql, $types, $values)) { throw new RuntimeException('Could not create unlock fixture'); }
     return intval($global['mysqli']->insert_id);
 }
-function unlockMysqlPurchase($type, $plan, $user)
+function unlockMysqlPurchase($type, $plan, $user, $video)
 {
     if ($type === 'subscription') {
         unlockMysqlInsert("INSERT INTO subscriptions (users_id,subscriptions_plans_id,status,good_until,created,modified) VALUES (?,?,'a',DATE_ADD(NOW(),INTERVAL 1 DAY),NOW(),NOW())", 'ii', [$user, $plan]);
     } elseif ($type === 'ppv') {
         unlockMysqlInsert("INSERT INTO ppv_plans_has_users (users_id,ppv_plans_id,status,expiration,php_expiration_time,created,modified) VALUES (?,?,'a',DATE_ADD(NOW(),INTERVAL 1 DAY),?,NOW(),NOW())", 'iii', [$user, $plan, time() + 86400]);
+    } elseif ($type === 'rental') {
+        // A rental of this title only, on its plan mapping (created when the scenario has none).
+        $res = sqlDAL::readSql('SELECT id FROM ppv_plans_has_videos WHERE ppv_plans_id = ? AND videos_id = ? LIMIT 1', 'ii', [$plan, $video], true);
+        $mapping = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        $mapping = $mapping ? intval($mapping['id']) : unlockMysqlInsert("INSERT INTO ppv_plans_has_videos (ppv_plans_id,videos_id,status,created,modified) VALUES (?,?,'a',NOW(),NOW())", 'ii', [$plan, $video]);
+        unlockMysqlInsert("INSERT INTO ppv_plans_has_users_has_videos (users_id,ppv_plans_has_videos_id,expiration,status,created,modified) VALUES (?,?,DATE_ADD(NOW(),INTERVAL 1 DAY),'a',NOW(),NOW())", 'ii', [$user, $mapping]);
     }
 }
 $unlockMysqlScenarios = ['public', 'paid-only', 'visibility-b', 'paid-visibility-b', 'direct-ppv',
-    'direct-ppv-other-visibility', 'existing-rental', 'existing-visibility', 'inactive-link', 'inactive-owner'];
-$unlockMysqlCandidates = ['none', 'subscription:a', 'subscription:b', 'ppv:a', 'ppv:rental'];
+    'direct-ppv-other-visibility', 'existing-rental', 'existing-visibility', 'inactive-link', 'inactive-owner',
+    'rental-option', 'rental-option-paid', 'rental-option-visibility-c', 'rental-option-inactive-link', 'rental-option-visibility-a'];
+// rental:rental rents the title on the rental plan; ppv:rental buys that whole plan.
+$unlockMysqlCandidates = ['none', 'subscription:a', 'subscription:b', 'ppv:a', 'ppv:rental', 'rental:rental'];
+function unlockMysqlRentalOption($scenario)
+{
+    return strpos($scenario, 'rental-option') === 0;
+}
 if (($argv[1] ?? '') !== 'case') {
     foreach ($unlockMysqlScenarios as $scenario) {
         $results = [];
         foreach ($unlockMysqlCandidates as $candidate) {
+            // With the PayPerView rental option the page sells the title's rental, not its whole rental plan.
+            if ($candidate === 'ppv:rental' && unlockMysqlRentalOption($scenario)) {
+                continue;
+            }
             $process = proc_open([PHP_BINARY, __FILE__, 'case', $scenario, $candidate],
                 [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
             if (!is_resource($process)) { throw new RuntimeException('Could not start isolated unlock case'); }
@@ -56,7 +73,7 @@ if (($argv[1] ?? '') !== 'case') {
         if ($actual !== $listed || $results['none']['allowed']) {
             throw new RuntimeException('Offer mismatch: ' . $scenario . ' listed=' . json_encode($listed) . ' playable=' . json_encode($actual));
         }
-        echo 'PASS: ', $scenario, ' offers=', json_encode($listed), ' (all four purchases checked)', PHP_EOL;
+        echo 'PASS: ', $scenario, ' offers=', json_encode($listed), ' (', count($results) - 1, ' purchases checked)', PHP_EOL;
     }
     exit("Unlock MySQL integration: passed\n");
 }
@@ -66,6 +83,8 @@ if (!in_array($unlockMysqlScenario, $unlockMysqlScenarios, true) || !in_array($u
     throw new InvalidArgumentException('Unknown unlock case');
 }
 $unlockMysqlBuyer = 0;
+// Isolate both modes from the site's current setting; never change the saved plugin JSON.
+AVideoPlugin::getObjectData('PayPerView')->allowRentalOfGroupRestrictedVideos = unlockMysqlRentalOption($unlockMysqlScenario);
 mysqlBeginTransaction();
 try {
     $prefix = 'unlock_test_' . bin2hex(random_bytes(6));
@@ -76,7 +95,7 @@ try {
     $owner = unlockMysqlInsert("INSERT INTO users (user,password,isAdmin,status,created,modified) VALUES (?, 'not-a-login-password-hash',0,?,NOW(),NOW())", 'ss', [$prefix . '_owner', $unlockMysqlScenario === 'inactive-owner' ? 'i' : 'a']);
     $unlockMysqlBuyer = unlockMysqlInsert("INSERT INTO users (user,password,isAdmin,status,created,modified) VALUES (?, 'not-a-login-password-hash',0,'a',NOW(),NOW())", 's', [$prefix . '_buyer']);
     $category = unlockMysqlInsert('INSERT INTO categories (name,clean_name,parentId,created,modified) VALUES (?,?,0,NOW(),NOW())', 'ss', [$prefix, $prefix]);
-    $paid = in_array($unlockMysqlScenario, ['paid-only', 'paid-visibility-b', 'direct-ppv', 'direct-ppv-other-visibility', 'inactive-link'], true) ? 1 : 0;
+    $paid = in_array($unlockMysqlScenario, ['paid-only', 'paid-visibility-b', 'direct-ppv', 'direct-ppv-other-visibility', 'inactive-link', 'rental-option-paid'], true) ? 1 : 0;
     $video = unlockMysqlInsert("INSERT INTO videos (title,clean_title,filename,duration,status,type,users_id,categories_id,only_for_paid,created,modified) VALUES (?,?,?,'00:00:01','a','video',?,?,?,NOW(),NOW())", 'sssiii', [$prefix, $prefix, $prefix, $owner, $category, $paid]);
     unlockMysqlInsert("INSERT INTO playback_access_rules (scope,scope_id,mode,groups_json,modified) VALUES ('video',?,'require',?,NOW())", 'is', [$video, json_encode([$groups['a'], $groups['b']])]);
     $plans = [];
@@ -87,9 +106,14 @@ try {
     foreach (['a', 'rental'] as $name) {
         $plans['ppv:' . $name] = unlockMysqlInsert("INSERT INTO ppv_plans (name,value,hours_valid,status,users_id,created,modified) VALUES (?,1,24,'a',?,NOW(),NOW())", 'si', [$prefix . $name, $owner]);
     }
+    $plans['rental:rental'] = $plans['ppv:rental'];
     unlockMysqlInsert("INSERT INTO ppv_plans_has_users_groups (ppv_plans_id,users_groups_id,status,created,modified) VALUES (?,?,'a',NOW(),NOW())", 'ii', [$plans['ppv:a'], $groups['a']]);
-    if (in_array($unlockMysqlScenario, ['visibility-b', 'paid-visibility-b', 'direct-ppv-other-visibility', 'existing-visibility', 'existing-rental'], true)) {
-        $visibility = in_array($unlockMysqlScenario, ['visibility-b', 'paid-visibility-b'], true) ? $groups['b'] : $groups['c'];
+    if (unlockMysqlRentalOption($unlockMysqlScenario)) {
+        // The title is in the rental plan, like FlixHouse's 72-Hour Rental.
+        unlockMysqlInsert('INSERT INTO ppv_plans_has_videos (ppv_plans_id,videos_id,status,created,modified) VALUES (?,?,?,NOW(),NOW())', 'iis', [$plans['ppv:rental'], $video, $unlockMysqlScenario === 'rental-option-inactive-link' ? 'i' : 'a']);
+    }
+    if (in_array($unlockMysqlScenario, ['visibility-b', 'paid-visibility-b', 'direct-ppv-other-visibility', 'existing-visibility', 'existing-rental', 'rental-option-visibility-c', 'rental-option-visibility-a'], true)) {
+        $visibility = in_array($unlockMysqlScenario, ['visibility-b', 'paid-visibility-b'], true) ? $groups['b'] : ($unlockMysqlScenario === 'rental-option-visibility-a' ? $groups['a'] : $groups['c']);
         unlockMysqlInsert('INSERT INTO videos_group_view (videos_id,users_groups_id) VALUES (?,?)', 'ii', [$video, $visibility]);
     }
     if ($unlockMysqlScenario === 'existing-visibility') {
@@ -105,7 +129,7 @@ try {
     // Purchases precede every lookup of the buyer, including dynamic-group and plugin caches.
     if ($unlockMysqlCandidate !== 'none') {
         [$kind] = explode(':', $unlockMysqlCandidate);
-        unlockMysqlPurchase($kind, $plans[$unlockMysqlCandidate], $unlockMysqlBuyer);
+        unlockMysqlPurchase($kind, $plans[$unlockMysqlCandidate], $unlockMysqlBuyer, $video);
     }
     $_SESSION['user'] = User::getUserFromID($unlockMysqlBuyer);
     $offers = [];

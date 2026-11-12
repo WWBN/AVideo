@@ -16,7 +16,7 @@ $unlockFormatPrice = function ($value) {
     return class_exists('YPTWallet') ? YPTWallet::formatCurrency($value) : number_format($value, 2);
 };
 $unlockPeriod = function ($offer) {
-    if ($offer['type'] === 'ppv') {
+    if ($offer['type'] === 'ppv' || $offer['type'] === 'rental') {
         return sprintf(__('Valid for %d hours'), $offer['hours']);
     }
     switch ($offer['days']) {
@@ -132,7 +132,9 @@ $_page->setExtraStyles(['view/css/playbackAccessUnlock.css']);
                             <span class="avideoUnlock-offer-badge"><?php echo __('Most Popular'); ?></span>
                         <?php } ?>
                         <div class="avideoUnlock-offer-type">
-                            <?php if ($offer['type'] === 'ppv') { ?>
+                            <?php if ($offer['type'] === 'rental') { ?>
+                                <i class="fas fa-film" aria-hidden="true"></i> <?php echo __('Rent this title'); ?>
+                            <?php } elseif ($offer['type'] === 'ppv') { ?>
                                 <i class="fas fa-ticket-alt" aria-hidden="true"></i> <?php echo __('Pay-Per-View'); ?>
                             <?php } else { ?>
                                 <i class="fas fa-crown" aria-hidden="true"></i> <?php echo __('Subscription'); ?>
@@ -151,7 +153,7 @@ $_page->setExtraStyles(['view/css/playbackAccessUnlock.css']);
                             <p class="avideoUnlock-offer-description"><?php echo nl2br(htmlspecialchars($unlockOfferDescription, ENT_QUOTES, 'UTF-8')); ?></p>
                         <?php } ?>
                         <a href="<?php echo htmlspecialchars($offer['url'], ENT_QUOTES, 'UTF-8'); ?>" class="avideoUnlock-btn avideoUnlock-btn-primary avideoUnlock-offer-cta">
-                            <?php echo $offer['type'] === 'ppv' ? __('Get Access') : __('Subscribe'); ?>
+                            <?php echo $offer['type'] === 'rental' ? __('Rent Now') : ($offer['type'] === 'ppv' ? __('Get Access') : __('Subscribe')); ?>
                         </a>
                     </div>
                 <?php } ?>

@@ -44,8 +44,10 @@ if ($videos_id && !PlaybackAccess::isAllowed($videos_id)) {
     PlaybackAccess::showUnlockPage($videos_id);
 }
 // Only the free-with-ads catalog filter (only_for_paid = 0) hides a paid-only title here; without
-// that mode the SQL filter is the ordinary user-group check and must stay in place.
-if ($videos_id && PlaybackAccess::isRestricted($videos_id) && Video::allowFreePlayWithAdsIsEnabled()) {
+// that mode the SQL filter is the ordinary user-group check and must stay in place, except for a
+// renter of the restricted title (PayPerView allowRentalOfGroupRestrictedVideos), who has no group.
+if ($videos_id && PlaybackAccess::isRestricted($videos_id)
+    && (Video::allowFreePlayWithAdsIsEnabled() || PlaybackAccess::isAllowedByTitlePurchase($videos_id))) {
     // Resolve the requested title; the existing payment/password checks still run below.
     $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, true, false, false, true);
 }

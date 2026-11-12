@@ -342,6 +342,15 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   does not remove `videos/permanentCache/getVideosPaths_*.tmp` (served with the old video URLs while the cache is
   empty), and WebRTC2RTMP keeps the old domain until it restarts. Details in the wiki
   `technical/Technical-Maintenance.md`; covered by `tests/Unit/UpdateStreamerURLTest.php`.
+- **Mandatory playback rules with rentals and ads** (`objects/PlaybackAccess.php`, FlixHouse After Dark): a rental
+  passes a rule only with PayPerView `allowRentalOfGroupRestrictedVideos` (`PayPerView::purchaseSatisfiesPlaybackGroupRule()`);
+  checkouts accept a refused title only through `PayPerView::canRentGroupRestrictedVideo($videos_id, $plan)`. When the
+  visibility-group SQL hides the requested title, `view/modeYoutube.php` falls back to a *different* video, so a restricted
+  title reached without a group (free-with-ads mode, or a title rental) is resolved first with `getVideo(..., ignoreGroup)`.
+  `AVideoPlugin::isPaidUser()` is what removes web IMA/ADs/FlixHouse SSAI ads site-wide; Subscription
+  `plansThatRemoveAdsOnlyFromTheirVideos` keeps category-only plans out of it (no ads only where the plan's groups match the
+  video). Covered by `tests/Security/PlaybackAccessUnlockTest.php`, `tests/playback-access-unlock-mysql-regression.php`,
+  PayPerView `PpvPurchaseRegressionTest.php` and Subscription `AdFreePlansTest.php`.
 - **Test fixtures that eval real code**: an included fixture shares the includer's variable scope. Never
   use generic top-level names (`$root`, `$path`) in a fixture, and never let a test or simulation write
   under the repository (`videos/configuration.php` is real, gitignored, and holds the site secrets).

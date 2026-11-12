@@ -509,7 +509,7 @@ class PlaybackAccessTest extends TestCase
         $this->assertNotFalse(strpos($embed, 'PlaybackAccess::isAllowed($video[\'id\'])'));
         $this->assertLessThan(strpos($embed, 'getSources('), strpos($embed, 'PlaybackAccess::isAllowed($video[\'id\'])'));
         $watch = file_get_contents($playbackRepoDir . 'view/modeYoutube.php');
-        $this->assertStringContainsString('PlaybackAccess::isRestricted($videos_id) && Video::allowFreePlayWithAdsIsEnabled()', $watch);
+        $this->assertStringContainsString("PlaybackAccess::isRestricted(\$videos_id)\n    && (Video::allowFreePlayWithAdsIsEnabled() || PlaybackAccess::isAllowedByTitlePurchase(\$videos_id))", str_replace("\r\n", "\n", $watch));
         $this->assertStringNotContainsString('PlaybackAccess::getVideoRule(', $watch);
     }
 }
