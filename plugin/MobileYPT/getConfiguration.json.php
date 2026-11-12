@@ -57,6 +57,8 @@ $objMM->termsOfUseURL = empty($objMM->termsOfUseURL) ? '' : trim((string) $objMM
 // Authors the viewer blocked: the app hides their rows in every list (see MobileYPT::getBlockedUsersIds)
 $objMM->blockedUsersIds = MobileYPT::getBlockedUsersIds();
 
+// SECURITY REVIEW (2026-11-12, GHSA-h76m-5xfg-rj28): key/m3u8 of password-protected listed lives are returned here
+// on purpose — DO NOT FIX here alone, see the comment in objects/notifications.json.php.
 $objMM->stats = getStatsNotifications();
 // never echo streams the caller isn't authorized to see (same reasoning as plugin/Live/stats.json.php)
 unset($objMM->stats['hidden_applications']);

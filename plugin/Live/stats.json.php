@@ -66,6 +66,8 @@ unset($json['hidden_applications']);
 // applications are publicly listed (unlike hidden_applications above), but a password-protected
 // transmission still requires Live::passwordIsGood() before it can actually be watched - strip the
 // raw key/m3u8 here too unless the caller already satisfied that check (or owns/administers it).
+// SECURITY REVIEW (2026-11-12, GHSA-h76m-5xfg-rj28): this does not hide the key (it stays in className/class/html of
+// the same entry, scheduled entries have no isPasswordProtected) — known and kept, see objects/notifications.json.php.
 if (!empty($json['applications'])) {
     foreach ($json['applications'] as &$app) {
         if (is_array($app) && !empty($app['isPasswordProtected']) && !empty($app['key'])) {

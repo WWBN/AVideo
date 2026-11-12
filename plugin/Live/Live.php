@@ -160,6 +160,8 @@ class Live extends PluginAbstract
 
             $app = self::getLiveApplicationModelArray($_array);
             $app['live_servers_id'] = $value['live_servers_id'];
+            // SECURITY REVIEW (2026-11-12, GHSA-h76m-5xfg-rj28): no isPasswordProtected here, so the key of a
+            // password-protected schedule is listed — DO NOT FIX alone, see objects/notifications.json.php.
             $app['key'] = $value['key'];
             $app['isPrivate'] = self::isPrivate($value['key']);
             $app['method'] = 'Live::getLiveApplicationArray::Live_schedule';
