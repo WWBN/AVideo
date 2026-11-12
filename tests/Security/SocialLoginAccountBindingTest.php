@@ -254,4 +254,26 @@ class SocialLoginAccountBindingTest extends TestCase
         $this->assertSame('alice@example.net', UserStore::$rows[$id]['user']);
         $this->assertSame($id, User::getSocialLoginUserId('Google', $this->profile('g1', 'Alice', '', 'alice@example.net')));
     }
+
+    /**
+     * GHSA-286v-rxqx-v42r: an email the provider reports as unverified (Hybridauth leaves emailVerified empty) must not
+     * select the account named after that email; a verified one, or a provider that does not report it, still does.
+     */
+    public function testUnverifiedProviderEmailNeverSelectsAnExistingAccount()
+    {
+        UserStore::$rows[2]['user'] = 'alice@example.net';
+        $unverified = $this->profile('g9', 'Alice', '', 'alice@example.net');
+        $unverified->emailVerified = '';
+        $id = User::getSocialLoginUserId('Google', $unverified, true);
+        $this->assertNotSame(2, $id);
+        $this->assertSame('Google_g9', UserStore::$rows[$id]['user']);
+        $this->assertSame('', UserStore::$rows[$id]['email']);
+        $this->assertSame($id, User::getSocialLoginUserId('Google', $unverified, true));
+
+        $verified = $this->profile('g2', 'Alice', '', 'alice@example.net');
+        $verified->emailVerified = 'alice@example.net';
+        $this->assertSame(2, User::getSocialLoginUserId('Google', $verified, true));
+        // Apple and other adapters leave emailVerified null: unchanged behavior
+        $this->assertSame(2, User::getSocialLoginUserId('Apple', $this->profile('a1', 'Alice', '', 'alice@example.net')));
+    }
 }

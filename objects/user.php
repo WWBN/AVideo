@@ -2816,8 +2816,16 @@ if (typeof gtag !== \"function\") {
         $pass = bin2hex(random_bytes(32)); // SECURITY: cryptographically random, never typed by the user
         $name = $userProfile->displayName ?? '';
         $photoURL = $userProfile->photoURL ?? '';
-        if (!empty($userProfile->email)) {
-            return self::createUserIfNotExists($userProfile->email, $pass, $name, $userProfile->email, $photoURL, false, $emailVerified);
+        $email = (string) ($userProfile->email ?? '');
+        // Hybridauth fills emailVerified only when the provider confirmed the email (Google/Yahoo send email_verified).
+        // An email the provider reports as unverified does not prove ownership, so it is treated as no email:
+        // the account is bound to the provider's user id instead of the account named after that email (GHSA-286v-rxqx-v42r).
+        if ($email !== '' && isset($userProfile->emailVerified) && (string) $userProfile->emailVerified !== $email) {
+            _error_log("getSocialLoginUserId: {$provider} reported the email as unverified, using the provider user id", AVideoLog::$SECURITY);
+            $email = '';
+        }
+        if ($email !== '') {
+            return self::createUserIfNotExists($email, $pass, $name, $email, $photoURL, false, $emailVerified);
         }
         // The web caller also marked existing social accounts verified before account binding was introduced.
         $getAccountId = static function ($userObj, $users_id) use ($emailVerified) {

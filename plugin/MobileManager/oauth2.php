@@ -88,6 +88,8 @@ if (!empty($_GET['type'])) {
         //print_r($tokens);
         //print_r($userProfile);
         // without an email the account is bound to the provider's user id, never chosen by display name (GHSA-9rvm-cfc4-q9g9)
+        // SECURITY REVIEW (2026-11-12, GHSA-286v-rxqx-v42r): the omitted $emailVerified argument only sets the account's
+        // emailVerified flag; it is not the provider's verification. That check is inside getSocialLoginUserId() for both callers.
         $users_id = User::getSocialLoginUserId($_GET['type'], $userProfile);
         if (empty($users_id)) {
             throw new Exception(__('Permission denied'));
