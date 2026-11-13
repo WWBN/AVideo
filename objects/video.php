@@ -1905,6 +1905,7 @@ if (!class_exists('Video')) {
 
             if ($res !== false) {
                 foreach ($fullData as $row) {
+                    $row = cleanUpRowFromDatabase($row);
                     // Add video thumbnail
                     $row['images'] = self::getImageFromFilename($row['filename']);
                     // Ensure externalOptions is valid
@@ -1965,6 +1966,7 @@ if (!class_exists('Video')) {
 
                 if ($res !== false) {
                     foreach ($extraData as $row) {
+                        $row = cleanUpRowFromDatabase($row);
                         // Add video thumbnail
                         $row['images'] = self::getImageFromFilename($row['filename']);
                         // Ensure externalOptions is valid

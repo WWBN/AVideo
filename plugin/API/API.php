@@ -781,6 +781,11 @@ class API extends PluginAbstract
                 forbiddenPage(__("You cannot access this playlist"));
             }
             $videos = PlayLists::getOnlyVideosAndAudioIDFromPlaylistLight($parameters['playlists_id']);
+            // These are raw `SELECT *` rows (no Video::getInfo()), and ApiObject only cleans the top level, so mask the
+            // stored video_password here, as get_api_tags does (GHSA-7qrc-6vhr-4rhj).
+            foreach ($videos as $key => $video) {
+                $videos[$key] = cleanUpRowFromDatabase($video);
+            }
         }
         if (empty($videos)) {
             return new ApiObject("There are no videos for this playlist", true, $parameters);
@@ -790,6 +795,9 @@ class API extends PluginAbstract
             //return new ApiObject("Playlist ID is empty", true, $parameters);
             $_POST['sort']['created'] = 'DESC';
             $config = new AVideoConf();
+            // SECURITY REVIEW (2026-11-13): GHSA-7qrc-6vhr-4rhj said this branch leaks the stored video_password — NOT a
+            // vulnerability / DO NOT FIX: Video::getAllVideos() passes every row through Video::getInfo(), which reduces
+            // video_password to a ''/'1' flag. Only the playlists_id branch above returned raw rows (fixed there).
             $videos = Video::getAllVideos();
             $playlist = new PlayList($parameters['playlists_id']);
             $parameters['playlist_name'] = __('Date Added');
@@ -1724,6 +1732,9 @@ class API extends PluginAbstract
                 $ignoreGroup = true;
             }
             //              getVideo($id = "", $status = Video::SORT_TYPE_VIEWABLE, $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true)
+            // SECURITY REVIEW (2026-11-13): GHSA-7qrc-6vhr-4rhj said primary video rows leak the stored video_password — NOT a
+            // vulnerability / DO NOT FIX: Video::getVideo()/getAllVideos() pass every row through Video::getInfo(), which
+            // reduces video_password to a ''/'1' flag (filterVideoSources() relies on that flag). If re-reported, see the advisory.
             $row = Video::getVideo($parameters['videos_id'], $status, $ignoreGroup, false, false, true);
             $rows = empty($row) ? [] : [$row];
             $totalRows = count($rows);
@@ -3513,6 +3524,9 @@ class API extends PluginAbstract
             }
         }
         $obj = new stdClass();
+        // SECURITY REVIEW (2026-11-13): GHSA-7qrc-6vhr-4rhj said this leaks the stored video_password — NOT a vulnerability /
+        // DO NOT FIX: getAllFromPlaylistsID() uses Video::getAllVideos(), whose rows pass through Video::getInfo(), which
+        // reduces video_password to a ''/'1' flag. If re-reported, see the advisory thread instead of re-patching.
         $obj->videos = PlayList::getAllFromPlaylistsID($parameters['playlists_id']);
         if (!self::isAPISecretValid()) {
             self::filterMandatoryPlaybackSources($obj);
@@ -6540,7 +6554,7 @@ class SectionFirstPage
         }
         $start = microtime(true);
         //$endPointResponse = url_get_contents($endpointURL, '', 5, false, true);
-        $endpointURL = addQueryStringParameter($endpointURL, '_listingContext', getVideoListVisibilityCacheKey());
+        $endpointURL = addQueryStringParameter($endpointURL, '_listingContext', getVideoListVisibilityCacheKey() . '_videoPassword_v1');
         $endPointResponse = url_get_contents_with_cache($endpointURL, 300, '', 5, false, true);
         $this->executionTime = microtime(true) - $start;
         //_error_log(gettype($endPointResponse).' '.json_encode($endPointResponse));

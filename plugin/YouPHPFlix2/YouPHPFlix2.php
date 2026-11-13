@@ -235,7 +235,7 @@ class YouPHPFlix2 extends PluginAbstract
     {
         global $global;
         $start = microtime(true);
-        $cacheName = 'YouPHPFlix2_API_get_firstPage_' . md5(json_encode($parameters)).'_'.getVideoListVisibilityCacheKey();
+        $cacheName = 'YouPHPFlix2_API_get_firstPage_videoPassword_v1_' . md5(json_encode($parameters)).'_'.getVideoListVisibilityCacheKey();
         $object = ObjectYPT::getCacheGlobal($cacheName, 3600); // 1 hour
         if (empty($object)) {
             $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
