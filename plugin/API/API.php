@@ -1815,15 +1815,16 @@ class API extends PluginAbstract
             if (is_object($value)) {
                 $value = object_to_array($value);
             }
-            if (empty($value['filename'])) {
-                continue;
-            }
 
             // Remove sensitive user data from video responses unless the caller owns this video's joined user row
-            // Video rows include user data from JOIN with users table (u.*)
+            // Video rows include user data from JOIN with users table (u.*); live rows from getLiveVideosObject()
+            // carry the streamer's email/isAdmin too and have no filename, so this runs before the skip below.
             $isOwnVideoRow = $isUserLoggedIn && !empty($value['users_id']) && ((int) $value['users_id'] === (int) $currentUserId);
             if (!$isAPISecretValid && !$isOwnVideoRow) {
                 removeSensitiveUserFields($rows[$key]);
+            }
+            if (empty($value['filename'])) {
+                continue;
             }
             if ($value['type'] == Video::$videoTypeSerie) {
                 require_once $global['systemRootPath'] . 'objects/playlist.php';

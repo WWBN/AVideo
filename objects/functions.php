@@ -6741,6 +6741,9 @@ function getLiveVideosObject($application)
         'imgGif' => @$application['imgGif'],
         'className' => @$application['className'],
         'galleryCallback' => @$application['callback'],
+        // SECURITY REVIEW (2026-11-13, GHSA-75v5-gj76-crfw): key/m3u8 of a password-protected listed live reach
+        // get_api_video (catName) through stats/className/videos — REAL, DO NOT FIX alone (same as GHSA-h76m-5xfg-rj28),
+        // see objects/notifications.json.php. The user fields above are stripped for API callers in get_api_video().
         'stats' => $application,
         'embedlink' => addQueryStringParameter($application['href'], 'embed', 1),
         'images' => [

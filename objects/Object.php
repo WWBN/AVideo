@@ -1413,7 +1413,9 @@ class VideosListCacheHandler extends CacheHandler
             // API catalog snapshots include tags; exclude pre-escape Source values.
             'tagFormatVersion' => 2,
             // Exclude API snapshots containing raw related-video passwords (GHSA-7qrc-6vhr-4rhj).
-            'videoPasswordFormatVersion' => 1
+            'videoPasswordFormatVersion' => 1,
+            // Exclude API snapshots containing unsanitized live user fields (GHSA-75v5-gj76-crfw).
+            'liveUserFieldsFormatVersion' => 1
         );
         foreach ($cacheParameters as $value) {
             $cacheVars[$value] = @$_REQUEST[$value];
