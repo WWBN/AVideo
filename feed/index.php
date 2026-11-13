@@ -3,6 +3,9 @@
 $global['ignoreUserMustBeLoggedIn'] = 1;
 require_once '../videos/configuration.php';
 require_once '../objects/video.php';
+if (!empty($_REQUEST['program_id'])) {
+    require_once '../plugin/PlayLists/PlayLists.php';
+}
 $global['ignoreUserMustBeLoggedIn'] = 1;
 $_POST['sort']["created"] = "DESC";
 $_POST['current'] = 1;
