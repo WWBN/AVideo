@@ -236,6 +236,7 @@ class Live extends PluginAbstract
                 'imgGIF' => '',
                 'type' => 'live',
                 'LiveUsersLabelLive' => $LiveUsersLabelLive,
+                // SECURITY REVIEW (2026-11-13, GHSA-29qc-42m9-r5jw): key in uid/className — see plugin/Gallery/functions.php.
                 'uid' => "live_{$value['live_servers_id']}_{$value['key']}",
                 'callback' => '',
                 'startsOnDate' => '',

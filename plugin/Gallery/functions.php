@@ -543,6 +543,10 @@ function createGalleryLiveSectionVideo($video, $zindex, $screenColsLarge = 0, $s
 
     $colsClass = getGalleryColsCSSClass($screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
 
+    // SECURITY REVIEW (2026-11-13, GHSA-29qc-42m9-r5jw): className (live_<server>_<key>) shows the stream key of a
+    // password-protected listed live on the channel/category pages — REAL, DO NOT FIX alone (same family as
+    // GHSA-h76m-5xfg-rj28 / GHSA-75v5-gj76-crfw): the key is the selector plugin/Live/view/socket.js updates and is in
+    // the socketLiveONCallback broadcast to every visitor, see objects/notifications.json.php.
     if (!empty($video['className'])) {
         $colsClass .= " {$video['className']}";
     }
