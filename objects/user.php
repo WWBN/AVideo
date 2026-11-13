@@ -2820,6 +2820,11 @@ if (typeof gtag !== \"function\") {
         // Hybridauth fills emailVerified only when the provider confirmed the email (Google/Yahoo send email_verified).
         // An email the provider reports as unverified does not prove ownership, so it is treated as no email:
         // the account is bound to the provider's user id instead of the account named after that email (GHSA-286v-rxqx-v42r).
+        // SECURITY REVIEW (2026-11-13, GHSA-53pv-pc3f-6hqr): Hybridauth sets emailVerified = email for Facebook, X/Twitter and
+        // LinkedIn because those APIs return only a confirmed email (X documents null for an unverified one) — NOT a
+        // vulnerability / DO NOT FIX: a provider-confirmed email proves control of that mailbox, which already allows a
+        // takeover through password recovery (userRecoverPass.php mails users.email). Forcing those providers onto the
+        // provider-id branch would move every existing email-named Facebook/X/LinkedIn user to a new empty account.
         if ($email !== '' && isset($userProfile->emailVerified) && (string) $userProfile->emailVerified !== $email) {
             _error_log("getSocialLoginUserId: {$provider} reported the email as unverified, using the provider user id", AVideoLog::$SECURITY);
             $email = '';
