@@ -64,6 +64,8 @@ AVideo is a self-hosted video platform for publishing, managing, and monetizing 
 | **Live events** | [Broadcast](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream) conferences, concerts, or sports, with optional [paid event tickets](https://github.com/WWBN/AVideo/wiki/PayPerView-Live-Plugin). |
 | **Churches and nonprofit communities** | Share recorded talks and [live broadcasts](https://github.com/WWBN/AVideo/wiki/Live-Plugin), with optional [donation links or wallet donations](https://github.com/WWBN/AVideo/wiki/How-To-Make-Money-on-AVideo-Platform#6-accept-donations) to support creators. |
 
+https://github.com/user-attachments/assets/ffa3e747-eeb5-4e66-95e2-4277594e1455
+
 ## White label and layouts
 
 AVideo can run as a video website under your own brand. Start with [Site Design and Templates](https://github.com/WWBN/AVideo/wiki/Site-Design-and-Templates):
