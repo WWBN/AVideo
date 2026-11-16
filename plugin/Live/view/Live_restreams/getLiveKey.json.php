@@ -82,6 +82,26 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
         'poster_url' => Live::getPosterThumbsImage($lt['users_id'], $lt['live_servers_id']),
     );
 
+    // Sent by restreamer.json.php (getLiveKeyBroadcastReuseQuery()); older restreamers do not
+    // send it and keep getting a new broadcast every time.
+    $liveTransmitionHistory_id = intval($_REQUEST['liveTransmitionHistory_id'] ?? 0);
+    $checkBroadcast = isset($_REQUEST['checkYouTubeBroadcast']);
+    if ($checkBroadcast) {
+        $broadcastId = $_REQUEST['checkYouTubeBroadcast'];
+        if (!isValidYouTubeBroadcastId($broadcastId) ||
+            $broadcastId !== Live_restreams::getYouTubeBroadcastIdToReuse($Live_restreams->getId(), $liveTransmitionHistory_id)) {
+            echo json_encode(['error' => true, 'msg' => 'Broadcast is no longer current']);
+            exit;
+        }
+        $array['check_broadcast_id'] = $broadcastId;
+        $url = str_replace('/get.php', '/youtube_broadcast_status.php', $url);
+    } elseif (!empty($_REQUEST['reuseBroadcast']) && $liveTransmitionHistory_id > 0) {
+        $reuseBroadcastId = Live_restreams::getYouTubeBroadcastIdToReuse($Live_restreams->getId(), $liveTransmitionHistory_id);
+        if (!empty($reuseBroadcastId)) {
+            $array['reuse_broadcast_id'] = $reuseBroadcastId;
+        }
+    }
+
     if (!empty($_REQUEST['live_schedule_id'])) {
         $ls = new live_schedule($_REQUEST['live_schedule_id']);
 
@@ -99,7 +119,20 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
     }
 
     $response = postVariables($url, $array, false);
-    _error_log("Restreamer get live keys 2 url={$url} response=[$response] ".json_encode($array));
+    if (!$checkBroadcast) {
+        _error_log("Restreamer get live keys 2 url={$url} response=[$response] ".json_encode($array));
+        if ($liveTransmitionHistory_id > 0) {
+            Live_restreams::saveYouTubeBroadcastFromRestreamerResponse($Live_restreams->getId(), $liveTransmitionHistory_id, $response);
+        }
+        $responseJson = is_string($response) ? json_decode($response) : null;
+        if (getYouTubeBroadcastIdFromRestreamerResponse($responseJson) !== '' &&
+            ($responseJson->broadcast_status_check_supported ?? false) === true) {
+            // This marker must come from the Streamer, not just the broker: an older
+            // Streamer would ignore checkYouTubeBroadcast and create another broadcast.
+            $responseJson->broadcast_validation_supported = true;
+            $response = json_encode($responseJson);
+        }
+    }
     echo $response;
 }
  exit;

@@ -302,7 +302,7 @@ function sanitizeLogFileComponent($value, $default = '0')
     return $value;
 }
 
-function _getLiveKey($token)
+function _getLiveKey($token, $liveTransmitionHistory_id = 0, $requestType = '')
 {
     global $streamerURL, $isATest;
 
@@ -312,17 +312,20 @@ function _getLiveKey($token)
     $obj->newRestreamsDestination = '';
     $obj->fallbackRestreamsDestination = '';
     $obj->content = '';
+    $obj->broadcast_id = '';
+    $obj->youtubeBroadcastIdToValidate = '';
 
     if ($isATest) {
         return $obj;
     }
 
     $getKeyURL = "{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?token={$token}";
+    $getKeyURL .= getLiveKeyBroadcastReuseQuery($liveTransmitionHistory_id, $requestType);
 
     $obj->content = file_get_contents($getKeyURL);
     if (!empty($obj->content)) {
         $json = json_decode($obj->content);
-        if (!empty($json) && $json->error === false) {
+        if (is_object($json) && ($json->error ?? true) === false) {
             $destinations = getAutomaticRestreamDestinationPair($json);
             // Optional, reversible, admin-only diagnostic override (Live plugin setting
             // "restreamForceProtocolForYouTubeTest") to isolate whether a destination's
@@ -340,6 +343,8 @@ function _getLiveKey($token)
                     . ' live_url=' . $obj->live_url
                 );
                 $obj->error = false;
+                $obj->broadcast_id = getYouTubeBroadcastIdFromRestreamerResponse($json);
+                $obj->youtubeBroadcastIdToValidate = getYouTubeBroadcastIdToValidate($json);
             }
         } else if (!empty($json->rawData)) {
             $rawData = json_decode($json->rawData);
@@ -380,6 +385,7 @@ if (!$isCommandLine) { // not command line
             $robj->restreamsToken = _object_to_array($robj->restreamsToken);
             $robj->restreamsDestinations = _object_to_array($robj->restreamsDestinations);
             $robj->live_url = array();
+            $robj->youtubeBroadcastIdsToValidate = array();
             error_log("***Restreamer.json.php using restreamsToken " . json_encode($robj->restreamsToken));
             //var_dump($robj->restreamsToken, $robj->restreamsDestinations);exit;
             if (empty($isATest)) {
@@ -400,7 +406,7 @@ if (!$isCommandLine) { // not command line
                         continue;
                     }
 
-                    $liveKey = _getLiveKey($token);
+                    $liveKey = _getLiveKey($token, @$robj->liveTransmitionHistory_id, @$robj->type);
                     if (isset($liveKey->live_url)) {
                         $robj->live_url[$key] = $liveKey->live_url;
                     }
@@ -410,7 +416,7 @@ if (!$isCommandLine) { // not command line
                     } else {
                         error_log("Restreamer.json.php ERROR try again in 3 seconds " . json_encode($liveKey));
                         sleep(3);
-                        $liveKey = _getLiveKey($token);
+                        $liveKey = _getLiveKey($token, @$robj->liveTransmitionHistory_id, @$robj->type);
                         if (isset($liveKey->live_url)) {
                             $robj->live_url[$key] = $liveKey->live_url;
                         }
@@ -445,6 +451,9 @@ if (!$isCommandLine) { // not command line
                         unset($robj->restreamsDestinations[$key]);
                     } else {
                         $robj->restreamsDestinations[$key] = $newRestreamsDestination;
+                        if (!empty($liveKey->youtubeBroadcastIdToValidate)) {
+                            $robj->youtubeBroadcastIdsToValidate[$key] = $liveKey->youtubeBroadcastIdToValidate;
+                        }
                         if (!empty($fallbackRestreamsDestination)) {
                             $robj->restreamsFallbackDestinations[$key] = $fallbackRestreamsDestination;
                         }
@@ -1198,6 +1207,27 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         error_log("Restreamer.json.php startRestream finish");
     }
 
+    if (!$isATest && isset($launch) && is_object($launch) && $launch->accepted !== false) {
+        $validation = validateReusedYouTubeBroadcastsAfterStart($launch, $robj, $restreamsDestinations);
+        if ($validation === 'retry') {
+            // Restart only after a confirmed complete broadcast and a valid replacement key.
+            // The consumed validation entries keep this bounded across source/protocol retries.
+            flock($lockFileHandle, LOCK_UN);
+            fclose($lockFileHandle);
+            @unlink($lockFilePath);
+            $destinations = empty($separateRestreams) ? $robj->restreamsDestinations
+                : array($robj->restreamsDestinations[$robj->live_restreams_id]);
+            $fallback = empty($separateRestreams) ? '' : ($robj->restreamsFallbackDestinations[$robj->live_restreams_id] ?? '');
+            return startRestream($originalM3u8, $destinations, $logFile, $robj, 1, null, $fallback);
+        }
+        if ($validation === 'failed') {
+            flock($lockFileHandle, LOCK_UN);
+            fclose($lockFileHandle);
+            @unlink($lockFilePath);
+            return false;
+        }
+    }
+
     $robj->logFile = $logFile;
     notifyStreamer($robj);
     // 🔓 Release lock
@@ -1237,6 +1267,79 @@ function getRestreamFifoOutputTailOrEmpty($destinationUrl, $tcurl, array $fifoCo
     }
     rl_logEvent('fifo_output_enabled', array('destinationHost' => $destInfo['host'], 'streamMap' => $streamMaps[$sourceUrl]));
     return $outputTail;
+}
+
+function getYouTubeBroadcastStatusAfterStart($token, $historyId, $broadcastId)
+{
+    global $streamerURL;
+    $url = "{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?token={$token}";
+    $url .= '&liveTransmitionHistory_id=' . intval($historyId) . '&checkYouTubeBroadcast=' . rawurlencode($broadcastId);
+    try {
+        $context = stream_context_create(array('http' => array('timeout' => 10)));
+        $content = @file_get_contents($url, false, $context);
+        return is_string($content) ? json_decode($content) : null;
+    } catch (\Throwable $th) {
+        error_log('Restreamer.json.php YouTube post-start status is unavailable');
+        return null;
+    }
+}
+
+/**
+ * One read-only lifecycle check after resumed ingestion. Process progress alone cannot detect
+ * a broadcast that auto-stopped between key lookup and FFmpeg startup. Unknown/error responses
+ * leave the relay alone; only an explicitly complete, matching broadcast can replace its key.
+ */
+function validateReusedYouTubeBroadcastsAfterStart($launch, $robj, $destinations)
+{
+    global $separateRestreams;
+    $ids = empty($separateRestreams) ? array_keys($destinations) : array($robj->live_restreams_id);
+    $pending = array();
+    foreach ($ids as $id) {
+        $broadcastId = $robj->youtubeBroadcastIdsToValidate[$id] ?? '';
+        if (isValidYouTubeBroadcastId($broadcastId) && !empty($robj->restreamsToken[$id])) {
+            $pending[$id] = $broadcastId;
+            unset($robj->youtubeBroadcastIdsToValidate[$id]);
+        }
+    }
+    if (empty($pending)) {
+        return 'continue';
+    }
+    sleep(AUTOMATIC_RESTREAM_INITIAL_WARMUP_SECONDS);
+    $retry = false;
+    foreach ($pending as $id => $broadcastId) {
+        // A Stop during the warmup must not be undone by this recovery check.
+        if (!empty($launch->logFile) && file_exists($launch->logFile . '.completed')) {
+            return 'continue';
+        }
+        $status = getYouTubeBroadcastStatusAfterStart($robj->restreamsToken[$id], $robj->liveTransmitionHistory_id, $broadcastId);
+        if (!isYouTubeBroadcastConfirmedComplete($status, $broadcastId)) {
+            continue;
+        }
+        error_log('Restreamer.json.php YouTube broadcast completed during startup; requesting a replacement for destination ' . intval($id));
+        $key = _getLiveKey($robj->restreamsToken[$id], $robj->liveTransmitionHistory_id, 'decoded from request');
+        if (!empty($launch->logFile) && file_exists($launch->logFile . '.completed')) {
+            return 'continue';
+        }
+        if (!is_object($key) || !empty($key->error) || empty($key->newRestreamsDestination) ||
+            !isValidYouTubeBroadcastId($key->broadcast_id ?? null) || $key->broadcast_id === $broadcastId) {
+            // An ended broadcast must not remain a falsely healthy relay forever. Let the
+            // existing watchdog retry with its normal limits if preparing a new key failed.
+            stopAutomaticRestreamLaunch($launch, $robj);
+            return 'failed';
+        }
+        $robj->restreamsDestinations[$id] = $key->newRestreamsDestination;
+        $robj->restreamsFallbackDestinations[$id] = $key->fallbackRestreamsDestination;
+        $robj->live_url[$id] = $key->live_url;
+        $retry = true;
+    }
+    if ($retry) {
+        // Stop the relay feeding the ended broadcast before restarting, as the RTMPS fallback
+        // does. killIfIsRunning() only sees local processes, and a remote FFmpeg executor
+        // refuses a new launch while a process with the same keyword is still running.
+        stopAutomaticRestreamLaunch($launch, $robj);
+        return 'retry';
+    }
+    return 'continue';
 }
 
 function automaticRestreamInitialConnectionFailed($launch, $robj, $allowBlockingProbe = true)

@@ -3870,11 +3870,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
      *         "(re)start every one of this user's restream destinations" behavior used when
      *         $live_restreams_id is 0 is refused outright (isValidRecoveryRestreamRequest()),
      *         since a recovery must only ever touch the one destination that actually failed.
-     *       - No new destination/broadcast/key is ever created: getRestreamObject() loads the
-     *         existing Live_restreams row strictly by id and reuses its stored stream_url/
-     *         stream_key verbatim (this codebase has no YouTube/3rd-party Data API integration
-     *         that creates or manages a remote "broadcast" - restream destinations are static,
-     *         admin-configured RTMP(S) URLs). A structured 'existing_broadcast_reused' event is
+     *       - No new destination is created: getRestreamObject() loads the existing
+     *         Live_restreams row strictly by id. A manually configured destination reuses its
+     *         stored stream_url/stream_key verbatim; one connected through restream.ypt.me asks
+     *         getLiveKey.json.php for its key, which reuses the YouTube broadcast of this live
+     *         session while YouTube still has it live and creates a new one otherwise
+     *         (Live_restreams::getYouTubeBroadcastIdToReuse()). A structured 'existing_broadcast_reused' event is
      *         emitted on success and a 'recovery_requires_new_broadcast' event is emitted when
      *         the destination cannot be resumed (row missing or deliberately deactivated by the
      *         admin, status != 'a') - the operator must then reconfigure/re-enable the

@@ -198,7 +198,9 @@ class ObjectCacheMaintenance
                 }
                 $obsolete = $entry->getMTime() < $cutoff &&
                     (substr($path, -6) === '.cache' ||
-                     strpos($entry->getFilename(), '.object-cache-') === 0);
+                     strpos($entry->getFilename(), '.object-cache-') === 0 ||
+                     (str_replace('\\', '/', dirname($path)) === rtrim(str_replace('\\', '/', $root), '/') . '/LiveRestreamYouTubeBroadcast' &&
+                      preg_match('/^[1-9][0-9]*_[1-9][0-9]*\.json\z/', $entry->getFilename())));
                 if ($obsolete && @unlink($path)) {
                     $deleted++;
                 } else {

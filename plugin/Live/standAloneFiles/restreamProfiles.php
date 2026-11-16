@@ -947,11 +947,10 @@ function shouldUseRestreamFifoForDestination($destinationUrl, array $fifoConfig,
  * This is deliberately a pure, framework-independent function (no DB/class access) so it stays
  * unit-testable without loading Live.php - Live::restream() calls it as its very first check.
  *
- * Note: this codebase has no YouTube/3rd-party Data API integration that creates or manages a
- * remote "broadcast" - every restream destination (Live_restreams row) is a static,
- * admin-configured RTMP(S) URL with a persistent stream key. A "recovery restart" therefore
- * never creates anything new; it can only ever resume pushing to the exact same destination
- * that was already configured. This guard is the enforcement point for that invariant.
+ * Note: a destination connected through restream.ypt.me (OAuth) gets its key from
+ * getLiveKey.json.php, and for YouTube restream.ypt.me creates a broadcast. A recovery restart
+ * sends the broadcast it already has back (getLiveKeyBroadcastReuseQuery()), so YouTube keeps the
+ * same video while that broadcast is still live; otherwise a new one is created.
  */
 function isValidRecoveryRestreamRequest($live_restreams_id, $recoveryMode)
 {
@@ -959,4 +958,61 @@ function isValidRecoveryRestreamRequest($live_restreams_id, $recoveryMode)
         return true;
     }
     return !empty($live_restreams_id);
+}
+
+/**
+ * Query string restreamer.json.php appends to getLiveKey.json.php. Every request identifies the
+ * live session, so the Streamer can remember the YouTube broadcast restream.ypt.me created for
+ * it; automatic restarts (watchdog, reconnection) also ask to reuse that broadcast. A manual
+ * Start from the restream panel ('start') keeps getting a new broadcast, as before.
+ */
+function getLiveKeyBroadcastReuseQuery($liveTransmitionHistory_id, $requestType)
+{
+    $liveTransmitionHistory_id = intval($liveTransmitionHistory_id);
+    if ($liveTransmitionHistory_id <= 0) {
+        return '';
+    }
+    $query = "&liveTransmitionHistory_id={$liveTransmitionHistory_id}";
+    if ($requestType !== 'start') {
+        $query .= '&reuseBroadcast=1';
+    }
+    return $query;
+}
+
+function isValidYouTubeBroadcastId($broadcastId)
+{
+    return is_string($broadcastId) && preg_match('/^[A-Za-z0-9_-]{6,64}\z/', $broadcastId) === 1;
+}
+
+/**
+ * The broadcast id in a successful restream.ypt.me answer (only YouTube answers have one), or ''.
+ */
+function getYouTubeBroadcastIdFromRestreamerResponse($response)
+{
+    if (is_string($response)) {
+        $response = json_decode($response);
+    }
+    if (!is_object($response) || !isset($response->error) || $response->error !== false) {
+        return '';
+    }
+    if (empty($response->stream_key) || !isValidYouTubeBroadcastId($response->broadcast_id ?? null)) {
+        return '';
+    }
+    return $response->broadcast_id;
+}
+
+function getYouTubeBroadcastIdToValidate($response)
+{
+    if (!is_object($response) || ($response->reused_broadcast ?? false) !== true ||
+        ($response->broadcast_validation_supported ?? false) !== true) {
+        return '';
+    }
+    return getYouTubeBroadcastIdFromRestreamerResponse($response);
+}
+
+function isYouTubeBroadcastConfirmedComplete($response, $broadcastId)
+{
+    return is_object($response) && ($response->error ?? true) === false &&
+        isValidYouTubeBroadcastId($broadcastId) && ($response->broadcast_id ?? '') === $broadcastId &&
+        ($response->broadcast_status ?? '') === 'complete';
 }

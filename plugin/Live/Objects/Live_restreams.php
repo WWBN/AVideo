@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
+require_once dirname(__FILE__) . '/../standAloneFiles/restreamProfiles.php';
 
 class Live_restreams extends ObjectYPT {
 
@@ -146,6 +147,52 @@ class Live_restreams extends ObjectYPT {
         $rows = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         return $rows ? $rows : [];
+    }
+
+    // YouTube broadcast that restream.ypt.me created for this destination in this live session.
+    // A reconnection of the same session sends it back so YouTube keeps the same video while the
+    // broadcast is still live. Kept in the temporary cache: if it is lost, a new broadcast is
+    // created, which is what always happened before.
+    private static function getYouTubeBroadcastFile($live_restreams_id, $liveTransmitionHistory_id) {
+        $live_restreams_id = intval($live_restreams_id);
+        $liveTransmitionHistory_id = intval($liveTransmitionHistory_id);
+        if ($live_restreams_id <= 0 || $liveTransmitionHistory_id <= 0) {
+            return '';
+        }
+        return ObjectYPT::getTmpCacheDir() . 'LiveRestreamYouTubeBroadcast' . DIRECTORY_SEPARATOR . "{$live_restreams_id}_{$liveTransmitionHistory_id}.json";
+    }
+
+    public static function getYouTubeBroadcastIdToReuse($live_restreams_id, $liveTransmitionHistory_id) {
+        $file = self::getYouTubeBroadcastFile($live_restreams_id, $liveTransmitionHistory_id);
+        if (empty($file) || !file_exists($file)) {
+            return '';
+        }
+        global $global;
+        $maxAge = isset($global['objectCacheMaxAge']) ? max(60, intval($global['objectCacheMaxAge'])) : 259200;
+        $modified = @filemtime($file);
+        if ($modified === false || $modified < time() - $maxAge) {
+            return '';
+        }
+        $data = json_decode((string) @file_get_contents($file), true);
+        if (!is_array($data) || !isValidYouTubeBroadcastId($data['broadcast_id'] ?? null)) {
+            return '';
+        }
+        return $data['broadcast_id'];
+    }
+
+    public static function saveYouTubeBroadcastFromRestreamerResponse($live_restreams_id, $liveTransmitionHistory_id, $response) {
+        $broadcastId = getYouTubeBroadcastIdFromRestreamerResponse($response);
+        $file = self::getYouTubeBroadcastFile($live_restreams_id, $liveTransmitionHistory_id);
+        if (empty($broadcastId) || empty($file)) {
+            return false;
+        }
+        require_once __DIR__ . '/../../../objects/ObjectCacheMaintenance.php';
+        ObjectYPT::scheduleCacheMaintenance();
+        global $global;
+        $maxBytes = isset($global['objectCacheMaxBytes']) ? max(1, intval($global['objectCacheMaxBytes'])) : ObjectCacheMaintenance::DEFAULT_MAX_BYTES;
+        $maxFiles = isset($global['objectCacheMaxFiles']) ? max(1, intval($global['objectCacheMaxFiles'])) : ObjectCacheMaintenance::DEFAULT_MAX_FILES;
+        return ObjectCacheMaintenance::write(ObjectYPT::getTmpCacheDir(), $file,
+            json_encode(['broadcast_id' => $broadcastId, 'saved_at' => time()]), $maxBytes, $maxFiles) !== false;
     }
 
     private static function getProviderName($parameters) {

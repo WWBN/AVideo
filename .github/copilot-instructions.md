@@ -224,7 +224,14 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   within 10 min reuses the same `live_transmitions_history` row; each publish produces its own FLV and
   recorded video. `startRestream()` stops the destination's previous FFmpeg only after taking its start
   lock and, in separate mode, only for that destination id, so a reconnection restart replaces each
-  running relay but never kills the VideoPlaylistScheduler relay (id 0). Covered by
+  running relay but never kills the VideoPlaylistScheduler relay (id 0). A YouTube destination connected
+  through restream.ypt.me (`/d/git/htdocs/Restreamer`, `get_youtube.php`) previously got a new video ID
+  on every key request; automatic restarts send the session's stored `broadcast_id`
+  back (`reuse_broadcast_id`, `Live_restreams::getYouTubeBroadcastIdToReuse()`) and restream.ypt.me reuses it only
+  while YouTube still has it live. Inconclusive lookups return errors instead of creating another video.
+  Updated Streamer/broker pairs advertise support for one read-only post-start lifecycle check; only
+  confirmed completion can request a replacement. Broadcast JSON uses object-cache admission/expiry.
+  Covered by `tests/Unit/LiveRestreamYouTube*Test.php`. Also covered by
   `tests/Unit/LiveOnPublishRestreamInBackgroundTest.php`, `LiveRestreamProfilesTest.php`,
   `tests/live-restream-kill-stale-log-regression.php` and `tests/live-restream-start-concurrency-regression.php`
   (Linux, isolated container).

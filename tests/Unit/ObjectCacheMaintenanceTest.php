@@ -70,6 +70,21 @@ class ObjectCacheMaintenanceTest extends TestCase
         $this->assertTrue(\ObjectCacheMaintenance::deleteExpired($this->root, $file, time() - 60));
     }
 
+    public function testBroadcastJsonExpiresWithoutDeletingOtherJsonState(): void
+    {
+        mkdir($this->root . '/LiveRestreamYouTubeBroadcast');
+        mkdir($this->root . '/other');
+        foreach (['/LiveRestreamYouTubeBroadcast/1_2.json', '/LiveRestreamYouTubeBroadcast/other.json', '/other/1_2.json'] as $name) {
+            file_put_contents($this->root . $name, '{}');
+            touch($this->root . $name, time() - 120);
+        }
+        $result = \ObjectCacheMaintenance::cleanup($this->root, 60);
+        $this->assertSame(1, $result['deleted']);
+        $this->assertFileDoesNotExist($this->root . '/LiveRestreamYouTubeBroadcast/1_2.json');
+        $this->assertFileExists($this->root . '/LiveRestreamYouTubeBroadcast/other.json');
+        $this->assertFileExists($this->root . '/other/1_2.json');
+    }
+
     public function testCleanupSchedulingAndLocksDoNotBlockRequests(): void
     {
         $this->assertTrue(\ObjectCacheMaintenance::requestCleanup($this->root, 3600));
