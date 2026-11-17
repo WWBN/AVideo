@@ -245,6 +245,11 @@ $obj->setRrating(@$_POST['rrating']);
 $obj->setMade_for_kids(@$_POST['made_for_kids']);
 $obj->setExternalOptions($externalOptions);
 
+// SECURITY REVIEW (2026-11-17): GHSA-gvp4-h2fc-x6jv reported that a Videos Admin can set users_id_company on an
+// admin-owned video so a third user can delete it — NOT a vulnerability / DO NOT FIX: only the owner or a
+// Permissions::canAdminVideos() user passes Video::canEdit() above, and a Videos Admin can already delete any video and
+// reassign users_id (the owner) to that same user below, so this field grants nothing new (trusted staff action).
+// If re-reported, see the full triage in the advisory thread instead of re-patching.
 if (!empty($_REQUEST['users_id_company'])) {
     $rowsPath[] = array('line' => __LINE__, 'ElapsedTime' => getElapsedTime());
     $obj->setUsers_id_company(@$_REQUEST['users_id_company']);

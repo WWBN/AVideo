@@ -3760,6 +3760,8 @@ if (!class_exists('Video')) {
             }
 
             // if you're not admin you can only manage your videos
+            // SECURITY REVIEW (2026-11-17): users_id_company is owner-equivalent by design (affiliate company) — see the
+            // GHSA-gvp4-h2fc-x6jv comment in objects/videoAddNew.json.php before narrowing this.
             $users_id = [$this->users_id, $this->users_id_company];
             if ($advancedCustomUser->userCanChangeVideoOwner) {
                 $video = new Video("", "", $this->id); // query again to make sure the user is not changing the owner
