@@ -21,6 +21,10 @@ function _session_regenerate_id() { UserStore::$regenerated++; }
 
 class UserStore
 {
+    public static $beforeRead;
+    public static $allowLoginAttempt = true;
+    public static $reservedAttempts = 0;
+    public static $refundedAttempts = 0;
     public static $rows = [];
     public static $writes = [];
     public static $failWrite = 0;
@@ -43,7 +47,15 @@ class ObjectYPT
 
 class AVideoPlugin
 {
-    public static function onUserSignIn($id) { UserStore::$signIns[] = $id; }
+    public static $objectData = [];
+    public static $onSignIn;
+    public static function onUserSignIn($id) {
+        UserStore::$signIns[] = $id;
+        if (self::$onSignIn) {
+            (self::$onSignIn)($id);
+        }
+    }
+    public static function getObjectData($name) { return self::$objectData[$name] ?? null; }
 }
 
 class UserGroups
@@ -63,6 +75,9 @@ class sqlDAL
 
     public static function readSql($sql, $formats = '', $values = [], $refresh = false)
     {
+        if (UserStore::$beforeRead) {
+            (UserStore::$beforeRead)($sql, $values);
+        }
         if (strpos($sql, 'LOCATE(') !== false) {
             $matches = [];
             foreach (UserStore::$rows as $id => $row) {
@@ -134,13 +149,10 @@ class sqlDAL
 
 // Extract whole methods with PHP tokens, so braces in strings/comments cannot truncate them.
 // Only infrastructure is stubbed: account construction, persistence and the login decision run real code.
-function loadSocialLoginUserFixture()
+function extractProductionMethods($file, array $names)
 {
-    $source = file_get_contents(dirname(__DIR__, 2) . '/objects/user.php');
-    $wanted = array_flip(['__construct', 'load', 'getUserDb', 'getEmail', 'getIsAdmin', 'getPhotoURL',
-        'setPhotoURL', 'setEmail', 'setName', 'setIsAdmin', 'setEmailVerified', 'getEmailVerified', 'getIs_company', 'save',
-        'userExists', 'createUserIfNotExists', 'getSocialLoginUserId', 'addExternalOptions',
-        'setExternalOptions', 'getExternalOption', 'decodeExternalOption', 'login', 'find', 'setLastLogin']);
+    $source = file_get_contents(dirname(__DIR__, 2) . '/' . $file);
+    $wanted = array_flip($names);
     $methods = '';
     $tokens = token_get_all($source);
     foreach ($tokens as $index => $token) {
@@ -178,6 +190,15 @@ function loadSocialLoginUserFixture()
     if ($wanted) {
         throw new \RuntimeException('Missing production methods: ' . implode(', ', array_keys($wanted)));
     }
+    return $methods;
+}
+
+function loadSocialLoginUserFixture()
+{
+    $methods = extractProductionMethods('objects/user.php', ['__construct', 'load', 'getUserDb', 'getEmail', 'getIsAdmin', 'getPhotoURL',
+        'setPhotoURL', 'setEmail', 'setName', 'setIsAdmin', 'setEmailVerified', 'getEmailVerified', 'getIs_company', 'save',
+        'userExists', 'createUserIfNotExists', 'getSocialLoginUserId', 'getVerifiedCredentialsUserId', 'addExternalOptions',
+        'setExternalOptions', 'getExternalOption', 'decodeExternalOption', 'login', 'find', 'setLastLogin']);
     eval('namespace ' . __NAMESPACE__ . ';
         #[\\AllowDynamicProperties]
         class User {
@@ -189,7 +210,10 @@ function loadSocialLoginUserFixture()
             public const USER_LOGGED = 0, USER_NOT_VERIFIED = 1, USER_NOT_FOUND = 2, CAPTCHA_ERROR = 3, SYSTEM_ERROR = 5;
             public static function isAdmin() { return false; }
             public static function isLogged() { return !empty($_SESSION["user"]["id"]); }
-            public static function getId() { return 0; }
+            public static function getId() { return intval($_SESSION["user"]["id"] ?? 0); }
+            public static $loginCheckedPassword = false;
+            private static function reserveLoginAttempt($user) { UserStore::$reservedAttempts++; return UserStore::$allowLoginAttempt; }
+            private static function refundLoginAttempt($user) { UserStore::$refundedAttempts++; }
             public static function _recommendChannelName($name, $try, $user, $id) { return $name ?: $user; }
             public static function getUserHash($id, $valid = "") { return "fixture-token-" . $id; }
             public static function checkLoginAttempts() { return true; }

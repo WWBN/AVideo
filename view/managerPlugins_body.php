@@ -506,6 +506,15 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                     }
                     //var txt = '<span id="plugin' + row.uuid + '" style="margin-top: -60px; position: absolute;"></span><a href="#plugin' + row.uuid + '">' + row.name + "</a> (" + row.dir + ")<br><small class='text-muted'>UUID: " + row.uuid + "</small>";
                     var txt = '<span id="plugin' + row.uuid + '" style="margin-top: -60px; position: absolute;"></span><a href="#plugin' + row.uuid + '">' + row.name + "</a> <small class='text-muted'>(" + row.dir + ")</small>";
+                    // Free = distributed with AVideo, Premium = own repository (see Plugin::getDistributionTags())
+                    if (row.isCorePlugin) {
+                        txt += ' <span class="label label-success"><i class="fas fa-check"></i> <?php echo __('Free'); ?></span>';
+                    } else if (typeof row.isCorePlugin !== 'undefined') {
+                        txt += ' <span class="label label-warning"><i class="fas fa-crown"></i> <?php echo __('Premium'); ?></span>';
+                    }
+                    if (row.isDeprecated) {
+                        txt += ' <span class="label label-danger"><i class="fas fa-times-circle"></i> <?php echo __('Deprecated'); ?></span>';
+                    }
 
 
                     txt += "<br> " + switchBtn + ' &nbsp; ';

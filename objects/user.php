@@ -1302,11 +1302,18 @@ if (typeof gtag !== \"function\") {
     private static $loginCheckedPassword = false;
 
     /** Verify this credential pair without trusting or changing the current session. */
-    public function getVerifiedCredentialsUserId($encodedPass = false)
+    public function getVerifiedCredentialsUserId($encodedPass = false, $checkLoginAttempts = false)
     {
+        if ($checkLoginAttempts && !self::reserveLoginAttempt($this->user)) {
+            return 0;
+        }
         $user = $this->find($this->user, $this->password, true, $encodedPass);
         // Legacy username/email lookups can return an inactive row despite mustBeactive.
-        return empty($user['id']) || ($user['status'] ?? '') !== 'a' ? 0 : (int) $user['id'];
+        $users_id = empty($user['id']) || ($user['status'] ?? '') !== 'a' ? 0 : (int) $user['id'];
+        if ($checkLoginAttempts && $users_id) {
+            self::refundLoginAttempt($this->user);
+        }
+        return $users_id;
     }
 
     public function login($noPass = false, $encodedPass = false, $ignoreEmailVerification = false)
@@ -2767,7 +2774,7 @@ if (typeof gtag !== \"function\") {
         }
     }
 
-    public static function createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false, $externalOptions = null)
+    public static function createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false, $externalOptions = null, $onlyCreate = false)
     {
         global $global, $advancedCustomUser;
         $userId = 0;
@@ -2793,6 +2800,10 @@ if (typeof gtag !== \"function\") {
             }
             return $userId;
         } else {
+            // External identity registration must not mutate an account that won the username race.
+            if ($onlyCreate) {
+                return false;
+            }
             $userObj = new User($userId);
             //$userObj->setEmail($email);
             //$userObj->setName($name);

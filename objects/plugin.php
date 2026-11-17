@@ -270,7 +270,9 @@ class Plugin extends ObjectYPT
                         $obj->data_object_info = $p->getDataObjectInfo();
                         $obj->databaseScript = !empty(static::getDatabaseFile($value));
                         $obj->pluginMenu = $p->getPluginMenu();
-                        $obj->tags = $p->getTags();
+                        $obj->tags = static::getDistributionTags($value, $p->getTags());
+                        $obj->isCorePlugin = static::isCorePlugin($value);
+                        $obj->isDeprecated = static::hasTag($obj->tags, PluginTags::$DEPRECATED);
                         $obj->dependencies = static::getDependenciesInfo($p);
                         $obj->pluginversion = $p->getPluginVersion();
                         $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace->{$obj->name}) ? $pluginsMarketplace->{$obj->name}->version : 0);
@@ -290,6 +292,56 @@ class Plugin extends ObjectYPT
             }
         }
         return $getAvailablePlugins;
+    }
+
+    /**
+     * Plugin folders distributed with AVideo itself (tracked in the main repository). Every other folder is a premium
+     * plugin with its own repository (or a third-party plugin). Keep in sync with the repository:
+     * tests/Unit/PluginDistributionTagsTest.php compares this list with the plugin folders tracked by git.
+     */
+    public static $corePluginDirs = [
+        'AD_Overlay', 'AD_Server', 'AD_Server_Location', 'AdBlockerDetector', 'ADs', 'AdsForJesus', 'AI', 'API',
+        'Articles', 'Audit', 'AuthorizeNet', 'AutoPostOnSocialMedia', 'BitLy', 'BlockonomicsYPT', 'Bookmark',
+        'BTCPayments', 'BulkEmbed', 'Cache', 'CDN', 'CloneSite', 'CookieAlert', 'CustomizeAdvanced', 'CustomizeUser',
+        'DiscordNotify', 'FirstPageChannelList', 'FloatVideo', 'Gallery', 'Hotkeys', 'ImageGallery', 'JustWatch',
+        'Layout', 'Live', 'LiveLinks', 'LoginApple', 'LoginControl', 'LoginFacebook', 'LoginGoogle', 'LoginLinkedin',
+        'LoginTwitter', 'LoginWordPress', 'LoginYahoo', 'MaintenanceMode', 'Meet', 'MobileManager', 'MobileYPT',
+        'MonetizeUsers', 'NextButton', 'OptionsTest', 'PayPalYPT', 'Permissions', 'PHPBB3', 'PlayerSkins', 'PlayLists',
+        'PredefinedCategory', 'RazorPayYPT', 'ReportVideo', 'Scheduler', 'SeekButton', 'Shorts', 'SlackBot',
+        'SlackNotify', 'SocialMediaPublisher', 'StripeYPT', 'TheaterButton', 'TopMenu', 'User_Location',
+        'UserConnections', 'UserNotifications', 'VideoLandscapeFullscreen', 'VideoLogoOverlay', 'VideosStatistics',
+        'VideoTags', 'VimeoAPI', 'VR360', 'WebRTC', 'WWBNIndex', 'YouPHPFlix2', 'YouTubeAPI', 'YPTSocket', 'YPTWallet',
+    ];
+
+    public static function isCorePlugin($dir)
+    {
+        return in_array($dir, static::$corePluginDirs, true);
+    }
+
+    public static function hasTag($tags, $tag)
+    {
+        foreach ((array) $tags as $value) {
+            if (is_array($value) && isset($value[3]) && $value[3] === $tag[3]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Replaces the Free/Premium tags a plugin declares (often outdated) with the real one: Free when the plugin is
+     * distributed with AVideo, Premium otherwise. Every other tag (Deprecated included) is kept.
+     */
+    public static function getDistributionTags($dir, $tags)
+    {
+        $return = [static::isCorePlugin($dir) ? PluginTags::$FREE : PluginTags::$PREMIUM];
+        foreach ((array) $tags as $value) {
+            if (static::hasTag([$value], PluginTags::$FREE) || static::hasTag([$value], PluginTags::$PREMIUM)) {
+                continue;
+            }
+            $return[] = $value;
+        }
+        return $return;
     }
 
     /**
@@ -650,8 +702,8 @@ class PluginTags
     public static $LOGIN = ['primary', 'Login', '<i class="fas fa-lock"></i>', 'LOGIN'];
     public static $MOBILE = ['primary', 'Mobile', '<i class="fas fa-mobile-alt"></i>', 'MOBILE'];
     public static $PLAYER = ['primary', 'Player', '<i class="fas fa-play-circle"></i>', 'PLAYER'];
-    public static $FREE = ['info', 'Free', '<i class="fas fa-check"></i>', 'FREE'];
-    public static $PREMIUM = ['info', 'Premium', '<i class="fas fa-thumbs-up"></i>', 'PREMIUM'];
+    public static $FREE = ['success', 'Free', '<i class="fas fa-check"></i>', 'FREE'];
+    public static $PREMIUM = ['warning', 'Premium', '<i class="fas fa-crown"></i>', 'PREMIUM'];
     public static $DEPRECATED = ['danger', 'Deprecated', '<i class="fas fa-times-circle"></i>', 'DEPRECATED'];
     public static $UNDERDEVELOPMENT = ['warning', 'Under Development', '<i class="fa-solid fa-terminal"></i>', 'UNDERDEVELOPMENT'];
 }
