@@ -76,7 +76,13 @@ function installerValidateURL($url, $label) {
     }
     return rtrim($url, '/') . '/';
 }
-function installerDatabaseMessage($code) {
+function installerDatabaseMessage($code, array $data = []) {
+    if ($code === 3159) {
+        return 'MySQL/MariaDB (3159): The database server only accepts encrypted connections. Open "Encrypted connection (SSL/TLS)" and choose an encrypted option.';
+    }
+    if ($code === 2002 && ($data['databaseSSL'] ?? '0') !== '0') {
+        return 'MySQL/MariaDB (2002): The encrypted connection could not be established. Check the CA certificate file and that the database host matches the name in the server certificate (or choose not to verify it), then check the service, host, and port.';
+    }
     // MySQL client errors can use the operating system language.
     $messages = [
         1044 => 'The database account does not have access to this database.',
@@ -113,7 +119,7 @@ function installerDatabaseHelp($code, array $data) {
     $connect = $client . ' --host=' . installerQuote($host) . ' --port=' . $port . ' --user=' . installerQuote($data['databaseUser']) . ' --password';
     if (in_array($code, [1044, 1045, 1142, 1143, 1227], true)) {
         return ['title' => 'MySQL / MariaDB access',
-            'text' => 'Check your username and password. Test the connection using the command below. If permissions are missing, a database administrator must run the SQL; replace ACCOUNT_HOST with the MySQL account host (usually localhost for a local connection). The terminal will prompt for the password.',
+            'text' => 'Check your username and password. Test the connection using the command below. If permissions are missing, a database administrator must run the SQL; replace ACCOUNT_HOST with the MySQL account host (usually localhost for a local connection). The terminal will prompt for the password.' . (($data['databaseSSL'] ?? '0') === '0' ? ' MariaDB also answers "Access denied" when it only accepts encrypted connections: in that case open "Encrypted connection (SSL/TLS)" and choose an encrypted option.' : ''),
             'command' => $connect,
             'sql' => "CREATE DATABASE IF NOT EXISTS `" . $db . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\nGRANT ALL PRIVILEGES ON `" . $db . "`.* TO '" . $user . "'@'ACCOUNT_HOST';"];
     }
@@ -155,6 +161,7 @@ function installerValidate(array $post, $testing = false) {
     if (is_int($mode)) { $post['createTables'] = (string) $mode; }
     $data['createTables'] = installerField($post, 'createTables', '2');
     if (!in_array($data['createTables'], ['0', '1', '2'], true)) { throw new InstallerFailure('Select a valid database setup option.'); }
+    installerValidateSSL($post, $data);
     if ($testing) { return $data; }
     $path = installerField($post, 'systemRootPath', installerRoot());
     if (realpath($path) !== realpath(installerRoot())) { throw new InstallerFailure('The application path must point to this AVideo installation.'); }
@@ -175,6 +182,36 @@ function installerValidate(array $post, $testing = false) {
     return $data;
 }
 
+function installerValidateSSL(array $post, array &$data) {
+    $data['databaseSSL'] = installerField($post, 'databaseSSL', '0');
+    if (!in_array($data['databaseSSL'], ['0', 'encrypt', 'verify'], true)) { throw new InstallerFailure('Select a valid encrypted connection option.'); }
+    $data['databaseSSLCA'] = trim(installerField($post, 'databaseSSLCA'));
+    if ($data['databaseSSLCA'] === '') { return; }
+    if ($data['databaseSSL'] !== 'verify') { throw new InstallerFailure('The CA certificate file is used only with "Encrypted, verify the server certificate".'); }
+    if (strlen($data['databaseSSLCA']) > 4096 || !is_file($data['databaseSSLCA']) || !is_readable($data['databaseSSLCA'])) {
+        throw new InstallerFailure('The CA certificate file was not found or cannot be read by the web server. Enter the full path of the file on this server.');
+    }
+}
+// Value of $global['mysqlSSL'], read by _mysql_new_connection() (objects/functionsMySQL.php) on every request.
+// The installer stays self-contained (it runs before the application files are usable), so it does not load that file.
+function installerSSLConfig(array $data) {
+    switch ($data['databaseSSL'] ?? '0') {
+        case 'encrypt': return true;
+        case 'verify': return ($data['databaseSSLCA'] ?? '') !== '' ? ['ca' => $data['databaseSSLCA']] : ['verifyServerCert' => true];
+    }
+    return false;
+}
+// Same connection the site will open with that $global['mysqlSSL'] value.
+function installerConnect($mysqli, array $data) {
+    $ssl = installerSSLConfig($data);
+    $flags = 0;
+    if ($ssl !== false) {
+        if (!empty($ssl['ca'])) { $mysqli->ssl_set(null, null, $ssl['ca'], null, null); }
+        $flags = MYSQLI_CLIENT_SSL | (is_array($ssl) ? MYSQLI_CLIENT_SSL_VERIFY_SERVER_CERT : MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+    }
+    $mysqli->real_connect($data['databaseHost'], $data['databaseUser'], $data['databasePass'], null, (int) $data['databasePort'], null, $flags);
+}
+
 function installerConfig(array $data) {
     $settings = [
         'configurationVersion' => 3.1, 'disableAdvancedConfigurations' => 0,
@@ -192,6 +229,9 @@ function installerConfig(array $data) {
     }
     foreach (['mysqlHost' => 'databaseHost', 'mysqlPort' => 'databasePort', 'mysqlUser' => 'databaseUser', 'mysqlPass' => 'databasePass', 'mysqlDatabase' => 'databaseName'] as $variable => $key) {
         $content .= '$' . $variable . ' = ' . var_export($data[$key], true) . ";\n";
+    }
+    if (($ssl = installerSSLConfig($data)) !== false) {
+        $content .= "\$global['mysqlSSL'] = " . var_export($ssl, true) . ";\n";
     }
     return $content . "\n// Do not change the bootstrap below.\nrequire_once \$global['systemRootPath'] . 'objects/include_config.php';\n";
 }

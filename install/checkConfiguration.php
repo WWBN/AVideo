@@ -40,7 +40,7 @@ try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     $mysqli = mysqli_init();
     $mysqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 8);
-    $mysqli->real_connect($data['databaseHost'], $data['databaseUser'], $data['databasePass'], null, (int) $data['databasePort']);
+    installerConnect($mysqli, $data);
     $mysqli->set_charset('utf8mb4');
     $steps[] = ['label' => 'MySQL / MariaDB connection confirmed'];
     $stage = 'database';
@@ -100,7 +100,7 @@ try {
     $help = [];
     if ($e instanceof InstallerFailure) { $message = $e->getMessage(); $help = $e->help; }
     elseif ($e instanceof mysqli_sql_exception) {
-        $message = installerDatabaseMessage($e->getCode());
+        $message = installerDatabaseMessage($e->getCode(), $data);
         $help = installerDatabaseHelp($e->getCode(), $data);
     }
     installerLog($e, $stage);
