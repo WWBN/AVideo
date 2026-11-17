@@ -56,6 +56,12 @@ try {
 
     // Process each table found in SQL
     foreach ($parser->tables as $table) {
+        // SECURITY REVIEW (2026-11-17): GHSA-xf32-35pv-w6pw reported that a crafted table/field name in
+        // createTableSQL is written unescaped into the generated plugin's PHP — NOT a vulnerability / DO NOT FIX:
+        // ADMIN SELF-ACTION. Only an admin with disableAdvancedConfigurations off reaches this (CSRF-guarded), and
+        // that same admin can already upload any plugin ZIP with arbitrary PHP (objects/pluginImport.json.php).
+        // This tool is a code generator: its output is code the admin chooses to install. If re-reported, see the
+        // full triage in the advisory thread instead of re-patching.
         $tableName = $table['name'];
         $response['tables'][] = $tableName;  // Add table name to response
 
