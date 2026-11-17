@@ -168,6 +168,52 @@ function getMySQLDate()
     return $row;
 }
 
+/**
+ * SSL/TLS settings for the database connection, from $global['mysqlSSL'] in videos/configuration.php.
+ * true encrypts without checking the server certificate; an array may set ca, capath, cert, key,
+ * cipher and verifyServerCert (default: checked when ca or capath is set). Returns false when unset.
+ */
+function getMySQLSSLConnectionSettings($config)
+{
+    if (empty($config)) {
+        return false;
+    }
+    if (!is_array($config)) {
+        $config = [];
+    }
+    $settings = ['key' => null, 'cert' => null, 'ca' => null, 'capath' => null, 'cipher' => null];
+    foreach (array_keys($settings) as $name) {
+        if (!empty($config[$name]) && is_string($config[$name])) {
+            $settings[$name] = $config[$name];
+        }
+    }
+    if (isset($config['verifyServerCert'])) {
+        $settings['verifyServerCert'] = !empty($config['verifyServerCert']);
+    } else {
+        $settings['verifyServerCert'] = !empty($settings['ca']) || !empty($settings['capath']);
+    }
+    $settings['flags'] = MYSQLI_CLIENT_SSL | ($settings['verifyServerCert'] ? MYSQLI_CLIENT_SSL_VERIFY_SERVER_CERT : MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+    return $settings;
+}
+
+/**
+ * Opens a database connection like new mysqli(), over SSL/TLS when $global['mysqlSSL'] is set.
+ */
+function _mysql_new_connection($host, $user, $pass, $database = '', $port = null)
+{
+    global $global;
+    $ssl = getMySQLSSLConnectionSettings($global['mysqlSSL'] ?? false);
+    if (empty($ssl)) {
+        return new mysqli($host, $user, $pass, $database, $port);
+    }
+    $mysqli = mysqli_init();
+    if (!empty($ssl['key']) || !empty($ssl['cert']) || !empty($ssl['ca']) || !empty($ssl['capath']) || !empty($ssl['cipher'])) {
+        $mysqli->ssl_set($ssl['key'], $ssl['cert'], $ssl['ca'], $ssl['capath'], $ssl['cipher']);
+    }
+    $mysqli->real_connect($host, $user, $pass, $database, empty($port) ? null : (int) $port, null, $ssl['flags']);
+    return $mysqli;
+}
+
 function _mysql_connect($persistent = false, $try = 0)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed, $mysql_connect_is_persistent, $isStandAlone;
@@ -206,7 +252,7 @@ function _mysql_connect($persistent = false, $try = 0)
             //_error_log('MySQL Connect IP=' . getRealIpAddr() . ' UA=' . $_SERVER['HTTP_USER_AGENT'] . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
             $mysql_connect_is_persistent = $persistent;
-            $global['mysqli'] = new mysqli(($persistent ? 'p:' : '') . $mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
+            $global['mysqli'] = _mysql_new_connection(($persistent ? 'p:' : '') . $mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
             if (isCommandLineInterface() && !empty($global['createDatabase'])) {
                 $createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
                 _error_log($createSQL);
@@ -526,7 +572,7 @@ function dumpMySQLDatabase($filePath, $extraOptions = [], &$status = [], $bfile 
     }
 
     // Create a connection to the database to retrieve all table names
-    $connection = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort);
+    $connection = _mysql_new_connection($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort);
     if ($connection->connect_error) {
         _error_log("Connection failed: " . $connection->connect_error);
         return false;
@@ -643,7 +689,7 @@ function restoreMySQLBackup($filename)
     echo "Restoring MySQL backup from file: {$filename}" . PHP_EOL;
 
     // Step 1: Create a connection to the MySQL server
-    $mysqli = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', $mysqlPort);
+    $mysqli = _mysql_new_connection($mysqlHost, $mysqlUser, $mysqlPass, '', $mysqlPort);
     if ($mysqli->connect_error) {
         echo "Connection failed: " . $mysqli->connect_error . PHP_EOL;
         return false;

@@ -70,6 +70,8 @@ Before completing any relevant code change in AVideo, the Encoder or its plugins
 Before writing any new code, search the repository for existing logic:
 - Global helpers: `objects/functions*.php`
 - Database layer: `objects/mysql_dal.php` — use `sqlDAL::readSql()` / `sqlDAL::writeSql()`
+- New database connections: `_mysql_new_connection()` (Streamer `objects/functionsMySQL.php`, Encoder
+  `objects/mysqlConnection.php`), never `new mysqli()`, or `$global['mysqlSSL']` (SSL-only servers) is ignored
 - Security filters: `objects/functionsSecurity.php` — use `$securityFilter`, `xss_esc()`, `htmlspecialchars()`
 - Auth checks: `User::isLogged()`, `User::isAdmin()`, `User::getId()` (`objects/user.php`)
 - Logging: `_error_log($msg, AVideoLog::$ERROR)` — never `echo` errors to normal users

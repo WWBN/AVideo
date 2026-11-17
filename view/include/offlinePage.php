@@ -28,7 +28,7 @@ function isMySQLRunning() {
     global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase;
 
     try {
-        $mysqli = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase);
+        $mysqli = function_exists('_mysql_new_connection') ? _mysql_new_connection($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase) : new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase);
         if ($mysqli->connect_error) {
             return false;
         }
