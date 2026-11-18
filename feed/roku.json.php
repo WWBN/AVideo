@@ -7,7 +7,7 @@ if(empty($rows)){
 }
 
 header('Content-Type: application/json');
-$cacheFeedName = "feedCache_ROKU" . json_encode($_REQUEST);
+$cacheFeedName = "feedCache_ROKU" . $feedCacheSuffix;
 $lifetime = 43200;
 $output = ObjectYPT::getCache($cacheFeedName, $lifetime);
 if (empty($output)) {
@@ -17,7 +17,7 @@ if (empty($output)) {
     $obj->lastUpdated = date('c');
     $obj->movies = [];
 
-    $cacheName = "feedCache_ROKU_movies".json_encode($_REQUEST);
+    $cacheName = "feedCache_ROKU_movies" . $feedCacheSuffix;
 
     $movies = ObjectYPT::getCache($cacheName, 0);
 

@@ -59,6 +59,7 @@ if (!empty($_GET['channelName'])) {
 
 $cacheName = "feedCache" . md5(json_encode($_REQUEST));
 $rows = ObjectYPT::getCache($cacheName, 0);
+$feedRowsFromCache = !empty($rows);
 if (empty($rows)) {
     // send $_REQUEST['catName'] to be able to filter by category
     $sort = @$_POST['sort'];
@@ -81,10 +82,19 @@ if (empty($rows)) {
     $rows = object_to_array($rows);
 }
 // Feeds carry direct media URLs and their outputs are cached for every viewer, so a title
-// that requires a mandatory playback group is left out for everyone.
+// that requires a mandatory playback group or a video password is left out for everyone.
 if (is_array($rows)) {
     foreach ($rows as $feedRowKey => $feedRow) {
-        if (PlaybackAccess::isRestricted($feedRow['id'] ?? 0)) {
+        if ($feedRowsFromCache) {
+            // Cached metadata may predate a password change or omit the presence flag.
+            $feedVideo = Video::getVideoLight($feedRow['id'] ?? 0, true);
+            if (empty($feedVideo)) {
+                unset($rows[$feedRowKey]);
+                continue;
+            }
+            $feedRow['video_password'] = $feedVideo['video_password'] ?? '';
+        }
+        if (PlaybackAccess::isRestricted($feedRow['id'] ?? 0) || !empty($feedRow['video_password'])) {
             unset($rows[$feedRowKey]);
         }
     }
@@ -109,6 +119,9 @@ if (!empty($_REQUEST['program_id'])) {
 if (empty($description)) {
     $description = $title;
 }
+// Output caches (including Roku movies) must match the filtered catalog, and must not
+// reuse entries generated before password/playback restrictions were applied.
+$feedCacheSuffix = json_encode($_REQUEST) . ':filtered:' . md5(json_encode(array_column((array) $rows, 'id')));
 //var_dump($title, $cacheName, $_REQUEST);exit;
 if (!empty($_REQUEST['roku'])) {
     include $global['systemRootPath'] . 'feed/roku.json.php';

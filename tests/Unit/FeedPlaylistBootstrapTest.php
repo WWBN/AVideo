@@ -32,7 +32,10 @@ class AVideoPlugin {
 }
 class User { static function getId() { return 0; } }
 class ObjectYPT {
-    static function getCache($key, $ttl) { return $GLOBALS['feedScenario'] === 'warm' ? [['id' => 21]] : []; }
+    static function getCache($key, $ttl) {
+        if ($GLOBALS['feedScenario'] === 'passwordWarm') { return [['id' => 21, 'video_password' => ''], ['id' => 22, 'video_password' => '1']]; }
+        return $GLOBALS['feedScenario'] === 'warm' ? [['id' => 21]] : [];
+    }
     static function setCache($key, $value) {}
 }
 class PlaybackAccess { static function isRestricted($id) { return $id === 99; } }
@@ -42,8 +45,14 @@ PHP
         $this->write('objects/video.php', <<<'PHP'
 <?php
 class Video {
+    static function getVideoLight($id, $refreshCache = false) {
+        return ['id' => $id, 'video_password' => $id === 22 ? '1' : ''];
+    }
     static function getAllVideos(...$args) {
         $GLOBALS['feedVideoArguments'] = $args;
+        if ($GLOBALS['feedScenario'] === 'password') {
+            return [['id' => 21, 'video_password' => ''], ['id' => 22, 'video_password' => '1']];
+        }
         return empty($_REQUEST['program_id']) ? [['id' => 21]] : [['id' => 21], ['id' => 99]];
     }
 }
@@ -125,6 +134,20 @@ PHP
     public function testDisabledFeedsRemainDenied()
     {
         $this->assertSame(['denied' => 'Feeds are disabled'], $this->render('disabled'));
+    }
+
+    // GHSA-wvrp-vfvf-xc2c: every feed format prints a direct media URL per row, so a
+    // password-protected video must never reach them (cold query or cached rows).
+    public function testPasswordProtectedVideosAreLeftOutOfEveryFeedFormat()
+    {
+        foreach (['password', 'passwordWarm'] as $scenario) {
+            foreach (['', 'mrss', 'roku', 'rokuSearch', 'vizio'] as $format) {
+                foreach ([true, false] as $program) {
+                    $rows = $this->render($scenario, $format, $program)['rows'];
+                    $this->assertSame([['id' => 21, 'video_password' => '']], $rows, "$scenario/$format");
+                }
+            }
+        }
     }
 
     public function testOrdinaryFeedStillUsesCatalogScope()

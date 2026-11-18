@@ -155,7 +155,7 @@ function rowToVizioSearch($row)
 header('Content-Type: application/json');
 
 // Define cache settings
-$cacheFeedName = "feedCache_VIZIO_ConfigurationFeed" . json_encode($_REQUEST);
+$cacheFeedName = "feedCache_VIZIO_ConfigurationFeed" . $feedCacheSuffix;
 $lifetime = 43200;
 $output = ObjectYPT::getCache($cacheFeedName, $lifetime);
 

@@ -2,7 +2,7 @@
 //header('Content-Type: text/xml; charset=UTF8');
 //header("Content-Type: application/rss+xml; charset=UTF8");
 header("Content-Type: application/rss+xml;");
-$cacheFeedName = "feedCacheMRSS" . json_encode($_REQUEST);
+$cacheFeedName = "feedCacheMRSS" . $feedCacheSuffix;
 $lifetime = 43200;
 $feed = ObjectYPT::getCache($cacheFeedName, $lifetime);
 $link = "{$link}/mrss";

@@ -5,7 +5,7 @@ require_once __DIR__.'/rokuFunctions.php';
 header('Content-Type: application/json');
 
 // Define cache settings
-$cacheFeedName = "feedCache_ROKU_SearchFeed" . json_encode($_REQUEST);
+$cacheFeedName = "feedCache_ROKU_SearchFeed" . $feedCacheSuffix;
 $lifetime = 43200;
 $output = ObjectYPT::getCache($cacheFeedName, $lifetime);
 
