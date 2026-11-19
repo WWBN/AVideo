@@ -5,14 +5,13 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 
-$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
-$walletObject = AVideoPlugin::getObjectData("YPTWallet");
-$paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
-
 // HTTP contract with PayPal: 200 = handled or not ours (do not resend), 400 = not authentic,
 // 500 = could not be handled now (PayPal resends it). Bodies, headers and payer data are never logged.
 $output = false;
 try {
+    $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+    $walletObject = AVideoPlugin::getObjectData("YPTWallet");
+    $paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
     if (empty($paypal) || empty($plugin)) {
         throw new RuntimeException('PayPalYPT and YPTWallet must be enabled');
     }
@@ -78,6 +77,14 @@ try {
         PayPalYPT::recordDelivery('webhook', $eventType);
     }
 } catch (\Throwable $error) {
+    http_response_code(500);
+    // Location and correlation only: exception messages can contain provider
+    // bodies, credentials or payer data. Do not copy them into this diagnostic.
+    avideoWriteRequestDiagnostic('paypal_webhook_error', [
+        'class' => get_class($error),
+        'file' => avideoDiagnosticLocation($error->getFile()),
+        'line' => $error->getLine(),
+    ]);
     _error_log('PayPal webhook: payment processing failed; retry delivery: '
         . (class_exists('PayPalYPT') ? PayPalYPT::describeApiError($error) : get_class($error)), AVideoLog::$ERROR);
     http_response_code(500);
