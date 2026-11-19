@@ -2,7 +2,7 @@
 //header('Content-Type: text/xml; charset=UTF8');
 //header("Content-Type: application/rss+xml; charset=UTF8");
 header("Content-Type: application/rss+xml;");
-$cacheFeedName = "feedCacheMRSS" . json_encode($_REQUEST);
+$cacheFeedName = "feedCacheMRSSxml2" . json_encode($_REQUEST);
 $lifetime = 43200;
 $feed = ObjectYPT::getCache($cacheFeedName, $lifetime);
 $link = "{$link}/mrss";
@@ -18,20 +18,20 @@ if (empty($feed) || $recreate) {
         <channel>
             <atom:link href="<?php echo htmlspecialchars($global['webSiteRootURL'] . ltrim($_SERVER["REQUEST_URI"], "/"), ENT_QUOTES, 'UTF-8'); ?>" rel="self" type="application/rss+xml" />
 
-            <title><?php echo feedText($title); ?></title>
-            <description><?php echo feedText($description); ?></description>
-            <link><?php echo $global['webSiteRootURL']; ?></link>
+            <title><?php echo htmlspecialchars(feedText($title), ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8', false); ?></title>
+            <description><?php echo htmlspecialchars(feedText($description), ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8', false); ?></description>
+            <link><?php echo htmlspecialchars($global['webSiteRootURL'], ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8'); ?></link>
 
             <language>en-us</language>
-            <itunes:image href="<?php echo $logo; ?>" />
+            <itunes:image href="<?php echo htmlspecialchars($logo, ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8'); ?>" />
             <itunes:explicit>no</itunes:explicit>
 
             <itunes:category text="Technology" />
 
             <image>
-                <title><?php echo feedText($title); ?></title>
-                <url><?php echo $logo; ?></url>
-                <link><?php echo $link; ?></link>
+                <title><?php echo htmlspecialchars(feedText($title), ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8', false); ?></title>
+                <url><?php echo htmlspecialchars($logo, ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8'); ?></url>
+                <link><?php echo htmlspecialchars($link, ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8'); ?></link>
                 <width>144</width>
                 <height>40</height>
                 <description>AVideo version rss</description>
@@ -77,19 +77,19 @@ if (empty($feed) || $recreate) {
                     }
                 } ?>
                 <item>
-                    <title><?php echo feedText($row['title']); ?></title>
-                    <description><?php echo feedText($row['title']); ?></description>
+                    <title><?php echo htmlspecialchars(feedText($row['title']), ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8', false); ?></title>
+                    <description><?php echo htmlspecialchars(feedText($row['title']), ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8', false); ?></description>
                     <link><![CDATA[<?php echo Video::getLink($row['id'], $row['clean_title']); ?>]]></link>
                     <?php echo $enclosure; ?>
                     <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
-                    <guid isPermaLink="true"><?php echo Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink"); ?></guid>
+                    <guid isPermaLink="true"><?php echo htmlspecialchars(Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink"), ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8'); ?></guid>
                     <media:category><?php echo htmlspecialchars($row["category"]); ?></media:category>
-                    <media:content url="<?php echo $videoSource; ?>" fileSize="<?php echo $video["filesize"]; ?>" bitrate="128"
+                    <media:content url="<?php echo htmlspecialchars($videoSource, ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8'); ?>" fileSize="<?php echo $video["filesize"]; ?>" bitrate="128"
                                    type="<?php echo mime_content_type_per_filename($videoSource); ?>" expression="full"
                                    duration="<?php echo durationToSeconds($row['duration']); ?>">
                         <media:title type="plain"><?php echo htmlspecialchars($row['title']); ?></media:title>
                         <media:description type="html"><![CDATA[<?php echo Video::htmlDescription($row['title']); ?>]]></media:description>
-                        <media:thumbnail url="<?php echo Video::getPoster($row['id']); ?>" />
+                        <media:thumbnail url="<?php echo htmlspecialchars(Video::getPoster($row['id']), ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE, 'UTF-8'); ?>" />
                     </media:content>
                 </item>
                 <?php
