@@ -254,7 +254,10 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   `removeAutoEvalCodeOnHTMLRecursive()`) do not apply. In `script.js` a Socket.IO `MSG_BATCH` counts as the server
   batch only without a `webSocketToken`, and `autoEvalCodeOnHTML` is evaluated only on the PHP WebSocket path
   (GHSA-vw5g-hfpm-2m4g). If the Node server ever stops relaying `webSocketToken`, it must also stop relaying a
-  client-chosen `MSG_BATCH`. Covered by `plugin/YPTSocket/tests/client.test.js` (`node --test`).
+  client-chosen `MSG_BATCH`. Presence data (`selfURI` from the token, which anonymous callers choose via
+  `webSocketSelfURI`; `page_title`, raw on the Node path) reaches the admin panel unfiltered, so
+  `updateSocketUserCard()` escapes it and keeps only http(s)/relative links (GHSA-87w3-h5xx-x49x).
+  Covered by `plugin/YPTSocket/tests/client.test.js` (`node --test`).
 - **HLS / VideoHLS**: HLS packaging, encryption keys, and download protection
   (`plugin/VideoHLS/`) gate access to on-demand and live content; do not weaken key/token checks
   when touching this path.

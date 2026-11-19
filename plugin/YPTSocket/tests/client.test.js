@@ -168,3 +168,57 @@ test('the PHP WebSocket server path still evaluates autoEvalCodeOnHTML (LiveLink
     ws.onmessage({ data: JSON.stringify({ type: 'socketRemoveLiveLinks', msg: { autoEvalCodeOnHTML: 'socketLegacyEval = 1' } }) });
     assert.equal(c.socketLegacyEval, 1);
 });
+
+function userCardBrowser() {
+    const env = browser(), appended = [];
+    const el = () => ({ length: 0, append: html => appended.push(html), filter: () => ({ length: 0 }), addClass: () => {} });
+    env.c.$ = () => el();
+    env.c.Cookies = { get: () => undefined };
+    return { ...env, appended };
+}
+
+test('presence card escapes selfURI, page_title and user name relayed from the socket token (GHSA-87w3-h5xx-x49x)', async () => {
+    const { c, appended } = userCardBrowser(); const hrefs = new Set();
+    await c.updateSocketUserCard({ users_id: '5', resourceId: 'r1', user_name: '<b>name</b>', page_title: '<img src=x onerror=1>',
+        selfURI: '"><img src=x onerror=1>', location: { country_code: '"x', country_name: '<i>c</i>' } }, 'other', hrefs, 'a1');
+    const html = appended.join('');
+    assert.equal(/<img|<b>|<i>c/.test(html), false);
+    assert.match(html, /href="#"/); assert.match(html, /&lt;img src=x onerror=1&gt;/); assert.match(html, /&lt;b&gt;name/);
+    assert.ok(hrefs.has('r1-#'));
+});
+
+test('presence card keeps http(s) and site-relative links and replaces other schemes', async () => {
+    const { c, appended } = userCardBrowser(); const hrefs = new Set();
+    await c.updateSocketUserCard({ users_id: 1, resourceId: 7, selfURI: 'https://site.test/video/1?a=1&b=2' }, 7, hrefs, 'a1');
+    assert.match(appended.join(''), /href="https:\/\/site\.test\/video\/1\?a=1&amp;b=2"/); assert.ok(hrefs.has('7-https://site.test/video/1?a=1&b=2'));
+    assert.equal(c.socketSafeHref('/channel/x'), '/channel/x');
+    for (const bad of ['javascript:alert(1)', ' JavaScript:alert(1)', 'data:text/html,x', '//evil.test/', 'TESTING-terminal', null]) {
+        assert.equal(c.socketSafeHref(bad), '#');
+    }
+});
+
+test('presence links reject browser-normalized network paths and control characters', () => {
+    const { c } = userCardBrowser();
+    for (const bad of ['/\\evil.test/', '/\t/evil.test/', '/\n/evil.test/', '/\r/evil.test/',
+        'https://site.test/a\u0000b', 'https://site.test/a\rb', 'java\tscript:alert(1)']) {
+        assert.equal(c.socketSafeHref(bad), '#', JSON.stringify(bad));
+    }
+    assert.equal(c.socketSafeHref(' HTTPS://site.test/two words?a=1&b=2 '), 'HTTPS://site.test/two words?a=1&b=2');
+    assert.equal(c.socketSafeHref('/channel/two words'), '/channel/two words');
+});
+
+test('PHP presence titles keep their text without double encoding and remain escaped', async () => {
+    const { c, appended } = userCardBrowser();
+    c.useSocketIO = false;
+    const title = 'Rock &amp; Roll &quot;Live&quot; &apos;Now&apos; &lt;img src=x onerror=1&gt; &amp;lt;b&amp;gt;';
+    await c.updateSocketUserCard({ users_id: 1, resourceId: 42, selfURI: '/video/1', page_title: title }, 42, new Set(), 'a1');
+    const html = appended.join('');
+    assert.ok(html.includes(title));
+    assert.equal(html.includes('<img'), false);
+    assert.match(html, /<strong>\(YOU\)<\/strong>/);
+
+    appended.length = 0;
+    c.useSocketIO = true;
+    await c.updateSocketUserCard({ users_id: 1, resourceId: 'node-id', selfURI: '/video/1', page_title: title }, 'other', new Set(), 'a1');
+    assert.ok(appended.join('').includes(c.socketEscapeHtml(title)));
+});

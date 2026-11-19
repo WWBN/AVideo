@@ -882,13 +882,22 @@ function socketRenderUserCards() {
     }
 }
 
+// selfURI comes from the socket token, which getWebSocket.json.php builds from the unauthenticated webSocketSelfURI
+// request value, and the Node server relays selfURI/page_title unfiltered: only http(s) or site-relative links are kept
+// (GHSA-87w3-h5xx-x49x).
+function socketSafeHref(selfURI) {
+    const value = String(selfURI == null ? '' : selfURI).trim();
+    if (/[\u0000-\u001f\u007f]/.test(value)) return '#';
+    return /^(https?:\/\/|\/(?![\/\\]))/i.test(value) ? value : '#';
+}
+
 async function updateSocketUserCard(userData, currentResourceID, validAnchorHrefs, className) {
-    const selfURI = userData.selfURI;
+    const selfURI = socketSafeHref(userData.selfURI);
     const resourceId = userData.resourceId;
-    const socketUserDivID = 'socketUser' + userData.users_id;
+    const socketUserDivID = 'socketUser' + parseInt(userData.users_id);
 
     if (!$(`#${socketUserDivID}`).length) {
-        const userName = userData.user_name || userData.identification || 'Unknown';
+        const userName = socketEscapeHtml(userData.user_name || userData.identification || 'Unknown');
         const html = `
             <div class="socketUserDiv" id="${socketUserDivID}">
                 <div class="socketUserName" onclick="socketUserNameToggle('#${socketUserDivID}');">
@@ -907,7 +916,12 @@ async function updateSocketUserCard(userData, currentResourceID, validAnchorHref
     }
 
     if (userData.page_title) {
-        textParts.push(userData.page_title);
+        let pageTitle = socketEscapeHtml(userData.page_title);
+        // PHP/SQLite already encodes titles. Remove that extra layer while keeping HTML escaped.
+        if (!useSocketIO) {
+            pageTitle = pageTitle.replace(/&amp;(amp|lt|gt|quot|apos|#0*39);/g, '&$1;');
+        }
+        textParts.push(pageTitle);
     }
 
     const client = userData.client;
@@ -918,18 +932,21 @@ async function updateSocketUserCard(userData, currentResourceID, validAnchorHref
 
     const location = userData.location;
     if (location?.country_code && location.country_code !== '-' && location.country_name) {
-        textParts.push(`<br><i class="flagstrap-icon flagstrap-${location.country_code}" style="margin-right: 10px;"></i> ${location.country_name}`);
+        textParts.push(`<br><i class="flagstrap-icon flagstrap-${socketEscapeHtml(location.country_code)}" style="margin-right: 10px;"></i> ${socketEscapeHtml(location.country_name)}`);
     }
 
     const finalText = textParts.join(' ');
-    const linkSelector = `.socketUserPages a[data-resource-id="${resourceId}"][href="${selfURI}"]`;
+    // Compared as values, not inside a selector string, so a quote in selfURI cannot break the lookup.
+    const existingLink = $(`#${socketUserDivID} .socketUserPages a`).filter(function () {
+        return $(this).attr('data-resource-id') === String(resourceId) && $(this).attr('href') === selfURI;
+    });
 
     // Atualiza ou adiciona o botão
-    if (!$(linkSelector).length) {
+    if (!existingLink.length) {
         const html = `
-            <a href="${selfURI}" target="_blank"
+            <a href="${socketEscapeHtml(selfURI)}" target="_blank"
             class="${className} btn btn-primary btn-sm btn-block mb-1"
-            data-resource-id="${resourceId}"
+            data-resource-id="${socketEscapeHtml(resourceId)}"
             data-toggle="tooltip"
             title="${tooltip}"
             >
