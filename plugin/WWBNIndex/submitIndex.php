@@ -4,6 +4,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $systemRootPath = __DIR__ . DIRECTORY_SEPARATOR . '../../';
 require_once ($systemRootPath . "plugin/WWBNIndex/WWBNIndex.php");
+// The installer no longer includes this file; as a web request it must not submit the site to WWBN for anonymous callers (GHSA-6vp4-97cm-mrr8).
+if (!User::isAdmin()) {
+    forbiddenPage('Permission denied', true);
+}
+forbidIfIsUntrustedRequest('WWBNIndex/submitIndex.php');
 $wwbnIndex = new WWBNIndex();
 
 // if (!_mysql_is_open()) {

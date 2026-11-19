@@ -1,4 +1,9 @@
 var expireInterval, expireDownInterval, resendInterval, resendCountDownInterval;
+
+function wwbnIndexRequestError() {
+    modal.hidePleaseWait();
+    avideoToastError(__('WWBN indexing request failed. Reload the page and sign in again if needed.'));
+}
    
 $(document).on("submit", "#verifyEmailForm", function (e) {
     e.preventDefault();
@@ -45,9 +50,7 @@ $(document).on("submit", "#verifyEmailForm", function (e) {
                     swal("Error", "Ops! Something went wrong", "error");
                 }
             }, 
-            error: function(error) {
-                console.log(error)
-            }
+            error: wwbnIndexRequestError
         });
     }
 });
@@ -138,9 +141,7 @@ function resendCodeAjax(resend = false) {
                 swal("Error", "Ops! Something went wrong", "error");
             }
         }, 
-        error: function(error) {
-            console.log(error)
-        }
+        error: wwbnIndexRequestError
     });
 }
 
@@ -187,9 +188,7 @@ grid.find("#wwbnIndexAuthBtn").on("click", function (e) {
                 swal("Error", "Ops! Something went wrong", "error");
             }
         }, 
-        error: function(error) {
-            console.log(error)
-        }
+        error: wwbnIndexRequestError
     });
 });
 
@@ -283,9 +282,7 @@ function wwbnIndexSubmit(engine_name = "") {
                         swal("Error", "Ops! Something went wrong", "error");
                     }
                 }, 
-                error: function(error) {
-                    console.log(error)
-                }
+                error: wwbnIndexRequestError
             });
         }
     });
@@ -349,9 +346,7 @@ grid.find("#wwbnIndexIndexActiveBtn").on("click", function (e) {
                 swal("Error", "Ops! Something went wrong - getIndexTermsAndConditions", "error");
             }
         },
-        error: function (error) {
-            console.log(error)
-        }
+        error: wwbnIndexRequestError
     });
 });
 
@@ -415,9 +410,7 @@ $(document).on("click", "#wwbnIndexReIndexBtn", function (e) {
                         swal("Error", "Ops! Something went wrong", "error");
                     }
                 },
-                error: function (error) {
-                    console.log(error)
-                }
+                error: wwbnIndexRequestError
             });
         } 
     });
@@ -461,9 +454,7 @@ grid.find("#wwbnIndexIndexUnindexBtn").on("click", function (e) {
                         swal("Error", "Ops! Something went wrong", "error");
                     }
                 },
-                error: function (error) {
-                    console.log(error)
-                }
+                error: wwbnIndexRequestError
             });
         }
     });
@@ -509,8 +500,6 @@ grid.find("#wwbnIndexRequestResetBtn").on("click", function() {
                 swal("Error", "Ops! Something went wrong", "error");
             }
         },
-        error: function (error) {
-            console.log(error)
-        }
+        error: wwbnIndexRequestError
     });
 });

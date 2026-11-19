@@ -696,6 +696,9 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                             type: "post",
                             success: function(response) {
                                 window.location.reload();
+                            },
+                            error: function() {
+                                avideoToastError(__('WWBN indexing status could not be updated. Reload the page and sign in again if needed.'));
                             }
                         });
                     } else {

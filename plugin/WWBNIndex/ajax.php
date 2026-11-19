@@ -11,6 +11,14 @@ require_once $global['systemRootPath']. "plugin/WWBNIndex/WWBNIndex.php";
 require_once $global['systemRootPath']. "objects/Channel.php";
 require_once $global['systemRootPath']. "plugin/LoginControl/pgp/functions.php";
 
+// Backend of the admin-only WWBN Index buttons (script.js, view/managerPlugins_body.php). Refuse everyone else before
+// the self-fetch below and before any WWBN call/plugin data write (GHSA-6vp4-97cm-mrr8). Not a *.json.php file, so the
+// automatic CSRF guard does not cover it. No plugin-enabled check: changePluginStatus runs right after the admin disables it.
+if (!User::isAdmin()) {
+    forbiddenPage('Permission denied', true);
+}
+forbidIfIsUntrustedRequest('WWBNIndex/ajax.php');
+
 $configuration = new AVideoConf();
 $wwbnIndex = new WWBNIndex();
 $wwbnIndexModel = new WWBNIndexModel();
