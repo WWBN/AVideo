@@ -592,6 +592,13 @@ Best regards,
             // POST/mutating requests are blocked until the challenge is completed. Do not restore an
             // unconditional .json/plugin\API exemption without re-introducing that gap.
             // always exempt: the challenge flow itself, sockets, and external (non-browser) webhooks
+            // SECURITY REVIEW (2026-11-19): GHSA-qvrg-7rhh-pcvc reported that these unanchored patterns
+            // (and the GET-only ones below) match the query string of REQUEST_URI, so a password-only
+            // session can skip the pending PGP challenge with e.g. "?x=WebSocket" — NOT a new capability /
+            // DO NOT FIX alone: getStart() already skips this whole check for any "User-Agent: AVideoEncoder"
+            // (accepted risk, see ignore2FA()), and GET .json endpoints stay exempt by design. Narrowing
+            // only these patterns changes nothing for an attacker; making PGP 2FA stop a password holder
+            // needs a non-spoofable Encoder identity first. See the advisory thread before re-patching.
             $pattersToWhitelist = [];
             $pattersToWhitelist[] = '/WebSocket/i';
             $pattersToWhitelist[] = '/LoginControl\/pgp/i';
