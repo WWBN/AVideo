@@ -13,6 +13,9 @@ $videos_id = getVideos_id();
 if (empty($videos_id)) {
     forbiddenPage('Videos ID is required');
 }
+if (!Video::canEdit($videos_id)) {
+    forbiddenPage('You cannot edit this video', true);
+}
 echo '<!-- langs_codes='.count($global['langs_codes']).' -->';
 $currentLangCodes = AI::getVTTLanguageCodes($videos_id);
 echo '<!-- currentLangCodes='.count($currentLangCodes).' -->';

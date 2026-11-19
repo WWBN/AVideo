@@ -12,6 +12,10 @@ if(!AI::canUseAI()){
 }
 
 $videos_id = getVideos_id();
+if (empty($videos_id) || !Video::canEdit($videos_id)) {
+    forbiddenPage('You cannot edit this video', true);
+}
+
 $isModeYouTube = 1;
 $trascription = Ai_responses::getTranscriptionVtt($videos_id);
 if (empty($trascription)) {
