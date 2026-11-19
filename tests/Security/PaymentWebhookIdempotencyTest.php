@@ -214,7 +214,10 @@ function header($value) {}
 function http_response_code($code) { PayPalDelivery::$status = $code; }
 function _json_decode($value) { return json_decode($value); }
 function xss_esc($value) { return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8'); }
+function avideoDiagnosticLocation($file) { return basename((string) $file); }
+function avideoWriteRequestDiagnostic($event, $details = [], $rateLimitKey = '') { PayPalDelivery::$diagnostics[] = ['event' => $event, 'details' => $details]; }
 class PayPalDelivery {
+    public static $diagnostics = [];
     public static $tokenAgreement;
     public static $status = 200;
     public static $verified = true;
