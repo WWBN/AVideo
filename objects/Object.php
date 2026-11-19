@@ -188,12 +188,19 @@ abstract class ObjectYPT implements ObjectInterface
                 }
                 $key = preg_replace("/[^A-Za-z0-9._ ]/", '', $key);
                 $key = trim($key);
+                // a sort key must be one column name or alias.column; anything else (spaces, more dots) is an SQL expression after ORDER BY (GHSA-p26w-9mq2-6cf7)
+                if (!preg_match('/^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)?$/', $key)) {
+                    _error_log('ObjectYPT::getSqlOrderByFromPost ignored an invalid sort key', AVideoLog::$SECURITY);
+                    continue;
+                }
                 if (strpos($key, '.') === false) {
                     $key = "`{$key}`";
                 }
                 $orderBy[] = " {$keyPrefix}{$key} {$direction} ";
             }
-            $sql .= " ORDER BY " . implode(",", $orderBy);
+            if (!empty($orderBy)) {
+                $sql .= " ORDER BY " . implode(",", $orderBy);
+            }
         }
 
         return $sql;

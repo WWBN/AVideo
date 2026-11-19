@@ -245,6 +245,10 @@ Do not bypass `sqlDAL` to avoid audit logging. Do not write to the audit table d
 - Drop columns in migrations
 - Query tables from other plugins without checking their documented API
 - Expose SQL error messages to end users (log with `_error_log()` instead)
+- Build `ORDER BY` from request sort keys (`sort[...]`, DataTables `columns[]`/`order[]`) yourself: go through
+  `BootGrid::getSqlFromPost()` / `ObjectYPT::getSqlOrderByFromPost()`, which accept only `column` or
+  `alias.column`. Stripping characters is not enough: a key with spaces is an SQL expression (GHSA-p26w-9mq2-6cf7,
+  `tests/Security/SortKeyExpressionInjectionTest.php`)
 - Put a zero-date literal (`'0000-00-00'`, `'0000-00-00 00:00:00'`) in SQL: MySQL 8 with the default
   strict `sql_mode` (`NO_ZERO_DATE`) fails the whole statement with error 1525, so `readSql()`
   returns `false`. To match legacy zero dates use `col IS NULL OR col < '1000-01-01'`.

@@ -41,7 +41,12 @@ class BootGrid
                 }else if (strtoupper($value)==="IS NOT NULL DESC") {
                     $direction = "IS NOT NULL DESC";
                 }
-                $key = preg_replace("/[^A-Za-z0-9._ ]/", '', $key);
+                $key = trim(preg_replace("/[^A-Za-z0-9._ ]/", '', $key));
+                // a sort key must be one column name or alias.column; anything else (spaces, more dots) is an SQL expression after ORDER BY (GHSA-p26w-9mq2-6cf7)
+                if (!preg_match('/^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)?$/', $key)) {
+                    _error_log('BootGrid::getSqlFromPost ignored an invalid sort key', AVideoLog::$SECURITY);
+                    continue;
+                }
                 if ($key=='order') {
                     $key = '`order`';
                 }
