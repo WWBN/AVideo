@@ -5,6 +5,8 @@
 
 *.yaml text eol=lf
 *.yml text eol=lf
+install/cleanup_clone_dumps.sh text eol=lf
+tests/clone-dump-cleanup-regression.sh text eol=lf
 
 # Refer to:
 # https://github.com/github/linguist
