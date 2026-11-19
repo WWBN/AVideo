@@ -11,6 +11,12 @@ class Fixture
     public static $answer;
     public static $posts;
     public static $saves;
+    public static $provider;
+    public static $logs;
+}
+class AVideoLog
+{
+    public static $WARNING = 'warning';
 }
 class LiveTransmition
 {
@@ -20,15 +26,30 @@ class Live
 {
     public static function getPosterThumbsImage($user, $server) { return 'https://example.test/poster.jpg'; }
 }
-class Live_restreams
+class ObjectYPT
+{
+}
+function __($text) { return $text; }
+function object_to_array($value) { return json_decode(json_encode($value), true); }
+
+// Keep endpoint dependencies isolated, but exercise the real reconnect classifier.
+(function () {
+    $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/Live/Objects/Live_restreams.php');
+    $source = substr($source, strpos($source, 'class Live_restreams'));
+    $source = str_replace('class Live_restreams extends ObjectYPT', 'class SourceLive_restreams extends ObjectYPT', $source);
+    eval('namespace ' . __NAMESPACE__ . '; use \\stdClass;' . $source);
+})();
+
+class Live_restreams extends SourceLive_restreams
 {
     public function getUsers_id() { return 5; }
     public function getId() { return 7; }
+    public function getName() { return 'youtube : channel@example.com'; }
     public static function getYouTubeBroadcastIdToReuse($id, $history) { return $history === 123 ? 'oldVideo123' : ''; }
     public static function saveYouTubeBroadcastFromRestreamerResponse($id, $history, $answer) { Fixture::$saves[] = [$id, $history, $answer]; }
 }
 function postVariables($url, $data, $httpOnly) { Fixture::$posts[] = [$url, $data]; return Fixture::$answer; }
-function _error_log($message) {}
+function _error_log($message) { Fixture::$logs[] = $message; }
 
 class LiveRestreamYouTubeKeyEndpointTest extends TestCase
 {
@@ -41,6 +62,8 @@ class LiveRestreamYouTubeKeyEndpointTest extends TestCase
         $this->savedRequest = $_REQUEST;
         $GLOBALS['global'] = [];
         Fixture::$posts = Fixture::$saves = [];
+        Fixture::$provider = 'youtube';
+        Fixture::$logs = [];
         Fixture::$answer = json_encode(['error' => false, 'broadcast_id' => 'oldVideo123', 'stream_key' => 'FAKE_KEY', 'reused_broadcast' => true, 'broadcast_status_check_supported' => true]);
         if (!\function_exists(__NAMESPACE__ . '\\invokeOAuthEndpoint')) {
             $endpointSource = str_replace("\r\n", "\n", file_get_contents(dirname(__DIR__, 2) . '/plugin/Live/view/Live_restreams/getLiveKey.json.php'));
@@ -49,7 +72,7 @@ class LiveRestreamYouTubeKeyEndpointTest extends TestCase
             $this->assertNotFalse($endpointStart);
             $endpointBody = substr($endpointSource, $endpointStart, $endpointEnd - $endpointStart);
             $endpointBody = str_replace('exit;', 'return;', $endpointBody);
-            eval('namespace ' . __NAMESPACE__ . '; function invokeOAuthEndpoint($Live_restreams) { global $global; $parametersJson = (object) ["restream.ypt.me" => (object) ["youtube" => (object) []]];' . $endpointBody . '}');
+            eval('namespace ' . __NAMESPACE__ . '; function invokeOAuthEndpoint($Live_restreams) { global $global; $parametersJson = (object) ["restream.ypt.me" => (object) [Fixture::$provider => (object) []]];' . $endpointBody . '}');
         }
     }
 
@@ -104,6 +127,43 @@ class LiveRestreamYouTubeKeyEndpointTest extends TestCase
             $this->assertTrue($answer->error);
         }
         $this->assertSame([], Fixture::$posts);
+    }
+
+    public function testConnectionThatMustBeRenewedGetsAnActionableMessage(): void
+    {
+        Fixture::$answer = json_encode(['error' => true, 'msg' => ['error' => ['code' => 401, 'status' => 'UNAUTHENTICATED']]]);
+        $answer = json_decode($this->runRequest(['liveTransmitionHistory_id' => 123]));
+        $this->assertTrue($answer->error);
+        $this->assertStringContainsString('reconnect your YouTube account', $answer->msg);
+        $this->assertStringNotContainsString('UNAUTHENTICATED', $answer->msg);
+        $this->assertTrue($answer->needsReconnect);
+        $this->assertSame('expired', $answer->reconnectReason);
+        $this->assertSame('youtube', $answer->reconnectProvider);
+        $this->assertSame('YouTube', $answer->reconnectProviderLabel);
+        $this->assertStringContainsString(Fixture::$answer, implode("\n", Fixture::$logs));
+    }
+
+    public function testTwitchRawErrorGetsFriendlyTextForCurrentAndOlderRestreamers(): void
+    {
+        Fixture::$provider = 'twitch';
+        Fixture::$answer = json_encode(['error' => true, 'msg' => false, 'rawData' => '{"error":"Unauthorized","status":401,"message":"Invalid OAuth token"}']);
+        $answer = json_decode($this->runRequest(['liveTransmitionHistory_id' => 123]));
+        $this->assertTrue($answer->error);
+        $this->assertTrue($answer->needsReconnect);
+        $this->assertSame('twitch', $answer->reconnectProvider);
+        $this->assertStringContainsString('reconnect your Twitch account', $answer->msg);
+        // Older _getLiveKey() implementations prefer rawData over msg when nonempty.
+        $this->assertEmpty($answer->rawData);
+        $this->assertStringNotContainsString('Invalid OAuth token', $answer->msg);
+        $this->assertStringContainsString(Fixture::$answer, implode("\n", Fixture::$logs));
+    }
+
+    public function testQuotaErrorIsPreservedDespiteMissingRefreshToken(): void
+    {
+        Fixture::$answer = json_encode(['error' => true, 'msg' => ['error' => ['code' => 403, 'errors' => [['reason' => 'quotaExceeded']]]], 'access_token' => ['msg' => 'Refresh failed: No refresh token available.']]);
+        $answer = $this->runRequest(['liveTransmitionHistory_id' => 123]);
+        $this->assertSame(Fixture::$answer, $answer);
+        $this->assertFalse(isset(json_decode($answer)->needsReconnect));
     }
 
     public function testNonJsonAndFailedAnswersArePreservedWithoutWarnings(): void

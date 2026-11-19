@@ -132,6 +132,23 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
             $responseJson->broadcast_validation_supported = true;
             $response = json_encode($responseJson);
         }
+        // An expired, revoked or incomplete account connection cannot be fixed here: replace the
+        // provider's technical error with what the owner must do (the raw answer is logged above).
+        $reconnect = Live_restreams::getReconnectInfoFromRestreamerResponse($responseJson, $Live_restreams->getName(), $parametersJson);
+        if (!empty($reconnect)) {
+            _error_log("Restreamer get live keys: live_restreams_id=" . $Live_restreams->getId() . " needs to reconnect {$reconnect->provider} ({$reconnect->reason})", AVideoLog::$WARNING);
+            $responseJson->msg = $reconnect->msg;
+            // Older restreamers prefer rawData over msg; keep their alert friendly too.
+            // The unmodified broker answer was already logged above for support.
+            if (isset($responseJson->rawData)) {
+                $responseJson->rawData = '';
+            }
+            $responseJson->needsReconnect = true;
+            $responseJson->reconnectReason = $reconnect->reason;
+            $responseJson->reconnectProvider = $reconnect->provider;
+            $responseJson->reconnectProviderLabel = $reconnect->providerLabel;
+            $response = json_encode($responseJson);
+        }
     }
     echo $response;
 }

@@ -44,8 +44,71 @@ $_page->setExtraStyles(array('plugin/Live/view/Live_restreams/activeLives.css'))
         'label_no_destinations' => __('No restream destinations configured')
     )); ?>;
 
+    var restreamReconnectLabels = <?php echo json_encode(array(
+        'title' => __('Reconnect your %s account'),
+        'button' => __('Reconnect %s'),
+        'close' => __('Close')
+    )); ?>;
+
     var getActiveLivesRefreshInterval = null;
     var activeLivesLoading = false;
+
+    // A destination whose account connection expired, was revoked or lacks the permission to go
+    // live: explain it in plain words and open the same sign-in used by the Restream panel.
+    function showRestreamReconnectDialog(destinations) {
+        var first = destinations[0];
+        var label = first.providerLabel || first.provider;
+        var content = document.createElement('div');
+        destinations.forEach(function(destination) {
+            String(destination.msg).split('\n').forEach(function(text) {
+                var paragraph = document.createElement('p');
+                paragraph.textContent = text;
+                content.appendChild(paragraph);
+            });
+        });
+        swal({
+            title: restreamReconnectLabels.title.replace('%s', label),
+            content: content,
+            icon: 'warning',
+            closeOnClickOutside: false,
+            buttons: {
+                cancel: {
+                    text: restreamReconnectLabels.close,
+                    value: null,
+                    visible: true
+                },
+                confirm: {
+                    text: restreamReconnectLabels.button.replace('%s', label),
+                    value: 'reconnect',
+                    className: 'btn-primary'
+                }
+            }
+        }).then(function(value) {
+            if (value === 'reconnect') {
+                openRestreamReconnect(first.provider);
+            }
+        });
+    }
+
+    function openRestreamReconnect(provider) {
+        if (['youtube', 'facebook', 'twitch'].indexOf(provider) === -1) {
+            return false;
+        }
+        try {
+            // this page opens in a modal over the Live page, which owns the Restream panel
+            if (window.parent !== window && typeof window.parent.openRestream === 'function') {
+                window.parent.openRestream(provider);
+                if (typeof window.parent.avideoModalIframeClose === 'function') {
+                    window.parent.avideoModalIframeClose();
+                }
+                return true;
+            }
+        } catch (e) {
+            console.log('openRestreamReconnect: the Live page is not available', e);
+        }
+        window.open(webSiteRootURL + 'plugin/Live/', '_blank');
+        return true;
+    }
 
     $(document).ready(function() {
         getActiveLives();
@@ -68,8 +131,12 @@ $_page->setExtraStyles(array('plugin/Live/view/Live_restreams/activeLives.css'))
             url: url,
             success: function(response) {
                 modal.hidePleaseWait();
-                if (response.error) {
-                    avideoAlertError(response.msg);
+                var reconnect = (response.json && Array.isArray(response.json.reconnect)) ? response.json.reconnect : [];
+                if (response.error && reconnect.length) {
+                    showRestreamReconnectDialog(reconnect);
+                } else if (response.error) {
+                    // the alert shows plain text, so the restreamer's <br> separators would appear literally
+                    avideoAlertError(String(response.msg).replace(/<br\s*\/?>/gi, '\n'));
                 } else {
                     avideoToastSuccess(response.msg);
                 }

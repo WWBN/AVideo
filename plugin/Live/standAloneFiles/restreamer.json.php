@@ -361,6 +361,7 @@ function _getLiveKey($token, $liveTransmitionHistory_id = 0, $requestType = '')
 }
 
 $errorMessages = array();
+$reconnectDestinations = array();
 
 if (!$isCommandLine) { // not command line
     if (empty($robj)) {
@@ -439,7 +440,21 @@ if (!$isCommandLine) { // not command line
                                         } else {
                                             $msg = ($jsonInfo->msg);
                                         }
-                                        $errorMessages[] = nl2br($msg);
+                                        // _getLiveKey() usually returns this same msg; show it once
+                                        if (nl2br($msg) !== end($errorMessages)) {
+                                            $errorMessages[] = nl2br($msg);
+                                        }
+                                    }
+                                    // getLiveKey.json.php marks a connection that must be renewed,
+                                    // so the panel can offer a reconnect button
+                                    if (!empty($jsonInfo->needsReconnect) && is_string($jsonInfo->reconnectProvider ?? null)) {
+                                        $reconnectDestinations[] = array(
+                                            'live_restreams_id' => intval($key),
+                                            'provider' => preg_replace('/[^a-z]/', '', strtolower($jsonInfo->reconnectProvider)),
+                                            'providerLabel' => is_string($jsonInfo->reconnectProviderLabel ?? null) ? $jsonInfo->reconnectProviderLabel : '',
+                                            'reason' => is_string($jsonInfo->reconnectReason ?? null) ? $jsonInfo->reconnectReason : '',
+                                            'msg' => is_string($jsonInfo->msg) ? $jsonInfo->msg : '',
+                                        );
                                     }
                                 }
                             }
@@ -499,6 +514,7 @@ $obj->type = $robj->type;
 $obj->token = $robj->token;
 $obj->pid = [];
 $obj->logFile = str_replace('{users_id}', $robj->users_id, $logFile);
+$obj->reconnect = $reconnectDestinations;
 
 if (empty($robj->restreamsDestinations) || !is_array($robj->restreamsDestinations)) {
     $errorMessages[] = "There are no restreams Destinations";

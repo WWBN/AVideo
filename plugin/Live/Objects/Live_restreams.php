@@ -211,6 +211,67 @@ class Live_restreams extends ObjectYPT {
         return false;
     }
 
+    /**
+     * Recognizes a restream.ypt.me answer that failed because the account connection must be
+     * renewed (access expired, revoked, or granted without the permission to go live) and returns
+     * a plain-text message the channel owner can act on. Returns null for any other answer, which
+     * is then shown as before.
+     */
+    public static function getReconnectInfoFromRestreamerResponse($response, $destinationName, $parameters) {
+        if (!is_object($response) || empty($response->error)) {
+            return null;
+        }
+        $details = array();
+        foreach (array($response->msg ?? '', $response->rawData ?? '') as $value) {
+            if (is_string($value) || is_object($value) || is_array($value)) {
+                $details[] = is_string($value) ? $value : json_encode($value);
+            }
+        }
+        $details = trim(implode("\n", $details));
+        // A refresh warning does not invalidate a usable access token. Prefer the actual
+        // provider failure (quota, eligibility, network, etc.) whenever one was returned.
+        if ($details === '') {
+            $accessToken = object_to_array($response->access_token ?? array());
+            $value = $accessToken['msg'] ?? '';
+            $details = is_string($value) ? $value : json_encode($value);
+        }
+
+        if (preg_match('/insufficient authentication scopes|ACCESS_TOKEN_SCOPE_INSUFFICIENT/i', $details)) {
+            $reason = 'permission';
+        } else if (preg_match('/invalid_grant|UNAUTHENTICATED|Invalid Credentials|"(?:code|status)"\s*:\s*401(?=\s*[,}])|Invalid OAuth token|Error validating access token|Session has expired|has not authorized application|No refresh token available/i', $details)) {
+            $reason = 'expired';
+        } else {
+            return null;
+        }
+
+        $labels = array('youtube' => 'YouTube', 'facebook' => 'Facebook', 'twitch' => 'Twitch');
+        if (is_string($parameters)) {
+            $parameters = json_decode($parameters);
+        }
+        $provider = strtolower((string) self::getProviderName(object_to_array($parameters)));
+        if (empty($labels[$provider])) {
+            return null;
+        }
+        $label = $labels[$provider];
+        $destinationName = html_entity_decode($destinationName, ENT_QUOTES, 'UTF-8');
+
+        if ($reason === 'permission') {
+            $msg = sprintf(__('%s did not give "%s" permission to go live. This happens when a permission box is left unchecked while connecting the account.'), $label, $destinationName);
+        } else {
+            $msg = sprintf(__('%s is no longer accepting the connection used by "%s". This happens when the access expires or is removed in the account settings.'), $label, $destinationName);
+        }
+        // one paragraph per line: the reconnect dialog shows them apart, plain alerts as one text
+        $msg .= "\n" . sprintf(__('To fix it, reconnect your %s account with the %s button in the Restream panel and keep every permission box checked. Then start this destination again.'), $label, $label);
+        $msg .= "\n" . __('If you sign in with a different account, delete the old destination from the list.');
+
+        $info = new stdClass();
+        $info->reason = $reason;
+        $info->provider = $provider;
+        $info->providerLabel = $label;
+        $info->msg = $msg;
+        return $info;
+    }
+
     private static function checkIfTokenIsExpired($parameters) {
         if (is_string($parameters)) {
             $parameters = object_to_array(json_decode($parameters));
