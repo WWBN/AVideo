@@ -55,10 +55,23 @@ $o->savedPLItem = array();
 $o->playlist_id = $_REQUEST['playlist_id'];
 $result = false;
 
+// Sorting only reorders videos already in the playlist; any other video must pass the
+// same check as playListAddVideo.json.php (GHSA-fp8w-c8xj-25wx).
+$playlistVideosIds = array_map('intval', array_column(PlayList::getVideosIDFromPlaylistLight($obj->getId()), 'videos_id'));
+
 _error_log('playlistSort line='.__LINE__);
 mysqlBeginTransaction();
 foreach ($_POST['list'] as $key => $value) {
     if(empty($value)){
+        continue;
+    }
+    if (!in_array(intval($value), $playlistVideosIds, true) && !PlayLists::canAddVideoOnPlaylist(intval($value))) {
+        _error_log('playlistSort: refused videos_id=' . intval($value) . ' playlist_id=' . $obj->getId() . ' users_id=' . User::getId(), AVideoLog::$SECURITY);
+        $o->savedPLItem[] = array(
+            'resp'=>false,
+            'videos_id'=>$value,
+            'order'=>0,
+        );
         continue;
     }
     $order = ($count++);

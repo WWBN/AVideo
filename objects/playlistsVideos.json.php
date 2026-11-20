@@ -41,6 +41,10 @@ foreach ($videos as $key => $value) {
     $videos[$key]['Thumbnail'] = !empty($objMob->portraitImage) ? $images->posterPortraitThumbs : $images->thumbsJpg;
     $videos[$key]['imageClass'] = !empty($objMob->portraitImage) ? "portrait" : "landscape";
     // A playlist may list a title the caller cannot play: keep its images, never its media files.
+    // SECURITY REVIEW (2026-11-20, GHSA-fp8w-c8xj-25wx): no per-video canWatchVideoIncludingPassword() here — DO NOT FIX
+    // in this file alone. playlistSort.php checks new additions with PlayLists::canAddVideoOnPlaylist() while
+    // preserving existing entries. This does not audit or fix other writers (including legacy video-save paths
+    // and playlist cloning); the existing playback filtering below remains unchanged.
     $videos[$key]['VideoUrl'] = PlaybackAccess::filterPlayableFiles($videos[$key]['id'], getVideosURL($videos[$key]['filename']));
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] =  PlayLists::getLink($_playlists_id, false, $index);
