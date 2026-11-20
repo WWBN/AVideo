@@ -18,6 +18,14 @@ if(empty($_REQUEST['id'])){
        $_POST['sort']['id'] = 'DESC';
     }
     forbiddenPageIfCannotWatchVideo(@$_REQUEST['video_id']);
+    // Without video_id, getAllComments() returns the replies of any parent comment, so check the parent's video
+    // (comments manager loads replies with video_id=0; comment moderators and users who can edit the video keep access)
+    if (empty($_REQUEST['video_id']) && !empty($_REQUEST['comments_id']) && !Permissions::canAdminComment()) {
+        $parentComment = Comment::getComment($_REQUEST['comments_id']);
+        if (!empty($parentComment) && !Video::canEdit($parentComment['videos_id'])) {
+            forbiddenPageIfCannotWatchVideo($parentComment['videos_id']);
+        }
+    }
     $comments = Comment::getAllComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id'], 0, true);
     $total = Comment::getTotalComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id']);
 }else{
