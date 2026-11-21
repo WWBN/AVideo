@@ -108,19 +108,27 @@ foreach ($scanVars as $value) {
             } elseif (is_numeric($value)) {
                 $scanThis[$key] = intval($value);
             } else {
+                $securityIdIsJSONArray = false;
                 if (is_string($value)) {
                     $json = json_decode($value);
-                    if (empty($json)) {
+                    $securityIdIsJSONArray = is_array($json);
+                    if (!$securityIdIsJSONArray && empty($json)) {
                         $json = json_decode("[$value]");
                     }
                 } else {
                     $json = $value;
                 }
                 if (is_array($json)) {
-                    foreach ($json as $key => $value) {
-                        $json[$key] = intval($value);
+                    // A list sent as text ("1,2" or "[1,2]") is rewritten under its own key with integers only,
+                    // in the same format. The inner loop must not reuse $key/$value (GHSA-4cq2-wh78-c3wc: the
+                    // integers went to another key and the raw text stayed). A real PHP array is kept as before.
+                    if (is_string($value)) {
+                        $securityIdList = [];
+                        foreach ($json as $securityIdKey => $securityIdValue) {
+                            $securityIdList[$securityIdKey] = intval($securityIdValue);
+                        }
+                        $scanThis[$key] = $securityIdIsJSONArray ? json_encode($securityIdList) : implode(',', $securityIdList);
                     }
-                    $scanThis[$key] = json_encode($json);
                 } else {
                     $scanThis[$key] = intval($value);
                 }
