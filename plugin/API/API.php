@@ -1046,6 +1046,11 @@ class API extends PluginAbstract
         $obj->videos_id = $parameters['videos_id'];
         $video = new Video('', '', $obj->videos_id);
         if (!self::isAPISecretValid()) {
+            // GHSA-m3c9-p37h-4mh3: scheduled, unpublished, draft and encoding videos are refused by the watch page;
+            // only their editors (owner, admin, videos admin, moderator) get the files here.
+            if (!Video::canViewStatus($obj->videos_id)) {
+                return new ApiObject("You cannot watch this video");
+            }
             if (!User::canWatchVideoWithAds($obj->videos_id)) {
                 return new ApiObject("You cannot watch this video");
             }
@@ -2014,7 +2019,7 @@ class API extends PluginAbstract
             if (empty($obj->$field) || (!is_array($obj->$field) && !is_object($obj->$field))) {
                 continue;
             }
-            $obj->$field = PlaybackAccess::filterVideoRows($obj->$field);
+            $obj->$field = PlaybackAccess::filterVideoRows($obj->$field, true);
         }
     }
 
@@ -2024,7 +2029,7 @@ class API extends PluginAbstract
             return true;
         }
         // Listing a restricted title/thumbnail must never grant playback.
-        $canWatch = User::canWatchVideoWithAds($row['id']);
+        $canWatch = Video::canViewStatus($row['id']) && User::canWatchVideoWithAds($row['id']);
         if ($canWatch && !empty($row['video_password'])) {
             $video = new Video('', '', $row['id']);
             $canWatch = Video::verifyVideoPassword((string)($parameters['video_password'] ?? ''), $video->getVideo_password());
@@ -4672,7 +4677,7 @@ class API extends PluginAbstract
                 $row[$key]['videos'][$key2] = cleanUpRowFromDatabase($row[$key]['videos'][$key2]);
             }
             if (!self::isAPISecretValid()) {
-                $row[$key]['videos'] = PlaybackAccess::filterVideoRows($row[$key]['videos']);
+                $row[$key]['videos'] = PlaybackAccess::filterVideoRows($row[$key]['videos'], true);
             }
         }
         header('Content-Type: application/json');
@@ -4831,7 +4836,7 @@ class API extends PluginAbstract
                 unset($row[$key]['videos'][$key2]['recoverPass']);
             }
             if (!self::isAPISecretValid()) {
-                $row[$key]['videos'] = PlaybackAccess::filterVideoRows($row[$key]['videos']);
+                $row[$key]['videos'] = PlaybackAccess::filterVideoRows($row[$key]['videos'], true);
             }
         }
         echo json_encode($row);

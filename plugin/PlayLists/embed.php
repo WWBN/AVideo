@@ -80,7 +80,8 @@ foreach ($playList as $key => $value) {
                 if ($value2['type'] !== Video::$videoTypeVideo && $value2['type'] !== Video::$videoTypeAudio) {
                     continue;
                 }
-                $playListSources[] = new playListSource($value2['url'], $value2['videos_id']);
+                // getVideosURL() entries carry no videos_id: pass the row's own id so playListSource checks the right video.
+                $playListSources[] = new playListSource($value2['url'], $value['videos_id']);
                 break;
             }
             TimeLogEnd($timelognameFF, __LINE__, $TimeLogLimit);
@@ -118,7 +119,7 @@ foreach ($playList as $key => $value) {
             if ($value2['type'] !== 'video' && $value2['type'] !== 'audio') {
                 continue;
             }
-            $playListSources[] = new playListSource($value2['url'], $value2['videos_id']);
+            $playListSources[] = new playListSource($value2['url'], $value['videos_id']);
             break;
         }
 

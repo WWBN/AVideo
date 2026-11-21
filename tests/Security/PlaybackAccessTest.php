@@ -98,6 +98,7 @@ class UserGroups
 class Video
 {
     const STATUS_INACTIVE = 'i';
+    public static function canViewStatus($id) { return true; } // Status-specific coverage is in ApiVideoFileStatusTest.
     public function __construct($a = '', $b = '', $id = 0) {}
     public function getStatus() { return 'a'; }
     public function getUsers_id() { return 1; }

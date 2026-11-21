@@ -27,7 +27,7 @@ if (User::isLogged() && (User::getId() == $requestedUserId || User::isAdmin())) 
 }
 $row = PlayList::getAllFromUser($requestedUserId, $publicOnly);
 foreach ($row as $key => $value) {
-    $row[$key]['videos'] = PlaybackAccess::filterVideoRows($row[$key]['videos']);
+    $row[$key]['videos'] = PlaybackAccess::filterVideoRows($row[$key]['videos'], true);
     foreach ($row[$key]['videos'] as $key2 => $value2) {
         unset($row[$key]['videos'][$key2]['description']);
     }

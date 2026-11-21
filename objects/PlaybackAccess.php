@@ -369,9 +369,10 @@ class PlaybackAccess
     }
 
     /** Keep listing images, but drop every playable (non-image) file of a denied video from a getVideosURL() list. */
-    public static function filterPlayableFiles($videos_id, $files)
+    public static function filterPlayableFiles($videos_id, $files, $checkStatus = false)
     {
-        if ((!is_array($files) && !is_object($files)) || self::isAllowed($videos_id)) {
+        if ((!is_array($files) && !is_object($files))
+            || ((!$checkStatus || Video::canViewStatus($videos_id)) && self::isAllowed($videos_id))) {
             return $files;
         }
         $wasObject = is_object($files);
@@ -385,8 +386,8 @@ class PlaybackAccess
         return $wasObject ? (object) $files : $files;
     }
 
-    /** Filter response rows after shared caches are read; retain catalog metadata and field shapes. */
-    public static function filterVideoRows($rows)
+    /** Filter response rows after shared caches are read; opt into status checks at public response boundaries. */
+    public static function filterVideoRows($rows, $checkStatus = false)
     {
         if (!is_array($rows) && !is_object($rows)) {
             return $rows;
@@ -397,7 +398,9 @@ class PlaybackAccess
             $wasObjectRow = is_object($row);
             $row = (array) $row;
             $videos_id = $row['id'] ?? $row['videos_id'] ?? 0;
-            if (!self::isAllowed($videos_id)) {
+            // Live rows share these envelopes, but their IDs/statuses belong to another table.
+            $checkRowStatus = $checkStatus && !empty($row['filename']);
+            if (($checkRowStatus && !Video::canViewStatus($videos_id)) || !self::isAllowed($videos_id)) {
                 // 'videos' is a media map (a JSON object); 'sources' is a list.
                 if (isset($row['videos'])) {
                     $row['videos'] = new stdClass();
@@ -407,7 +410,7 @@ class PlaybackAccess
                 }
                 foreach (['VideoUrl', 'videosURL'] as $field) {
                     if (isset($row[$field])) {
-                        $row[$field] = self::filterPlayableFiles($videos_id, $row[$field]);
+                        $row[$field] = self::filterPlayableFiles($videos_id, $row[$field], $checkRowStatus);
                     }
                 }
                 foreach (['videoLink', 'videoDownloadedLink', 'firstVideo'] as $field) {
@@ -421,11 +424,11 @@ class PlaybackAccess
             }
             foreach (['playlist', 'relatedVideos'] as $field) {
                 if (!empty($row[$field])) {
-                    $row[$field] = self::filterVideoRows($row[$field]);
+                    $row[$field] = self::filterVideoRows($row[$field], $checkStatus);
                 }
             }
             if (!empty($row['next_video'])) {
-                $next = self::filterVideoRows([$row['next_video']]);
+                $next = self::filterVideoRows([$row['next_video']], $checkStatus);
                 $row['next_video'] = $next[0];
             }
             if ($wasObjectRow) {

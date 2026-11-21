@@ -20,7 +20,7 @@ $obj->videosPlaylistsIds = array();
 $obj->videosPlaylists = array();
 $obj->rows = PlayList::getAllFromUser(User::getId(), false);
 foreach ($obj->rows as $key => $value) {
-    $obj->rows[$key]['videos'] = PlaybackAccess::filterVideoRows($obj->rows[$key]['videos']);
+    $obj->rows[$key]['videos'] = PlaybackAccess::filterVideoRows($obj->rows[$key]['videos'], true);
     foreach ($obj->rows[$key]['videos'] as $key2 => $value2) {
         unset($obj->rows[$key]['videos'][$key2]['description']);
         if(!empty($obj->rows[$key]['videos'][$key2]['id'])){

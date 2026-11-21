@@ -8219,7 +8219,8 @@ function addTwitterJS($text)
 function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type)
 {
     $downloadOptions = [];
-    if (empty($videos_id)) {
+    // Issues the only VideoHLS/CDN download tokens: never for scheduled/unpublished/draft videos (GHSA-m3c9-p37h-4mh3).
+    if (empty($videos_id) || !Video::canViewStatus($videos_id)) {
         return [];
     }
     if (empty($video_type)) {

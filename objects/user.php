@@ -1072,6 +1072,9 @@ if (typeof gtag !== \"function\") {
         }
 
         $video = new Video("", "", $videos_id);
+        // SECURITY REVIEW (2026-11-21): reported that only 'i' is refused here, not scheduled/unpublished/draft (GHSA-m3c9-p37h-4mh3) —
+        // DO NOT FIX here: enforce status at media response boundaries (getViewableStatus(), Video::canViewStatus()),
+        // and owners/plugins rely on this check for non-public videos. If re-reported, see the advisory thread instead of re-patching.
         if ($video->getStatus() === Video::STATUS_INACTIVE) {
             $global['canWatchVideoReason'] = "Video is inactive";
             _error_log("User::canWatchVideo Video is inactive ({$videos_id})");

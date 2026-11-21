@@ -81,6 +81,7 @@ class Permissions
 }
 class Video
 {
+    public static function canViewStatus($id) { return true; } // Status-specific coverage is in ApiVideoFileStatusTest.
     public static function getUserGroupsCanSeeSQL($alias = '')
     {
         return Fixture::$admin ? '' : ' AND ' . $alias . 'visible_for_' . implode('_', Fixture::$groups) . ' = 1';

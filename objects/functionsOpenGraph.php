@@ -299,6 +299,10 @@ function getOpenGraphVideo($videos_id)
         $sourceFileURL  = $source['url'];
     }
 
+    if (!Video::canViewStatus($videos_id)) {
+        $sourceFileURL = '';
+    }
+
     $videoType = $video['type'];
     $modifiedDate = $video['modified'];
     $createdDate = $video['created'];

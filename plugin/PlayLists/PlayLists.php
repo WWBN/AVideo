@@ -1393,8 +1393,8 @@ class PlayListPlayer
         $messagesFromPlayList = array();
         foreach ($this->videos as $key => $video) {
             if ($video['type'] === Video::$videoTypeEmbed) {
-                $sources[0]['type'] = 'video';
-                $sources[0]['url'] = @$video["videoLink"];
+                // Start empty: the previous row's getVideosURL() entries must not be checked as this video's sources.
+                $sources = array(array('type' => 'video', 'url' => @$video["videoLink"]));
             } else {
                 $sources = getVideosURL($video['filename']);
             }
@@ -1411,7 +1411,8 @@ class PlayListPlayer
                 }
                 $messagesFromPlayList[] = "Playlist playListSource videos_id={$video['id']} [{$video['title']}] type {$video['type']} filename={$video['filename']}";
                 //var_dump($value2);
-                $playListSources[] = new playListSource($value2['url'], $value2['videos_id'], $video['type'] === Video::$videoTypeEmbed);
+                // getVideosURL() entries carry no videos_id: pass the row's own id so playListSource checks the right video.
+                $playListSources[] = new playListSource($value2['url'], $video['id'], $video['type'] === Video::$videoTypeEmbed);
             }
             if (empty($playListSources)) {
                 $messagesFromPlayList[] = "videos_id={$video['videos_id']} [{$value2['title']}]  empty playlist source ";

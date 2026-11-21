@@ -3140,6 +3140,14 @@ if (!class_exists('Video')) {
             return $viewable;
         }
 
+        /** Status-only playback gate; group/plugin and password checks remain the caller's responsibility. */
+        public static function canViewStatus($videos_id)
+        {
+            $video = new Video('', '', $videos_id);
+            return in_array($video->getStatus(), self::getViewableStatus(true), true)
+                || self::canEdit($videos_id) || Permissions::canModerateVideos();
+        }
+
         public static function getVideoConversionStatus($filename)
         {
             global $global;

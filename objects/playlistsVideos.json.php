@@ -44,8 +44,8 @@ foreach ($videos as $key => $value) {
     // SECURITY REVIEW (2026-11-20, GHSA-fp8w-c8xj-25wx): no per-video canWatchVideoIncludingPassword() here — DO NOT FIX
     // in this file alone. playlistSort.php checks new additions with PlayLists::canAddVideoOnPlaylist() while
     // preserving existing entries. This does not audit or fix other writers (including legacy video-save paths
-    // and playlist cloning); the existing playback filtering below remains unchanged.
-    $videos[$key]['VideoUrl'] = PlaybackAccess::filterPlayableFiles($videos[$key]['id'], getVideosURL($videos[$key]['filename']));
+    // and playlist cloning); the status filtering below is separate from those group/password rules.
+    $videos[$key]['VideoUrl'] = PlaybackAccess::filterPlayableFiles($videos[$key]['id'], getVideosURL($videos[$key]['filename']), true);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] =  PlayLists::getLink($_playlists_id, false, $index);
     $videos[$key]['embedUrl'] = PlayLists::getLink($_playlists_id, true, $index);
@@ -72,4 +72,4 @@ foreach ($videos as $key => $value) {
     $index++;
 }
 
-echo json_encode(PlaybackAccess::filterVideoRows($videos));
+echo json_encode(PlaybackAccess::filterVideoRows($videos, true));

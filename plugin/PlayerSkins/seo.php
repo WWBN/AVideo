@@ -31,7 +31,7 @@ function extractKeywords($description) {
 $video = new Video('', '', $videos_id);
 // SECURITY (2026-08-26): mirror CustomizeUser::getModeYouTube()'s authorization + video-password checks
 // before exposing a playable source URL to an unauthenticated caller of this directly web-reachable file.
-$canWatchThisVideo = User::canWatchVideoWithAds($videos_id);
+$canWatchThisVideo = Video::canViewStatus($videos_id) && User::canWatchVideoWithAds($videos_id);
 $customizeUserPlugin = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
 $videoPasswordOk = empty($customizeUserPlugin) || $customizeUserPlugin->videoPasswordIsGood($videos_id);
 $keywords = strip_tags($advancedCustom->keywords);
