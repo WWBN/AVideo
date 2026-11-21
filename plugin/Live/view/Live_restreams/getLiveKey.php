@@ -24,8 +24,11 @@ if (!Live::canRestream()) {
     </button>
 </div>
 <p class="help-block small">
-    <i class="fab fa-youtube" aria-hidden="true"></i>
-    <?php echo __('YouTube: after you sign in, you will see which channel was connected before it is saved. Google only lists channels you own or manage as a Brand Account. If your channel is not listed, fill in its stream URL and stream key by hand in the form.'); ?>
+    <?php echo __('After you sign in, you will see which channel or page was connected before it is saved.'); ?>
+    <br><i class="fab fa-youtube" aria-hidden="true"></i>
+    <?php echo __('YouTube: Google only lists channels you own or manage as a Brand Account. If your channel is not listed, fill in its stream URL and stream key by hand in the form.'); ?>
+    <br><i class="fab fa-twitch" aria-hidden="true"></i>
+    <?php echo __('Twitch: the account logged in on twitch.tv in this browser is connected.'); ?>
 </p>
 <!--
 <button type="button" class="btn btn-default" onclick="openRestream('')">

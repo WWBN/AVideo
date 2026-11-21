@@ -52,15 +52,35 @@ class LiveRestreamDestinationInfo
         return '';
     }
 
+    /** Id format and picture hosts accepted for each provider. */
+    private static function rules($provider)
+    {
+        $rules = array(
+            'youtube' => array('id' => '/^[A-Za-z0-9_-]{10,64}\z/', 'images' => '(ggpht\.com|googleusercontent\.com|ytimg\.com)'),
+            'facebook' => array('id' => '/^[0-9]{5,30}\z/', 'images' => '(fbcdn\.net|fbsbx\.com)'),
+            'twitch' => array('id' => '/^[0-9]{1,20}\z/', 'images' => '(jtvnw\.net)'),
+        );
+        return $rules[$provider] ?? null;
+    }
+
     /**
-     * Validated channel summary. The parameters are posted by the browser, so every field is
-     * checked again here; anything unexpected is dropped instead of being displayed.
+     * Validated summary of the YouTube channel, Facebook page/profile or Twitch channel a
+     * destination sends to. The parameters are posted by the browser, so every field is checked
+     * again here; anything unexpected is dropped instead of being displayed.
+     * $provider defaults to the channel's own 'provider' (records saved before it existed are YouTube).
      */
-    public static function normalizeChannel($channel)
+    public static function normalizeChannel($channel, $provider = null)
     {
         $channel = self::toArray($channel);
-        $id = is_string($channel['id'] ?? null) ? trim($channel['id']) : '';
-        if (!preg_match('/^[A-Za-z0-9_-]{10,64}\z/', $id)) {
+        if ($provider === null) {
+            $provider = is_string($channel['provider'] ?? null) ? $channel['provider'] : 'youtube';
+        }
+        $rules = self::rules($provider);
+        if (empty($rules) || (isset($channel['provider']) && $channel['provider'] !== $provider)) {
+            return null;
+        }
+        $id = is_scalar($channel['id'] ?? null) ? trim((string) $channel['id']) : '';
+        if (!preg_match($rules['id'], $id)) {
             return null;
         }
         $title = is_string($channel['title'] ?? null) ? trim((string) preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $channel['title'])) : '';
@@ -70,37 +90,68 @@ class LiveRestreamDestinationInfo
             $title = substr($title, 0, 150);
         }
         $handle = is_string($channel['handle'] ?? null) ? trim($channel['handle']) : '';
-        if ($handle !== '' && $handle[0] !== '@') {
-            $handle = '@' . $handle;
-        }
-        if (!preg_match('/^@[\p{L}\p{N}._-]{1,100}\z/u', $handle)) {
+        if ($provider === 'youtube') {
+            if ($handle !== '' && $handle[0] !== '@') {
+                $handle = '@' . $handle;
+            }
+            $handle = preg_match('/^@[\p{L}\p{N}._-]{1,100}\z/u', $handle) ? $handle : '';
+        } elseif ($provider === 'twitch') {
+            $handle = preg_match('/^[A-Za-z0-9_]{1,25}\z/', $handle) ? strtolower($handle) : '';
+        } else {
             $handle = '';
         }
         $thumbnail = is_string($channel['thumbnail'] ?? null) ? trim($channel['thumbnail']) : '';
         $thumbnailHost = strtolower((string) parse_url($thumbnail, PHP_URL_HOST));
         if (parse_url($thumbnail, PHP_URL_SCHEME) !== 'https'
-            || !preg_match('/(^|\.)(ggpht\.com|googleusercontent\.com|ytimg\.com)\z/', $thumbnailHost)) {
+            || !preg_match('/(^|\.)' . $rules['images'] . '\z/', $thumbnailHost)) {
             $thumbnail = '';
         }
+        $kind = 'channel';
+        $url = '';
+        if ($provider === 'youtube') {
+            $url = 'https://www.youtube.com/channel/' . $id;
+        } elseif ($provider === 'twitch') {
+            $url = $handle !== '' ? 'https://www.twitch.tv/' . $handle : '';
+        } else {
+            $kind = ($channel['kind'] ?? '') === 'profile' ? 'profile' : 'page';
+            $link = is_string($channel['url'] ?? null) ? trim($channel['url']) : '';
+            $linkHost = strtolower((string) parse_url($link, PHP_URL_HOST));
+            if ($kind === 'page') {
+                $url = (parse_url($link, PHP_URL_SCHEME) === 'https' && preg_match('/(^|\.)facebook\.com\z/', $linkHost))
+                    ? $link : 'https://www.facebook.com/' . $id;
+            }
+        }
         return array(
+            'provider' => $provider,
+            'kind' => $kind,
             'id' => $id,
             'title' => $title,
             'handle' => $handle,
             'thumbnail' => $thumbnail,
-            'url' => 'https://www.youtube.com/channel/' . $id,
-            'live_streaming' => (($channel['live_streaming'] ?? '') === 'disabled') ? 'disabled' : 'unknown',
+            'url' => $url,
+            'live_streaming' => ($provider === 'youtube' && ($channel['live_streaming'] ?? '') === 'disabled') ? 'disabled' : 'unknown',
             'checked_at' => max(0, intval($channel['checked_at'] ?? 0)),
         );
     }
 
-    /** The channel restream.ypt.me saved with a YouTube connection, or null. */
+    /** The channel/page restream.ypt.me saved with a YouTube, Facebook or Twitch connection, or null. */
     public static function getChannelFromParameters($parameters)
     {
         $parameters = self::toArray($parameters);
-        if (self::getConnectedProvider($parameters) !== 'youtube') {
+        $provider = self::getConnectedProvider($parameters);
+        if ($provider === '') {
             return null;
         }
-        return self::normalizeChannel($parameters['restream.ypt.me']['channel'] ?? null);
+        return self::normalizeChannel($parameters['restream.ypt.me']['channel'] ?? null, $provider);
+    }
+
+    /** "page" for Facebook pages, "profile" for a Facebook profile, otherwise "channel". */
+    public static function getChannelNoun($provider, $kind = 'channel')
+    {
+        if ($provider === 'facebook') {
+            return $kind === 'profile' ? self::t('profile') : self::t('page');
+        }
+        return self::t('channel');
     }
 
     public static function getChannelLabel($channel)
@@ -109,27 +160,45 @@ class LiveRestreamDestinationInfo
         if (empty($channel)) {
             return '';
         }
-        $label = $channel['title'] !== '' ? $channel['title'] : $channel['id'];
-        if ($channel['handle'] !== '') {
+        $label = $channel['title'] !== '' ? $channel['title'] : ($channel['handle'] !== '' ? $channel['handle'] : $channel['id']);
+        if ($channel['handle'] !== '' && strcasecmp($channel['handle'], $label) !== 0) {
             $label .= " ({$channel['handle']})";
+        }
+        if ($channel['kind'] === 'profile') {
+            $label .= ' (' . self::t('profile') . ')';
         }
         return $label;
     }
 
-    /** Small "channel card" for the destination name: picture, name, handle, link. */
+    /** "YouTube channel X", "Facebook page X", "Twitch channel X". */
+    public static function getChannelDescription($channel)
+    {
+        $channel = self::normalizeChannel($channel);
+        if (empty($channel)) {
+            return '';
+        }
+        return self::PROVIDERS[$channel['provider']] . ' ' . self::getChannelNoun($channel['provider'], $channel['kind']) . ' ' . self::getChannelLabel($channel);
+    }
+
+    /** Small card for the destination name: picture, name, handle, link. */
     public static function getChannelHtml($channel)
     {
         $channel = self::normalizeChannel($channel);
         if (empty($channel)) {
             return '';
         }
+        $icons = array('youtube' => 'fa-youtube', 'facebook' => 'fa-facebook', 'twitch' => 'fa-twitch');
         $html = '<div class="restream-channel">';
         if ($channel['thumbnail'] !== '') {
-            $html .= '<img src="' . self::e($channel['thumbnail']) . '" alt="" width="24" height="24" class="img-circle" loading="lazy"> ';
+            $html .= '<img src="' . self::e($channel['thumbnail']) . '" alt="" width="24" height="24" class="img-circle" loading="lazy" referrerpolicy="no-referrer"> ';
         }
-        $html .= '<a href="' . self::e($channel['url']) . '" target="_blank" rel="noopener noreferrer">'
-            . '<i class="fab fa-youtube" aria-hidden="true"></i> ' . self::e(self::getChannelLabel($channel)) . '</a></div>';
-        return $html;
+        $label = '<i class="fab ' . $icons[$channel['provider']] . '" aria-hidden="true"></i> ' . self::e(self::getChannelLabel($channel));
+        if ($channel['url'] !== '') {
+            $html .= '<a href="' . self::e($channel['url']) . '" target="_blank" rel="noopener noreferrer">' . $label . '</a>';
+        } else {
+            $html .= '<span>' . $label . '</span>';
+        }
+        return $html . '</div>';
     }
 
     /** Plain text from a provider message that may be a string, an object or an array. */
@@ -233,7 +302,8 @@ class LiveRestreamDestinationInfo
         $row = self::toArray($row);
         $provider = self::getConnectedProvider($row['parameters'] ?? '');
         $label = $provider !== '' ? self::PROVIDERS[$provider] : '';
-        $channel = self::normalizeChannel($channel);
+        $channel = self::normalizeChannel($channel, $provider !== '' ? $provider : null);
+        $noun = self::getChannelNoun($provider, $channel['kind'] ?? 'page');
         $lastResult = self::toArray($lastResult);
         $hints = array();
 
@@ -265,13 +335,13 @@ class LiveRestreamDestinationInfo
             $ids = implode(', ', array_map(function ($id) {
                 return '#' . intval($id);
             }, $sameChannelAs));
-            $hints[] = self::hint('warning', 'fa-clone', sprintf(self::t('Same channel as destination %s: each one sends its own copy of the live. Delete the one you do not need.'), $ids));
+            $hints[] = self::hint('warning', 'fa-clone', sprintf(self::t('Same %s as destination %s: each one sends its own copy of the live. Delete the one you do not need.'), $noun, $ids));
         }
 
-        if ($provider === 'youtube' && empty($channel)) {
+        if ($provider !== '' && empty($channel)) {
             $hints[] = $channelLookupFailed
-                ? self::hint('warning', 'fa-question-circle', self::t('We could not see which YouTube channel this connection uses. Connect it again with the YouTube button to check.'))
-                : self::hint('info', 'fa-circle-notch fa-spin', self::t('Checking which YouTube channel this connection uses...'));
+                ? self::hint('warning', 'fa-question-circle', sprintf(self::t('We could not see which %s %s this connection uses. Connect it again with the %s button to check.'), $label, $noun, $label))
+                : self::hint('info', 'fa-circle-notch fa-spin', sprintf(self::t('Checking which %s %s this connection uses...'), $label, $noun));
         }
         if ($provider === '' && preg_match('#(^|[/.])youtube\.com[:/]#i', (string) ($row['stream_url'] ?? ''))) {
             $hints[] = self::hint('info', 'fa-key', self::t('Filled in by hand: the stream key decides which YouTube channel receives the live.'));
@@ -306,14 +376,14 @@ class LiveRestreamDestinationInfo
 
     /**
      * For each destination id, the other destinations of the same list connected to the same
-     * YouTube channel. $channelsById: id => normalized channel or null.
+     * channel or page (same provider and id). $channelsById: id => normalized channel or null.
      */
     public static function getSameChannelDestinations($channelsById)
     {
         $byChannel = array();
         foreach ((array) $channelsById as $id => $channel) {
             if (!empty($channel['id'])) {
-                $byChannel[$channel['id']][] = intval($id);
+                $byChannel[($channel['provider'] ?? 'youtube') . ':' . $channel['id']][] = intval($id);
             }
         }
         $result = array();

@@ -139,8 +139,10 @@ class Live_restreams extends ObjectYPT {
             $id = intval($row['id'] ?? 0);
             $statuses[$id] = self::getDestinationStatus($id);
             $channel = LiveRestreamDestinationInfo::getChannelFromParameters($row['parameters'] ?? '');
-            if (empty($channel) && LiveRestreamDestinationInfo::getConnectedProvider($row['parameters'] ?? '') === 'youtube') {
-                $channel = LiveRestreamDestinationInfo::normalizeChannel($statuses[$id]['channel'] ?? null);
+            $provider = LiveRestreamDestinationInfo::getConnectedProvider($row['parameters'] ?? '');
+            if (empty($channel) && $provider !== '') {
+                // read later by channelInfo.json.php for destinations saved before the channel was stored
+                $channel = LiveRestreamDestinationInfo::normalizeChannel($statuses[$id]['channel'] ?? null, $provider);
             }
             $channels[$id] = $channel;
         }
@@ -149,7 +151,7 @@ class Live_restreams extends ObjectYPT {
             $id = intval($row['id'] ?? 0);
             $channel = $channels[$id];
             $status = $statuses[$id];
-            $isYouTube = LiveRestreamDestinationInfo::getConnectedProvider($row['parameters'] ?? '') === 'youtube';
+            $isConnected = LiveRestreamDestinationInfo::getConnectedProvider($row['parameters'] ?? '') !== '';
             $lookupFailed = !empty($status['channel_lookup_failed_at']) && $status['channel_lookup_failed_at'] > time() - 3600;
             $tokenExpired = is_object($row['token_expired'] ?? null) && !empty($row['token_expired']->needToRevalidate);
             $hints = LiveRestreamDestinationInfo::getHints($row, $channel, $status['last'] ?? null, $tokenExpired, $sameChannel[$id] ?? [], $lookupFailed);
@@ -158,7 +160,7 @@ class Live_restreams extends ObjectYPT {
             $rows[$key]['channel_html'] = LiveRestreamDestinationInfo::getChannelHtml($channel);
             $rows[$key]['status_hints'] = $hints;
             $rows[$key]['status_html'] = LiveRestreamDestinationInfo::getHintsHtml($hints, $tokenExpired ? $row['revalidateButton'] : '');
-            $rows[$key]['needs_channel_lookup'] = $isYouTube && empty($channel) && !$lookupFailed;
+            $rows[$key]['needs_channel_lookup'] = $isConnected && empty($channel) && !$lookupFailed;
             $rows[$key]['same_channel_as'] = $sameChannel[$id] ?? [];
         }
         return $rows;
@@ -264,7 +266,7 @@ class Live_restreams extends ObjectYPT {
     }
 
     /**
-     * An existing destination of the same owner connected to the same YouTube channel, so that
+     * An existing destination of the same owner connected to the same channel/page, so that
      * connecting the channel again replaces its connection instead of adding a second copy.
      */
     public function getIdOfSameChannelDestination() {
@@ -278,7 +280,8 @@ class Live_restreams extends ObjectYPT {
                 continue;
             }
             $rowChannel = $row['channel'] ?? null;
-            if (!empty($rowChannel['id']) && $rowChannel['id'] === $channel['id']) {
+            if (!empty($rowChannel['id']) && $rowChannel['id'] === $channel['id']
+                && ($rowChannel['provider'] ?? 'youtube') === $channel['provider']) {
                 return intval($row['id']);
             }
         }
@@ -474,7 +477,7 @@ class Live_restreams extends ObjectYPT {
 
     public function save() {
         if (empty($this->id)) {
-            // Connecting the same YouTube channel again updates the existing destination.
+            // Connecting the same channel/page again updates the existing destination.
             $sameChannelId = $this->getIdOfSameChannelDestination();
             if (!empty($sameChannelId)) {
                 $this->id = $sameChannelId;

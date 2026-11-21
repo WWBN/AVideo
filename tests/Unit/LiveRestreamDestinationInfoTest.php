@@ -76,7 +76,52 @@ class LiveRestreamDestinationInfoTest extends TestCase
         $this->assertSame('', \LiveRestreamDestinationInfo::getConnectedProvider('{"x":1}'));
         $this->assertNull(\LiveRestreamDestinationInfo::getChannelFromParameters($this->youtubeParameters()));
         $facebook = json_encode(['restream.ypt.me' => ['facebook' => ['access_token' => 'x'], 'channel' => $this->channel()]]);
-        $this->assertNull(\LiveRestreamDestinationInfo::getChannelFromParameters($facebook), 'only YouTube connections carry a channel');
+        $this->assertNull(\LiveRestreamDestinationInfo::getChannelFromParameters($facebook), 'a YouTube-shaped channel is not a Facebook page');
+    }
+
+    public function testFacebookPagesAndTwitchChannelsAreShownToo(): void
+    {
+        $facebook = json_encode(['restream.ypt.me' => ['facebook' => ['broadcaster_id' => '1234567', 'subtitle' => 'TIC'], 'provider' => 'facebook',
+            'channel' => ['provider' => 'facebook', 'kind' => 'page', 'id' => '1234567', 'title' => 'Tabernacle International Church',
+                'url' => 'https://www.facebook.com/TIC', 'thumbnail' => 'https://scontent.xx.fbcdn.net/p.jpg']]]);
+        $page = \LiveRestreamDestinationInfo::getChannelFromParameters($facebook);
+        $this->assertSame('facebook', $page['provider']);
+        $this->assertSame('Tabernacle International Church', \LiveRestreamDestinationInfo::getChannelLabel($page));
+        $this->assertSame('Facebook page Tabernacle International Church', \LiveRestreamDestinationInfo::getChannelDescription($page));
+        $html = \LiveRestreamDestinationInfo::getChannelHtml($page);
+        $this->assertStringContainsString('fa-facebook', $html);
+        $this->assertStringContainsString('https://www.facebook.com/TIC', $html);
+
+        $profile = \LiveRestreamDestinationInfo::normalizeChannel(['id' => '1234567', 'kind' => 'profile', 'title' => 'Person', 'url' => 'https://www.facebook.com/x'], 'facebook');
+        $this->assertSame('', $profile['url'], 'app-scoped profile ids have no public link');
+        $this->assertSame('Person (profile)', \LiveRestreamDestinationInfo::getChannelLabel($profile));
+        $this->assertStringContainsString('<span>', \LiveRestreamDestinationInfo::getChannelHtml($profile));
+        $this->assertSame('https://www.facebook.com/1234567',
+            \LiveRestreamDestinationInfo::normalizeChannel(['id' => '1234567', 'url' => 'https://evil.example/'], 'facebook')['url'], 'only facebook.com links');
+
+        $twitch = \LiveRestreamDestinationInfo::normalizeChannel(['provider' => 'twitch', 'id' => '123', 'title' => 'TIC Live', 'handle' => 'TICLive',
+            'thumbnail' => 'https://static-cdn.jtvnw.net/a.png'], 'twitch');
+        $this->assertSame('TIC Live (ticlive)', \LiveRestreamDestinationInfo::getChannelLabel($twitch));
+        $this->assertSame('https://www.twitch.tv/ticlive', $twitch['url']);
+        $this->assertSame('ticlive', \LiveRestreamDestinationInfo::getChannelLabel(['provider' => 'twitch', 'id' => '123', 'handle' => 'ticlive']), 'login only once');
+        $this->assertNull(\LiveRestreamDestinationInfo::normalizeChannel(['provider' => 'youtube', 'id' => '123'], 'twitch'), 'provider mismatch');
+        $this->assertNull(\LiveRestreamDestinationInfo::normalizeChannel(['id' => 'abc'], 'twitch'));
+    }
+
+    public function testHintsUseTheRightWordForEachProvider(): void
+    {
+        $facebookRow = ['status' => 'a', 'stream_url' => 'rtmps://live-api-s.facebook.com:443/rtmp/',
+            'parameters' => json_encode(['restream.ypt.me' => ['facebook' => ['broadcaster_id' => '1234567'], 'provider' => 'facebook']])];
+        $this->assertStringContainsString('Checking which Facebook page', $this->texts(\LiveRestreamDestinationInfo::getHints($facebookRow, null, null, false)));
+        $page = ['provider' => 'facebook', 'id' => '1234567', 'title' => 'TIC'];
+        $this->assertStringContainsString('Same page as destination #44', $this->texts(\LiveRestreamDestinationInfo::getHints($facebookRow, $page, null, false, [44])));
+        $twitchRow = ['status' => 'a', 'stream_url' => 'rtmp://jfk.contribute.live-video.net/app/',
+            'parameters' => json_encode(['restream.ypt.me' => ['twitch' => ['broadcaster_id' => '123'], 'provider' => 'twitch']])];
+        $this->assertStringContainsString('could not see which Twitch channel', $this->texts(\LiveRestreamDestinationInfo::getHints($twitchRow, null, null, false, [], true)));
+
+        // same id on two providers is not the same destination
+        $this->assertSame([], \LiveRestreamDestinationInfo::getSameChannelDestinations([
+            1 => ['provider' => 'facebook', 'id' => '1234567'], 2 => ['provider' => 'twitch', 'id' => '1234567']]));
     }
 
     public function testBrowserPostedChannelIsValidatedAndEscaped(): void

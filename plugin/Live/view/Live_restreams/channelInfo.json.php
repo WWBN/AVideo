@@ -1,7 +1,8 @@
 <?php
 
-// Which YouTube channel an existing destination sends to, for destinations connected before
-// restream.ypt.me returned the channel. Read-only on YouTube; the answer is cached per destination.
+// Which YouTube channel, Facebook page/profile or Twitch channel an existing destination sends
+// to, for destinations connected before restream.ypt.me returned it. Read-only on the provider;
+// the answer is cached per destination.
 require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
 header('Content-Type: application/json');
@@ -23,15 +24,16 @@ if (empty($row->getId()) || (!User::isAdmin() && $row->getUsers_id() !== User::g
 _session_write_close();
 
 $parameters = json_decode((string) $row->getParameters(), true);
-if (LiveRestreamDestinationInfo::getConnectedProvider($parameters) !== 'youtube') {
-    $obj->msg = 'Not a YouTube connection';
+$provider = LiveRestreamDestinationInfo::getConnectedProvider($parameters);
+if ($provider === '') {
+    $obj->msg = 'Not a connected account';
     die(json_encode($obj));
 }
 
 $channel = LiveRestreamDestinationInfo::getChannelFromParameters($parameters);
 $status = Live_restreams::getDestinationStatus($live_restreams_id);
 if (empty($channel)) {
-    $channel = LiveRestreamDestinationInfo::normalizeChannel($status['channel'] ?? null);
+    $channel = LiveRestreamDestinationInfo::normalizeChannel($status['channel'] ?? null, $provider);
 }
 if (empty($channel) && !empty($status['channel_lookup_failed_at']) && $status['channel_lookup_failed_at'] > time() - 3600) {
     $obj->msg = 'The channel could not be read recently, try again later';
@@ -39,17 +41,24 @@ if (empty($channel) && !empty($status['channel_lookup_failed_at']) && $status['c
 }
 
 if (empty($channel)) {
-    $url = 'https://restream.ypt.me/youtube_channel_info.php';
-    if (!empty($global['local_test_server'])) {
-        $url = 'http://127.0.0.1/Restreamer/youtube_channel_info.php';
+    // channel_info.php answers for YouTube, Facebook and Twitch; youtube_channel_info.php is the
+    // older YouTube-only lookup kept for brokers that do not have it yet.
+    $base = empty($global['local_test_server']) ? 'https://restream.ypt.me/' : 'http://127.0.0.1/Restreamer/';
+    $post = array('parameters64' => base64_encode(json_encode($parameters['restream.ypt.me'])));
+    $json = null;
+    foreach (array('channel_info.php', 'youtube_channel_info.php') as $endpoint) {
+        if ($endpoint === 'youtube_channel_info.php' && $provider !== 'youtube') {
+            break;
+        }
+        $response = postVariables($base . $endpoint, $post, false, 20);
+        $json = is_string($response) ? json_decode($response, true) : null;
+        if (is_array($json)) {
+            break;
+        }
     }
-    $response = postVariables($url, array(
-        'parameters64' => base64_encode(json_encode($parameters['restream.ypt.me'])),
-    ), false, 20);
-    $json = is_string($response) ? json_decode($response, true) : null;
-    $channel = is_array($json) && empty($json['error']) ? LiveRestreamDestinationInfo::normalizeChannel($json['channel'] ?? null) : null;
+    $channel = is_array($json) && empty($json['error']) ? LiveRestreamDestinationInfo::normalizeChannel($json['channel'] ?? null, $provider) : null;
     if (empty($channel)) {
-        _error_log("Live_restreams/channelInfo.json.php: could not read the channel of live_restreams_id={$live_restreams_id}", AVideoLog::$WARNING);
+        _error_log("Live_restreams/channelInfo.json.php: could not read the {$provider} channel of live_restreams_id={$live_restreams_id}", AVideoLog::$WARNING);
         Live_restreams::saveDestinationStatus($live_restreams_id, array('channel_lookup_failed_at' => time()));
         $obj->msg = 'Could not read the channel';
         die(json_encode($obj));

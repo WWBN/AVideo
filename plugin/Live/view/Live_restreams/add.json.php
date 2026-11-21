@@ -60,11 +60,11 @@ if ($isNew) {
 if ($id = $o->save()) {
     $obj->error = false;
     $obj->id = intval($id);
-    $channelLabel = LiveRestreamDestinationInfo::getChannelLabel(LiveRestreamDestinationInfo::getChannelFromParameters($_POST['parameters'] ?? ''));
-    if ($channelLabel !== '') {
-        $obj->msg = sprintf(__('Lives will be sent to the YouTube channel %s.'), htmlspecialchars($channelLabel, ENT_QUOTES, 'UTF-8'));
+    $channelDescription = LiveRestreamDestinationInfo::getChannelDescription(LiveRestreamDestinationInfo::getChannelFromParameters($_POST['parameters'] ?? ''));
+    if ($channelDescription !== '') {
+        $obj->msg = sprintf(__('Lives will be sent to the %s.'), htmlspecialchars($channelDescription, ENT_QUOTES, 'UTF-8'));
         if ($isNew && !empty($sameChannelId) && intval($sameChannelId) === intval($id)) {
-            $obj->msg .= ' ' . sprintf(__('This channel was already in destination #%s, so its connection was updated instead of adding a copy.'), intval($id));
+            $obj->msg .= ' ' . sprintf(__('It was already in destination #%s, so its connection was updated instead of adding a copy.'), intval($id));
         }
     }
 }
