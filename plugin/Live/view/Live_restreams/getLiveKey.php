@@ -27,6 +27,7 @@ if (!Live::canRestream()) {
     <?php echo __('After you sign in, you will see which channel or page was connected before it is saved.'); ?>
     <br><i class="fab fa-youtube" aria-hidden="true"></i>
     <?php echo __('YouTube: Google only lists channels you own or manage as a Brand Account. If your channel is not listed, fill in its stream URL and stream key by hand in the form.'); ?>
+    <a href="https://support.google.com/youtube/answer/9481328" target="_blank" rel="noopener noreferrer"><?php echo __('Why?'); ?></a>
     <br><i class="fab fa-twitch" aria-hidden="true"></i>
     <?php echo __('Twitch: the account logged in on twitch.tv in this browser is connected.'); ?>
 </p>
