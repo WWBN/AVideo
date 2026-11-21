@@ -152,6 +152,30 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
             $responseJson->reconnectProviderLabel = $reconnect->providerLabel;
             $response = json_encode($responseJson);
         }
+        // YouTube refuses channels that are not enabled for live streaming: say what to do
+        // instead of showing the provider's raw 403.
+        $liveDisabled = empty($reconnect) ? LiveRestreamDestinationInfo::getLiveStreamingDisabledInfo($responseJson, $Live_restreams->getName()) : null;
+        if (!empty($liveDisabled)) {
+            _error_log("Restreamer get live keys: live_restreams_id=" . $Live_restreams->getId() . " channel cannot go live (liveStreamingNotEnabled)", AVideoLog::$WARNING);
+            $responseJson->msg = $liveDisabled->msg;
+            if (isset($responseJson->rawData)) {
+                $responseJson->rawData = '';
+            }
+            $responseJson->restreamProblem = $liveDisabled->reason;
+            $response = json_encode($responseJson);
+        }
+        // Remember the outcome of a real live (the restreamer always sends the live history id)
+        // so the Restream panel can show it later, also for lives that started automatically.
+        if ($liveTransmitionHistory_id > 0) {
+            $reason = !empty($reconnect) ? $reconnect->reason : (!empty($liveDisabled) ? $liveDisabled->reason : '');
+            try {
+                Live_restreams::saveDestinationStatus($Live_restreams->getId(), array(
+                    'last' => LiveRestreamDestinationInfo::getLastResult($responseJson, $reason),
+                ));
+            } catch (\Throwable $th) {
+                _error_log('Restreamer get live keys: could not save the destination status: ' . $th->getMessage(), AVideoLog::$WARNING);
+            }
+        }
     }
     echo $response;
 }

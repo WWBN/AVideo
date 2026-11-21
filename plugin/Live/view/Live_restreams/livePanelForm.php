@@ -54,7 +54,7 @@ if (!Live::canRestream()) {
                     <th><?php echo __("Name"); ?></th>
                     <th><?php echo __("Status"); ?></th>
                     <th><?php echo __("Key"); ?></th>
-                    <th><?php echo __("Valid"); ?></th>
+                    <th><?php echo __("Health"); ?></th>
                     <th></th>
                 </tr>
             </thead>
@@ -64,13 +64,19 @@ if (!Live::canRestream()) {
                     <th><?php echo __("Name"); ?></th>
                     <th><?php echo __("Status"); ?></th>
                     <th><?php echo __("Key"); ?></th>
-                    <th><?php echo __("Valid"); ?></th>
+                    <th><?php echo __("Health"); ?></th>
                     <th></th>
                 </tr>
             </tfoot>
         </table>
     </div>
 </div>
+<style>
+    #Live_restreamsTable .restream-channel { margin-top: 4px; font-size: 0.95em; }
+    #Live_restreamsTable .restream-channel img { vertical-align: middle; }
+    #Live_restreamsTable .restream-destination-hints > div { margin-bottom: 3px; }
+    #Live_restreamsTable .restream-destination-hints .text-muted { opacity: 0.85; }
+</style>
 <div id="Live_restreamsbtnModelLinks" style="display: none;">
     <div class="btn-group pull-right">
         <button class="edit_Live_restreams btn btn-default btn-xs">
@@ -114,7 +120,7 @@ if (!Live::canRestream()) {
                             var json = JSON.parse(row.parameters);
                             //console.log('Live_restreamstableVar parameters', json);
                             if (!empty(json['restream.ypt.me'])) {
-                                return '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/getLiveKey.json.php?live_restreams_id=' + row.id + '" target="_blank" style="color:#000;">' + data + '</a>';
+                                return '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/getLiveKey.json.php?live_restreams_id=' + row.id + '" target="_blank" style="color:#000;">' + data + '</a>' + (row.channel_html || '');
                             }
 
                         }
@@ -123,7 +129,14 @@ if (!Live::canRestream()) {
                 },
                 {"data": "status"},
                 {"data": "stream_key_short"},
-                {"data": "revalidateButton"},
+                {
+                    "data": "status_html",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        // Server-rendered and escaped; older servers only send the check/revalidate cell.
+                        return data || row.revalidateButton || '';
+                    }
+                },
                 {
                     sortable: false,
                     data: null,
@@ -131,6 +144,35 @@ if (!Live::canRestream()) {
                 }
             ],
             select: true,
+        });
+        // YouTube destinations connected before the channel was saved: ask once per page which
+        // channel they use, then redraw so the panel names the channel that receives the live.
+        var restreamChannelLookups = {};
+        Live_restreamstableVar.on('xhr.dt', function (e, settings, json) {
+            if (!json || !Array.isArray(json.data)) {
+                return;
+            }
+            var pending = json.data.filter(function (row) {
+                return row.needs_channel_lookup && !restreamChannelLookups[row.id];
+            });
+            if (!pending.length) {
+                return;
+            }
+            var remaining = pending.length;
+            pending.forEach(function (row) {
+                restreamChannelLookups[row.id] = true;
+                $.ajax({
+                    url: webSiteRootURL + 'plugin/Live/view/Live_restreams/channelInfo.json.php',
+                    data: {live_restreams_id: row.id},
+                    dataType: 'json'
+                }).always(function () {
+                    remaining--;
+                    if (remaining === 0) {
+                        // reload also when the lookup failed, so the "could not see" hint replaces "Checking..."
+                        Live_restreamstableVar.ajax.reload(null, false);
+                    }
+                });
+            });
         });
         $('#newLive_restreams').on('click', function (e) {
             e.preventDefault();
@@ -163,7 +205,7 @@ if (!Live::canRestream()) {
             var data = Live_restreamstableVar.row(tr).data();
             swal({
                 title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                text: <?php echo json_encode(__("If this destination is sending a live right now, it will be stopped first.") . "\n" . __("You will not be able to recover this action!")); ?>,
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -174,11 +216,13 @@ if (!Live::canRestream()) {
                             $.ajax({
                                 type: "POST",
                                 url: webSiteRootURL + "plugin/Live/view/Live_restreams/delete.json.php",
-                                data: data
+                                data: {id: data.id}
 
                             }).done(function (resposta) {
                                 if (resposta.error) {
                                     avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                } else if (resposta.msg) {
+                                    avideoToastSuccess(resposta.msg);
                                 }
                                 Live_restreamstableVar.ajax.reload();
                                 modal.hidePleaseWait();

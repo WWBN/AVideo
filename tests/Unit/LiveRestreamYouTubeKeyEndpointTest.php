@@ -5,6 +5,10 @@ namespace Tests\Unit\YouTubeKeyEndpoint;
 use PHPUnit\Framework\TestCase;
 
 require_once dirname(__DIR__, 2) . '/plugin/Live/standAloneFiles/restreamProfiles.php';
+require_once dirname(__DIR__, 2) . '/plugin/Live/Objects/LiveRestreamDestinationInfo.php';
+if (!class_exists(__NAMESPACE__ . '\\LiveRestreamDestinationInfo', false)) {
+    class_alias(\LiveRestreamDestinationInfo::class, __NAMESPACE__ . '\\LiveRestreamDestinationInfo');
+}
 
 class Fixture
 {
@@ -13,6 +17,7 @@ class Fixture
     public static $saves;
     public static $provider;
     public static $logs;
+    public static $statuses;
 }
 class AVideoLog
 {
@@ -47,6 +52,7 @@ class Live_restreams extends SourceLive_restreams
     public function getName() { return 'youtube : channel@example.com'; }
     public static function getYouTubeBroadcastIdToReuse($id, $history) { return $history === 123 ? 'oldVideo123' : ''; }
     public static function saveYouTubeBroadcastFromRestreamerResponse($id, $history, $answer) { Fixture::$saves[] = [$id, $history, $answer]; }
+    public static function saveDestinationStatus($id, $changes) { Fixture::$statuses[] = [$id, $changes]; return true; }
 }
 function postVariables($url, $data, $httpOnly) { Fixture::$posts[] = [$url, $data]; return Fixture::$answer; }
 function _error_log($message) { Fixture::$logs[] = $message; }
@@ -61,7 +67,7 @@ class LiveRestreamYouTubeKeyEndpointTest extends TestCase
         $this->savedGlobal = $GLOBALS['global'];
         $this->savedRequest = $_REQUEST;
         $GLOBALS['global'] = [];
-        Fixture::$posts = Fixture::$saves = [];
+        Fixture::$posts = Fixture::$saves = Fixture::$statuses = [];
         Fixture::$provider = 'youtube';
         Fixture::$logs = [];
         Fixture::$answer = json_encode(['error' => false, 'broadcast_id' => 'oldVideo123', 'stream_key' => 'FAKE_KEY', 'reused_broadcast' => true, 'broadcast_status_check_supported' => true]);
@@ -172,5 +178,33 @@ class LiveRestreamYouTubeKeyEndpointTest extends TestCase
             Fixture::$answer = $answer;
             $this->assertSame($answer, $this->runRequest(['liveTransmitionHistory_id' => 123]));
         }
+        $this->assertSame('no_answer', Fixture::$statuses[0][1]['last']['reason'], 'a broker that does not answer is remembered');
+    }
+
+    public function testChannelThatCannotGoLiveGetsAnActionableMessageAndIsRemembered(): void
+    {
+        // Light and Truth TV, 2026-11-21: the raw 403 only reached the log.
+        Fixture::$answer = json_encode(['error' => true, 'msg' => ['error' => ['code' => 403, 'message' => 'The user is not enabled for live streaming.',
+            'errors' => [['reason' => 'liveStreamingNotEnabled']]]], 'rawData' => '{"error":{"code":403}}']);
+        $answer = json_decode($this->runRequest(['liveTransmitionHistory_id' => 123]));
+        $this->assertTrue($answer->error);
+        $this->assertSame('live_disabled', $answer->restreamProblem);
+        $this->assertStringContainsString('YouTube Studio', $answer->msg);
+        $this->assertStringContainsString('"youtube : channel@example.com"', $answer->msg, 'plain text, no HTML entities');
+        $this->assertEmpty($answer->rawData, 'older restreamers prefer rawData');
+        $this->assertFalse(isset($answer->needsReconnect));
+        $this->assertSame([[7, ['last' => Fixture::$statuses[0][1]['last']]]], Fixture::$statuses);
+        $this->assertSame('live_disabled', Fixture::$statuses[0][1]['last']['reason']);
+    }
+
+    public function testOnlyRealLivesUpdateTheLastResult(): void
+    {
+        Fixture::$answer = json_encode(['error' => false, 'live_url' => 'https://www.youtube.com/watch?v=SgKX4uKjEAk', 'stream_key' => 'FAKE_KEY']);
+        $this->runRequest([]);
+        $this->assertSame([], Fixture::$statuses, 'opening the key link from the panel is not a live');
+        $this->runRequest(['liveTransmitionHistory_id' => 123]);
+        $this->assertSame('ok', Fixture::$statuses[0][1]['last']['state']);
+        $this->assertSame('https://www.youtube.com/watch?v=SgKX4uKjEAk', Fixture::$statuses[0][1]['last']['live_url']);
+        $this->assertStringNotContainsString('FAKE_KEY', json_encode(Fixture::$statuses));
     }
 }

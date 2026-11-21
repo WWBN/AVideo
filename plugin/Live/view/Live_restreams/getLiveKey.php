@@ -23,6 +23,10 @@ if (!Live::canRestream()) {
         Twitch
     </button>
 </div>
+<p class="help-block small">
+    <i class="fab fa-youtube" aria-hidden="true"></i>
+    <?php echo __('YouTube: after you sign in, you will see which channel was connected before it is saved. Google only lists channels you own or manage as a Brand Account. If your channel is not listed, fill in its stream URL and stream key by hand in the form.'); ?>
+</p>
 <!--
 <button type="button" class="btn btn-default" onclick="openRestream('')">
     <i class="fas fa-cog"></i>

@@ -113,3 +113,15 @@
         padding: 10px;
     }
 }
+
+/* Channel that really receives the live (YouTube connections) */
+#livesRestreamList .restream-channel {
+    margin-top: 2px;
+    font-size: 0.9em;
+    font-weight: normal;
+    overflow-wrap: anywhere;
+}
+
+#livesRestreamList .restream-channel img {
+    vertical-align: middle;
+}

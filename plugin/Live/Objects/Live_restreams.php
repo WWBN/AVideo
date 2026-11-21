@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../standAloneFiles/restreamProfiles.php';
+require_once dirname(__FILE__) . '/LiveRestreamDestinationInfo.php';
 
 class Live_restreams extends ObjectYPT {
 
@@ -106,7 +107,7 @@ class Live_restreams extends ObjectYPT {
                 $row['display_name'] = getWordOrIcon($row['name'], 'fa-2x');
                 $row['token_expired'] = self::checkIfTokenIsExpired($row['parameters']);
                 $row['provider'] = self::getProviderName($row['parameters']);
-                if ($row['token_expired']->needToRevalidate) {
+                if (!empty($row['token_expired']->needToRevalidate)) {
                     $row['revalidateButton'] = '<button class="btn btn-primary btn-xs mediumSocialIcon" onclick="openRestream(\''.$row['provider'].'\');"><i class="fas fa-sync"></i> '.__("Revalidate").'</button>';
                 } else {
                     $row['revalidateButton'] = '<i class="fas fa-check text-success"></i>';
@@ -114,7 +115,166 @@ class Live_restreams extends ObjectYPT {
                 $rows[] = $row;
             }
         }
+        try {
+            return self::addDestinationStatus($rows);
+        } catch (\Throwable $th) {
+            // Status hints are informational: never let them break starting a restream.
+            _error_log('Live_restreams::getAllFromUser: status hints failed: ' . $th->getMessage(), AVideoLog::$WARNING);
+            return $rows;
+        }
+    }
+
+    /**
+     * Adds what the owner should know about each destination: the channel it really sends to,
+     * the result of the last live and warnings (same channel twice, expired connection, channel
+     * that cannot go live). Read-only and silent, so it is safe for scheduled/automatic lives.
+     */
+    public static function addDestinationStatus($rows) {
+        if (!is_array($rows)) {
+            return $rows;
+        }
+        $channels = [];
+        $statuses = [];
+        foreach ($rows as $key => $row) {
+            $id = intval($row['id'] ?? 0);
+            $statuses[$id] = self::getDestinationStatus($id);
+            $channel = LiveRestreamDestinationInfo::getChannelFromParameters($row['parameters'] ?? '');
+            if (empty($channel) && LiveRestreamDestinationInfo::getConnectedProvider($row['parameters'] ?? '') === 'youtube') {
+                $channel = LiveRestreamDestinationInfo::normalizeChannel($statuses[$id]['channel'] ?? null);
+            }
+            $channels[$id] = $channel;
+        }
+        $sameChannel = LiveRestreamDestinationInfo::getSameChannelDestinations($channels);
+        foreach ($rows as $key => $row) {
+            $id = intval($row['id'] ?? 0);
+            $channel = $channels[$id];
+            $status = $statuses[$id];
+            $isYouTube = LiveRestreamDestinationInfo::getConnectedProvider($row['parameters'] ?? '') === 'youtube';
+            $lookupFailed = !empty($status['channel_lookup_failed_at']) && $status['channel_lookup_failed_at'] > time() - 3600;
+            $tokenExpired = is_object($row['token_expired'] ?? null) && !empty($row['token_expired']->needToRevalidate);
+            $hints = LiveRestreamDestinationInfo::getHints($row, $channel, $status['last'] ?? null, $tokenExpired, $sameChannel[$id] ?? [], $lookupFailed);
+            $rows[$key]['channel'] = $channel;
+            $rows[$key]['channel_label'] = LiveRestreamDestinationInfo::getChannelLabel($channel);
+            $rows[$key]['channel_html'] = LiveRestreamDestinationInfo::getChannelHtml($channel);
+            $rows[$key]['status_hints'] = $hints;
+            $rows[$key]['status_html'] = LiveRestreamDestinationInfo::getHintsHtml($hints, $tokenExpired ? $row['revalidateButton'] : '');
+            $rows[$key]['needs_channel_lookup'] = $isYouTube && empty($channel) && !$lookupFailed;
+            $rows[$key]['same_channel_as'] = $sameChannel[$id] ?? [];
+        }
         return $rows;
+    }
+
+    // Per-destination status kept in the temporary cache (last key request result, channel read
+    // later for destinations connected before the channel was saved). Losing it only hides hints.
+    private static function getDestinationStatusFile($live_restreams_id) {
+        $live_restreams_id = intval($live_restreams_id);
+        if ($live_restreams_id <= 0) {
+            return '';
+        }
+        return ObjectYPT::getTmpCacheDir() . 'LiveRestreamDestinationStatus' . DIRECTORY_SEPARATOR . "{$live_restreams_id}.json";
+    }
+
+    public static function getDestinationStatus($live_restreams_id) {
+        $file = self::getDestinationStatusFile($live_restreams_id);
+        if (empty($file) || !is_file($file)) {
+            return [];
+        }
+        $data = json_decode((string) @file_get_contents($file), true);
+        return is_array($data) ? $data : [];
+    }
+
+    public static function saveDestinationStatus($live_restreams_id, $changes) {
+        $file = self::getDestinationStatusFile($live_restreams_id);
+        if (empty($file) || !is_array($changes)) {
+            return false;
+        }
+        $data = array_merge(self::getDestinationStatus($live_restreams_id), $changes);
+        $content = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
+        if ($content === false) {
+            return false;
+        }
+        require_once __DIR__ . '/../../../objects/ObjectCacheMaintenance.php';
+        ObjectYPT::scheduleCacheMaintenance(); // the first write waits for the cache size scan
+        global $global;
+        $maxBytes = isset($global['objectCacheMaxBytes']) ? max(1, intval($global['objectCacheMaxBytes'])) : ObjectCacheMaintenance::DEFAULT_MAX_BYTES;
+        $maxFiles = isset($global['objectCacheMaxFiles']) ? max(1, intval($global['objectCacheMaxFiles'])) : ObjectCacheMaintenance::DEFAULT_MAX_FILES;
+        return ObjectCacheMaintenance::write(ObjectYPT::getTmpCacheDir(), $file, $content, $maxBytes, $maxFiles) !== false;
+    }
+
+    public static function deleteDestinationStatus($live_restreams_id) {
+        $file = self::getDestinationStatusFile($live_restreams_id);
+        if (!empty($file) && is_file($file)) {
+            @unlink($file);
+        }
+    }
+
+    /**
+     * Live sessions (not finished, active in the last 2 days) in which this destination was
+     * started. Used to stop its relay before the destination is deleted: deleting the row alone
+     * left FFmpeg sending the live to the old channel (TIC, 2026-11-21).
+     */
+    public static function getUnfinishedHistoriesWithRelay($live_restreams_id) {
+        $live_restreams_id = intval($live_restreams_id);
+        if ($live_restreams_id <= 0) {
+            return [];
+        }
+        $sql = "SELECT DISTINCT l.live_transmitions_history_id AS id FROM live_restreams_logs l
+                INNER JOIN live_transmitions_history h ON h.id = l.live_transmitions_history_id
+                WHERE l.live_restreams_id = ? AND h.finished IS NULL AND h.modified > DATE_SUB(NOW(), INTERVAL 2 DAY)";
+        $res = sqlDAL::readSql($sql, 'i', [$live_restreams_id]);
+        $rows = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        return array_values(array_filter(array_map('intval', array_column($rows ? $rows : [], 'id'))));
+    }
+
+    /**
+     * Asks the restreamer to stop this destination in every unfinished live.
+     * Returns ['stopped' => relays really killed, 'failed' => relays the restreamer could not stop].
+     */
+    public static function stopRelaysOfDestination($live_restreams_id) {
+        require_once __DIR__ . '/Live_restreams_logs.php';
+        $result = ['stopped' => 0, 'failed' => 0];
+        foreach (self::getUnfinishedHistoriesWithRelay($live_restreams_id) as $historyId) {
+            $url = Live_restreams_logs::getURLFromTransmitionAndRestream($historyId, intval($live_restreams_id), 'stop');
+            if (empty($url)) {
+                _error_log("Live_restreams::stopRelaysOfDestination: no restreamer URL for live_restreams_id={$live_restreams_id} history={$historyId}", AVideoLog::$WARNING);
+                continue;
+            }
+            $response = url_get_contents($url, '', 20, false, false, false);
+            $json = json_decode((string) $response);
+            _error_log("Live_restreams::stopRelaysOfDestination: live_restreams_id={$live_restreams_id} history={$historyId} response=" . substr((string) $response, 0, 300));
+            if (!is_object($json)) {
+                continue; // restreamer unreachable: nothing more can be done from here
+            }
+            if (!empty($json->error)) {
+                $result['failed']++;
+            } elseif (!empty($json->remoteKill) || !empty($json->killIfIsRunning)) {
+                $result['stopped']++;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * An existing destination of the same owner connected to the same YouTube channel, so that
+     * connecting the channel again replaces its connection instead of adding a second copy.
+     */
+    public function getIdOfSameChannelDestination() {
+        $channel = LiveRestreamDestinationInfo::getChannelFromParameters($this->parameters);
+        if (empty($channel) || empty($this->users_id)) {
+            return 0;
+        }
+        $rows = self::getAllFromUser($this->users_id, '');
+        foreach ((array) $rows as $row) {
+            if (intval($row['id']) === intval($this->id)) {
+                continue;
+            }
+            $rowChannel = $row['channel'] ?? null;
+            if (!empty($rowChannel['id']) && $rowChannel['id'] === $channel['id']) {
+                return intval($row['id']);
+            }
+        }
+        return 0;
     }
 
     /**
@@ -305,8 +465,15 @@ class Live_restreams extends ObjectYPT {
     }
 
     public function save() {
+        if (empty($this->id)) {
+            // Connecting the same YouTube channel again updates the existing destination.
+            $sameChannelId = $this->getIdOfSameChannelDestination();
+            if (!empty($sameChannelId)) {
+                $this->id = $sameChannelId;
+            }
+        }
         $rows = self::getAllFromUser($this->users_id, '');
-        foreach ($rows as $row) {
+        foreach ((array) $rows as $row) {
             if ($row['name'] == $this->name || $this->stream_key !== 'Automatic') {
                 if ($row['stream_key'] == $this->stream_key && $row['stream_url'] == $this->stream_url) {
                     $this->id = $row['id'];
