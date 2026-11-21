@@ -32,6 +32,10 @@ if ($relays['failed'] > 0) {
     $obj->msg = __('This destination is still sending a live and it could not be stopped, so it was not deleted. Stop it in Active Lives and try again.');
     die(json_encode($obj));
 }
+$deletedChannel = LiveRestreamDestinationInfo::getChannelFromParameters($row->getParameters());
+_error_log('Live_restreams/delete.json.php: deleting live_restreams_id=' . intval($id) . ' by users_id=' . User::getId()
+    . ' name=' . json_encode((string) $row->getName()) . ' channel=' . json_encode(LiveRestreamDestinationInfo::getChannelLabel($deletedChannel))
+    . ' relays_stopped=' . intval($relays['stopped']));
 $obj->error = !$row->delete();
 if (!$obj->error) {
     Live_restreams::deleteDestinationStatus($id);

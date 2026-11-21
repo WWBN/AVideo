@@ -60,7 +60,14 @@ if ($isNew) {
 if ($id = $o->save()) {
     $obj->error = false;
     $obj->id = intval($id);
-    $channelDescription = LiveRestreamDestinationInfo::getChannelDescription(LiveRestreamDestinationInfo::getChannelFromParameters($_POST['parameters'] ?? ''));
+    $savedChannel = LiveRestreamDestinationInfo::getChannelFromParameters($_POST['parameters'] ?? '');
+    // Support trail: which channel/page each saved connection really sends to.
+    _error_log('Live_restreams/add.json.php: saved live_restreams_id=' . intval($id) . ' users_id=' . intval($_POST['users_id'])
+        . ' new=' . ($isNew ? 'yes' : 'no') . ' updated_same_channel=' . (!empty($sameChannelId) ? intval($sameChannelId) : 'no')
+        . ' provider=' . (LiveRestreamDestinationInfo::getConnectedProvider($_POST['parameters'] ?? '') ?: 'manual')
+        . ' channel_id=' . ($savedChannel['id'] ?? 'NONE') . ' channel=' . json_encode(LiveRestreamDestinationInfo::getChannelLabel($savedChannel))
+        . ' name=' . json_encode((string) ($_POST['name'] ?? '')) . ' stream_url_host=' . (parse_url($streamUrl, PHP_URL_HOST) ?: $streamUrl));
+    $channelDescription = LiveRestreamDestinationInfo::getChannelDescription($savedChannel);
     if ($channelDescription !== '') {
         $obj->msg = sprintf(__('Lives will be sent to the %s.'), htmlspecialchars($channelDescription, ENT_QUOTES, 'UTF-8'));
         if ($isNew && !empty($sameChannelId) && intval($sameChannelId) === intval($id)) {
