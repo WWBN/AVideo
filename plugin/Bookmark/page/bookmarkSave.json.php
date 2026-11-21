@@ -19,6 +19,12 @@ if(!User::isAdmin() && !Video::canEdit($_REQUEST['videos_id'])){
 forbidIfIsUntrustedRequest('Bookmark::bookmarkSave');
 
 $o = new BookmarkTable(@$_REQUEST['id']);
+// An existing bookmark can only be changed by someone who can edit the video it belongs to now,
+// not only the destination video (GHSA-w5xw-88j8-fmwp), same check as bookmarkDelete.json.php
+$existingVideos_id = $o->getVideos_id();
+if (!empty($existingVideos_id) && !User::isAdmin() && !Video::canEdit($existingVideos_id)) {
+    forbiddenPage('Bookmark::bookmarkSave: you cannot edit this bookmark', true);
+}
 $o->setName($_REQUEST['name']);
 $o->setTimeInSeconds($_REQUEST['timeInSeconds']);
 $o->setVideos_id($_REQUEST['videos_id']);
