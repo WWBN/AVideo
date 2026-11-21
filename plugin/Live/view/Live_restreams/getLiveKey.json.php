@@ -59,8 +59,11 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
     require_once __DIR__ . '/../../standAloneFiles/restreamProfiles.php';
     if (getRestreamProvider($response->stream_url) === 'youtube') {
         $liveObj = AVideoPlugin::getObjectData('Live');
-        if (!empty($liveObj->restreamForceProtocolForYouTubeTest)) {
-            $response->forceProtocol = $liveObj->restreamForceProtocolForYouTubeTest;
+        // The setting is a select option ({type, value}); send only its plain value so the
+        // restreamer never receives (and fails to cast) the whole option object.
+        $forceProtocol = normalizeRestreamForceProtocol($liveObj->restreamForceProtocolForYouTubeTest ?? '');
+        if ($forceProtocol !== '') {
+            $response->forceProtocol = $forceProtocol;
         }
     }
 

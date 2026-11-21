@@ -348,6 +348,27 @@ function getRestreamVideoConfiguration($destinationUrl, $resolution = 720)
 }
 
 /**
+ * Reduces the "restreamForceProtocolForYouTubeTest" setting to its plain string value.
+ * The Live plugin stores select-type options as {type: {...choices}, value: '...'}, so the
+ * raw option object must never be cast to string (that fatally broke every manually
+ * configured YouTube destination). Accepts a string, that option object/array or null and
+ * returns '', 'rtmp' or 'rtmps'.
+ */
+function normalizeRestreamForceProtocol($forceProtocol)
+{
+    if (is_object($forceProtocol)) {
+        $forceProtocol = $forceProtocol->value ?? '';
+    } elseif (is_array($forceProtocol)) {
+        $forceProtocol = $forceProtocol['value'] ?? '';
+    }
+    if (!is_scalar($forceProtocol)) {
+        return '';
+    }
+    $forceProtocol = strtolower(trim((string) $forceProtocol));
+    return ($forceProtocol === 'rtmp' || $forceProtocol === 'rtmps') ? $forceProtocol : '';
+}
+
+/**
  * Applies an explicit, reversible RTMP/RTMPS override coming from the (optional) admin-only
  * "restreamForceProtocolForYouTubeTest" Live plugin setting. Only ever narrows the pair that
  * getAutomaticRestreamDestinationPair() already computed - never invents a destination, never
@@ -355,7 +376,7 @@ function getRestreamVideoConfiguration($destinationUrl, $resolution = 720)
  */
 function applyRestreamProtocolTestOverride(array $destinations, $forceProtocol)
 {
-    $forceProtocol = strtolower((string) $forceProtocol);
+    $forceProtocol = normalizeRestreamForceProtocol($forceProtocol);
     if ($forceProtocol !== 'rtmp' && $forceProtocol !== 'rtmps') {
         return $destinations;
     }

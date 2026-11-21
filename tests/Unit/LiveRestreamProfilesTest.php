@@ -253,6 +253,43 @@ class LiveRestreamProfilesTest extends TestCase
         $this->assertSame($destinations, \applyRestreamProtocolTestOverride($destinations, 'bogus'));
     }
 
+    public function testProtocolOverrideAcceptsLivePluginSelectOptionObject()
+    {
+        // Regression: the Live plugin returns select options as {type, value}; casting that
+        // object to string fatally broke every manually configured YouTube destination.
+        $destinations = array('primary' => 'rtmps://a.rtmps.youtube.com/live2/key', 'fallback' => 'rtmp://a.rtmp.youtube.com/live2/key');
+        $off = (object) array('type' => array('' => 'Off', 'rtmp' => 'Force RTMP', 'rtmps' => 'Force RTMPS'), 'value' => '');
+        $this->assertSame($destinations, \applyRestreamProtocolTestOverride($destinations, $off));
+
+        $forceRtmp = (object) array('type' => array(), 'value' => 'rtmp');
+        $result = \applyRestreamProtocolTestOverride($destinations, $forceRtmp);
+        $this->assertSame('rtmp://a.rtmp.youtube.com/live2/key', $result['primary']);
+
+        $decoded = json_decode(json_encode(array('forceProtocol' => $off)));
+        $this->assertSame($destinations, \applyRestreamProtocolTestOverride($destinations, $decoded->forceProtocol));
+        $this->assertSame($destinations, \applyRestreamProtocolTestOverride($destinations, array('value' => '')));
+        $this->assertSame($destinations, \applyRestreamProtocolTestOverride($destinations, null));
+    }
+
+    public function testNormalizeRestreamForceProtocolReturnsOnlyKnownPlainValues()
+    {
+        $this->assertSame('', \normalizeRestreamForceProtocol(''));
+        $this->assertSame('', \normalizeRestreamForceProtocol(null));
+        $this->assertSame('', \normalizeRestreamForceProtocol('bogus'));
+        $this->assertSame('rtmps', \normalizeRestreamForceProtocol(' RTMPS '));
+        $this->assertSame('rtmp', \normalizeRestreamForceProtocol((object) array('value' => 'rtmp')));
+        $this->assertSame('', \normalizeRestreamForceProtocol((object) array('type' => array())));
+        $this->assertSame('', \normalizeRestreamForceProtocol((object) array('value' => array('rtmp'))));
+        $this->assertSame('rtmps', \normalizeRestreamForceProtocol(array('value' => 'rtmps')));
+    }
+
+    public function testGetLiveKeySendsOnlyPlainForceProtocolValue()
+    {
+        $source = file_get_contents(__DIR__ . '/../../plugin/Live/view/Live_restreams/getLiveKey.json.php');
+        $this->assertStringNotContainsString('$response->forceProtocol = $liveObj->restreamForceProtocolForYouTubeTest', $source);
+        $this->assertStringContainsString('normalizeRestreamForceProtocol(', $source);
+    }
+
     public function testProtocolOverrideNoOpWhenPrimaryAlreadyMatchesRequestedProtocol()
     {
         $destinations = array('primary' => 'rtmps://a.rtmps.youtube.com/live2/key', 'fallback' => 'rtmp://a.rtmp.youtube.com/live2/key');
