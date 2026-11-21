@@ -43,6 +43,31 @@ class ObjectCacheMaintenanceTest extends TestCase
         $this->assertSame(str_repeat('b', 40), file_get_contents($this->root . '/new.cache'));
     }
 
+    public function testStateFileIsSharedBetweenCronAndWebServerUsers(): void
+    {
+        // A state file left 0644 by a root cron job blocked every web cache write
+        // (Light and Truth TV, 2026-11-21); its owner must widen it on the next open.
+        if (!function_exists('posix_geteuid') || DIRECTORY_SEPARATOR === '\\') {
+            $this->markTestSkipped('Needs POSIX file permissions.');
+        }
+        $stateFile = $this->root . '.maintenance';
+        file_put_contents($stateFile, '');
+        chmod($stateFile, 0644);
+        \ObjectCacheMaintenance::requestCleanup($this->root, 3600);
+        clearstatcache(true, $stateFile);
+        $this->assertSame(0666, fileperms($stateFile) & 0777);
+    }
+
+    public function testStateFileSharingIsInTheSourceForEveryCaller(): void
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/objects/ObjectCacheMaintenance.php');
+        $open = substr($source, strpos($source, 'private static function openState'));
+        $open = substr($open, 0, strpos($open, 'private static function readState'));
+        $this->assertStringContainsString('@chmod($stateFile, 0666)', $open);
+        $this->assertStringContainsString('fileowner($stateFile) === posix_geteuid()', $open, 'only the owner tries to widen it');
+        $this->assertLessThan(strpos($open, 'flock('), strpos($open, '@chmod('), 'healed before taking the lock');
+    }
+
     public function testCleanupRemovesExpiredFilesAndEmptyDirectoriesOnly(): void
     {
         mkdir($this->root . '/old/nested', 0777, true);

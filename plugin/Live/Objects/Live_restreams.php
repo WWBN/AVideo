@@ -198,7 +198,15 @@ class Live_restreams extends ObjectYPT {
         global $global;
         $maxBytes = isset($global['objectCacheMaxBytes']) ? max(1, intval($global['objectCacheMaxBytes'])) : ObjectCacheMaintenance::DEFAULT_MAX_BYTES;
         $maxFiles = isset($global['objectCacheMaxFiles']) ? max(1, intval($global['objectCacheMaxFiles'])) : ObjectCacheMaintenance::DEFAULT_MAX_FILES;
-        return ObjectCacheMaintenance::write(ObjectYPT::getTmpCacheDir(), $file, $content, $maxBytes, $maxFiles) !== false;
+        // The cache lock is briefly held while maintenance runs; try again before giving up.
+        for ($attempt = 0; $attempt < 3; $attempt++) {
+            if (ObjectCacheMaintenance::write(ObjectYPT::getTmpCacheDir(), $file, $content, $maxBytes, $maxFiles) !== false) {
+                return true;
+            }
+            usleep(150000);
+        }
+        _error_log("Live_restreams::saveDestinationStatus: could not save the status of live_restreams_id={$live_restreams_id}", AVideoLog::$WARNING);
+        return false;
     }
 
     public static function deleteDestinationStatus($live_restreams_id) {

@@ -22,9 +22,18 @@ class ObjectCacheMaintenance
         if (is_link($root) || is_link($root . '.maintenance')) {
             return false;
         }
-        $handle = @fopen($root . '.maintenance', 'c+');
+        $stateFile = $root . '.maintenance';
+        $handle = @fopen($stateFile, 'c+');
         if (!$handle) {
             return false;
+        }
+        // Cron jobs run as root and web requests as the web server user, and both share this
+        // file. Created with the default umask (0644 by root) it blocked every web cache write
+        // (Light and Truth TV, 2026-11-21). Its owner widens it, so a root-owned file heals on
+        // the next root run; the cache tree itself is already world-writable.
+        if (function_exists('posix_geteuid') && @fileowner($stateFile) === posix_geteuid()
+            && (@fileperms($stateFile) & 0666) !== 0666) {
+            @chmod($stateFile, 0666);
         }
         if (!flock($handle, LOCK_EX | LOCK_NB)) {
             fclose($handle);
