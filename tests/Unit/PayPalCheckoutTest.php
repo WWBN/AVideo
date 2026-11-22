@@ -162,6 +162,7 @@ class PayPalYPT_checkout
 }
 
 $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/PayPalYPT/PayPalYPT.php');
+$source = str_replace("\r\n", "\n", $source);
 $source = substr($source, strpos($source, 'class PayPalYPT extends PluginAbstract'));
 $source = str_replace("    public static function restCall(\$method, \$path, \$payload = '', \$apiContext = null)\n",
     "    public static function restCall(\$method, \$path, \$payload = '', \$apiContext = null) { return FakeRest::call(\$method, \$path, \$payload, \$apiContext); }\n"
@@ -536,6 +537,25 @@ class PayPalCheckoutTest extends TestCase
         $this->expectException(RuntimeException::class);
         PayPalYPT::validateWebhook();
     }
+    public function testUnconfiguredSharedSandboxWebhookIsRejectedWithoutVerification(): void {
+        Settings::$paypal->ClientID = PayPalYPT::DEMO_CLIENT_ID;
+        Settings::$paypal->webhookId = '';
+        $this->signedDelivery('{"id":"WH-1AB","event_type":"PAYMENT.SALE.COMPLETED"}');
+        FakeRest::on('GET /v1/notifications/webhooks', ['webhooks' => []]);
+
+        $this->assertFalse(PayPalYPT::validateWebhook());
+        $this->assertSame(['GET'], array_column(FakeRest::$calls, 0));
+    }
+
+    public function testSharedSandboxWithSavedWebhookStillVerifiesAndRejectsBadSignature(): void {
+        Settings::$paypal->ClientID = PayPalYPT::DEMO_CLIENT_ID;
+        $this->signedDelivery('{"id":"WH-1AB","event_type":"PAYMENT.SALE.COMPLETED"}');
+        FakeRest::on('POST /v1/notifications/verify-webhook-signature', ['verification_status' => 'FAILURE']);
+
+        $this->assertFalse(PayPalYPT::validateWebhook());
+        $this->assertSame(['POST'], array_column(FakeRest::$calls, 0));
+    }
+
     public function testPublicStatusNeverExposesPayPalOrPayerData(): void {
         $row = $this->checkout('ppv', 3.25, ['videos_id' => 77, 'description' => 'PPV rental: Movie A', 'price' => '4.50', 'balance_applied' => '1.25', 'rental_hours' => 48]);
         $row = PayPalYPT_checkout::update($row['id'], ['status' => 'completed', 'fulfillment' => 'rented', 'sale_id' => 'SALE-0001']);

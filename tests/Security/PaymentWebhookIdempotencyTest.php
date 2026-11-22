@@ -65,6 +65,8 @@ class LiveCheckout
 }
 
 function _error_log($message, $level = '') { $GLOBALS['global']['mysqli']->errorLogs[] = is_string($message) ? $message : json_encode($message); }
+function avideoWriteRequestDiagnostic($event, array $data = []) {}
+function avideoDiagnosticLocation($path) { return basename($path); }
 class AVideoLog {
     public static $ERROR = 'error';
     public static $WARNING = 'warning';

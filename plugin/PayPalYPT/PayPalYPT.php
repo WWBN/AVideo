@@ -1150,6 +1150,12 @@ class PayPalYPT extends PluginAbstract
         }
         $webhookId = self::getWebhookIdForValidation();
         if ($webhookId === '') {
+            // The public Sandbox example app has no webhook for an unconfigured demo site.
+            // Reject the delivery; a private app still throws so PayPal can retry a configuration failure.
+            if (self::getEnvironment() === 'sandbox' && self::isSharedDemoApp()) {
+                _error_log('PayPal webhook: shared Sandbox app has no site webhook; delivery rejected', AVideoLog::$WARNING);
+                return false;
+            }
             throw new RuntimeException('PayPal webhook ID is not configured; run PayPalYPT > Check configuration');
         }
         // webhook_event must be the original bytes: re-encoding the decoded event changes the signed content.
