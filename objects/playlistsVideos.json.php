@@ -45,6 +45,9 @@ foreach ($videos as $key => $value) {
     // in this file alone. playlistSort.php checks new additions with PlayLists::canAddVideoOnPlaylist() while
     // preserving existing entries. This does not audit or fix other writers (including legacy video-save paths
     // and playlist cloning); the status filtering below is separate from those group/password rules.
+    // SECURITY REVIEW (2026-11-22, GHSA-28vp-7cqv-jhmq): "password video's VideoUrl returned for a public playlist" —
+    // NOT a vulnerability / DO NOT FIX: only someone who passed its password (or its owner/editor) can add it, the web
+    // playlist player (PlayListElement, embed.php) plays it the same way, and Poster/images above already carry the filename.
     $videos[$key]['VideoUrl'] = PlaybackAccess::filterPlayableFiles($videos[$key]['id'], getVideosURL($videos[$key]['filename']), true);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] =  PlayLists::getLink($_playlists_id, false, $index);
