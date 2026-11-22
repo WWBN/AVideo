@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
+require_once dirname(__FILE__) . '/Live_restreams.php';
 
 class Live_restreams_logs extends ObjectYPT
 {
@@ -237,9 +238,23 @@ class Live_restreams_logs extends ObjectYPT
         $obj->live_restreams_id = $live_restreams_id;
         $obj->time = time();
         $obj->users_id = empty($users_id) ? User::getId() : $users_id;
+        $obj->signature = self::getTokenSignature($obj);
 
         $string = encryptString(json_encode($obj));
         return $string;
+    }
+
+    /**
+     * encryptString() alone proves nothing: any streamer gets encryptString(<own stream key>) from the API, and the
+     * key can be any JSON up to 255 chars, so the fields are signed with the server secret (GHSA-34m8-8x26-hhf7).
+     */
+    private static function getTokenSignature($obj)
+    {
+        $fields = [];
+        foreach (['action', 'live_restreams_logs_id', 'live_transmitions_history_id', 'live_restreams_id', 'time', 'users_id'] as $name) {
+            $fields[] = isset($obj->$name) && is_scalar($obj->$name) ? strval($obj->$name) : '';
+        }
+        return Live_restreams::signRestreamTokenData('Live_restreams_logs_action', json_encode($fields));
     }
 
     static function verifyToken($token, $secondsValid = 3600)
@@ -247,7 +262,12 @@ class Live_restreams_logs extends ObjectYPT
         $string = decryptString($token);
         if (!empty($string)) {
             $obj = json_decode($string);
-            if (!empty($obj)) {
+            if (!empty($obj) && is_object($obj)) {
+                $signature = self::getTokenSignature($obj);
+                if (empty($signature) || empty($obj->signature) || !is_string($obj->signature) || !hash_equals($signature, $obj->signature)) {
+                    _error_log('Live_restreams_logs::verifyToken invalid signature', AVideoLog::$SECURITY);
+                    return false;
+                }
                 if ($obj->time > strtotime("-{$secondsValid} seconds")) {
                     return $obj;
                 }

@@ -52,7 +52,7 @@ $lhistory = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
 $lr = new Live_restreams($obj->live_restreams_id);
 $obj->users_id = $lr->getUsers_id();
 $obj->restreamsDestinations = array($obj->live_restreams_id=>$lr->getName());
-$obj->restreamsToken = array($obj->live_restreams_id=>encryptString($obj->live_restreams_id));
+$obj->restreamsToken = array($obj->live_restreams_id=>Live_restreams::getRestreamsToken($obj->live_restreams_id));
 $obj->m3u8 = Live::getM3U8File($lhistory->getKey(), true, true);
 $obj->token = encryptString(array('users_id' => $obj->users_id, 'time' => time(), 'liveTransmitionHistory_id' => $obj->liveTransmitionHistory_id, 'live_restreams_id' => $obj->live_restreams_id));
 $obj->responseToken = $obj->token;

@@ -79,6 +79,50 @@ class Live_restreams extends ObjectYPT {
         return intval($this->users_id);
     }
 
+    /**
+     * Token that lets the restreamer (and the owner's restream panel) read this destination's key from
+     * getLiveKey.json.php without a session. It must not be encryptString($id): encryptString() is
+     * deterministic and has no MAC, and any streamer gets encryptString(<own stream key>) back from the
+     * API, so setting the key to a destination id forged its token (GHSA-34m8-8x26-hhf7).
+     * Same lifetime as before (no expiry): a restream can run for days and refetches keys on reconnect.
+     */
+    public static function getRestreamsToken($live_restreams_id) {
+        $live_restreams_id = intval($live_restreams_id);
+        $signature = self::getRestreamsTokenSignature($live_restreams_id);
+        if (empty($live_restreams_id) || empty($signature)) {
+            return '';
+        }
+        return $live_restreams_id . '-' . $signature;
+    }
+
+    public static function getIdFromRestreamsToken($token) {
+        if (!is_string($token) || !preg_match('/^([1-9][0-9]*)-([0-9a-f]{64})$/', trim($token), $matches)) {
+            return 0;
+        }
+        $signature = self::getRestreamsTokenSignature($matches[1]);
+        if (empty($signature) || !hash_equals($signature, $matches[2])) {
+            return 0;
+        }
+        return intval($matches[1]);
+    }
+
+    private static function getRestreamsTokenSignature($live_restreams_id) {
+        if (empty($live_restreams_id)) {
+            return '';
+        }
+        return self::signRestreamTokenData('Live_restreams_getLiveKey', intval($live_restreams_id));
+    }
+
+    /** HMAC with the server secret, '' (refuse) when there is no secret. Also signs Live_restreams_logs action tokens. */
+    public static function signRestreamTokenData($purpose, $data) {
+        global $global;
+        $secret = !empty($global['saltV2']) ? $global['saltV2'] : @$global['salt'];
+        if (empty($secret)) {
+            return '';
+        }
+        return hash_hmac('sha256', $purpose . '|' . $data, $secret);
+    }
+
     public static function getAllFromUser($users_id, $status = 'a') {
         global $global;
         if (!static::isTableInstalled()) {
@@ -103,7 +147,7 @@ class Live_restreams extends ObjectYPT {
         $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
-                $row['restreamsToken'] = encryptString($row['id']);
+                $row['restreamsToken'] = self::getRestreamsToken($row['id']);
                 $row['display_name'] = getWordOrIcon($row['name'], 'fa-2x');
                 $row['token_expired'] = self::checkIfTokenIsExpired($row['parameters']);
                 $row['provider'] = self::getProviderName($row['parameters']);

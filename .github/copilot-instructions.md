@@ -366,6 +366,13 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
 - **Test fixtures that eval real code**: an included fixture shares the includer's variable scope. Never
   use generic top-level names (`$root`, `$path`) in a fixture, and never let a test or simulation write
   under the repository (`videos/configuration.php` is real, gitignored, and holds the site secrets).
+- **`encryptString()` is not a signature**: it is deterministic AES-CBC (fixed key/IV, no MAC), and any streamer
+  gets `encryptString(<own stream key>)` back from the API (`key_v3` `?s=`) after setting that key to any unused
+  value up to 255 characters, so "it decrypts to the expected shape" proves nothing. Tokens that grant access use an
+  HMAC with the server secret: restream `restreamsToken` (`Live_restreams::getRestreamsToken()`) and the
+  `signature` field of `Live_restreams_logs` action tokens, both through `Live_restreams::signRestreamTokenData()`
+  (GHSA-34m8-8x26-hhf7, `tests/Security/LiveRestreamTokenForgeryTest.php`). `getToken()` is safe only because its
+  plaintext contains `$global['salt']`.
 - **Outbound TLS verification**: connections to admin-configured services (Encoder queue, SMTP,
   WordPress login, CloneSite) verify certificates only when `shouldVerifySSLCertificates()` is true
   (CustomizeAdvanced `verifySSLCertificates`, or `$global['verifySSLCertificates']`, off by default):

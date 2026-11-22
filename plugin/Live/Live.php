@@ -3850,7 +3850,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function gettRestreamRowItem($restreamsDestination, $id, $live_url)
     {
-        return array('restreamsDestinations' => $restreamsDestination, 'restreamsToken' => encryptString($id),  'live_url' => $live_url);
+        return array('restreamsDestinations' => $restreamsDestination, 'restreamsToken' => Live_restreams::getRestreamsToken($id),  'live_url' => $live_url);
     }
 
 
@@ -4834,18 +4834,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $permissions;
     }
 
-    // A spliced/forged token still base64/AES-decrypts to *something* (CBC has no MAC), but the
-    // plaintext won't be a clean decimal integer like a genuine encryptString($id) is.
+    // HMAC-signed token from Live_restreams::getRestreamsToken() (GHSA-34m8-8x26-hhf7: the old
+    // encryptString($id) token could be forged through the API, which returns encryptString(<own key>)).
     static function getRestreamsIdFromToken($token)
     {
         if (empty($token)) {
             return 0;
         }
-        $decrypted = decryptString($token);
-        if (!is_string($decrypted) || !ctype_digit(trim($decrypted))) {
-            return 0;
-        }
-        return intval($decrypted);
+        return Live_restreams::getIdFromRestreamsToken($token);
     }
 
     static function canRestream()
