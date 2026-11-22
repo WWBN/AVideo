@@ -29,6 +29,16 @@ $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
 $livet = LiveTransmition::getFromRequest();
 setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
+
+// same user-group check as videoEmbeded.php and modeYoutubeLive.php (GHSA-xp3r-273q-6hmv)
+if (empty($livet['live_schedule'])) {
+    $lt = new LiveTransmition($livet['id']);
+} else {
+    $lt = new Live_schedule($livet['id']);
+}
+if (!$lt->userCanSeeTransmition()) {
+    forbiddenPage("You are not allowed see this streaming");
+}
 $uuid = LiveTransmition::keyNameFix($livet['key']);
 $p = AVideoPlugin::loadPlugin("Live");
 

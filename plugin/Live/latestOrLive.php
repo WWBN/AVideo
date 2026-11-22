@@ -99,6 +99,9 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
     // try to get a live that is not a scheduled playlist
     $lives = LiveTransmitionHistory::getActiveLives('', false, $users_id, $categories_id);
     foreach ($lives as $key => $value) {
+        if (!Live::canSeeLiveFromLiveKey($value['key'])) {
+            continue;
+        }
         if ($isEnabledPayPerViewLive && !PayPerViewLive::canUserWatchNow(User::getId(), $value['users_id'])) {
             continue;
         }
@@ -116,6 +119,9 @@ if (!$liveFound) {
 
     $activeLives = LiveTransmitionHistory::getActiveLives('', true, $users_id, $categories_id);
     foreach ($activeLives as $key => $value) {
+        if (!Live::canSeeLiveFromLiveKey($value['key'])) {
+            continue;
+        }
         if ($isEnabledPayPerViewLive && !PayPerViewLive::canUserWatchNow(User::getId(), $value['users_id'])) {
             continue;
         }
