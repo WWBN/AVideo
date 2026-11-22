@@ -2594,6 +2594,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $app['live_servers_id'] = $live_servers_id;
                 $app['key'] = $value->name;
                 $app['isPrivate'] = self::isPrivate($app['key']);
+                // SECURITY REVIEW (2026-11-22, GHSA-jww6-fhxq-h4x6, duplicate of GHSA-h76m-5xfg-rj28): key/m3u8 of a
+                // password-protected listed live — DO NOT FIX here alone, see objects/notifications.json.php.
                 $app['m3u8'] = Live::getM3U8File($app['key']);
                 $app['isPasswordProtected'] = self::isPasswordProtected($app['key']);
                 $app['isRebroadcast'] = self::isRebroadcast($app['key']);

@@ -31,6 +31,7 @@ if (AVideoPlugin::loadPluginIfEnabled("Live")) {
     // close it: the key is also in className/class/html of every listed entry (Live::getLiveApplicationModelArray()),
     // in the socketLiveONCallback broadcast to every visitor, and it is the DOM id used by plugin/Live/view/socket.js.
     // The live password is enforced on the watch page only, not on /live HLS (see deploy/nginx/nginx.conf).
+    // Re-reported as GHSA-jww6-fhxq-h4x6 (2026-11-22), same decision.
     $obj->live = getStatsNotifications();
     // never echo streams the caller isn't authorized to see (same reasoning as plugin/Live/stats.json.php)
     unset($obj->live['hidden_applications']);
