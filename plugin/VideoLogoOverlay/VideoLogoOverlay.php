@@ -113,8 +113,10 @@ class VideoLogoOverlay extends PluginAbstract {
                 $users_id = $liveLink->getUsers_id();
             } else if ($live = isLive()) {
                 if (!empty($_REQUEST['live_schedule'])) {
-                    $js .= "/* VideoLogoOverlay live schedule {$_REQUEST['live_schedule']} */";
-                    $users_id = Live_schedule::getUsers_idOrCompany($_REQUEST['live_schedule']);
+                    // Integer only: the value is printed inside the player <script> (GHSA-mh4m-2gxx-cc3x)
+                    $live_schedule_id = intval($_REQUEST['live_schedule']);
+                    $js .= "/* VideoLogoOverlay live schedule {$live_schedule_id} */";
+                    $users_id = Live_schedule::getUsers_idOrCompany($live_schedule_id);
                 } else {
                     $js .= "/* VideoLogoOverlay live */";
                     //$live = array('key' => false, 'live_servers_id' => false, 'live_index' => false);
