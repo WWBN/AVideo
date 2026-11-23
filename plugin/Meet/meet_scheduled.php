@@ -14,7 +14,11 @@ if (empty($obj)) {
 
 $userCredentials = User::loginFromRequestToGet();
 if (empty($meet_scheduled)) {
-    $meet_scheduled = cleanString($_REQUEST['meet_scheduled']);
+    $meet_scheduled = cleanString(@$_REQUEST['meet_scheduled']);
+    // It is printed unescaped in IDs, selectors and a JS variable name, so only these values are accepted (GHSA-mcjg-w47c-498g)
+    if (!in_array($meet_scheduled, ['today', 'upcoming', 'past'], true)) {
+        $meet_scheduled = '';
+    }
 }
 
 if (empty($manageMeetings)) {
