@@ -3539,22 +3539,22 @@
         },
         {
             "name": "radebatz/type-info-extras",
-            "version": "1.0.14",
+            "version": "1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DerManoMann/type-info-extras.git",
-                "reference": "08ac334a97e92c890eec6f644a6555fdf225fa8d"
+                "reference": "f2415d2abbf014d1f511c37a87243c80e3da0547"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DerManoMann/type-info-extras/zipball/08ac334a97e92c890eec6f644a6555fdf225fa8d",
-                "reference": "08ac334a97e92c890eec6f644a6555fdf225fa8d",
+                "url": "https://api.github.com/repos/DerManoMann/type-info-extras/zipball/f2415d2abbf014d1f511c37a87243c80e3da0547",
+                "reference": "f2415d2abbf014d1f511c37a87243c80e3da0547",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
                 "phpstan/phpdoc-parser": "^2.0",
-                "symfony/type-info": "^7.3.8 || ^7.4.1 || ^8.0 || ^8.1-@dev"
+                "symfony/type-info": "^7.3.8 || ^7.4.1 || >=8.0 <8.3@dev"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.70",
@@ -3596,9 +3596,9 @@
             ],
             "support": {
                 "issues": "https://github.com/DerManoMann/type-info-extras/issues",
-                "source": "https://github.com/DerManoMann/type-info-extras/tree/1.0.14"
+                "source": "https://github.com/DerManoMann/type-info-extras/tree/1.0.16"
             },
-            "time": "2026-11-12T03:41:43+00:00"
+            "time": "2026-11-19T23:35:25+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -6232,16 +6232,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "7.6.0",
+            "version": "7.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "9e782a7b3132a11549ef32dd44bd04a344b01b33"
+                "reference": "503f9d14b5cdd9055ef5361c5a3de3a1dba243ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/9e782a7b3132a11549ef32dd44bd04a344b01b33",
-                "reference": "9e782a7b3132a11549ef32dd44bd04a344b01b33",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/503f9d14b5cdd9055ef5361c5a3de3a1dba243ed",
+                "reference": "503f9d14b5cdd9055ef5361c5a3de3a1dba243ed",
                 "shasum": ""
             },
             "require": {
@@ -6261,11 +6261,11 @@
             },
             "require-dev": {
                 "doctrine/annotations": "^2.0",
-                "friendsofphp/php-cs-fixer": "3.95.29",
+                "friendsofphp/php-cs-fixer": "3.95.30",
                 "phpbench/phpbench": "^1.7",
                 "phpstan/phpstan": "2.3.5",
                 "phpunit/phpunit": "^11.5 || >=12.5.22",
-                "rector/rector": "2.8.3"
+                "rector/rector": "2.8.4"
             },
             "bin": [
                 "bin/openapi"
@@ -6312,7 +6312,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/7.6.0"
+                "source": "https://github.com/zircote/swagger-php/tree/7.8.0"
             },
             "funding": [
                 {
@@ -6320,7 +6320,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-12T02:54:11+00:00"
+            "time": "2026-11-18T02:22:37+00:00"
         }
     ],
     "packages-dev": [
