@@ -43,7 +43,7 @@ $textColorHigh = getColorValue('textColorHigh');
   }
   <?php endif; ?>
 
-  /* Overwrite Bootstrap styles <?php echo $uri; ?> */
+  /* Overwrite Bootstrap styles */
   <?php if ($bgColor) : ?>body,
   .table>thead>tr>td,
   .table>thead>tr>th,

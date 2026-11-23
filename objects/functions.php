@@ -4133,6 +4133,12 @@ function getSelfURI()
     $phpselfWithoutIndex = preg_replace("/index.php/", "", @$_SERVER['PHP_SELF']);
     $url = $http . "://$_SERVER[HTTP_HOST]$phpselfWithoutIndex?$queryString";
     $url = rtrim($url, '?');
+    // PHP_SELF carries PATH_INFO already decoded by the web server, and callers print this value in HTML
+    // and JavaScript (GHSA-qmxq-pxm6-q5w8). Percent-encode quotes, angle brackets, backslash, whitespace
+    // and other unsafe delimiters. Existing percent escapes are preserved without double-encoding.
+    $url = preg_replace_callback('/[\x00-\x20"\'<>\\\\^`{|}\x7F]/', function ($matches) {
+        return rawurlencode($matches[0]);
+    }, $url);
 
     preg_match('/view\/modeYoutube.php\?v=([^&]+)/', $url, $matches);
     if (!empty($matches[1])) {
