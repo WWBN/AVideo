@@ -1034,9 +1034,25 @@ class PlayLists extends PluginAbstract
     public static function setAutoAddPlaylist($users_id, $playlists_id)
     {
         $playlists_id = intval($playlists_id);
+        // 0 = "Do not add". Otherwise only the user's own playlist (GHSA-4rj2-3rcg-34fm).
+        if (!empty($playlists_id) && !self::isAutoAddPlaylistOwnedBy($playlists_id, $users_id)) {
+            _error_log("setAutoAddPlaylist rejected, playlists_id={$playlists_id} does not belong to users_id=" . intval($users_id), AVideoLog::$SECURITY);
+            return false;
+        }
         $user = new User($users_id);
         $paramName = 'autoadd_playlist';
         return $user->addExternalOptions($paramName, $playlists_id);
+    }
+
+    private static function isAutoAddPlaylistOwnedBy($playlists_id, $users_id)
+    {
+        $playlists_id = intval($playlists_id);
+        $users_id = intval($users_id);
+        if (empty($playlists_id) || empty($users_id)) {
+            return false;
+        }
+        $pl = new PlayList($playlists_id);
+        return intval($pl->getUsers_id()) === $users_id;
     }
 
     public static function getAutoAddPlaylist($users_id)
@@ -1067,6 +1083,11 @@ class PlayLists extends PluginAbstract
         $users_id = $video->getUsers_id();
         $playlists_id = PlayLists::getAutoAddPlaylist($users_id);
         if (!empty($playlists_id)) {
+            // Also refuses a value saved before the check in setAutoAddPlaylist() existed.
+            if (!self::isAutoAddPlaylistOwnedBy($playlists_id, $users_id)) {
+                _error_log("onNewVideo autoadd_playlist skipped, playlists_id=" . intval($playlists_id) . " does not belong to users_id=" . intval($users_id), AVideoLog::$SECURITY);
+                return false;
+            }
             return self::addVideo($videos_id, $playlists_id);
         }
         return false;

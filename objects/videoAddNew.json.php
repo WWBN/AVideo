@@ -288,7 +288,7 @@ if (!empty($resp)) {
 }
 
 if (isset($_REQUEST['playlists_id'])) {
-    if (!PlayLists::canAddVideoOnPlaylist($resp)) {
+    if (PlayLists::canAddVideoOnPlaylist($resp) && PlayLists::canManagePlaylist($_REQUEST['playlists_id'])) {
         Playlists::addVideo($resp, $_REQUEST['playlists_id']);
     }
 }

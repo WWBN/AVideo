@@ -74,7 +74,7 @@ $obj->save = $video->save();
 $obj->error = empty($obj->save);
 if (empty($obj->error)) {
     if (isset($_POST['playlists_id'])) {
-        if (!PlayLists::canAddVideoOnPlaylist($obj->save)) {
+        if (PlayLists::canAddVideoOnPlaylist($obj->save) && PlayLists::canManagePlaylist($_POST['playlists_id'])) {
             Playlists::addVideo($obj->save, $_POST['playlists_id']);
         }
     }
