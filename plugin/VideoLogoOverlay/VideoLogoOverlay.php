@@ -52,10 +52,24 @@ class VideoLogoOverlay extends PluginAbstract {
         return $opacity;
     }
 
+    /**
+     * Returns the position key ("top right") for a key or label ("Top Right"), or '' if it is not listed.
+     * The logo editor used to save the label, which left the logo outside the player.
+     */
+    static function normalizePosition($position) {
+        if (!is_string($position)) {
+            return '';
+        }
+        $position = strtolower(trim($position));
+        $obj = new VideoLogoOverlay();
+        $types = (array) $obj->getEmptyDataObject()->position->type;
+        return array_key_exists($position, $types) ? $position : '';
+    }
+
     static function getClass() {
         $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
         $position = "VideoLogoOverlay";
-        switch ($obj->position->value) {
+        switch (self::normalizePosition($obj->position->value)) {
             case "center":
                 $position .= " VideoLogoOverlay-Center";
                 break;
@@ -101,7 +115,10 @@ class VideoLogoOverlay extends PluginAbstract {
         $url = VideoLogoOverlay::getLink();
         $class = VideoLogoOverlay::getClass();
         $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
-        $logoOverlay = "{$global['webSiteRootURL']}videos/logoOverlay.png";
+        // Keep the origin even when the editor has cached a CDN URL in getURL()'s session cache.
+        $logoFile = $global['systemRootPath'] . 'videos/logoOverlay.png';
+        $logoCache = file_exists($logoFile) ? (@filemtime($logoFile) . '_' . @filectime($logoFile)) : 'not_found';
+        $logoOverlay = addQueryStringParameter($global['webSiteRootURL'] . 'videos/logoOverlay.png', 'cache', $logoCache);
         $html = '';
         $js = '';
         //$cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";

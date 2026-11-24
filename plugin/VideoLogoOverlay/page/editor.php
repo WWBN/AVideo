@@ -5,6 +5,7 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager plugin add logo"));
     exit;
 }
+require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
 $o = AVideoPlugin::getObjectData("VideoLogoOverlay");
 $_page = new Page(array("Customize"));
 ?>
@@ -32,8 +33,10 @@ $_page = new Page(array("Customize"));
                         <div class="col-md-10 ">
                             <select class="form-control" id="position">
                                 <?php
-                                foreach ($o->position->type as $value) {
-                                    echo "<option " . ($value == $o->position->value ? "selected='selected'" : "") . ">{$value}</option>";
+                                // Submit the key (e.g. "top right"), which is what VideoLogoOverlay::getClass() expects
+                                $currentPosition = VideoLogoOverlay::normalizePosition($o->position->value);
+                                foreach ($o->position->type as $key => $value) {
+                                    echo "<option value='" . htmlspecialchars($key, ENT_QUOTES) . "' " . ($key === $currentPosition ? "selected='selected'" : "") . ">" . htmlspecialchars($value, ENT_QUOTES) . "</option>";
                                 }
                                 ?>
                             </select>

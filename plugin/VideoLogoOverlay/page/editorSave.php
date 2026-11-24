@@ -13,8 +13,13 @@ $plugin = new VideoLogoOverlay();
 $obj = new stdClass();
 
 $o = $plugin->getDataObject();
-$o->position->value = $_POST['position'];
-$o->opacity = $_POST['opacity'];
+$position = VideoLogoOverlay::normalizePosition($_POST['position'] ?? '');
+if (!empty($position)) {
+    $o->position->value = $position;
+}
+if (isset($_POST['opacity']) && is_numeric($_POST['opacity'])) {
+    $o->opacity = max(0, min(100, intval($_POST['opacity'])));
+}
 $o->url = $_POST['url'];
 $o->error = true;
 
