@@ -34,6 +34,11 @@ class AVideoPlugin
         return State::$ad;
     }
 
+    public static function getObjectData($name)
+    {
+        return State::$ad;
+    }
+
     public static function showAds($videos_id)
     {
         return State::$showAds;
@@ -89,7 +94,7 @@ function __($text)
 $adsSource = file_get_contents(dirname(__DIR__, 2) . '/plugin/ADs/ADs.php');
 $adsMethods = '';
 $adsMethodNames = ['getAllAdsPositions', 'getSettingsType', 'getSplitPositions', 'isSplitEnabled', 'isSplitActive', 'getMobileType', 'isAdsMobile',
-    'isAdsDebug', 'giveGoogleATimeout', 'addLabel', 'getAdsFromUsersId', 'debug', 'getAdsCode', 'formatPlacement', 'getSplitAdsCode', 'getAdsPositionsInfo', 'getAdsCacheKey', 'getEmptyDataObject'];
+    'isAdsDebug', 'giveGoogleATimeout', 'addLabel', 'getAdsFromUsersId', 'debug', 'getAdsCode', 'formatPlacement', 'getSplitAdsCode', 'getAdsPositionsInfo', 'getAdsCacheKey', 'getEmptyDataObject', 'getSize', 'getDataObjectDeprecated'];
 foreach ($adsMethodNames as $adsMethodName) {
     if (!preg_match('/(public|private) (?:static )?function ' . $adsMethodName . '\(/', $adsSource, $adsMatch, PREG_OFFSET_CAPTURE)) {
         $adsMethods .= "public static function {$adsMethodName}() { throw new \\RuntimeException('ADs::{$adsMethodName}() not found'); }\n";
@@ -157,6 +162,8 @@ class ADsSplitLeaderBoardTest extends TestCase
             $ad->{"{$type}Label"} = $type;
             $ad->{"{$type}ShowOnVideoPlayerPage"} = true;
             $ad->{"{$type}AllowUserToModify"} = true;
+            $ad->{"{$type}Width"} = empty($value[1]) ? 728 : 300;
+            $ad->{"{$type}Height"} = empty($value[1]) ? 90 : 250;
         }
         // split slots have no settings of their own
         unset($ad->leaderBoardTopLeftShowOnVideoPlayerPage, $ad->leaderBoardTopRightShowOnVideoPlayerPage);
@@ -189,9 +196,65 @@ class ADsSplitLeaderBoardTest extends TestCase
 
     public function testSingleBannerHasOneCaptionAndPreservesItsCreativeExactly()
     {
-        $this->assertSame('<div class="ADsPlacement ADsPlacement-banner">'
+        $this->assertSame('<div class="ADsPlacement ADsPlacement-banner" style="--ads-width: 728px;">'
             . '<div class="ADsPlacementLabel text-muted">Advertisement</div>'
             . '<div class="ADsPlacementContent"><img id="whole"></div></div>', ADs::getAdsCode('leaderBoardTop'));
+    }
+
+    public function testCustomizedSizeBoundsTheBannerAndTheMobileRectangle()
+    {
+        State::$ad->leaderBoardTopWidth = 970;
+        State::$ad->leaderBoardTopHeight = 250;
+        $this->assertStringContainsString('class="ADsPlacement ADsPlacement-banner" style="--ads-width: 970px;"', ADs::getAdsCode('leaderBoardTop'));
+        State::$mobile = true;
+        State::$ad->leaderBoardTopMobileWidth = 320;
+        $this->assertStringContainsString('class="ADsPlacement ADsPlacement-rectangle" style="--ads-width: 320px;"', ADs::getAdsCode('leaderBoardTop'));
+        // a size that is not a positive number leaves the CSS fallback in place
+        State::$ad->leaderBoardTopMobileWidth = '';
+        $this->assertStringContainsString('<div class="ADsPlacement ADsPlacement-rectangle"><div', ADs::getAdsCode('leaderBoardTop'));
+    }
+
+    public function testSplitHalvesFollowTheCustomizedBannerProportionally()
+    {
+        State::$ad->leaderBoardTopSplit = true;
+        $html = ADs::getAdsCode('leaderBoardTop');
+        $this->assertStringContainsString('class="ADsPlacement ADsPlacement-split" style="--ads-width: 728px;"', $html);
+        $this->assertStringContainsString('class="ADsSplitLeaderBoard" data-ads-type="leaderBoardTop" style="--ads-split-ratio: 364 / 90;"', $html);
+
+        State::$ad->leaderBoardTopWidth = 970;
+        State::$ad->leaderBoardTopHeight = 250;
+        // the halves' own (deprecated) settings are ignored
+        State::$ad->leaderBoardTopLeftWidth = 100;
+        State::$ad->leaderBoardTopLeftHeight = 100;
+        $html = ADs::getAdsCode('leaderBoardTop');
+        $this->assertStringContainsString('style="--ads-width: 970px;"', $html);
+        $this->assertStringContainsString('style="--ads-split-ratio: 485 / 250;"', $html);
+        foreach (['leaderBoardTopLeft', 'leaderBoardTopRight'] as $half) {
+            $size = ADs::getSize($half);
+            $this->assertSame([485, 250], [$size['width'], $size['height']], $half);
+        }
+        State::$ad->leaderBoardTopWidth = 729;
+        $this->assertSame(365, ADs::getSize('leaderBoardTopRight')['width']);
+    }
+
+    public function testHalfSizeSettingsAreHiddenAsDeprecated()
+    {
+        $deprecated = ADs::getDataObjectDeprecated();
+        foreach (ADs::AdsSplitPositions as $value) {
+            $this->assertContains($value[0] . 'Width', $deprecated);
+            $this->assertContains($value[0] . 'Height', $deprecated);
+        }
+        foreach (ADs::AdsPositions as $value) {
+            $this->assertNotContains($value[0] . 'Width', $deprecated);
+        }
+    }
+
+    public function testSplitCssUsesTheConfiguredSizeInsteadOfFixedPixels()
+    {
+        $css = file_get_contents(dirname(__DIR__, 2) . '/plugin/ADs/ADs.css');
+        $this->assertMatchesRegularExpression('/\.ADsSplitSlot\s*\{[^}]*aspect-ratio:\s*var\(--ads-split-ratio, 364 \/ 90\);/', $css);
+        $this->assertDoesNotMatchRegularExpression('/\.ADsSplitSlot\s*\{[^}]*height:\s*90px/', $css);
+        $this->assertMatchesRegularExpression('/\.ADsPlacement\s*\{[^}]*max-width:\s*var\(--ads-width, 728px\);/', $css);
     }
 
     public function testSplitBannerHasOneSharedCaptionAndUnwrappedHalves()

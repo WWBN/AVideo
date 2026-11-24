@@ -173,12 +173,17 @@ function getADsEditorSplitHeader($positions, $parent, $currentType, $canChangeSp
     $html = '<div class="panel panel-info ADsSplitPanel" id="ADsSplitPanel' . $currentType . '"><div class="panel-body">';
     if ($canChangeSplit) {
         $name = 'ADsSplitMode' . $currentType;
+        // the halves follow the banner's configured size (ADs::getSize())
+        $wholeSize = intval($positions[$parent]['width']) . ' &times; ' . intval($positions[$parent]['height']);
+        $halfType = reset($split);
+        $halfSize = isset($positions[$halfType]) ? $positions[$halfType] : ADs::getSize($halfType);
+        $halfSize = '2 &times; ' . intval($halfSize['width']) . ' &times; ' . intval($halfSize['height']);
         $html .= '<fieldset class="ADsSplitMode"><legend>' . __('Desktop layout') . '</legend>'
             . '<label class="radio-inline"><input type="radio" class="ADsSplitModeInput" name="' . $name . '" value="single" data-type="' . $parent . '"'
-            . ($splitEnabled ? '' : ' checked') . '> ' . __('One banner') . ' <small>728 &times; 90 px</small></label>'
+            . ($splitEnabled ? '' : ' checked') . '> ' . __('One banner') . ' <small>' . $wholeSize . ' px</small></label>'
             . '<label class="radio-inline"><input type="radio" class="ADsSplitModeInput" name="' . $name . '" value="split" data-type="' . $parent . '"'
             . ($isParent ? ' id="ADsSplitToggle' . $parent . '"' : '')
-            . ($splitEnabled ? ' checked' : '') . '> ' . __('Two banners side by side') . ' <small>2 &times; 364 &times; 90 px</small></label>'
+            . ($splitEnabled ? ' checked' : '') . '> ' . __('Two banners side by side') . ' <small>' . $halfSize . ' px</small></label>'
             . '<p class="help-block">' . __('Phones and tablets keep their mobile banner. Changing the layout never deletes images or code.') . '</p>'
             . '</fieldset>';
     } else {
@@ -350,6 +355,7 @@ $editorConfig = [
         'adCode' => __('Ad code'),
         'splitOn' => __('Split on: desktop visitors now see the left and right halves.'),
         'splitOff' => __('Split off: desktop visitors now see the original 728 x 90 banner again.'),
+        'splitOffByType' => [],
         'error' => __('An error occurred'),
         'saved' => __('Saved'),
         'desktop' => __('Desktop'),
@@ -358,6 +364,10 @@ $editorConfig = [
     ],
 ];
 foreach ($positions as $type => $position) {
+    if (isset($splitStates[$type])) {
+        // every translation keeps "728 x 90" as written, so the banner's configured size replaces it
+        $editorConfig['texts']['splitOffByType'][$type] = str_replace('728 x 90', intval($position['width']) . ' x ' . intval($position['height']), $editorConfig['texts']['splitOff']);
+    }
     $editorConfig['positions'][$type] = [
         'name' => $position['name'],
         'parent' => $position['parent'],

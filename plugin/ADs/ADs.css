@@ -1,17 +1,18 @@
-/* A bounded creative, its caption and consistent breathing room from page controls. */
+/* A bounded creative, its caption and consistent breathing room from page controls.
+   --ads-width is the position's configured Width (ADs::formatPlacement()); the px values are fallbacks. */
 .ADsPlacement {
     width: 100%;
-    max-width: 728px;
+    max-width: var(--ads-width, 728px);
     margin: 16px auto 24px;
     text-align: left;
 }
 
 .ADsPlacement-rectangle {
-    max-width: 300px;
+    max-width: var(--ads-width, 300px);
 }
 
 .ADsPlacement-split {
-    max-width: 744px;
+    max-width: calc(var(--ads-width, 728px) + 16px);
 }
 
 .ADsPlacementLabel {
@@ -30,12 +31,13 @@
     margin: 0 auto;
 }
 
-/* Two native 364px creatives plus a 16px gutter, shrinking together on narrow windows. */
+/* Two halves of the configured banner (728x90 -> 364x90) plus a 16px gutter, shrinking together
+   on narrow windows and keeping the proportion of the configured size (--ads-split-ratio). */
 .ADsSplitLeaderBoard {
     display: flex;
     flex-wrap: nowrap;
     width: 100%;
-    max-width: 744px;
+    max-width: calc(var(--ads-width, 728px) + 16px);
     gap: 16px;
     margin: 0 auto;
 }
@@ -46,12 +48,13 @@
     max-width: calc((100% - 16px) / 2);
     min-width: 0;
     overflow: hidden;
-    height: 90px;
+    aspect-ratio: var(--ads-split-ratio, 364 / 90);
 }
 
 /* "Show Ads Positions" adds a text above each ad: do not cut the ad below it */
 .AdsDebug .ADsSplitSlot {
     height: auto;
+    aspect-ratio: auto;
 }
 
 /* AdSense's timeout wrapper has a 250px minimum: shrink it inside narrow slots. */

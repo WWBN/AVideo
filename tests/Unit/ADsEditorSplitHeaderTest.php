@@ -103,6 +103,22 @@ class ADsEditorSplitHeaderTest extends TestCase
         $this->assertStringContainsString('id="ADsSplitToggleleaderBoardTop"', getADsEditorSplitHeader($this->positions(), 'leaderBoardTop', 'leaderBoardTop', true, false));
     }
 
+    public function testLayoutSizesFollowTheConfiguredBanner()
+    {
+        $html = getADsEditorSplitHeader($this->positions(), 'leaderBoardTop', 'leaderBoardTop', true, false);
+        $this->assertStringContainsString('<small>728 &times; 90 px</small>', $html);
+        $this->assertStringContainsString('<small>2 &times; 364 &times; 90 px</small>', $html);
+
+        $positions = $this->positions();
+        $positions['leaderBoardTop']['width'] = 970;
+        $positions['leaderBoardTop']['height'] = 250;
+        $positions['leaderBoardTopLeft']['width'] = 485;
+        $positions['leaderBoardTopLeft']['height'] = 250;
+        $html = getADsEditorSplitHeader($positions, 'leaderBoardTop', 'leaderBoardTopLeft', true, true);
+        $this->assertStringContainsString('<small>970 &times; 250 px</small>', $html);
+        $this->assertStringContainsString('<small>2 &times; 485 &times; 250 px</small>', $html);
+    }
+
     public function testCreatorsSeeTheLayoutButCannotChangeItAndHaveNothingToSwitchWhileItIsOff()
     {
         $html = getADsEditorSplitHeader($this->positions(false), 'leaderBoardTop', 'leaderBoardTop', false, false);

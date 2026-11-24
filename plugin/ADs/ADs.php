@@ -185,6 +185,20 @@ class ADs extends PluginAbstract
         return "1.2";
     }
 
+    /**
+     * A split half takes its size from the banner it divides (getSize()), so its own Width/Height are
+     * kept for saved data but hidden from the settings form.
+     */
+    public static function getDataObjectDeprecated()
+    {
+        $array = [];
+        foreach (self::AdsSplitPositions as $value) {
+            $array[] = "{$value[0]}Width";
+            $array[] = "{$value[0]}Height";
+        }
+        return $array;
+    }
+
     public static function getDataObjectAdvanced()
     {
         $array = [];
@@ -245,7 +259,7 @@ class ADs extends PluginAbstract
         foreach (array_unique(array_column(self::AdsSplitPositions, 2)) as $parent) {
             $option = $parent . 'Split';
             $obj->$option = false;
-            self::addDataObjectHelper($option, 'Split the desktop banner', 'Show two 364x90 slots instead of the 728x90 banner. Mobile positions are unchanged. Turning this off restores the original banner; all images and code are kept.');
+            self::addDataObjectHelper($option, 'Split the desktop banner', "Show two slots side by side instead of the banner, each half of {$parent}Width wide and {$parent}Height tall (728x90 gives two 364x90). Mobile positions are unchanged. Turning this off restores the original banner; all images and code are kept.");
         }
 
         $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
@@ -646,13 +660,20 @@ class ADs extends PluginAbstract
         } elseif (self::isSplitActive($type)) {
             $shape = 'split';
         }
-        return '<div class="ADsPlacement ADsPlacement-' . $shape . '">'
+        // the configured Width bounds the placement (ADs.css falls back to 728px/300px without it)
+        $style = '';
+        $size = self::getSize($type);
+        if (intval($size['width']) > 0) {
+            $style = ' style="--ads-width: ' . intval($size['width']) . 'px;"';
+        }
+        return '<div class="ADsPlacement ADsPlacement-' . $shape . '"' . $style . '>'
             . '<div class="ADsPlacementLabel text-muted">' . __('Advertisement') . '</div>'
             . '<div class="ADsPlacementContent">' . $adCode . '</div></div>';
     }
 
     /**
-     * A desktop banner divided into slots side by side (leaderBoardTop 728x90 -> two 364x90).
+     * A desktop banner divided into slots side by side, each half of the banner's configured width with
+     * the same height (leaderBoardTop 728x90 -> two 364x90; 970x250 -> two 485x250).
      * Each slot runs the normal getAdsCode() flow, so the owner's custom ads, the video page setting
      * and the paid-user rule apply as for any other position. Every slot keeps its side even when the
      * other one is empty; nothing is returned when no slot has an ad.
@@ -682,7 +703,14 @@ class ADs extends PluginAbstract
         if (!$hasAd && !$isDebug) {
             return false;
         }
-        return "<div class=\"ADsSplitLeaderBoard\" data-ads-type=\"{$type}\">{$html}</div>";
+        // the halves keep the proportion of the configured size when the window is narrower
+        $style = '';
+        $slots = self::getSplitPositions($type);
+        $slotSize = self::getSize(reset($slots));
+        if (intval($slotSize['width']) > 0 && intval($slotSize['height']) > 0) {
+            $style = ' style="--ads-split-ratio: ' . intval($slotSize['width']) . ' / ' . intval($slotSize['height']) . ';"';
+        }
+        return "<div class=\"ADsSplitLeaderBoard\" data-ads-type=\"{$type}\"{$style}>{$html}</div>";
     }
 
     public static function getAdsCodeReason($type)
@@ -746,6 +774,14 @@ class ADs extends PluginAbstract
 
     public static function getSize($type)
     {
+        $settingsType = self::getSettingsType($type);
+        if ($settingsType !== $type) {
+            // a split half is half of the banner it divides, so it follows that banner's customized size;
+            // its own {type}Width/{type}Height settings are deprecated (getDataObjectDeprecated())
+            $size = self::getSize($settingsType);
+            $size['width'] = intval(round(intval($size['width']) / 2));
+            return $size;
+        }
         $obj = AVideoPlugin::getObjectData("ADs");
         foreach (ADs::getAllAdsPositions() as $key => $value) {
             if ($type == $value[0]) {

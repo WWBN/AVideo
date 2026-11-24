@@ -283,7 +283,7 @@ var ADsEditor = (function () {
                 if (response && !response.error && response.save) {
                     setSplit(type, enabled);
                     refreshPreview();
-                    avideoToastSuccess(enabled ? texts.splitOn : texts.splitOff);
+                    avideoToastSuccess(enabled ? texts.splitOn : ((texts.splitOffByType && texts.splitOffByType[type]) || texts.splitOff));
                 } else {
                     setSplitInputs(type, !enabled);
                     avideoAlertError(getErrorMessage(response));
