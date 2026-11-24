@@ -1,0 +1,77 @@
+/* A bounded creative, its caption and consistent breathing room from page controls. */
+.ADsPlacement {
+    width: 100%;
+    max-width: 728px;
+    margin: 16px auto 24px;
+    text-align: left;
+}
+
+.ADsPlacement-rectangle {
+    max-width: 300px;
+}
+
+.ADsPlacement-split {
+    max-width: 744px;
+}
+
+.ADsPlacementLabel {
+    margin-bottom: 6px;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+}
+
+.ADsPlacementContent {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.ADsImage {
+    margin: 0 auto;
+}
+
+/* Two native 364px creatives plus a 16px gutter, shrinking together on narrow windows. */
+.ADsSplitLeaderBoard {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 744px;
+    gap: 16px;
+    margin: 0 auto;
+}
+
+/* each half keeps its side, even when the other one is empty */
+.ADsSplitSlot {
+    flex: 0 0 calc((100% - 16px) / 2);
+    max-width: calc((100% - 16px) / 2);
+    min-width: 0;
+    overflow: hidden;
+    height: 90px;
+}
+
+/* "Show Ads Positions" adds a text above each ad: do not cut the ad below it */
+.AdsDebug .ADsSplitSlot {
+    height: auto;
+}
+
+/* AdSense's timeout wrapper has a 250px minimum: shrink it inside narrow slots. */
+.ADsSplitSlot [id^="adContainer"] {
+    min-width: 0 !important;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.ADsSplitSlot .carousel,
+.ADsSplitSlot img,
+.ADsSplitSlot iframe {
+    max-width: 100%;
+}
+
+/* "View on site" from the ADs editor (?AdsDebug=1&AdsHighlight=<type>) */
+.AdsDebug.AdsDebugHighlight {
+    outline: 4px solid var(--ads-highlight-color, #f0ad4e);
+    /* inside the box: the split halves hide what overflows them */
+    outline-offset: -4px;
+    scroll-margin: 120px;
+}

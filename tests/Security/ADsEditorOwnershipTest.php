@@ -53,7 +53,7 @@ function forbiddenPage($msg = '')
 // Runs the production methods against the stubs above without accessing installation data.
 $adsSource = file_get_contents(dirname(__DIR__, 2) . '/plugin/ADs/ADs.php');
 $adsMethods = '';
-foreach (['getAdsPath', 'getEditableAdsUsersId', 'saveAdsHTML'] as $adsMethodName) {
+foreach (['getAllAdsPositions', 'isValidAdsType', 'getAdsPath', 'getEditableAdsUsersId', 'saveAdsHTML'] as $adsMethodName) {
     $adsStart = strpos($adsSource, "public static function {$adsMethodName}(");
     if ($adsStart === false) {
         $adsMethods .= "public static function {$adsMethodName}() { throw new \\RuntimeException('ADs::{$adsMethodName}() not found'); }\n";
@@ -72,6 +72,7 @@ foreach (['getAdsPath', 'getEditableAdsUsersId', 'saveAdsHTML'] as $adsMethodNam
 eval('namespace ' . __NAMESPACE__ . ';
 class ADs {
     const AdsPositions = [["leaderBoardTop", 1], ["sideBar", 0]];
+    const AdsSplitPositions = [["leaderBoardTopLeft", 0, "leaderBoardTop", "left"]];
     public static $parameterUpdates = [];
 
     public function updateParameter($name, $value)
@@ -131,6 +132,15 @@ class ADsEditorOwnershipTest extends TestCase
         $this->assertSame('https://example.test/videos/ADs/sideBar/7/', ADs::getAdsPath('sideBar', 7)['url']);
     }
 
+    public function testSplitSlotsHaveTheirOwnFolderAndTheSameOwnerRules()
+    {
+        $this->assertSame('/var/www/videos/ADs/leaderBoardTopLeft/', ADs::getAdsPath('leaderBoardTopLeft', 0)['path']);
+        $this->assertSame('/var/www/videos/ADs/leaderBoardTopLeft/7/', ADs::getAdsPath('leaderBoardTopLeft', 7)['path']);
+        $this->assertSame('/var/www/videos/ADs/leaderBoardTopLeft/', ADs::getAdsPath('leaderBoardTopLeft', '../../')['path']);
+        $this->assertFalse(ADs::getAdsPath('leaderBoardTopLeft/../leaderBoardTop', 0));
+        $this->assertFalse(ADs::getAdsPath('leaderBoardTopMiddle', 0));
+    }
+
     public function testRegularUserAlwaysEditsTheirOwnAds()
     {
         foreach (['7', '0', '', 'false', '../../', '5'] as $requested) {
@@ -174,6 +184,14 @@ class ADsEditorOwnershipTest extends TestCase
             $this->assertStringContainsString('ADs::getEditableAdsUsersId()', $source, $file);
             $this->assertStringNotContainsString("\$_REQUEST['is_regular_user']", $source, $file);
         }
+    }
+
+    public function testMetadataEndpointUsesTheSameTrustedRequestGuardAsDeletion()
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/plugin/ADs/saveImagesMetadata.php');
+        $guard = strpos($source, "forbidIfIsUntrustedRequest('ADs::saveImagesMetadata')");
+        $this->assertNotFalse($guard);
+        $this->assertLessThan(strpos($source, 'ADs::setTXT('), $guard);
     }
 
     /**

@@ -56,6 +56,12 @@ $_page->setExtraScripts([
 ]);
 ```
 
+AVideo moves inline `<script>` blocks of the page body to the end of the page, after the `setExtraScripts()` files: a script file must not read a variable set by an inline script at load time (read it inside `$(function () { ... })`), see `plugin/ADs/editor.js`.
+
+For Croppie inside tabs, initialize after `shown.bs.tab`, cancel pending creation timers and reuse the existing instance when rebinding images. Destroying a cropper while an image bind is pending can break its asynchronous callbacks; delayed repeated creates can initialize it twice. Keep local lifecycle fixes in the owning editor unless shared callers have also been verified (see the ADs editor).
+
+Cached HTML fragments that include ADs must include the stable `ADs::getAdsCacheKey()` fingerprint for the position before reading their cache (see Flix `modeFlixCategory.php`). It varies with split/code/image metadata, device and viewer rules. Rendering the ad and hashing its HTML is unsuitable because carousel ids change each time. Test manual JavaScript in late AJAX fragments too: `document.write()` can replace the page after parsing; use an ad-owned DOM container for demonstration code.
+
 For plugin hooks, return local asset tags from `getHeadCode()` / `getFooterCode()` only when the asset must be injected by the plugin globally. Prefer page-specific `setExtraScripts()` / `setExtraStyles()` when the asset is needed only by that page.
 
 ---

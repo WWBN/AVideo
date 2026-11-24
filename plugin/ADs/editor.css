@@ -1,0 +1,410 @@
+/* ADs editor (plugin/ADs/editor.php). Colors come from the theme's Bootstrap classes. */
+.ADsEditor .list-group li {
+    cursor: move;
+}
+
+.ADsEditor {
+    max-width: 1100px;
+}
+
+.ADsPositionChooser {
+    max-width: 580px;
+}
+
+.ADsPositionChooser select {
+    height: auto;
+    min-height: 42px;
+}
+
+.ADsDetails {
+    margin-bottom: 16px;
+}
+
+.ADsDetails > summary {
+    cursor: pointer;
+    padding: 10px 0;
+    font-weight: 600;
+    list-style: none;
+}
+
+.ADsDetails > summary::before {
+    content: '\203a';
+    display: inline-block;
+    margin-right: 8px;
+    transition: transform 0.15s;
+}
+
+.ADsDetails[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.ADsDetails > summary::-webkit-details-marker {
+    display: none;
+}
+
+.ADsDetails[open] > summary {
+    margin-bottom: 10px;
+}
+
+.ADsPositionList .ADsNav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ADsPositionList .ADsNav > li {
+    flex: 1 1 220px;
+    min-width: 0;
+}
+
+.ADsStepNumber {
+    display: inline-block;
+    min-width: 1.6em;
+    margin-right: 6px;
+    padding: 2px 6px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ADsWorkflowTitle {
+    margin: 6px 0 18px;
+}
+
+.ADsMetadataField {
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.ADsMetadataField .form-control {
+    margin-top: 4px;
+}
+
+.ADsAdvancedSection > .ADsDetails {
+    margin-bottom: 0;
+}
+
+.ADsPositionSummary {
+    margin-bottom: 18px;
+}
+
+/* phones: the panel padding is smaller than the .row negative margins (2px horizontal scroll) */
+@media (max-width: 767px) {
+    .ADsEditor .panel-body > .row,
+    .ADsMap > .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .ADsEditor .croppieDiv .btn-group-justified {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .ADsEditor .croppieDiv .btn-group-justified > .btn {
+        flex: 1 1 auto;
+        width: auto;
+        white-space: normal;
+        border-radius: 4px;
+    }
+
+    .ADsEditor .croppieDiv .btn-group-justified > .btn:first-child {
+        flex-basis: 100%;
+    }
+
+    .ADsImageMetadata .list-group .row > div:first-child {
+        display: flow-root;
+        margin-bottom: 12px;
+    }
+}
+
+/* split state: .ADsSplitOn on the editor container (editor.js setSplit()) */
+.ADsSplitState:not(.ADsSplitOn) .ADsWhenSplitOn,
+.ADsSplitState.ADsSplitOn .ADsWhenSplitOff {
+    display: none;
+}
+
+/* page map */
+.ADsMap {
+    margin-bottom: 15px;
+}
+
+.ADsMapHeader {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.ADsMapHeader h4 {
+    margin: 0;
+}
+
+.ADsMapFrame {
+    margin-bottom: 10px;
+}
+
+.ADsMapFrame .panel-body {
+    padding: 8px;
+}
+
+.ADsMapFrame-mobile .panel-body {
+    max-width: 240px;
+    margin: 0 auto;
+}
+
+.ADsMapBlock {
+    min-height: 22px;
+    margin-bottom: 6px;
+    padding: 3px 6px;
+    border: 1px dashed currentColor;
+    border-radius: 3px;
+    opacity: 0.5;
+    font-size: 11px;
+    text-align: center;
+}
+
+.ADsMapSlot {
+    display: block;
+    width: 100%;
+    margin: 0 auto 6px;
+    padding: 4px;
+    white-space: normal;
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.ADsMapSlotBanner {
+    width: 80%;
+    min-height: 30px;
+}
+
+.ADsMapFrame-mobile .ADsMapSlotBanner,
+.ADsMapCols .ADsMapSlotBanner {
+    width: 100%;
+}
+
+.ADsMapSlotRectangle {
+    min-height: 56px;
+}
+
+.ADsMapSlotEmpty {
+    border-style: dashed;
+}
+
+.ADsMapSlotIcon {
+    display: none;
+}
+
+.ADsMapSlotConfigured .ADsMapSlotIcon {
+    display: inline;
+}
+
+.ADsMapSlotSize {
+    opacity: 0.8;
+}
+
+/* a position the current user cannot edit */
+.ADsMapSlotLocked {
+    border: 1px dashed currentColor;
+    border-radius: 3px;
+    opacity: 0.35;
+    text-align: center;
+}
+
+.ADsMapCols {
+    display: flex;
+    gap: 6px;
+}
+
+.ADsMapColMain {
+    flex: 2 1 0;
+    min-width: 0;
+}
+
+.ADsMapColSide {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* the top banner, or its two halves while the split is on */
+.ADsMapSplitPair {
+    display: none;
+    width: 80%;
+    margin: 0 auto 6px;
+}
+
+.ADsMapSplitPair .ADsMapSlot {
+    flex: 0 0 50%;
+    width: 50%;
+    min-width: 0;
+    margin: 0;
+}
+
+.ADsSplitOn .ADsMapSplitPair {
+    display: flex;
+}
+
+.ADsSplitOn .ADsMapSplitWhole {
+    display: none;
+}
+
+.ADsMapLegend .ADsMapSlot {
+    display: inline-block;
+    width: 28px;
+    min-height: 0;
+    margin: 0 2px 0 10px;
+    vertical-align: middle;
+}
+
+.ADsMapLegend .ADsMapSlot:first-child {
+    margin-left: 0;
+}
+
+/* positions list */
+.ADsNavGroupTitle {
+    margin: 15px 0 5px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    opacity: 0.75;
+}
+
+.ADsNav > li > a {
+    padding: 6px 10px;
+}
+
+.ADsNavSize,
+.ADsNavNote {
+    display: block;
+    font-size: 11px;
+    opacity: 0.85;
+}
+
+.ADsNavSplitItem > a {
+    padding-left: 24px;
+}
+
+.ADsNavStatus .badge {
+    margin-left: 2px;
+}
+
+/* readable on the selected (primary colored) item */
+.ADsNav > li.active .ADsStatusEmpty,
+.ADsSplitSwitcherButton.btn-primary .ADsStatusEmpty {
+    color: inherit;
+    opacity: 0.85;
+}
+
+/* halves are listed while their banner is split, or while one is open */
+.ADsNavSplitItem.ADsSplitState:not(.ADsSplitOn):not(.active) {
+    display: none;
+}
+
+/* the banner and its halves: layout choice and what to edit (getADsEditorSplitHeader()) */
+.ADsSplitMode {
+    margin-bottom: 10px;
+}
+
+.ADsSplitMode legend {
+    margin-bottom: 5px;
+    border: 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.ADsSplitMode .radio-inline {
+    margin-right: 15px;
+}
+
+.ADsSplitSwitcher {
+    max-width: 520px;
+    margin-bottom: 10px;
+}
+
+.ADsSplitSwitcherTitle {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.ADsSplitSwitcherButton {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+    text-align: center;
+}
+
+.ADsSplitSwitcherHalves {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.ADsSplitSwitcherHalves .ADsSplitSwitcherButton {
+    flex: 1 1 50%;
+}
+
+.ADsSplitState:not(.ADsSplitOn) .ADsSplitSwitcherHalves .ADsSplitSwitcherButton:not(.btn-primary),
+.ADsSplitState.ADsSplitOn .ADsSplitSwitcher-whole:not(.btn-primary) {
+    border-style: dashed;
+    opacity: 0.75;
+}
+
+.ADsSplitSwitcherText,
+.ADsSplitSwitcherButton .ADsNavStatus {
+    display: block;
+}
+
+.ADsThumb {
+    display: block;
+    max-width: 100%;
+    max-height: 40px;
+    margin: 0 auto 4px;
+}
+
+.ADsSplitSideText {
+    margin-bottom: 10px;
+}
+
+.ADsPreviewHeading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.ADsPreviewContext {
+    margin-left: 6px;
+}
+
+.ADsPositionTitle .label {
+    font-size: 11px;
+    vertical-align: middle;
+}
+
+.ADsCode {
+    font-family: monospace;
+    max-width: 100%;
+    resize: vertical;
+    margin-bottom: 8px;
+}
+
+.ADsPreviewFrame {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 520px;
+    margin: 0 auto;
+    border: 1px solid currentColor;
+}
+
+.ADsPreviewFrameMobile {
+    width: 390px;
+}

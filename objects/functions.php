@@ -3178,13 +3178,23 @@ function cleanUpAccessControlHeader()
     }
 }
 
-function getAdsDebugTag($adCode)
+function getAdsDebugTag($adCode, $adsType = '')
 {
     global $global;
     if (!empty($_REQUEST['AdsDebug']) && User::isAdmin()) {
-        $function = debug_backtrace()[1]["function"];
-        $function = str_replace('get', '', $function);
-        $adCode = "<div class=\"AdsDebug\">{$function}<br>{$global['lastAdsCodeReason']}<br>$adCode</div>";
+        if (empty($adsType)) {
+            $function = debug_backtrace()[1]["function"];
+            $function = str_replace('get', '', $function);
+            // getAdsLeaderBoardTop() -> leaderBoardTop
+            $adsType = lcfirst(preg_replace('/^Ads/', '', $function));
+            if (class_exists('ADs') && ADs::isAdsMobile()) {
+                $adsType = ADs::getMobileType($adsType);
+            }
+        } else {
+            $function = $adsType;
+        }
+        $adsType = htmlspecialchars($adsType, ENT_QUOTES, 'UTF-8');
+        $adCode = "<div class=\"AdsDebug\" data-ads-type=\"{$adsType}\">{$function}<br>{$global['lastAdsCodeReason']}<br>$adCode</div>";
     }
     return  $adCode;
 }
@@ -3635,11 +3645,23 @@ function clearCache($firstPageOnly = false)
     }
     ObjectYPT::deleteCache("getEncoderURL");
     ObjectYPT::deleteAllSessionCache();
-    // Updating the home page invalidates data, not PHP code. Resetting OPcache
-    // here can kill a long-running upload/storage request after its forced
-    // restart timeout. Keep opcode resets for an explicit full cache clear.
-    if (!$firstPageOnly && empty($_REQUEST['FirstPage']) && function_exists('opcache_reset')) {
-        opcache_reset();
+    // Refresh this site's cached PHP without scheduling a pool-wide restart,
+    // which can kill long encoder/storage requests after force_restart_timeout.
+    // Per-file checks bypass revalidate_freq; disabled timestamps cause invalidation.
+    if (
+        !$firstPageOnly && empty($_REQUEST['FirstPage'])
+        && !empty($global['systemRootPath'])
+        && function_exists('opcache_get_status') && function_exists('opcache_invalidate')
+    ) {
+        $opcodeStatus = opcache_get_status(true);
+        $siteRoot = str_replace('\\', '/', realpath($global['systemRootPath']) ?: $global['systemRootPath']);
+        $siteRoot = rtrim($siteRoot, '/') . '/';
+        foreach (($opcodeStatus['scripts'] ?? []) as $script => $details) {
+            if (strpos(str_replace('\\', '/', $script), $siteRoot) === 0) {
+                // Keep unchanged bytecode in memory instead of turning it all into waste.
+                opcache_invalidate($script, false);
+            }
+        }
     }
     if (class_exists('Live')) {
         Live::checkAllFromStats();

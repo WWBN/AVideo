@@ -19,6 +19,8 @@ $is_admin = User::isAdmin();
 if (empty($is_admin) && !ADs::canHaveCustomAds()) {
     forbiddenPage('You can not do this');
 }
+// This legacy .php endpoint is outside the automatic *.json.php CSRF guard.
+forbidIfIsUntrustedRequest('ADs::saveImagesMetadata');
 
 $type = $_REQUEST['type'];
 if (empty($type)) {
@@ -26,7 +28,7 @@ if (empty($type)) {
 }
 
 $typeFound = false;
-foreach (ADs::AdsPositions as $key => $value) {
+foreach (ADs::getAllAdsPositions() as $key => $value) {
     if ($type === $value[0]) {
         $typeFound = true;
         break;

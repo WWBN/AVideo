@@ -18,6 +18,140 @@ class ADs extends PluginAbstract
         ['leaderBoardMiddleMobile', 1],
     ];
 
+    /**
+     * Desktop slots that replace a position while "{parent}Split" is on: [type, isSquare, parent, side].
+     * Kept out of AdsPositions so the API and anything else that lists AdsPositions stay unchanged.
+     * They use the parent's ShowOnVideoPlayerPage/AllowUserToModify settings (getSettingsType()).
+     */
+    const AdsSplitPositions = [
+        ['leaderBoardTopLeft', 0, 'leaderBoardTop', 'left'],
+        ['leaderBoardTopRight', 0, 'leaderBoardTop', 'right'],
+        ['leaderBoardTop2Left', 0, 'leaderBoardTop2', 'left'],
+        ['leaderBoardTop2Right', 0, 'leaderBoardTop2', 'right'],
+        ['channelLeaderBoardTopLeft', 0, 'channelLeaderBoardTop', 'left'],
+        ['channelLeaderBoardTopRight', 0, 'channelLeaderBoardTop', 'right'],
+        ['leaderBoardMiddleLeft', 0, 'leaderBoardMiddle', 'left'],
+        ['leaderBoardMiddleRight', 0, 'leaderBoardMiddle', 'right'],
+    ];
+
+    public static function getMobileType($type)
+    {
+        $types = [
+            'leaderBoardBigVideo' => 'leaderBoardBigVideoMobile',
+            'leaderBoardTop' => 'leaderBoardTopMobile',
+            'leaderBoardTop2' => 'leaderBoardTopMobile2',
+            'channelLeaderBoardTop' => 'channelLeaderBoardTopMobile',
+            'leaderBoardMiddle' => 'leaderBoardMiddleMobile',
+            // Reuse the existing 300x250 position, including its saved images and code.
+            'sideRectangle' => 'sideRectangle',
+        ];
+        return $types[$type] ?? $type;
+    }
+
+    public static function isAdsMobile()
+    {
+        // Preview only: never change global device detection or the public API.
+        if (self::isAdsDebug() && isset($_REQUEST['AdsDevice']) && is_string($_REQUEST['AdsDevice'])) {
+            if ($_REQUEST['AdsDevice'] === 'mobile') {
+                return true;
+            }
+            if ($_REQUEST['AdsDevice'] === 'desktop') {
+                return false;
+            }
+        }
+        return isMobile();
+    }
+
+    public static function getAllAdsPositions()
+    {
+        return array_merge(self::AdsPositions, self::AdsSplitPositions);
+    }
+
+    public static function isValidAdsType($type)
+    {
+        foreach (self::getAllAdsPositions() as $value) {
+            if ($type === $value[0]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * The position whose display settings a type uses: the parent for a split slot, otherwise itself.
+     */
+    public static function getSettingsType($type)
+    {
+        foreach (self::AdsSplitPositions as $value) {
+            if ($type === $value[0]) {
+                return $value[2];
+            }
+        }
+        return $type;
+    }
+
+    /**
+     * @return array side => slot type, e.g. ['left' => 'leaderBoardTopLeft', 'right' => 'leaderBoardTopRight']
+     */
+    public static function getSplitPositions($type)
+    {
+        $slots = [];
+        foreach (self::AdsSplitPositions as $value) {
+            if ($type === $value[2]) {
+                $slots[$value[3]] = $value[0];
+            }
+        }
+        return $slots;
+    }
+
+    public static function isSplitEnabled($type)
+    {
+        if (empty(self::getSplitPositions($type))) {
+            return false;
+        }
+        $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+        $option = "{$type}Split";
+        return !empty($ad) && !empty($ad->$option);
+    }
+
+    /**
+     * The split is desktop only: phones and tablets keep the existing mobile position.
+     */
+    public static function isSplitActive($type)
+    {
+        return !self::isAdsMobile() && self::isSplitEnabled($type);
+    }
+
+    public static function isAdsDebug()
+    {
+        return !empty($_REQUEST['AdsDebug']) && User::isAdmin();
+    }
+
+    /**
+     * HTML fragments that contain ads must vary with settings, image metadata and viewer rules.
+     * Hash stable inputs rather than rendered carousels (their ids change on every render).
+     */
+    public static function getAdsCacheKey($type)
+    {
+        $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+        if (empty($ad)) {
+            return 'disabled';
+        }
+        if (self::isAdsMobile()) {
+            $type = self::getMobileType($type);
+        }
+        $owner = intval(getUsers_idOwnerFromRequest());
+        $data = [$type, $owner, $ad, self::isAdsDebug(), AVideoPlugin::showAds(getVideos_id())];
+        $types = array_merge([$type], array_values(self::getSplitPositions($type)));
+        foreach ($types as $slotType) {
+            $data[] = self::getAds($slotType);
+            if ($owner) {
+                $data[] = self::getAds($slotType, $owner);
+            }
+        }
+        return md5(json_encode($data));
+    }
+
     public function getTags()
     {
         return [
@@ -48,16 +182,19 @@ class ADs extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "1.1";
+        return "1.2";
     }
 
     public static function getDataObjectAdvanced()
     {
         $array = [];
 
-        foreach (ADS::AdsPositions as $value) {
+        foreach (ADS::getAllAdsPositions() as $value) {
             $array[] = $value[0];
             $array[] = "{$value[0]}Label";
+            if (!empty($value[2])) {
+                continue;
+            }
             $array[] = "{$value[0]}ShowOnVideoPlayerPage";
             $array[] = "{$value[0]}AllowUserToModify";
         }
@@ -72,7 +209,7 @@ class ADs extends PluginAbstract
 
         $adsense = $config->getAdsense();
 
-        foreach (ADS::AdsPositions as $value) {
+        foreach (ADS::getAllAdsPositions() as $value) {
             $size = '728x90';
             if (!empty($value[1])) {
                 $size = '300x250';
@@ -89,13 +226,26 @@ class ADs extends PluginAbstract
             if (!empty($value[1])) {
                 $width = 300;
                 $height = 250;
+            } elseif (!empty($value[2])) {
+                // half of the 728x90 leaderboard
+                $width = 364;
             }
 
             eval("\$obj->$value[0]Width = {$width};");
             eval("\$obj->$value[0]Height = {$height};");
             eval("\$obj->$value[0]Label = '{$value[0]}';");
+            if (!empty($value[2])) {
+                // a split slot uses the display settings of the banner it divides
+                continue;
+            }
             eval("\$obj->$value[0]ShowOnVideoPlayerPage = true;");
             eval("\$obj->$value[0]AllowUserToModify = true;");
+        }
+
+        foreach (array_unique(array_column(self::AdsSplitPositions, 2)) as $parent) {
+            $option = $parent . 'Split';
+            $obj->$option = false;
+            self::addDataObjectHelper($option, 'Split the desktop banner', 'Show two 364x90 slots instead of the 728x90 banner. Mobile positions are unchanged. Turning this off restores the original banner; all images and code are kept.');
         }
 
         $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
@@ -119,6 +269,8 @@ class ADs extends PluginAbstract
             return '';
         }
         $head = "";
+        // Shared placement spacing applies to single banners as well as split banners.
+        $head .= '<link href="' . getURL('plugin/ADs/ADs.css') . '" rel="stylesheet" type="text/css"/>';
         //$head .= "<script> var adsbygoogleTimeout = []; </script>";
         if (!empty($_GET['abkw'])) {
             $abkw = preg_replace('/[^a-zA-Z0-9_ ,-]/', '', $_GET['abkw']);
@@ -194,14 +346,7 @@ class ADs extends PluginAbstract
     public static function getAdsPath($type, $is_regular_user = false)
     {
         global $global;
-        $typeFound = false;
-        foreach (ADs::AdsPositions as $key => $value) {
-            if ($type === $value[0]) {
-                $typeFound = true;
-                break;
-            }
-        }
-        if (empty($typeFound)) {
+        if (!self::isValidAdsType($type)) {
             return false;
         }
 
@@ -375,7 +520,8 @@ class ADs extends PluginAbstract
         eval("\$label = \$ad->{$type}Label;");
         $label = "{$label} [$users_id] [{$type}]";
 
-        $array = self::getAdsHTML($type, $users_id);
+        $allowOption = self::getSettingsType($type) . 'AllowUserToModify';
+        $array = empty($users_id) || !empty($ad->$allowOption) ? self::getAdsHTML($type, $users_id) : false;
         if (empty($array)) {
             eval("\$adCode = \$ad->{$type}->value;");
             $array = ['paths' => []];
@@ -437,18 +583,25 @@ class ADs extends PluginAbstract
         // Determine if ads should be shown on video player page
         $showOnVideoPlayerPage = true;
         // Check if ads are configured to show on the video player page for the specified ad type
-        eval("\$showOnVideoPlayerPage = \$ad->{$type}ShowOnVideoPlayerPage;");
+        // (a split slot follows the banner it divides)
+        $settingsType = self::getSettingsType($type);
+        eval("\$showOnVideoPlayerPage = \$ad->{$settingsType}ShowOnVideoPlayerPage;");
         if (!$showOnVideoPlayerPage && isVideo()) {
             $global['lastAdsCodeReason'] = 'Ads are configured not to show on the video player page for this ad type. '
                 . '<br>To enable ads here, go to the Ads plugin settings and set the parameter '
-                . "{$type}ShowOnVideoPlayerPage to true if you want to display ads on the video page.";
+                . "{$settingsType}ShowOnVideoPlayerPage to true if you want to display ads on the video page.";
             return false;
         }
         self::debug(__LINE__);
 
+        // Desktop only: the banner is shown as its left and right slots
+        if (self::isSplitActive($type)) {
+            return self::formatPlacement(self::getSplitAdsCode($type), $type);
+        }
+
         // Adjust ad type for mobile if applicable
-        if (isMobile()) {
-            $type .= 'Mobile';
+        if (self::isAdsMobile()) {
+            $type = self::getMobileType($type);
         }
 
         // Retrieve ads based on user ID or video ID
@@ -457,8 +610,10 @@ class ADs extends PluginAbstract
         if (_empty($adC['adCode'])) {
             self::debug(__LINE__);
             $adC = self::getAdsHTML($type);
-            if (!_empty($adC['html'])) {
-                return $adC['html'];
+            if (!empty($adC) && !_empty($adC['html'])) {
+                $adCode = self::giveGoogleATimeout($adC['html']);
+                $global['lastAdsCodeReason'] = _empty($adCode) ? 'Ads are hidden by the viewer visibility rules.' : 'Site images successfully generated.';
+                return self::formatPlacement($adCode, $type);
             } else {
                 $global['lastAdsCodeReason'] = 'No ad code found for this content type and user ID.';
                 return false;
@@ -470,16 +625,72 @@ class ADs extends PluginAbstract
         // Finalize ad code if found, adding label and Google timeout if applicable
         $adCode = ADs::giveGoogleATimeout($adC['adCode']);
         $adCode = ADs::addLabel($adCode, $adC['label']);
-        $global['lastAdsCodeReason'] = 'Ad code successfully generated.';
+        $global['lastAdsCodeReason'] = _empty($adCode) ? 'Ads are hidden by the viewer visibility rules.' : 'Ad code successfully generated.';
         self::debug(__LINE__);
 
-        return $adCode;
+        return self::formatPlacement($adCode, $type);
     }
 
+    /**
+     * One clearly identified placement per banner; split slots share their parent's caption.
+     * Empty/hidden ads keep their original return value, without reserving a blank area.
+     */
+    private static function formatPlacement($adCode, $type)
+    {
+        if (_empty($adCode) || self::getSettingsType($type) !== $type) {
+            return $adCode;
+        }
+        $shape = 'banner';
+        if (preg_match('/mobile/i', $type) || in_array($type, ['sideRectangle', 'leaderBoardBigVideo'], true)) {
+            $shape = 'rectangle';
+        } elseif (self::isSplitActive($type)) {
+            $shape = 'split';
+        }
+        return '<div class="ADsPlacement ADsPlacement-' . $shape . '">'
+            . '<div class="ADsPlacementLabel text-muted">' . __('Advertisement') . '</div>'
+            . '<div class="ADsPlacementContent">' . $adCode . '</div></div>';
+    }
+
+    /**
+     * A desktop banner divided into slots side by side (leaderBoardTop 728x90 -> two 364x90).
+     * Each slot runs the normal getAdsCode() flow, so the owner's custom ads, the video page setting
+     * and the paid-user rule apply as for any other position. Every slot keeps its side even when the
+     * other one is empty; nothing is returned when no slot has an ad.
+     */
+    private static function getSplitAdsCode($type)
+    {
+        global $global;
+        $isDebug = self::isAdsDebug();
+        $hasAd = false;
+        $reasons = [];
+        $html = '';
+        foreach (self::getSplitPositions($type) as $side => $slotType) {
+            $slotCode = self::getAdsCode($slotType);
+            $reasons[] = "{$slotType}: {$global['lastAdsCodeReason']}";
+            if (_empty($slotCode)) {
+                $slotCode = '';
+            } else {
+                $hasAd = true;
+            }
+            if ($isDebug) {
+                $slotCode = getAdsDebugTag($slotCode, $slotType);
+            }
+            $html .= "<div class=\"ADsSplitSlot ADsSplitSlot-{$side}\" data-ads-type=\"{$slotType}\">{$slotCode}</div>";
+        }
+        $global['lastAdsCodeType'] = $type;
+        $global['lastAdsCodeReason'] = 'Split into ' . implode(' and ', self::getSplitPositions($type)) . ' on desktop.<br>' . implode('<br>', $reasons);
+        if (!$hasAd && !$isDebug) {
+            return false;
+        }
+        return "<div class=\"ADsSplitLeaderBoard\" data-ads-type=\"{$type}\">{$html}</div>";
+    }
 
     public static function getAdsCodeReason($type)
     {
         $reasons = [];
+        if (self::isSplitActive($type)) {
+            $reasons[] = 'Split is on: desktop shows ' . implode(' and ', self::getSplitPositions($type)) . ' instead of ' . $type;
+        }
 
         // Check if the viewer is a bot
         if (isBot()) {
@@ -500,8 +711,8 @@ class ADs extends PluginAbstract
             $reasons[] = 'The ADs plugin is disabled, ads cannot be displayed without this plugin.';
         } else {
             // Adjust ad type for mobile if applicable
-            if (isMobile()) {
-                $type .= 'Mobile';
+            if (self::isAdsMobile()) {
+                $type = self::getMobileType($type);
                 $reasons[] = 'User is on a mobile device, adjusting ad type to: ' . $type;
             } else {
                 $reasons[] = 'User is on a non-mobile device, ad type: ' . $type;
@@ -536,7 +747,7 @@ class ADs extends PluginAbstract
     public static function getSize($type)
     {
         $obj = AVideoPlugin::getObjectData("ADs");
-        foreach (ADs::AdsPositions as $key => $value) {
+        foreach (ADs::getAllAdsPositions() as $key => $value) {
             if ($type == $value[0]) {
                 $width = 0;
                 $height = 0;
@@ -574,7 +785,7 @@ class ADs extends PluginAbstract
 
         $size = self::getSize($type);
 
-        $style = '';
+        $style = 'max-width: ' . intval($size['width']) . 'px;';
         if ($size['isSquare']) {
             $width = $size['width'];
             $height = $size['height'];
@@ -585,7 +796,7 @@ class ADs extends PluginAbstract
         $obj = AVideoPlugin::getDataObject('ADs');
         $interval = $obj->bannerIntervalInSeconds * 1000;
 
-        $html = "<div id=\"{$id}\" class=\"carousel slide\" data-ride=\"carousel{$id}\" style=\"{$style}\" data-interval=\"{$interval}\">"
+        $html = "<div id=\"{$id}\" class=\"carousel slide ADsImage\" data-ride=\"carousel{$id}\" style=\"{$style}\" data-interval=\"{$interval}\">"
             . "<div class=\"carousel-inner\">";
 
         $active = 'active';
@@ -640,11 +851,150 @@ class ADs extends PluginAbstract
         $obj = $this->getDataObject();
         $interval = $obj->bannerIntervalInSeconds * 1000;
         $js = "<script>$(function(){
-            $('.carousel').carousel({
-              interval: {$interval}
-            });
+            if (typeof $.fn.carousel === 'function') {
+                $('.carousel').carousel({
+                  interval: {$interval}
+                });
+            }
         });</script>";
-        return $js;
+        return $js . self::getAdsHighlightFooterCode();
+    }
+
+    /**
+     * "View on site" from the editor: ?AdsDebug=1&AdsHighlight=<type> scrolls to that position.
+     */
+    private static function getAdsHighlightFooterCode()
+    {
+        if (empty($_REQUEST['AdsHighlight']) || !self::isAdsDebug()) {
+            return '';
+        }
+        $type = $_REQUEST['AdsHighlight'];
+        if (!is_string($type) || !self::isValidAdsType($type)) {
+            return '';
+        }
+        $info = self::getAdsPositionsInfo();
+        $targets = [$type];
+        $parent = self::getSettingsType($type);
+        if ($parent !== $type) {
+            // a split slot is only on the page while the split is on
+            $targets[] = $parent;
+        }
+        if (!empty($info[$type]['desktop'])) {
+            // a mobile position opened on a desktop browser
+            $targets[] = $info[$type]['desktop'];
+        }
+        if (!empty($info[$type]['mobile'])) {
+            $targets[] = $info[$type]['mobile'];
+        }
+        $options = [
+            'targets' => array_values(array_unique($targets)),
+            'name' => $info[$type]['name'],
+            'notFound' => __('This ad position is not displayed on this page.'),
+            'otherVersion' => __('Showing where this position is on this page. The exact version depends on the device and on the split setting.'),
+        ];
+        return '<script src="' . getURL('plugin/ADs/adsHighlight.js') . '"></script>'
+            . '<script>$(function(){ADsHighlightPosition(' . json_encode($options) . ');});</script>';
+    }
+
+    /**
+     * Readable name, device and the pages where each position is rendered, as found in the views
+     * that call getAds*() (objects/functions.php). Used by the editor and by "View on site".
+     *
+     * page: where "View on site" opens it (home, video or channel); map: the editor map pages.
+     */
+    public static function getAdsPositionsInfo()
+    {
+        $desktop = [
+            'leaderBoardTop' => [
+                'name' => __('Top banner'),
+                'page' => 'video',
+                'map' => ['video', 'home', 'channel'],
+                'mobile' => 'leaderBoardTopMobile',
+                'pages' => [
+                    __('Video and live pages: above the player'),
+                    __('Playlist pages: above the player when the top-banner option is enabled'),
+                    __('Home page (Gallery): top of the page, not on category pages'),
+                    __('Home page (Flix): on the featured video, or at the top when the featured video is off'),
+                    __('Live embed player: above the video'),
+                    __('Channel page (Flix): in the featured video area'),
+                ],
+            ],
+            'leaderBoardTop2' => [
+                'name' => __('Second banner'),
+                'page' => 'video',
+                'map' => ['video', 'home'],
+                'mobile' => 'leaderBoardTopMobile2',
+                'pages' => [
+                    __('Video and live pages: below the player'),
+                    __('Home page (Gallery): below the featured video'),
+                    __('Home page (Flix): above the category rows'),
+                    __('Phones and tablets use the second mobile banner'),
+                ],
+            ],
+            'leaderBoardBigVideo' => [
+                'name' => __('Featured video banner'),
+                'page' => 'home',
+                'map' => ['home', 'channel'],
+                'mobile' => 'leaderBoardBigVideoMobile',
+                'pages' => [
+                    __('Home page: beside the featured video'),
+                    __('Channel page: beside the featured video, when the channel shows one'),
+                ],
+            ],
+            'channelLeaderBoardTop' => [
+                'name' => __('Channel top banner'),
+                'page' => 'channel',
+                'map' => ['channel'],
+                'mobile' => 'channelLeaderBoardTopMobile',
+                'pages' => [
+                    __('Channel page: top of the page'),
+                ],
+            ],
+            'leaderBoardMiddle' => [
+                'name' => __('Between video sections'),
+                'page' => 'home',
+                'map' => ['home', 'channel'],
+                'mobile' => 'leaderBoardMiddleMobile',
+                'pages' => [
+                    __('Home page (Gallery): after each video section'),
+                    __('Channel page: after each video section'),
+                ],
+            ],
+            'sideRectangle' => [
+                'name' => __('Sidebar rectangle'),
+                'page' => 'video',
+                'map' => ['video'],
+                'pages' => [
+                    __('Video and live pages: right column, above the related videos'),
+                    __('Playlist pages: above the playlist in the sidebar'),
+                    __('Phones and tablets use this same 300 x 250 position'),
+                ],
+            ],
+        ];
+        $info = [];
+        foreach ($desktop as $type => $value) {
+            $value['device'] = 'desktop';
+            $info[$type] = $value;
+            if (empty($value['mobile'])) {
+                continue;
+            }
+            $info[$value['mobile']] = [
+                'name' => $value['name'],
+                'page' => $value['page'],
+                'map' => $value['map'],
+                'device' => 'mobile',
+                'desktop' => $type,
+                'pages' => [__('Phones and tablets, in the same places as the desktop version')],
+            ];
+        }
+        foreach (self::AdsSplitPositions as $position) {
+            list($type, , $parent, $side) = $position;
+            $info[$type] = $info[$parent];
+            unset($info[$type]['mobile']);
+            $info[$type]['name'] = $info[$parent]['name'] . ', ' . ($side === 'left' ? __('Left half') : __('Right half'));
+            $info[$type]['pages'] = [__('Same pages as the original banner, while its split is on')];
+        }
+        return $info;
     }
     public static function saveAdsHTML($type)
     {

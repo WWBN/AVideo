@@ -18,6 +18,11 @@ $uid = '{serie_uid}';
 
 $cacheName = "modeFlixCategory" . md5(json_encode($_GET)) . getVideoListVisibilityCacheKey();
 $cacheName .= isForKidsSet()?'forKids':'';
+// This fragment includes leaderBoardTop2. A saved split, code, image or ad-free rule must
+// not keep serving the previous ad HTML for the listing cache's 10/30 minute lifetime.
+if (method_exists('ADs', 'getAdsCacheKey')) {
+    $cacheName .= '_ads_' . ADs::getAdsCacheKey('leaderBoardTop2');
+}
 
 $cacheLifetime = User::isLogged() ? 600 : 1800;
 

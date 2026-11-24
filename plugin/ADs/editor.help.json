@@ -1,0 +1,10 @@
+[
+    {"element":"#ADsPositionSelect","title":"Position","intro":"Start by choosing where your banner should appear. Desktop and mobile positions are separate. The heading below confirms your selection and the image size."},
+    {"element":".tab-pane.active form","title":"Image","intro":"Upload an image or select one from your library. Adjust the crop, then choose Save Image. The saved image appears in the list below."},
+    {"element":".tab-pane.active .ADsImageMetadata","title":"Link","intro":"Add the full website URL and a title, then choose Save Order and Metadata. Save Image saves the picture; this second button saves its link, title and rotation order."},
+    {"element":".tab-pane.active .ADsLayoutDetails > summary","title":"One banner or two","intro":"Open Desktop layout to choose one banner or two side by side. When split, choose a half to edit. Mobile positions stay separate, and changing the layout preserves images and code."},
+    {"element":".tab-pane.active .ADsAdvanced > summary","title":"Advanced","intro":"Open Advanced for technical position details. Site administrators also find ad code here. Image and link setup does not require this section."},
+    {"element":".ADsMapDetails > summary","title":"Where the ads appear","intro":"This optional map is below the editor. Open it to explore video, home and channel pages, or select a space directly. It selects the same position as the list at the top."},
+    {"element":"#ADsPreviewPanel","title":"Real page preview","intro":"Show a real page of your site with the selected position outlined. It follows the position you choose; use Close preview to hide it. Mobile preview changes the ADs position selection only."},
+    {"element":".tab-pane.active .ADsViewOnSite","title":"View on site","intro":"Opens a page of the site with every ad position outlined and scrolls to this one."}
+]

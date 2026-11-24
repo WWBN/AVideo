@@ -9,7 +9,7 @@ $_page = new Page(array('Live'));
 <div class="<?php echo Gallery::getContaierClass(); ?>">
     <?php
     if (!empty($leaderBoardTop)) {
-        echo '<div class="row text-center" style="padding: 10px;">' . $leaderBoardTop . '</div>';
+        echo '<div class="text-center" style="padding: 10px;">' . $leaderBoardTop . '</div>';
     } else {
         echo '<!-- getAdsLeaderBoardTop is empty -->';
     }
