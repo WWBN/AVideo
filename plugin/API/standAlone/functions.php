@@ -93,7 +93,9 @@ function getInput($key, $default = '')
 // payload the configured Streamer decrypts with its saltV2 (decryptString needs its admin/APISecret), i.e. the Streamer
 // itself or someone holding its install-wide secrets (already compromised). Running arbitrary FFmpeg for that Streamer is
 // this worker's purpose: Rebroadcaster/restreamer/VideoPlaylistScheduler send remote http/rtmp inputs and outputs, so an
-// argument/path/protocol allowlist would break them. This filter only keeps the command limited to ffmpeg under sh -c.
+// argument/path/protocol allowlist would break them. This filter is not a boundary: the sender can already read/write any
+// file the worker user can (GHSA-g2mq-54q3-6g7c, same decision), and an unbalanced quote even escapes the appended
+// notify arguments under sh -c. The trust boundary is decryptString (Streamer APISecret + saltV2), not this function.
 // If re-reported, see the full triage in the advisory thread instead of re-patching.
 function sanitizeFFmpegCommand($command)
 {
