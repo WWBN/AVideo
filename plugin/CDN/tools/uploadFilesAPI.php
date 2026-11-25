@@ -20,10 +20,9 @@ $_2hours = $_1hour * 2;
 ob_end_flush();
 set_time_limit($_2hours);
 ini_set('max_execution_time', $_2hours);
-$parts = explode('.', $cdnObj->storage_hostname);
 $apiAccessKey = $cdnObj->storage_password;
 $storageZoneName = $cdnObj->storage_username;
-$storageZoneRegion = trim(strtolower($parts[0]));
+$storageZoneRegion = CDNStorage::getAPIRegion($cdnObj->storage_hostname);
 
 echo ("CDNStorage::APIput line $apiAccessKey, $storageZoneName, $storageZoneRegion [startFromIndex=$startFromIndex]") . PHP_EOL;
 $client = new \Bunny\Storage\Client($apiAccessKey, $storageZoneName, $storageZoneRegion);

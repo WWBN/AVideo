@@ -531,7 +531,7 @@ class CDNStorage
                     _error_log("convertCDNHLSVideoToDownload::putUsingAPI");
                     $response = self::putUsingAPI([$value['local_path']]);
                 } catch (\Throwable $th) {
-                    _error_log("convertCDNHLSVideoToDownload::put API error putUsingFTP");
+                    _error_log("convertCDNHLSVideoToDownload::put API error putUsingFTP " . self::getAPIErrorForLog($th));
                     $response = self::putUsingFTP([$value['local_path']], 1);
                 }
 
@@ -632,7 +632,7 @@ class CDNStorage
                 try {
                     $response = self::putUsingAPI($filesToUpload);
                 } catch (\Throwable $th) {
-                    _error_log("CDNStorage::put API error use FTP");
+                    _error_log("CDNStorage::put API error use FTP " . self::getAPIErrorForLog($th));
                     $response = self::putUsingFTP($filesToUpload, $totalSameTime);
                     $forceUseFTP = true;
                 }
@@ -659,6 +659,36 @@ class CDNStorage
         return ['filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred];
     }
 
+    /**
+     * Bunny Storage API region for the configured FTP hostname.
+     * "ny.storage.bunnycdn.com" -> "ny". The main region (storage.bunnycdn.com) and custom
+     * hostnames such as "storage.ypt.me" have no region prefix: "storage" is not a valid
+     * region and made every API upload throw and fall back to a much slower FTP upload.
+     */
+    public static function getAPIRegion($storageHostname)
+    {
+        $parts = explode('.', trim(strtolower((string) $storageHostname)));
+        if (isset(\Bunny\Storage\Region::LIST[$parts[0]])) {
+            return $parts[0];
+        }
+        return \Bunny\Storage\Region::FALKENSTEIN;
+    }
+
+    /**
+     * Exception text for the log. Bunny's AuthenticationException puts the storage API key
+     * (the CDN storage_password) in its message, so it is removed before logging.
+     */
+    public static function getAPIErrorForLog($th)
+    {
+        $message = get_class($th) . ': ' . $th->getMessage();
+        $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
+        $apiAccessKey = empty($cdnObj->storage_password) ? '' : (string) $cdnObj->storage_password;
+        if ($apiAccessKey !== '') {
+            $message = str_replace($apiAccessKey, '***', $message);
+        }
+        return $message;
+    }
+
     public static function putUsingAPI($filesToUpload)
     {
         global $_uploadInfo;
@@ -666,10 +696,9 @@ class CDNStorage
             $_uploadInfo = [];
         }
         $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
-        $parts = explode('.', $cdnObj->storage_hostname);
         $apiAccessKey = $cdnObj->storage_password;
         $storageZoneName = $cdnObj->storage_username; // Replace with your storage zone name
-        $storageZoneRegion = trim(strtolower($parts[0]));
+        $storageZoneRegion = self::getAPIRegion($cdnObj->storage_hostname);
         $fileUploadCount = 0;
         $totalBytesTransferred = 0;
         $total = count($filesToUpload);
@@ -1511,7 +1540,7 @@ class CDNStorage
                         _error_log("convertCDNHLSVideoToDownload::putUsingAPI");
                         $response = self::putUsingAPI([$localFile]);
                     } catch (\Throwable $th) {
-                        _error_log("convertCDNHLSVideoToDownload::put API error putUsingFTP");
+                        _error_log("convertCDNHLSVideoToDownload::put API error putUsingFTP " . self::getAPIErrorForLog($th));
                         $response = self::putUsingFTP([$localFile], 1);
                     }
                     _error_log("convertCDNHLSVideoToDownload done: ($localFile) ".json_encode($response));
