@@ -189,6 +189,56 @@ function isLoopbackIP($ip)
     return false;
 }
 
+/**
+ * Special-purpose addresses that FILTER_FLAG_NO_PRIV_RANGE/NO_RES_RANGE let through but that never
+ * serve public content (GHSA-42x7-8gfw-6347). Used only as an outbound-request (SSRF) block list:
+ * isPrivateOrLoopbackIP() also decides which callers are trusted (Live callbacks), so it is not changed.
+ *
+ * @param string $ip IP address, no brackets.
+ * @return bool True if outbound requests to this address must be refused.
+ */
+function isSSRFBlockedSpecialPurposeIP($ip)
+{
+    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+        $ipLong = ip2long($ip);
+        $blockedRanges = [
+            ['100.64.0.0', 10],     // RFC 6598 shared address space (CGNAT, Tailscale, Alibaba Cloud metadata 100.100.100.200)
+            ['168.63.129.16', 32],  // Azure platform channel (WireServer)
+            ['192.0.0.0', 24],      // RFC 6890 IETF protocol assignments
+            ['192.0.2.0', 24],      // RFC 5737 TEST-NET-1
+            ['198.18.0.0', 15],     // RFC 2544 benchmarking
+            ['198.51.100.0', 24],   // RFC 5737 TEST-NET-2
+            ['203.0.113.0', 24],    // RFC 5737 TEST-NET-3
+        ];
+        foreach ($blockedRanges as $range) {
+            $mask = (0xFFFFFFFF << (32 - $range[1])) & 0xFFFFFFFF;
+            if (($ipLong & $mask) === (ip2long($range[0]) & $mask)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $packed = @inet_pton($ip);
+    if ($packed === false || strlen($packed) !== 16) {
+        return false;
+    }
+    // Deprecated IPv4-compatible IPv6 (RFC 4291, ::a.b.c.d): ::7f00:1 is 127.0.0.1.
+    if (substr($packed, 0, 12) === str_repeat("\x00", 12)) {
+        return true;
+    }
+    // Inspect embedded endpoints as bytes: compressed 6to4 can skip the regex normalization,
+    // and Teredo deliberately keeps its IPv6 address for fetching and DNS pinning.
+    if (substr($packed, 0, 2) === "\x20\x02") {
+        return isSSRFBlockedSpecialPurposeIP(inet_ntop(substr($packed, 2, 4)));
+    }
+    if (substr($packed, 0, 4) === "\x20\x01\x00\x00") {
+        return isSSRFBlockedSpecialPurposeIP(inet_ntop(~substr($packed, 12, 4)));
+    }
+    // RFC 3849 IPv6 documentation range 2001:db8::/32.
+    return substr($packed, 0, 4) === "\x20\x01\x0d\xb8";
+}
+
 function getForwardedClientIpFromServerArray($server)
 {
     $ipv6 = '';
@@ -4693,6 +4743,12 @@ function isSSRFSafeURL($url, &$resolvedIP = null)
     // cloud metadata ranges such as 169.254.169.254.
     if (isPrivateOrLoopbackIP($ip)) {
         _error_log("isSSRFSafeURL: blocked private/reserved IP: {$ip}");
+        return false;
+    }
+
+    // CGNAT, Azure platform channel, TEST-NET/benchmarking and ::a.b.c.d, not covered by the filter flags above.
+    if (isSSRFBlockedSpecialPurposeIP($ip)) {
+        _error_log("isSSRFSafeURL: blocked special-purpose IP: {$ip}");
         return false;
     }
 
