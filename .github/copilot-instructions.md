@@ -447,6 +447,11 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   blocked `login()` returns `User::TOO_MANY_FAILED_ATTEMPTS` without checking the password. It must not
   end the request: Encoder callbacks still authenticate through `video_id_hash` after a failed user/pass.
   Covered by `tests/login-failed-attempts-regression.php`.
+- A service endpoint that must act as a user in-process (e.g. `plugin/Meet/uploadRecordedVideo.json.php` before
+  including `objects/aVideoQueueEncoder.json.php`) must not write `$_SESSION['user']` into the session that
+  `configuration.php` already started: it is the caller's (its cookie, or a `?PHPSESSID=` it chose), so the caller
+  could reuse that session as the user. Close it and switch to a server-generated ID with `session.use_cookies` off,
+  as that endpoint does (GHSA-ggfr-w8qv-5cq3, `tests/Security/MeetUploadRecordedVideoSessionTest.php`).
 - `video_id_hash` (`Video::getVideoIdHash()`) is a password-less login for Encoder callbacks
   (`useVideoHashOrLogin()`). It is issued to anyone passing `Video::canEncoderEdit()` (Videos Admin included), so it
   logs in as the account it was issued to (`issuedTo`, bound to that account's password), never as the video owner;

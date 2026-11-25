@@ -58,18 +58,33 @@ if ($users_id <= 0) {
     forbiddenPage('Invalid users_id in filename');
 }
 
-// Credit the upload to $users_id in-process without minting an HTTP session.
-// login(true,true) would issue Set-Cookie + regenerate PHPSESSID, handing the
-// caller a fully-authenticated session as the named user — not needed here.
-// getUserFromID() + direct $_SESSION assignment is sufficient for
-// aVideoQueueEncoder.json.php to run under the correct user context.
+// Credit the upload to $users_id in-process without handing the caller a login.
+// aVideoQueueEncoder.json.php needs $_SESSION['user'], but the session started by
+// configuration.php is the caller's own (its cookie, or a PHPSESSID it chose), so
+// writing the user there gave the caller a reusable session as that user, admin
+// included (GHSA-qxvm-r42f-5p8j, GHSA-ggfr-w8qv-5cq3). Keep the caller's session
+// untouched and run this request on a new server-generated session ID that is
+// never sent back (no Set-Cookie). It still reopens after a mid-request close.
 error_log(__FILE__ . " line " . __LINE__);
 $userRow = User::getUserFromID($users_id);
-if (empty($userRow['id'])) {
-    forbiddenPage('Recording references unknown user');
+// Only active accounts, as the former login(true, true) required.
+if (empty($userRow['id']) || $userRow['status'] !== 'a') {
+    forbiddenPage('Recording references unknown or inactive user');
 }
 _session_start();
+// Some session handlers warn before returning false; keep the fallback silent.
+$recordingUploadSessionId = @session_create_id();
+if (empty($recordingUploadSessionId)) {
+    $recordingUploadSessionId = bin2hex(random_bytes(32));
+}
+_session_write_close();
+ini_set('session.use_cookies', '0');
+session_id($recordingUploadSessionId);
+_session_start();
+$_SESSION = [];
 $_SESSION['user'] = $userRow;
+// getUserFromID() omits the credential that Video::queue() sends to the Encoder.
+$_SESSION['user']['passhash'] = User::getUserHash($users_id);
 
 $tmpFile = getTmpDir() . uniqid();
 
