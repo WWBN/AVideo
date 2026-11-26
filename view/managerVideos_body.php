@@ -173,6 +173,7 @@ if (empty($advancedCustom)) {
     var filterStatus = '';
     var filterType = '';
     var filterCategory = '';
+    var filterOnlyMyVideos = 0;
     var _editVideo = false;
     <?php
     if (!empty($editVideo)) {
@@ -497,6 +498,30 @@ if (empty($advancedCustom)) {
                     </ul>
                 </div>
             </div>
+
+            <?php
+            // users without moderation permission already see only their own videos
+            if (Permissions::canModerateVideos()) {
+            ?>
+                <div class="btn-group pull-right" id="filterOwnerButtonsVideoManager">
+                    <div class="btn-group ">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="activeOwnerFilter"><i class="fas fa-users"></i> <?php echo __('All users'); ?></span> <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li><a href="#" onclick="filterOnlyMyVideos = 0; $('.activeOwnerFilter').html('<i class=\'fas fa-users\'></i> <?php echo addcslashes(__('All users'), "'\\"); ?>');
+                                    $('.tooltip').tooltip('hide');
+                                    reloadGridAfterFilterChange();
+                                    return false;"><i class="fas fa-users"></i> <?php echo __('All users'); ?></a></li>
+                            <li><a href="#" onclick="filterOnlyMyVideos = 1; $('.activeOwnerFilter').html('<i class=\'fas fa-user\'></i> <?php echo addcslashes(__('My videos'), "'\\"); ?>');
+                                    $('.tooltip').tooltip('hide');
+                                    reloadGridAfterFilterChange();
+                                    return false;"><i class="fas fa-user"></i> <?php echo __('My videos'); ?></a></li>
+                        </ul>
+                    </div>
+                </div>
+            <?php
+            }
+            ?>
 
             <div class="btn-group pull-right" id="filterSearchButtonsVideoManager">
                 <div class="btn-group ">
@@ -1788,6 +1813,9 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             url = addQueryStringParameter(url, 'status', filterStatus);
             url = addQueryStringParameter(url, 'type', filterType);
             url = addQueryStringParameter(url, 'catName', filterCategory);
+            if (filterOnlyMyVideos) {
+                url = addQueryStringParameter(url, 'onlyMyVideos', 1);
+            }
             if (filterDateRange) {
                 url = addQueryStringParameter(url, 'dateRange', filterDateRange);
             }

@@ -95,6 +95,11 @@
         "position": "bottom"
     },
     {
+        "element": "#filterOwnerButtonsVideoManager",
+        "intro": "Choose My videos to list only the videos you own, or All users to manage every video on the site.",
+        "position": "bottom"
+    },
+    {
         "element": "#filterSearchButtonsVideoManager",
         "intro": "Customize your search fields here. You can select which fields to search for when you are filtering videos.",
         "position": "bottom"

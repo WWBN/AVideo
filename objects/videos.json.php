@@ -16,6 +16,10 @@ $timeLogName = TimeLogStart("videos.json.php");
 $showOnlyLoggedUserVideos = true;
 if (Permissions::canModerateVideos()) {
     $showOnlyLoggedUserVideos = false;
+    // video manager "My videos" filter: a moderator may narrow the list to the videos they own
+    if (!empty($_REQUEST['onlyMyVideos'])) {
+        $showOnlyLoggedUserVideos = intval(User::getId());
+    }
 }
 $showUnlisted = false;
 $activeUsersOnly = true;
