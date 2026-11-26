@@ -204,6 +204,13 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   templates, run through `eval`/shell by design) are trusted; `saveConfig`/`isAdmin` require the
   per-session `csrfToken` (`getEncoderAdminCSRFToken()`), covered by
   `.compose/encoder/tests/encoder-admin-csrf-regression.php`.
+- **Encoder job sources are publicly readable**: `Encoder::downloadFile()` saves the input as
+  `videos/<id>_tmpFile.<ext>` (served publicly), so `view/queue.php` validates sources with
+  `getQueueSourceFileURI()`/`isQueueDownloadLinkAllowed()`. With `allowPrivateNetworkURLs` (the default),
+  a private address is accepted only on the job's own Streamer host; Encoder URLs are refused; local paths
+  need Bulk Encode, a `$global['allowed']` extension, and must be outside the Encoder `videos/`. Each redirect
+  is re-checked by `downloadQueueSourceURL()` (GHSA-96v7-pc9h-f4w7,
+  `.compose/encoder/tests/encoder-queue-source-regression.php`).
 - **`videos/.htaccess` has two writers**: `adminSecurityCheck()` copies
   `objects/htaccess_for_videos.conf` when the file's version is lower, and the Scheduler watchdog
   rewrites it from `plugin/Scheduler/htaccess.sample.txt` unless it carries exactly its own version
