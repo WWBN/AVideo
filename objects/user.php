@@ -3726,11 +3726,12 @@ if (typeof gtag !== \"function\") {
                 }
             }
             if (!empty($_SESSION['user']['id'])) {
-                $global['bypassSameDomainCheck'] = 1;
                 $_REQUEST['do_not_login'] = 1;
                 // clients that keep the session cookie (Postman, apps) still send explicit credentials
                 if ($requestUsersId === (int) $_SESSION['user']['id']) {
                     $global['loggedInFromRequestCredentials'] = 1;
+                    // An ambient session alone must not disable the origin check (GHSA-whh2-8p2q-5598).
+                    $global['bypassSameDomainCheck'] = 1;
                 }
                 if ($isEncoderRequest) {
                     _error_log('loginFromRequest: encoder auth skipped because session already authenticated sessionUserId=' . (int)$_SESSION['user']['id'] . ' requestUser=' . ($_REQUEST['user'] ?? 'empty'));
@@ -3753,6 +3754,11 @@ if (typeof gtag !== \"function\") {
                 // cookie (login() can return USER_LOGGED for those without checking this password);
                 // plugin/API/set.json.php relies on this to tell explicit credentials from ambient ones
                 $global['loggedInFromRequestCredentials'] = 1;
+                // login() may restore a remember-me session internally; verify this request's identity
+                // before exempting its newly created session cookie from autoCSRFGuard().
+                if (!empty($_SESSION['user']['id']) && self::getRequestCredentialsUsersId() === (int) $_SESSION['user']['id']) {
+                    $global['bypassSameDomainCheck'] = 1;
+                }
             }
             if ($isEncoderRequest) {
                 _error_log('loginFromRequest: encoder first attempt result=' . json_encode($response)
@@ -3762,7 +3768,6 @@ if (typeof gtag !== \"function\") {
             if ($response) {
                 switch ($response) {
                     case self::USER_LOGGED:
-                        $global['bypassSameDomainCheck'] = 1;
                         _error_log("loginFromRequest SUCCESS {$_REQUEST['user']}");
                         break;
                     case self::USER_NOT_FOUND:

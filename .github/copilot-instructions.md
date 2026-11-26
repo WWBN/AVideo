@@ -211,6 +211,12 @@ real video/stream is processed) and are hard to unit test. Treat changes here as
   need Bulk Encode, a `$global['allowed']` extension, and must be outside the Encoder `videos/`. Each redirect
   is re-checked by `downloadQueueSourceURL()` (GHSA-96v7-pc9h-f4w7,
   `.compose/encoder/tests/encoder-queue-source-regression.php`).
+- **Encoder callbacks and the browser session**: `aVideoEncoder`, `aVideoEncoderLog`, `aVideoEncoderNotifyIsDone`,
+  `aVideoEncoderReceiveImage` and `aVideoQueueEncoder` `.json.php` skip `autoCSRFGuard()` only without the Streamer
+  session cookie (the Web Encoder sends none); with it they get the normal origin check, which accepts the Local Encoder
+  (httpx keeps cookies, UA `AVideoEncoder local-encoder/...`). Do not require `video_id_hash` there: the Encoder also
+  authenticates with user/pass, and Meet includes `aVideoQueueEncoder.json.php` in-process with a server-made session
+  (GHSA-whh2-8p2q-5598, `tests/Security/EncoderCallbackCsrfSessionTest.php`).
 - **`videos/.htaccess` has two writers**: `adminSecurityCheck()` copies
   `objects/htaccess_for_videos.conf` when the file's version is lower, and the Scheduler watchdog
   rewrites it from `plugin/Scheduler/htaccess.sample.txt` unless it carries exactly its own version

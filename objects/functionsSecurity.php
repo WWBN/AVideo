@@ -1137,6 +1137,28 @@ function autoCSRFGuard($baseName, $scriptPath = '')
         return;
     }
 
+    // ── Encoder callbacks ────────────────────────────────────────────────────
+    // The Encoder calls these server-to-server with cURL and no cookies, authenticated by
+    // user/pass or video_id_hash, so they skip the origin check. useVideoHashOrLogin() falls back
+    // to the caller's session, so a request carrying this site's session cookie comes from a
+    // browser and gets the normal check: otherwise any page a logged-in user visits could make
+    // their browser replace, publish or upload videos (GHSA-whh2-8p2q-5598). Same-site requests
+    // and AVideo apps (isAVideoUserAgent()) still pass that check.
+    static $encoderCallbacks = [
+        'objects/aVideoEncoder.json.php',
+        'objects/aVideoEncoderLog.json.php',
+        'objects/aVideoEncoderNotifyIsDone.json.php',
+        'objects/aVideoEncoderReceiveImage.json.php',
+        'objects/aVideoQueueEncoder.json.php',
+    ];
+    if (
+        $scriptPath !== '' &&
+        empty($_COOKIE[session_name()]) &&
+        in_array(getCsrfBypassRelativePath($scriptPath), $encoderCallbacks, true)
+    ) {
+        return;
+    }
+
     // ── Exact-path built-in bypass list ──────────────────────────────────────
     // Matched on the path relative to systemRootPath, NOT the bare basename -
     // a basename-only check let any file anywhere in the tree (incl. plugins)
@@ -1147,7 +1169,7 @@ function autoCSRFGuard($baseName, $scriptPath = '')
     //   auth/signup  — accept calls from mobile apps & external clients
     //   public reads — use POST params for filtering, but mutate nothing
     //   public write — like/view/subscribe actions open to all users
-    //   encoder      — authenticated via video-hash token, not session
+    // (Encoder callbacks are handled above.)
     static $builtinBypass = [
         // Auth & account management
         'objects/login.json.php',
@@ -1177,12 +1199,6 @@ function autoCSRFGuard($baseName, $scriptPath = '')
         'objects/mention.json.php',
         'objects/notifications.json.php',
         'objects/listFiles.json.php',
-        // Encoder upload callbacks (auth via video-hash, not session)
-        'objects/aVideoEncoder.json.php',
-        'objects/aVideoEncoderLog.json.php',
-        'objects/aVideoEncoderNotifyIsDone.json.php',
-        'objects/aVideoEncoderReceiveImage.json.php',
-        'objects/aVideoQueueEncoder.json.php',
         // Live recording callbacks (cross-origin from recorder agent)
         'plugin/SendRecordedToEncoder/recordStart.json.php',
         'plugin/SendRecordedToEncoder/recordStop.json.php',
