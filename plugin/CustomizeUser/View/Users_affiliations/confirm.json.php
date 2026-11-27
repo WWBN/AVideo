@@ -26,7 +26,9 @@ if (empty($_REQUEST['confirm']) || $_REQUEST['confirm'] === 'false') {
 } else {
     $date = date('Y-m-d H:i:s');
 }
-if (User::isACompany()) {
+// Keep the admin's existing role selection; other users may change only their own stored consent.
+$isCompany = User::isAdmin() ? User::isACompany() : $o->getUsers_id_company() == User::getId();
+if ($isCompany) {
     _error_log('Confirm affiliation is a company '.$date);
     $o->setCompany_agree_date($date);
 } else {

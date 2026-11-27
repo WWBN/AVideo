@@ -1074,17 +1074,11 @@ class CustomizeUser extends PluginAbstract
             if (!isset($customUser_getAffiliationNotifications[$users_id])) {
                 $obj = AVideoPlugin::getObjectData('CustomizeUser');
                 if ($obj->enableAffiliation) {
-                    $isACompany = User::isACompany();
-                    if ($isACompany) {
-                        $rows = self::getCompanyAffiliates($users_id, false);
-                    } else {
-                        $rows = self::getAffiliateCompanies($users_id, false);
-                    }
+                    $rows = Users_affiliations::getAllForUser($users_id);
 
                     foreach ($rows as $value) {
                         if ($value['status'] == 'i') {
-                            $users_id = $isACompany ? $value['users_id_affiliate'] : $value['users_id_company'];
-                            $value['users_id'] = $users_id;
+                            $value['users_id'] = $value['users_id_company'] == $users_id ? $value['users_id_affiliate'] : $value['users_id_company'];
 
                             $value['js'] = 'avideoAlertOnceHTML('
                                 . '"' . __('You have a new affiliation request') . '",'

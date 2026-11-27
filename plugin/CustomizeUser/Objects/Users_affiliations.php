@@ -117,6 +117,21 @@ class Users_affiliations extends ObjectYPT {
         return $rows;
     }
 
+    public static function getAllForUser($users_id, $activeOnly = false) {
+        $users_id = intval($users_id);
+        if (empty($users_id)) {
+            return array();
+        }
+        // A user's role belongs to each stored affiliation, not their current company flag.
+        // getAll() returns false when the table check fails; (array) false would add a false row.
+        $rows = array_merge(self::getAll($users_id, 0, $activeOnly) ?: array(), self::getAll(0, $users_id, $activeOnly) ?: array());
+        $unique = array();
+        foreach ($rows as $row) {
+            $unique[$row['id']] = $row;
+        }
+        return array_values($unique);
+    }
+
     public static function getTotal($users_id_company = 0, $users_id_affiliate = 0, $activeOnly = false) {
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=

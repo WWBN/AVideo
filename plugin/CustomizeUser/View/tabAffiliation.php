@@ -132,10 +132,15 @@
                     "data": "id",
                     render: function (data, type, row, meta) {
 <?php
-if (User::isACompany()) {
-    echo 'var sendConfirmationButton = !row.company_agree_date;';
+if (User::isAdmin()) {
+    // Match the admin role selection retained by confirm.json.php.
+    if (User::isACompany()) {
+        echo 'var sendConfirmationButton = !row.company_agree_date;';
+    } else {
+        echo 'var sendConfirmationButton = !row.affiliate_agree_date;';
+    }
 } else {
-    echo 'var sendConfirmationButton = !row.affiliate_agree_date;';
+    echo 'var sendConfirmationButton = row.users_id_company == ' . intval(User::getId()) . ' ? !row.company_agree_date : !row.affiliate_agree_date;';
 }
 echo 'var sendConfirmationCancelButton = row.company_agree_date && row.affiliate_agree_date;';
 ?>
